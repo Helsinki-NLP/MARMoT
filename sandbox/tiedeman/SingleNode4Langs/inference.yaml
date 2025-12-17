@@ -17,9 +17,9 @@ tasks:
 use_hf_tokenizer: true
 
 src_vocab:
-  de: /scratch/project_462000964/marmot/tokenizer/tatoeba/deu/32000/tokenizer.json
+  de: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
 tgt_vocab:
-  en: /scratch/project_462000964/marmot/tokenizer/tatoeba/eng/32000/tokenizer.json
+  en: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
 
 src_seq_length_max: 256
 src_seq_length_min: 10
@@ -62,11 +62,11 @@ x_transformers_opts:
 # Inference Configuration
 # ============================================================================
 # Model checkpoint to load
-model: /scratch/project_462000964/marmot/sandbox/tiedemann/SingleNode4Langs/model/de-en-fi-sv
+model: /scratch/project_462000964/MARMoT/sandbox/tiedemann/SingleNode4Langs/model/de-en-fi-sv
 
 # Input/output files
-src: /scratch/project_462000964/marmot/data/tatoeba/test/deu-eng.deu.gz
-output: model: /scratch/project_462000964/marmot/sandbox/tiedemann/SingleNode4Langs/deu-eng.deu.eng
+src: /scratch/project_462000964/MARMoT/data/tatoeba/test/deu-eng.deu.gz
+output: model: /scratch/project_462000964/MARMoT/sandbox/tiedemann/SingleNode4Langs/deu-eng.deu.eng
 
 # Decoding parameters
 beam_size: 5

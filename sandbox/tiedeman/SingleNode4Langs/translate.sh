@@ -18,11 +18,11 @@ echo "Starting at `date`"
 set -e
 
 
-path_to_data=/scratch/project_462000964/marmot/data
-path_to_tokenizer=/scratch/project_462000964/marmot/tokenizer
-path_to_tools=/scratch/project_462000964/marmot/tools
-path_to_workspace=/scratch/project_462000964/marmot/sandbox/tiedemann
-path_to_mammoth=/scratch/project_462000964/marmot/mammoth
+path_to_data=/scratch/project_462000964/MARMoT/data
+path_to_tokenizer=/scratch/project_462000964/MARMoT/tokenizer
+path_to_tools=/scratch/project_462000964/MARMoT/tools
+path_to_workspace=/scratch/project_462000964/MARMoT/sandbox/tiedemann
+path_to_mammoth=/scratch/project_462000964/MARMoT/mammoth
 
 singularity exec \
 	    -B $path_to_workspace:$path_to_workspace:rw \

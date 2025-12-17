@@ -9,10 +9,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["en"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/deu-eng.deu.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/deu-eng.eng.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/deu-eng.deu.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/deu-eng.eng.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.eng.gz
 
   task_fi-en:
     src_tgt: "fi-en"  # Source-target language pair
@@ -22,10 +22,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["en"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.fin.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.eng.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.fin.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.eng.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
 
   task_sv-en:
     src_tgt: "sv-en"  # Source-target language pair
@@ -35,10 +35,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["en"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-swe.swe.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-swe.eng.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-swe.swe.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-swe.eng.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.swe.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.eng.gz
 
 
   task_en-de:
@@ -49,10 +49,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["de"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/deu-eng.eng.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/deu-eng.deu.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/deu-eng.eng.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/deu-eng.deu.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.deu.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.deu.gz
 
   task_en-fi:
     src_tgt: "en-fi"  # Source-target language pair
@@ -62,10 +62,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["fi"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.eng.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.fin.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.eng.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.fin.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
 
   task_en-sv:
     src_tgt: "en-sv"  # Source-target language pair
@@ -75,10 +75,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["sv"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-swe.eng.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-swe.swe.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-swe.eng.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-swe.swe.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.swe.gz
 
   task_sv-fi:
     src_tgt: "sv-fi"  # Source-target language pair
@@ -88,10 +88,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["fi"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/fin-swe.swe.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/fin-swe.fin.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/fin-swe.swe.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/fin-swe.fin.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/fin-swe.swe.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/fin-swe.fin.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/fin-swe.swe.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/fin-swe.fin.gz
 
   task_fi-sv:
     src_tgt: "fi-sv"  # Source-target language pair
@@ -101,10 +101,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["sv"]
     transforms: [filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/fin-swe.fin.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/fin-swe.swe.gz
-    path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/fin-swe.fin.gz
-    path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/fin-swe.swe.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/fin-swe.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/fin-swe.swe.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/fin-swe.fin.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/fin-swe.swe.gz
 
   task_en-en:
     src_tgt: "en-en"  # Source-target language pair
@@ -114,10 +114,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["en"]
     transforms: [denoising,filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.eng.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.eng.gz
-    # path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.eng.gz
-    # path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.eng.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    # path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
+    # path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
 
   task_fi-fi:
     src_tgt: "fi-fi"  # Source-target language pair
@@ -127,10 +127,10 @@ tasks:
     enc_sharing_group: ["shared"]
     dec_sharing_group: ["fi"]
     transforms: [denoising,filtertoolong]
-    path_src: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.fin.gz
-    path_tgt: /scratch/project_462000964/marmot/data/tatoeba/train/eng-fin.fin.gz
-    # path_valid_src: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.fin.gz
-    # path_valid_tgt: /scratch/project_462000964/marmot/data/tatoeba/dev5K/eng-fin.fin.gz
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    # path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
+    # path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
 
 
 
@@ -213,15 +213,15 @@ node_rank: 0
 
 # Vocabulary files
 src_vocab:
-  de: /scratch/project_462000964/marmot/tokenizer/tatoeba/deu/32000/tokenizer.json
-  en: /scratch/project_462000964/marmot/tokenizer/tatoeba/eng/32000/tokenizer.json
-  fi: /scratch/project_462000964/marmot/tokenizer/tatoeba/fin/32000/tokenizer.json
-  sv: /scratch/project_462000964/marmot/tokenizer/tatoeba/swe/32000/tokenizer.json
+  de: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
+  en: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+  fi: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fin/32000/tokenizer.json
+  sv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/swe/32000/tokenizer.json
 tgt_vocab:
-  de: /scratch/project_462000964/marmot/tokenizer/tatoeba/deu/32000/tokenizer.json
-  en: /scratch/project_462000964/marmot/tokenizer/tatoeba/eng/32000/tokenizer.json
-  fi: /scratch/project_462000964/marmot/tokenizer/tatoeba/fin/32000/tokenizer.json
-  sv: /scratch/project_462000964/marmot/tokenizer/tatoeba/swe/32000/tokenizer.json
+  de: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
+  en: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+  fi: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fin/32000/tokenizer.json
+  sv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/swe/32000/tokenizer.json
 
 use_hf_tokenizer: true
 
@@ -242,5 +242,5 @@ label_smoothing: 0.1              # Label smoothing for better generalization
 #TODO: ask joseph about it 
 
 # Model saving
-save_model: /scratch/project_462000964/marmot/sandbox/tiedemann/SingleNode4Langs/model/de-en-fi-sv # model save path
+save_model: /scratch/project_462000964/MARMoT/sandbox/tiedemann/SingleNode4Langs/model/de-en-fi-sv # model save path
 

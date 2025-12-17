@@ -18,7 +18,7 @@ echo "Starting at `date`"
 set -e
 
 path_to_shared=/scratch/project_462000964/shared
-path_to_workspace=/scratch/project_462000964/members/tiedemann/marmot
+path_to_workspace=/scratch/project_462000964/members/tiedemann/MARMoT
 path_to_mammoth=/scratch/project_462000964/shared/mammoth
 
 singularity exec \
