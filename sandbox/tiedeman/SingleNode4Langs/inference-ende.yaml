@@ -2,14 +2,14 @@
 # Disclaimer: Model training settings, parameters and values are only for testing purpose. 
 
 # Task Configuration
-task_id: task_de-en # A standalone task_id is required for inferencing
+task_id: task_en-de # A standalone task_id is required for inferencing
 
 tasks:
-  task_de-en:
-    src_tgt: "de-en"
+  task_en-de:
+    src_tgt: "en-de"
     node_gpu: 0:0
     enc_sharing_group: ["shared"]
-    dec_sharing_group: ["en"]
+    dec_sharing_group: ["de"]
 
 # ============================================================================
 # Vocabulary Configuration - HuggingFace Tokenizer
@@ -17,9 +17,9 @@ tasks:
 use_hf_tokenizer: true
 
 src_vocab:
-  de: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
-tgt_vocab:
   en: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+tgt_vocab:
+  de: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
 
 src_seq_length_max: 256
 src_seq_length_min: 10

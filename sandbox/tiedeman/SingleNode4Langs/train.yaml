@@ -191,11 +191,18 @@ keep_checkpoint: 5               # number of checkpoints to keep
 
 # Optimizer settings (from create_opts)
 optim: adamw
-learning_rate: 0.0003
+# learning_rate: 0.0003
+# adam_beta1: 0.9
+# adam_beta2: 0.999
+# weight_decay: 0.0
+# max_grad_norm: 1.0
+
+learning_rate: 0.00003
 adam_beta1: 0.9
 adam_beta2: 0.999
-weight_decay: 0.0
+weight_decay: 0.01
 max_grad_norm: 1.0
+
 
 # Learning rate scheduling
 warmup_steps: 5000
