@@ -1,0 +1,26 @@
+task_id: task_fin-eng
+
+tasks:
+  task_fin-eng:
+    src_tgt: "fin-eng"  # Source-target language pair
+    weight: 1:0       # Task weight for sampling
+    introduce_at_training_step: 0
+    node_gpu: 0:0   # Single GPU configuration
+    enc_sharing_group: ["shared"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
+
+
+src_vocab:
+   fin: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fin/32000/tokenizer.json
+tgt_vocab:
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+
+seed: 42
+src:  /scratch/project_462000964/MARMoT/data/flores200/devtest/fin_Latn.devtest
+output: /scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/tatoeba/model/deu+eng+fin+swe_translate_fin_Latn.eng
+model: /scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/tatoeba/model/deu+eng+fin+swe
