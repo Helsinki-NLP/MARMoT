@@ -32,8 +32,8 @@ singularity exec \
 	    -B $path_to_shared:$path_to_shared:ro \
 	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
 	    $path_to_mammoth/.venv/bin/python $path_to_mammoth/translate.py \
-	    -config $path_to_workspace/CONFIGFILE \
-	    -model $path_to_workspace/model/MODELNAME
+	    -config CONFIGFILE \
+	    -model MODELPATH
 
 /appl/local/csc/soft/ai/bin/gpu-energy --diff
 echo "Finishing at `date`"

@@ -436,3 +436,25 @@ x_transformers_opts:
   layernorm_bias: true
   use_abs_pos_emb: true
 
+# Model Architecture Options
+enc_layers: [9]                   # Encoder layers
+dec_layers: [3]                   # Decoder layers
+
+model_dim: 768                    # Transformer model dimension
+dropout: 0.1                      # Dropout rate
+model_dtype: bf16
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true          # Flash attention (not supported on V100)
+  rotary_pos_emb: true      # Use rotary positional embeddings
+  tie_embedding: false      # Tie input/output embeddings
+  heads: 12
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: true
+

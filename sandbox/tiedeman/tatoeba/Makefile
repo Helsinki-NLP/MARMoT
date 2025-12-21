@@ -1,9 +1,16 @@
 
+HPC_PROJECT := project_462000964
+SANDBOX_DIR := /scratch/${HPC_PROJECT}/members/tiedeman/MARMoT/sandbox/tiedeman
+MODEL_NAME  := deu+eng+fin+swe
+WORK_DIR    := ${SANDBOX_DIR}/tatoeba/${MODEL_NAME}
+MODEL_DIR   := ${WORK_DIR}
+MODEL_PATH  := ${MODEL_DIR}/model
 
-WORK_DIR   := /scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/tatoeba
-MODEL_DIR  := ${WORK_DIR}/model
-MODEL_NAME := deu+eng+fin+swe
-MODEL_PATH := ${MODEL_DIR}/${MODEL_NAME}
+## old:
+# WORK_DIR    := ${SANDBOX_DIR}/tatoeba
+# MODEL_DIR   := ${WORK_DIR}/model
+# MODEL_NAME  := deu+eng+fin+swe
+# MODEL_PATH  := ${MODEL_DIR}/${MODEL_NAME}
 
 
 TASKS           := eng-eng fin-fin fin-eng swe-eng deu-eng eng-fin eng-swe eng-deu fin-swe swe-fin
@@ -12,8 +19,64 @@ TASK_WEIGHTS    := 0.1     0.1
 TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong
 TEST_TASK_NR    := 3
 
-ENCODER_LAYERS = 9
-DECODER_LAYERS = 3
+
+ENCODER_LAYERS     := 9
+DECODER_LAYERS     := 3
+ADD_LANGUAGE_TOKEN := false
+
+
+##-----------------------------------------------------------
+## experiment 1: use different model path
+##
+## run like 'make train.exp1'
+##-----------------------------------------------------------
+
+.PHONY: %.exp1
+%.exp1:
+	${MAKE} WORK_DIR=${SANDBOX_DIR}/tatoeba \
+		MODEL_NAME=deu+eng+fin+swe \
+		MODEL_DIR=${SANDBOX_DIR}/model \
+		MODEL_PATH=${SANDBOX_DIR}/model/${MODEL_NAME} \
+		DEFAULT_ENCODER="shared" \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 2: 6x6 model
+##-----------------------------------------------------------
+
+.PHONY: %.exp2
+%.exp2:
+	${MAKE} MODEL_NAME=exp2 \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		DEFAULT_ENCODER="shared" \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 3: 6x6 model, lang-specific encoders and decoders
+##-----------------------------------------------------------
+
+.PHONY: %.exp3
+%.exp3:
+	${MAKE} MODEL_NAME=exp3 \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 4: 6x6 model, lang-specific encoders and decoders
+##-----------------------------------------------------------
+
+.PHONY: %.exp4
+%.exp4:
+	${MAKE} MODEL_NAME=exp4 \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		DEFAULT_ENCODER="shared" \
+		DEFAULT_DECODER="shared" \
+	$(basename $@)
+
+##-----------------------------------------------------------
 
 
 
@@ -28,7 +91,8 @@ DEFAULT_GPU        := 0:0
 DEFAULT_WEIGHT     := 1:0
 DEFAULT_TRANSFORM  := filtertoolong
 DEFAULT_TRAINSTEP  := 0
-DEFAULT_ENCODER    := "shared"
+# DEFAULT_ENCODER  := "shared"
+DEFAULT_ENCODER    := "${SRCLANG}"
 DEFAULT_DECODER    := "${TRGLANG}"
 
 
@@ -41,11 +105,13 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))   $(DEFAULT_DE
 
 
 
-TRAIN_CONFIGFILE     ?= train.yaml
-TRAIN_SLURMSCRIPT    ?= train.sh
+TRAIN_CONFIGFILE      ?= ${WORK_DIR}/train.yaml
+TRAIN_SLURMSCRIPT     ?= ${WORK_DIR}/train.sh
 
-INFERENCE_CONFIGFILE ?= inference.yaml
-CONFIGFILE           ?= ${TRAIN_CONFIGFILE}
+INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference.yaml
+INFERENCE_SLURMSCRIPT ?= ${WORK_DIR}/inference.sh
+
+CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 
 
@@ -88,6 +154,8 @@ LABEL_SMOOTHING  := 0.1
 LR_DECAY         := 0       # learning rate decay
 DECAY_START      := 0       # steps when to start lr-decay
 
+# TRAINING_STEPS   := 500000
+TRAINING_STEPS   := 250000
 WARMUP_STEPS     := 5000
 DECAY_METHOD     := linear_warmup
 
@@ -174,23 +242,108 @@ VOCAB_FILE     := ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
 
 
 #--------------------------------------------------------------
+# training and evaluation
+#--------------------------------------------------------------
+
+PROJECT_SPACE      := /scratch/project_462000964
+SHARED_PROJECT_DIR := ${PROJECT_SPACE}/MARMoT
+MAMMOTH_DIR        := ${PROJECT_SPACE}/shared/mammoth
+
+.PHONY: train eval
+train: ${WORK_DIR}/train.slurm
+eval: ${WORK_DIR}/eval.slurm
+
+${WORK_DIR}/train: ${TRAIN_CONFIGFILE}
+	singularity exec \
+	    -B ${WORK_DIR}:${WORK_DIR}:rw \
+	    -B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+	    -B ${SHARED_PROJECT_DIR}:${SHARED_PROJECT_DIR}:ro \
+	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	    ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
+	    -save_model ${MODEL_PATH} \
+	    -config $<
+
+
+${WORK_DIR}/eval: ${INFERENCE_CONFIGFILE}
+	singularity exec \
+	    -B ${WORK_DIR}:${WORK_DIR}:rw \
+	    -B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+	    -B ${SHARED_PROJECT_DIR}:${SHARED_PROJECT_DIR}:ro \
+	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	    ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
+	    -model ${MODEL_PATH} \
+	    -config $<
+
+#--------------------------------------------------------------
 # generate SLURM scripts
 #--------------------------------------------------------------
 
 
-
-train.sh: train-template.sh
+${WORK_DIR}/train.sh: train-template.sh
 	sed -e 's+WORKSPACE+${WORK_DIR}+'  \
 	    -e 's+NR_OF_GPUS+${NR_OF_GPUS}+' \
 	    -e 's+CONFIGFILE+${TRAIN_CONFIGFILE}+' \
-	    -e 's/MODELNAME/${MODEL_NAME}/' \
+	    -e 's/MODELPATH/${MODEL_PATH}/' \
 	< $< > $@
 
-inference.sh: inference-template.sh
+${WORK_DIR}/inference.sh: inference-template.sh
 	sed -e 's+WORKSPACE+${WORK_DIR}+'  \
 	    -e 's+CONFIGFILE+${INFERENCE_CONFIGFILE}+' \
-	    -e 's/MODELNAME/${MODEL_NAME}/' \
+	    -e 's/MODELPATH/${MODEL_PATH}/' \
 	< $< > $@
+
+
+## create a slurm script and submit it
+
+WHOAMI := $(shell whoami)
+SLURM_MAX_NR_JOBS := 200
+SLURM_PARTITION := standard-g
+SLURM_NODES := 1
+SLURM_CPUS_PER_TASK :=48
+SLURM_MEM := 96G
+SLURM_TIME := 2-00:00:00
+SLURM_GPUS := 8
+
+ifdef SLURM_GPUS
+ifneq (${SLURM_GPUS},0)
+  SLURM_GRES := \#SBATCH --gres=gpu:${SLURM_GPUS}
+endif
+endif
+
+%.slurm:
+	@while [ `squeue -u ${WHOAMI} | wc -l` -gt ${SLURM_MAX_NR_JOBS} ]; do \
+	  echo "waiting for space in the queue";\
+	  sleep 1; \
+	done
+	@mkdir -p $(dir $@)
+	@echo '#!/bin/bash' >> $@
+	@echo '' >> $@
+	@echo '#SBATCH -A ${HPC_PROJECT}' >> $@
+	@echo '#SBATCH -J ${MODEL_NAME}' >> $@
+	@echo '#SBATCH -o $(@:.slurm=).%j.out' >> $@
+	@echo '#SBATCH -e $(@:.slurm=).%j.err' >> $@
+	@echo '#SBATCH --partition=${SLURM_PARTITION}' >> $@
+	@echo '#SBATCH --nodes=${SLURM_NODES}' >> $@
+	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}' >> $@
+	@echo '#SBATCH --mem=${SLURM_MEM}' >> $@
+	@echo '#SBATCH --time=${SLURM_TIME}' >> $@
+	echo '${SLURM_GRES}' >> $@
+	@echo '' >> $@
+	@echo 'echo "Starting at `date`"' >> $@
+	@echo '' >> $@
+	@echo '# stops the script when encountering an error' >> $@
+	@echo '# (useful if running several commands in the same script)' >> $@
+	@echo 'set -e' >> $@
+	@echo '' >> $@
+	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --save' >> $@
+	@echo '${SHARED_PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=.gpu-usage) &' >> $@
+	@echo '' >> $@
+	@echo '${MAKE} $(@:.slurm=)' >> $@
+	@echo '' >> $@
+	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --diff' >> $@
+	@echo 'mv $@ $@.done' >> $@
+	@echo 'echo "Finishing at `date`"' >> $@
+	sbatch $@
 
 
 #--------------------------------------------------------------
@@ -215,6 +368,16 @@ ${INFERENCE_CONFIGFILE}:
 	${MAKE} -s config-add-model-architecture
 	${MAKE} -s config-add-transformer-params
 	@echo '' >> $@
+	echo '# Decoding parameters' >> $@
+	echo 'beam_size: 5' >> $@
+	echo 'batch_size: 32' >> $@
+	echo 'batch_type: sents' >> $@
+	echo '' >> $@
+	echo '# GPU settings' >> $@
+	echo 'gpu: 0' >> $@
+	echo 'world_size: 1' >> $@
+	echo 'gpu_ranks: [0]' >> $@
+	echo '' >> $@
 	echo 'seed: ${RANDOM_SEED}' >> $@
 	echo 'src: ${TESTDATA_SRC}' >> $@
 	echo 'output: ${TESTDATA_OUTPUT}' >> $@
@@ -295,6 +458,7 @@ config-add-model-architecture:
 	echo 'model_dim: 768                    # Transformer model dimension' >> ${CONFIGFILE}
 	echo 'dropout: 0.1                      # Dropout rate' >> ${CONFIGFILE}
 	echo 'model_dtype: bf16' >> ${CONFIGFILE}
+	echo 'add_language_tokens: ${ADD_LANGUAGE_TOKEN}' >> ${CONFIGFILE}
 	echo '' >> ${CONFIGFILE}
 
 config-add-transformer-params:
@@ -322,7 +486,7 @@ config-add-training-params:
 	echo 'tgt_seq_length_max: ${MAX_TRGSEQ_LENGTH}' >> ${CONFIGFILE}
 	echo ''                                        >> ${CONFIGFILE}
 	echo '# Training Configuration'                >> ${CONFIGFILE}
-	echo 'train_steps: 500000'                     >> ${CONFIGFILE}
+	echo 'train_steps: ${TRAINING_STEPS}'          >> ${CONFIGFILE}
 	echo 'accum_count: [${GRADIENT_ACCUM}]'        >> ${CONFIGFILE}
 	echo 'lookahead_minibatches: ${LOOK_AHEAD}'    >> ${CONFIGFILE}
 	echo 'batch_size: ${BATCH_SIZE}'               >> ${CONFIGFILE}

@@ -20,6 +20,16 @@ src_vocab:
 tgt_vocab:
    eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
 
+# Decoding parameters
+beam_size: 5
+batch_size: 32
+batch_type: sents
+
+# GPU settings
+gpu: 0
+world_size: 1
+gpu_ranks: [0]
+
 seed: 42
 src:  /scratch/project_462000964/MARMoT/data/flores200/devtest/fin_Latn.devtest
 output: /scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/tatoeba/model/deu+eng+fin+swe_translate_fin_Latn.eng
