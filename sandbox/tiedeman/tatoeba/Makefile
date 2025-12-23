@@ -17,13 +17,15 @@ TASKS           := eng-eng fin-fin fin-eng swe-eng deu-eng eng-fin eng-swe eng-d
 TASK_GPUS       := 0:7     0:7     0:0     0:1     0:2     0:3     0:4     0:5     0:6     0:7
 TASK_WEIGHTS    := 0.1     0.1
 TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong
-TEST_TASK_NR    := 3
+TEST_TASK_NR    := $(words $(TASKS))
 
 
 ENCODER_LAYERS     := 9
 DECODER_LAYERS     := 3
 ADD_LANGUAGE_TOKEN := false
 
+FLASH_ATTENTION := true
+ROTARY_POS_EMBEDDINGS := true
 
 ##-----------------------------------------------------------
 ## experiment 1: use different model path
@@ -33,10 +35,24 @@ ADD_LANGUAGE_TOKEN := false
 
 .PHONY: %.exp1
 %.exp1:
+	${MAKE} MODEL_NAME=exp1 \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		DEFAULT_ENCODER="shared" \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 1 old: same as exp1 but with old naming
+##-----------------------------------------------------------
+
+.PHONY: %.exp1-old
+%.exp1-old:
 	${MAKE} WORK_DIR=${SANDBOX_DIR}/tatoeba \
 		MODEL_NAME=deu+eng+fin+swe \
 		MODEL_DIR=${SANDBOX_DIR}/model \
 		MODEL_PATH=${SANDBOX_DIR}/model/${MODEL_NAME} \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
 		DEFAULT_ENCODER="shared" \
 	$(basename $@)
 
@@ -74,6 +90,61 @@ ADD_LANGUAGE_TOKEN := false
 		DECODER_LAYERS=6 \
 		DEFAULT_ENCODER="shared" \
 		DEFAULT_DECODER="shared" \
+		ADD_LANGUAGE_TOKEN=true \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 5: 9x3 model, shared encoder + language prefix, lang-specific decoders
+##-----------------------------------------------------------
+
+.PHONY: %.exp5
+%.exp5:
+	${MAKE} MODEL_NAME=exp5 \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		ADD_LANGUAGE_TOKEN=true \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 6: 3x9 model, shared encoder, lang-specific decoders
+##-----------------------------------------------------------
+
+.PHONY: %.exp6
+%.exp6:
+	${MAKE} MODEL_NAME=exp6 \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=3 \
+		DECODER_LAYERS=9 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 7: standard bilingual base-transformer
+##-----------------------------------------------------------
+
+.PHONY: %.exp7
+%.exp7:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1:0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 8: 12x6 model
+##-----------------------------------------------------------
+
+.PHONY: %.exp8
+%.exp8:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=12 \
+		DECODER_LAYERS=6 \
 	$(basename $@)
 
 ##-----------------------------------------------------------
@@ -464,8 +535,8 @@ config-add-model-architecture:
 config-add-transformer-params:
 	echo '# x-transformers specific options' >> ${CONFIGFILE}
 	echo 'x_transformers_opts:' >> ${CONFIGFILE}
-	echo '  attn_flash: true          # Flash attention (not supported on V100)' >> ${CONFIGFILE}
-	echo '  rotary_pos_emb: true      # Use rotary positional embeddings' >> ${CONFIGFILE}
+	echo '  attn_flash: ${FLASH_ATTENTION}          # Flash attention (not supported on V100)' >> ${CONFIGFILE}
+	echo '  rotary_pos_emb: ${ROTARY_POS_EMBEDDINGS}      # Use rotary positional embeddings' >> ${CONFIGFILE}
 	echo '  tie_embedding: false      # Tie input/output embeddings' >> ${CONFIGFILE}
 	echo '  heads: 12'                >> ${CONFIGFILE}
 	echo '  pre_norm: false'          >> ${CONFIGFILE}
