@@ -5,6 +5,7 @@ MODEL_NAME  := deu+eng+fin+swe
 WORK_DIR    := ${SANDBOX_DIR}/tatoeba/${MODEL_NAME}
 MODEL_DIR   := ${WORK_DIR}
 MODEL_PATH  := ${MODEL_DIR}/model
+MODEL_META  := ${MODEL_PATH}_checkpoint_metadata.json
 
 ## old:
 # WORK_DIR    := ${SANDBOX_DIR}/tatoeba
@@ -17,7 +18,6 @@ TASKS           := eng-eng fin-fin fin-eng swe-eng deu-eng eng-fin eng-swe eng-d
 TASK_GPUS       := 0:7     0:7     0:0     0:1     0:2     0:3     0:4     0:5     0:6     0:7
 TASK_WEIGHTS    := 0.1     0.1
 TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong
-TEST_TASK_NR    := $(words $(TASKS))
 
 
 ENCODER_LAYERS     := 9
@@ -127,7 +127,7 @@ ROTARY_POS_EMBEDDINGS := true
 	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
 		TASKS="fin-eng" \
 		TASK_GPUS="0:0" \
-		TASK_WEIGHTS="1:0" \
+		TASK_WEIGHTS="1.0" \
 		TASK_TRANSFORMS="filtertoolong" \
 		ENCODER_LAYERS=6 \
 		DECODER_LAYERS=6 \
@@ -147,11 +147,169 @@ ROTARY_POS_EMBEDDINGS := true
 		DECODER_LAYERS=6 \
 	$(basename $@)
 
+
+##-----------------------------------------------------------
+## experiment 9: standard bilingual base-transformer with lower learning rate
+##-----------------------------------------------------------
+
+.PHONY: %.exp9
+%.exp9:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		LEARNING_RATE=0.00001 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 10: standard bilingual base-transformer with lr decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp10
+%.exp10:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 11: standard bilingual base-transformer with lr decay and average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp11
+%.exp11:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 12: standard bilingual base-transformer with average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp12
+%.exp12:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		ACERAGE_DECAY=0.00001 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 13: standard bilingual base-transformer with bigger average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp13
+%.exp13:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		ACERAGE_DECAY=0.0005 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 14: standard bilingual base-transformer with lr decay and average decay and accum_delay=1
+##-----------------------------------------------------------
+
+.PHONY: %.exp14
+%.exp14:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=1 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 15: standard bilingual base-transformer with lr decay and average decay and accum_delay=10
+##-----------------------------------------------------------
+
+.PHONY: %.exp15
+%.exp15:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASKS="fin-eng" \
+		TASK_GPUS="0:0" \
+		TASK_WEIGHTS="1.0" \
+		TASK_TRANSFORMS="filtertoolong" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		FLASH_ATTENTION=false \
+		ROTARY_POS_EMBEDDINGS=false \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 16: multilingual model with shared encoder accum_delay=10
+##-----------------------------------------------------------
+
+.PHONY: %.exp16
+%.exp16:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
 ##-----------------------------------------------------------
 
 
 
-TASK_NR  ?= 1
+# TASK_NR  ?= 1
+TASK_NR  ?= $(words $(TASKS))
 TASK     := $(word ${TASK_NR},$(TASKS))
 SRCLANG  ?= $(firstword $(subst -, ,${TASK}))
 TRGLANG  ?= $(lastword  $(subst -, ,${TASK}))
@@ -179,7 +337,7 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))   $(DEFAULT_DE
 TRAIN_CONFIGFILE      ?= ${WORK_DIR}/train.yaml
 TRAIN_SLURMSCRIPT     ?= ${WORK_DIR}/train.sh
 
-INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference.yaml
+INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference_${TASK_NR}.yaml
 INFERENCE_SLURMSCRIPT ?= ${WORK_DIR}/inference.sh
 
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
@@ -190,6 +348,7 @@ CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 GPU_RANKS        := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
 NR_OF_GPUS       := $(words ${GPU_RANKS})
 TOTAL_NR_OF_GPUS := $(words $(sort ${TASK_GPUS}))
+NR_OF_NODES      := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
 NODE_RANK        ?= 0
 
 
@@ -217,6 +376,7 @@ REPORT_FREQ      := 100     # progress reporting frequency (steps)
 
 OPTIMIZER        := adamw
 LEARNING_RATE    := 0.0005
+# LEARNING_RATE    := 0.00001
 ADAM_BETA1       := 0.9
 ADAM_BETA2       := 0.999
 WEIGHT_DECAY     := 0.01
@@ -224,11 +384,11 @@ MAX_GRAD_NORM    := 1.0
 LABEL_SMOOTHING  := 0.1
 LR_DECAY         := 0       # learning rate decay
 DECAY_START      := 0       # steps when to start lr-decay
-
-# TRAINING_STEPS   := 500000
-TRAINING_STEPS   := 250000
+AVERAGE_DECAY    := 0
 WARMUP_STEPS     := 5000
 DECAY_METHOD     := linear_warmup
+# TRAINING_STEPS   := 500000
+TRAINING_STEPS   := 250000
 
 
 #--------------------------------------------------------------
@@ -320,10 +480,59 @@ PROJECT_SPACE      := /scratch/project_462000964
 SHARED_PROJECT_DIR := ${PROJECT_SPACE}/MARMoT
 MAMMOTH_DIR        := ${PROJECT_SPACE}/shared/mammoth
 
+
+## submit SLURM job for training a model
+
 .PHONY: train eval
 train: ${WORK_DIR}/train.slurm
-eval: ${WORK_DIR}/eval.slurm
 
+
+## submit SLURM jobs to evaluate all tasks
+
+.PHONY: eval-all-tasks
+eval-all-tasks:
+	@for t in $(shell seq $(words ${TASKS})); do \
+	  ${MAKE} TASK_NR=$$t eval; \
+	done
+
+## submit SLURM job for evaluating a model
+## - copy the best model according to validation (only of the checkpoint exists)
+## - otherwise: use the last checkpoint
+## - translate the selected task (set TASK_NR) with the best mode
+##
+
+BEST_MODEL_STEP := $(strip $(shell grep -A2 "best_checkpoint" ${MODEL_META} | grep 'step' | cut -f2 -d: | cut -f1 -d,))
+BEST_MODEL      := ${MODEL_PATH}_step_${BEST_MODEL_STEP}
+
+.PHONY: eval
+eval:
+ifneq ($(wildcard ${TESTDATA_SRC}),)
+ifneq ($(wildcard ${BEST_MODEL}_*),)
+	mkdir -p $(dir ${MODEL_PATH})best-model
+	-rm -f $(dir ${MODEL_PATH})best-model/$(notdir ${MODEL_PATH})_*
+	-ln -s ${BEST_MODEL}_* $(dir ${MODEL_PATH})best-model/
+	-ln -s ${MODEL_META} $(dir ${MODEL_PATH})best-model/
+	${MAKE} SLURM_TIME=00:30:00 \
+		SLURM_GPUS=1 \
+		SLURM_MEM=16G \
+		SLURM_CPUS_PER_TASK=8 \
+		MODEL_PATH=$(dir ${MODEL_PATH})best-model/$(notdir ${MODEL_PATH}) \
+	${WORK_DIR}/eval_${TASK}.slurm
+else
+	${MAKE} SLURM_TIME=00:30:00 \
+		SLURM_GPUS=1 \
+		SLURM_MEM=16G \
+		SLURM_CPUS_PER_TASK=8 \
+	${WORK_DIR}/eval_${TASK}.slurm
+endif
+endif
+
+
+
+
+## train a model
+
+.PHONY: ${WORK_DIR}/train
 ${WORK_DIR}/train: ${TRAIN_CONFIGFILE}
 	singularity exec \
 	    -B ${WORK_DIR}:${WORK_DIR}:rw \
@@ -335,7 +544,15 @@ ${WORK_DIR}/train: ${TRAIN_CONFIGFILE}
 	    -config $<
 
 
-${WORK_DIR}/eval: ${INFERENCE_CONFIGFILE}
+## translate and evaluate
+
+.PHONY: ${WORK_DIR}/eval
+${WORK_DIR}/eval: ${WORK_DIR}/eval_${TASK}
+
+${WORK_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
+	sacrebleu ${TESTDATA_TRG} < $< > $@
+
+${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	singularity exec \
 	    -B ${WORK_DIR}:${WORK_DIR}:rw \
 	    -B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
@@ -344,6 +561,7 @@ ${WORK_DIR}/eval: ${INFERENCE_CONFIGFILE}
 	    ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
 	    -model ${MODEL_PATH} \
 	    -config $<
+
 
 #--------------------------------------------------------------
 # generate SLURM scripts
@@ -369,11 +587,11 @@ ${WORK_DIR}/inference.sh: inference-template.sh
 WHOAMI := $(shell whoami)
 SLURM_MAX_NR_JOBS := 200
 SLURM_PARTITION := standard-g
-SLURM_NODES := 1
-SLURM_CPUS_PER_TASK :=48
+SLURM_NODES := ${NR_OF_NODES}
+SLURM_CPUS_PER_TASK := 48
 SLURM_MEM := 96G
 SLURM_TIME := 2-00:00:00
-SLURM_GPUS := 8
+SLURM_GPUS := ${NR_OF_GPUS}
 
 ifdef SLURM_GPUS
 ifneq (${SLURM_GPUS},0)
@@ -424,9 +642,9 @@ endif
 train-config: ${TRAIN_CONFIGFILE}
 
 inference-config:
-	${MAKE} TASK_NR=${TEST_TASK_NR} ${INFERENCE_CONFIGFILE}
+	${MAKE} ${INFERENCE_CONFIGFILE}
 
-${INFERENCE_CONFIGFILE}:
+${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	echo 'task_id: task_${TASK}' >> $@
 	@echo '' >> $@
 	echo "tasks:" >> $@
@@ -478,6 +696,7 @@ ${TRAIN_CONFIGFILE}:
 	@echo '' >> $@
 	echo '# Model saving' >> ${CONFIGFILE}
 	echo 'save_model: ${MODEL_PATH}' >> ${CONFIGFILE}
+	echo 'save_strategy: best_and_last' >> ${CONFIGFILE}
 
 
 ## add a task section
@@ -581,6 +800,7 @@ config-add-training-params:
 	echo 'decay_method: ${DECAY_METHOD}'           >> ${CONFIGFILE}
 	echo 'learning_rate_decay: ${LR_DECAY}'        >> ${CONFIGFILE}
 	echo 'start_decay_steps: ${DECAY_START}'       >> ${CONFIGFILE}
+	echo 'average_decay: ${AVERAGE_DECAY}'         >> ${CONFIGFILE}
 	echo ''                                        >> ${CONFIGFILE}
 	echo 'world_size: ${TOTAL_NR_OF_GPUS}'         >> ${CONFIGFILE}
 	echo 'gpu_ranks: [${GPU_RANKS_STRING}]'        >> ${CONFIGFILE}
