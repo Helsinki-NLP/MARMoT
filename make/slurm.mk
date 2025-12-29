@@ -1,0 +1,62 @@
+#-*-makefile-*-
+#--------------------------------------------------------------
+# generate SLURM scripts
+#--------------------------------------------------------------
+
+
+NR_OF_NODES ?= 1
+NR_OF_GPUS  ?= 1
+
+WHOAMI              := $(shell whoami)
+SLURM_MAX_NR_JOBS   ?= 200
+SLURM_PARTITION     ?= standard-g
+SLURM_NODES         ?= ${NR_OF_NODES}
+SLURM_CPUS_PER_TASK ?= 48
+SLURM_MEM           ?= 96G
+SLURM_TIME          ?= 2-00:00:00
+SLURM_GPUS          ?= ${NR_OF_GPUS}
+
+ifdef SLURM_GPUS
+ifneq (${SLURM_GPUS},0)
+  SLURM_GRES := \#SBATCH --gres=gpu:${SLURM_GPUS}
+endif
+endif
+
+
+## create a slurm script and submit it
+
+%.slurm:
+	@while [ `squeue -u ${WHOAMI} | wc -l` -gt ${SLURM_MAX_NR_JOBS} ]; do \
+	  echo "waiting for space in the queue";\
+	  sleep 1; \
+	done
+	@mkdir -p $(dir $@)
+	@echo '#!/bin/bash' >> $@
+	@echo '' >> $@
+	@echo '#SBATCH -A ${HPC_PROJECT}' >> $@
+	@echo '#SBATCH -J ${MODEL_NAME}' >> $@
+	@echo '#SBATCH -o $(@:.slurm=).%j.out' >> $@
+	@echo '#SBATCH -e $(@:.slurm=).%j.err' >> $@
+	@echo '#SBATCH --partition=${SLURM_PARTITION}' >> $@
+	@echo '#SBATCH --nodes=${SLURM_NODES}' >> $@
+	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}' >> $@
+	@echo '#SBATCH --mem=${SLURM_MEM}' >> $@
+	@echo '#SBATCH --time=${SLURM_TIME}' >> $@
+	echo '${SLURM_GRES}' >> $@
+	@echo '' >> $@
+	@echo 'echo "Starting at `date`"' >> $@
+	@echo '' >> $@
+	@echo '# stops the script when encountering an error' >> $@
+	@echo '# (useful if running several commands in the same script)' >> $@
+	@echo 'set -e' >> $@
+	@echo '' >> $@
+	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --save' >> $@
+	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=.gpu-usage) &' >> $@
+	@echo '' >> $@
+	@echo '${MAKE} $(@:.slurm=)' >> $@
+	@echo '' >> $@
+	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --diff' >> $@
+	@echo 'mv $@ $@.done' >> $@
+	@echo 'echo "Finishing at `date`"' >> $@
+	sbatch $@
+

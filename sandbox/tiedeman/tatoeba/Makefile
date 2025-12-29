@@ -7,25 +7,61 @@ MODEL_DIR   := ${WORK_DIR}
 MODEL_PATH  := ${MODEL_DIR}/model
 MODEL_META  := ${MODEL_PATH}_checkpoint_metadata.json
 
-## old:
-# WORK_DIR    := ${SANDBOX_DIR}/tatoeba
-# MODEL_DIR   := ${WORK_DIR}/model
-# MODEL_NAME  := deu+eng+fin+swe
-# MODEL_PATH  := ${MODEL_DIR}/${MODEL_NAME}
-
+#--------------------------------------------------------------------------
+# task definitions:
+#
+# - TASKS: source - target language pairs
+# - TASK_GPUS: GPU assignment for each task (node:gpu)
+# - TASK_WEIGHTS: task weight for sampling training examples
+# - TASK_TRANSFORMS: transformations done for each task
+# - TASK_ENCODERS: encoder-spec for each task
+# - TASK_DECODERS: decoder-spec for each task
+# - ZERO_SHOT_TASKS: zero-shot tasks that can be tested at inference time
+#
+# TASK_GPUS, TASK_WEIGHTS and TASK_TRANSFORMS may only cover the first n tasks;
+# all other tasks will obtain default weights and transforms:
+#
+#    DEFAULT_GPU        := 0:0
+#    DEFAULT_WEIGHT     := 1:0
+#    DEFAULT_TRANSFORM  := filtertoolong
+#
+# TASK_ENCODERS and TASK_DECODERS will be set to default values (see below)
+# if not specified for the corresponding task; default values are:
+#
+#    DEFAULT_ENCODER    := "${SRCLANG}"
+#    DEFAULT_DECODER    := "${TRGLANG}"
+#--------------------------------------------------------------------------
 
 TASKS           := eng-eng fin-fin fin-eng swe-eng deu-eng eng-fin eng-swe eng-deu fin-swe swe-fin
 TASK_GPUS       := 0:7     0:7     0:0     0:1     0:2     0:3     0:4     0:5     0:6     0:7
 TASK_WEIGHTS    := 0.1     0.1
 TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong
+ZERO_SHOT_TASKS := fin-deu deu-fin deu-swe swe-deu
 
+ENCODER_LAYERS  := 9        # Encoder layers (total size)
+DECODER_LAYERS  := 3        # Decoder layers (total size)
 
-ENCODER_LAYERS     := 9
-DECODER_LAYERS     := 3
+MODEL_DIMENSION := 768      # Transformer model dimension
+MODEL_DTYPE     := bf16     # parameter precision and type
+DROPOUT_RATE    := 0.1      # dropout rate
+
 ADD_LANGUAGE_TOKEN := false
+TASK_DISTRIBUTION_STRATEGY := weighted_sampling
 
-FLASH_ATTENTION := true
-ROTARY_POS_EMBEDDINGS := true
+
+# X-Tranformer options
+
+XTRF_FLASH_ATTENTION       := true     # Flash attention (not supported on V100)
+XTRF_ROTARY_POS_EMBEDDINGS := true     # Use rotary positional embeddings
+XTRF_TIE_EMBEDDINGS        := false    # Tie input/output embeddings
+XTRF_HEADS                 := 12
+XTRF_PRE_NORM              := false
+XTRF_POST_EMB_NORM         := true
+XTRF_POST_EMB_NORM_BIAS    := true
+XTRF_ATTN_DROPOUT          := 0.1
+XTRF_FF_DROPOUT            := 0.1
+XTRF_LAYERNORM_BIAS        := true
+XTRF_USE_ABS_POS_EMB       := true
 
 ##-----------------------------------------------------------
 ## experiment 1: use different model path
@@ -88,8 +124,8 @@ ROTARY_POS_EMBEDDINGS := true
 	${MAKE} MODEL_NAME=exp4 \
 		ENCODER_LAYERS=6 \
 		DECODER_LAYERS=6 \
-		DEFAULT_ENCODER="shared" \
-		DEFAULT_DECODER="shared" \
+		DEFAULT_ENCODER="shared_enc" \
+		DEFAULT_DECODER="shared_dec" \
 		ADD_LANGUAGE_TOKEN=true \
 	$(basename $@)
 
@@ -305,6 +341,333 @@ ROTARY_POS_EMBEDDINGS := true
 	$(basename $@)
 
 ##-----------------------------------------------------------
+## experiment 17: multilingual model with shared encoder accum_delay=10 and only average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp17
+%.exp17:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.00001 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 18: multilingual model with shared encoder accum_delay=10 without average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp18
+%.exp18:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 19: multilingual model with shared encoder accum_delay=10 without decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp19
+%.exp19:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 20: multilingual model with shared encoder accum_delay=10 and LR=0.0088
+##-----------------------------------------------------------
+
+.PHONY: %.exp20
+%.exp20:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 21: multilingual model with shared encoder accum_delay=10 and only average decay
+##-----------------------------------------------------------
+
+.PHONY: %.exp21
+%.exp21:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.0005 \
+		GRADIENT_ACCUM=10 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 22: multilingual model with shared encoder accum_delay=20 and LR=0.0088
+##-----------------------------------------------------------
+
+.PHONY: %.exp22
+%.exp22:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared" \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.0005 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=20 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 23: fully shared multilingual model accum_delay=20 and LR=0.0088
+##    TODO: language token is missing
+##          would be needed in this setup!
+## 		ADD_LANGUAGE_TOKEN=true
+##-----------------------------------------------------------
+
+.PHONY: %.exp23
+%.exp23:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		DEFAULT_ENCODER="shared_enc" \
+		DEFAULT_DECODER="shared_dec" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		ACERAGE_DECAY=0.0005 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=20 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 24: lang-specific multilingual model accum_delay=20 and LR=0.0088
+##-----------------------------------------------------------
+
+.PHONY: %.exp24
+%.exp24:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		ACERAGE_DECAY=0.0005 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=20 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 25: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp25
+%.exp25:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=3,3 \
+		DECODER_LAYERS=3,3 \
+		ACERAGE_DECAY=0.0005 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=20 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+
+##-----------------------------------------------------------
+## experiment 26: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp26
+%.exp26:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=3,3 \
+		DECODER_LAYERS=3,3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 27: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp27
+%.exp27:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=2,4 \
+		DECODER_LAYERS=4,2 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 28: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp28
+%.exp28:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=1,5 \
+		DECODER_LAYERS=5,1 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 29: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp29
+%.exp29:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		ENCODER_LAYERS=3,6 \
+		DECODER_LAYERS=3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 30: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp30
+%.exp30:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=3,6 \
+		DECODER_LAYERS=6,3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 31: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp31
+%.exp31:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=6,3 \
+		DECODER_LAYERS=3,6 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 32: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp32
+%.exp32:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=6,1 \
+		DECODER_LAYERS=1,6 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 33: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp33
+%.exp33:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=3,1 \
+		DECODER_LAYERS=1,3 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 34: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp34
+%.exp34:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=2,1 \
+		DECODER_LAYERS=1,2 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+## experiment 35: 
+##-----------------------------------------------------------
+
+.PHONY: %.exp35
+%.exp35:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_ENCODERS='"eng","allenc" "fin","allenc" "fin","allenc" "swe","allenc" "deu","allenc" "eng","allenc" "eng","allenc" "eng","allenc" "fin","allenc" "swe","allenc"' \
+		TASK_DECODERS='"alldec","eng" "alldec","fin" "alldec","eng" "alldec","eng" "alldec","eng" "alldec","fin" "alldec","swe" "alldec","deu" "alldec","swe" "alldec","fin"' \
+		ENCODER_LAYERS=1,2 \
+		DECODER_LAYERS=2,1 \
+		ACERAGE_DECAY=0.00001 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=10 \
+		LEARNING_RATE=0.0008 \
+	$(basename $@)
+
+##-----------------------------------------------------------
+
+
 
 
 
@@ -337,7 +700,7 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))   $(DEFAULT_DE
 TRAIN_CONFIGFILE      ?= ${WORK_DIR}/train.yaml
 TRAIN_SLURMSCRIPT     ?= ${WORK_DIR}/train.sh
 
-INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference_${TASK_NR}.yaml
+INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference_${TASK}.yaml
 INFERENCE_SLURMSCRIPT ?= ${WORK_DIR}/inference.sh
 
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
@@ -371,7 +734,7 @@ VALID_FREQ       := 5000    # validation frequency (steps)
 VALID_METRICS    := bleu    # validation metrics
 SAVE_FREQ        := 5000    # checkpoint saving frequency (steps)
 KEEP_CHECKPOINTS := 5       # nr of checkpoints to keep
-REPORT_FREQ      := 100     # progress reporting frequency (steps)
+REPORT_FREQ      := 500     # progress reporting frequency (steps)
 
 
 OPTIMIZER        := adamw
@@ -495,6 +858,13 @@ eval-all-tasks:
 	  ${MAKE} TASK_NR=$$t eval; \
 	done
 
+.PHONY: eval-zero-shot-tasks
+eval-zero-shot-tasks:
+	@for t in $(shell seq $(words ${ZERO_SHOT_TASKS})); do \
+	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t eval; \
+	done
+
+
 ## submit SLURM job for evaluating a model
 ## - copy the best model according to validation (only of the checkpoint exists)
 ## - otherwise: use the last checkpoint
@@ -509,7 +879,7 @@ eval:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
 ifneq ($(wildcard ${BEST_MODEL}_*),)
 	mkdir -p $(dir ${MODEL_PATH})best-model
-	-rm -f $(dir ${MODEL_PATH})best-model/$(notdir ${MODEL_PATH})_*
+	find $(dir ${MODEL_PATH})best-model -type l -delete
 	-ln -s ${BEST_MODEL}_* $(dir ${MODEL_PATH})best-model/
 	-ln -s ${MODEL_META} $(dir ${MODEL_PATH})best-model/
 	${MAKE} SLURM_TIME=00:30:00 \
@@ -645,66 +1015,66 @@ inference-config:
 	${MAKE} ${INFERENCE_CONFIGFILE}
 
 ${INFERENCE_CONFIGFILE}: ${MODEL_META}
-	echo 'task_id: task_${TASK}' >> $@
-	@echo '' >> $@
-	echo "tasks:" >> $@
+	echo 'task_id: task_${TASK}'       > $@
+	@echo ''                          >> $@
+	echo "tasks:"                     >> $@
 	${MAKE} -s CONFIGFILE=$@ config-add-task
-	@echo '' >> $@
-	echo "src_vocab:" >> $@
+	@echo ''                          >> $@
+	echo "src_vocab:"                 >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${SRCLANG} config-add-vocab
-	echo "tgt_vocab:" >> $@
+	echo "tgt_vocab:"                 >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} config-add-vocab
-	${MAKE} -s config-add-model-architecture
-	${MAKE} -s config-add-transformer-params
-	@echo '' >> $@
-	echo '# Decoding parameters' >> $@
-	echo 'beam_size: 5' >> $@
-	echo 'batch_size: 32' >> $@
-	echo 'batch_type: sents' >> $@
-	echo '' >> $@
-	echo '# GPU settings' >> $@
-	echo 'gpu: 0' >> $@
-	echo 'world_size: 1' >> $@
-	echo 'gpu_ranks: [0]' >> $@
-	echo '' >> $@
-	echo 'seed: ${RANDOM_SEED}' >> $@
-	echo 'src: ${TESTDATA_SRC}' >> $@
+	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
+	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
+	@echo ''                          >> $@
+	echo '# Decoding parameters'      >> $@
+	echo 'beam_size: 5'               >> $@
+	echo 'batch_size: 32'             >> $@
+	echo 'batch_type: sents'          >> $@
+	echo ''                           >> $@
+	echo '# GPU settings'             >> $@
+	echo 'gpu: 0'                     >> $@
+	echo 'world_size: 1'              >> $@
+	echo 'gpu_ranks: [0]'             >> $@
+	echo ''                           >> $@
+	echo 'seed: ${RANDOM_SEED}'       >> $@
+	echo 'src: ${TESTDATA_SRC}'       >> $@
 	echo 'output: ${TESTDATA_OUTPUT}' >> $@
-	echo 'model: ${MODEL_PATH}' >> $@
+	echo 'model: ${MODEL_PATH}'       >> $@
 
 
 ${TRAIN_CONFIGFILE}:
-	echo "tasks:" >> $@
+	echo "tasks:"                        > $@
 	@for t in $(shell seq $(words ${TASKS})); do \
 	  ${MAKE} -s CONFIGFILE=$@ TASK_NR=$$t config-add-task; \
 	done
-	@echo '' >> $@
-	echo "src_vocab:" >> $@
+	@echo ''                            >> $@
+	echo "src_vocab:"                   >> $@
 	@for l in $(VOCAB_SRCLANGS); do \
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
-	echo "tgt_vocab:" >> $@
+	echo "tgt_vocab:"                   >> $@
 	@for l in $(VOCAB_TRGLANGS); do \
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
-	@echo '' >> $@
-	${MAKE} -s config-add-denoising
-	${MAKE} -s config-add-model-architecture
-	${MAKE} -s config-add-transformer-params
-	${MAKE} -s config-add-training-params
-	${MAKE} -s config-add-checkpoint-params
-	@echo '' >> $@
-	echo '# Model saving' >> ${CONFIGFILE}
-	echo 'save_model: ${MODEL_PATH}' >> ${CONFIGFILE}
-	echo 'save_strategy: best_and_last' >> ${CONFIGFILE}
+	@echo ''                            >> $@
+	${MAKE} -s CONFIGFILE=$@ config-add-denoising
+	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
+	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
+	${MAKE} -s CONFIGFILE=$@ config-add-training-params
+	${MAKE} -s CONFIGFILE=$@ config-add-checkpoint-params
+	@echo ''                            >> $@
+	echo '# Model saving'               >> $@
+	echo 'save_model: ${MODEL_PATH}'    >> $@
+	echo 'save_strategy: best_and_last' >> $@
 
 
 ## add a task section
 
 config-add-task:
 	@echo "add task ${TASK}"
-	@echo '  task_${TASK}:' >> ${CONFIGFILE}
-	@echo '    src_tgt: "${TASK}"  # Source-target language pair' >> ${CONFIGFILE}
+	@echo '  task_${TASK}:'                                             >> ${CONFIGFILE}
+	@echo '    src_tgt: "${TASK}"' >> ${CONFIGFILE}
 	@echo '    weight: ${TASK_WEIGHT}       # Task weight for sampling' >> ${CONFIGFILE}
 	@echo '    introduce_at_training_step: ${TASK_TRAINSTEP}' >> ${CONFIGFILE}
 	@echo '    node_gpu: ${TASK_GPU}   # Single GPU configuration' >> ${CONFIGFILE}
@@ -741,90 +1111,90 @@ config-add-denoising:
 
 
 config-add-model-architecture:
-	echo '# Model Architecture Options' >> ${CONFIGFILE}
-	echo 'enc_layers: [${ENCODER_LAYERS}]                   # Encoder layers' >> ${CONFIGFILE}
-	echo 'dec_layers: [${DECODER_LAYERS}]                   # Decoder layers' >> ${CONFIGFILE}
-	echo '' >> ${CONFIGFILE}
-	echo 'model_dim: 768                    # Transformer model dimension' >> ${CONFIGFILE}
-	echo 'dropout: 0.1                      # Dropout rate' >> ${CONFIGFILE}
-	echo 'model_dtype: bf16' >> ${CONFIGFILE}
+	echo '# Model Architecture Options'               >> ${CONFIGFILE}
+	echo 'enc_layers: [$(strip ${ENCODER_LAYERS})]'   >> ${CONFIGFILE}
+	echo 'dec_layers: [$(strip ${DECODER_LAYERS})]'   >> ${CONFIGFILE}
+	echo ''                                           >> ${CONFIGFILE}
+	echo 'model_dim: ${MODEL_DIMENSION}'              >> ${CONFIGFILE}
+	echo 'dropout: ${DROPOUT_RATE}'                   >> ${CONFIGFILE}
+	echo 'model_dtype: ${MODEL_DTYPE}'                >> ${CONFIGFILE}
 	echo 'add_language_tokens: ${ADD_LANGUAGE_TOKEN}' >> ${CONFIGFILE}
-	echo '' >> ${CONFIGFILE}
+	echo ''                                           >> ${CONFIGFILE}
 
 config-add-transformer-params:
-	echo '# x-transformers specific options' >> ${CONFIGFILE}
-	echo 'x_transformers_opts:' >> ${CONFIGFILE}
-	echo '  attn_flash: ${FLASH_ATTENTION}          # Flash attention (not supported on V100)' >> ${CONFIGFILE}
-	echo '  rotary_pos_emb: ${ROTARY_POS_EMBEDDINGS}      # Use rotary positional embeddings' >> ${CONFIGFILE}
-	echo '  tie_embedding: false      # Tie input/output embeddings' >> ${CONFIGFILE}
-	echo '  heads: 12'                >> ${CONFIGFILE}
-	echo '  pre_norm: false'          >> ${CONFIGFILE}
-	echo '  post_emb_norm: true'      >> ${CONFIGFILE}
-	echo '  post_emb_norm_bias: true' >> ${CONFIGFILE}
-	echo '  attn_dropout: 0.1'        >> ${CONFIGFILE}
-	echo '  ff_dropout: 0.1'          >> ${CONFIGFILE}
-	echo '  layernorm_bias: true'     >> ${CONFIGFILE}
-	echo '  use_abs_pos_emb: true'    >> ${CONFIGFILE}
-	echo ''                           >> ${CONFIGFILE}
+	echo '# x-transformers specific options'                >> ${CONFIGFILE}
+	echo 'x_transformers_opts:'                             >> ${CONFIGFILE}
+	echo '  attn_flash: ${XTRF_FLASH_ATTENTION}'            >> ${CONFIGFILE}
+	echo '  rotary_pos_emb: ${XTRF_ROTARY_POS_EMBEDDINGS}'  >> ${CONFIGFILE}
+	echo '  tie_embedding: ${XTRF_TIE_EMBEDDINGS}'          >> ${CONFIGFILE}
+	echo '  heads: ${XTRF_HEADS}'                           >> ${CONFIGFILE}
+	echo '  pre_norm: ${XTRF_PRE_NORM}'                     >> ${CONFIGFILE}
+	echo '  post_emb_norm: ${XTRF_POST_EMB_NORM}'           >> ${CONFIGFILE}
+	echo '  post_emb_norm_bias: ${XTRF_POST_EMB_NORM_BIAS}' >> ${CONFIGFILE}
+	echo '  attn_dropout: ${XTRF_ATTN_DROPOUT}'             >> ${CONFIGFILE}
+	echo '  ff_dropout: ${XTRF_FF_DROPOUT}'                 >> ${CONFIGFILE}
+	echo '  layernorm_bias: ${XTRF_LAYERNORM_BIAS}'         >> ${CONFIGFILE}
+	echo '  use_abs_pos_emb: ${XTRF_USE_ABS_POS_EMB}'       >> ${CONFIGFILE}
+	echo ''                                                 >> ${CONFIGFILE}
 
 
 COMMA            := ,
-GPU_RANKS_STRING  := $(subst $(eval ) ,${COMMA},$(GPU_RANKS))
+GPU_RANKS_STRING := $(subst $(eval ) ,${COMMA},$(GPU_RANKS))
 
 config-add-training-params:
 	echo 'src_seq_length_max: ${MAX_SRCSEQ_LENGTH}' >> ${CONFIGFILE}
 	echo 'tgt_seq_length_max: ${MAX_TRGSEQ_LENGTH}' >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
-	echo '# Training Configuration'                >> ${CONFIGFILE}
-	echo 'train_steps: ${TRAINING_STEPS}'          >> ${CONFIGFILE}
-	echo 'accum_count: [${GRADIENT_ACCUM}]'        >> ${CONFIGFILE}
-	echo 'lookahead_minibatches: ${LOOK_AHEAD}'    >> ${CONFIGFILE}
-	echo 'batch_size: ${BATCH_SIZE}'               >> ${CONFIGFILE}
-	echo 'batch_type: ${BATCH_TYPE}'               >> ${CONFIGFILE}
-	echo 'valid_batch_size: ${VALID_BATCH}'        >> ${CONFIGFILE}
-	echo 'normalization: ${BATCH_TYPE}'            >> ${CONFIGFILE}
-	echo 'queue_size: ${QUEUE_SIZE}'               >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
-	echo '# Optimizer settings (from create_opts)' >> ${CONFIGFILE}
-	echo 'optim: ${OPTIMIZER}'                     >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
-	echo 'learning_rate: ${LEARNING_RATE}'         >> ${CONFIGFILE}
-	echo 'adam_beta1: ${ADAM_BETA1}'               >> ${CONFIGFILE}
-	echo 'adam_beta2: ${ADAM_BETA1}'               >> ${CONFIGFILE}
-	echo 'weight_decay: ${WEIGHT_DECAY}'           >> ${CONFIGFILE}
-	echo 'max_grad_norm: ${MAX_GRAD_NORM}'         >> ${CONFIGFILE}
-	echo 'label_smoothing: ${LABEL_SMOOTHING}'     >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
-	echo '# Learning rate scheduling'              >> ${CONFIGFILE}
-	echo 'warmup_steps: ${WARMUP_STEPS}'           >> ${CONFIGFILE}
-	echo 'decay_method: ${DECAY_METHOD}'           >> ${CONFIGFILE}
-	echo 'learning_rate_decay: ${LR_DECAY}'        >> ${CONFIGFILE}
-	echo 'start_decay_steps: ${DECAY_START}'       >> ${CONFIGFILE}
-	echo 'average_decay: ${AVERAGE_DECAY}'         >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
-	echo 'world_size: ${TOTAL_NR_OF_GPUS}'         >> ${CONFIGFILE}
-	echo 'gpu_ranks: [${GPU_RANKS_STRING}]'        >> ${CONFIGFILE}
-	echo 'task_distribution_strategy: weighted_sampling' >> ${CONFIGFILE}
-	echo 'node_rank: ${NODE_RANK}'                 >> ${CONFIGFILE}
-	echo ''                                        >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
+	echo '# Training Configuration'                 >> ${CONFIGFILE}
+	echo 'train_steps: ${TRAINING_STEPS}'           >> ${CONFIGFILE}
+	echo 'accum_count: [${GRADIENT_ACCUM}]'         >> ${CONFIGFILE}
+	echo 'lookahead_minibatches: ${LOOK_AHEAD}'     >> ${CONFIGFILE}
+	echo 'batch_size: ${BATCH_SIZE}'                >> ${CONFIGFILE}
+	echo 'batch_type: ${BATCH_TYPE}'                >> ${CONFIGFILE}
+	echo 'valid_batch_size: ${VALID_BATCH}'         >> ${CONFIGFILE}
+	echo 'normalization: ${BATCH_TYPE}'             >> ${CONFIGFILE}
+	echo 'queue_size: ${QUEUE_SIZE}'                >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
+	echo '# Optimizer settings (from create_opts)'  >> ${CONFIGFILE}
+	echo 'optim: ${OPTIMIZER}'                      >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
+	echo 'learning_rate: ${LEARNING_RATE}'          >> ${CONFIGFILE}
+	echo 'adam_beta1: ${ADAM_BETA1}'                >> ${CONFIGFILE}
+	echo 'adam_beta2: ${ADAM_BETA1}'                >> ${CONFIGFILE}
+	echo 'weight_decay: ${WEIGHT_DECAY}'            >> ${CONFIGFILE}
+	echo 'max_grad_norm: ${MAX_GRAD_NORM}'          >> ${CONFIGFILE}
+	echo 'label_smoothing: ${LABEL_SMOOTHING}'      >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
+	echo '# Learning rate scheduling'               >> ${CONFIGFILE}
+	echo 'warmup_steps: ${WARMUP_STEPS}'            >> ${CONFIGFILE}
+	echo 'decay_method: ${DECAY_METHOD}'            >> ${CONFIGFILE}
+	echo 'learning_rate_decay: ${LR_DECAY}'         >> ${CONFIGFILE}
+	echo 'start_decay_steps: ${DECAY_START}'        >> ${CONFIGFILE}
+	echo 'average_decay: ${AVERAGE_DECAY}'          >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
+	echo 'world_size: ${TOTAL_NR_OF_GPUS}'          >> ${CONFIGFILE}
+	echo 'gpu_ranks: [${GPU_RANKS_STRING}]'         >> ${CONFIGFILE}
+	echo 'task_distribution_strategy: ${TASK_DISTRIBUTION_STRATEGY}' >> ${CONFIGFILE}
+	echo 'node_rank: ${NODE_RANK}'                  >> ${CONFIGFILE}
+	echo ''                                         >> ${CONFIGFILE}
 ifdef RANDOM_SEED
-	echo 'seed: ${RANDOM_SEED}'                    >> ${CONFIGFILE}
+	echo 'seed: ${RANDOM_SEED}'                     >> ${CONFIGFILE}
 endif
 
 
 config-add-checkpoint-params:
-	echo 'valid_steps: ${VALID_FREQ}'           >> ${CONFIGFILE}
-	echo 'valid_metrics: [${VALID_METRICS}]'    >> ${CONFIGFILE}
-	echo 'save_checkpoint_steps: ${SAVE_FREQ}'  >> ${CONFIGFILE}
-	echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}' >> ${CONFIGFILE}
-	echo ''                                     >> ${CONFIGFILE}
-	echo '# Logging and Monitoring'             >> ${CONFIGFILE}
-	echo ''                                     >> ${CONFIGFILE}
-	echo 'log_model_structure: false        # log model structure' >> ${CONFIGFILE}
+	echo 'valid_steps: ${VALID_FREQ}'                 >> ${CONFIGFILE}
+	echo 'valid_metrics: [$(strip ${VALID_METRICS})]' >> ${CONFIGFILE}
+	echo 'save_checkpoint_steps: ${SAVE_FREQ}'        >> ${CONFIGFILE}
+	echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'       >> ${CONFIGFILE}
+	echo ''                                           >> ${CONFIGFILE}
+	echo '# Logging and Monitoring'                   >> ${CONFIGFILE}
+	echo ''                                           >> ${CONFIGFILE}
+	echo 'log_model_structure: false'                 >> ${CONFIGFILE}
 	echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
 	echo '# tensorboard_log_dir: ./logs     # tensorboard log directory' >> ${CONFIGFILE}
-	echo 'report_every: ${REPORT_FREQ}'         >> ${CONFIGFILE}
-	echo 'report_training_accuracy: true'       >> ${CONFIGFILE}
+	echo 'report_every: ${REPORT_FREQ}'               >> ${CONFIGFILE}
+	echo 'report_training_accuracy: true'             >> ${CONFIGFILE}
 
 
 
