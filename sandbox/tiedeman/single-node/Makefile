@@ -30,17 +30,19 @@ include ${MAKEFILE_DIR}/slurm.mk
 
 
 ##-----------------------------------------------------------
-## experiment 2: multi-node
-##
-##   the job fails with some strange error message about
-##   'ValueError: ProcessGroupNCCL is only supported with GPUs, no GPUs found!'
-##
-##   however, manually starting the job with the same slurm script
-##   and sbatch from command-line seems to work --> WHY?
+## experiment 2: additional languages and denoising
 ##-----------------------------------------------------------
 
-EXP2_GPUS := 0:0 1:0
+EXP2_TASKS           := eng-eng fin-fin fin-eng swe-eng deu-eng eng-fin eng-swe eng-deu fin-swe swe-fin
+EXP2_TASK_GPUS       := 0:7     0:7     0:0     0:1     0:2     0:3     0:4     0:5     0:6     0:7
+EXP2_TASK_WEIGHTS    := 0.1     0.1
+EXP2_TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong
 
 .PHONY: %.exp2
 %.exp2:
-	${MAKE} MODEL_NAME=exp2 TASK_GPUS="${EXP2_GPUS}" $(basename $@)
+	${MAKE} MODEL_NAME=deu-eng-fin-swe \
+		TASKS="${EXP2_TASKS}" \
+		TASK_GPUS="${EXP2_TASK_GPUS}" \
+		TASK_WEIGHTS="${EXP2_TASK_WEIGHTS}" \
+		TASK_TRANSFORMS="${EXP2_TASK_TRANSFORMS}" \
+	$(basename $@)

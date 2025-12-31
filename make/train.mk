@@ -2,14 +2,12 @@
 
 
 #--------------------------------------------------------------
-# training
+# training - submit SLURM job for training a model
 #--------------------------------------------------------------
 
-## submit SLURM job for training a model
 
-GPU_RANKS        := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
-NR_OF_GPUS       := $(words ${GPU_RANKS})
-NR_OF_NODES      := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
+# random port for distributed training communication
+MASTER_PORT := 9973
 
 .PHONY: train
 train:
@@ -18,19 +16,86 @@ train:
 		SLURM_GPUS=${NR_OF_GPUS} \
 		SLURM_MEM=96G \
 		SLURM_CPUS_PER_TASK=48 \
-	${WORK_DIR}/train.slurm
+	${MODEL_DIR}/train.slurm
 
 ## train a model
 
-.PHONY: ${WORK_DIR}/train
-${WORK_DIR}/train: ${TRAIN_CONFIGFILE}
+.PHONY: ${MODEL_DIR}/train
+
+ifeq (${NR_OF_NODES},1)
+
+${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 	singularity exec \
-	    -B ${WORK_DIR}:${WORK_DIR}:rw \
-	    -B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-	    -B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-	    ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
-	    -save_model ${MODEL_PATH} \
-	    -config $<
+		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
+		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
+		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
+		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
+			-save_model ${MODEL_PATH} \
+			-config $<
 
 
+else
+
+# ${MODEL_DIR}/train-test: ${MODEL_DIR}/train.sh
+# 	singularity exec \
+# 		--env MASTER_NODE="${MASTER_NODE}" \
+# 		--env MASTER_PORT="${MASTER_PORT}" \
+# 		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
+# 		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+# 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
+# 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
+# 		-B /dev/shm:/dev/shm:rw \
+# 		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+# 		$<
+
+# ${MODEL_DIR}/train.sh: ${TRAIN_CONFIGFILE}
+# 	@echo '#!/bin/bash' > $@
+# 	@echo '' >>$@
+# 	@echo 'source ${MAMMOTH_DIR}/.venv/bin/activate' >> $@
+# 	@echo 'cd $${SLURM_SUBMIT_DIR}' >> $@
+# 	@echo '' >>$@
+# 	@echo 'echo "Node $${SLURM_NODEID} starting training"' >> $@
+# 	@echo 'echo "Master node: $${MASTER_NODE}"' >> $@
+# 	@echo 'echo "Master port: ${MASTER_PORT}"' >> $@
+# 	@echo '' >>$@
+# 	@echo 'python ${MAMMOTH_DIR}/train.py \
+# 		-config $< \
+# 		-save_model ${MODEL_PATH} \
+# 		--node_rank $${SLURM_PROCID} \
+# 		--master_ip $${MASTER_NODE} \
+# 		--master_port ${MASTER_PORT}' >> $@
+# 	@chmod +x $@
+
+
+
+.PHONY: ${MODEL_DIR}/train
+${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
+	singularity exec \
+		--env MASTER_NODE="${MASTER_NODE}" \
+		--env MASTER_PORT="${MASTER_PORT}" \
+		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
+		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
+		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
+		-B /dev/shm:/dev/shm:rw \
+		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+		${MAKE} MASTER_NODE=${MASTER_NODE} MASTER_PORT=${MASTER_PORT} multi-node-train
+
+
+.PHONY: multi-node-train
+multi-node-train:
+	echo ${TRAIN_CONFIGFILE}
+	( source ${MAMMOTH_DIR}/.venv/bin/activate; \
+	  echo "Node ${SLURM_NODEID} starting training"; \
+	  echo "Master node: ${MASTER_NODE}"; \
+	  echo "Master port: ${MASTER_PORT}"; \
+	  ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
+		-config ${TRAIN_CONFIGFILE} \
+		-save_model ${MODEL_PATH} \
+		--node_rank ${SLURM_PROCID} \
+		--master_ip ${MASTER_NODE} \
+		--master_port ${MASTER_PORT} )
+
+endif

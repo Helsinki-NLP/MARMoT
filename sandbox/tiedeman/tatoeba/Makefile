@@ -665,6 +665,27 @@ XTRF_USE_ABS_POS_EMB       := true
 		LEARNING_RATE=0.0008 \
 	$(basename $@)
 
+
+##-----------------------------------------------------------
+## experiment 36: fully shared multilingual model accum_delay=20 and LR=0.0088
+##-----------------------------------------------------------
+
+.PHONY: %.exp36
+%.exp36:
+	${MAKE} MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_TRANSFORMS="denoising,filtertoolong,prefix denoising,filtertoolong,prefix" \
+		DEFAULT_ENCODER="shared_enc" \
+		DEFAULT_DECODER="shared_dec" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+		ACERAGE_DECAY=0.0005 \
+		LR_DECAY=0.5 \
+		DECAY_START=50000 \
+		GRADIENT_ACCUM=20 \
+		LEARNING_RATE=0.0008 \
+		ADD_LANGUAGE_TOKEN=true \
+	$(basename $@)
+
 ##-----------------------------------------------------------
 
 
@@ -680,12 +701,16 @@ LANGPAIR ?= ${SRCLANG}-${TRGLANG}
 
 
 DEFAULT_GPU        := 0:0
-DEFAULT_WEIGHT     := 1:0
+DEFAULT_WEIGHT     := 1.0
 DEFAULT_TRANSFORM  := filtertoolong
 DEFAULT_TRAINSTEP  := 0
 # DEFAULT_ENCODER  := "shared"
 DEFAULT_ENCODER    := "${SRCLANG}"
 DEFAULT_DECODER    := "${TRGLANG}"
+
+ifeq (${ADD_LANGUAGE_TOKEN},true)
+  DEFAULT_TRANSFORM  := filtertoolong,prefix
+endif
 
 
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPUS))       $(DEFAULT_GPU))
@@ -1081,6 +1106,10 @@ config-add-task:
 	@echo '    enc_sharing_group: [${TASK_ENCODER}]' >> ${CONFIGFILE}
 	@echo '    dec_sharing_group: [${TASK_DECODER}]' >> ${CONFIGFILE}
 	@echo '    transforms: [${TASK_TRANSFORM}]' >> ${CONFIGFILE}
+ifeq (${ADD_LANGUAGE_TOKEN},true)
+	@echo '    src_prefix: ">>${TRGLANG}<<"'  >> ${CONFIGFILE}
+	@echo '    tgt_prefix: "<<${SRCLANG}>>"'  >> ${CONFIGFILE}
+endif
 ifneq (${TRAINDATA_SRC},)
 ifneq (${TRAINDATA_TRG},)
 	@echo '    path_src: ${TRAINDATA_SRC}' >> ${CONFIGFILE}

@@ -44,32 +44,34 @@ ifneq ($(wildcard ${BEST_MODEL}_*),)
 		SLURM_MEM=16G \
 		SLURM_CPUS_PER_TASK=8 \
 		MODEL_PATH=$(dir ${MODEL_PATH})best-model/$(notdir ${MODEL_PATH}) \
-	${WORK_DIR}/eval_${TASK}.slurm
+	${EVAL_DIR}/eval_${TASK}.slurm
 else
 	${MAKE} SLURM_TIME=00:30:00 \
 		SLURM_GPUS=1 \
 		SLURM_MEM=16G \
 		SLURM_CPUS_PER_TASK=8 \
-	${WORK_DIR}/eval_${TASK}.slurm
+	${EVAL_DIR}/eval_${TASK}.slurm
 endif
 endif
 
 
 ## translate and evaluate
 
-.PHONY: ${WORK_DIR}/eval
-${WORK_DIR}/eval: ${WORK_DIR}/eval_${TASK}
+.PHONY: ${EVAL_DIR}/eval
+${EVAL_DIR}/eval: ${EVAL_DIR}/eval_${TASK}
 
-${WORK_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
+${EVAL_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
 	sacrebleu ${TESTDATA_TRG} < $< > $@
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	singularity exec \
-	    -B ${WORK_DIR}:${WORK_DIR}:rw \
-	    -B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-	    -B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-	    ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
-	    -model ${MODEL_PATH} \
-	    -config $<
+		-B ${EVAL_DIR}:${EVAL_DIR}:rw \
+		-B ${MODEL_DIR}:${MODEL_DIR}:ro \
+		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
+		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
+		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
+		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
+			-model ${MODEL_PATH} \
+			-config $<
 

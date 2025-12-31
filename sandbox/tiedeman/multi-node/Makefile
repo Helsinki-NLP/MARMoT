@@ -1,4 +1,13 @@
 #-*-makefile-*-
+##-----------------------------------------------------------
+## testing multi-node job
+##
+##   the job fails with some strange error message about
+##   'ValueError: ProcessGroupNCCL is only supported with GPUs, no GPUs found!'
+##
+##   however, manually starting the job with the same slurm script
+##   and sbatch from command-line seems to work --> WHY?
+##-----------------------------------------------------------
 
 ## set environment (if different from standard)
 
@@ -12,7 +21,7 @@ MAKEFILE_DIR  := $(shell realpath ../../..)/make
 
 MODEL_NAME      := fin-eng
 TASKS           := fin-eng eng-fin
-TASK_GPUS       := 0:0     0:1
+TASK_GPUS       := 0:0     1:0
 ENCODER_LAYERS  := 9
 DECODER_LAYERS  := 3
 DEFAULT_ENCODER := "shared"
@@ -26,21 +35,3 @@ include ${MAKEFILE_DIR}/train.mk
 include ${MAKEFILE_DIR}/eval.mk
 include ${MAKEFILE_DIR}/slurm.mk
 
-
-
-
-##-----------------------------------------------------------
-## experiment 2: multi-node
-##
-##   the job fails with some strange error message about
-##   'ValueError: ProcessGroupNCCL is only supported with GPUs, no GPUs found!'
-##
-##   however, manually starting the job with the same slurm script
-##   and sbatch from command-line seems to work --> WHY?
-##-----------------------------------------------------------
-
-EXP2_GPUS := 0:0 1:0
-
-.PHONY: %.exp2
-%.exp2:
-	${MAKE} MODEL_NAME=exp2 TASK_GPUS="${EXP2_GPUS}" $(basename $@)

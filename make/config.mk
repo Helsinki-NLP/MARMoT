@@ -15,7 +15,7 @@
 # all other tasks will obtain default weights and transforms:
 #
 #    DEFAULT_GPU        := 0:0
-#    DEFAULT_WEIGHT     := 1:0
+#    DEFAULT_WEIGHT     := 1.0
 #    DEFAULT_TRANSFORM  := filtertoolong
 #
 # TASK_ENCODERS and TASK_DECODERS will be set to default values (see below)
@@ -44,19 +44,24 @@ TRGLANG  ?= $(lastword  $(subst -, ,${TASK}))
 LANGPAIR ?= ${SRCLANG}-${TRGLANG}
 
 
-TRAIN_CONFIGFILE      ?= ${WORK_DIR}/train.yaml
-INFERENCE_CONFIGFILE  ?= ${WORK_DIR}/inference_${TASK}.yaml
+TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/train.yaml
+INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 
 # current task specifications (defaults and parameters selected with TASK_NR)
 
-DEFAULT_GPU        := 0:0
-DEFAULT_WEIGHT     := 1:0
-DEFAULT_TRANSFORM  := filtertoolong
-DEFAULT_TRAINSTEP  := 0
-DEFAULT_ENCODER    := "${SRCLANG}"
-DEFAULT_DECODER    := "${TRGLANG}"
+DEFAULT_GPU        ?= 0:0
+DEFAULT_WEIGHT     ?= 1.0
+DEFAULT_TRANSFORM  ?= filtertoolong
+DEFAULT_TRAINSTEP  ?= 0
+DEFAULT_ENCODER    ?= "${SRCLANG}"
+DEFAULT_DECODER    ?= "${TRGLANG}"
+
+ifeq (${ADD_LANGUAGE_TOKEN},true)
+  DEFAULT_TRANSFORM  ?= filtertoolong,prefix
+endif
+
 
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPUS))       $(DEFAULT_GPU))
 TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))    $(DEFAULT_WEIGHT))
@@ -95,29 +100,30 @@ SORTED_LANGPAIR := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 ## training data and validation data
 ## skip monolingual validation data (should we?)
 
-TRAINDATA_SRC := ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
-TRAINDATA_TRG := ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
+TRAINDATA_SRC ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
+TRAINDATA_TRG ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
 
 
 ## validation data
 
 ifneq (${SRCLANG},${TRGLANG})
-  DEVDATA_SRC := ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
-  DEVDATA_TRG := ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
+  DEVDATA_SRC ?= ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
+  DEVDATA_TRG ?= ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
 endif
 
 
 ## testdata
 
 ifneq (${SRCLANG},${TRGLANG})
-  TESTDATA_SRC := $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz) \
+  TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz) \
 			$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
-  TESTDATA_TRG := $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz) \
+  TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz) \
 			$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
 endif
 
 
-TESTDATA_OUTPUT := ${MODEL_PATH}_translate_$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
+# TESTDATA_OUTPUT ?= ${MODEL_PATH}_translate_$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
+TESTDATA_OUTPUT ?= ${EVAL_DIR}/$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
 
 
 #--------------------------------------------------------------
@@ -127,11 +133,11 @@ TESTDATA_OUTPUT := ${MODEL_PATH}_translate_$(basename $(notdir $(TESTDATA_SRC)))
 ## really ugly way of getting from tasks to a unique set
 ## of source and target languages for the vocabs
 
-VOCAB_SRCLANGS := $(sort $(patsubst %/,%,$(dir $(subst -,/,${TASKS}))))
-VOCAB_TRGLANGS := $(sort $(notdir $(subst -,/,${TASKS})))
+VOCAB_SRCLANGS ?= $(sort $(patsubst %/,%,$(dir $(subst -,/,${TASKS}))))
+VOCAB_TRGLANGS ?= $(sort $(notdir $(subst -,/,${TASKS})))
 
-VOCAB_SIZE     := 32000
-VOCAB_FILE     := ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
+VOCAB_SIZE     ?= 32000
+VOCAB_FILE     ?= ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
 
 
 
@@ -140,33 +146,33 @@ VOCAB_FILE     := ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
 #--------------------------------------------------------------
 
 
-ENCODER_LAYERS     := 6        # Encoder layers (total size)
-DECODER_LAYERS     := 6        # Decoder layers (total size)
+ENCODER_LAYERS     ?= 6        # Encoder layers (total size)
+DECODER_LAYERS     ?= 6        # Decoder layers (total size)
 
-MODEL_DIMENSION    := 768      # Transformer model dimension
-MODEL_DTYPE        := bf16     # parameter precision and type
-DROPOUT_RATE       := 0.1      # dropout rate
+MODEL_DIMENSION    ?= 768      # Transformer model dimension
+MODEL_DTYPE        ?= bf16     # parameter precision and type
+DROPOUT_RATE       ?= 0.1      # dropout rate
 
-ADD_LANGUAGE_TOKEN := false
+ADD_LANGUAGE_TOKEN ?= false
 
 
 # X-Transformer options
 
-XTRF_FLASH_ATTENTION       := true     # Flash attention (not supported on V100)
-XTRF_ROTARY_POS_EMBEDDINGS := true     # Use rotary positional embeddings
-XTRF_TIE_EMBEDDINGS        := false    # Tie input/output embeddings
-XTRF_HEADS                 := 12
-XTRF_PRE_NORM              := false
-XTRF_POST_EMB_NORM         := true
-XTRF_POST_EMB_NORM_BIAS    := true
-XTRF_ATTN_DROPOUT          := 0.1
-XTRF_FF_DROPOUT            := 0.1
-XTRF_LAYERNORM_BIAS        := true
-XTRF_USE_ABS_POS_EMB       := false
+XTRF_FLASH_ATTENTION       ?= true     # Flash attention (not supported on V100)
+XTRF_ROTARY_POS_EMBEDDINGS ?= true     # Use rotary positional embeddings
+XTRF_TIE_EMBEDDINGS        ?= false    # Tie input/output embeddings
+XTRF_HEADS                 ?= 12
+XTRF_PRE_NORM              ?= false
+XTRF_POST_EMB_NORM         ?= true
+XTRF_POST_EMB_NORM_BIAS    ?= true
+XTRF_ATTN_DROPOUT          ?= 0.1
+XTRF_FF_DROPOUT            ?= 0.1
+XTRF_LAYERNORM_BIAS        ?= true
+XTRF_USE_ABS_POS_EMB       ?= false
 
 
 #--------------------------------------------------------------
-# 
+# required resources (compute nodes and GPUs)
 #--------------------------------------------------------------
 
 GPU_RANKS        := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
@@ -180,40 +186,40 @@ NODE_RANK        ?= 0
 # training parameters
 #--------------------------------------------------------------
 
-RANDOM_SEED      := 42
-BATCH_TYPE       := tokens  # type of unit for batch size
-BATCH_SIZE       := 8196    # per-GPU batch size
-VALID_BATCH      := 1024
-LOOK_AHEAD       := 16      # batch look-ahead to sort training examples by length
-GRADIENT_ACCUM   := 4       # gradient accumulation
-QUEUE_SIZE       := 100
+RANDOM_SEED      ?= 42
+BATCH_TYPE       ?= tokens  # type of unit for batch size
+BATCH_SIZE       ?= 8196    # per-GPU batch size
+VALID_BATCH      ?= 1024
+LOOK_AHEAD       ?= 16      # batch look-ahead to sort training examples by length
+GRADIENT_ACCUM   ?= 4       # gradient accumulation
+QUEUE_SIZE       ?= 100
 
-TASK_DISTRIBUTION := weighted_sampling
-MAX_SRCSEQ_LENGTH := 256
-MAX_TRGSEQ_LENGTH := 256
+TASK_DISTRIBUTION ?= weighted_sampling
+MAX_SRCSEQ_LENGTH ?= 256
+MAX_TRGSEQ_LENGTH ?= 256
 
 
-VALID_FREQ       := 5000    # validation frequency (steps)
-VALID_METRICS    := bleu    # validation metrics
-SAVE_FREQ        := 5000    # checkpoint saving frequency (steps)
-KEEP_CHECKPOINTS := 5       # nr of checkpoints to keep
-REPORT_FREQ      := 500     # progress reporting frequency (steps)
+VALID_FREQ       ?= 5000    # validation frequency (steps)
+VALID_METRICS    ?= bleu    # validation metrics
+SAVE_FREQ        ?= 5000    # checkpoint saving frequency (steps)
+KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
+REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 
-OPTIMIZER        := adamw
-LEARNING_RATE    := 0.0005
-# LEARNING_RATE    := 0.00001
-ADAM_BETA1       := 0.9
-ADAM_BETA2       := 0.999
-WEIGHT_DECAY     := 0.01
-MAX_GRAD_NORM    := 1.0
-LABEL_SMOOTHING  := 0.1
-LR_DECAY         := 0       # learning rate decay
-DECAY_START      := 0       # steps when to start lr-decay
-AVERAGE_DECAY    := 0
-WARMUP_STEPS     := 5000
-DECAY_METHOD     := linear_warmup
-# TRAINING_STEPS   := 500000
-TRAINING_STEPS   := 250000
+OPTIMIZER        ?= adamw
+LEARNING_RATE    ?= 0.0005
+# LEARNING_RATE    ?= 0.00001
+ADAM_BETA1       ?= 0.9
+ADAM_BETA2       ?= 0.999
+WEIGHT_DECAY     ?= 0.01
+MAX_GRAD_NORM    ?= 1.0
+LABEL_SMOOTHING  ?= 0.1
+LR_DECAY         ?= 0       # learning rate decay
+DECAY_START      ?= 0       # steps when to start lr-decay
+AVERAGE_DECAY    ?= 0
+WARMUP_STEPS     ?= 5000
+DECAY_METHOD     ?= linear_warmup
+# TRAINING_STEPS   ?= 500000
+TRAINING_STEPS   ?= 250000
 
 
 
@@ -294,10 +300,14 @@ config-add-task:
 	@echo '    src_tgt: "${TASK}"'                            >> ${CONFIGFILE}
 	@echo '    weight: ${TASK_WEIGHT}'                        >> ${CONFIGFILE}
 	@echo '    introduce_at_training_step: ${TASK_TRAINSTEP}' >> ${CONFIGFILE}
-	@echo '    node_gpu: ${TASK_GPU}'                         >> ${CONFIGFILE}
+	@echo '    node_gpu: "${TASK_GPU}"'                       >> ${CONFIGFILE}
 	@echo '    enc_sharing_group: [${TASK_ENCODER}]'          >> ${CONFIGFILE}
 	@echo '    dec_sharing_group: [${TASK_DECODER}]'          >> ${CONFIGFILE}
 	@echo '    transforms: [${TASK_TRANSFORM}]'               >> ${CONFIGFILE}
+ifeq (${ADD_LANGUAGE_TOKEN},true)
+	@echo '    src_prefix: ">>${TRGLANG}<<"'  >> ${CONFIGFILE}
+	@echo '    tgt_prefix: "<<${SRCLANG}>>"'  >> ${CONFIGFILE}
+endif
 ifneq (${TRAINDATA_SRC},)
 ifneq (${TRAINDATA_TRG},)
 	@echo '    path_src: ${TRAINDATA_SRC}'                    >> ${CONFIGFILE}
@@ -364,7 +374,7 @@ config-add-training-params:
 	echo ''                                                   >> ${CONFIGFILE}
 	echo '# Training Configuration'                           >> ${CONFIGFILE}
 	echo 'train_steps: ${TRAINING_STEPS}'                     >> ${CONFIGFILE}
-	echo 'accum_count: [${GRADIENT_ACCUM}]'                   >> ${CONFIGFILE}
+	echo 'accum_count: [$(strip ${GRADIENT_ACCUM})]'          >> ${CONFIGFILE}
 	echo 'lookahead_minibatches: ${LOOK_AHEAD}'               >> ${CONFIGFILE}
 	echo 'batch_size: ${BATCH_SIZE}'                          >> ${CONFIGFILE}
 	echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
@@ -391,6 +401,7 @@ config-add-training-params:
 	echo ''                                                   >> ${CONFIGFILE}
 	echo 'world_size: ${TOTAL_NR_OF_GPUS}'                    >> ${CONFIGFILE}
 	echo 'gpu_ranks: [${GPU_RANKS_STRING}]'                   >> ${CONFIGFILE}
+	echo 'n_nodes: ${NR_OF_NODES}'                            >> ${CONFIGFILE}
 	echo 'task_distribution_strategy: ${TASK_DISTRIBUTION}'   >> ${CONFIGFILE}
 	echo 'node_rank: ${NODE_RANK}'                            >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}

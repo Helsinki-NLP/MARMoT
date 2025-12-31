@@ -1,22 +1,23 @@
 #-*-makefile-*-
 
-PWD    := $(shell pwd)
+SHELL  := /bin/bash
+PWD    := $(shell pwd | xargs realpath)
 WHOAMI := $(shell whoami)
 
 
-HPC_PROJECT   ?= project_462000964
-PROJECT_SPACE ?= /scratch/${HPC_PROJECT}
-PROJECT_DIR   ?= ${PROJECT_SPACE}/MARMoT
-MAMMOTH_DIR   ?= ${PROJECT_SPACE}/shared/mammoth
-SANDBOX_DIR   ?= ${PWD}/sandbox/${WHOAMI}
+HPC_PROJECT    ?= project_462000964
+# PROJECT_SPACE ?= $(shell realpath /scratch/${HPC_PROJECT})
+PROJECT_SPACE  ?= /scratch/${HPC_PROJECT}
+PROJECT_DIR    ?= ${PROJECT_SPACE}/MARMoT
+MAMMOTH_DIR    ?= ${PROJECT_DIR}/shared/mammoth
+MAKEFILE_DIR   ?= ${PROJECT_DIR}/make
+EXPERIMENT_DIR ?= ${PWD}
 
-
-MODEL_NAME    ?= mammoth
-WORK_DIR      ?= ${SANDBOX_DIR}/${MODEL_NAME}
-MODEL_DIR     ?= ${WORK_DIR}
-MODEL_PATH    ?= ${MODEL_DIR}/model
-MODEL_META    ?= ${MODEL_PATH}_checkpoint_metadata.json
-
+MODEL_NAME     ?= mammoth
+MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
+MODEL_PATH     ?= ${MODEL_DIR}/model
+MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
+EVAL_DIR       ?= ${MODEL_DIR}/eval
 
 
 ## data directories
