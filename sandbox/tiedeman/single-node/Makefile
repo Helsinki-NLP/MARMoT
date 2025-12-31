@@ -27,6 +27,11 @@ include ${MAKEFILE_DIR}/eval.mk
 include ${MAKEFILE_DIR}/slurm.mk
 
 
+NEW_MEM = $(shell echo $$(( ${NR_OF_GPUS} * 8 )) )G
+
+tt:
+	echo ${NEW_MEM}
+
 
 
 ##-----------------------------------------------------------

@@ -11,8 +11,10 @@ WHOAMI              ?= $(shell whoami)
 SLURM_MAX_NR_JOBS   ?= 200
 SLURM_PARTITION     ?= standard-g
 SLURM_NODES         ?= ${NR_OF_NODES}
-SLURM_CPUS_PER_TASK ?= 48
-SLURM_MEM           ?= 96G
+SLURM_CPUS_PER_TASK ?= $(shell echo $$(( ${NR_OF_GPUS} * 6 )) )
+SLURM_MEM           ?= $(shell echo $$(( ${NR_OF_GPUS} * 12 )) )G
+# SLURM_CPUS_PER_TASK ?= 16
+# SLURM_MEM           ?= 48G
 SLURM_TIME          ?= 2-00:00:00
 SLURM_GPUS          ?= ${NR_OF_GPUS}
 
@@ -58,12 +60,12 @@ endif
 	@echo 'echo "Master port: ${MASTER_PORT}"' >> $@
 	@echo 'echo "Node list: $${SLURM_JOB_NODELIST}"' >> $@
 	@echo '' >> $@
-	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --save' >> $@
+	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --save' >> $@
 	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=.gpu-usage) &' >> $@
 	@echo '' >> $@
 	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=)' >> $@
 	@echo '' >> $@
-	@echo '/appl/local/csc/soft/ai/bin/gpu-energy --diff' >> $@
+	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --diff' >> $@
 	@echo 'mv $@ $@.done' >> $@
 	@echo 'echo "Finishing at `date`"' >> $@
 	sbatch $@
