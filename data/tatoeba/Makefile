@@ -142,8 +142,13 @@ data/release/${RELEASE}/%: %.tar
 	tar -xf $<
 	@for d in train dev test; do \
 	  mkdir -p $$d; \
-	  S=`grep "$$d source" $@/langids | cut -f2`; \
-	  T=`grep "$$d target" $@/langids | cut -f2`; \
+	  if [ -e $@/langids ]; then \
+	    S=`grep "$$d source" $@/langids | cut -f2`; \
+	    T=`grep "$$d target" $@/langids | cut -f2`; \
+	  else \
+	    S=$(firstword $(subst -, ,$(notdir $@))); \
+	    T=$(lastword $(subst -, ,$(notdir $@))); \
+	  fi; \
 	  if [ `echo "$$S $$T" | tr ' ' "\n" | wc -l` -gt 2 ]; then \
 	    for s in $$S; do \
 	      for t in $$T; do \
