@@ -23,6 +23,14 @@ train-slurm: ${TRAIN_CONFIGFILE}
 	${MODEL_DIR}/train.slurm
 
 
+
+## if the mode meta file exits: continue from existing checkpoint
+
+ifneq ($(wildcard ${MODEL_META}),)
+  TRAIN_FROM = --train_from ${MODEL_PATH} --reset_optim none
+endif
+
+
 ## train a model
 
 .PHONY: ${MODEL_DIR}/train
@@ -40,7 +48,7 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
 		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
+		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
 			-save_model ${MODEL_PATH} \
 			-config $<
 
@@ -72,7 +80,7 @@ multi-node-train:
 	  echo "Node ${SLURM_NODEID} starting training"; \
 	  echo "Master node: ${MASTER_NODE}"; \
 	  echo "Master port: ${MASTER_PORT}"; \
-	  ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py \
+	  ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
 		-config ${TRAIN_CONFIGFILE} \
 		-save_model ${MODEL_PATH} \
 		--node_rank ${SLURM_PROCID} \

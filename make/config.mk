@@ -49,7 +49,7 @@ INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 
-# current task specifications (defaults and parameters selected with TASK_NR)
+# current task specifications - default values
 
 DEFAULT_GPU        ?= 0:0
 DEFAULT_WEIGHT     ?= 1.0
@@ -63,6 +63,8 @@ ifeq (${ADD_LANGUAGE_TOKEN},true)
 endif
 
 
+# current task specifications - selected with TASK_NR or default value
+
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPUS))       $(DEFAULT_GPU))
 TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))    $(DEFAULT_WEIGHT))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS)) $(DEFAULT_TRANSFORM))
@@ -73,6 +75,9 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))   $(DEFAULT_DE
 
 #--------------------------------------------------------------
 # data sets
+#
+#  TODO: make it possible to set task-specific data sets
+#        (similar to task specs above?)
 #--------------------------------------------------------------
 
 ## in OPUS data we have sorted language IDs for language pairs
@@ -189,7 +194,9 @@ NODE_RANK        ?= 0
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8196    # per-GPU batch size
-VALID_BATCH      ?= 1024
+# BATCH_SIZE       ?= 7170    # per-GPU batch size
+VALID_BATCH      ?= 128     # validation batch size
+# VALID_BATCH      ?= 1024
 LOOK_AHEAD       ?= 16      # batch look-ahead to sort training examples by length
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 QUEUE_SIZE       ?= 40
@@ -199,11 +206,9 @@ MIN_SRCSEQ_LENGTH ?= 1
 MIN_TRGSEQ_LENGTH ?= 1
 MAX_SRCSEQ_LENGTH ?= 512
 MAX_TRGSEQ_LENGTH ?= 512
+MAX_SEQ_LENGTH    ?= 512
 # MAX_SRCSEQ_LENGTH ?= 256
 # MAX_TRGSEQ_LENGTH ?= 256
-
-## for validation during training
-MAX_SEQ_LENGTH ?= 512
 
 VALID_FREQ       ?= 5000    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics
@@ -432,17 +437,17 @@ endif
 
 config-add-checkpoint-params:
 	echo 'valid_steps: ${VALID_FREQ}'                         >> ${CONFIGFILE}
-	echo 'valid_metrics: [$(strip ${VALID_METRICS})]' >> ${CONFIGFILE}
-	echo 'save_checkpoint_steps: ${SAVE_FREQ}'        >> ${CONFIGFILE}
-	echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'       >> ${CONFIGFILE}
-	echo ''                                           >> ${CONFIGFILE}
-	echo '# Logging and Monitoring'                   >> ${CONFIGFILE}
-	echo ''                                           >> ${CONFIGFILE}
-	echo 'log_model_structure: false'                 >> ${CONFIGFILE}
+	echo 'valid_metrics: [$(strip ${VALID_METRICS})]'         >> ${CONFIGFILE}
+	echo 'save_checkpoint_steps: ${SAVE_FREQ}'                >> ${CONFIGFILE}
+	echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'               >> ${CONFIGFILE}
+	echo ''                                                   >> ${CONFIGFILE}
+	echo '# Logging and Monitoring'                           >> ${CONFIGFILE}
+	echo ''                                                   >> ${CONFIGFILE}
+	echo 'log_model_structure: false'                         >> ${CONFIGFILE}
 	echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
-	echo '# tensorboard_log_dir: ./logs     # tensorboard log directory' >> ${CONFIGFILE}
-	echo 'report_every: ${REPORT_FREQ}'               >> ${CONFIGFILE}
-	echo 'report_training_accuracy: true'             >> ${CONFIGFILE}
+	echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
+	echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
+	echo 'report_training_accuracy: true'                     >> ${CONFIGFILE}
 
 
 

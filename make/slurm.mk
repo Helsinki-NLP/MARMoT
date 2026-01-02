@@ -11,8 +11,8 @@ WHOAMI              ?= $(shell whoami)
 SLURM_MAX_NR_JOBS   ?= 200
 SLURM_PARTITION     ?= standard-g
 SLURM_NODES         ?= ${NR_OF_NODES}
-SLURM_CPUS_PER_TASK ?= $(shell echo $$(( ${NR_OF_GPUS} * 6 )) )
-SLURM_MEM           ?= $(shell echo $$(( ${NR_OF_GPUS} * 12 )) )G
+SLURM_CPUS_PER_TASK ?= $(shell echo $$(( ${NR_OF_GPUS} * 7 )) )
+SLURM_MEM           ?= $(shell echo $$(( ${NR_OF_GPUS} * 16 )) )G
 # SLURM_CPUS_PER_TASK ?= 16
 # SLURM_MEM           ?= 48G
 SLURM_TIME          ?= 2-00:00:00
@@ -40,39 +40,58 @@ endif
 
 %.slurm:
 	@mkdir -p $(dir $@)
-	@echo '#!/bin/bash' >> $@
-	@echo '' >> $@
-	@echo '#SBATCH -A ${HPC_PROJECT}' >> $@
-	@echo '#SBATCH -J ${MODEL_NAME}' >> $@
-	@echo '#SBATCH -o $(@:.slurm=).%j.out' >> $@
-	@echo '#SBATCH -e $(@:.slurm=).%j.err' >> $@
-	@echo '#SBATCH --partition=${SLURM_PARTITION}' >> $@
-	@echo '#SBATCH --nodes=${SLURM_NODES}' >> $@
-	@echo '#SBATCH --ntasks=${SLURM_NODES}' >> $@
-	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}' >> $@
-	@echo '#SBATCH --mem=${SLURM_MEM}' >> $@
-	@echo '#SBATCH --time=${SLURM_TIME}' >> $@
-	echo '${SLURM_GRES}' >> $@
-	@echo '' >> $@
-	@echo 'echo "Starting at `date`"' >> $@
-	@echo '' >> $@
-	@echo '# stops the script when encountering an error' >> $@
-	@echo '# (useful if running several commands in the same script)' >> $@
-	@echo 'set -eux' >> $@
-	@echo '' >> $@
-	@echo '# Get the master node (first node in the job allocation)' >> $@
-	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
-	@echo '' >> $@
-	@echo 'echo "Master node: $${MASTER_NODE}"' >> $@
-	@echo 'echo "Master port: ${MASTER_PORT}"' >> $@
-	@echo 'echo "Node list: $${SLURM_JOB_NODELIST}"' >> $@
-	@echo '' >> $@
-	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --save' >> $@
-	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=.gpu-usage) &' >> $@
-	@echo '' >> $@
-	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=)' >> $@
-	@echo '' >> $@
-	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --diff' >> $@
-	@echo 'mv $@ $@.done' >> $@
-	@echo 'echo "Finishing at `date`"' >> $@
+	@echo '#!/bin/bash'                                                                       >> $@
+	@echo ''                                                                                  >> $@
+	@echo '#SBATCH -A ${HPC_PROJECT}'                                                         >> $@
+	@echo '#SBATCH -J ${MODEL_NAME}'                                                          >> $@
+	@echo '#SBATCH -o $(@:.slurm=).%j.out'                                                    >> $@
+	@echo '#SBATCH -e $(@:.slurm=).%j.err'                                                    >> $@
+	@echo '#SBATCH --partition=${SLURM_PARTITION}'                                            >> $@
+	@echo '#SBATCH --nodes=${SLURM_NODES}'                                                    >> $@
+	@echo '#SBATCH --ntasks=${SLURM_NODES}'                                                   >> $@
+	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}'                                    >> $@
+	@echo '#SBATCH --mem=${SLURM_MEM}'                                                        >> $@
+	@echo '#SBATCH --time=${SLURM_TIME}'                                                      >> $@
+	echo '${SLURM_GRES}'                                                                      >> $@
+	@echo ''                                                                                  >> $@
+	@echo 'echo "Starting at `date`"'                                                         >> $@
+	@echo ''                                                                                  >> $@
+	@echo '# stops the script when encountering an error'                                     >> $@
+	@echo '# (useful if running several commands in the same script)'                         >> $@
+	@echo 'set -eux'                                                                          >> $@
+	@echo ''                                                                                  >> $@
+	@echo '#--------------------------------------------------------------------------'       >> $@
+	@echo '# Get the master node (first node in the job allocation)'                          >> $@
+	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)'      >> $@
+	@echo ''                                                                                  >> $@
+	@echo 'echo "Master node: $${MASTER_NODE}"'                                               >> $@
+	@echo 'echo "Master port: ${MASTER_PORT}"'                                                >> $@
+	@echo 'echo "Node list: $${SLURM_JOB_NODELIST}"'                                          >> $@
+	@echo '#--------------------------------------------------------------------------'       >> $@
+	@echo '# ask SLURM to send the USR1 signal 30 seconds before end of the time limit'       >> $@
+	@echo '#SBATCH --signal=B:USR1@30'                                                        >> $@
+	@echo 'timeup_function()'                                                                 >> $@
+	@echo '{'                                                                                 >> $@
+	@echo '    echo "timeup_function called at `date`"'                                       >> $@
+	@echo '    srun /appl/local/csc/soft/ai/bin/gpu-energy --diff'                            >> $@
+	@echo '}'                                                                                 >> $@
+	@echo 'abort_function()'                                                                  >> $@
+	@echo '{'                                                                                 >> $@
+	@echo '    echo "abort_function called at `date`"'                                        >> $@
+	@echo '    /appl/local/csc/soft/ai/bin/gpu-energy --diff'                                 >> $@
+	@echo '}'                                                                                 >> $@
+	@echo "trap 'timeup_function' USR1"                                                       >> $@
+	@echo "trap 'abort_function' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"                       >> $@
+	@echo '#--------------------------------------------------------------------------'       >> $@
+	@echo ''                                                                                  >> $@
+	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --save'                                >> $@
+	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=).$${SLURM_JOBID}.gpu-usage &' >> $@
+	@echo ''                                                                                  >> $@
+	@echo '# finally, the actual target to be done'                                           >> $@
+	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=) &'      >> $@
+	@echo 'wait'                                                                              >> $@
+	@echo ''                                                                                  >> $@
+	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --diff'                                >> $@
+	@echo 'mv $@ $@.done'                                                                     >> $@
+	@echo 'echo "Finishing at `date`"'                                                        >> $@
 
