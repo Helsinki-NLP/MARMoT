@@ -6,7 +6,7 @@ VOCAB_SIZE ?= 32000
 
 
 DATASET   ?= tatoeba
-DATADIR   ?= ../../${DATASET}/train
+DATADIR   ?= ../../data/${DATASET}/train
 
 LANGUAGES ?= $(sort $(subst -, ,$(basename $(basename $(notdir $(wildcard ${DATADIR}/*-*.*.gz))))))
 LANGUAGE  ?= $(firstword ${LANGUAGES})

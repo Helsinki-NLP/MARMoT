@@ -137,34 +137,47 @@ dev5K/%: dev/%
 ## fetch the data and divide into train/dev/test data
 ## NOTE: we may have several individual languages under the same macro-language ID!
 ##       langids contains the individual language IDs
+##
+## NOTE: langids seem to be wrong for test and dev data!
+## ---> get IDs directly from the ID files
 
 data/release/${RELEASE}/%: %.tar
 	tar -xf $<
 	@for d in train dev test; do \
 	  mkdir -p $$d; \
-	  if [ -e $@/langids ]; then \
-	    S=`grep "$$d source" $@/langids | cut -f2`; \
-	    T=`grep "$$d target" $@/langids | cut -f2`; \
+	  if [ $$d == train ]; then \
+	    if [ -e $@/langids ]; then \
+	      S=`grep "$$d source" $@/langids | cut -f2`; \
+	      T=`grep "$$d target" $@/langids | cut -f2`; \
+	    else \
+	      S=$(firstword $(subst -, ,$(notdir $@))); \
+	      T=$(lastword $(subst -, ,$(notdir $@))); \
+	    fi; \
 	  else \
-	    S=$(firstword $(subst -, ,$(notdir $@))); \
-	    T=$(lastword $(subst -, ,$(notdir $@))); \
+	    if [ -e $@/$$d.id ]; then \
+	      S=`cat $@/$$d.id | cut -f1 | sort -u | tr "\n" ' ' | sed 's/ *$$//'`; \
+	      T=`cat $@/$$d.id | cut -f2 | sort -u | tr "\n" ' ' | sed 's/ *$$//'`; \
+	    fi; \
 	  fi; \
 	  if [ `echo "$$S $$T" | tr ' ' "\n" | wc -l` -gt 2 ]; then \
 	    for s in $$S; do \
 	      for t in $$T; do \
-	        echo "extract $$d/$$s-$$t"; \
+	        if [ $$s \< $$t ]; then p="$$s-$$t"; else p="$$t-$$s"; fi; \
+	        echo "extract $$d/$$p"; \
 	        if [ -e $@/$$d.id.gz ]; then \
 	          paste <(gzip -cd < $@/$$d.src.gz) <(gzip -cd < $@/$$d.trg.gz) <(gzip -cd < $@/$$d.id.gz) |\
-	          grep "	$$s	$$t$$" > $$d/$$s-$$t.tsv; \
+	          grep "	$$s	$$t$$" > $$d/$$p.tsv; \
 	        elif [ -e $@/$$d.id ]; then \
-	          paste $$d.src $$d.trg $$d.id | grep "	$$s	$$t$$" > $$d/$$s-$$t.tsv; \
+	          paste $@/$$d.src $@/$$d.trg $@/$$d.id | grep "	$$s	$$t$$" > $$d/$$p.tsv; \
 	        fi; \
-	        if [ -s $$d/$$s-$$t.tsv ]; then \
-	          cut -f1 < $$d/$$s-$$t.tsv | gzip -c > $$d/$$s-$$t.$$s.gz; \
-	          cut -f2 < $$d/$$s-$$t.tsv | gzip -c > $$d/$$s-$$t.$$t.gz; \
-	          if [ $$d == train ]; then cut -f3 < $$d/$$s-$$t.tsv | gzip -c > $$d/$$s-$$t.corpora.gz; fi; \
-	          rm -f $$d/$$s-$$t.tsv; \
+	        if [ -s $$d/$$p.tsv ]; then \
+	          if [ $$s == bos_Latn ]; then s=bos; fi; \
+	          if [ $$t == bos_Latn ]; then t=bos; fi; \
+	          cut -f1 < $$d/$$p.tsv | gzip -c > $$d/$$p.$$s.gz; \
+	          cut -f2 < $$d/$$p.tsv | gzip -c > $$d/$$p.$$t.gz; \
+	          if [ $$d == train ]; then cut -f3 < $$d/$$p.tsv | gzip -c > $$d/$$p.corpora.gz; fi; \
 	        fi; \
+	        rm -f $$d/$$p.tsv; \
 	      done \
 	    done; \
 	    rm -f $@/$$d.*; \
