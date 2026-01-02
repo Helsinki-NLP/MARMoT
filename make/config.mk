@@ -191,13 +191,19 @@ BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8196    # per-GPU batch size
 VALID_BATCH      ?= 1024
 LOOK_AHEAD       ?= 16      # batch look-ahead to sort training examples by length
-GRADIENT_ACCUM   ?= 4       # gradient accumulation
-QUEUE_SIZE       ?= 100
+GRADIENT_ACCUM   ?= 20      # gradient accumulation
+QUEUE_SIZE       ?= 40
 
 TASK_DISTRIBUTION ?= weighted_sampling
-MAX_SRCSEQ_LENGTH ?= 256
-MAX_TRGSEQ_LENGTH ?= 256
+MIN_SRCSEQ_LENGTH ?= 1
+MIN_TRGSEQ_LENGTH ?= 1
+MAX_SRCSEQ_LENGTH ?= 512
+MAX_TRGSEQ_LENGTH ?= 512
+# MAX_SRCSEQ_LENGTH ?= 256
+# MAX_TRGSEQ_LENGTH ?= 256
 
+## for validation during training
+MAX_SEQ_LENGTH ?= 512
 
 VALID_FREQ       ?= 5000    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics
@@ -206,16 +212,16 @@ KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 
 OPTIMIZER        ?= adamw
-LEARNING_RATE    ?= 0.0005
+LEARNING_RATE    ?= 0.0008
 # LEARNING_RATE    ?= 0.00001
 ADAM_BETA1       ?= 0.9
 ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
-LR_DECAY         ?= 0       # learning rate decay
-DECAY_START      ?= 0       # steps when to start lr-decay
-AVERAGE_DECAY    ?= 0
+LR_DECAY         ?= 0.5     # learning rate decay
+DECAY_START      ?= 50000   # steps when to start lr-decay
+AVERAGE_DECAY    ?= 0.0005
 WARMUP_STEPS     ?= 5000
 DECAY_METHOD     ?= linear_warmup
 # TRAINING_STEPS   ?= 500000
@@ -249,20 +255,20 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
 	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
 	@echo ''                                                     >> $@
-	echo '# Decoding parameters'                                 >> $@
-	echo 'beam_size: 5'                                          >> $@
-	echo 'batch_size: 32'                                        >> $@
-	echo 'batch_type: sents'                                     >> $@
-	echo ''                                                      >> $@
-	echo '# GPU settings'                                        >> $@
-	echo 'gpu: 0'                                                >> $@
-	echo 'world_size: 1'                                         >> $@
-	echo 'gpu_ranks: [0]'                                        >> $@
-	echo ''                                                      >> $@
-	echo 'seed: ${RANDOM_SEED}'                                  >> $@
-	echo 'src: ${TESTDATA_SRC}'                                  >> $@
-	echo 'output: ${TESTDATA_OUTPUT}'                            >> $@
-	echo 'model: ${MODEL_PATH}'                                  >> $@
+	@echo '# Decoding parameters'                                 >> $@
+	@echo 'beam_size: 4'                                          >> $@
+	@echo 'batch_size: 32'                                        >> $@
+	@echo 'batch_type: sents'                                     >> $@
+	@echo ''                                                      >> $@
+	@echo '# GPU settings'                                        >> $@
+	@echo 'gpu: 0'                                                >> $@
+	@echo 'world_size: 1'                                         >> $@
+	@echo 'gpu_ranks: [0]'                                        >> $@
+	@echo ''                                                      >> $@
+	@echo 'seed: ${RANDOM_SEED}'                                  >> $@
+	@echo 'src: ${TESTDATA_SRC}'                                  >> $@
+	@echo 'output: ${TESTDATA_OUTPUT}'                            >> $@
+	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
 ${TRAIN_CONFIGFILE}:
@@ -287,9 +293,9 @@ ${TRAIN_CONFIGFILE}:
 	${MAKE} -s CONFIGFILE=$@ config-add-training-params
 	${MAKE} -s CONFIGFILE=$@ config-add-checkpoint-params
 	@echo ''                                                     >> $@
-	echo '# Model saving'                                        >> $@
-	echo 'save_model: ${MODEL_PATH}'                             >> $@
-	echo 'save_strategy: best_and_last'                          >> $@
+	@echo '# Model saving'                                       >> $@
+	@echo 'save_model: ${MODEL_PATH}'                            >> $@
+	@echo 'save_strategy: best_and_last'                         >> $@
 
 
 ## add a task section
@@ -310,14 +316,22 @@ ifeq (${ADD_LANGUAGE_TOKEN},true)
 endif
 ifneq (${TRAINDATA_SRC},)
 ifneq (${TRAINDATA_TRG},)
+ifneq ($(wildcard ${TRAINDATA_SRC}),)
+ifneq ($(wildcard ${TRAINDATA_TRG}),)
 	@echo '    path_src: ${TRAINDATA_SRC}'                    >> ${CONFIGFILE}
 	@echo '    path_tgt: ${TRAINDATA_TRG}'                    >> ${CONFIGFILE}
 endif
 endif
+endif
+endif
 ifneq (${DEVDATA_SRC},)
 ifneq (${DEVDATA_TRG},)
+ifneq ($(wildcard ${DEVDATA_SRC}),)
+ifneq ($(wildcard ${DEVDATA_TRG}),)
 	@echo '    path_valid_src: ${DEVDATA_SRC}'                >> ${CONFIGFILE}
 	@echo '    path_valid_tgt: ${DEVDATA_TRG}'                >> ${CONFIGFILE}
+endif
+endif
 endif
 endif
 	@echo ''                                                  >> ${CONFIGFILE}
@@ -369,6 +383,8 @@ COMMA            := ,
 GPU_RANKS_STRING := $(subst $(eval ) ,${COMMA},$(GPU_RANKS))
 
 config-add-training-params:
+	echo 'src_seq_length_min: ${MIN_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
+	echo 'tgt_seq_length_min: ${MIN_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
 	echo 'src_seq_length_max: ${MAX_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
 	echo 'tgt_seq_length_max: ${MAX_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}
@@ -378,10 +394,14 @@ config-add-training-params:
 	echo 'lookahead_minibatches: ${LOOK_AHEAD}'               >> ${CONFIGFILE}
 	echo 'batch_size: ${BATCH_SIZE}'                          >> ${CONFIGFILE}
 	echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
-	echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
 	echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
 	echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Decoding parameters during validation'           >> ${CONFIGFILE}
+	@echo 'valid_batch_size: ${VALID_BATCH}'                  >> ${CONFIGFILE}
+	@echo 'beam_size: 1'                                      >> ${CONFIGFILE}
+	@echo 'max_length: ${MAX_SEQ_LENGTH}'                     >> ${CONFIGFILE}
+	@echo ''                                                  >> ${CONFIGFILE}
 	echo '# Optimizer settings (from create_opts)'            >> ${CONFIGFILE}
 	echo 'optim: ${OPTIMIZER}'                                >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}

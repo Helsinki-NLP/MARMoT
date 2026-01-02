@@ -20,19 +20,26 @@ eval-zero-shot-tasks:
 	done
 
 
+##-------------------------------------------------------------------------------
 ## submit SLURM job for evaluating a model
 ## - copy the best model according to validation (only of the checkpoint exists)
 ## - otherwise: use the last checkpoint
 ## - translate the selected task (set TASK_NR) with the best mode
-##
+##-------------------------------------------------------------------------------
 
 ifneq ($(wildcard ${MODEL_META}),)
   BEST_MODEL_STEP := $(strip $(shell grep -A2 "best_checkpoint" ${MODEL_META} | grep 'step' | cut -f2 -d: | cut -f1 -d,))
   BEST_MODEL      := ${MODEL_PATH}_step_${BEST_MODEL_STEP}
 endif
 
+
 .PHONY: eval
-eval:
+eval: eval-slurm
+	${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
+
+
+.PHONY: eval-slurm
+eval-slurm: ${INFERENCE_CONFIGFILE}
 ifneq ($(wildcard ${TESTDATA_SRC}),)
 ifneq ($(wildcard ${BEST_MODEL}_*),)
 	mkdir -p $(dir ${MODEL_PATH})best-model
@@ -55,13 +62,17 @@ endif
 endif
 
 
+##-------------------------------------------------------------------------------
 ## translate and evaluate
+##-------------------------------------------------------------------------------
+
+MT_METRICS = bleu chrf ter
 
 .PHONY: ${EVAL_DIR}/eval
 ${EVAL_DIR}/eval: ${EVAL_DIR}/eval_${TASK}
 
 ${EVAL_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
-	sacrebleu ${TESTDATA_TRG} < $< > $@
+	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	singularity exec \
