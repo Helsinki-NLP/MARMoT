@@ -88,8 +88,15 @@ endif
 	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=).$${SLURM_JOBID}.gpu-usage &' >> $@
 	@echo ''                                                                                  >> $@
 	@echo '# finally, the actual target to be done'                                           >> $@
-	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=) &'      >> $@
-	@echo 'wait'                                                                              >> $@
+	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=)'        >> $@
+##
+## fetching USR1 probably requires to run srun in the background and to wait for the background job
+## to finish up. However, this will also wait for the gpu-usage script that runs in the background!
+## --> this would force all jobs to run the maximum walltime
+## --> don't use that solution!
+##
+# 	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=) &'      >> $@
+# 	@echo 'wait'                                                                              >> $@
 	@echo ''                                                                                  >> $@
 	@echo 'srun /appl/local/csc/soft/ai/bin/gpu-energy --diff'                                >> $@
 	@echo 'mv $@ $@.done'                                                                     >> $@

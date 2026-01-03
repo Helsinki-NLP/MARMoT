@@ -218,16 +218,20 @@ REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 
 OPTIMIZER        ?= adamw
 LEARNING_RATE    ?= 0.0008
+# LEARNING_RATE    ?= 0.0005
 # LEARNING_RATE    ?= 0.00001
 ADAM_BETA1       ?= 0.9
 ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
+# LR_DECAY         ?= 0.5     # learning rate decay
+# DECAY_START      ?= 50000   # steps when to start lr-decay
 LR_DECAY         ?= 0.5     # learning rate decay
-DECAY_START      ?= 50000   # steps when to start lr-decay
-AVERAGE_DECAY    ?= 0.0005
-WARMUP_STEPS     ?= 5000
+DECAY_START      ?= 10000   # steps when to start lr-decay
+# AVERAGE_DECAY    ?= 0.0005
+AVERAGE_DECAY    ?= 0
+WARMUP_STEPS     ?= 10000
 DECAY_METHOD     ?= linear_warmup
 # TRAINING_STEPS   ?= 500000
 TRAINING_STEPS   ?= 250000
@@ -388,66 +392,66 @@ COMMA            := ,
 GPU_RANKS_STRING := $(subst $(eval ) ,${COMMA},$(GPU_RANKS))
 
 config-add-training-params:
-	echo 'src_seq_length_min: ${MIN_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
-	echo 'tgt_seq_length_min: ${MIN_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
-	echo 'src_seq_length_max: ${MAX_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
-	echo 'tgt_seq_length_max: ${MAX_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo '# Training Configuration'                           >> ${CONFIGFILE}
-	echo 'train_steps: ${TRAINING_STEPS}'                     >> ${CONFIGFILE}
-	echo 'accum_count: [$(strip ${GRADIENT_ACCUM})]'          >> ${CONFIGFILE}
-	echo 'lookahead_minibatches: ${LOOK_AHEAD}'               >> ${CONFIGFILE}
-	echo 'batch_size: ${BATCH_SIZE}'                          >> ${CONFIGFILE}
-	echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
-	echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
-	echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	@echo '# Decoding parameters during validation'           >> ${CONFIGFILE}
-	@echo 'valid_batch_size: ${VALID_BATCH}'                  >> ${CONFIGFILE}
-	@echo 'beam_size: 1'                                      >> ${CONFIGFILE}
-	@echo 'max_length: ${MAX_SEQ_LENGTH}'                     >> ${CONFIGFILE}
-	@echo ''                                                  >> ${CONFIGFILE}
-	echo '# Optimizer settings (from create_opts)'            >> ${CONFIGFILE}
-	echo 'optim: ${OPTIMIZER}'                                >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo 'learning_rate: ${LEARNING_RATE}'                    >> ${CONFIGFILE}
-	echo 'adam_beta1: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
-	echo 'adam_beta2: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
-	echo 'weight_decay: ${WEIGHT_DECAY}'                      >> ${CONFIGFILE}
-	echo 'max_grad_norm: ${MAX_GRAD_NORM}'                    >> ${CONFIGFILE}
-	echo 'label_smoothing: ${LABEL_SMOOTHING}'                >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo '# Learning rate scheduling'                         >> ${CONFIGFILE}
-	echo 'warmup_steps: ${WARMUP_STEPS}'                      >> ${CONFIGFILE}
-	echo 'decay_method: ${DECAY_METHOD}'                      >> ${CONFIGFILE}
-	echo 'learning_rate_decay: ${LR_DECAY}'                   >> ${CONFIGFILE}
-	echo 'start_decay_steps: ${DECAY_START}'                  >> ${CONFIGFILE}
-	echo 'average_decay: ${AVERAGE_DECAY}'                    >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo 'world_size: ${TOTAL_NR_OF_GPUS}'                    >> ${CONFIGFILE}
-	echo 'gpu_ranks: [${GPU_RANKS_STRING}]'                   >> ${CONFIGFILE}
-	echo 'n_nodes: ${NR_OF_NODES}'                            >> ${CONFIGFILE}
-	echo 'task_distribution_strategy: ${TASK_DISTRIBUTION}'   >> ${CONFIGFILE}
-	echo 'node_rank: ${NODE_RANK}'                            >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
+	@echo 'src_seq_length_min: ${MIN_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
+	@echo 'tgt_seq_length_min: ${MIN_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
+	@echo 'src_seq_length_max: ${MAX_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
+	@echo 'tgt_seq_length_max: ${MAX_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
+	@echo 'max_length: ${MAX_SEQ_LENGTH}'                      >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Training Configuration'                           >> ${CONFIGFILE}
+	@echo 'train_steps: ${TRAINING_STEPS}'                     >> ${CONFIGFILE}
+	@echo 'accum_count: [$(strip ${GRADIENT_ACCUM})]'          >> ${CONFIGFILE}
+	@echo 'lookahead_minibatches: ${LOOK_AHEAD}'               >> ${CONFIGFILE}
+	@echo 'batch_size: ${BATCH_SIZE}'                          >> ${CONFIGFILE}
+	@echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
+	@echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
+	@echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
+	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
+	@echo 'beam_size: 1'                                       >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Optimizer settings (from create_opts)'            >> ${CONFIGFILE}
+	@echo 'optim: ${OPTIMIZER}'                                >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo 'learning_rate: ${LEARNING_RATE}'                    >> ${CONFIGFILE}
+	@echo 'adam_beta1: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
+	@echo 'adam_beta2: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
+	@echo 'weight_decay: ${WEIGHT_DECAY}'                      >> ${CONFIGFILE}
+	@echo 'max_grad_norm: ${MAX_GRAD_NORM}'                    >> ${CONFIGFILE}
+	@echo 'label_smoothing: ${LABEL_SMOOTHING}'                >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Learning rate scheduling'                         >> ${CONFIGFILE}
+	@echo 'warmup_steps: ${WARMUP_STEPS}'                      >> ${CONFIGFILE}
+	@echo 'decay_method: ${DECAY_METHOD}'                      >> ${CONFIGFILE}
+	@echo 'learning_rate_decay: ${LR_DECAY}'                   >> ${CONFIGFILE}
+	@echo 'start_decay_steps: ${DECAY_START}'                  >> ${CONFIGFILE}
+	@echo 'average_decay: ${AVERAGE_DECAY}'                    >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo 'world_size: ${TOTAL_NR_OF_GPUS}'                    >> ${CONFIGFILE}
+	@echo 'gpu_ranks: [${GPU_RANKS_STRING}]'                   >> ${CONFIGFILE}
+	@echo 'n_nodes: ${NR_OF_NODES}'                            >> ${CONFIGFILE}
+	@echo 'task_distribution_strategy: ${TASK_DISTRIBUTION}'   >> ${CONFIGFILE}
+	@echo 'node_rank: ${NODE_RANK}'                            >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
 ifdef RANDOM_SEED
-	echo 'seed: ${RANDOM_SEED}'                               >> ${CONFIGFILE}
+	@echo 'seed: ${RANDOM_SEED}'                               >> ${CONFIGFILE}
 endif
 
 
 config-add-checkpoint-params:
-	echo 'valid_steps: ${VALID_FREQ}'                         >> ${CONFIGFILE}
-	echo 'valid_metrics: [$(strip ${VALID_METRICS})]'         >> ${CONFIGFILE}
-	echo 'save_checkpoint_steps: ${SAVE_FREQ}'                >> ${CONFIGFILE}
-	echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'               >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo '# Logging and Monitoring'                           >> ${CONFIGFILE}
-	echo ''                                                   >> ${CONFIGFILE}
-	echo 'log_model_structure: false'                         >> ${CONFIGFILE}
-	echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
-	echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
-	echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
-	echo 'report_training_accuracy: true'                     >> ${CONFIGFILE}
+	@echo 'valid_steps: ${VALID_FREQ}'                         >> ${CONFIGFILE}
+	@echo 'valid_metrics: [$(strip ${VALID_METRICS})]'         >> ${CONFIGFILE}
+	@echo 'save_checkpoint_steps: ${SAVE_FREQ}'                >> ${CONFIGFILE}
+	@echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'               >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo '# Logging and Monitoring'                           >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
+	@echo 'log_model_structure: false'                         >> ${CONFIGFILE}
+	@echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
+	@echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
+	@echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
+	@echo 'report_training_accuracy: true'                     >> ${CONFIGFILE}
 
 
 

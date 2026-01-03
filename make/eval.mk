@@ -29,7 +29,8 @@ eval-zero-shot-tasks:
 
 ifneq ($(wildcard ${MODEL_META}),)
   BEST_MODEL_STEP := $(strip $(shell grep -A2 "best_checkpoint" ${MODEL_META} | grep 'step' | cut -f2 -d: | cut -f1 -d,))
-  BEST_MODEL      := ${MODEL_PATH}_step_${BEST_MODEL_STEP}
+  BEST_MODEL      := ${MODEL_PATH}_best
+  # BEST_MODEL      := ${MODEL_PATH}_step_${BEST_MODEL_STEP}
 endif
 
 
