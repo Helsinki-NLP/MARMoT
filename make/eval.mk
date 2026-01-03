@@ -22,45 +22,27 @@ eval-zero-shot-tasks:
 
 ##-------------------------------------------------------------------------------
 ## submit SLURM job for evaluating a model
-## - copy the best model according to validation (only of the checkpoint exists)
-## - otherwise: use the last checkpoint
 ## - translate the selected task (set TASK_NR) with the best mode
 ##-------------------------------------------------------------------------------
-
-ifneq ($(wildcard ${MODEL_META}),)
-  BEST_MODEL_STEP := $(strip $(shell grep -A2 "best_checkpoint" ${MODEL_META} | grep 'step' | cut -f2 -d: | cut -f1 -d,))
-  BEST_MODEL      := ${MODEL_PATH}_best
-  # BEST_MODEL      := ${MODEL_PATH}_step_${BEST_MODEL_STEP}
-endif
 
 
 .PHONY: eval
 eval: eval-slurm
+ifneq ($(wildcard ${TESTDATA_SRC}),)
 	${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
-
+else
+	@echo "ERROR: cannot find ${TESTDATA_SRC}"
+endif
 
 .PHONY: eval-slurm
 eval-slurm: ${INFERENCE_CONFIGFILE}
-ifneq ($(wildcard ${TESTDATA_SRC}),)
-ifneq ($(wildcard ${BEST_MODEL}_*),)
-	mkdir -p $(dir ${MODEL_PATH})best-model
-	find $(dir ${MODEL_PATH})best-model -type l -delete
-	-ln -s ${BEST_MODEL}_* $(dir ${MODEL_PATH})best-model/
-	-ln -s ${MODEL_META} $(dir ${MODEL_PATH})best-model/
 	${MAKE} SLURM_TIME=00:30:00 \
 		SLURM_GPUS=1 \
+		SLURM_NODES=1 \
 		SLURM_MEM=16G \
-		SLURM_CPUS_PER_TASK=8 \
-		MODEL_PATH=$(dir ${MODEL_PATH})best-model/$(notdir ${MODEL_PATH}) \
+		SLURM_CPUS_PER_TASK=7 \
 	${EVAL_DIR}/eval_${TASK}.slurm
-else
-	${MAKE} SLURM_TIME=00:30:00 \
-		SLURM_GPUS=1 \
-		SLURM_MEM=16G \
-		SLURM_CPUS_PER_TASK=8 \
-	${EVAL_DIR}/eval_${TASK}.slurm
-endif
-endif
+
 
 
 ##-------------------------------------------------------------------------------
