@@ -180,11 +180,11 @@ XTRF_USE_ABS_POS_EMB       ?= false
 # required resources (compute nodes and GPUs)
 #--------------------------------------------------------------
 
-GPU_RANKS        := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
-NR_OF_GPUS       := $(words ${GPU_RANKS})
-TOTAL_NR_OF_GPUS := $(words $(sort ${TASK_GPUS}))
-NR_OF_NODES      := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
-NODE_RANK        ?= 0
+GPU_RANKS      := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
+GPUS_PER_NODE  := $(words ${GPU_RANKS})
+NR_OF_GPUS     := $(words $(sort ${TASK_GPUS}))
+NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
+NODE_RANK      ?= 0
 
 
 #--------------------------------------------------------------
@@ -235,7 +235,6 @@ WARMUP_STEPS     ?= 10000
 DECAY_METHOD     ?= linear_warmup
 # TRAINING_STEPS   ?= 500000
 TRAINING_STEPS   ?= 250000
-
 
 
 
@@ -428,7 +427,7 @@ config-add-training-params:
 	@echo 'start_decay_steps: ${DECAY_START}'                  >> ${CONFIGFILE}
 	@echo 'average_decay: ${AVERAGE_DECAY}'                    >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
-	@echo 'world_size: ${TOTAL_NR_OF_GPUS}'                    >> ${CONFIGFILE}
+	@echo 'world_size: ${NR_OF_GPUS}'                          >> ${CONFIGFILE}
 	@echo 'gpu_ranks: [${GPU_RANKS_STRING}]'                   >> ${CONFIGFILE}
 	@echo 'n_nodes: ${NR_OF_NODES}'                            >> ${CONFIGFILE}
 	@echo 'task_distribution_strategy: ${TASK_DISTRIBUTION}'   >> ${CONFIGFILE}

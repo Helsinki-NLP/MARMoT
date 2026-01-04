@@ -25,6 +25,11 @@ eval-zero-shot-tasks:
 ## - translate the selected task (set TASK_NR) with the best mode
 ##-------------------------------------------------------------------------------
 
+EVAL_NR_OF_NODES   ?= 1
+EVAL_GPUS_PER_NODE ?= 1
+EVAL_CPUS_PER_TASK ?= 7
+EVAL_MEM_PER_NODE  ?= 16G
+EVAL_WALLTIME      ?= 00:30:00
 
 .PHONY: eval
 eval: eval-slurm
@@ -36,13 +41,12 @@ endif
 
 .PHONY: eval-slurm
 eval-slurm: ${INFERENCE_CONFIGFILE}
-	${MAKE} SLURM_TIME=00:30:00 \
-		SLURM_GPUS=1 \
-		SLURM_NODES=1 \
-		SLURM_MEM=16G \
-		SLURM_CPUS_PER_TASK=7 \
+	${MAKE} SLURM_TIME=${EVAL_WALLTIME} \
+		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
+		SLURM_NODES=${EVAL_NR_OF_NODES} \
+		SLURM_MEM=${EVAL_MEM_PER_NODE} \
+		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
 	${EVAL_DIR}/eval_${TASK}.slurm
-
 
 
 ##-------------------------------------------------------------------------------

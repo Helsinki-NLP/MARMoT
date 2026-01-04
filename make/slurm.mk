@@ -4,19 +4,17 @@
 #--------------------------------------------------------------
 
 
-NR_OF_NODES ?= 1
-NR_OF_GPUS  ?= 1
+NR_OF_NODES   ?= 1
+GPUS_PER_NODE ?= 1
 
 WHOAMI              ?= $(shell whoami)
 SLURM_MAX_NR_JOBS   ?= 200
 SLURM_PARTITION     ?= standard-g
 SLURM_NODES         ?= ${NR_OF_NODES}
-SLURM_CPUS_PER_TASK ?= $(shell echo $$(( ${NR_OF_GPUS} * 7 )) )
-SLURM_MEM           ?= $(shell echo $$(( ${NR_OF_GPUS} * 16 )) )G
-# SLURM_CPUS_PER_TASK ?= 16
-# SLURM_MEM           ?= 48G
+SLURM_CPUS_PER_TASK ?= 16
+SLURM_MEM           ?= 48G
 SLURM_TIME          ?= 2-00:00:00
-SLURM_GPUS          ?= ${NR_OF_GPUS}
+SLURM_GPUS          ?= ${GPUS_PER_NODE}
 
 ifdef SLURM_GPUS
 ifneq (${SLURM_GPUS},0)
@@ -88,7 +86,10 @@ endif
 	@echo '${PROJECT_DIR}/tools/lumi_gpu_usage.sh > $(@:.slurm=).$${SLURM_JOBID}.gpu-usage &' >> $@
 	@echo ''                                                                                  >> $@
 	@echo '# finally, the actual target to be done'                                           >> $@
-	@echo 'srun ${MAKE} -C ${EXPERIMENT_DIR} MASTER_NODE=$${MASTER_NODE} $(@:.slurm=)'        >> $@
+	@echo "srun ${MAKE} -C ${EXPERIMENT_DIR} \\"                                              >> $@
+	@echo "             MODEL_NAME=${MODEL_NAME} \\"                                          >> $@
+	@echo "             MASTER_NODE=\$${MASTER_NODE} \\"                                      >> $@
+	@echo "             $(@:.slurm=)"                                                         >> $@
 ##
 ## fetching USR1 probably requires to run srun in the background and to wait for the background job
 ## to finish up. However, this will also wait for the gpu-usage script that runs in the background!

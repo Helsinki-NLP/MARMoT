@@ -56,13 +56,6 @@ MODEL_NAME      := eucore
 ENCODER_LAYERS  := 3,3,3
 DECODER_LAYERS  := 3,3,3
 
-QUEUE_SIZE := 2
-LOOK_AHEAD := 2
-GRADIENT_ACCUM := 10
-
-
-taskinfo:
-	@echo "$(foreach t,$(shell seq $(words $(TASKS))),$(word $t,${TASK_GPUS})	$(word $t,${TASKS})$$)" | tr '$$' "\n"
 
 ## include common configuration and make targets
 
@@ -72,3 +65,11 @@ include ${MAKEFILE_DIR}/train.mk
 include ${MAKEFILE_DIR}/eval.mk
 include ${MAKEFILE_DIR}/slurm.mk
 
+
+.PHONY: %.exp2
+%.exp2:
+	${MAKE} -s \
+		MODEL_NAME=eucore2 \
+		LEARNING_RATE=0.0005 \
+		KEEP_CHECKPOINTS=1 \
+	$(basename $@)

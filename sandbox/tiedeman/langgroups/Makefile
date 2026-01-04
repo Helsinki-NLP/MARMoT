@@ -70,3 +70,19 @@ include ${MAKEFILE_DIR}/train.mk
 include ${MAKEFILE_DIR}/eval.mk
 include ${MAKEFILE_DIR}/slurm.mk
 
+
+.PHONY: %.exp2
+%.exp2:
+	${MAKE} -s \
+		MODEL_NAME=eucore2 \
+		LEARNING_RATE=0.0005 \
+		KEEP_CHECKPOINTS=1 \
+	$(basename $@)
+
+.PHONY: %.exp3
+%.exp3:
+	${MAKE} -s \
+		MODEL_NAME=eucore3 \
+		LEARNING_RATE=0.0003 \
+		KEEP_CHECKPOINTS=1 \
+	$(basename $@)

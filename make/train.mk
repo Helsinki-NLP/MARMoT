@@ -7,7 +7,14 @@
 
 
 # random port for distributed training communication
-MASTER_PORT := 9973
+MASTER_PORT   := 9973
+
+# default resource allocations
+TRAIN_NR_OF_NODES   ?= ${NR_OF_NODES}
+TRAIN_GPUS_PER_NODE ?= ${GPUS_PER_NODE}
+TRAIN_CPUS_PER_TASK ?= $(shell echo $$(( ${GPUS_PER_NODE} * 7 )) )
+TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * 16 )) )G
+TRAIN_WALLTIME      ?= 2-00:00:00
 
 .PHONY: train
 train: train-slurm
@@ -15,11 +22,11 @@ train: train-slurm
 
 .PHONY: train-slurm
 train-slurm: ${TRAIN_CONFIGFILE}
-	${MAKE} SLURM_TIME=2-00:00:00 \
-		SLURM_NODES=${NR_OF_NODES} \
-		SLURM_GPUS=${NR_OF_GPUS} \
-		SLURM_MEM=96G \
-		SLURM_CPUS_PER_TASK=48 \
+	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
+		SLURM_NODES=${TRAIN_NR_OF_NODES} \
+		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
+		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
+		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
 	${MODEL_DIR}/train.slurm
 
 
@@ -122,3 +129,102 @@ multi-node-train:
 # 	@chmod +x $@
 
 endif
+
+
+
+## show a list of tasks and their GPU assignments
+
+task-info:
+	@( tasks=(${TASKS}); \
+	  gpus=(${TASK_GPUS}); \
+	  for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    echo "$${gpus[$$i]}	$${tasks[$$i]}"; \
+	  done )
+
+
+
+
+
+##------------------------------------------------------------------
+## show scores for each task and validation step
+##
+## - select the last n validation steps with SELECT_LAST_VALID=n
+## - select the first n validation steps with SELECT_FIRST_VALID=n
+## - PRINT_METRIC: set name of validation metric to be reported
+##   possible values: perplexity, accuracy, crossentropy, bleu
+##------------------------------------------------------------------
+
+
+TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))
+TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
+
+PRINT_METRIC   ?= bleu
+
+ifdef SELECT_LAST_VALID
+  SELECT_VALID_CMD := | tail -${SELECT_LAST_VALID}
+endif
+
+ifdef SELECT_FIRST_VALID
+  SELECT_VALID_CMD := | head -${SELECT_FIRST_VALID}
+endif
+
+## select first and last N validation steps:
+## adapted from from https://stackoverflow.com/questions/28615961/how-can-i-read-first-n-and-last-n-lines-from-a-file
+## sed ':a;$q;N;(n+1),(n*2)P;(n+1),$D;ba'
+
+ifdef SELECT_FIRST_LAST_VALID
+  SELECT_VALID_CMD := | sed ":a;\$$q;N;$$(( ${SELECT_FIRST_LAST_VALID}+1 )),$$(( ${SELECT_FIRST_LAST_VALID}*2 ))P;$$(( ${SELECT_FIRST_LAST_VALID}+1 )),\$$D;ba"
+endif
+
+
+## print table of validation scores for each task
+## (some alternative names as short-cuts)
+
+PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
+				print-valid-scores \
+				print-validation-score \
+				print-validation-scores
+
+.PHONY: ${PRINT_VALID_SCORE_ALIASES}
+${PRINT_VALID_SCORE_ALIASES}:
+	@( tasks=(${TASKS}); \
+	   gpus=(${TASK_GPUS}); \
+	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
+	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
+	    | tr ',}' "\n\n" \
+	    | grep "\"${PRINT_METRIC}\":" \
+	    | cut -f2 -d: | xargs printf "%.3f	" ); \
+	    echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
+	   done )
+
+
+## display score differences between validation steps
+## (some alternative names as short-cuts)
+
+PRINT_VALID_DIFF_ALIASES := 	print-valid-diff \
+				print-valid-diffs \
+				print-validation-diff \
+				print-validation-diffs \
+				print-validation-differences \
+				print-validation-difference
+
+.PHONY: ${PRINT_VALID_DIFF_ALIASES}
+${PRINT_VALID_DIFF_ALIASES}:
+	@( tasks=(${TASKS}); \
+	   gpus=(${TASK_GPUS}); \
+	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
+	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
+	    | tr ',}' "\n\n" \
+	    | grep "\"${PRINT_METRIC}\":" \
+	    | cut -f2 -d: | xargs printf "%.3f	" )); \
+	    echo -n "$${gpus[$$i]}	$${tasks[$$i]}	$${score[0]}"; \
+	    last=$${score[0]}; \
+	    for (( j=1; j<$${#score[@]}; j++ )); do \
+	      diff=`echo "$${score[$$j]} $${last}" | awk '{print $$1-$$2}'`; \
+	      echo -n "	$${diff}"; \
+	      last=$${score[$$j]}; \
+	    done; \
+	    echo ''; \
+	   done )
