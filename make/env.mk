@@ -27,4 +27,5 @@ TRAINDATA_DIR ?= ${DATA_DIR}/tatoeba/train
 DEVDATA_DIR   ?= ${DATA_DIR}/tatoeba/dev5K
 # TESTDATA_DIR  ?= ${DATA_DIR}/tatoeba/test
 TESTDATA_DIR  ?= ${DATA_DIR}/flores200/devtest
+TESTDATA_NAME ?= flores200-devtest
 VOCAB_DIR     ?= ${PROJECT_DIR}/tokenizer/tatoeba

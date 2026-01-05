@@ -190,6 +190,7 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 ${PRINT_VALID_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
 	   gpus=(${TASK_GPUS}); \
+	   echo "gpu	task	scores"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
@@ -214,6 +215,7 @@ PRINT_VALID_DIFF_ALIASES := 	print-valid-diff \
 ${PRINT_VALID_DIFF_ALIASES}:
 	@( tasks=(${TASKS}); \
 	   gpus=(${TASK_GPUS}); \
+	   echo "gpu	task	first	diffs"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
@@ -229,3 +231,5 @@ ${PRINT_VALID_DIFF_ALIASES}:
 	    done; \
 	    echo ''; \
 	   done )
+
+

@@ -73,3 +73,35 @@ ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 			-model ${MODEL_PATH} \
 			-config $<
 
+
+
+
+
+
+
+
+
+
+PRINT_EVAL_SCORE_ALIASES := 	print-eval-score \
+				print-eval-scores \
+				print-evaluation-score \
+				print-evaluation-scores
+
+# to compare with OPUS-MT dashboard:
+DASHBOARD_API := https://opus.nlpl.eu/dashboard/api.php?test=${TESTDATA_NAME}&model=top&metric=${PRINT_METRIC}&pkg=opusmt
+PRINT_METRIC  ?= bleu
+
+.PHONY: ${PRINT_EVAL_SCORE_ALIASES}
+${PRINT_EVAL_SCORE_ALIASES}:
+	@( tasks=(${TASKS}); \
+	   echo "task	score	opus	diff"; \
+	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    if [ -e ${EVAL_DIR}/eval_$${tasks[$$i]} ]; then \
+	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${tasks[$$i]} \
+	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
+	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${tasks[$$i]}" \
+	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',' "\t" ); \
+	      diff=`echo "$${score} $${best}" | awk '{print $$1-$$2}'`; \
+	      echo "$${tasks[$$i]}	$${score}$${best}$${diff}"; \
+	    fi \
+	   done )
