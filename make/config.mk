@@ -184,7 +184,6 @@ GPU_RANKS      := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
 GPUS_PER_NODE  := $(words ${GPU_RANKS})
 NR_OF_GPUS     := $(words $(sort ${TASK_GPUS}))
 NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
-NODE_RANK      ?= 0
 
 
 #--------------------------------------------------------------
@@ -237,6 +236,14 @@ DECAY_METHOD     ?= linear_warmup
 TRAINING_STEPS   ?= 250000
 
 
+#--------------------------------------------------------------
+# decoding parameters
+#--------------------------------------------------------------
+
+DECODING_BEAM_SIZE  ?= 4
+DECODING_BATCH_SIZE ?= 32
+DECODING_BATCH_TYPE ?= sents
+
 
 #--------------------------------------------------------------
 # generate config files
@@ -251,22 +258,22 @@ inference-config:
 
 ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@mkdir -p $(dir $@)
-	echo 'task_id: task_${TASK}'                                  > $@
-	@echo ''                                                     >> $@
-	echo "tasks:"                                                >> $@
+	echo 'task_id: task_${TASK}'                                   > $@
+	@echo ''                                                      >> $@
+	echo "tasks:"                                                 >> $@
 	${MAKE} -s CONFIGFILE=$@ config-add-task
-	@echo ''                                                     >> $@
-	echo "src_vocab:"                                            >> $@
+	@echo ''                                                      >> $@
+	echo "src_vocab:"                                             >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${SRCLANG} config-add-vocab
-	echo "tgt_vocab:"                                            >> $@
+	echo "tgt_vocab:"                                             >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} config-add-vocab
 	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
 	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
-	@echo ''                                                     >> $@
+	@echo ''                                                      >> $@
 	@echo '# Decoding parameters'                                 >> $@
-	@echo 'beam_size: 4'                                          >> $@
-	@echo 'batch_size: 32'                                        >> $@
-	@echo 'batch_type: sents'                                     >> $@
+	@echo 'beam_size: ${DECODING_BEAM_SIZE}'                      >> $@
+	@echo 'batch_size: ${DECODING_BATCH_SIZE}'                    >> $@
+	@echo 'batch_type: ${DECODING_BATCH_TYPE}'                    >> $@
 	@echo ''                                                      >> $@
 	@echo '# GPU settings'                                        >> $@
 	@echo 'gpu: 0'                                                >> $@
@@ -431,7 +438,9 @@ config-add-training-params:
 	@echo 'gpu_ranks: [${GPU_RANKS_STRING}]'                   >> ${CONFIGFILE}
 	@echo 'n_nodes: ${NR_OF_NODES}'                            >> ${CONFIGFILE}
 	@echo 'task_distribution_strategy: ${TASK_DISTRIBUTION}'   >> ${CONFIGFILE}
-	@echo 'node_rank: ${NODE_RANK}'                            >> ${CONFIGFILE}
+ifeq (${NR_OF_NODES},1)
+	@echo 'node_rank: 0'                                       >> ${CONFIGFILE}
+endif
 	@echo ''                                                   >> ${CONFIGFILE}
 ifdef RANDOM_SEED
 	@echo 'seed: ${RANDOM_SEED}'                               >> ${CONFIGFILE}

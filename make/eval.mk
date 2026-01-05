@@ -96,11 +96,11 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
 	   echo "task	score	opus	diff"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    if [ -e ${EVAL_DIR}/eval_$${tasks[$$i]} ]; then \
+	    if [ -s ${EVAL_DIR}/eval_$${tasks[$$i]} ]; then \
 	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${tasks[$$i]} \
 	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
 	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${tasks[$$i]}" \
-	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',' "\t" ); \
+	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',}' "\t0" ); \
 	      diff=`echo "$${score} $${best}" | awk '{print $$1-$$2}'`; \
 	      echo "$${tasks[$$i]}	$${score}$${best}$${diff}"; \
 	    fi \
