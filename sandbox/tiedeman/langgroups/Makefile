@@ -86,3 +86,29 @@ include ${MAKEFILE_DIR}/slurm.mk
 		LEARNING_RATE=0.0003 \
 		KEEP_CHECKPOINTS=1 \
 	$(basename $@)
+
+.PHONY: %.exp4
+%.exp4:
+	${MAKE} -s \
+		MODEL_NAME=shared \
+		LEARNING_RATE=0.0003 \
+		KEEP_CHECKPOINTS=1 \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=9 \
+		TASK_ENCODERS= \
+		TASK_DECODERS= \
+		DEFAULT_ENCODER="shared" \
+		DEFAULT_DECODER="shared" \
+	$(basename $@)
+
+.PHONY: %.exp5
+%.exp5:
+	${MAKE} -s \
+		MODEL_NAME=separate \
+		LEARNING_RATE=0.0003 \
+		KEEP_CHECKPOINTS=1 \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=9 \
+		TASK_ENCODERS= \
+		TASK_DECODERS= \
+	$(basename $@)

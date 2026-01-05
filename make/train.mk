@@ -22,6 +22,7 @@ train: train-slurm
 
 .PHONY: train-slurm
 train-slurm: ${TRAIN_CONFIGFILE}
+	@echo "make ${MODEL_DIR}/train.slurm"
 	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
 		SLURM_NODES=${TRAIN_NR_OF_NODES} \
 		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
