@@ -1,0 +1,59 @@
+task_id: task_deu-eng
+
+tasks:
+  task_deu-eng:
+    src_tgt: "deu-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["deu"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.eng.gz
+
+
+src_vocab:
+   deu: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
+tgt_vocab:
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+# Model Architecture Options
+enc_layers: [9]
+dec_layers: [9]
+
+model_dim: 768      
+dropout: 0.1      
+model_dtype: bf16     
+add_language_tokens: false
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true     
+  rotary_pos_emb: true     
+  tie_embedding: false    
+  heads: 12
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: false
+
+
+# Decoding parameters
+beam_size: 4
+batch_size: 32
+batch_type: sents
+
+# GPU settings
+gpu: 0
+world_size: 1
+gpu_ranks: [0]
+
+seed: 42
+src:  /scratch/project_462000964/MARMoT/data/flores200/devtest/deu_Latn.devtest
+output: /users/tiedeman/research/MARMoT/sandbox/tiedeman/eucore/separate/eval/deu_Latn.eng
+model: /users/tiedeman/research/MARMoT/sandbox/tiedeman/eucore/separate/model
