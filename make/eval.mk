@@ -7,16 +7,16 @@
 
 ## submit SLURM jobs to evaluate all tasks
 
-.PHONY: eval-all-tasks
-eval-all-tasks:
+.PHONY: eval
+eval:
 	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} TASK_NR=$$t eval; \
+	  ${MAKE} TASK_NR=$$t eval-task; \
 	done
 
 .PHONY: eval-zero-shot-tasks
 eval-zero-shot-tasks:
 	@for t in $(shell seq $(words ${ZERO_SHOT_TASKS})); do \
-	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t eval; \
+	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t eval-task; \
 	done
 
 
@@ -31,8 +31,8 @@ EVAL_CPUS_PER_TASK ?= 7
 EVAL_MEM_PER_NODE  ?= 16G
 EVAL_WALLTIME      ?= 00:30:00
 
-.PHONY: eval
-eval: eval-slurm
+.PHONY: eval-task
+eval-task: eval-slurm
 ifneq ($(wildcard ${TESTDATA_SRC}),)
 	${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
 else
@@ -55,8 +55,8 @@ eval-slurm: ${INFERENCE_CONFIGFILE}
 
 MT_METRICS = bleu chrf ter
 
-.PHONY: ${EVAL_DIR}/eval
-${EVAL_DIR}/eval: ${EVAL_DIR}/eval_${TASK}
+.PHONY: ${EVAL_DIR}/eval-task
+${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK}
 
 ${EVAL_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
 	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@

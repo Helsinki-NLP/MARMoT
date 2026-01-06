@@ -49,7 +49,7 @@ All settings need to be specified before including the marmot-makefiles. Otherwi
 
 
 
-## Monitoring progress
+### Monitoring progress
 
 Progress can be monitored with the logfiles. There are also some convenient makefile targets that print validation scores:
 
@@ -67,6 +67,30 @@ make PRINT_METRIC=perplexity SELECT_LAST_VALID=3 print-validation-scores
 ```
 
 This also works for `make print-validation-diffs`.
+
+
+
+### Evaluating models
+
+All tasks can be evaluated using:
+
+```
+make eval
+```
+
+This will create configuration files for each task and submit SLURM jobs to translate and evaluate the default test set (flores200-devset in the current setup). Make sure that the test set exists in the directory specified in `config.mk`. A single task can also be evaluated by selecting the task by its task-number (position in the `TASKS` variable):
+
+```
+make TASK_NR=2 eval-task
+```
+
+The resulting scores an be printed using the reporting target, including a comparison to the best OPUS-MT model score from the OPUS-MT Dashboard:
+
+
+```
+make print-evaluation-scores
+```
+
 
 
 
