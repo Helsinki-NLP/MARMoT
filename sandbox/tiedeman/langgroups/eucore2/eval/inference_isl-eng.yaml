@@ -1,0 +1,59 @@
+task_id: task_isl-eng
+
+tasks:
+  task_isl-eng:
+    src_tgt: "isl-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:6"
+    enc_sharing_group: ["isl","gmq","all"]
+    dec_sharing_group: ["all","gmw","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.isl.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.isl.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.eng.gz
+
+
+src_vocab:
+   isl: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/isl/32000/tokenizer.json
+tgt_vocab:
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+# Model Architecture Options
+enc_layers: [3,3,3]
+dec_layers: [3,3,3]
+
+model_dim: 768      
+dropout: 0.1      
+model_dtype: bf16     
+add_language_tokens: false
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true     
+  rotary_pos_emb: true     
+  tie_embedding: false    
+  heads: 12
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: false
+
+
+# Decoding parameters
+beam_size: 4
+batch_size: 32
+batch_type: sents
+
+# GPU settings
+gpu: 0
+world_size: 1
+gpu_ranks: [0]
+
+seed: 42
+src:  /scratch/project_462000964/MARMoT/data/flores200/devtest/isl_Latn.devtest
+output: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/eval/isl_Latn.eng
+model: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/model
