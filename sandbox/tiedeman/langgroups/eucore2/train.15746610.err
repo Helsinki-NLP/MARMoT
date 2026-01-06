@@ -1,0 +1,27 @@
+++ scontrol show hostnames 'nid[006194-006202]'
+++ head -n 1
++ MASTER_NODE=nid006194
++ echo 'Master node: nid006194'
++ echo 'Master port: 9973'
++ echo 'Node list: nid[006194-006202]'
++ trap timeup_function USR1
++ trap abort_function SIGHUP SIGINT SIGABRT SIGKILL SIGTERM
++ srun /appl/local/csc/soft/ai/bin/gpu-energy --save
++ srun make -C /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups MASTER_NODE=nid006194 /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train
++ /scratch/project_462000964/MARMoT/tools/lumi_gpu_usage.sh
+make: *** No rule to make target '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train'.  Stop.
+make: *** No rule to make target '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train'.  Stop.
+make: *** No rule to make target '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train'.  Stop.
+make: *** No rule to make target '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train'.  Stop.
+make: *** No rule to make target '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/langgroups/eucore2/train'.  Stop.
+srun: error: nid006202: task 8: Exited with exit code 2
+srun: Terminating StepId=15746610.1
+srun: error: nid006195: task 1: Exited with exit code 2
+srun: error: nid006198: task 4: Exited with exit code 2
+srun: error: nid006194: task 0: Exited with exit code 2
+srun: error: nid006199: task 5: Exited with exit code 2
+srun: error: nid006197: task 3: Terminated
+srun: error: nid006196: task 2: Terminated
+srun: error: nid006200: task 6: Terminated
+srun: error: nid006201: task 7: Terminated
+srun: Force Terminated StepId=15746610.1
