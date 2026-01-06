@@ -1,12 +1,11 @@
 #-*-makefile-*-
 
 SHELL  := /bin/bash
-PWD    := $(shell pwd | xargs realpath)
+PWD    := $(abspath $(shell pwd))
 WHOAMI := $(shell whoami)
 
 
 HPC_PROJECT    ?= project_462000964
-# PROJECT_SPACE ?= $(shell realpath /scratch/${HPC_PROJECT})
 PROJECT_SPACE  ?= /scratch/${HPC_PROJECT}
 PROJECT_DIR    ?= ${PROJECT_SPACE}/MARMoT
 MAMMOTH_DIR    ?= ${PROJECT_DIR}/shared/mammoth

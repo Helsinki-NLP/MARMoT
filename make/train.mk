@@ -7,7 +7,7 @@
 
 
 # random port for distributed training communication
-MASTER_PORT   := 9973
+MASTER_PORT := 9973
 
 # default resource allocations
 TRAIN_NR_OF_NODES   ?= ${NR_OF_NODES}
@@ -95,40 +95,6 @@ multi-node-train:
 		--master_ip ${MASTER_NODE} \
 		--master_port ${MASTER_PORT} )
 
-
-## create a separate script instead of using make targets
-## for multi-node training
-
-# ${MODEL_DIR}/train-test: ${MODEL_DIR}/train.sh
-# 	singularity exec \
-# 		--env MASTER_NODE="${MASTER_NODE}" \
-# 		--env MASTER_PORT="${MASTER_PORT}" \
-# 		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
-# 		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-# 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-# 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-# 		-B /dev/shm:/dev/shm:rw \
-# 		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-# 		$<
-
-# ${MODEL_DIR}/train.sh: ${TRAIN_CONFIGFILE}
-# 	@echo '#!/bin/bash' > $@
-# 	@echo '' >>$@
-# 	@echo 'source ${MAMMOTH_DIR}/.venv/bin/activate' >> $@
-# 	@echo 'cd $${SLURM_SUBMIT_DIR}' >> $@
-# 	@echo '' >>$@
-# 	@echo 'echo "Node $${SLURM_NODEID} starting training"' >> $@
-# 	@echo 'echo "Master node: $${MASTER_NODE}"' >> $@
-# 	@echo 'echo "Master port: ${MASTER_PORT}"' >> $@
-# 	@echo '' >>$@
-# 	@echo 'python ${MAMMOTH_DIR}/train.py \
-# 		-config $< \
-# 		-save_model ${MODEL_PATH} \
-# 		--node_rank $${SLURM_PROCID} \
-# 		--master_ip $${MASTER_NODE} \
-# 		--master_port ${MASTER_PORT}' >> $@
-# 	@chmod +x $@
-
 endif
 
 
@@ -147,6 +113,7 @@ task-info:
 
 
 ##------------------------------------------------------------------
+## reporting targets:
 ## show scores for each task and validation step
 ##
 ## - select the last n validation steps with SELECT_LAST_VALID=n

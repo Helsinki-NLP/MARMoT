@@ -9,13 +9,6 @@
 ##   and sbatch from command-line seems to work --> WHY?
 ##-----------------------------------------------------------
 
-## set environment (if different from standard)
-
-SHELL         := /bin/bash
-HPC_PROJECT   := project_462000964
-MAMMOTH_DIR   := /scratch/${HPC_PROJECT}/shared/mammoth
-MAKEFILE_DIR  := $(shell realpath ../../..)/make
-
 
 ## set experiment parameters (if different from defaults)
 
@@ -58,17 +51,22 @@ DECODER_LAYERS  := 3,3,3
 
 
 ## include common configuration and make targets
+## and set environment (if different from standard)
 
-include ${MAKEFILE_DIR}/env.mk
-include ${MAKEFILE_DIR}/config.mk
-include ${MAKEFILE_DIR}/train.mk
-include ${MAKEFILE_DIR}/eval.mk
-include ${MAKEFILE_DIR}/slurm.mk
+HPC_PROJECT := project_462000964
+MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
+
+include ../../../make/marmot.mk
+
+
+#-----------------------------------------------------
+# other experiments with slightly different settings
+#-----------------------------------------------------
 
 
 .PHONY: %.exp2
 %.exp2:
-	${MAKE} -s \
+	@${MAKE} -s \
 		MODEL_NAME=eucore2 \
 		LEARNING_RATE=0.0005 \
 		KEEP_CHECKPOINTS=1 \
@@ -77,7 +75,7 @@ include ${MAKEFILE_DIR}/slurm.mk
 
 .PHONY: %.exp3
 %.exp3:
-	${MAKE} -s \
+	@${MAKE} -s \
 		MODEL_NAME=eucore3 \
 		LEARNING_RATE=0.0003 \
 		KEEP_CHECKPOINTS=1 \
@@ -85,8 +83,23 @@ include ${MAKEFILE_DIR}/slurm.mk
 
 .PHONY: %.exp4
 %.exp4:
-	${MAKE} -s \
+	@${MAKE} -s \
 		MODEL_NAME=shared \
+		LEARNING_RATE=0.0003 \
+		KEEP_CHECKPOINTS=1 \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=9 \
+		TASK_ENCODERS= \
+		TASK_DECODERS= \
+		DEFAULT_ENCODER="shared" \
+		DEFAULT_DECODER="shared" \
+		ADD_LANGUAGE_TOKEN=true \
+	$(basename $@)
+
+.PHONY: %.exp4b
+%.exp4b:
+	@${MAKE} -s \
+		MODEL_NAME=shared-no-prefix \
 		LEARNING_RATE=0.0003 \
 		KEEP_CHECKPOINTS=1 \
 		ENCODER_LAYERS=9 \
@@ -97,9 +110,10 @@ include ${MAKEFILE_DIR}/slurm.mk
 		DEFAULT_DECODER="shared" \
 	$(basename $@)
 
+
 .PHONY: %.exp5
 %.exp5:
-	${MAKE} -s \
+	@${MAKE} -s \
 		MODEL_NAME=separate \
 		LEARNING_RATE=0.0003 \
 		KEEP_CHECKPOINTS=1 \

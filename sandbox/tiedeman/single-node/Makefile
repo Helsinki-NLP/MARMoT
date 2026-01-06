@@ -1,12 +1,5 @@
 #-*-makefile-*-
 
-## set environment (if different from standard)
-
-SHELL         := /bin/bash
-HPC_PROJECT   := project_462000964
-MAMMOTH_DIR   := /scratch/${HPC_PROJECT}/shared/mammoth
-MAKEFILE_DIR  := $(shell realpath ../../..)/make
-
 
 ## set experiment parameters (if different from defaults)
 
@@ -19,12 +12,13 @@ DEFAULT_ENCODER := "shared"
 
 
 ## include common configuration and make targets
+## and set environment (if different from standard)
 
-include ${MAKEFILE_DIR}/env.mk
-include ${MAKEFILE_DIR}/config.mk
-include ${MAKEFILE_DIR}/train.mk
-include ${MAKEFILE_DIR}/eval.mk
-include ${MAKEFILE_DIR}/slurm.mk
+HPC_PROJECT := project_462000964
+MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
+
+include ../../../make/marmot.mk
+
 
 
 ##-----------------------------------------------------------

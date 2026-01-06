@@ -78,9 +78,9 @@ ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 
 
 
-
-
-
+##-------------------------------------------------------------------------------
+## reporting targets
+##-------------------------------------------------------------------------------
 
 PRINT_EVAL_SCORE_ALIASES := 	print-eval-score \
 				print-eval-scores \
