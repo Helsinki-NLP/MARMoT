@@ -53,10 +53,9 @@ include ../../../make/marmot.mk
 
 
 
-
 .PHONY: %.exp2
 %.exp2:
-	${MAKE} \
+	${MAKE} -s \
 		MODEL_NAME=eucore2 \
 		LEARNING_RATE=0.0005 \
 		KEEP_CHECKPOINTS=1 \
@@ -104,7 +103,7 @@ include ../../../make/marmot.mk
 
 .PHONY: %.exp5
 %.exp5:
-	${MAKE} \
+	${MAKE} -s \
 		MODEL_NAME=separate \
 		LEARNING_RATE=0.0003 \
 		KEEP_CHECKPOINTS=1 \

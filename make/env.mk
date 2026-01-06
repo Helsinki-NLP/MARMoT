@@ -1,7 +1,7 @@
 #-*-makefile-*-
 
 SHELL  := /bin/bash
-PWD    := $(abspath $(shell pwd))
+PWD    := $(shell pwd | xargs realpath)
 WHOAMI := $(shell whoami)
 
 
