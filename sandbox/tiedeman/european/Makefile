@@ -56,7 +56,7 @@ include ../../../make/marmot.mk
 
 .PHONY: %.exp2
 %.exp2:
-	${MAKE} -s \
+	${MAKE} \
 		MODEL_NAME=eucore2 \
 		LEARNING_RATE=0.0005 \
 		KEEP_CHECKPOINTS=1 \
