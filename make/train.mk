@@ -7,7 +7,7 @@
 
 
 # random port for distributed training communication
-MASTER_PORT := 9973
+MASTER_PORT ?= 9973
 
 # default resource allocations
 TRAIN_NR_OF_NODES   ?= ${NR_OF_NODES}
@@ -101,16 +101,6 @@ endif
 
 
 
-## show a list of tasks and their GPU assignments
-
-task-info:
-	@( tasks=(${TASKS}); \
-	  gpus=(${TASK_GPUS}); \
-	  for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    echo "$${gpus[$$i]}	$${tasks[$$i]}"; \
-	  done )
-
-
 
 
 
@@ -123,6 +113,16 @@ task-info:
 ## - PRINT_METRIC: set name of validation metric to be reported
 ##   possible values: perplexity, accuracy, crossentropy, bleu
 ##------------------------------------------------------------------
+
+
+## show a list of tasks and their GPU assignments
+
+task-info:
+	@( tasks=(${TASKS}); \
+	  gpus=(${TASK_GPUS}); \
+	  for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    echo "$${gpus[$$i]}	$${tasks[$$i]}"; \
+	  done )
 
 
 TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))

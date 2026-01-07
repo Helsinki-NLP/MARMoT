@@ -53,8 +53,7 @@ DECODER_LAYERS  := 3,3,3
 ## include common configuration and make targets
 ## and set environment (if different from standard)
 
-HPC_PROJECT := project_462000964
-MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
+MAMMOTH_DIR := /scratch/project_462000964/shared/mammoth
 
 include ../../../make/marmot.mk
 
@@ -63,6 +62,8 @@ include ../../../make/marmot.mk
 # other experiments with slightly different settings
 #-----------------------------------------------------
 
+ttt:
+	echo ${TRAINDATA_DIR}
 
 .PHONY: %.exp2
 %.exp2:
