@@ -55,10 +55,10 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
-			-save_model ${MODEL_PATH} \
-			-config $<
+	${PYTORCH_CONTAINER} \
+	${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
+		-save_model ${MODEL_PATH} \
+		-config $<
 
 
 else
@@ -77,8 +77,10 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
 		-B /dev/shm:/dev/shm:rw \
-		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-		${MAKE} MASTER_NODE=${MASTER_NODE} MASTER_PORT=${MASTER_PORT} multi-node-train
+	${PYTORCH_CONTAINER} \
+	${MAKE} MASTER_NODE=${MASTER_NODE} \
+		MASTER_PORT=${MASTER_PORT} \
+	multi-node-train
 
 
 .PHONY: multi-node-train

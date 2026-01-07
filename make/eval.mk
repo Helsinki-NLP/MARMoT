@@ -5,7 +5,7 @@
 # evaluation
 #--------------------------------------------------------------
 
-## submit SLURM jobs to evaluate all tasks
+## submit SLURM jobs to evaluate all tasks (one job per task)
 
 .PHONY: eval
 eval:
@@ -68,10 +68,10 @@ ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
 		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-		/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
-		${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
-			-model ${MODEL_PATH} \
-			-config $<
+	${PYTORCH_CONTAINER} \
+	${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
+		-model ${MODEL_PATH} \
+		-config $<
 
 
 

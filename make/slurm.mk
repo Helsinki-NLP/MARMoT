@@ -1,6 +1,10 @@
 #-*-makefile-*-
 #--------------------------------------------------------------
 # generate SLURM scripts
+#
+# TODO's:
+#   * fast local disk allocation option
+#   * enable restarting jobs with dependencies
 #--------------------------------------------------------------
 
 
@@ -8,17 +12,26 @@ NR_OF_NODES   ?= 1
 GPUS_PER_NODE ?= 1
 
 WHOAMI              ?= $(shell whoami)
+
+SLURM_CPU_PARTITION ?= small
+SLURM_GPU_PARTITION ?= gpu
+SLURM_MAX_CPU_TIME  ?= 3-00:00:00
+SLURM_MAX_GPU_TIME  ?= 3-00:00:00
+SLURM_GPU_GRES      ?= gpu:v100
 SLURM_MAX_NR_JOBS   ?= 200
-SLURM_PARTITION     ?= standard-g
-SLURM_NODES         ?= ${NR_OF_NODES}
 SLURM_CPUS_PER_TASK ?= 16
 SLURM_MEM           ?= 48G
-SLURM_TIME          ?= 2-00:00:00
+SLURM_NODES         ?= ${NR_OF_NODES}
 SLURM_GPUS          ?= ${GPUS_PER_NODE}
 
 ifdef SLURM_GPUS
 ifneq (${SLURM_GPUS},0)
-  SLURM_GRES := \#SBATCH --gres=gpu:${SLURM_GPUS}
+  SLURM_PARTITION ?= ${SLURM_GPU_PARTITION}
+  SLURM_TIME      ?= ${SLURM_MAX_GPU_TIME}
+  SLURM_GRES      := \#SBATCH --gres=${SLURM_GPU_GRES}:${SLURM_GPUS}
+else
+  SLURM_PARTITION ?= ${SLURM_CPU_PARTITION}
+  SLURM_TIME      ?= ${SLURM_MAX_CPU_TIME}
 endif
 endif
 
