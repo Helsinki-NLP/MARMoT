@@ -171,8 +171,11 @@ data/release/${RELEASE}/%: %.tar
 	          paste $@/$$d.src $@/$$d.trg $@/$$d.id | grep "	$$s	$$t$$" > $$d/$$p.tsv; \
 	        fi; \
 	        if [ -s $$d/$$p.tsv ]; then \
+	          if [ $$s == bos ]; then p="$$p-old"; fi; \
+	          if [ $$t == bos ]; then p="$$p-old"; fi; \
 	          if [ $$s == bos_Latn ]; then s=bos; fi; \
 	          if [ $$t == bos_Latn ]; then t=bos; fi; \
+	          if [ $$s \< $$t ]; then p="$$s-$$t"; else p="$$t-$$s"; fi; \
 	          cut -f1 < $$d/$$p.tsv | gzip -c > $$d/$$p.$$s.gz; \
 	          cut -f2 < $$d/$$p.tsv | gzip -c > $$d/$$p.$$t.gz; \
 	          if [ $$d == train ]; then cut -f3 < $$d/$$p.tsv | gzip -c > $$d/$$p.corpora.gz; fi; \

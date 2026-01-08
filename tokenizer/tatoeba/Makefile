@@ -24,7 +24,7 @@ OELLM_LANGS := 	$(filter ${LANGUAGES},\
 		gle glg cat ces swe tur bul \
 		lav lit slk nld dan ell est fra \
 		hrv hun ita pol por ron \
-		slv eus bos_Latn isl kat \
+		slv eus bos isl kat \
 		mkd sqi srp_Cyrl eng)
 
 TOKENIZER      := ${LANGUAGE}/${VOCAB_SIZE}/tokenizer.json
@@ -74,6 +74,10 @@ ${TOKENIZERS}:
 WHOAMI := ${shell whoami}
 SLURM_MAX_NR_JOBS := 200
 
+
+# HPC_PROJECT = project_462000964
+HPC_PROJECT = project_2001194
+
 %.submit:
 	mkdir -p $(dir $@)
 	if [ ! -e $(@:.submit=) ]; then \
@@ -83,7 +87,7 @@ SLURM_MAX_NR_JOBS := 200
 	  done; \
 	  echo '#!/bin/bash'                   >$@; \
 	  echo ''                             >>$@; \
-	  echo '#SBATCH -A project_462000964' >>$@; \
+	  echo '#SBATCH -A ${HPC_PROJECT}'    >>$@; \
 	  echo '#SBATCH -J tokenizer'         >>$@; \
 	  echo '#SBATCH -o $(dir $@)train.%j.log'  >>$@; \
 	  echo '#SBATCH -e $(dir $@)train.%j.err'  >>$@; \
