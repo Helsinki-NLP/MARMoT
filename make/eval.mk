@@ -62,14 +62,7 @@ ${EVAL_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
 	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
-	singularity exec \
-		-B ${EVAL_DIR}:${EVAL_DIR}:rw \
-		-B ${MODEL_DIR}:${MODEL_DIR}:ro \
-		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-	${PYTORCH_CONTAINER} \
-	${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/translate.py \
+	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/translate.py \
 		-model ${MODEL_PATH} \
 		-config $<
 

@@ -31,29 +31,12 @@ TASK_ENCODERS := $(foreach l,${LANG_NRS},"$(word $l,${META_LANGS})","$(word $l,$
 TASK_DECODERS := $(foreach l,${LANG_NRS},"all","gmw","eng" "all","$(word $l,${LANG_GROUPS})","$(word $l,${LANGS})")
 
 
-## GPU assignments: simply distribute one task per GPU
-
-TASK_GPUS := $(shell \
-	n=0; g=0; \
-	for t in ${TASKS}; do \
-	  echo "$$n:$$g"; \
-	  ((g++)); \
-	  if [ $$g -gt 7 ]; then \
-	    ((n++)); \
-	    g=0; \
-	  fi; \
-	done )
-
-
 MODEL_NAME      := eucore
 ENCODER_LAYERS  := 3,3,3
 DECODER_LAYERS  := 3,3,3
 
 
 ## include common configuration and make targets
-## and set environment (if different from standard)
-
-MAMMOTH_DIR := /scratch/project_462000964/shared/mammoth
 
 include ../../../make/marmot.mk
 
@@ -62,8 +45,6 @@ include ../../../make/marmot.mk
 # other experiments with slightly different settings
 #-----------------------------------------------------
 
-ttt:
-	echo ${TRAINDATA_DIR}
 
 .PHONY: %.exp2
 %.exp2:
@@ -123,3 +104,8 @@ ttt:
 		TASK_ENCODERS= \
 		TASK_DECODERS= \
 	$(basename $@)
+
+
+.PHONY: %.puhti
+%.puhti:
+	@${MAKE} -s MODEL_NAME=puhti $(basename $@)

@@ -12,7 +12,7 @@
 
 ## set experiment parameters (if different from defaults)
 
-OELLM_LANGS := 	$(sort deu fin nob nno spa mlt ukr \
+LANGS := $(sort deu fin nob nno spa mlt ukr \
 		gle glg cat ces swe tur bul \
 		lav lit slk nld dan ell est fra \
 		hrv hun ita pol por ron \
@@ -21,33 +21,19 @@ OELLM_LANGS := 	$(sort deu fin nob nno spa mlt ukr \
 
 ## task list (English centric in both directions
 
-TASKS := $(foreach l,${OELLM_LANGS},$l-eng eng-$l)
+TASKS := $(foreach l,${LANGS},$l-eng eng-$l)
 
 ## task encoder and decoder definitions with 3 steps:
 ## - 3 language-specific layers (meta-languages in encoders)
 ## - 3 language-group specific layers (immediate parent lang-group)
 ## - 3 completely shared layers
 
-OELLM_META_LANGS  := $(shell iso639 -m ${OELLM_LANGS} 2>/dev/null)
-OELLM_LANG_GROUPS := $(shell langgroup -p ${OELLM_META_LANGS} 2>/dev/null)
-OELLM_LANG_NRS    := $(shell seq $(words ${OELLM_LANGS}))
+META_LANGS  := $(shell iso639 -m ${LANGS} 2>/dev/null)
+LANG_GROUPS := $(shell langgroup -p ${META_LANGS} 2>/dev/null)
+LANG_NRS    := $(shell seq $(words ${LANGS}))
 
-TASK_ENCODERS := $(foreach l,${OELLM_LANG_NRS},"$(word $l,${OELLM_META_LANGS})","$(word $l,${OELLM_LANG_GROUPS})","all" "eng","gmw","all")
-TASK_DECODERS := $(foreach l,${OELLM_LANG_NRS},"all","gmw","eng" "all","$(word $l,${OELLM_LANG_GROUPS})","$(word $l,${OELLM_LANGS})")
-
-
-## GPU assignments: simply distribute one task per GPU
-
-TASK_GPUS := $(shell \
-	n=0; g=0; \
-	for t in ${TASKS}; do \
-	  echo "$$n:$$g"; \
-	  ((g++)); \
-	  if [ $$g -gt 7 ]; then \
-	    ((n++)); \
-	    g=0; \
-	  fi; \
-	done )
+TASK_ENCODERS := $(foreach l,${LANG_NRS},"$(word $l,${META_LANGS})","$(word $l,${LANG_GROUPS})","all" "eng","gmw","all")
+TASK_DECODERS := $(foreach l,${LANG_NRS},"all","gmw","eng" "all","$(word $l,${LANG_GROUPS})","$(word $l,${LANGS})")
 
 
 MODEL_NAME      := eucore
@@ -56,10 +42,6 @@ DECODER_LAYERS  := 3,3,3
 
 
 ## include common configuration and make targets
-## and set environment (if different from standard)
-
-HPC_PROJECT := project_462000964
-MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
 
 include ../../../make/marmot.mk
 

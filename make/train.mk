@@ -14,7 +14,7 @@ TRAIN_NR_OF_NODES   ?= ${NR_OF_NODES}
 TRAIN_GPUS_PER_NODE ?= ${GPUS_PER_NODE}
 TRAIN_CPUS_PER_TASK ?= $(shell echo $$(( ${GPUS_PER_NODE} * 7 )) )
 TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * 16 )) )G
-TRAIN_WALLTIME      ?= 2-00:00:00
+TRAIN_WALLTIME      ?= ${SLURM_MAX_GPU_TIME}
 
 .PHONY: train
 train: train-slurm
@@ -39,6 +39,7 @@ ifneq ($(wildcard ${MODEL_META}),)
 endif
 
 
+
 ## train a model
 
 .PHONY: ${MODEL_DIR}/train
@@ -50,13 +51,7 @@ ifeq (${NR_OF_NODES},1)
 ##----------------------------
 
 ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
-	singularity exec \
-		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
-		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-	${PYTORCH_CONTAINER} \
-	${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
+	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
 		-save_model ${MODEL_PATH} \
 		-config $<
 
@@ -67,30 +62,20 @@ else
 ## multi-node training
 ##----------------------------
 
+
 .PHONY: ${MODEL_DIR}/train
 ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
-	singularity exec \
-		--env MASTER_NODE="${MASTER_NODE}" \
-		--env MASTER_PORT="${MASTER_PORT}" \
-		-B ${MODEL_DIR}:${MODEL_DIR}:rw \
-		-B ${MAMMOTH_DIR}:${MAMMOTH_DIR}:ro \
-		-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
-		-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-		-B /dev/shm:/dev/shm:rw \
-	${PYTORCH_CONTAINER} \
-	${MAKE} MASTER_NODE=${MASTER_NODE} \
-		MASTER_PORT=${MASTER_PORT} \
-	multi-node-train
+	${LOAD_MAMMOTH_ENV} ${MAKE} MASTER_NODE=${MASTER_NODE} MASTER_PORT=${MASTER_PORT} multi-node-train
 
 
 .PHONY: multi-node-train
 multi-node-train:
-	echo ${TRAIN_CONFIGFILE}
-	( source ${MAMMOTH_DIR}/.venv/bin/activate; \
+	( ${MAMMOTH_ENV_ACTIVATE}; \
 	  echo "Node ${SLURM_NODEID} starting training"; \
 	  echo "Master node: ${MASTER_NODE}"; \
 	  echo "Master port: ${MASTER_PORT}"; \
-	  ${MAMMOTH_DIR}/.venv/bin/python ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
+	  export TOKENIZERS_PARALLELISM=False; \
+	  ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
 		-config ${TRAIN_CONFIGFILE} \
 		-save_model ${MODEL_PATH} \
 		--node_rank ${SLURM_PROCID} \

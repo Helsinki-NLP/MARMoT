@@ -71,6 +71,7 @@ endif
 	@echo '# (useful if running several commands in the same script)'                    >> $@
 	@echo 'set -eux'                                                                     >> $@
 	@echo ''                                                                             >> $@
+ifdef STOP_GPU_ENERGY_MONITORING
 	@echo '#--------------------------------------------------------------------------'  >> $@
 	@echo '# define a function for finishing up interrupted jobs'                        >> $@
 	@echo 'abort_function()'                                                             >> $@
@@ -81,6 +82,8 @@ endif
 	@echo "trap 'abort_function' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"                  >> $@
 	@echo '#--------------------------------------------------------------------------'  >> $@
 	@echo ''                                                                             >> $@
+endif
+ifneq (${SLURM_NODES},1)
 	@echo '# Get the master node (first node in the job allocation) and set its port'    >> $@
 	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
 	@echo 'MASTER_PORT="$${MASTER_PORT:-$$((29500 + SLURM_JOB_ID % 1000))}"'             >> $@
@@ -89,6 +92,7 @@ endif
 	@echo 'echo "Master port: $${MASTER_PORT}"'                                          >> $@
 	@echo 'echo "Node list: $${SLURM_JOB_NODELIST}"'                                     >> $@
 	@echo ''                                                                             >> $@
+endif
 ifneq (${SLURM_GPUS},0)
 ifdef START_GPU_ENERGY_MONITORING
 	@echo 'srun ${START_GPU_ENERGY_MONITORING}'                                          >> $@
@@ -98,11 +102,13 @@ ifdef MONITOR_GPU_USAGE
 endif
 endif
 	@echo ''                                                                             >> $@
-	@echo '# finally, the actual target to be done'                                      >> $@
 	@echo "srun ${MAKE} -C ${EXPERIMENT_DIR} \\"                                         >> $@
+	@echo "             HPC_HOST=${HPC_HOST} \\"                                         >> $@
 	@echo "             MODEL_NAME=${MODEL_NAME} \\"                                     >> $@
+ifneq (${SLURM_NODES},1)
 	@echo "             MASTER_NODE=\$${MASTER_NODE} \\"                                 >> $@
 	@echo "             MASTER_PORT=\$${MASTER_PORT} \\"                                 >> $@
+endif
 	@echo "             $(@:.slurm=)"                                                    >> $@
 	@echo ''                                                                             >> $@
 ifneq (${SLURM_GPUS},0)

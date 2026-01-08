@@ -23,19 +23,55 @@
 #
 #    DEFAULT_ENCODER    := "${SRCLANG}"
 #    DEFAULT_DECODER    := "${TRGLANG}"
+#
 #--------------------------------------------------------------------------
-
+# Example task definition:
+#
 # TASKS           ?= eng-eng fin-fin fin-eng eng-fin 
 # TASK_GPUS       ?= 0:0     0:1     0:2     0:3
 # TASK_WEIGHTS    ?= 0.1     0.1
 # TASK_TRANSFORMS ?= denoising,filtertoolong denoising,filtertoolong
+#--------------------------------------------------------------------------
+
 
 TASKS           ?= fin-eng
-TASK_GPUS       ?= 0:0
 TASK_WEIGHTS    ?= 1.0
 TASK_TRANSFORMS ?= filtertoolong
 
 
+## GPU assignments: simply distribute one task per GPU/Node
+## - skip the initial GPU assignments if they exist (in TASK_GPUS)
+## - if NR_NODES is set: rotate over available nodes
+
+TASK_GPUS := $(shell \
+	n=0; g=0; \
+	tasks=(${TASKS}); \
+	gpus=(${TASK_GPUS}); \
+	for i in `seq $(words ${TASKS})`; do \
+	  t=$${tasks[$$i-1]}; \
+	  a=$${gpus[$$i-1]}; \
+	  if [ "$$a" != "" ]; then \
+	    echo $$a; \
+	  else \
+	    for t in ${TASKS}; do \
+	      echo "$$n:$$g"; \
+	      ((g++)); \
+	      if [ $$g -eq ${MAX_GPUS_PER_NODE} ]; then \
+	        ((n++)); \
+	        g=0; \
+	      fi; \
+	      if [ "${NR_OF_NODES}" != "" ]; then \
+	         if [ $$n -eq ${NR_OF_NODES} ]; then \
+	           n=0; \
+	         fi \
+	      fi; \
+	    done \
+	  fi \
+	done )
+
+
+
+## select a task
 
 TASK_NR  ?= $(words $(TASKS))
 TASK     := $(word ${TASK_NR},$(TASKS))
@@ -102,14 +138,14 @@ endif
 SORTED_LANGPAIR := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 
 
-## training data and validation data
-## skip monolingual validation data (should we?)
+## training data
 
 TRAINDATA_SRC ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
 TRAINDATA_TRG ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
 
 
 ## validation data
+## skip monolingual validation data in denoising tasks (should we?)
 
 ifneq (${SRCLANG},${TRGLANG})
   DEVDATA_SRC ?= ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
@@ -127,7 +163,6 @@ ifneq (${SRCLANG},${TRGLANG})
 endif
 
 
-# TESTDATA_OUTPUT ?= ${MODEL_PATH}_translate_$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
 TESTDATA_OUTPUT ?= ${EVAL_DIR}/$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
 
 
@@ -192,7 +227,7 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
 
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
-BATCH_SIZE       ?= 8196    # per-GPU batch size
+BATCH_SIZE       ?= 8192    # per-GPU batch size
 # BATCH_SIZE       ?= 7170    # per-GPU batch size
 VALID_BATCH      ?= 128     # validation batch size
 # VALID_BATCH      ?= 1024
@@ -206,8 +241,6 @@ MIN_TRGSEQ_LENGTH ?= 1
 MAX_SRCSEQ_LENGTH ?= 512
 MAX_TRGSEQ_LENGTH ?= 512
 MAX_SEQ_LENGTH    ?= 512
-# MAX_SRCSEQ_LENGTH ?= 256
-# MAX_TRGSEQ_LENGTH ?= 256
 
 VALID_FREQ       ?= 5000    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics
@@ -216,23 +249,21 @@ KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 
 OPTIMIZER        ?= adamw
-LEARNING_RATE    ?= 0.0008
+LEARNING_RATE    ?= 0.0003
 # LEARNING_RATE    ?= 0.0005
+# LEARNING_RATE    ?= 0.0008
 # LEARNING_RATE    ?= 0.00001
 ADAM_BETA1       ?= 0.9
 ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
-# LR_DECAY         ?= 0.5     # learning rate decay
-# DECAY_START      ?= 50000   # steps when to start lr-decay
 LR_DECAY         ?= 0.5     # learning rate decay
 DECAY_START      ?= 10000   # steps when to start lr-decay
 # AVERAGE_DECAY    ?= 0.0005
 AVERAGE_DECAY    ?= 0
 WARMUP_STEPS     ?= 10000
 DECAY_METHOD     ?= linear_warmup
-# TRAINING_STEPS   ?= 500000
 TRAINING_STEPS   ?= 250000
 
 
@@ -412,6 +443,7 @@ config-add-training-params:
 	@echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
 	@echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
 	@echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
+	@echo 'report_training_accuracy: falss'                    >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
 	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}

@@ -22,10 +22,6 @@ DEFAULT_ENCODER := "shared"
 
 
 ## include common configuration and make targets
-## and set environment (if different from standard)
-
-HPC_PROJECT := project_462000964
-MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
 
 include ../../../make/marmot.mk
 

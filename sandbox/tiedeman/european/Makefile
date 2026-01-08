@@ -13,29 +13,18 @@
 
 ## set experiment parameters (if different from defaults)
 
-OELLM_LANGS := 	$(sort deu fin nob nno spa mlt ukr \
+LANGS := $(sort deu fin nob nno spa mlt ukr \
 		gle glg cat ces swe tur bul \
 		lav lit slk nld dan ell est fra \
 		hrv hun ita pol por ron \
 		slv eus bos isl kat \
 		mkd sqi srp_Cyrl)
 
-OELLM_META_LANGS  := $(shell iso639 -m ${OELLM_LANGS} 2>/dev/null)
+META_LANGS  := $(shell iso639 -m ${LANGS} 2>/dev/null)
 
-TASKS := $(foreach l,${OELLM_LANGS},$l-eng eng-$l)
-TASK_ENCODERS := $(foreach l,${OELLM_META_LANGS},"$l","all" "eng","all")
-TASK_DECODERS := $(foreach l,${OELLM_LANGS},"all","eng" "all","$l")
-
-TASK_GPUS := $(shell \
-	n=0; g=0; \
-	for t in ${TASKS}; do \
-	  echo "$$n:$$g"; \
-	  ((g++)); \
-	  if [ $$g -gt 7 ]; then \
-	    ((n++)); \
-	    g=0; \
-	  fi; \
-	done )
+TASKS := $(foreach l,${LANGS},$l-eng eng-$l)
+TASK_ENCODERS := $(foreach l,${META_LANGS},"$l","all" "eng","all")
+TASK_DECODERS := $(foreach l,${LANGS},"all","eng" "all","$l")
 
 
 MODEL_NAME      := eucore
@@ -44,10 +33,6 @@ DECODER_LAYERS  := 3,3
 
 
 ## include common configuration and make targets
-## and set environment (if different from standard)
-
-HPC_PROJECT := project_462000964
-MAMMOTH_DIR := /scratch/${HPC_PROJECT}/shared/mammoth
 
 include ../../../make/marmot.mk
 
