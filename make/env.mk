@@ -27,30 +27,57 @@ ifndef HPC_HOST
   endif
 endif
 
+
 ## include host-specific configuration
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 include ${MAKEFILE_DIR}env/${HPC_HOST}.mk
 
 
-HPC_PROJECT    ?= project_2001194
-PROJECT_SPACE  ?= /scratch/${HPC_PROJECT}
-PROJECT_DIR    ?= ${PROJECT_SPACE}/MARMoT
-MAMMOTH_DIR    ?= ${PROJECT_DIR}/mammoth
+## some default values (in case those variables are not set yet)
+
+HPC_PROJECT      ?= project_2001194
+PROJECT_SPACE    ?= /scratch/${HPC_PROJECT}
+PROJECT_DIR      ?= ${PROJECT_SPACE}/MARMoT
+MAX_MEM_PER_GPU  ?= 32
+MAX_CPUS_PER_GPU ?= 10
 
 
-## data directories
+## mammoth environment
 
-DATA_DIR      ?= ${PROJECT_DIR}/data
-TRAINDATA_DIR ?= ${DATA_DIR}/tatoeba/train
-DEVDATA_DIR   ?= ${DATA_DIR}/tatoeba/dev5K
-# TESTDATA_DIR  ?= ${DATA_DIR}/tatoeba/test
-TESTDATA_DIR  ?= ${DATA_DIR}/flores200/devtest
-TESTDATA_NAME ?= flores200-devtest
-VOCAB_DIR     ?= ${PROJECT_DIR}/tokenizer/tatoeba
-
-
-
+MAMMOTH_DIR          ?= ${PROJECT_DIR}/mammoth
 MAMMOTH_ENV          ?= ${MAMMOTH_DIR}/.venv
 MAMMOTH_ENV_PYTHON   ?= ${MAMMOTH_ENV}/bin/python
 MAMMOTH_ENV_ACTIVATE ?= source ${MAMMOTH_ENV}/bin/activate
+
+
+## data directories (assuming that we have data prepared in the project dir)
+## - training data from the Tatoeba translation challenge
+## - dev and test data from Flores200 if the exists (Tatoeba otherwise)
+
+DATA_DIR        ?= ${PROJECT_DIR}/data
+TRAINDATA_DIR   ?= ${DATA_DIR}/tatoeba/train
+TRAINDATA_NAME  ?= tatoeba-test-v2023-09-26
+
+ifneq ($(wildcard ${DATA_DIR}/flores200/dev),)
+  DEVDATA_DIR   ?= ${DATA_DIR}/flores200/dev
+  DEVDATA_NAME  ?= flores200-dev
+else
+  DEVDATA_DIR   ?= ${DATA_DIR}/tatoeba/dev5K
+  DEVDATA_NAME  ?= tatoeba-test-v2023-09-26
+endif
+
+ifneq ($(wildcard ${DATA_DIR}/flores200/devtest),)
+  TESTDATA_DIR  ?= ${DATA_DIR}/flores200/devtest
+  TESTDATA_NAME ?= flores200-devtest
+else
+  TESTDATA_DIR  ?= ${DATA_DIR}/tatoeba/test
+  TESTDATA_NAME ?= tatoeba-test-v2023-09-26
+endif
+
+
+## tokenizer directory
+
+VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/tatoeba
+
+

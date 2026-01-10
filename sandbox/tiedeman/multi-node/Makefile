@@ -25,3 +25,6 @@ DEFAULT_ENCODER := "shared"
 
 include ../../../make/marmot.mk
 
+
+%.test:
+	${MAKE} MODEL_NAME=test $(basename $@)

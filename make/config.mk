@@ -43,7 +43,7 @@ TASK_TRANSFORMS ?= filtertoolong
 ## - skip the initial GPU assignments if they exist (in TASK_GPUS)
 ## - if NR_NODES is set: rotate over available nodes
 
-TASK_GPUS := $(shell \
+TASK_GPU_ASSIGNMENTS := $(shell \
 	n=0; g=0; \
 	tasks=(${TASKS}); \
 	gpus=(${TASK_GPUS}); \
@@ -53,22 +53,19 @@ TASK_GPUS := $(shell \
 	  if [ "$$a" != "" ]; then \
 	    echo $$a; \
 	  else \
-	    for t in ${TASKS}; do \
-	      echo "$$n:$$g"; \
-	      ((g++)); \
-	      if [ $$g -eq ${MAX_GPUS_PER_NODE} ]; then \
-	        ((n++)); \
-	        g=0; \
-	      fi; \
-	      if [ "${NR_OF_NODES}" != "" ]; then \
-	         if [ $$n -eq ${NR_OF_NODES} ]; then \
-	           n=0; \
-	         fi \
-	      fi; \
-	    done \
+	    echo "$$n:$$g"; \
+	    ((g++)); \
+	    if [ $$g -eq ${MAX_GPUS_PER_NODE} ]; then \
+	      ((n++)); \
+	      g=0; \
+	    fi; \
+	    if [ "${NR_OF_NODES}" != "" ]; then \
+	       if [ $$n -eq ${NR_OF_NODES} ]; then \
+	         n=0; \
+	       fi \
+	    fi; \
 	  fi \
 	done )
-
 
 
 ## select a task
@@ -101,19 +98,21 @@ endif
 
 # current task specifications - selected with TASK_NR or default value
 
-TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPUS))       $(DEFAULT_GPU))
-TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))    $(DEFAULT_WEIGHT))
-TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS)) $(DEFAULT_TRANSFORM))
-TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS)) $(DEFAULT_TRAINSTEP))
-TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))   $(DEFAULT_ENCODER))
-TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))   $(DEFAULT_DECODER))
+TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
+TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
+TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
+TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
+TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAULT_ENCODER))
+TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
 
 
 #--------------------------------------------------------------
 # data sets
 #
-#  TODO: make it possible to set task-specific data sets
-#        (similar to task specs above?)
+# - default data sets are taken from TRAINDATA_DIR, DEVDATA_DIR and TESTDATA_DIR
+# - task-specific training data can be set in TASK_TRAINDATA_SRCS and TASK_TRAINDATA_TRGS
+# - task-specific dev data can be set in TASK_DEVDATA_SRCS and TASK_DEVDATA_TRGS
+# - task-specific test data can be set in TASK_TESTDATA_SRCS and TASK_TESTDATA_TRGS
 #--------------------------------------------------------------
 
 ## in OPUS data we have sorted language IDs for language pairs
@@ -130,8 +129,8 @@ ifeq (${SRCLANG},eng)
   SORTED_SRCLANG := eng
   SORTED_TRGLANG := fra
 else
-  SORTED_SRCLANG  := $(firstword $(sort eng ${TRGLANG}))
-  SORTED_TRGLANG  := $(lastword  $(sort eng ${TRGLANG}))
+  SORTED_SRCLANG := $(firstword $(sort eng ${TRGLANG}))
+  SORTED_TRGLANG := $(lastword  $(sort eng ${TRGLANG}))
 endif
 endif
 
@@ -140,30 +139,42 @@ SORTED_LANGPAIR := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 
 ## training data
 
-TRAINDATA_SRC ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
-TRAINDATA_TRG ?= ${TRAINDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
+DEFAULT_TRAINDATA_SRC ?= $(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz)
+DEFAULT_TRAINDATA_TRG ?= $(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz)
+
+TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
+TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
 
 
 ## validation data
-## skip monolingual validation data in denoising tasks (should we?)
 
-ifneq (${SRCLANG},${TRGLANG})
-  DEVDATA_SRC ?= ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz
-  DEVDATA_TRG ?= ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz
+ifeq (${DEVDATA_NAME},flores200-dev)
+  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SRCLANG}_*)
+  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${TRGLANG}_*)
+else
+  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz)
+  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz)
 endif
+
+DEVDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_SRCS)) $(DEFAULT_DEVDATA_SRC))
+DEVDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_TRGS)) $(DEFAULT_DEVDATA_TRG))
 
 
 ## testdata
 
-ifneq (${SRCLANG},${TRGLANG})
-  TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz) \
-			$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
-  TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz) \
-			$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
+ifeq (${TESTDATA_NAME},flores200-devtest)
+  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
+  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
+else
+  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz)
+  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz)
 endif
 
+TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
+TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_TESTDATA_TRG))
 
-TESTDATA_OUTPUT ?= ${EVAL_DIR}/$(basename $(notdir $(TESTDATA_SRC))).${TRGLANG}
+
+TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
 
 
 #--------------------------------------------------------------
@@ -215,10 +226,10 @@ XTRF_USE_ABS_POS_EMB       ?= false
 # required resources (compute nodes and GPUs)
 #--------------------------------------------------------------
 
-GPU_RANKS      := $(sort $(notdir $(subst :,/,${TASK_GPUS})))
+GPU_RANKS      := $(sort $(notdir $(subst :,/,${TASK_GPU_ASSIGNMENTS})))
 GPUS_PER_NODE  := $(words ${GPU_RANKS})
-NR_OF_GPUS     := $(words $(sort ${TASK_GPUS}))
-NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
+NR_OF_GPUS     := $(words $(sort ${TASK_GPU_ASSIGNMENTS}))
+NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 
 
 #--------------------------------------------------------------
@@ -228,10 +239,8 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPUS}))))
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
-# BATCH_SIZE       ?= 7170    # per-GPU batch size
 VALID_BATCH      ?= 128     # validation batch size
-# VALID_BATCH      ?= 1024
-LOOK_AHEAD       ?= 16      # batch look-ahead to sort training examples by length
+LOOK_AHEAD       ?= 8       # batch look-ahead to sort training examples by length
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 QUEUE_SIZE       ?= 40
 
@@ -443,7 +452,7 @@ config-add-training-params:
 	@echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
 	@echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
 	@echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
-	@echo 'report_training_accuracy: falss'                    >> ${CONFIGFILE}
+	@echo 'report_training_accuracy: false'                    >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
 	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}

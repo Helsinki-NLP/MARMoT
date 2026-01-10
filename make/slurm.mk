@@ -11,7 +11,10 @@
 NR_OF_NODES   ?= 1
 GPUS_PER_NODE ?= 1
 
-WHOAMI              ?= $(shell whoami)
+WHOAMI ?= $(shell whoami)
+ifeq ("$(WHOAMI)","tiedeman")
+  EMAIL ?= jorg.tiedemann@helsinki.fi
+endif
 
 SLURM_CPU_PARTITION ?= small
 SLURM_GPU_PARTITION ?= gpu
@@ -64,6 +67,10 @@ endif
 ifdef SLURM_GRES
 	@echo '#SBATCH --gres=${SLURM_GRES}'                                                 >> $@
 endif
+ifdef EMAIL
+	echo '#SBATCH --mail-type=END'                                                       >> $@
+	echo '#SBATCH --mail-user=${EMAIL}'                                                  >> $@
+endif
 	@echo ''                                                                             >> $@
 	@echo 'echo "Starting at `date`"'                                                    >> $@
 	@echo ''                                                                             >> $@
@@ -86,12 +93,16 @@ endif
 ifneq (${SLURM_NODES},1)
 	@echo '# Get the master node (first node in the job allocation) and set its port'    >> $@
 	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
-	@echo 'MASTER_PORT="$${MASTER_PORT:-$$((29500 + SLURM_JOB_ID % 1000))}"'             >> $@
+#	@echo 'MASTER_PORT="$${MASTER_PORT:-$$((29500 + SLURM_JOB_ID % 1000))}"'             >> $@
+	@echo 'MASTER_PORT=${MASTER_PORT}'                                                   >> $@
 	@echo ''                                                                             >> $@
 	@echo 'echo "Master node: $${MASTER_NODE}"'                                          >> $@
 	@echo 'echo "Master port: $${MASTER_PORT}"'                                          >> $@
 	@echo 'echo "Node list: $${SLURM_JOB_NODELIST}"'                                     >> $@
 	@echo ''                                                                             >> $@
+	@echo 'export MASTER_NODE="$${MASTER_NODE}"'                                         >> $@
+	@echo 'export MASTER_PORT="$${MASTER_PORT}"'                                         >> $@
+	@echo 'export TOKENIZERS_PARALLELISM=False'                                          >> $@
 endif
 ifneq (${SLURM_GPUS},0)
 ifdef START_GPU_ENERGY_MONITORING

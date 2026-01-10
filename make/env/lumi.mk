@@ -9,6 +9,8 @@ MAMMOTH_DIR ?= /scratch/project_462000964/shared/mammoth
 
 
 MAX_GPUS_PER_NODE   ?= 8
+MAX_MEM_PER_GPU     ?= 16
+MAX_CPUS_PER_GPU    ?= 7
 
 SLURM_CPU_PARTITION ?= standard
 SLURM_MAX_CPU_TIME  ?= 2-00:00:00

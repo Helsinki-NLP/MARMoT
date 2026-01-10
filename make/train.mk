@@ -12,8 +12,8 @@ MASTER_PORT ?= 9973
 # default resource allocations
 TRAIN_NR_OF_NODES   ?= ${NR_OF_NODES}
 TRAIN_GPUS_PER_NODE ?= ${GPUS_PER_NODE}
-TRAIN_CPUS_PER_TASK ?= $(shell echo $$(( ${GPUS_PER_NODE} * 7 )) )
-TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * 16 )) )G
+TRAIN_CPUS_PER_TASK ?= $(shell echo $$(( ${GPUS_PER_NODE} * ${MAX_CPUS_PER_GPU} )) )
+TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * ${MAX_MEM_PER_GPU} )) )G
 TRAIN_WALLTIME      ?= ${SLURM_MAX_GPU_TIME}
 
 .PHONY: train
@@ -89,6 +89,48 @@ endif
 
 
 
+
+##----------------------------
+## simplified training target
+##----------------------------
+
+
+.PHONY: train2
+train2: train2-slurm
+	${MAKE} ${MODEL_DIR}/train.slurmjob
+
+.PHONY: train2-slurm
+train2-slurm: ${TRAIN_CONFIGFILE}
+	@echo "make ${MODEL_DIR}/train2.slurm"
+	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
+		SLURM_NODES=${TRAIN_NR_OF_NODES} \
+		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
+		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
+		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
+	${MODEL_DIR}/train2.slurm
+
+
+ifneq (${NR_OF_NODES},1)
+  MAMMOTH_COMMUNICATION_PARAMS = --node_rank ${SLURM_PROCID} \
+				--master_ip ${MASTER_NODE} \
+				--master_port ${MASTER_PORT}
+endif
+
+.PHONY: ${MODEL_DIR}/train2
+${MODEL_DIR}/train2: ${TRAIN_CONFIGFILE}
+	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
+	${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
+		-save_model ${MODEL_PATH} \
+		-config $<
+
+
+
+
+
+
+
+
+
 ##------------------------------------------------------------------
 ## reporting targets:
 ## show scores for each task and validation step
@@ -112,6 +154,26 @@ task-info:
 
 TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))
 TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
+
+
+## print information from the reporting steps
+
+.PHONY: print-train-progress
+print-train-progress:
+	@for t in `seq $(words ${TASKS})`; do \
+	  ${MAKE} -s TASK_NR=$$t print-task-progress; \
+	  echo ''; \
+	done
+
+.PHONY: print-task-progress
+print-task-progress:
+	@grep ' Step ' ${TRAIN_LOGFILE} | grep 'GPU ${TASK_GPU}' \
+	| cut -f2 -d] | sed 's/ *: Step/${TASK}:/' \
+	| sed 's/\/[0-9]*;/;/' | tr ';' "\t"
+
+
+
+## print information from validation steps
 
 PRINT_METRIC   ?= bleu
 

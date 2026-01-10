@@ -109,3 +109,7 @@ include ../../../make/marmot.mk
 .PHONY: %.puhti
 %.puhti:
 	@${MAKE} -s MODEL_NAME=puhti $(basename $@)
+
+.PHONY: %.puhti3
+%.puhti3:
+	@${MAKE} -s NR_OF_NODES=3 MODEL_NAME=puhti-3nodes $(basename $@)

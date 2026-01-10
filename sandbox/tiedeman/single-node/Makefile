@@ -21,6 +21,11 @@ include ../../../make/marmot.mk
 
 
 
+.PHONY: %.exp0
+%.exp0:
+	${MAKE} MODEL_NAME=simple TASKS="eng-fin" TASK_GPUS="0:0" $(basename $@)
+
+
 ##-----------------------------------------------------------
 ## experiment 2: additional languages and denoising
 ##-----------------------------------------------------------
