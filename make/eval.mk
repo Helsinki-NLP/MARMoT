@@ -1,6 +1,11 @@
 #-*-makefile-*-
 
 
+EVAL_TASKS ?= ${TASKS}
+
+SKIP_SAME_LANGUAGE_EVAL_TASKS ?= 1
+SKIP_DENOISING_EVAL_TASKS     ?= 1
+
 #--------------------------------------------------------------
 # evaluation
 #--------------------------------------------------------------
@@ -10,7 +15,7 @@
 .PHONY: eval
 eval:
 	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} TASK_NR=$$t eval-task; \
+	  ${MAKE} -s TASK_NR=$$t eval-task; \
 	done
 
 .PHONY: eval-zero-shot-tasks
@@ -31,10 +36,24 @@ EVAL_CPUS_PER_TASK ?= ${MAX_CPUS_PER_GPU}
 EVAL_MEM_PER_NODE  ?= ${MAX_MEM_PER_GPU}G
 EVAL_WALLTIME      ?= 00:30:00
 
+## only start evaluation jobs if the testdata source file exists
+## skip evaluation jobs for denoising tasks (unless the skip-variable is not 1)
+## skip evaluation jobs for tasks with the same source and target language
+##                      (unless the skip-variable is not 1)
+
 .PHONY: eval-task
 eval-task: eval-slurm
 ifneq ($(wildcard ${TESTDATA_SRC}),)
-	${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
+  ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
+    ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
+	@echo "evaluate ${TASK}"
+	@${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
+    else
+	@echo "skip task ${TASK} (same source and target language)"
+    endif
+  else
+	@echo "skip denoising task ${TASK}"
+  endif
 else
 	@echo "ERROR: cannot find ${TESTDATA_SRC}"
 endif

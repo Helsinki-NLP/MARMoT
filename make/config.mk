@@ -84,16 +84,16 @@ CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 # current task specifications - default values
 
+ifeq (${ADD_LANGUAGE_TOKEN},true)
+  DEFAULT_TRANSFORM  ?= filtertoolong,prefix
+endif
+
 DEFAULT_GPU        ?= 0:0
 DEFAULT_WEIGHT     ?= 1.0
 DEFAULT_TRANSFORM  ?= filtertoolong
 DEFAULT_TRAINSTEP  ?= 0
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
-
-ifeq (${ADD_LANGUAGE_TOKEN},true)
-  DEFAULT_TRANSFORM  ?= filtertoolong,prefix
-endif
 
 
 # current task specifications - selected with TASK_NR or default value
@@ -342,7 +342,9 @@ ${TRAIN_CONFIGFILE}:
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
 	@echo ''                                                     >> $@
+ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
 	${MAKE} -s CONFIGFILE=$@ config-add-denoising
+endif
 	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
 	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
 	${MAKE} -s CONFIGFILE=$@ config-add-training-params

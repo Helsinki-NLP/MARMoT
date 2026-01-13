@@ -146,7 +146,7 @@ ${MODEL_DIR}/train2: ${TRAIN_CONFIGFILE}
 
 task-info:
 	@( tasks=(${TASKS}); \
-	  gpus=(${TASK_GPUS}); \
+	  gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	  for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    echo "$${gpus[$$i]}	$${tasks[$$i]}"; \
 	  done )
@@ -205,7 +205,7 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
-	   gpus=(${TASK_GPUS}); \
+	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   echo "gpu	task	scores"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
@@ -230,7 +230,7 @@ PRINT_VALID_DIFF_ALIASES := 	print-valid-diff \
 .PHONY: ${PRINT_VALID_DIFF_ALIASES}
 ${PRINT_VALID_DIFF_ALIASES}:
 	@( tasks=(${TASKS}); \
-	   gpus=(${TASK_GPUS}); \
+	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   echo "gpu	task	first	diffs"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
