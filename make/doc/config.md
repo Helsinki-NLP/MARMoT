@@ -15,5 +15,5 @@ TASK_GPUS := 0:0 0:1 0:2 0:3 0:4 0:5
 ## and set environment (if different from standard)
 
 MAMMOTH_DIR := /path/to/mammoth
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```

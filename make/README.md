@@ -22,7 +22,17 @@ A collection of makefile targets and configurations that support the setup of va
 
 ## Quickstart
 
-Simply include the top-level makefile in your own work directory and overwrite the default values to match your own experimental setup. Create your top-level makefile with your own task definitions, e.g., for training a model with tasks to translate between English and German or French (in both directions) with default settings (assuming that the [environment](doc/env.md) is set up and all [data files exist](doc/data.md) and can be found):
+Clone the repository and create your own experiment directory:
+
+```bash
+git clone https://github.com/Helsinki-NLP/MARMoT.git
+cd MARMoT
+git checkout sandbox
+mkdir my_experiment
+cd my_experiment
+```
+
+Simply include the provided makefile targets and configurations and overwrite the default values to match your own experimental setup. Create your makefile within your work directory with your own task definitions, e.g., for training a model with tasks to translate between English and German or French (in both directions) with default settings (assuming that the [environment](doc/env.md) is set up and all [data files exist](doc/data.md) and can be found):
 
 
 ```make
@@ -32,7 +42,7 @@ Simply include the top-level makefile in your own work directory and overwrite t
 TASKS := eng-deu eng-fra deu-eng fra-eng
 
 # include common configuration and make targets
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```
 
 Check other default settings like model architecture in [config.mk](config.mk). More about task specifications and model configuration can be found in the [task configuration documentation](doc/tasks.md). The setup requires MAMMOTH in a working [system environment](doc/env.md) (currently examples for LUMI and PUHTI are included in the repository) and [shared data-sets](doc/data.md). If all is set up correctly, you can start a training SLURM job by running:

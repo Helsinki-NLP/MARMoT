@@ -26,7 +26,7 @@ TASKS := eng-deu eng-fra deu-eng fra-eng
 MAMMOTH_DIR := /path/to/mammoth
 MAMMOTH_ENV := /path/to/venv
 
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```
 
 Other common variables you may want to set are:

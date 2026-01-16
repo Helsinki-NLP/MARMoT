@@ -14,7 +14,7 @@ TASKS     := eng-deu eng-fra deu-eng fra-eng deu-fra fra-deu
 TASK_GPUS := 0:0 1:0 0:1 1:1 0:2 1:2
 
 ## include common configuration and make targets
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```
 
 GPU assignments use the specification as `<node>:<rank>` and in the example above to distribute the tasks over 2 nodes using 3 GPUs on each node. The makefiles take care of translating this into appropriate SLURM commands with the allocations needed. The default GPU allocation would simply assign one GPU per task starting with node 0 and using all available GPUs on each node. One can also specify the maximum number of nodes that you want to allocate using the `NR_OF_NODES` variable. In that case, the automatic GPU assignment will start again with assignment `0:0` once that maximum is reached and filled. In that case, you would get multiple tasks per GPU.
@@ -48,7 +48,7 @@ DEFAULT_ENCODER := "shared"
 
 
 ## include common configuration and make targets
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```
 
 After that, you can simply run the top-level targets like `make train` to create the SLURM script and submit it.
@@ -68,7 +68,7 @@ TASK_ENCODERS   := "eng,all" "eng,all" "deu,all" "fra,all" "deu,all" "fra,all"
 
 
 ## include common configuration and make targets
-include ../../../make/marmot.mk
+include ../make/marmot.mk
 ```
 
 Note, that you need an encoder specification for each task in that case.
