@@ -115,6 +115,15 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAU
 # - task-specific test data can be set in TASK_TESTDATA_SRCS and TASK_TESTDATA_TRGS
 #--------------------------------------------------------------
 
+
+## skip validation for denoising tasks
+## and monolingual tasks (typically denoising tasks)
+## set those variables to 0 to enable them
+
+SKIP_SAME_LANGUAGE_VALID_TASKS ?= 1
+SKIP_DENOISING_VALID_TASKS     ?= 1
+
+
 ## in OPUS data we have sorted language IDs for language pairs
 
 SORTED_SRCLANG  := $(firstword $(sort ${SRCLANG} ${TRGLANG}))
@@ -152,12 +161,16 @@ ifeq (${DEVDATA_NAME},flores200-dev)
   DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SRCLANG}_*)
   DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${TRGLANG}_*)
 else
-  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz)
-  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz)
+  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz)
+  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz)
 endif
 
-DEVDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_SRCS)) $(DEFAULT_DEVDATA_SRC))
-DEVDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_TRGS)) $(DEFAULT_DEVDATA_TRG))
+ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
+  ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
+    DEVDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_SRCS)) $(DEFAULT_DEVDATA_SRC))
+    DEVDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_TRGS)) $(DEFAULT_DEVDATA_TRG))
+  endif
+endif
 
 
 ## testdata
@@ -166,8 +179,8 @@ ifeq (${TESTDATA_NAME},flores200-devtest)
   DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
   DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
 else
-  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${SRCLANG}.gz)
-  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${SORTED_LANGPAIR}.${TRGLANG}.gz)
+  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz)
+  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz)
 endif
 
 TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
@@ -240,8 +253,8 @@ RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
 VALID_BATCH      ?= 128     # validation batch size
-LOOK_AHEAD       ?= 8       # batch look-ahead to sort training examples by length
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
+LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
 QUEUE_SIZE       ?= 40
 
 TASK_DISTRIBUTION ?= weighted_sampling
@@ -333,6 +346,7 @@ ${TRAIN_CONFIGFILE}:
 	  ${MAKE} -s CONFIGFILE=$@ TASK_NR=$$t config-add-task; \
 	done
 	@echo ''                                                     >> $@
+	@echo "add vocabularies"
 	echo "src_vocab:"                                            >> $@
 	@for l in $(VOCAB_SRCLANGS); do \
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
@@ -342,6 +356,7 @@ ${TRAIN_CONFIGFILE}:
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
 	@echo ''                                                     >> $@
+	@echo "add model/training parameters"
 ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
 	${MAKE} -s CONFIGFILE=$@ config-add-denoising
 endif
@@ -454,7 +469,6 @@ config-add-training-params:
 	@echo 'batch_type: ${BATCH_TYPE}'                          >> ${CONFIGFILE}
 	@echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
 	@echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
-	@echo 'report_training_accuracy: false'                    >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
 	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
@@ -502,7 +516,7 @@ config-add-checkpoint-params:
 	@echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
 	@echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
 	@echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
-	@echo 'report_training_accuracy: true'                     >> ${CONFIGFILE}
+	@echo 'report_training_accuracy: false'                    >> ${CONFIGFILE}
 
 
 

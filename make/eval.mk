@@ -3,6 +3,11 @@
 
 EVAL_TASKS ?= ${TASKS}
 
+
+## skip evaluation of denoising tasks
+## and monolingual tasks (typically denosiing tasks)
+## set to 0 to enable them
+
 SKIP_SAME_LANGUAGE_EVAL_TASKS ?= 1
 SKIP_DENOISING_EVAL_TASKS     ?= 1
 

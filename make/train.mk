@@ -32,25 +32,64 @@ train-slurm: ${TRAIN_CONFIGFILE}
 
 
 
+
+
+##------------------------------------------------------------------
+## train a model
+##------------------------------------------------------------------
+
+
 ## if the mode meta file exits: continue from existing checkpoint
 
 ifneq ($(wildcard ${MODEL_META}),)
   TRAIN_FROM = --train_from ${MODEL_PATH} --reset_optim none
 endif
 
+## for multi-node runs: need to set communication parameters
 
-
-## train a model
+ifneq (${NR_OF_NODES},1)
+  MAMMOTH_COMMUNICATION_PARAMS = --node_rank ${SLURM_PROCID} \
+				--master_ip ${MASTER_NODE} \
+				--master_port ${MASTER_PORT}
+endif
 
 .PHONY: ${MODEL_DIR}/train
+${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
+	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
+	${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
+		-save_model ${MODEL_PATH} \
+		-config $<
+
+
+
+
+##------------------------------------------------------------------
+## train a model
+## (old style with separate targets for single-node and multi-node)
+##------------------------------------------------------------------
+
+.PHONY: train-old
+train2: train-old-slurm
+	${MAKE} ${MODEL_DIR}/train-old.slurmjob
+
+.PHONY: train-old-slurm
+train-old-slurm: ${TRAIN_CONFIGFILE}
+	@echo "make ${MODEL_DIR}/train-old.slurm"
+	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
+		SLURM_NODES=${TRAIN_NR_OF_NODES} \
+		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
+		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
+		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
+	${MODEL_DIR}/train-old.slurm
+
+
+.PHONY: ${MODEL_DIR}/train-old
 
 ifeq (${NR_OF_NODES},1)
 
-##----------------------------
 ## single-node training
-##----------------------------
 
-${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
+${MODEL_DIR}/train-old: ${TRAIN_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
 		-save_model ${MODEL_PATH} \
 		-config $<
@@ -58,15 +97,10 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 
 else
 
-##----------------------------
 ## multi-node training
-##----------------------------
 
-
-.PHONY: ${MODEL_DIR}/train
-${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
+${MODEL_DIR}/train-old: ${TRAIN_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAKE} MASTER_NODE=${MASTER_NODE} MASTER_PORT=${MASTER_PORT} multi-node-train
-
 
 .PHONY: multi-node-train
 multi-node-train:
@@ -84,44 +118,6 @@ multi-node-train:
 
 endif
 
-
-
-
-
-
-
-##----------------------------
-## simplified training target
-##----------------------------
-
-
-.PHONY: train2
-train2: train2-slurm
-	${MAKE} ${MODEL_DIR}/train.slurmjob
-
-.PHONY: train2-slurm
-train2-slurm: ${TRAIN_CONFIGFILE}
-	@echo "make ${MODEL_DIR}/train2.slurm"
-	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
-		SLURM_NODES=${TRAIN_NR_OF_NODES} \
-		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
-		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
-		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
-	${MODEL_DIR}/train2.slurm
-
-
-ifneq (${NR_OF_NODES},1)
-  MAMMOTH_COMMUNICATION_PARAMS = --node_rank ${SLURM_PROCID} \
-				--master_ip ${MASTER_NODE} \
-				--master_port ${MASTER_PORT}
-endif
-
-.PHONY: ${MODEL_DIR}/train2
-${MODEL_DIR}/train2: ${TRAIN_CONFIGFILE}
-	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
-	${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
-		-save_model ${MODEL_PATH} \
-		-config $<
 
 
 

@@ -29,6 +29,12 @@ include ../../../make/marmot.mk
 # other experiments with slightly different settings
 #-----------------------------------------------------
 
+.PHONY: %.validtest
+%.validtest:
+	@${MAKE} -s MODEL_NAME=valid-test VALID_FREQ=500 VALID_BATCH=512 BATCH_SIZE=1024 $(basename $@)
+
+
+
 
 .PHONY: %.sharedenc
 %.sharedenc:
@@ -55,4 +61,21 @@ include ../../../make/marmot.mk
 		DECODER_LAYERS=2,1 \
 		TASK_ENCODERS="eng,all fin,all swe,all fin,all eng,all swe,all eng,all" \
 		TASK_DECODERS="all,eng all,fin all,swe all,eng all,fin all,eng all,swe" \
+		$(basename $@)
+
+
+.PHONY: %.opnion
+%.onion:
+	@${MAKE} -s MODEL_NAME=finland-onion \
+		ENCODER_LAYERS=3 \
+		DECODER_LAYERS=2,5,2 \
+		TASK_DECODERS="eng1,all,eng2 fin1,all,fin2 swe1,all,swe2 eng1,all,eng2 fin1,all,fin2 eng1,all,eng2 swe1,all,swe2" \
+		$(basename $@)
+
+.PHONY: %.opnion2
+%.onion2:
+	@${MAKE} -s MODEL_NAME=finland-onion2 \
+		ENCODER_LAYERS=3 \
+		DECODER_LAYERS=1,2,3,2,1 \
+		TASK_DECODERS="eng1,gem1,all,gem2,eng2 fin1,fiu1,all,fiu2,fin2 swe1,gem1,all,gem2,swe2 eng1,gem1,all,gem2,eng2 fin1,fiu1,all,fiu2,fin2 eng1,gem1,all,gem2,eng2 swe1,gem1,all,gem2,swe2" \
 		$(basename $@)
