@@ -11,6 +11,15 @@ A collection of makefile targets and configurations that support the setup of va
 * `slurm.mk`: targets for creating and submitting SLURM scripts
 
 
+## Documentation
+
+* [Environment configuration](doc/env.md)
+* [Task configuration](doc/tasks.md)
+* [Data configuration](doc/data.md)
+* SLURM configuration (TODO)
+* tutorial and examples (TODO)
+
+
 ## Quickstart
 
 Simply include the top-level makefile in your own work directory and overwrite the default values to match your own experimental setup. Create your top-level makefile with your own task definitions, e.g., for training a model with tasks to translate between English and German or French (in both directions) with default settings (assuming that the [environment](doc/env.md) is set up and all [data files exist](doc/data.md) and can be found):
@@ -88,10 +97,8 @@ make print-evaluation-scores
 
 
 
-## Issues and To-Do's
+## Known issues
 
-* make it work on other compute environments
-* improve data settings and documentation
-* lot's of other missing features
+* multi-node jobs on LUMI do not start correctly with `make train`. Quick fix: run 'make train-slurm' and run `sbatch` manually on the generated SLURM script
+* tokenizer file and selection is not very flexible
 
-Use at your own risk!

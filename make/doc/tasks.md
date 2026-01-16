@@ -2,7 +2,7 @@
 # MARMoT Experiment Makefiles - Task Configuration
 
 
-The system applies a lot of default values that can be adjusted for specific experiments. All configuration parameters can be seen in [../config.mk](config.mk). Important is also to check that [data files can be found](data.md). Changing default parameters can be done by simply overwriting variables before including the generic make files. One simple example is to set task-specific GPU allocations:
+The system applies a lot of default values that can be adjusted for specific experiments. All configuration parameters can be seen in [config.mk](../config.mk). Important is also to check that [data files can be found](data.md). Changing default parameters can be done by simply overwriting variables before including the generic make files. One simple example is to set task-specific GPU allocations:
 
 
 ```make
