@@ -64,9 +64,10 @@ All settings need to be specified before including the marmot-makefiles. Otherwi
 
 ### Monitoring progress
 
-Progress can be monitored with the logfiles. There are also some convenient makefile targets that print validation scores:
+Progress can be monitored with the logfiles. There are also some convenient makefile targets that print training progress information and validation scores:
 
 ```
+make print-training-progress
 make print-validation-scores
 make print-validation-diffs
 ```
@@ -80,6 +81,12 @@ make PRINT_METRIC=perplexity SELECT_LAST_VALID=3 print-validation-scores
 ```
 
 This also works for `make print-validation-diffs`.
+
+It is also possible to print the training progress information only for a specific task, for example task number 2:
+
+```
+make TASK_NR=2 print-task-progress
+```
 
 
 
@@ -110,5 +117,5 @@ make print-evaluation-scores
 ## Known issues
 
 * multi-node jobs on LUMI do not start correctly with `make train`. Quick fix: run 'make train-slurm' and run `sbatch` manually on the generated SLURM script
-* tokenizer file and selection is not very flexible
+* tokenizer settings and vocabulary selections are not very flexible
 

@@ -98,6 +98,7 @@ DEFAULT_DECODER    ?= "${TRGLANG}"
 
 # current task specifications - selected with TASK_NR or default value
 
+TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task_${TASK})
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
 TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
@@ -252,7 +253,7 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
-VALID_BATCH      ?= 128     # validation batch size
+VALID_BATCH      ?= 32      # validation batch size
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
 QUEUE_SIZE       ?= 40
@@ -311,7 +312,7 @@ inference-config:
 
 ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@mkdir -p $(dir $@)
-	echo 'task_id: task_${TASK}'                                   > $@
+	echo 'task_id: ${TASK_ID}'                                     > $@
 	@echo ''                                                      >> $@
 	echo "tasks:"                                                 >> $@
 	${MAKE} -s CONFIGFILE=$@ config-add-task
@@ -373,8 +374,8 @@ endif
 ## add a task section
 
 config-add-task:
-	@echo "add task ${TASK}"
-	@echo '  task_${TASK}:'                                   >> ${CONFIGFILE}
+	@echo "add task ${TASK} with ID ${TASK_ID}"
+	@echo '  ${TASK_ID}:'                                     >> ${CONFIGFILE}
 	@echo '    src_tgt: "${TASK}"'                            >> ${CONFIGFILE}
 	@echo '    weight: ${TASK_WEIGHT}'                        >> ${CONFIGFILE}
 	@echo '    introduce_at_training_step: ${TASK_TRAINSTEP}' >> ${CONFIGFILE}

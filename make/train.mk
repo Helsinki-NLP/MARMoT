@@ -154,8 +154,8 @@ TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
 
 ## print information from the reporting steps
 
-.PHONY: print-train-progress
-print-train-progress:
+.PHONY: print-train-progress print-training-progress
+print-training-progress print-train-progress:
 	@for t in `seq $(words ${TASKS})`; do \
 	  ${MAKE} -s TASK_NR=$$t print-task-progress; \
 	  echo ''; \

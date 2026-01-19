@@ -23,8 +23,8 @@ SLURM_GPU_GRES      ?= gpu:v100
 
 MODEL_DTYPE          ?= fp32
 XTRF_FLASH_ATTENTION ?= false
-BATCH_SIZE           ?= 4096    # per-GPU batch size
-VALID_BATCH          ?= 64
+BATCH_SIZE           ?= 4096    # per-GPU batch size (in tokens)
+VALID_BATCH          ?= 16      # validation batch size (but in sentences)
 
 LOAD_MAMMOTH_ENV     ?= module purge; module load pytorch; 
 MAMMOTH_ENV          ?= ${MAMMOTH_HOME}/.venv

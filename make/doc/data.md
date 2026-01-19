@@ -23,8 +23,8 @@ Similarly, the test data directory is set to `${DATA_DIR}/flores200/devtest` (wi
 
 The makefiles will by default search for task-specific data in the directories specified above. The logic for doing this is implemented in the [config.mk](../config.mk) file (see the "data sets" section). The system assumes that datasets follow the naming standards in OPUS data sets with their "moses"-style release packages. The general pattern for finding source and target language files is
 
-* `DATA_SRC = ${XXXDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz`: source language file
-* `DATA_TRG = ${XXXDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz`: target language file
+* `${XXXDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz`: source language file
+* `${XXXDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz`: target language file
 
 Both files need to be aligned (same rows indicate aligned text segments). The `XXXDATA_DIR` corresponds to the directories for training, validation and test data, respectively. `SORTED_LANGPAIR` refers to the language pair of the task but with alphabetically sorted language IDs.
 
@@ -48,3 +48,5 @@ TASK_TRAINDATA_TRGS := /path/to/eng-deu.deu /path/to/eng-fra.fra
 # include common configuration and make targets
 include ../make/marmot.mk
 ```
+
+Similarly, one can also specify task-specific validation data (with `TASK_DEVDATA_SRCS` and `TASK_DEVDATA_TRGS`) and task-specific test data (using `TASK_TESTDATA_SRCS` and `TASK_TESTDATA_TRGS`).

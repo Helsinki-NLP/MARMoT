@@ -82,6 +82,7 @@ There is many other model architecture parameters that can be adjusted by settin
 
 The following variables require space-separated lists with one values per task. It is possible to only specify a smaller number of values than the number of tasks. In that case, the initial tasks will be assigned with the values specified here and other tasks will obtain the default values. That can be useful for adding some special GPU assignments and sampling weights only for a small number of tasks. But those need to be the initial ones!
 
+* `TASK_IDS`: Unique task IDs (default = `task_${TASK}` for each TASK in TASKS)
 * `TASK_GPUS`: GPU assignments
 * `TASK_WEIGHTS`: weight for data sampling (default: 1.0)
 * `TASK_TRANSFORMS`: transformations to apply to the data (default = `filtertoolong`)
@@ -90,6 +91,10 @@ The following variables require space-separated lists with one values per task. 
 * `TASK_ENCODERS`: decoder sharing classes
 * `TASK_TRAINDATA_SRCS`: source language training data
 * `TASK_TRAINDATA_TRGS`: target language training data
+* `TASK_DEVDATA_SRCS`: source language validation data
+* `TASK_DEVDATA_TRGS`: target language validation data
+* `TASK_TESTDATA_SRCS`: source language test data
+* `TASK_TESTDATA_TRGS`: target language test data
 
 
 

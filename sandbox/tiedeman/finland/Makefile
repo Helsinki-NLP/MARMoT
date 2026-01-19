@@ -64,7 +64,7 @@ include ../../../make/marmot.mk
 		$(basename $@)
 
 
-.PHONY: %.opnion
+.PHONY: %.onion
 %.onion:
 	@${MAKE} -s MODEL_NAME=finland-onion \
 		ENCODER_LAYERS=3 \
@@ -72,10 +72,44 @@ include ../../../make/marmot.mk
 		TASK_DECODERS="eng1,all,eng2 fin1,all,fin2 swe1,all,swe2 eng1,all,eng2 fin1,all,fin2 eng1,all,eng2 swe1,all,swe2" \
 		$(basename $@)
 
-.PHONY: %.opnion2
+.PHONY: %.onion2
 %.onion2:
 	@${MAKE} -s MODEL_NAME=finland-onion2 \
 		ENCODER_LAYERS=3 \
 		DECODER_LAYERS=1,2,3,2,1 \
 		TASK_DECODERS="eng1,gem1,all,gem2,eng2 fin1,fiu1,all,fiu2,fin2 swe1,gem1,all,gem2,swe2 eng1,gem1,all,gem2,eng2 fin1,fiu1,all,fiu2,fin2 eng1,gem1,all,gem2,eng2 swe1,gem1,all,gem2,swe2" \
+		$(basename $@)
+
+
+.PHONY: %.onion3
+%.onion3:
+	@${MAKE} -s MODEL_NAME=finland-onion3 \
+		ENCODER_LAYERS=9 \
+		DECODER_LAYERS=1,1,1 \
+		TASK_DECODERS="eng,all,eng fin,all,fin swe,all,swe eng,all,eng fin,all,fin eng,all,eng swe,all,swe" \
+		$(basename $@)
+
+.PHONY: %.onion4
+%.onion4:
+	@${MAKE} -s MODEL_NAME=finland-onion4 \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=2,2,2 \
+		TASK_DECODERS="eng,all,eng fin,all,fin swe,all,swe eng,all,eng fin,all,fin eng,all,eng swe,all,swe" \
+		$(basename $@)
+
+.PHONY: %.onion5
+%.onion5:
+	@${MAKE} -s MODEL_NAME=finland-onion5 \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=1,2,3,2,1 \
+		TASK_DECODERS="eng,gem,all,gem,eng fin,fiu,all,fiu,fin swe,gem,all,gem,swe eng,gem,all,gem,eng fin,fiu,all,fiu,fin eng,gem,all,gem,eng swe,gem,all,gem,swe" \
+		$(basename $@)
+
+.PHONY: %.onion6
+%.onion6:
+	@${MAKE} -s MODEL_NAME=finland-onion6 \
+		ENCODER_LAYERS=6 \
+		DEFAULT_ENCODER="shared" \
+		DECODER_LAYERS=1,2,3,2,1 \
+		TASK_DECODERS="eng,gem,all,gem,eng fin,fiu,all,fiu,fin swe,gem,all,gem,swe eng,gem,all,gem,eng fin,fiu,all,fiu,fin eng,gem,all,gem,eng swe,gem,all,gem,swe" \
 		$(basename $@)
