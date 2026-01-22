@@ -9,6 +9,9 @@ ENCODER_LAYERS  := 6
 DECODER_LAYERS  := 6
 
 
+MAMMOTH_VERSION := stable
+
+
 ## include common configuration and make targets
 ## and set environment (if different from standard)
 
@@ -27,5 +30,7 @@ include ../../../make/marmot.mk
 	$(basename $@)
 
 
-tt:
-	echo ${GPU_RANKS}
+.PHONY: %.onlybt
+%.onlybt:
+	@${MAKE} -s MODEL_NAME=eng-fin-onlybt TRAINDATA_DIR=/scratch/project_2001194/MARMoT/data/synthetic/Wiki $(basename $@)
+

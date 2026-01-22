@@ -152,6 +152,26 @@ TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))
 TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
 
 
+## select only a certain sub-set of logfiles )can be used for any line-selection command
+
+ifdef PRINT_LAST
+  SELECT_LINES_CMD := | tail -${PRINT_LAST}
+endif
+
+ifdef PRINT_FIRST
+  SELECT_LINES_CMD := | head -${PRINT_FIRST}
+endif
+
+## select first and last N validation steps:
+## adapted from from https://stackoverflow.com/questions/28615961/how-can-i-read-first-n-and-last-n-lines-from-a-file
+## sed ':a;$q;N;(n+1),(n*2)P;(n+1),$D;ba'
+
+ifdef PRINT_FIRST_LAST
+  SELECT_LINES_CMD := | sed ":a;\$$q;N;$$(( ${PRINT_FIRST_LAST}+1 )),$$(( ${PRINT_FIRST_LAST}*2 ))P;$$(( ${PRINT_FIRST_LAST}+1 )),\$$D;ba"
+endif
+
+
+
 ## print information from the reporting steps
 
 .PHONY: print-train-progress print-training-progress
@@ -165,30 +185,13 @@ print-training-progress print-train-progress:
 print-task-progress:
 	@grep ' Step ' ${TRAIN_LOGFILE} | grep 'GPU ${TASK_GPU}' \
 	| cut -f2 -d] | sed 's/ *: Step/${TASK}:/' \
-	| sed 's/\/[0-9]*;/;/' | tr ';' "\t"
+	| sed 's/\/[0-9]*;/;/' | tr ';' "\t" ${SELECT_LINES_CMD}
 
 
 
 ## print information from validation steps
 
 PRINT_METRIC   ?= bleu
-
-ifdef SELECT_LAST_VALID
-  SELECT_VALID_CMD := | tail -${SELECT_LAST_VALID}
-endif
-
-ifdef SELECT_FIRST_VALID
-  SELECT_VALID_CMD := | head -${SELECT_FIRST_VALID}
-endif
-
-## select first and last N validation steps:
-## adapted from from https://stackoverflow.com/questions/28615961/how-can-i-read-first-n-and-last-n-lines-from-a-file
-## sed ':a;$q;N;(n+1),(n*2)P;(n+1),$D;ba'
-
-ifdef SELECT_FIRST_LAST_VALID
-  SELECT_VALID_CMD := | sed ":a;\$$q;N;$$(( ${SELECT_FIRST_LAST_VALID}+1 )),$$(( ${SELECT_FIRST_LAST_VALID}*2 ))P;$$(( ${SELECT_FIRST_LAST_VALID}+1 )),\$$D;ba"
-endif
-
 
 ## print table of validation scores for each task
 ## (some alternative names as short-cuts)
@@ -205,7 +208,7 @@ ${PRINT_VALID_SCORE_ALIASES}:
 	   echo "gpu	task	scores"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
-	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
+	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | grep "\"${PRINT_METRIC}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
@@ -230,7 +233,7 @@ ${PRINT_VALID_DIFF_ALIASES}:
 	   echo "gpu	task	first	diffs"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
-	    | grep "GPU *$${gpus[$$i]}" ${SELECT_VALID_CMD} \
+	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | grep "\"${PRINT_METRIC}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \

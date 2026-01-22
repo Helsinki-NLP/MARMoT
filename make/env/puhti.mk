@@ -3,10 +3,11 @@
 # specific configuration for puhti@csc
 #
 
+MAMMOTH_VERSION ?= dev
+
 HPC_PROJECT  ?= project_2001194
 MAMMOTH_HOME ?= /scratch/project_2001194/mammoth-shared
-MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth_dev/mammoth
-# MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth_stable/mammoth
+MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth_${MAMMOTH_VERSION}/mammoth
 
 
 MAX_GPUS_PER_NODE   ?= 4

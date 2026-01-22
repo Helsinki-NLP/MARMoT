@@ -74,10 +74,10 @@ make print-validation-diffs
 
 The first command will print BLEU scores from each validation step for each task in a TAB-separated table. The second command does the same but prints BLEU-score differences for each validation step and the previous step.
 
-The output can be modified using variables that specify the score to be shown (`PRINT_METRIC`) and the validation steps to be shown (`SELECT_LAST_VALID`, `SELECT_FIRST_VALID`, `SELECT_FIRST_LAST_VALID`), e.g. to show perplexity scores of the last 3 validation steps, run:
+The output can be modified using variables that specify the score to be shown (`PRINT_METRIC`) and the validation steps to be shown (`PRINT_LAST`, `PRINT_FIRST`, `PRINT_FIRST_LAST`), e.g. to show perplexity scores of the last 3 validation steps, run:
 
 ```
-make PRINT_METRIC=perplexity SELECT_LAST_VALID=3 print-validation-scores
+make PRINT_METRIC=perplexity PRINT_LAST=3 print-validation-scores
 ```
 
 This also works for `make print-validation-diffs`.
