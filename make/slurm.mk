@@ -84,7 +84,7 @@ ifdef STOP_GPU_ENERGY_MONITORING
 	@echo 'abort_function()'                                                             >> $@
 	@echo '{'                                                                            >> $@
 	@echo '    echo "abort_function called at `date`"'                                   >> $@
-	@echo '    ${${STOP_GPU_ENERGY_MONITORING}}'                                         >> $@
+	@echo '    ${STOP_GPU_ENERGY_MONITORING}'                                            >> $@
 	@echo '}'                                                                            >> $@
 	@echo "trap 'abort_function' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"                  >> $@
 	@echo '#--------------------------------------------------------------------------'  >> $@
@@ -124,7 +124,7 @@ endif
 	@echo ''                                                                             >> $@
 ifneq (${SLURM_GPUS},0)
 ifdef STOP_GPU_ENERGY_MONITORING
-	@echo 'srun ${${STOP_GPU_ENERGY_MONITORING}}'                                        >> $@
+	@echo 'srun ${STOP_GPU_ENERGY_MONITORING}'                                           >> $@
 endif
 endif
 	@echo 'mv $@ $@.done'                                                                >> $@

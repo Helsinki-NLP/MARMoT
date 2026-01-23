@@ -9,7 +9,7 @@ ENCODER_LAYERS  := 6
 DECODER_LAYERS  := 6
 
 
-MAMMOTH_VERSION := stable
+MAMMOTH_VERSION := dev
 
 
 ## include common configuration and make targets
@@ -25,12 +25,12 @@ include ../../../make/marmot.mk
 	@${MAKE} -s MODEL_NAME=eng-fin-bt \
 		TASKS="eng-fin eng-fin" \
 		TASK_IDS="wiki_eng-fin tc_eng-fin" \
-		TASK_TRAINDATA_SRCS=/scratch/project_2001194/MARMoT/data/synthetic/Wiki/fin-eng.eng.gz \
-		TASK_TRAINDATA_TRGS=/scratch/project_2001194/MARMoT/data/synthetic/Wiki/fin-eng.fin.gz \
+		TASK_TRAINDATA_SRCS=${DATA_DIR}/synthetic/Wiki/fin-eng.eng.gz \
+		TASK_TRAINDATA_TRGS=${DATA_DIR}/synthetic/Wiki/fin-eng.fin.gz \
 	$(basename $@)
 
 
 .PHONY: %.onlybt
 %.onlybt:
-	@${MAKE} -s MODEL_NAME=eng-fin-onlybt TRAINDATA_DIR=/scratch/project_2001194/MARMoT/data/synthetic/Wiki $(basename $@)
+	@${MAKE} -s MODEL_NAME=eng-fin-onlybt TRAINDATA_DIR=${DATA_DIR}/synthetic/Wiki $(basename $@)
 

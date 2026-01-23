@@ -78,7 +78,7 @@ LANGPAIR ?= ${SRCLANG}-${TRGLANG}
 
 
 TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/train.yaml
-INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK}.yaml
+INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 
@@ -189,7 +189,7 @@ TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_T
 TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_TESTDATA_TRG))
 
 
-TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
+TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TASK_ID}.${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
 
 
 #--------------------------------------------------------------
