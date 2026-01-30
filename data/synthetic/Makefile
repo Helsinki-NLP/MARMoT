@@ -22,7 +22,7 @@ fin-eng:
 eng-fin:
 	${MAKE} CORPUS=Wikipedia VERSION=v1syn SRC=eng TRG=fin all
 
-DOWNLOAD_URL := https://opus.nlpl.eu/synthetic/download.php?f=
+DOWNLOAD_URL := https://opus.nlpl.eu/legacy/synthetic/download.php?f=
 
 ${CORPUS}/${LANGPAIR}.${SRC}.gz:
 	mkdir -p $@.d
