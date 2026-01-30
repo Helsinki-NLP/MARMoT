@@ -37,6 +37,16 @@ DECODER_LAYERS  := 3,3
 include ../../../make/marmot.mk
 
 
+.PHONY: %.lumi3
+%.lumi3:
+	@${MAKE} -s NR_OF_NODES=3 MODEL_NAME=lumi-3nodes $(basename $@)
+
+
+.PHONY: %.lumi9
+%.lumi9:
+	@${MAKE} -s NR_OF_NODES=9 MODEL_NAME=lumi-9nodes $(basename $@)
+
+
 
 .PHONY: %.puhti6
 %.puhti6:

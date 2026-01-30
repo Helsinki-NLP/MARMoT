@@ -105,7 +105,7 @@ PRINT_EVAL_SCORE_ALIASES := 	print-eval-score \
 				print-evaluation-scores
 
 # to compare with OPUS-MT dashboard:
-DASHBOARD_API := https://opus.nlpl.eu/dashboard/api.php?test=${TESTDATA_NAME}&model=top&metric=${PRINT_METRIC}&pkg=opusmt
+DASHBOARD_API := https://opus.nlpl.eu/legacy/dashboard/api.php?test=${TESTDATA_NAME}&model=top&metric=${PRINT_METRIC}&pkg=opusmt
 PRINT_METRIC  ?= bleu
 
 .PHONY: ${PRINT_EVAL_SCORE_ALIASES}

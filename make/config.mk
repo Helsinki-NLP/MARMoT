@@ -43,6 +43,11 @@ TASK_TRANSFORMS ?= filtertoolong
 ## - skip the initial GPU assignments if they exist (in TASK_GPUS)
 ## - if NR_NODES is set: rotate over available nodes
 
+## don't allocate more nodes than what we can fill with tasks
+NR_OF_NODES ?= $(shell 	if [ $(words ${TASKS}) -gt ${MAX_GPUS_PER_NODE} ]; then \
+			  echo $$(( $(words ${TASKS}) / ${MAX_GPUS_PER_NODE} )); \
+			else echo 1; fi )
+
 TASK_GPU_ASSIGNMENTS := $(shell \
 	n=0; g=0; \
 	tasks=(${TASKS}); \

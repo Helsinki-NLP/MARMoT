@@ -45,6 +45,14 @@ include ../../../make/marmot.mk
 # other experiments with slightly different settings
 #-----------------------------------------------------
 
+.PHONY: %.rerun
+%.rerun:
+	@${MAKE} -s \
+		MODEL_NAME=eucore2-rerun \
+		LEARNING_RATE=0.0005 \
+		KEEP_CHECKPOINTS=1 \
+	$(basename $@)
+
 
 .PHONY: %.exp2
 %.exp2:

@@ -1,21 +1,20 @@
 #-*-makefile-*-
 ##-----------------------------------------------------------
 ## testing multi-node job
-##
-##   the job fails with some strange error message about
-##   'ValueError: ProcessGroupNCCL is only supported with GPUs, no GPUs found!'
-##
-##   however, manually starting the job with the same slurm script
-##   and sbatch from command-line seems to work --> WHY?
 ##-----------------------------------------------------------
 
+MONO_TASKS           := eng-eng fin-fin swe-swe
+MONO_TASK_WEIGHTS    := 0.1     0.1     0.1
+MONO_TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong denoising,filtertoolong
+MONO_TASK_IDS        := $(patsubst %,denoising_%,${MONO_TASKS})
+
+REGULAR_TASKS := fin-eng eng-fin swe-eng eng-swe fin-swe swe-fin
 
 
 MODEL_NAME      := finland-language-specific
-TASKS           := eng-eng fin-fin swe-swe fin-eng eng-fin swe-eng eng-swe
-TASK_GPUS       := 0:0     0:1     0:2
-TASK_WEIGHTS    := 0.1     0.1     0.1
-TASK_TRANSFORMS := denoising,filtertoolong denoising,filtertoolong denoising,filtertoolong
+TASKS           := ${MONO_TASKS} ${REGULAR_TASKS}
+TASK_WEIGHTS    := ${MONO_TASK_WEIGHTS}
+TASK_TRANSFORMS := ${MONO_TASK_TRANSFORMS}
 ENCODER_LAYERS  := 9
 DECODER_LAYERS  := 3
 
@@ -29,9 +28,82 @@ include ../../../make/marmot.mk
 # other experiments with slightly different settings
 #-----------------------------------------------------
 
-.PHONY: %.validtest
-%.validtest:
-	@${MAKE} -s MODEL_NAME=valid-test VALID_FREQ=500 VALID_BATCH=512 BATCH_SIZE=1024 $(basename $@)
+OS24_TASKS           := fin-eng eng-fin fin-swe swe-fin
+OS24_TASK_IDS        := $(patsubst %,os24_%,${OS24_TASKS})
+OS24_TASK_TRANSFORMS := $(patsubst %,filtertoolong,${OS24_TASKS})
+
+OS24_TASK_TRAINDATA_SRCS := ${DATA_DIR}/opus/OpenSubtitles/fin-eng.fin.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-eng.eng.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-swe.fin.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-swe.swe.gz
+
+OS24_TASK_TRAINDATA_TRGS := ${DATA_DIR}/opus/OpenSubtitles/fin-eng.eng.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-eng.fin.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-swe.swe.gz \
+			${DATA_DIR}/opus/OpenSubtitles/fin-swe.fin.gz
+
+
+BT_TASKS           := fin-eng eng-fin swe-eng eng-swe fin-swe swe-fin
+BT_TASK_IDS        := $(patsubst %,wiki_%,${BT_TASKS})
+BT_TASK_TRANSFORMS := $(patsubst %,filtertoolong,${BT_TASKS})
+
+
+BT_TASK_TRAINDATA_SRCS := 	${DATA_DIR}/synthetic/Wikipedia/eng-fin.fin.gz \
+				${DATA_DIR}/synthetic/Wiki/fin-eng.eng.gz \
+				${DATA_DIR}/synthetic/Wikipedia/eng-swe.swe.gz \
+				${DATA_DIR}/synthetic/Wiki/swe-eng.eng.gz \
+				${DATA_DIR}/synthetic/Wiki/swe-fin.fin.gz \
+				${DATA_DIR}/synthetic/Wiki/fin-swe.swe.gz
+
+BT_TASK_TRAINDATA_TRGS := 	${DATA_DIR}/synthetic/Wikipedia/eng-fin.eng.gz \
+				${DATA_DIR}/synthetic/Wiki/fin-eng.fin.gz \
+				${DATA_DIR}/synthetic/Wikipedia/eng-swe.eng.gz \
+				${DATA_DIR}/synthetic/Wiki/swe-eng.swe.gz \
+				${DATA_DIR}/synthetic/Wiki/swe-fin.swe.gz \
+				${DATA_DIR}/synthetic/Wiki/fin-swe.fin.gz
+
+.PHONY: %.bt
+%.bt:
+	@${MAKE} -s MODEL_NAME=finland-langspecific-bt \
+		TASKS="${OS24_TASKS} ${BT_TASKS} ${REGULAR_TASKS}" \
+		TASK_IDS="${OS24_TASK_IDS} ${BT_TASK_IDS}" \
+		TASK_TRAINDATA_SRCS="${OS24_TASK_TRAINDATA_SRCS} ${BT_TASK_TRAINDATA_SRCS}" \
+		TASK_TRAINDATA_TRGS="${OS24_TASK_TRAINDATA_TRGS} ${BT_TASK_TRAINDATA_TRGS}" \
+		TASK_WEIGHTS= \
+		TASK_TRANSFORMS= \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+	$(basename $@)
+
+
+# .PHONY: %.bt
+# %.bt:
+# 	@${MAKE} MODEL_NAME=finland-langspecific-bt \
+# 		TASKS="${OS24_TASKS} ${BT_TASKS} ${MONO_TASKS} ${REGULAR_TASKS}" \
+# 		TASK_IDS="${OS24_TASK_IDS} ${BT_TASK_IDS} ${MONO_TASK_IDS}" \
+# 		TASK_TRAINDATA_SRCS="${OS24_TASK_TRAINDATA_SRCS} ${BT_TASK_TRAINDATA_SRCS}" \
+# 		TASK_TRAINDATA_TRGS="${OS24_TASK_TRAINDATA_TRGS} ${BT_TASK_TRAINDATA_TRGS}" \
+# 		TASK_WEIGHTS= \
+# 		TASK_TRANSFORMS="${OS24_TASK_TRANSFORMS} ${BT_TASK_TRANSFORMS} ${MONO_TASK_TRANSFORMS}" \
+# 		ENCODER_LAYERS=6 \
+# 		DECODER_LAYERS=6 \
+# 	$(basename $@)
+
+
+.PHONY: %.bt-1node
+%.bt-1node:
+	@${MAKE} MODEL_NAME=finland-langspecific-bt-1node \
+		NR_OF_NODES=1 \
+		TASKS="${BT_TASKS} ${MONO_TASKS} ${REGULAR_TASKS}" \
+		TASK_IDS="${BT_TASK_IDS} ${MONO_TASK_IDS}" \
+		TASK_TRAINDATA_SRCS="${BT_TASK_TRAINDATA_SRCS}" \
+		TASK_TRAINDATA_TRGS="${BT_TASK_TRAINDATA_TRGS}" \
+		TASK_WEIGHTS= \
+		TASK_TRANSFORMS="${BT_TASK_TRANSFORMS} ${MONO_TASK_TRANSFORMS}" \
+		ENCODER_LAYERS=6 \
+		DECODER_LAYERS=6 \
+	$(basename $@)
+
 
 
 
