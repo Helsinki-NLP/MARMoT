@@ -4,8 +4,8 @@ SHELL := bash
 
 CORPUS ?= OpenSubtitles
 
-SRC ?= fin
-TRG ?= eng
+SRC ?= eng
+TRG ?= fin
 
 SRC2 := $(shell iso639 -2 -n ${SRC})
 TRG2 := $(shell iso639 -2 -n ${TRG})
