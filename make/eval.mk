@@ -52,7 +52,7 @@ ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
 	@echo "evaluate ${TASK}"
-	@${MAKE} ${EVAL_DIR}/eval_${TASK}.slurmjob
+	@${MAKE} ${EVAL_DIR}/eval_${TASK_ID}.slurmjob
     else
 	@echo "skip task ${TASK} (same source and target language)"
     endif
@@ -70,7 +70,7 @@ eval-slurm: ${INFERENCE_CONFIGFILE}
 		SLURM_NODES=${EVAL_NR_OF_NODES} \
 		SLURM_MEM=${EVAL_MEM_PER_NODE} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
-	${EVAL_DIR}/eval_${TASK}.slurm
+	${EVAL_DIR}/eval_${TASK_ID}.slurm
 
 
 ##-------------------------------------------------------------------------------
@@ -80,9 +80,9 @@ eval-slurm: ${INFERENCE_CONFIGFILE}
 MT_METRICS = bleu chrf ter
 
 .PHONY: ${EVAL_DIR}/eval-task
-${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK}
+${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 
-${EVAL_DIR}/eval_${TASK}: ${TESTDATA_OUTPUT}
+${EVAL_DIR}/eval_${TASK_ID}: ${TESTDATA_OUTPUT}
 	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
@@ -111,14 +111,20 @@ PRINT_METRIC  ?= bleu
 .PHONY: ${PRINT_EVAL_SCORE_ALIASES}
 ${PRINT_EVAL_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
-	   echo "task	score	opus	diff"; \
+	   taskids=(${TASK_IDS}); \
+	   echo "taskid	task	score	opus	diff"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    if [ -s ${EVAL_DIR}/eval_$${tasks[$$i]} ]; then \
-	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${tasks[$$i]} \
+	    if [ $(words ${TASK_IDS}) -le $$i ]; then \
+	      taskid="task_$${tasks[$$i]}"; \
+	    else \
+	      taskid=$${taskids[$$i]}; \
+	    fi; \
+	    if [ -s ${EVAL_DIR}/eval_$${taskid} ]; then \
+	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid} \
 	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
 	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${tasks[$$i]}" \
 	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',}' "\t0" ); \
 	      diff=`echo "$${score} $${best}" | awk '{print $$1-$$2}'`; \
-	      echo "$${tasks[$$i]}	$${score}$${best}$${diff}"; \
+	      echo "$${taskid}	$${tasks[$$i]}	$${score}$${best}$${diff}"; \
 	    fi \
 	   done )

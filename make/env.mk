@@ -52,26 +52,26 @@ MAMMOTH_ENV_ACTIVATE ?= source ${MAMMOTH_ENV}/bin/activate
 
 
 ## data directories (assuming that we have data prepared in the project dir)
-## - training data from the Tatoeba translation challenge
-## - dev and test data from Flores200 if the exists (Tatoeba otherwise)
+## - default training data from the Tatoeba translation challenge
+## - default dev and test data from Flores200 if the exists (Tatoeba otherwise)
 
 DATA_DIR        ?= ${PROJECT_DIR}/data
-TRAINDATA_DIR   ?= ${DATA_DIR}/tatoeba/train
+TRAINDATA       ?= tatoeba/train
 TRAINDATA_NAME  ?= tatoeba-test-v2023-09-26
 
 ifneq ($(wildcard ${DATA_DIR}/flores200/dev),)
-  DEVDATA_DIR   ?= ${DATA_DIR}/flores200/dev
+  DEVDATA       ?= flores200/dev
   DEVDATA_NAME  ?= flores200-dev
 else
-  DEVDATA_DIR   ?= ${DATA_DIR}/tatoeba/dev5K
+  DEVDATA       ?= tatoeba/dev5K
   DEVDATA_NAME  ?= tatoeba-test-v2023-09-26
 endif
 
 ifneq ($(wildcard ${DATA_DIR}/flores200/devtest),)
-  TESTDATA_DIR  ?= ${DATA_DIR}/flores200/devtest
+  TESTDATA      ?= flores200/devtest
   TESTDATA_NAME ?= flores200-devtest
 else
-  TESTDATA_DIR  ?= ${DATA_DIR}/tatoeba/test
+  TESTDATA      ?= tatoeba/test
   TESTDATA_NAME ?= tatoeba-test-v2023-09-26
 endif
 

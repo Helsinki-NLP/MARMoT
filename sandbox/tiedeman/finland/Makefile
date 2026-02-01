@@ -24,6 +24,7 @@ DECODER_LAYERS  := 3
 include ../../../make/marmot.mk
 
 
+
 #-----------------------------------------------------
 # other experiments with slightly different settings
 #-----------------------------------------------------
@@ -92,7 +93,7 @@ BT_TASK_TRAINDATA_TRGS := 	${DATA_DIR}/synthetic/Wikipedia/eng-fin.eng.gz \
 
 .PHONY: %.bt-1node
 %.bt-1node:
-	@${MAKE} MODEL_NAME=finland-langspecific-bt-1node \
+	@${MAKE} -s MODEL_NAME=finland-langspecific-bt-1node \
 		NR_OF_NODES=1 \
 		TASKS="${BT_TASKS} ${MONO_TASKS} ${REGULAR_TASKS}" \
 		TASK_IDS="${BT_TASK_IDS} ${MONO_TASK_IDS}" \

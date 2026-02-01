@@ -34,6 +34,16 @@
 #--------------------------------------------------------------------------
 
 
+## if no TASKS are defined: try to get the tasks from the TASK_IDS
+## --> assumes that the task follows an underscore like in "task_fin-eng"
+
+ifeq (${TASKS},)
+ifdef TASK_IDS
+  TASKS ?= $(notdir $(subst _,/,${TASK_IDS}))
+endif
+endif
+
+
 TASKS           ?= fin-eng
 TASK_WEIGHTS    ?= 1.0
 TASK_TRANSFORMS ?= filtertoolong
@@ -153,24 +163,60 @@ SORTED_LANGPAIR  := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 REVERSE_LANGPAIR := ${SORTED_TRGLANG}-${SORTED_SRCLANG}
 
 
+
+## data directories (train/dev/test)
+
+TRAINDATA_DIR ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TRAINDATA)) ${TRAINDATA})
+DEVDATA_DIR   ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_DEVDATA)) ${DEVDATA})
+TESTDATA_DIR  ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TESTDATA)) ${TESTDATA})
+
+
+## basenames of data files (filepattern to be used within the data directories)
+
+TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${SORTED_LANGPAIR})
+DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES)) *${SORTED_LANGPAIR})
+TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES)) *${SORTED_LANGPAIR})
+
+
+## file extension for source and target language files
+
+SRCLANG_EXT ?= ${SRCLANG}.gz
+TRGLANG_EXT ?= ${TRGLANG}.gz
+
+
+
 ## training data
 
-DEFAULT_TRAINDATA_SRC ?= $(firstword $(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz) $(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG}.gz))
-DEFAULT_TRAINDATA_TRG ?= $(firstword $(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz) $(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG}.gz))
+DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}))
+DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}))
 
 TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
 TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
 
 
+
 ## validation data
 
-ifeq (${DEVDATA_NAME},flores200-dev)
-  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SRCLANG}_*)
-  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${TRGLANG}_*)
-else
-  DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz)
-  DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz)
-endif
+DEFAULT_DEVDATA_SRC ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/${SRCLANG}_*))
+DEFAULT_DEVDATA_TRG ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/${TRGLANG}_*))
+
+# ifeq (${DEVDATA_NAME},flores200-dev)
+#   DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SRCLANG}_*)
+#   DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${TRGLANG}_*)
+# else
+#   DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT})
+#   DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT})
+# endif
 
 ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
   ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
@@ -180,15 +226,25 @@ ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},de
 endif
 
 
+
 ## testdata
 
-ifeq (${TESTDATA_NAME},flores200-devtest)
-  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
-  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
-else
-  DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG}.gz)
-  DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG}.gz)
-endif
+DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*))
+DEFAULT_TESTDATA_TRG ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*))
+
+# ifeq (${TESTDATA_NAME},flores200-devtest)
+#   DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
+#   DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
+# else
+#   DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT})
+#   DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT})
+# endif
 
 TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
 TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_TESTDATA_TRG))
