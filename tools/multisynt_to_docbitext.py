@@ -49,7 +49,8 @@ with gzip.open(args.jsonl_file,'rt', encoding='utf-8', errors='replace') as j:
                             break
                         
                         next_doc = doc_segs[doc_id]
-                        if not next_doc: continue
+                        next_doc_nospace = re.sub(r"\s+", "", next_doc, flags=re.UNICODE)
+                        if not next_doc_nospace: continue
                         next_src = s.readline()
                         next_trg = t.readline()
 
