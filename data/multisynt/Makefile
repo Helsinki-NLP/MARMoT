@@ -1,6 +1,8 @@
 
 SHELL := bash
 
+HPC_PROJECT := project_465001864
+
 include ../../tools/slurMake/slurm.mk
 
 DATASET  := OELLM-synthetic/maxidl/nemotron-cc-english-run1
@@ -8,12 +10,18 @@ FILEBASE := nemotron-cc-english-run1-train-
 SRC      := eng
 TRG      := fin
 FILEID   := 00
+LENGTH   := 1024
+FILEIDS  := $(shell seq -f "%02g" 0 49)
+SOURCES  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${SRC}.gz,${FILEIDS})
+TARGETS  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
 
+OELLM_LANGS := 	deu fin nob nno spa mlt ukr \
+		gle glg cat ces swe tur bul \
+		lav lit slk nld dan ell est fra \
+		hrv hun ita pol por ron \
+		slv eus bos isl kat \
+		mkd sqi srp_Cyrl
 
-SEG_LENGTH := 256
-FILEIDS    := $(shell seq -f "%02g" 0 49)
-SOURCES    := $(patsubst %,len${SEG_LENGTH}/${FILEBASE}%.${SRC}.gz,${FILEIDS})
-TARGETS    := $(patsubst %,len${SEG_LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
 
 CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
 
@@ -22,67 +30,104 @@ CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
 ## create train/dev/test splits for doc-level MT training data
 
 .PHONY: all
-all: 	train/len${SEG_LENGTH}/${FILEBASE}00-48.${TRG}.gz \
-	train/len${SEG_LENGTH}/${FILEBASE}00-48.${SRC}.gz \
-	dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz \
-	dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz \
-	test/len${SEG_LENGTH}/${FILEBASE}49-head2000.${TRG}.gz \
-	test/len${SEG_LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
+all: 	train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
+	train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz \
+	dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz \
+	dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz \
+	test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}.gz \
+	test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
+	${MAKE} all-textpredict
 
 
 # create text prediction data for source and target language
 
 .PHONY: all-textpredict
-all-textpredict: textpredict/${TRG}/train/len${SEG_LENGTH}/${FILEBASE}00-48.first.gz \
-		textpredict/${SRC}/train/len${SEG_LENGTH}/${FILEBASE}00-48.first.gz \
-		textpredict/${TRG}/dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.first.gz \
-		textpredict/${SRC}/dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.first.gz \
-		textpredict/${TRG}/test/len${SEG_LENGTH}/${FILEBASE}49-head2000.first.gz \
-		textpredict/${SRC}/test/len${SEG_LENGTH}/${FILEBASE}49-head2000.first.gz
+all-textpredict: textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}00-48.first.gz \
+		textpredict/${TRG}/dev/len${LENGTH}/${FILEBASE}49-tail2000.first.gz \
+		textpredict/${TRG}/test/len${LENGTH}/${FILEBASE}49-head2000.first.gz
 
+.PHONY: all-src-textpredict
+all-src-textpredict: textpredict/${SRC}/train/len${LENGTH}/${FILEBASE}00-48.first.gz \
+		textpredict/${SRC}/dev/len${LENGTH}/${FILEBASE}49-tail2000.first.gz \
+		textpredict/${SRC}/test/len${LENGTH}/${FILEBASE}49-head2000.first.gz
 
+.PHONY: all-oellm
+all-oellm:
+	for l in ${OELLM_LANGS}; do \
+	  ${MAKE} TRG=$$l all.slurmjob; \
+	done
 
 
 
 .PHONY: convert
-convert: len${SEG_LENGTH}/${FILEBASE}${FILEID}.${TRG}.gz
+convert: len${LENGTH}/${FILEBASE}${FILEID}.${TRG}.gz
 
 .PHONY: fetch
 fetch: jsonl/${SRC}/${FILEBASE}${FILEID}.jsonl.gz txt/${SRC}/${FILEBASE}${FILEID}.txt.gz txt/${TRG}/${FILEBASE}${FILEID}.txt.gz
 
 
 
+BROKEN_LANGS = bos deu hrv kat lav mkd pol slv srp_Cyrl ukr
+
+count-broken:
+	for l in ${BROKEN_LANGS}; do \
+	  echo -n "$$l	"; \
+	  zcat train/len${LENGTH}/*.$$f.gz | wc -l; \
+	done
+
+count-lines:
+	for f in train/len${LENGTH}/*.gz; do \
+	  echo -n "$$f	"; \
+	  zcat $$f | wc -l; \
+	done
+
 
 ## MT training data
+##
+## TODO: for some languages, zcat with many files seems to break without error
+##       --> some files contain only a fraction of the data (e.g. bos, deu, ukr, ...)
+##       --> fall back to concatenating individual files in a loop for now
 
-TRAIN_DATA := $(filter-out len${SEG_LENGTH}/${FILEBASE}49.${TRG}.gz,$(TARGETS))
+TRAIN_DATA := $(filter-out len${LENGTH}/${FILEBASE}49.${TRG}.gz,$(TARGETS))
 
-train/len${SEG_LENGTH}/${FILEBASE}00-48.${TRG}.gz: ${TRAIN_DATA}
+train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
-	zcat $^ | grep -v 'END_OF_DOCUMENT' | gzip -c > $@
+	rm -f $(@:.gz=)
+	for d in $^; do \
+	  echo "adding $$d"; \
+	  gzip -cd < $$d | grep -v 'END_OF_DOCUMENT' >> $(@:.gz=); \
+	done
+	gzip -f $(@:.gz=)
+#	zcat $^ | grep -v 'END_OF_DOCUMENT' | gzip -c > $@
 
-train/len${SEG_LENGTH}/${FILEBASE}00-48.${SRC}.gz: ${TRAIN_DATA}
+train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep -v 'END_OF_DOCUMENT' | gzip -c > $@
+	rm -f $(@:.gz=)
+	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
+	  echo "adding $$d"; \
+	  gzip -cd < $$d | grep -v 'END_OF_DOCUMENT' >> $(@:.gz=); \
+	done
+	gzip -f $(@:.gz=)
+#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep -v 'END_OF_DOCUMENT' | gzip -c > $@
 
 
 ## MT development and test data
 
-DEVTEST_DATA := len${SEG_LENGTH}/${FILEBASE}49.${TRG}.gz
+DEVTEST_DATA := len${LENGTH}/${FILEBASE}49.${TRG}.gz
 
-dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz: ${DEVTEST_DATA}
+dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | grep -v 'END_OF_DOCUMENT' | tail -2000 | gzip -c > $@
 
-dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz: ${DEVTEST_DATA}
+dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep -v 'END_OF_DOCUMENT' | tail -2000 | gzip -c > $@
 
-test/len${SEG_LENGTH}/${FILEBASE}49-head2000.${TRG}.gz: ${DEVTEST_DATA}
+test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | grep -v 'END_OF_DOCUMENT' | head -2000 | gzip -c > $@
 
-test/len${SEG_LENGTH}/${FILEBASE}49-head2000.${SRC}.gz: ${DEVTEST_DATA}
+test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep -v 'END_OF_DOCUMENT' | head -2000 | gzip -c > $@
 
@@ -90,54 +135,88 @@ test/len${SEG_LENGTH}/${FILEBASE}49-head2000.${SRC}.gz: ${DEVTEST_DATA}
 
 ## text prediction data
 
-textpredict/${TRG}/train/len${SEG_LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
+textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
-	zcat $^ | head -n -1 > $@.1
-	zcat $^ | tail -n +2 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
+	for d in $^; do \
+	  gzip -cd $$d >> $@.1; \
+	done
+	tail -n +2 $@.1 > $@.2
+	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
+	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
 
-textpredict/${SRC}/train/len${SEG_LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
+#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
+#	| tee >(cut -f1 | gzip -c > $@) \
+#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+#	rm -f $@.1 $@.2
+#
+#	mkdir -p $(dir $@)
+#	zcat $^ | head -n -1 > $@.1
+#	zcat $^ | tail -n +2 > $@.2
+#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
+#	| tee >(cut -f1 | gzip -c > $@) \
+#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+#	rm -f $@.1 $@.2
+
+textpredict/${SRC}/train/len${LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 > $@.1
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
+	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
+	  gzip -cd $$d >> $@.1; \
+	done
+	tail -n +2 $@.1 > $@.2
+	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
+	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
 
-textpredict/${TRG}/dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.first.gz: ${DEVTEST_DATA}
+#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
+#	| tee >(cut -f1 | gzip -c > $@) \
+#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+#	rm -f $@.1 $@.2
+#
+#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 > $@.1
+#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 > $@.2
+#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
+#	| tee >(cut -f1 | gzip -c > $@) \
+#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+#	rm -f $@.1 $@.2
+
+textpredict/${TRG}/dev/len${LENGTH}/${FILEBASE}49-tail2000.first.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | head -n -1 | tail -2000 > $@.1
 	zcat $^ | tail -2000 > $@.2
 	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
 	| tee >(cut -f1 | gzip -c > $@) \
 	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
 
-textpredict/${SRC}/dev/len${SEG_LENGTH}/${FILEBASE}49-tail2000.first.gz: ${DEVTEST_DATA}
+textpredict/${SRC}/dev/len${LENGTH}/${FILEBASE}49-tail2000.first.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 | tail -2000 > $@.1
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -2000 > $@.2
 	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
 	| tee >(cut -f1 | gzip -c > $@) \
 	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
 
-textpredict/${TRG}/test/len${SEG_LENGTH}/${FILEBASE}49-head2000.first.gz: ${DEVTEST_DATA}
+textpredict/${TRG}/test/len${LENGTH}/${FILEBASE}49-head2000.first.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | head -2000 > $@.1
 	zcat $^ | tail -n +2 | head -2000 > $@.2
 	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
 	| tee >(cut -f1 | gzip -c > $@) \
 	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
+	rm -f $@.1 $@.2
 
-textpredict/${SRC}/test/len${SEG_LENGTH}/${FILEBASE}49-head2000.first.gz: ${DEVTEST_DATA}
+textpredict/${SRC}/test/len${LENGTH}/${FILEBASE}49-head2000.first.gz: ${DEVTEST_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -2000 > $@.1
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 | head -2000 > $@.2
 	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
 	| tee >(cut -f1 | gzip -c > $@) \
 	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-
+	rm -f $@.1 $@.2
 
 
 
@@ -155,15 +234,15 @@ txt/%.txt.gz:
 	wget -q -O $@ https://object.pouta.csc.fi/${DATASET}/translated/$@
 
 
-len${SEG_LENGTH}/${FILEBASE}%.${TRG}.gz: jsonl/${SRC}/${FILEBASE}%.jsonl.gz txt/${SRC}/${FILEBASE}%.txt.gz txt/${TRG}/${FILEBASE}%.txt.gz
+len${LENGTH}/${FILEBASE}%.${TRG}.gz: jsonl/${SRC}/${FILEBASE}%.jsonl.gz txt/${SRC}/${FILEBASE}%.txt.gz txt/${TRG}/${FILEBASE}%.txt.gz
 	mkdir -p $(dir $@)
 	if [ -e $(@:.${TRG}.gz=.${SRC}.gz) ]; then \
-	   ${CONVERT_SCRIPT} -l ${SEG_LENGTH} -j $< \
+	   ${CONVERT_SCRIPT} -l ${LENGTH} -j $< \
 		-s $(patsubst jsonl/${SRC}/%.jsonl.gz,txt/${SRC}/%.txt.gz,$<) \
 		-t $(patsubst jsonl/${SRC}/%.jsonl.gz,txt/${TRG}/%.txt.gz,$<) \
 	   | cut -f2 | gzip -c > $@; \
 	else \
-	   ${CONVERT_SCRIPT} -l ${SEG_LENGTH} -j $< \
+	   ${CONVERT_SCRIPT} -l ${LENGTH} -j $< \
 		-s $(patsubst jsonl/${SRC}/%.jsonl.gz,txt/${SRC}/%.txt.gz,$<) \
 		-t $(patsubst jsonl/${SRC}/%.jsonl.gz,txt/${TRG}/%.txt.gz,$<) \
 	   | tee >(cut -f2 | gzip -c > $@) \
