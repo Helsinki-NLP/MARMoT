@@ -92,6 +92,8 @@ TRGLANG  ?= $(lastword  $(subst -, ,${TASK}))
 LANGPAIR ?= ${SRCLANG}-${TRGLANG}
 
 
+## path to config files
+
 TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/train.yaml
 INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
@@ -140,15 +142,18 @@ SKIP_SAME_LANGUAGE_VALID_TASKS ?= 1
 SKIP_DENOISING_VALID_TASKS     ?= 1
 
 
-## in OPUS data we have sorted language IDs for language pairs
+## in OPUS/Tatoeba data we have sorted language IDs for language pairs
 
 SORTED_SRCLANG  := $(firstword $(sort ${SRCLANG} ${TRGLANG}))
 SORTED_TRGLANG  := $(lastword  $(sort ${SRCLANG} ${TRGLANG}))
 
-## monolingual data: take bilingual data with English or French
+
+## monolingual data and denoising tasks: take bilingual data with English or French
+##
 ## TODO: what do we do if those alignments do not exist?
 ## TODO: use actual monolingual data sets
 
+ifeq ($(findstring denoising,$(TASK_TRANSFORM)),denoising)
 ifeq (${SRCLANG},${TRGLANG})
 ifeq (${SRCLANG},eng)
   SORTED_SRCLANG := eng
@@ -158,6 +163,7 @@ else
   SORTED_TRGLANG := $(lastword  $(sort eng ${TRGLANG}))
 endif
 endif
+endif
 
 SORTED_LANGPAIR  := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 REVERSE_LANGPAIR := ${SORTED_TRGLANG}-${SORTED_SRCLANG}
@@ -165,6 +171,9 @@ REVERSE_LANGPAIR := ${SORTED_TRGLANG}-${SORTED_SRCLANG}
 
 
 ## data directories (train/dev/test)
+##
+## data directories can be specified for each task
+## if not, take the default locations given in TRAINDATA, DEVDATA and TESTDATA
 
 TRAINDATA_DIR ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TRAINDATA)) ${TRAINDATA})
 DEVDATA_DIR   ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_DEVDATA)) ${DEVDATA})
@@ -172,6 +181,10 @@ TESTDATA_DIR  ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TESTDATA)) ${T
 
 
 ## basenames of data files (filepattern to be used within the data directories)
+##
+## file basenames are either given for each specific task
+## or we use the default pattern, which is *${SORTED_LANGPAIR}
+## (in OPUS/Tatoeba we sort language IDs alphabetically and uses them in the bitext file name)
 
 TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${SORTED_LANGPAIR})
 DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES)) *${SORTED_LANGPAIR})
@@ -179,19 +192,54 @@ TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES)) 
 
 
 ## file extension for source and target language files
+##
+## if source and target language are the same AND this is not a denoising task
+## then add some digits to the source language file extensions to distinguish
+##      between input and output files (e.g. eng1 and eng2)
+##
+## TASK_SRCLANG_EXT and TASK_TRGLANG_EXT can overwrite the default extensions
+## for specific tasks
 
-SRCLANG_EXT ?= ${SRCLANG}.gz
-TRGLANG_EXT ?= ${TRGLANG}.gz
+ifneq ($(findstring denoising,$(TASK_TRANSFORM)),denoising)
+ifeq (${SRCLANG},${TRGLANG})
+  DEFAULT_SRCLANG_EXT ?= ${SRCLANG}1.gz
+  DEFAULT_TRGLANG_EXT ?= ${TRGLANG}2.gz
+endif
+endif
+
+DEFAULT_SRCLANG_EXT ?= ${SRCLANG}.gz
+DEFAULT_TRGLANG_EXT ?= ${TRGLANG}.gz
+
+SRCLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_SRCLANG_EXT)) ${DEFAULT_SRCLANG_EXT})
+TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGLANG_EXT})
 
 
 
+##---------------------------------------------------------------------------------
 ## training data
+##
+##
+## look for training data in the TRAININDATA_DIR using different file patterns:
+##
+## (1) ${TRAINDATA_BASENAME}.${SRCLANG_EXT} and ${TRAINDATA_BASENAME}.${TRGLANG_EXT}
+## (2) *${LANGPAIR}.${SRCLANG_EXT}          and *${LANGPAIR}.${TRGLANG_EXT}
+## (3) *${SORTED_LANGPAIR}.${SRCLANG_EXT}   and *${SORTED_LANGPAIR}.${TRGLANG_EXT}
+## (4) *${REVERSE_LANGPAIR}.${SRCLANG_EXT}  and *${REVERSE_LANGPAIR}.${TRGLANG_EXT}
+##
+## the first one that is found will be taken as a default set
+## this can be overwritten with task specific data specified in
+##    TASK_TRAINDATA_SRCS and TASK_TRAINDATA_TRGS
+##
+## TODO: is this too much magic and does this cause a lot of potential problems?
+##---------------------------------------------------------------------------------
 
 DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}))
 DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}))
 
 TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
@@ -200,23 +248,21 @@ TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT
 
 
 ## validation data
+##
+## same principles as for training data (see above)
+## but using the DEVDATA variables
 
 DEFAULT_DEVDATA_SRC ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${SOFRTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${SRCLANG}_*))
 DEFAULT_DEVDATA_TRG ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${TRGLANG}_*))
 
-# ifeq (${DEVDATA_NAME},flores200-dev)
-#   DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${SRCLANG}_*)
-#   DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${TRGLANG}_*)
-# else
-#   DEFAULT_DEVDATA_SRC ?= $(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT})
-#   DEFAULT_DEVDATA_TRG ?= $(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT})
-# endif
 
 ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
   ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
@@ -228,23 +274,22 @@ endif
 
 
 ## testdata
+##
+## same principles as for training data (see above)
+## but using the TESTDATA variables
+
 
 DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*))
 DEFAULT_TESTDATA_TRG ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*))
 
-# ifeq (${TESTDATA_NAME},flores200-devtest)
-#   DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${SRCLANG}_*)
-#   DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TRGLANG}_*)
-# else
-#   DEFAULT_TESTDATA_SRC ?= $(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT})
-#   DEFAULT_TESTDATA_TRG ?= $(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT})
-# endif
 
 TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
 TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_TESTDATA_TRG))
@@ -323,9 +368,10 @@ QUEUE_SIZE       ?= 40
 TASK_DISTRIBUTION ?= weighted_sampling
 MIN_SRCSEQ_LENGTH ?= 1
 MIN_TRGSEQ_LENGTH ?= 1
-MAX_SRCSEQ_LENGTH ?= 512
-MAX_TRGSEQ_LENGTH ?= 512
 MAX_SEQ_LENGTH    ?= 512
+MAX_SRCSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
+MAX_TRGSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
+
 
 VALID_FREQ       ?= 5000    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics

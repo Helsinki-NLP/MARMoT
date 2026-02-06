@@ -210,7 +210,7 @@ ${PRINT_VALID_SCORE_ALIASES}:
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"${PRINT_METRIC}\":" \
+	    | grep "\"${PRINT_METRIC}.*\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
 	    echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
 	   done )
