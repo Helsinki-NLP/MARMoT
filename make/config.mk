@@ -39,14 +39,12 @@
 
 ifeq (${TASKS},)
 ifdef TASK_IDS
-  TASKS ?= $(notdir $(subst _,/,${TASK_IDS}))
+  # TASKS ?= $(notdir $(subst _,/,${TASK_IDS}))
+  TASKS ?= $(shell echo ${TASK_IDS} | tr " " "\n" | sed 's/^[^_]*_//')
 endif
 endif
 
-
-TASKS           ?= fin-eng
-TASK_WEIGHTS    ?= 1.0
-TASK_TRANSFORMS ?= filtertoolong
+TASKS ?= fin-eng
 
 
 ## GPU assignments: simply distribute one task per GPU/Node
@@ -109,9 +107,10 @@ DEFAULT_GPU        ?= 0:0
 DEFAULT_WEIGHT     ?= 1.0
 DEFAULT_TRANSFORM  ?= filtertoolong
 DEFAULT_TRAINSTEP  ?= 0
+DEFAULT_SRCPREFIX  ?= >>${TRGLANG}<<
+DEFAULT_TRGPREFIX  ?= <<${SRCLANG}>>
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
-
 
 # current task specifications - selected with TASK_NR or default value
 
@@ -120,6 +119,8 @@ TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAU
 TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
+TASK_SRCPREFIX := $(firstword $(word ${TASK_NR},$(TASK_SRCPREFIXES))     $(DEFAULT_SRCPREFIX))
+TASK_TRGPREFIX := $(firstword $(word ${TASK_NR},$(TASK_TRGPREFIXES))     $(DEFAULT_TRGPREFIX))
 TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAULT_ENCODER))
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
 
@@ -222,9 +223,10 @@ TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGL
 ## look for training data in the TRAININDATA_DIR using different file patterns:
 ##
 ## (1) ${TRAINDATA_BASENAME}.${SRCLANG_EXT} and ${TRAINDATA_BASENAME}.${TRGLANG_EXT}
-## (2) *${LANGPAIR}.${SRCLANG_EXT}          and *${LANGPAIR}.${TRGLANG_EXT}
-## (3) *${SORTED_LANGPAIR}.${SRCLANG_EXT}   and *${SORTED_LANGPAIR}.${TRGLANG_EXT}
-## (4) *${REVERSE_LANGPAIR}.${SRCLANG_EXT}  and *${REVERSE_LANGPAIR}.${TRGLANG_EXT}
+## (2) ${TRAINDATA_BASENAME}.${SRCLANG}1.gz and ${TRAINDATA_BASENAME}.${TRGLANG}2.gz
+## (3) *${LANGPAIR}.${SRCLANG_EXT}          and *${LANGPAIR}.${TRGLANG_EXT}
+## (4) *${SORTED_LANGPAIR}.${SRCLANG_EXT}   and *${SORTED_LANGPAIR}.${TRGLANG_EXT}
+## (5) *${REVERSE_LANGPAIR}.${SRCLANG_EXT}  and *${REVERSE_LANGPAIR}.${TRGLANG_EXT}
 ##
 ## the first one that is found will be taken as a default set
 ## this can be overwritten with task specific data specified in
@@ -234,10 +236,12 @@ TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGL
 ##---------------------------------------------------------------------------------
 
 DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}))
 DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG}2.gz) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}))
@@ -253,19 +257,21 @@ TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT
 ## but using the DEVDATA variables
 
 DEFAULT_DEVDATA_SRC ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${SOFRTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${SRCLANG}_*))
 DEFAULT_DEVDATA_TRG ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG}2.gz) \
 					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${TRGLANG}_*))
 
 
-ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
-  ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
+ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_VALID_TASKS},denoising-1)
+  ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_VALID_TASKS},$(TRGLANG)-1)
     DEVDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_SRCS)) $(DEFAULT_DEVDATA_SRC))
     DEVDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_TRGS)) $(DEFAULT_DEVDATA_TRG))
   endif
@@ -280,11 +286,13 @@ endif
 
 
 DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*))
 DEFAULT_TESTDATA_TRG ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT}) \
+					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG}2.gz) \
 					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
@@ -492,8 +500,8 @@ config-add-task:
 	@echo '    dec_sharing_group: [${TASK_DECODER}]'          >> ${CONFIGFILE}
 	@echo '    transforms: [${TASK_TRANSFORM}]'               >> ${CONFIGFILE}
 ifeq (${ADD_LANGUAGE_TOKEN},true)
-	@echo '    src_prefix: ">>${TRGLANG}<<"'  >> ${CONFIGFILE}
-	@echo '    tgt_prefix: "<<${SRCLANG}>>"'  >> ${CONFIGFILE}
+	@echo '    src_prefix: "${TASK_SRCPREFIX}"'               >> ${CONFIGFILE}
+	@echo '    tgt_prefix: "${TASK_TRGPREFIX}"'               >> ${CONFIGFILE}
 endif
 ifneq (${TRAINDATA_SRC},)
 ifneq (${TRAINDATA_TRG},)

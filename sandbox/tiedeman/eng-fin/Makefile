@@ -38,6 +38,16 @@ BT_TRAIN_TRG  := ${DATA_DIR}/synthetic/Wiki/fin-eng.fin.gz
 		TASK_TRAINDATA_TRGS="${DOC_TRAIN_TRG} ${BT_TRAIN_TRG}" \
 	$(basename $@)
 
+.PHONY: %.doconly
+%.doconly:
+	@${MAKE} -s MODEL_NAME=eng-fin-doconly \
+		MAX_SEQ_LENGTH=1024 \
+		VOCAB_DIR=${PROJECT_DIR}/tokenizer/tatoeba_hplt_multisynt \
+		TASK_IDS="doc_eng-fin" \
+		TASK_TRAINDATA_SRCS="${DOC_TRAIN_SRC}" \
+		TASK_TRAINDATA_TRGS="${DOC_TRAIN_TRG}" \
+	$(basename $@)
+
 
 .PHONY: %.bt
 %.bt:
