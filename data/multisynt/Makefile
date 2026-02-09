@@ -30,19 +30,31 @@ CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
 ## create train/dev/test splits for doc-level MT training data
 
 .PHONY: all
-all: 	train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
+all:
+	${MAKE} all-mt
+	${MAKE} all-src-textpredict
+	${MAKE} all-trg-textpredict
+
+
+.PHONY: all-mt
+all-mt: train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
 	train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz \
 	dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz \
 	dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz \
 	test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}.gz \
 	test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
-	${MAKE} all-textpredict
 
 
 # create text prediction data for source and target language
 
+
 .PHONY: all-textpredict
-all-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${TRG}1.gz \
+all-textpredict:
+	${MAKE} all-src-textpredict
+	${MAKE} all-trg-textpredict
+
+.PHONY: all-trg-textpredict
+all-trg-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${TRG}1.gz \
 		textpredict/dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}1.gz \
 		textpredict/test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}1.gz
 
@@ -55,18 +67,18 @@ all-src-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${SRC}1.gz 
 
 ## create jobs to make the data for all OpenEuroLLM languages
 
-.PHONY: all-oellm
-all-oellm:
+.PHONY: all-oellm-mt
+all-oellm-mt:
 	for l in ${OELLM_LANGS}; do \
-	  ${MAKE} TRG=$$l all.slurmjob; \
+	  ${MAKE} TRG=$$l all-mt.slurmjob; \
 	done
 
 .PHONY: all-oellm-predict
 all-oellm-predict:
+	${MAKE} SLURM_MEM=16g SLURM_CPUS=1 all-src-textpredict.slurmjob
 	for l in ${OELLM_LANGS}; do \
-	  ${MAKE} TRG=$$l all-textpredict.slurmjob; \
+	  ${MAKE} TRG=$$l SLURM_MEM=16g SLURM_CPUS=1 all-trg-textpredict.slurmjob; \
 	done
-	${MAKE} TRG=$$l all-src-textpredict.slurmjob
 
 
 
