@@ -34,6 +34,23 @@ SORTED_TRG := $(lastword $(sort ${SRC} ${TRG}))
 LANGPAIR   := ${SORTED_SRC}-${SORTED_TRG}
 LANGPAIRS  ?= ${LANGPAIR}
 
+
+#----------------------------------------------------------------------
+# release info
+#----------------------------------------------------------------------
+
+TATOEBA_RELEASE_URL := https://raw.githubusercontent.com/Helsinki-NLP/Tatoeba-Challenge/refs/heads/master/data/release
+TATOEBA_RELEASE := v2023-09-26
+
+HIGHEST_RESOURCE := released-bitexts-highest.txt
+HIGHER_RESOURCE  := released-bitexts-higher.txt
+MEDIUM_RESOURCE  := released-bitexts-medium.txt
+LOWER_RESOURCE   := released-bitexts-lower.txt
+LOWEST_RESOURCE  := released-bitexts-lowest.txt
+
+TATOEBA_SUBSETS := ${HIGHEST_RESOURCE} ${HIGHER_RESOURCE} ${MEDIUM_RESOURCE} ${LOWER_RESOURCE} ${LOWEST_RESOURCE}
+
+
 #----------------------------------------------------------------------
 # non-English focus languages for the OpenEuroLLM project
 #----------------------------------------------------------------------
@@ -111,6 +128,61 @@ oellm-pivot:
 .PHONY: oellm-eng
 oellm-eng:
 	${MAKE} PIVOT_LANG=eng LANGPAIRS="${OELLM_PIVOT_LANGPAIRS}" all
+
+
+#----------------------------------------------------------------------
+# subsets of the Tatoeba data release
+#----------------------------------------------------------------------
+
+${TATOEBA_SUBSETS}:
+	wget -O $@ -q ${TATOEBA_RELEASE_URL}/${TATOEBA_RELEASE}/$@
+
+tatoeba-highest: ${HIGHEST_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
+
+tatoeba-higher: ${HIGHER_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
+
+tatoeba-high: tatoeba-highest tatoeba-higher
+
+
+
+## fix zho datasets
+
+tatoeba-highest-zho: ${HIGHEST_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $< | grep zho)' all
+
+tatoeba-higher-zho: ${HIGHER_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $< | grep zho)' all
+
+tatoeba-high-zho: tatoeba-highest-zho tatoeba-higher-zho
+	${MAKE} move-regional
+	${MAKE} merge-regional
+
+
+#----------------------------------------------------------------------
+# merge unnecessary regional variants
+#----------------------------------------------------------------------
+
+move-regional:
+	mkdir -p train/regional
+	mv train/*_[A-Z][A-Z]*.gz train/regional/
+
+merge-regional:
+	for f in $(notdir $(sort $(basename $(basename $(wildcard train/regional/*))))); do \
+	  echo "process $$f"; \
+	  s=`echo $$f | cut -f1 -d-`; \
+	  t=`echo $$f | cut -f2 -d-`; \
+	  S=`echo $$s | sed 's/_[A-Z][A-Z]//'`; \
+	  T=`echo $$t | sed 's/_[A-Z][A-Z]//'`; \
+	  if [ -e train/$$S-$$T.$$S.gz ]; then gunzip train/$$S-$$T.$$S.gz; fi; \
+	  if [ -e train/$$S-$$T.$$T.gz ]; then gunzip train/$$S-$$T.$$T.gz; fi; \
+	  if [ -e train/$$S-$$T.corpora.gz ]; then gunzip train/$$S-$$T.corpora.gz; fi; \
+	  zcat train/regional/$$f.$$s.gz >> train/$$S-$$T.$$S; \
+	  zcat train/regional/$$f.$$t.gz >> train/$$S-$$T.$$T; \
+	  zcat train/regional/$$f.corpora.gz >> train/$$S-$$T.corpora; \
+	done
+	find train -maxdepth 1 -type f -name "*-*.*" -not -name '*.gz' | xargs gzip -f
 
 
 #----------------------------------------------------------------------

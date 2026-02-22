@@ -46,6 +46,20 @@ OELLM_LANGS := 	deu fin nob nno spa mlt ukr \
 		mkd sqi srp_Cyrl eng
 
 
+TATOEBA_LANGS := afr ara asm awa aze_Latn bel ben bos_Latn \
+		bul cat ceb ces cym dan deu ell eng \
+		epo est eus fao fas fin fra gla gle \
+		glg hau_Latn hbs_Cyrl hbs_Latn heb hin \
+		hrv hun hye ilo isl ita jav jpn kab \
+		kat kaz_Cyrl khm kor lav lit ltz mal \
+		mar mkd mlt mon mri msa_Latn mya nld \
+		nob nor oci pol por prs que ron rus \
+		slk slv spa sqi srp_Cyrl srp_Latn swa swe \
+		tam tat tel tgl_Latn tha tur uig_Arab ukr \
+		urd uzb_Latn vie war yid zho_Hans zho_Hant
+# zho_Hans_CN zho_Hans_TW 
+
+
 TOKENIZER      := ${LANGUAGE}/${VOCAB_SIZE}/tokenizer.json
 TOKENIZERS     := $(patsubst %,%/${VOCAB_SIZE}/tokenizer.json,${LANGUAGES})
 TOKENIZER_JOBS := $(patsubst %,%.submit,${TOKENIZERS})
@@ -66,6 +80,17 @@ oellm:
 
 oellm-jobs:
 	${MAKE} LANGUAGES="${OELLM_LANGS}" all-jobs
+
+
+
+tatoeba:
+	${MAKE} LANGUAGES="${TATOEBA_LANGS}" all
+
+tatoeba-jobs:
+	${MAKE} LANGUAGES="${TATOEBA_LANGS}" all-jobs
+
+tatoeba-job:
+	${MAKE} tatoeba.submit
 
 
 # run for a single language (specify with LANGUAGE=...)
@@ -110,6 +135,7 @@ SLURM_MAX_NR_JOBS := 200
 # HPC_PROJECT = project_462000964
 # HPC_PROJECT = project_2001194
 HPC_PROJECT = project_462001087
+HPC_MEM = 256G
 
 %.submit:
 	mkdir -p $(dir $@)
@@ -127,7 +153,7 @@ HPC_PROJECT = project_462001087
 	  echo '#SBATCH --partition=small'    >>$@; \
 	  echo '#SBATCH --nodes=1'            >>$@; \
 	  echo '#SBATCH --cpus-per-task=8'    >>$@; \
-	  echo '#SBATCH --mem=128G'           >>$@; \
+	  echo '#SBATCH --mem=${HPC_MEM}'     >>$@; \
 	  echo '#SBATCH --time=1-00:00:00'    >>$@; \
 	  echo ''                             >>$@; \
 	  echo '  echo "Starting at `date`"'  >>$@; \
