@@ -227,6 +227,7 @@ TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGL
 ## (3) *${LANGPAIR}.${SRCLANG_EXT}          and *${LANGPAIR}.${TRGLANG_EXT}
 ## (4) *${SORTED_LANGPAIR}.${SRCLANG_EXT}   and *${SORTED_LANGPAIR}.${TRGLANG_EXT}
 ## (5) *${REVERSE_LANGPAIR}.${SRCLANG_EXT}  and *${REVERSE_LANGPAIR}.${TRGLANG_EXT}
+## (6) *.${SRCLANG_EXT}                     and *.${TRGLANG_EXT}
 ##
 ## the first one that is found will be taken as a default set
 ## this can be overwritten with task specific data specified in
@@ -239,12 +240,14 @@ DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BA
 					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}))
+					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*.${SRCLANG_EXT}))
 DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG}2.gz) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}))
+					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
+					$(wildcard ${TRAINDATA_DIR}/*.${TRGLANG_EXT}))
 
 TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
 TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
@@ -368,10 +371,10 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
-VALID_BATCH      ?= 32      # validation batch size
+VALID_BATCH      ?= 8       # validation batch size
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
-QUEUE_SIZE       ?= 40
+QUEUE_SIZE       ?= 80
 
 TASK_DISTRIBUTION ?= weighted_sampling
 MIN_SRCSEQ_LENGTH ?= 1
@@ -466,14 +469,16 @@ ${TRAIN_CONFIGFILE}:
 	@echo "add vocabularies"
 	echo "src_vocab:"                                            >> $@
 	@for l in $(VOCAB_SRCLANGS); do \
+	  echo -n " $$l"; \
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
 	echo "tgt_vocab:"                                            >> $@
 	@for l in $(VOCAB_TRGLANGS); do \
+	  echo -n " $$l"; \
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
 	@echo ''                                                     >> $@
-	@echo "add model/training parameters"
+	@echo "\nadd model/training parameters"
 ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
 	${MAKE} -s CONFIGFILE=$@ config-add-denoising
 endif

@@ -63,66 +63,6 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 
 
 
-##------------------------------------------------------------------
-## train a model
-## (old style with separate targets for single-node and multi-node)
-##------------------------------------------------------------------
-
-.PHONY: train-old
-train2: train-old-slurm
-	${MAKE} ${MODEL_DIR}/train-old.slurmjob
-
-.PHONY: train-old-slurm
-train-old-slurm: ${TRAIN_CONFIGFILE}
-	@echo "make ${MODEL_DIR}/train-old.slurm"
-	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
-		SLURM_NODES=${TRAIN_NR_OF_NODES} \
-		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
-		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
-		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
-	${MODEL_DIR}/train-old.slurm
-
-
-.PHONY: ${MODEL_DIR}/train-old
-
-ifeq (${NR_OF_NODES},1)
-
-## single-node training
-
-${MODEL_DIR}/train-old: ${TRAIN_CONFIGFILE}
-	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
-		-save_model ${MODEL_PATH} \
-		-config $<
-
-
-else
-
-## multi-node training
-
-${MODEL_DIR}/train-old: ${TRAIN_CONFIGFILE}
-	${LOAD_MAMMOTH_ENV} ${MAKE} MASTER_NODE=${MASTER_NODE} MASTER_PORT=${MASTER_PORT} multi-node-train
-
-.PHONY: multi-node-train
-multi-node-train:
-	( ${MAMMOTH_ENV_ACTIVATE}; \
-	  echo "Node ${SLURM_NODEID} starting training"; \
-	  echo "Master node: ${MASTER_NODE}"; \
-	  echo "Master port: ${MASTER_PORT}"; \
-	  export TOKENIZERS_PARALLELISM=False; \
-	  ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/train.py ${TRAIN_FROM} \
-		-config ${TRAIN_CONFIGFILE} \
-		-save_model ${MODEL_PATH} \
-		--node_rank ${SLURM_PROCID} \
-		--master_ip ${MASTER_NODE} \
-		--master_port ${MASTER_PORT} )
-
-endif
-
-
-
-
-
-
 
 
 
@@ -212,7 +152,9 @@ ${PRINT_VALID_SCORE_ALIASES}:
 	    | tr ',}' "\n\n" \
 	    | grep "\"${PRINT_METRIC}.*\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
-	    echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
+	    if [ "$${score}" != "0.000	" ]; then \
+	      echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
+	    fi \
 	   done )
 
 
