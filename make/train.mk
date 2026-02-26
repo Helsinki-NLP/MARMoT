@@ -164,7 +164,7 @@ print-valid-scores-table:
 
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
-	${MAKE} -s print-valid-scores-table | perl -e 'while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
+	@${MAKE} -s print-valid-scores-table | perl -e 'while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
 
 
 

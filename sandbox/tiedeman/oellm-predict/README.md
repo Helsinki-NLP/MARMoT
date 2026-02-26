@@ -19,7 +19,7 @@ Tranformer-based models (6x6 layers) with language-specific encoders and decoder
 * `oellm-predict`: monolingual text prediction
 * `oellm-translate2-36`: English-centric translation tasks
 * `oellm-predict-denoise-translate2`: monolingual text prediction, denoising, translation
-* ` oellm-crosspredict-denoise-translate2`: monolingual and cross-lingual text prediction, denoising, translation
+* `oellm-crosspredict-denoise-translate2`: monolingual and cross-lingual text prediction, denoising, translation
 
 Note that some encoders are shared for languages that are considered variants of some metalanguage defined by by the ISO standard for language groups.
 

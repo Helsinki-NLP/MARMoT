@@ -88,9 +88,9 @@ VOCAB_DIR := ${PROJECT_DIR}/tokenizer/tatoeba_hplt_multisynt
 
 
 
-.PHONY: %.12x12-predict
-%.12x12-predict:
-	@${MAKE} -s MODEL_NAME=oellm_12x12-crosspredict \
+.PHONY: %.oellm_12x12-predict
+%.oellm_12x12-predict:
+	@${MAKE} -s MODEL_NAME=oellm_12x12-predict \
 		ENCODER_LAYERS=12 \
 		DECODER_LAYERS=12 \
 	$(basename $@)
@@ -102,8 +102,8 @@ PARTSHARED_TASK_ENCODERS  := $(foreach l,${META_LANGS},"$l","all")
 PARTSHARED_TASK_DECODERS  := $(foreach l,${META_LANGS},"all","$l")
 
 
-.PHONY: %.partially-shared
-%.partially-shared:
+.PHONY: %.oellm-predict-partially-shared
+%.oellm-predict-partially-shared:
 	@${MAKE} -s MODEL_NAME=oellm-predict-partially-shared \
 		ENCODER_LAYERS=3,3 \
 		DECODER_LAYERS=3,3 \
@@ -116,8 +116,8 @@ PARTSHARED_TASK_DECODERS  := $(foreach l,${META_LANGS},"all","$l")
 CROSS_TASK_IDS      := $(foreach l,${LANGS_NOEN},predict_$l-eng)
 CROSS_TASK_ENCODERS := $(foreach l,${META_LANGS_NOEN},"$l")
 
-.PHONY: %.crosspredict
-%.crosspredict:
+.PHONY: %.oellm-crosspredict
+%.oellm-crosspredict:
 	@${MAKE} -s MODEL_NAME=oellm-crosspredict \
 		TASK_IDS="${TASK_IDS} ${CROSS_TASK_IDS}" \
 		TASK_ENCODERS='${TASK_ENCODERS} ${TASK_ENCODERS}' \
@@ -135,8 +135,8 @@ MTEN_TASK_ENCODERS := $(foreach l,${META_LANGS_NOEN},"eng")
 MT_TRAINDATA := $(foreach l,${LANGS_NOEN},${TRANSLATE_TRAIN})
 MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 
-.PHONY: %.predict-translate
-%.predict-translate:
+.PHONY: %.oellm-predict-translate
+%.oellm-predict-translate:
 	@${MAKE} -s MODEL_NAME=oellm-predict-translate \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${TASK_IDS}" \
 		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${TASK_ENCODERS}' \
@@ -145,8 +145,8 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 	$(basename $@)
 
 
-.PHONY: %.crosspredict-translate
-%.crosspredict-translate:
+.PHONY: %.oellm-crosspredict-translate
+%.oellm-crosspredict-translate:
 	@${MAKE} -s MODEL_NAME=oellm-crosspredict-translate \
 		TASK_IDS="${MT_TASK_IDS} ${TASK_IDS} ${CROSS_TASK_IDS}" \
 		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${TASK_ENCODERS} ${CROSS_TASK_ENCODERS}' \
@@ -158,8 +158,8 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 
 ## text prediction and translate in both directions
 
-.PHONY: %.predict-translate2
-%.predict-translate2:
+.PHONY: %.oellm-predict-translate2
+%.oellm-predict-translate2:
 	@${MAKE} -s MODEL_NAME=oellm-predict-translate2 \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS}" \
 		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS} ${TASK_ENCODERS}' \
@@ -171,12 +171,12 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 ## translate in both directions
 ## can also do that over all 36 languages!
 
-.PHONY: %.translate2
-%.translate2:
+.PHONY: %.oellm-translate2
+%.oellm-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.translate2-${NR_LANGS}
-%.translate2-${NR_LANGS}:
+.PHONY: %.oellm-translate2-${NR_LANGS}
+%.oellm-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS}' \
@@ -189,12 +189,12 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 ## translate in both directions
 ## can also do that over all 36 languages!
 
-.PHONY: %.12x12-translate2
-%.12x12-translate2:
+.PHONY: %.oellm_12x12-translate2
+%.oellm_12x12-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.12x12-translate2-${NR_LANGS}
-%.12x12-translate2-${NR_LANGS}:
+.PHONY: %.oellm_12x12-translate2-${NR_LANGS}
+%.oellm_12x12-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm_12x12-translate2-${NR_LANGS} \
 		ENCODER_LAYERS=12 DECODER_LAYERS=12 \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
@@ -208,12 +208,12 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 
 ## completely shared parameters
 
-.PHONY: %.shared_translate2
-%.shared_translate2:
+.PHONY: %.oellm_shared-translate2
+%.oellm_shared-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.shared_translate2-${NR_LANGS}
-%.shared_translate2-${NR_LANGS}:
+.PHONY: %.oellm_shared-translate2-${NR_LANGS}
+%.oellm_shared-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm_shared-translate2-${NR_LANGS} \
 		DEFAULT_ENCODER="shared" DEFAULT_DECODER="shared" ADD_LANGUAGE_TOKEN=true \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
@@ -225,12 +225,12 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 
 ## shared encoder
 
-.PHONY: %.sharedenc_translate2
-%.sharedenc_translate2:
+.PHONY: %.oellm_sharedenc-translate2
+%.oellm_sharedenc-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.sharedenc_translate2-${NR_LANGS}
-%.sharedenc_translate2-${NR_LANGS}:
+.PHONY: %.oellm_sharedenc-translate2-${NR_LANGS}
+%.oellm_sharedenc-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm_sharedenc-translate2-${NR_LANGS} \
 		DEFAULT_ENCODER="shared" \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
@@ -247,8 +247,8 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 DENOISE_TASK_IDS   := $(foreach l,${LANGS},denoise_$l-$l)
 DENOISE_TRANSFORMS := $(foreach l,${LANGS},filtertoolong,denoising)
 
-.PHONY: %.denoise-translate2
-%.denoise-translate2:
+.PHONY: %.oellm-denoise-translate2
+%.oellm-denoise-translate2:
 	@${MAKE} -s MODEL_NAME=oellm-denoise-translate2 \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${TASK_ENCODERS} ${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS}' \
@@ -265,12 +265,12 @@ DENOISE_TRANSFORMS := $(foreach l,${LANGS},filtertoolong,denoising)
 ##       to distribute evenly on compute nodes with 8 GPUs each
 
 
-.PHONY: %.predict-denoise-translate2
-%.predict-denoise-translate2:
+.PHONY: %.oellm-predict-denoise-translate2
+%.oellm-predict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.predict-denoise-translate2-${NR_LANGS}
-%.predict-denoise-translate2-${NR_LANGS}:
+.PHONY: %.oellm-predict-denoise-translate2-${NR_LANGS}
+%.oellm-predict-denoise-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm-predict-denoise-translate2 \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS}" \
 		TASK_ENCODERS='${TASK_ENCODERS} ${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS} ${TASK_ENCODERS}' \
@@ -283,12 +283,12 @@ DENOISE_TRANSFORMS := $(foreach l,${LANGS},filtertoolong,denoising)
 
 ## completely shared parameters
 
-.PHONY: %.shared_predict-denoise-translate2
-%.shared_predict-denoise-translate2:
+.PHONY: %.oellm_shared-predict-denoise-translate2
+%.oellm_shared-predict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.shared_predict-denoise-translate2-${NR_LANGS}
-%.shared_predict-denoise-translate2-${NR_LANGS}:
+.PHONY: %.oellm_shared-predict-denoise-translate2-${NR_LANGS}
+%.oellm_shared-predict-denoise-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm_shared-predict-denoise-translate2-${NR_LANGS} \
 		DEFAULT_ENCODER="shared" DEFAULT_DECODER="shared" ADD_LANGUAGE_TOKEN=true \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS}" \
@@ -301,12 +301,12 @@ DENOISE_TRANSFORMS := $(foreach l,${LANGS},filtertoolong,denoising)
 
 ## shared encoder
 
-.PHONY: %.sharedenc_predict-denoise-translate2
+.PHONY: %.oellm_sharedenc-predict-denoise-translate2
 %.sharedenc_predict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.sharedenc_predict-denoise-translate2-${NR_LANGS}
-%.sharedenc_predict-denoise-translate2-${NR_LANGS}:
+.PHONY: %.oellm_sharedenc-predict-denoise-translate2-${NR_LANGS}
+%.oellm_sharedenc-predict-denoise-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm_sharedenc-predict-denoise-translate2-${NR_LANGS} \
 		DEFAULT_ENCODER="shared" \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS}" \
@@ -321,17 +321,15 @@ DENOISE_TRANSFORMS := $(foreach l,${LANGS},filtertoolong,denoising)
 
 ## add cross-lingual prediction
 
-
-
-.PHONY: %.crosspredict-denoise-translate2
-%.crosspredict-denoise-translate2:
+.PHONY: %.oellm-crosspredict-denoise-translate2
+%.oellm-crosspredict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
 CROSS_TASK_IDS      := $(foreach l,${LANGS_NOEN},predict_$l-eng predict_eng-$l)
 CROSS_TASK_ENCODERS := $(foreach l,${META_LANGS_NOEN},"$l" "eng")
 
-.PHONY: %.crosspredict-denoise-translate2-${NR_LANGS}
-%.crosspredict-denoise-translate2-${NR_LANGS}:
+.PHONY: %.oellm-crosspredict-denoise-translate2-${NR_LANGS}
+%.oellm-crosspredict-denoise-translate2-${NR_LANGS}:
 	@${MAKE} -s MODEL_NAME=oellm-crosspredict-denoise-translate2 \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS} ${CROSS_TASK_IDS}" \
 		TASK_ENCODERS='${TASK_ENCODERS} ${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS} ${TASK_ENCODERS} ${CROSS_TASK_ENCODERS}' \
@@ -362,13 +360,13 @@ CROSS_XXEN_TASK_IDS   := $(foreach l,${LANGS_NOEN},predict_$l-eng)
 CROSS_ENXX_TASK_IDS   := $(foreach l,${LANGS_NOEN},predict_eng-$l)
 
 
-.PHONY: %.3c_crosspredict-denoise-translate2
-%.3c_crosspredict-denoise-translate2:
+.PHONY: %.oellm_3c-crosspredict-denoise-translate2
+%.oellm_3c-crosspredict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.3c_crosspredict-denoise-translate2-${NR_LANGS}
-%.3c_crosspredict-denoise-translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_3c-crosspredict-denoise-translate2 \
+.PHONY: %.oellm_3c-crosspredict-denoise-translate2-${NR_LANGS}
+%.oellm_3c-crosspredict-denoise-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_3c-crosspredict-denoise-translate2-${NR_LANGS} \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS} ${CROSS_XXEN_TASK_IDS} ${CROSS_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${3C_MONO_TASK_ENCODERS} ${3C_XXEN_TASK_ENCODERS} ${3C_ENXX_TASK_ENCODERS} ${3C_MONO_TASK_ENCODERS} ${3C_XXEN_TASK_ENCODERS} ${3C_ENXX_TASK_ENCODERS}' \
 		TASK_DECODERS='${3C_MONO_TASK_DECODERS} ${3C_XXEN_TASK_DECODERS} ${3C_ENXX_TASK_DECODERS} ${3C_MONO_TASK_DECODERS} ${3C_XXEN_TASK_DECODERS} ${3C_ENXX_TASK_DECODERS}' \
@@ -384,13 +382,13 @@ CROSS_ENXX_TASK_IDS   := $(foreach l,${LANGS_NOEN},predict_eng-$l)
 
 ## 3-component encoder and language-specific 3-layer decoders
 
-.PHONY: %.3Cenc_crosspredict-denoise-translate2
-%.3Cenc_crosspredict-denoise-translate2:
+.PHONY: %.oellm_3Cenc-crosspredict-denoise-translate2
+%.oellm-3Cenc-crosspredict-denoise-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.3Cenc_crosspredict-denoise-translate2-${NR_LANGS}
-%.3Cenc_crosspredict-denoise-translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_3Cenc-crosspredict-denoise-translate2 \
+.PHONY: %.oellm_3Cenc-crosspredict-denoise-translate2-${NR_LANGS}
+%.oellm_3Cenc-crosspredict-denoise-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_3Cenc-crosspredict-denoise-translate2-${NR_LANGS} \
 		TASK_IDS="${DENOISE_TASK_IDS} ${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS} ${TASK_IDS} ${CROSS_XXEN_TASK_IDS} ${CROSS_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${3C_MONO_TASK_ENCODERS} ${3C_XXEN_TASK_ENCODERS} ${3C_ENXX_TASK_ENCODERS} ${3C_MONO_TASK_ENCODERS} ${3C_XXEN_TASK_ENCODERS} ${3C_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -405,13 +403,13 @@ CROSS_ENXX_TASK_IDS   := $(foreach l,${LANGS_NOEN},predict_eng-$l)
 ## 3-component encoder and language-specific 3-layer decoders
 ## translation only
 
-.PHONY: %.3Cenc_translate2
-%.3Cenc_translate2:
+.PHONY: %.oellm_3Cenc-translate2
+%.oellm_3Cenc-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.3Cenc_translate2-${NR_LANGS}
-%.3Cenc_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_3Cenc-translate2 \
+.PHONY: %.oellm_3Cenc-translate2-${NR_LANGS}
+%.oellm_3Cenc-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_3Cenc-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${3C_XXEN_TASK_ENCODERS} ${3C_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -434,13 +432,13 @@ G_ENXX_TASK_ENCODERS := $(foreach l,${LANG_GRANDPARENTS_NOEN},"gem")
 
 ## grandparent encoder 6x6
 
-.PHONY: %.Genc6x6_translate2
-%.Genc6x6_translate2:
+.PHONY: %.oellm_Genc6x6-translate2
+%.oellm_Genc6x6_translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.Genc6x6_translate2-${NR_LANGS}
-%.Genc6x6_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_Genc6x6-translate2 \
+.PHONY: %.oellm_Genc6x6-translate2-${NR_LANGS}
+%.oellm_Genc6x6-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_Genc6x6-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${G_XXEN_TASK_ENCODERS} ${G_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -451,13 +449,13 @@ G_ENXX_TASK_ENCODERS := $(foreach l,${LANG_GRANDPARENTS_NOEN},"gem")
 
 ## grandparent encoder 9x3
 
-.PHONY: %.Genc_translate2
-%.Genc_translate2:
+.PHONY: %.oellm_Genc-translate2
+%.oellm_Genc-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.Genc_translate2-${NR_LANGS}
-%.Genc_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_Genc-translate2 \
+.PHONY: %.oellm_Genc-translate2-${NR_LANGS}
+%.oellm_Genc-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_Genc-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${G_XXEN_TASK_ENCODERS} ${G_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -472,13 +470,13 @@ G_ENXX_TASK_ENCODERS := $(foreach l,${LANG_GRANDPARENTS_NOEN},"gem")
 PGA_XXEN_TASK_ENCODERS := $(foreach l,${LANG_NRS},"$(word $l,${LANG_PARENTS_NOEN})","$(word $l,${LANG_GRANDPARENTS_NOEN})","all")
 PGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"gmw","gem","all")
 
-.PHONY: %.PGAenc_translate2
-%.PGAenc_translate2:
+.PHONY: %.oellm_PGAenc-translate2
+%.oellm_PGAenc-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.PGAenc_translate2-${NR_LANGS}
-%.PGAenc_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_PGAenc-translate2 \
+.PHONY: %.oellm_PGAenc-translate2-${NR_LANGS}
+%.oellm_PGAenc-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_PGAenc-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${PGA_XXEN_TASK_ENCODERS} ${PGA_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -489,14 +487,13 @@ PGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"gmw","gem","all")
 
 
 
-
-.PHONY: %.PGAenc6x6_translate2
-%.PGAenc6x6_translate2:
+.PHONY: %.oellm_PGAenc6x6-translate2
+%.oellm_PGAenc6x6-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.PGAenc6x6_translate2-${NR_LANGS}
-%.PGAenc6x6_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_PGAenc6x6-translate2 \
+.PHONY: %.oellm_PGAenc6x6-translate2-${NR_LANGS}
+%.oellm_PGAenc6x6-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_PGAenc6x6-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${PGA_XXEN_TASK_ENCODERS} ${PGA_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -514,13 +511,13 @@ PGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"gmw","gem","all")
 LPGA_XXEN_TASK_ENCODERS := $(foreach l,${LANG_NRS},"$(word $l,${META_LANGS_NOEN})","$(word $l,${LANG_PARENTS_NOEN})","$(word $l,${LANG_GRANDPARENTS_NOEN})","all")
 LPGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"eng","gmw","gem","all")
 
-.PHONY: %.LPGAenc_translate2
-%.LPGAenc_translate2:
+.PHONY: %.oellm_LPGAenc-translate2
+%.oellm_LPGAenc-translate2:
 	@${MAKE} -s NR_LANGS=36 $@-36
 
-.PHONY: %.LPGAenc_translate2-${NR_LANGS}
-%.LPGAenc_translate2-${NR_LANGS}:
-	@${MAKE} -s MODEL_NAME=oellm_LPGAenc-translate2 \
+.PHONY: %.oellm_LPGAenc-translate2-${NR_LANGS}
+%.oellm_LPGAenc-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_LPGAenc-translate2-${NR_LANGS} \
 		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
 		TASK_ENCODERS='${PGA_XXEN_TASK_ENCODERS} ${PGA_ENXX_TASK_ENCODERS}' \
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
@@ -528,3 +525,13 @@ LPGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"eng","gmw","gem","all")
 		ENCODER_LAYERS=1,2,3,3 \
 		DECODER_LAYERS=3 \
 	$(basename $@)
+
+
+
+## set languages to 36 languages instead of 32
+
+ifneq (${NR_LANGS},36)
+.PHONY: %-36
+%-36:
+	@${MAKE} -s NR_LANGS=36 $@
+endif
