@@ -86,6 +86,18 @@ include ../../../make/marmot.mk
 
 VOCAB_DIR := ${PROJECT_DIR}/tokenizer/tatoeba_hplt_multisynt
 
+
+
+.PHONY: %.12x12-predict
+%.12x12-predict:
+	@${MAKE} -s MODEL_NAME=oellm_12x12-crosspredict \
+		ENCODER_LAYERS=12 \
+		DECODER_LAYERS=12 \
+	$(basename $@)
+
+
+
+
 PARTSHARED_TASK_ENCODERS  := $(foreach l,${META_LANGS},"$l","all")
 PARTSHARED_TASK_DECODERS  := $(foreach l,${META_LANGS},"all","$l")
 
@@ -171,6 +183,27 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
 		TASK_DEVDATA="${MT_DEVDATA} ${MT_DEVDATA}" \
 	$(basename $@)
+
+
+
+## translate in both directions
+## can also do that over all 36 languages!
+
+.PHONY: %.12x12-translate2
+%.12x12-translate2:
+	@${MAKE} -s NR_LANGS=36 $@-36
+
+.PHONY: %.12x12-translate2-${NR_LANGS}
+%.12x12-translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_12x12-translate2-${NR_LANGS} \
+		ENCODER_LAYERS=12 DECODER_LAYERS=12 \
+		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
+		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS}' \
+		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
+		TASK_DEVDATA="${MT_DEVDATA} ${MT_DEVDATA}" \
+	$(basename $@)
+
+
 
 
 ## completely shared parameters
@@ -398,7 +431,25 @@ G_XXEN_TASK_ENCODERS := $(foreach l,${LANG_GRANDPARENTS_NOEN},"$l")
 G_ENXX_TASK_ENCODERS := $(foreach l,${LANG_GRANDPARENTS_NOEN},"gem")
 
 
-## grandparent encoder
+
+## grandparent encoder 6x6
+
+.PHONY: %.Genc6x6_translate2
+%.Genc6x6_translate2:
+	@${MAKE} -s NR_LANGS=36 $@-36
+
+.PHONY: %.Genc6x6_translate2-${NR_LANGS}
+%.Genc6x6_translate2-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_Genc6x6-translate2 \
+		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
+		TASK_ENCODERS='${G_XXEN_TASK_ENCODERS} ${G_ENXX_TASK_ENCODERS}' \
+		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
+		TASK_DEVDATA="${MT_DEVDATA} ${MT_DEVDATA}" \
+	$(basename $@)
+
+
+
+## grandparent encoder 9x3
 
 .PHONY: %.Genc_translate2
 %.Genc_translate2:

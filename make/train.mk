@@ -91,6 +91,10 @@ task-info:
 TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))
 TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
 
+ifdef LAST_LOGFILE
+  TRAIN_LOGFILES := ${TRAIN_LOGFILE}
+endif
+
 
 ## select only a certain sub-set of logfiles )can be used for any line-selection command
 
@@ -123,7 +127,7 @@ print-training-progress print-train-progress:
 
 .PHONY: print-task-progress
 print-task-progress:
-	@grep ' Step ' ${TRAIN_LOGFILE} | grep 'GPU ${TASK_GPU}' \
+	@grep ' Step ' ${TRAIN_LOGFILES} | grep 'GPU ${TASK_GPU}' \
 	| cut -f2 -d] | sed 's/ *: Step/${TASK}:/' \
 	| sed 's/\/[0-9]*;/;/' | tr ';' "\t" ${SELECT_LINES_CMD}
 
@@ -141,13 +145,14 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 				print-validation-score \
 				print-validation-scores
 
-.PHONY: ${PRINT_VALID_SCORE_ALIASES}
-${PRINT_VALID_SCORE_ALIASES}:
+
+.PHONY: print-valid-scores-table
+print-valid-scores-table:
 	@( tasks=(${TASKS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   echo "gpu	task	scores"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
+	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | grep "\"${PRINT_METRIC}.*\":" \
@@ -156,6 +161,11 @@ ${PRINT_VALID_SCORE_ALIASES}:
 	      echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
 	    fi \
 	   done )
+
+.PHONY: ${PRINT_VALID_SCORE_ALIASES}
+${PRINT_VALID_SCORE_ALIASES}:
+	${MAKE} -s print-valid-scores-table | perl -e 'while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
+
 
 
 ## display score differences between validation steps
@@ -174,10 +184,10 @@ ${PRINT_VALID_DIFF_ALIASES}:
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   echo "gpu	task	first	diffs"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILE} \
+	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"${PRINT_METRIC}\":" \
+	    | grep "\"${PRINT_METRIC}.*\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \
 	    echo -n "$${gpus[$$i]}	$${tasks[$$i]}	$${score[0]}"; \
 	    last=$${score[0]}; \

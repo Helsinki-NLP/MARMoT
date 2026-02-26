@@ -371,7 +371,7 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
-VALID_BATCH      ?= 8       # validation batch size
+VALID_BATCH      ?= 4       # validation batch size
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
 QUEUE_SIZE       ?= 80
@@ -478,7 +478,8 @@ ${TRAIN_CONFIGFILE}:
 	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
 	done
 	@echo ''                                                     >> $@
-	@echo "\nadd model/training parameters"
+	@echo ''
+	@echo "add model/training parameters"
 ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
 	${MAKE} -s CONFIGFILE=$@ config-add-denoising
 endif

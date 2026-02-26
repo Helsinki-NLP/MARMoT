@@ -11,7 +11,8 @@ MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth-${MAMMOTH_VERSION}/mammoth
 
 
 MAX_GPUS_PER_NODE   ?= 8
-MAX_MEM_PER_GPU     ?= 48
+# MAX_MEM_PER_GPU     ?= 48
+MAX_MEM_PER_GPU     ?= 60
 MAX_CPUS_PER_GPU    ?= 7
 
 QUEUE_SIZE          ?= 120
