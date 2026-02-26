@@ -87,6 +87,10 @@ include ../../../make/marmot.mk
 VOCAB_DIR := ${PROJECT_DIR}/tokenizer/tatoeba_hplt_multisynt
 
 
+.PHONY: %.oellm-predict
+%.oellm-predict:
+	${MAKE} -s $(basename $@)
+
 
 .PHONY: %.oellm_12x12-predict
 %.oellm_12x12-predict:
