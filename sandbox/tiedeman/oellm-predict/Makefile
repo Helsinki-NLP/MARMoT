@@ -208,6 +208,25 @@ MT_DEVDATA   := $(foreach l,${LANGS_NOEN},${TRANSLATE_DEV})
 	$(basename $@)
 
 
+## do the 12x12 model with fewer validation tasks
+
+.PHONY: %.oellm_12x12-translate2-halfdev
+%.oellm_12x12-translate2-halfdev:
+	@${MAKE} -s NR_LANGS=36 $@-36
+
+NODEV_DEVDATA   := $(foreach l,${LANGS_NOEN},nodev)
+
+.PHONY: %.oellm_12x12-translate2-halfdev-${NR_LANGS}
+%.oellm_12x12-translate2-halfdev-${NR_LANGS}:
+	@${MAKE} -s MODEL_NAME=oellm_12x12-translate2-halfdev-${NR_LANGS} \
+		ENCODER_LAYERS=12 DECODER_LAYERS=12 \
+		TASK_IDS="${MT_XXEN_TASK_IDS} ${MT_ENXX_TASK_IDS}" \
+		TASK_ENCODERS='${MTXX_TASK_ENCODERS} ${MTEN_TASK_ENCODERS}' \
+		TASK_TRAINDATA="${MT_TRAINDATA} ${MT_TRAINDATA}" \
+		TASK_DEVDATA="${MT_DEVDATA} ${NODEV_DEVDATA}" \
+	$(basename $@)
+
+
 
 
 ## completely shared parameters
