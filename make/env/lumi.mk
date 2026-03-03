@@ -3,7 +3,8 @@
 # specific configuration for lumi@csc
 #
 
-MAMMOTH_VERSION ?= dev
+# MAMMOTH_VERSION ?= dev
+MAMMOTH_VERSION ?= joerg
 
 HPC_PROJECT  ?= project_462000964
 MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared

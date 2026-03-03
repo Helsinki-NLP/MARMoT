@@ -554,7 +554,7 @@ LPGA_ENXX_TASK_ENCODERS := $(foreach l,${LANG_NRS},"eng","gmw","gem","all")
 ## set languages to 36 languages instead of 32
 
 ifneq (${NR_LANGS},36)
-.PHONY: %-36
-%-36:
+.PHONY: %-translate2-36
+%-translate2-36:
 	@${MAKE} -s NR_LANGS=36 $@
 endif

@@ -150,7 +150,12 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 print-valid-scores-table:
 	@( tasks=(${TASKS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
-	   echo "gpu	task	scores"; \
+	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	    | grep "GPU *0:0" ${SELECT_LINES_CMD} \
+	    | tr ',}' "\n\n" \
+	    | grep "\"step\":" \
+	    | cut -f2 -d: | xargs printf "%5d	" ); \
+	   echo "gpu	task	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
@@ -162,9 +167,11 @@ print-valid-scores-table:
 	    fi \
 	   done )
 
+
+
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
-	@${MAKE} -s print-valid-scores-table | perl -e 'while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
+	@${MAKE} -s print-valid-scores-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
 
 
 

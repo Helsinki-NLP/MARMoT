@@ -236,6 +236,8 @@ TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGL
 ## TODO: is this too much magic and does this cause a lot of potential problems?
 ##---------------------------------------------------------------------------------
 
+ifdef FIND_DATA
+
 DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
@@ -249,6 +251,8 @@ DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BA
 					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TRAINDATA_DIR}/*.${TRGLANG_EXT}))
 
+endif
+
 TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
 TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
 
@@ -258,6 +262,8 @@ TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT
 ##
 ## same principles as for training data (see above)
 ## but using the DEVDATA variables
+
+ifdef FIND_DATA
 
 DEFAULT_DEVDATA_SRC ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG}1.gz) \
@@ -272,6 +278,7 @@ DEFAULT_DEVDATA_TRG ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME
 					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${DEVDATA_DIR}/${TRGLANG}_*))
 
+endif
 
 ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_VALID_TASKS},denoising-1)
   ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_VALID_TASKS},$(TRGLANG)-1)
@@ -288,6 +295,8 @@ endif
 ## but using the TESTDATA variables
 
 
+ifdef FIND_DATA
+
 DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG}1.gz) \
 					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
@@ -300,6 +309,8 @@ DEFAULT_TESTDATA_TRG ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASEN
 					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*))
+
+endif
 
 
 TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
@@ -371,7 +382,9 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 RANDOM_SEED      ?= 42
 BATCH_TYPE       ?= tokens  # type of unit for batch size
 BATCH_SIZE       ?= 8192    # per-GPU batch size
-VALID_BATCH      ?= 4       # validation batch size
+VALID_BATCH      ?= 16      # validation batch size
+VALID_TIMEOUT    ?= 300     # validation time out after 5min
+VALID_MAX_LENGTH ?= ${MAX_SEQ_LENGTH}
 GRADIENT_ACCUM   ?= 20      # gradient accumulation
 LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
 QUEUE_SIZE       ?= 80
@@ -463,7 +476,7 @@ ${TRAIN_CONFIGFILE}:
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
 	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} -s CONFIGFILE=$@ TASK_NR=$$t config-add-task; \
+	  ${MAKE} -s CONFIGFILE=$@ TASK_NR=$$t FIND_DATA=1 config-add-task; \
 	done
 	@echo ''                                                     >> $@
 	@echo "add vocabularies"
@@ -593,10 +606,6 @@ config-add-training-params:
 	@echo 'normalization: ${BATCH_TYPE}'                       >> ${CONFIGFILE}
 	@echo 'queue_size: ${QUEUE_SIZE}'                          >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
-	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
-	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
-	@echo 'beam_size: 1'                                       >> ${CONFIGFILE}
-	@echo ''                                                   >> ${CONFIGFILE}
 	@echo '# Optimizer settings (from create_opts)'            >> ${CONFIGFILE}
 	@echo 'optim: ${OPTIMIZER}'                                >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
@@ -628,8 +637,14 @@ endif
 
 
 config-add-checkpoint-params:
+	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
+	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
 	@echo 'valid_steps: ${VALID_FREQ}'                         >> ${CONFIGFILE}
+	@echo 'valid_timeout: ${VALID_TIMEOUT}'                    >> ${CONFIGFILE}
+	@echo 'valid_max_length: ${VALID_MAX_LENGTH}'              >> ${CONFIGFILE}
 	@echo 'valid_metrics: [$(strip ${VALID_METRICS})]'         >> ${CONFIGFILE}
+	@echo 'beam_size: 1'                                       >> ${CONFIGFILE}
+	@echo ''                                                   >> ${CONFIGFILE}
 	@echo 'save_checkpoint_steps: ${SAVE_FREQ}'                >> ${CONFIGFILE}
 	@echo 'keep_checkpoint: ${KEEP_CHECKPOINTS}'               >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
