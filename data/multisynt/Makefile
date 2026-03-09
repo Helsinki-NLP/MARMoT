@@ -45,6 +45,10 @@ all-mt: train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
 	test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
 
 
+all-4096:
+	${MAKE} LENGTH=4096 SLURM_CPUS=32 SLURM_MEM=64g all.slurmjob
+
+
 # create text prediction data for source and target language
 
 
