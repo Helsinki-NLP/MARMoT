@@ -9,10 +9,34 @@ SHELL := bash
 include ../../tools/slurMake/slurm.mk
 
 
-LANGPAIRS := $(sort $(basename $(basename $(notdir $(wildcard ../opus/*/*.gz) $(wildcard ../tatoeba/train/*.gz)))))
+OELLM_LANGS := 	bos bul cat ces dan deu ell eng \
+		est eus fin fra gle glg hrv hun \
+		isl ita kat lav lit mkd mlt nld \
+		nno nob pol por ron slk slv spa \
+		sqi srp_Cyrl swe tur ukr
+
+ALL_OELLM_LANGPAIRS := $(foreach s,${OELLM_LANGS},$(foreach t,${OELLM_LANGS},$s-$t))
+
+ALL_LANGPAIRS := $(sort $(basename $(basename $(notdir $(wildcard ../opus/*/*.gz) $(wildcard ../tatoeba/train/*.gz)))))
+
+
+
+LANGPAIRS := $(filter ${ALL_LANGPAIRS},${ALL_OELLM_LANGPAIRS})
 STATS := $(patsubst %,%.stats,${LANGPAIRS})
 
 all: ${STATS}
+
+info:
+	@echo $(words ${LANGPAIRS})
+
+
+
+## do things in reverse order
+
+reverse = $(if $(1),$(call reverse,$(wordlist 2,$(words $(1)),$(1)))) $(firstword $(1))
+
+rev: $(call reverse,${STATS})
+
 
 ${STATS}:
 	@( l=$(basename $@); \
@@ -28,6 +52,7 @@ ${STATS}:
 	    echo "add $$T"; \
 	    pigz -cd $$T >> $@.trg; \
 	  done; \
+	  export TMPDIR=${PWD} && \
 	  paste $@.src $@.trg | terashuf \
 	  | tee >(cut -f1 | pigz -c > $$l.$$s.gz) | cut -f2 | pigz -c > $$l.$$t.gz; \
 	  pigz -cd < $$l.$$s.gz | wc -lw > $@; \
