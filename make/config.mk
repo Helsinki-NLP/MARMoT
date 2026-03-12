@@ -100,7 +100,7 @@ CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 # current task specifications - default values
 
 ifeq (${ADD_LANGUAGE_TOKEN},true)
-  DEFAULT_TRANSFORM  ?= filtertoolong,prefix
+  DEFAULT_TRANSFORM  ?= prefix,filtertoolong
 endif
 
 DEFAULT_GPU        ?= 0:0
@@ -187,9 +187,9 @@ TESTDATA_DIR  ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TESTDATA)) ${T
 ## or we use the default pattern, which is *${SORTED_LANGPAIR}
 ## (in OPUS/Tatoeba we sort language IDs alphabetically and uses them in the bitext file name)
 
-TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${SORTED_LANGPAIR})
-DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES)) *${SORTED_LANGPAIR})
-TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES)) *${SORTED_LANGPAIR})
+TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${SORTED_LANGPAIR}*)
+DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES)) *${SORTED_LANGPAIR}*)
+TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES)) *${SORTED_LANGPAIR}*)
 
 
 ## file extension for source and target language files
@@ -379,15 +379,16 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 # training parameters
 #--------------------------------------------------------------
 
-RANDOM_SEED      ?= 42
-BATCH_TYPE       ?= tokens  # type of unit for batch size
-BATCH_SIZE       ?= 8192    # per-GPU batch size
-VALID_BATCH      ?= 16      # validation batch size
-VALID_TIMEOUT    ?= 300     # validation time out after 5min
-VALID_MAX_LENGTH ?= ${MAX_SEQ_LENGTH}
-GRADIENT_ACCUM   ?= 20      # gradient accumulation
-LOOK_AHEAD       ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
-QUEUE_SIZE       ?= 80
+RANDOM_SEED          ?= 42
+BATCH_TYPE           ?= tokens  # type of unit for batch size
+BATCH_SIZE           ?= 8192    # per-GPU batch size
+VALID_BATCH          ?= 16      # validation batch size
+VALID_TIMEOUT        ?= 540     # validation time-out after 9 min
+VALID_DECODE_TIMEOUT ?= 60      # validation batch decoding time-out after 1 min
+VALID_MAX_LENGTH     ?= ${MAX_SEQ_LENGTH}
+GRADIENT_ACCUM       ?= 20      # gradient accumulation
+LOOK_AHEAD           ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
+QUEUE_SIZE           ?= 80
 
 TASK_DISTRIBUTION ?= weighted_sampling
 MIN_SRCSEQ_LENGTH ?= 1
@@ -397,9 +398,9 @@ MAX_SRCSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 MAX_TRGSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 
 
-VALID_FREQ       ?= 5000    # validation frequency (steps)
+VALID_FREQ       ?= 2500    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics
-SAVE_FREQ        ?= 5000    # checkpoint saving frequency (steps)
+SAVE_FREQ        ?= 2500    # checkpoint saving frequency (steps)
 KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 
@@ -419,7 +420,7 @@ DECAY_START      ?= 10000   # steps when to start lr-decay
 AVERAGE_DECAY    ?= 0
 WARMUP_STEPS     ?= 10000
 DECAY_METHOD     ?= linear_warmup
-TRAINING_STEPS   ?= 250000
+TRAINING_STEPS   ?= 100000
 
 
 #--------------------------------------------------------------
@@ -472,12 +473,19 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
-${TRAIN_CONFIGFILE}:
+TASK_NRS := $(shell seq $(words ${TASKS}))
+TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.%,${TASK_NRS})
+
+.INTERMEDIATE: ${TASK_CONFIGFILES}
+
+${TASK_CONFIGFILES}:
+	@mkdir -p $(dir $@)
+	@${MAKE} -s CONFIGFILE=$@ TASK_NR=$(lastword $(subst ., ,$@)) FIND_DATA=1 config-add-traintask
+
+${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
-	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} -s CONFIGFILE=$@ TASK_NR=$$t FIND_DATA=1 config-add-task; \
-	done
+	@-cat $^                                                     >> $@
 	@echo ''                                                     >> $@
 	@echo "add vocabularies"
 	echo "src_vocab:"                                            >> $@
@@ -496,10 +504,11 @@ ${TRAIN_CONFIGFILE}:
 ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
 	${MAKE} -s CONFIGFILE=$@ config-add-denoising
 endif
-	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
-	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
-	${MAKE} -s CONFIGFILE=$@ config-add-training-params
-	${MAKE} -s CONFIGFILE=$@ config-add-checkpoint-params
+	${MAKE} -s -j1 CONFIGFILE=$@ \
+		config-add-model-architecture \
+		config-add-transformer-params \
+		config-add-training-params \
+		config-add-checkpoint-params
 	@echo ''                                                     >> $@
 	@echo '# Model saving'                                       >> $@
 	@echo 'save_model: ${MODEL_PATH}'                            >> $@
@@ -508,6 +517,19 @@ endif
 
 ## add a task section
 
+.PHONY: config-add-traintask
+config-add-traintask:
+ifneq ($(wildcard ${TRAINDATA_SRC}),)
+ifneq ($(wildcard ${TRAINDATA_TRG}),)
+	@${MAKE} -s config-add-task
+else
+	@echo "WARNING: no target training data ${TRAINDATA_TRG} found! skip task ${TASK}"
+endif
+else
+	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK}"
+endif
+
+.PHONY: config-add-task
 config-add-task:
 	@echo "add task ${TASK} with ID ${TASK_ID}"
 	@echo '  ${TASK_ID}:'                                     >> ${CONFIGFILE}
@@ -546,9 +568,11 @@ endif
 
 
 
+.PHONY: config-add-vocab
 config-add-vocab:
 	echo '   ${LANGID}: ${VOCAB_FILE}'                        >> ${CONFIGFILE}
 
+.PHONY: config-add-denoising
 config-add-denoising:
 	echo '# Denoising transform parameters'                   >> ${CONFIGFILE}
 	echo 'denoising_objective: bart'                          >> ${CONFIGFILE}
@@ -559,6 +583,7 @@ config-add-denoising:
 	echo ''                                                   >> ${CONFIGFILE}
 
 
+.PHONY: config-add-model-architecture
 config-add-model-architecture:
 	echo '# Model Architecture Options'                       >> ${CONFIGFILE}
 	echo 'enc_layers: [$(strip ${ENCODER_LAYERS})]'           >> ${CONFIGFILE}
@@ -570,6 +595,7 @@ config-add-model-architecture:
 	echo 'add_language_tokens: ${ADD_LANGUAGE_TOKEN}'         >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}
 
+.PHONY: config-add-transformer-params
 config-add-transformer-params:
 	echo '# x-transformers specific options'                  >> ${CONFIGFILE}
 	echo 'x_transformers_opts:'                               >> ${CONFIGFILE}
@@ -590,6 +616,7 @@ config-add-transformer-params:
 COMMA            := ,
 GPU_RANKS_STRING := $(subst $(eval ) ,${COMMA},$(GPU_RANKS))
 
+.PHONY: config-add-training-params
 config-add-training-params:
 	@echo 'src_seq_length_min: ${MIN_SRCSEQ_LENGTH}'           >> ${CONFIGFILE}
 	@echo 'tgt_seq_length_min: ${MIN_TRGSEQ_LENGTH}'           >> ${CONFIGFILE}
@@ -611,7 +638,7 @@ config-add-training-params:
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo 'learning_rate: ${LEARNING_RATE}'                    >> ${CONFIGFILE}
 	@echo 'adam_beta1: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
-	@echo 'adam_beta2: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
+	@echo 'adam_beta2: ${ADAM_BETA2}'                          >> ${CONFIGFILE}
 	@echo 'weight_decay: ${WEIGHT_DECAY}'                      >> ${CONFIGFILE}
 	@echo 'max_grad_norm: ${MAX_GRAD_NORM}'                    >> ${CONFIGFILE}
 	@echo 'label_smoothing: ${LABEL_SMOOTHING}'                >> ${CONFIGFILE}
@@ -636,11 +663,13 @@ ifdef RANDOM_SEED
 endif
 
 
+.PHONY: config-add-checkpoint-params
 config-add-checkpoint-params:
 	@echo '# Decoding parameters during validation'            >> ${CONFIGFILE}
 	@echo 'valid_batch_size: ${VALID_BATCH}'                   >> ${CONFIGFILE}
 	@echo 'valid_steps: ${VALID_FREQ}'                         >> ${CONFIGFILE}
 	@echo 'valid_timeout: ${VALID_TIMEOUT}'                    >> ${CONFIGFILE}
+	@echo 'valid_decode_timeout: ${VALID_DECODE_TIMEOUT}'      >> ${CONFIGFILE}
 	@echo 'valid_max_length: ${VALID_MAX_LENGTH}'              >> ${CONFIGFILE}
 	@echo 'valid_metrics: [$(strip ${VALID_METRICS})]'         >> ${CONFIGFILE}
 	@echo 'beam_size: 1'                                       >> ${CONFIGFILE}

@@ -149,13 +149,12 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 .PHONY: print-valid-scores-table
 print-valid-scores-table:
 	@( tasks=(${TASKS}); \
+	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
-	    | grep "GPU *0:0" ${SELECT_LINES_CMD} \
-	    | tr ',}' "\n\n" \
-	    | grep "\"step\":" \
-	    | cut -f2 -d: | xargs printf "%5d	" ); \
-	   echo "gpu	task	$${steps}"; \
+	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
+	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
+	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
@@ -163,15 +162,15 @@ print-valid-scores-table:
 	    | grep "\"${PRINT_METRIC}.*\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
 	    if [ "$${score}" != "0.000	" ]; then \
-	      echo "$${gpus[$$i]}	$${tasks[$$i]}	$${score}"; \
+	      task=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	      echo "$${gpus[$$i]}	$${task}	$${score}"; \
 	    fi \
 	   done )
 
 
-
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
-	@${MAKE} -s print-valid-scores-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage\t"; print join("\t",@a); print "\n";'
+	@${MAKE} -s print-valid-scores-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; print join("\t",@a); print "\n";'
 
 
 
@@ -185,25 +184,34 @@ PRINT_VALID_DIFF_ALIASES := 	print-valid-diff \
 				print-validation-differences \
 				print-validation-difference
 
-.PHONY: ${PRINT_VALID_DIFF_ALIASES}
-${PRINT_VALID_DIFF_ALIASES}:
+.PHONY: print-valid-diff-table
+print-valid-diff-table:
 	@( tasks=(${TASKS}); \
+	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
-	   echo "gpu	task	first	diffs"; \
+	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
+	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
+	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | grep "\"${PRINT_METRIC}.*\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \
-	    echo -n "$${gpus[$$i]}	$${tasks[$$i]}	$${score[0]}"; \
+	    task=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    echo -n "$${gpus[$$i]}	$${task}	$${score[0]}"; \
 	    last=$${score[0]}; \
 	    for (( j=1; j<$${#score[@]}; j++ )); do \
-	      diff=`echo "$${score[$$j]} $${last}" | awk '{print $$1-$$2}'`; \
+	      diff=`echo "$${score[$$j]} $${last}" | awk '{print $$1-$$2}' | sed 's/^/+/;s/+-/-/;'`; \
 	      echo -n "	$${diff}"; \
 	      last=$${score[$$j]}; \
 	    done; \
 	    echo ''; \
 	   done )
 
+
+.PHONY: ${PRINT_VALID_DIFF_ALIASES}
+${PRINT_VALID_DIFF_ALIASES}:
+	@${MAKE} -s print-valid-diff-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "+%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; $$s=join("\t",@a);$$s=~s/\+\-/\-/g;$$s=~s/^\+//;print $$s; print "\n";'
 

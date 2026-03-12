@@ -20,13 +20,13 @@ SKIP_DENOISING_EVAL_TASKS     ?= 1
 .PHONY: eval
 eval:
 	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} -s TASK_NR=$$t eval-task; \
+	  ${MAKE} -s TASK_NR=$$t FIND_DATA=1 eval-task; \
 	done
 
 .PHONY: eval-zero-shot-tasks
 eval-zero-shot-tasks:
 	@for t in $(shell seq $(words ${ZERO_SHOT_TASKS})); do \
-	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t eval-task; \
+	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t FIND_DATA=1 eval-task; \
 	done
 
 
@@ -64,7 +64,8 @@ else
 endif
 
 .PHONY: eval-slurm
-eval-slurm: ${INFERENCE_CONFIGFILE}
+eval-slurm:
+	${MAKE} FIND_DATA=1 ${INFERENCE_CONFIGFILE}
 	${MAKE} SLURM_TIME=${EVAL_WALLTIME} \
 		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
 		SLURM_NODES=${EVAL_NR_OF_NODES} \
