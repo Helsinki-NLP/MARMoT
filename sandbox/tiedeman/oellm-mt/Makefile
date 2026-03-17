@@ -133,9 +133,9 @@ TASK_DEVDATA     := ${MT_DEVDATA}
 ## ENC_LANG = encoder languages
 ## ENC_COMP = encoder components (note: placeholder "SRC")
 
-ENC_LANG  := $(basename $(notdir $(subst -,.,$(subst _,/,${TASK_IDS}))))
+ENC_LANG  := $(shell echo "${TASK_IDS}" | tr ' ' "\n" | sed 's/^[^_]*_//' | cut -f1 -d-)
 META_LANG := $(shell iso639 -m ${ENC_LANG} 2>/dev/null)
-ENC_COMP  := $(shell langgroup -P ${ENC_LANG} 2>/dev/null | \
+ENC_COMP  := $(shell langgroup -P ${META_LANG} 2>/dev/null | \
 		tr ' ' "\n" | sed 's/:mul//' | cut -f1,2 -d: | \
 		sed 's/^/SRC:/' | rev | cut -f1,2 -d: | rev | \
 		sed 's/$$/:all/' | sed 's/:/","/g;s/^/"/;s/$$/"/;')
@@ -191,3 +191,33 @@ info:
 	@echo $(words ${TASK_IDS})
 
 
+
+.PHONY: %.mammoth-t5-base
+%.mammoth-t5-base:
+	@${MAKE} -s MODEL_NAME=mammoth-t5-base \
+		ENCODER_LAYERS=2,2,2 \
+		DECODER_LAYERS=6 \
+	$(basename $@)
+
+.PHONY: %.mammoth-t5-basetest
+%.mammoth-t5-basetest:
+	@${MAKE} -s MODEL_NAME=mammoth-t5-basetest \
+		ENCODER_LAYERS=2,2,2 \
+		DECODER_LAYERS=6 \
+	$(basename $@)
+
+
+.PHONY: %.mammoth-t5-smalldec
+%.mammoth-t5-smalldec:
+	@${MAKE} -s MODEL_NAME=mammoth-t5-smalldec \
+		ENCODER_LAYERS=3,3,3 \
+		DECODER_LAYERS=3 \
+	$(basename $@)
+
+
+.PHONY: %.mammoth-t5-small
+%.mammoth-t5-small:
+	@${MAKE} -s MODEL_NAME=mammoth-t5-small \
+		ENCODER_LAYERS=2,2,2 \
+		DECODER_LAYERS=3 \
+	$(basename $@)

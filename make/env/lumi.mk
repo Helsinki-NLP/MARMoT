@@ -3,8 +3,13 @@
 # specific configuration for lumi@csc
 #
 
-# MAMMOTH_VERSION ?= dev
-MAMMOTH_VERSION ?= joerg
+
+## temporarly exclude this node
+SLURM_EXCLUDE := nid005878
+
+MAMMOTH_VERSION ?= dev
+# MAMMOTH_VERSION ?= joerg
+
 
 HPC_PROJECT  ?= project_462000964
 MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared
@@ -17,7 +22,6 @@ MAX_MEM_PER_GPU     ?= 60
 MAX_CPUS_PER_GPU    ?= 7
 
 QUEUE_SIZE          ?= 120
-
 
 SLURM_CPU_PARTITION ?= standard
 SLURM_MAX_CPU_TIME  ?= 2-00:00:00

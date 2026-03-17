@@ -22,10 +22,22 @@ DEFAULT_SRCPREFIX  :=
 DEFAULT_TRGPREFIX  :=
 
 SKIP_SAME_LANGUAGE_VALID_TASKS := 0
+SKIP_DENOISING_VALID_TASKS     := 0
 
 include ../../../make/marmot.mk
 
 VOCAB_DIR := ${PROJECT_DIR}/tokenizer/tatoeba_hplt_multisynt
+
+
+.PHONY: %.trgprefix-joerg
+%.trgprefix-joerg:
+	@${MAKE} -s MODEL_NAME=trgprefix-joerg \
+		MAMMOTH_VERSION=joerg \
+		ADD_LANGUAGE_TOKEN=true \
+		SKIP_DENOISING_VALID_TASKS=1 \
+		TASK_TRGPREFIXES="<<denoise>> <<translate>> <<continue>> <<continue>>" \
+	$(basename $@)
+
 
 .PHONY: %.fineng
 %.fineng:

@@ -65,6 +65,9 @@ endif
 	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}'                               >> $@
 	@echo '#SBATCH --mem=${SLURM_MEM}'                                                   >> $@
 	@echo '#SBATCH --time=${SLURM_TIME}'                                                 >> $@
+ifdef SLURM_EXCLUDE
+	@echo '#SBATCH --exclude=${SLURM_EXCLUDE}'                                           >> $@
+endif
 ifdef SLURM_GRES
 	@echo '#SBATCH --gres=${SLURM_GRES}'                                                 >> $@
 endif

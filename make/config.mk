@@ -295,7 +295,7 @@ endif
 ## but using the TESTDATA variables
 
 
-ifdef FIND_DATA
+ifdef FIND_TESTDATA
 
 DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
 					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG}1.gz) \
@@ -383,7 +383,7 @@ RANDOM_SEED          ?= 42
 BATCH_TYPE           ?= tokens  # type of unit for batch size
 BATCH_SIZE           ?= 8192    # per-GPU batch size
 VALID_BATCH          ?= 16      # validation batch size
-VALID_TIMEOUT        ?= 540     # validation time-out after 9 min
+VALID_TIMEOUT        ?= 300     # validation time-out after 5 min
 VALID_DECODE_TIMEOUT ?= 60      # validation batch decoding time-out after 1 min
 VALID_MAX_LENGTH     ?= ${MAX_SEQ_LENGTH}
 GRADIENT_ACCUM       ?= 20      # gradient accumulation
@@ -448,7 +448,7 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	echo 'task_id: ${TASK_ID}'                                     > $@
 	@echo ''                                                      >> $@
 	echo "tasks:"                                                 >> $@
-	${MAKE} -s CONFIGFILE=$@ config-add-task
+	${MAKE} -s CONFIGFILE=$@ FIND_TESTDATA=1 config-add-task
 	@echo ''                                                      >> $@
 	echo "src_vocab:"                                             >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${SRCLANG} config-add-vocab
