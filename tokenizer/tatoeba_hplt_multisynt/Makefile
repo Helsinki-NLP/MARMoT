@@ -1,13 +1,16 @@
 #-*-makefile-*-
 
 
-MAX_LINES  ?= 100000000
+MAX_LINES       ?= 100000000
 MAX_LINES_HPLT  ?= 20000000
 MAX_LINES_SYNT  ?= 20000000
 MAX_LINE_LENGTH ?= 2048
 
 VOCAB_SIZE ?= 32000
 # VOCAB_SIZE ?= 64000
+
+## 64K - 64 for some reserved tokens
+# VOCAB_SIZE ?= 65472
 
 
 DATASET   ?= tatoeba
@@ -57,7 +60,15 @@ TATOEBA_LANGS := afr ara asm awa aze_Latn bel ben bos_Latn \
 		slk slv spa sqi srp_Cyrl srp_Latn swa swe \
 		tam tat tel tgl_Latn tha tur uig_Arab ukr \
 		urd uzb_Latn vie war yid zho_Hans zho_Hant
-# zho_Hans_CN zho_Hans_TW 
+# zho_Hans_CN zho_Hans_TW
+
+OELLM_METALANGS := $(sort $(shell iso639 -3 -m -n ${OELLM_LANGS}))
+OELLM_PARENTLANGS := $(sort $(shell langgroup -p ${OELLM_METALANGS}))
+OELLM_GRANDPARENTLANGS := $(sort $(shell langgroup -p ${OELLM_PARENTLANGS}))
+OELLM_ANCESTORLANGS := $(sort $(subst :, ,$(shell langgroup -P ${OELLM_METALANGS})))
+
+LANGGROUPS ?= ${OELLM_ANCESTORLANGS}
+LANGGROUP  ?= $(lastword ${OELLM_ANCESTORLANGS})
 
 
 TOKENIZER      := ${LANGUAGE}/${VOCAB_SIZE}/tokenizer.json
@@ -65,12 +76,20 @@ TOKENIZERS     := $(patsubst %,%/${VOCAB_SIZE}/tokenizer.json,${LANGUAGES})
 TOKENIZER_JOBS := $(patsubst %,%.submit,${TOKENIZERS})
 
 
+LANGGROUP_TOKENIZER      := ${LANGGROUP}/${VOCAB_SIZE}/tokenizer.json
+LANGGROUP_TOKENIZERS     := $(patsubst %,%/${VOCAB_SIZE}/tokenizer.json,${LANGGROUPS})
+LANGGROUP_TOKENIZER_JOBS := $(patsubst %,%.submit,${LANGGROUP_TOKENIZERS})
+
+
+#-------------------------------------
+# tokenizers for individual languages
+#-------------------------------------
+
 ## run for all available languages
 
 .PHONY: all all-jobs
 all: ${TOKENIZERS}
 all-jobs: ${TOKENIZER_JOBS}
-
 
 ## run for OpenEuroLLM languages
 
@@ -82,6 +101,7 @@ oellm-jobs:
 	${MAKE} LANGUAGES="${OELLM_LANGS}" all-jobs
 
 
+## run for Tatoeba languages
 
 tatoeba:
 	${MAKE} LANGUAGES="${TATOEBA_LANGS}" all
@@ -98,6 +118,42 @@ tatoeba-job:
 .PHONY: tokenizer tokenizer-job
 tokenizer: ${TOKENIZER}
 tokenizer-job: ${TOKENIZER}.submit
+
+
+#-------------------------------------
+# tokenizers for language groups
+#-------------------------------------
+
+## submit one job per language group
+.PHONY: oellm-langgroup-jobs
+oellm-langgroup-jobs:
+	${MAKE} VOCAB_SIZE=65472 \
+		MAX_LINES=20000000 \
+		MAX_LINES_HPLT=2000000 \
+		MAX_LINES_SYNT=2000000 \
+	langgroup-tokenizer-jobs
+
+## submit one job for all lang groups
+.PHONY: oellm-langgroup-job
+oellm-langgroup-job:
+	${MAKE} VOCAB_SIZE=65472 \
+		MAX_LINES=20000000 \
+		MAX_LINES_HPLT=2000000 \
+		MAX_LINES_SYNT=2000000 \
+	langgroup-tokenizers-job
+
+.PHONY: langgroup-info
+langgroup-info:
+	@echo "$(words ${LANGGROUPS}) language groups:"
+	@echo "${LANGGROUPS}"
+
+.PHONY: langgroup-tokenizer langgroup-tokenizers langgroup-tokenizer-job langgroup-tokenizers-job langgroup-tokenizer-jobs
+langgroup-tokenizer: ${LANGGROUP_TOKENIZER}
+langgroup-tokenizers: ${LANGGROUP_TOKENIZERS}
+
+langgroup-tokenizers-job: langgroup-tokenizers.submit
+langgroup-tokenizer-job: ${LANGGROUP_TOKENIZER}.submit
+langgroup-tokenizer-jobs: ${LANGGROUP_TOKENIZER_JOBS}
 
 
 ## concatenate data from all three data sets (max MAX_LINES lines each) if they exist
@@ -117,6 +173,29 @@ ${TOKENIZERS}:
 	if [ `find ${HPLT_DATADIR} -name '*.$(firstword $(subst /, ,$@)).gz' | wc -l` -gt 0 ]; then \
 	  zcat ${HPLT_DATADIR}/*.$(firstword $(subst /, ,$@)).gz | head -${MAX_LINES_HPLT} >> $(dir $@)traindata.txt; \
 	fi
+	wc $(dir $@)traindata.txt
+	${TRAIN_HF_TOKENIZER} --input_file $(dir $@)traindata.txt --vocab_size ${VOCAB_SIZE} --output_dir $(dir $@)
+	rm -f $(dir $@)traindata.txt
+
+
+
+${LANGGROUP_TOKENIZERS}:
+	mkdir -p $(dir $@)
+	rm -f $(dir $@)traindata.txt
+	for l in `langgroup $(firstword $(subst /, ,$@))`; do \
+	  if [ `find $(DATADIR) -name "*.$$l.gz" | wc -l` -gt 0 ]; then \
+	    echo "get tatoeba data for $$l"; \
+	    zcat $(DATADIR)/*.$$l.gz | head -${MAX_LINES} >> $(dir $@)traindata.txt; \
+	  fi; \
+	  if [ `find ${MULTISYNT_DATADIR} -name "*.$$l.gz" | wc -l` -gt 0 ]; then \
+	    echo "get multisynth data for $$l"; \
+	    zcat ${MULTISYNT_DATADIR}/*.$$l.gz | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.txt; \
+	  fi; \
+	  if [ `find ${HPLT_DATADIR} -name "*.$$l.gz" | wc -l` -gt 0 ]; then \
+	    echo "get hplt data for $$l"; \
+	    zcat ${HPLT_DATADIR}/*.$$l.gz | head -${MAX_LINES_HPLT} >> $(dir $@)traindata.txt; \
+	  fi; \
+	done
 	wc $(dir $@)traindata.txt
 	${TRAIN_HF_TOKENIZER} --input_file $(dir $@)traindata.txt --vocab_size ${VOCAB_SIZE} --output_dir $(dir $@)
 	rm -f $(dir $@)traindata.txt
