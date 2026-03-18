@@ -17,17 +17,25 @@ SKIP_DENOISING_EVAL_TASKS     ?= 1
 
 ## submit SLURM jobs to evaluate all tasks (one job per task)
 
-.PHONY: eval
-eval:
-	@for t in $(shell seq $(words ${TASKS})); do \
-	  ${MAKE} -s TASK_NR=$$t FIND_TESTDATA=1 eval-task; \
-	done
 
+.PHONY: eval
+eval: ${EVAL_TASKS}
+
+EVAL_TASKS = $(patsubst %,eval-task-%,${TASK_NRS})
+
+${EVAL_TASKS}:
+	${MAKE} -s TASK_NR=$(patsubst eval-task-%,%,$@) FIND_TESTDATA=1 eval-task
+
+
+## this does not work:
 .PHONY: eval-zero-shot-tasks
 eval-zero-shot-tasks:
 	@for t in $(shell seq $(words ${ZERO_SHOT_TASKS})); do \
 	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t FIND_TESTDATA=1 eval-task; \
 	done
+
+
+
 
 .PHONY: eval-wmt24pp
 eval-wmt24pp:
@@ -51,7 +59,7 @@ EVAL_WALLTIME      ?= 00:30:00
 ##                      (unless the skip-variable is not 1)
 
 .PHONY: eval-task
-eval-task: eval-slurm
+eval-task:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)

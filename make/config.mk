@@ -139,37 +139,21 @@ TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAU
 ## and monolingual tasks (typically denoising tasks)
 ## set those variables to 0 to enable them
 
-SKIP_SAME_LANGUAGE_VALID_TASKS ?= 1
-SKIP_DENOISING_VALID_TASKS     ?= 1
+SKIP_SAME_LANGUAGE_VALID_TASKS ?= 0
+SKIP_DENOISING_VALID_TASKS     ?= 0
 
 
 ## in OPUS/Tatoeba data we have sorted language IDs for language pairs
 
 SORTED_SRCLANG  := $(firstword $(sort ${SRCLANG} ${TRGLANG}))
 SORTED_TRGLANG  := $(lastword  $(sort ${SRCLANG} ${TRGLANG}))
-
-
-## monolingual data and denoising tasks: take bilingual data with English or French
-##
-## TODO: what do we do if those alignments do not exist?
-## TODO: use actual monolingual data sets
-
-ifeq ($(findstring denoising,$(TASK_TRANSFORM)),denoising)
-ifeq (${SRCLANG},${TRGLANG})
-ifeq (${SRCLANG},eng)
-  SORTED_SRCLANG := eng
-  SORTED_TRGLANG := fra
-else
-  SORTED_SRCLANG := $(firstword $(sort eng ${TRGLANG}))
-  SORTED_TRGLANG := $(lastword  $(sort eng ${TRGLANG}))
-endif
-endif
-endif
-
-SORTED_LANGPAIR  := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
+SORTED_LANGPAIR := ${SORTED_SRCLANG}-${SORTED_TRGLANG}
 REVERSE_LANGPAIR := ${SORTED_TRGLANG}-${SORTED_SRCLANG}
 
 
+##---------------------------------------------------------------------------------
+## datasets: training, development and testing
+##---------------------------------------------------------------------------------
 
 ## data directories (train/dev/test)
 ##
@@ -215,69 +199,38 @@ SRCLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_SRCLANG_EXT)) ${DEFAULT_SRCL
 TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGLANG_EXT})
 
 
-
-##---------------------------------------------------------------------------------
 ## training data
 ##
-##
-## look for training data in the TRAININDATA_DIR using different file patterns:
-##
-## (1) ${TRAINDATA_BASENAME}.${SRCLANG_EXT} and ${TRAINDATA_BASENAME}.${TRGLANG_EXT}
-## (2) ${TRAINDATA_BASENAME}.${SRCLANG}1.gz and ${TRAINDATA_BASENAME}.${TRGLANG}2.gz
-## (3) *${LANGPAIR}.${SRCLANG_EXT}          and *${LANGPAIR}.${TRGLANG_EXT}
-## (4) *${SORTED_LANGPAIR}.${SRCLANG_EXT}   and *${SORTED_LANGPAIR}.${TRGLANG_EXT}
-## (5) *${REVERSE_LANGPAIR}.${SRCLANG_EXT}  and *${REVERSE_LANGPAIR}.${TRGLANG_EXT}
-## (6) *.${SRCLANG_EXT}                     and *.${TRGLANG_EXT}
-##
-## the first one that is found will be taken as a default set
-## this can be overwritten with task specific data specified in
-##    TASK_TRAINDATA_SRCS and TASK_TRAINDATA_TRGS
-##
-## TODO: is this too much magic and does this cause a lot of potential problems?
-##---------------------------------------------------------------------------------
+## default search patterns for finding training data (DEFAULT_TRAINDATA_PATTERNS)
+## take the first one that matches any pattern (DEFAULT_TRAINDATA_SRC and DEFAULT_TRAINDATA_TRG)
+## overwrite with task-specific training data given in TASK_TRAINDATA_SRCS and TASK_TRAINDATA_TRGS
 
 ifdef FIND_DATA
-
-DEFAULT_TRAINDATA_SRC ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${SRCLANG}1.gz) \
-					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*.${SRCLANG_EXT}))
-DEFAULT_TRAINDATA_TRG ?= $(firstword 	$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/${TRAINDATA_BASENAME}.${TRGLANG}2.gz) \
-					$(wildcard ${TRAINDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TRAINDATA_DIR}/*.${TRGLANG_EXT}))
-
+  DEFAULT_TRAINDATA_PATTERNS ?= ${TRAINDATA_BASENAME} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
+  DEFAULT_SRCTRAIN_PATTERN   ?= $(patsubst %,${TRAINDATA_DIR}/%.${SRCLANG_EXT},${DEFAULT_TRAINDATA_PATTERNS})
+  DEFAULT_TRGTRAIN_PATTERN   ?= $(patsubst %,${TRAINDATA_DIR}/%.${TRGLANG_EXT},${DEFAULT_TRAINDATA_PATTERNS})
+  DEFAULT_TRAINDATA_SRC      ?= $(firstword $(wildcard ${DEFAULT_SRCTRAIN_PATTERN}))
+  DEFAULT_TRAINDATA_TRG      ?= $(firstword $(wildcard ${DEFAULT_TRGTRAIN_PATTERN}))
 endif
 
 TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
 TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
 
 
-
 ## validation data
 ##
-## same principles as for training data (see above)
-## but using the DEVDATA variables
+## default search patterns for finding development data (DEFAULT_DEVDATA_PATTERNS)
+## take the first one that matches any pattern (DEFAULT_DEVDATA_SRC and DEFAULT_DEVDATA_TRG)
+## skip denoising tasks if SKIP_DENOISING_VALID_TASKS=1
+## skip monolingual tasks if SKIP_SAME_LANGUAGE_VALID_TASKS=1
+## overwrite with task-specific development data given in TASK_DEVDATA_SRCS and TASK_DEVDATA_TRGS
 
 ifdef FIND_DATA
-
-DEFAULT_DEVDATA_SRC ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG}1.gz) \
-					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/*${SOFRTED_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/${SRCLANG}_*))
-DEFAULT_DEVDATA_TRG ?= $(firstword 	$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG}2.gz) \
-					$(wildcard ${DEVDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${DEVDATA_DIR}/${TRGLANG}_*))
-
+  DEFAULT_DEV_PATTERNS   ?= ${DEVDATA_BASENAME} *${SORTED_LANGPAIR}* *
+  DEFAULT_SRCDEV_PATTERN ?= ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${SRCLANG_EXT} ${DEVDATA_DIR}/${SRCLANG}*
+  DEFAULT_TRGDEV_PATTERN ?= ${DEVDATA_DIR}/${DEVDATA_BASENAME}.${TRGLANG_EXT} ${DEVDATA_DIR}/${TRGLANG}*
+  DEFAULT_DEVDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCDEV_PATTERN}))
+  DEFAULT_DEVDATA_TRG    ?= $(firstword $(wildcard ${DEFAULT_TRGDEV_PATTERN}))
 endif
 
 ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_VALID_TASKS},denoising-1)
@@ -288,34 +241,22 @@ ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_VALID_TASKS},d
 endif
 
 
-
 ## testdata
 ##
-## same principles as for training data (see above)
-## but using the TESTDATA variables
-
+## default test data patterns (DEFAULT_SRCTEST_PATTERN and DEFAULT_TRGTEST_PATTERN)
+## take the first one that matches any pattern (DEFAULT_TESTDATA_SRC and DEFAULT_TESTDATA_TRG)
+## overwrite with task-specific test data given in TASK_TESTDATA_SRCS and TASK_TESTDATA_TRGS
+## TESTDATA_OUTPUT: name of the output file (translations)
 
 ifdef FIND_TESTDATA
-
-DEFAULT_TESTDATA_SRC ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG}1.gz) \
-					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${SRCLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/${SRCLANG}_*))
-DEFAULT_TESTDATA_TRG ?= $(firstword 	$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG}2.gz) \
-					$(wildcard ${TESTDATA_DIR}/*${LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/*${SORTED_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/*${REVERSE_LANGPAIR}.${TRGLANG_EXT}) \
-					$(wildcard ${TESTDATA_DIR}/${TRGLANG}_*))
-
+  DEFAULT_SRCTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT} ${TESTDATA_DIR}/*.${SRCLANG_EXT} ${TESTDATA_DIR}/${SRCLANG}*
+  DEFAULT_TRGTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT} ${TESTDATA_DIR}/*.${TRGLANG_EXT} ${TESTDATA_DIR}/${TRGLANG}*
+  DEFAULT_TESTDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCTEST_PATTERN}))
+  DEFAULT_TESTDATA_TRG    ?= $(firstword $(wildcard ${DEFAULT_TRGTEST_PATTERN}))
 endif
-
 
 TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))
 TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_TESTDATA_TRG))
-
 
 TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TASK_ID}.${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
 
@@ -448,19 +389,22 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	echo 'task_id: ${TASK_ID}'                                     > $@
 	@echo ''                                                      >> $@
 	echo "tasks:"                                                 >> $@
-	${MAKE} -s CONFIGFILE=$@ FIND_TESTDATA=1 config-add-task
+	${MAKE} -s CONFIGFILE=$@ FIND_TESTDATA=1 TASK_GPU=0:0 config-add-task
 	@echo ''                                                      >> $@
 	echo "src_vocab:"                                             >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${SRCLANG} config-add-vocab
 	echo "tgt_vocab:"                                             >> $@
-	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} config-add-vocab
-	${MAKE} -s CONFIGFILE=$@ config-add-model-architecture
-	${MAKE} -s CONFIGFILE=$@ config-add-transformer-params
+	@echo ''                                                      >> $@
+	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} \
+		config-add-vocab \
+		config-add-model-architecture \
+		config-add-transformer-params
 	@echo ''                                                      >> $@
 	@echo '# Decoding parameters'                                 >> $@
 	@echo 'beam_size: ${DECODING_BEAM_SIZE}'                      >> $@
 	@echo 'batch_size: ${DECODING_BATCH_SIZE}'                    >> $@
 	@echo 'batch_type: ${DECODING_BATCH_TYPE}'                    >> $@
+	@echo 'max_length: ${MAX_SEQ_LENGTH}'                         >> $@
 	@echo ''                                                      >> $@
 	@echo '# GPU settings'                                        >> $@
 	@echo 'gpu: 0'                                                >> $@
