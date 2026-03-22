@@ -27,8 +27,6 @@ MAMMOTH_HOME       ?= ../../mammoth
 TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/examples/hf_tokenizers/train.py
 
 
-
-
 ## OpenEuroLLM languages
 ## - note that we change to bos_Latn to match the data from Tatoeba training data
 ## - filter out languages that we don't have in Tatoeba training data (slk)
@@ -67,7 +65,8 @@ OELLM_PARENTLANGS := $(sort $(shell langgroup -p ${OELLM_METALANGS}))
 OELLM_GRANDPARENTLANGS := $(sort $(shell langgroup -p ${OELLM_PARENTLANGS}))
 OELLM_ANCESTORLANGS := $(sort $(subst :, ,$(shell langgroup -P ${OELLM_METALANGS})))
 
-LANGGROUPS ?= ${OELLM_ANCESTORLANGS}
+LANGGROUPS ?= $(filter-out ine mul sqj,${OELLM_ANCESTORLANGS})
+# LANGGROUPS ?= $(sort ${OELLM_PARENTLANGS} ${OELLM_GRANDPARENTLANGS})
 LANGGROUP  ?= $(lastword ${OELLM_ANCESTORLANGS})
 
 
@@ -140,6 +139,16 @@ oellm-langgroup-job:
 		MAX_LINES=20000000 \
 		MAX_LINES_HPLT=2000000 \
 		MAX_LINES_SYNT=2000000 \
+	langgroup-tokenizers-job
+
+## submit one job for all lang groups
+.PHONY: ine-mul-job
+ine-mul-job:
+	${MAKE} LANGGROUPS="ine mul" \
+		VOCAB_SIZE=65472 \
+		MAX_LINES=2000000 \
+		MAX_LINES_HPLT=200000 \
+		MAX_LINES_SYNT=200000 \
 	langgroup-tokenizers-job
 
 .PHONY: langgroup-info

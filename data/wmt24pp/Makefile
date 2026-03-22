@@ -31,16 +31,32 @@ ${LANGPAIRS}:
 	${MAKE} LANGPAIR=$@ extract
 
 .PHONY: extract
-extract: wmt24pp/${TRG}.${TRG3}.gz
+extract: ${TRG}.${TRG3}
 
-wmt24pp/${TRG}.${TRG3}.gz: ${SRC}-${TRG}.jsonl
+${TRG}.${TRG3}: ${SRC}-${TRG}.jsonl
 	mkdir -p $(dir $@)
 	python ../../tools/wmt24_to_tsv.py < $< > $@.tsv
-	if [ ! -e ${SRC}.${SRC3}.gz ]; then  \
-	  cut -f1 $@.tsv | gzip -c > wmt24pp/${SRC}.${SRC3}.gz; \
+	if [ ! -e ${SRC}.${SRC3} ]; then  \
+	  cut -f1 $@.tsv > ${SRC}.${SRC3}; \
 	fi
-	cut -f2 $@.tsv | gzip -c > $@
+	cut -f2 $@.tsv > $@
 	rm -f $@.tsv
+
+
+
+# .PHONY: extract
+# extract: wmt24pp/${TRG}.${TRG3}.gz
+
+# wmt24pp/${TRG}.${TRG3}.gz: ${SRC}-${TRG}.jsonl
+# 	mkdir -p $(dir $@)
+# 	python ../../tools/wmt24_to_tsv.py < $< > $@.tsv
+# 	if [ ! -e wmt24pp/${SRC}.${SRC3}.gz ]; then  \
+# 	  cut -f1 $@.tsv | gzip -c > wmt24pp/${SRC}.${SRC3}.gz; \
+# 	fi
+# 	cut -f2 $@.tsv | gzip -c > $@
+# 	rm -f $@.tsv
+
+
 
 
 # .PHONY: extract
