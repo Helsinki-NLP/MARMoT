@@ -18,13 +18,13 @@ SKIP_DENOISING_EVAL_TASKS     ?= 1
 ## submit SLURM jobs to evaluate all tasks (one job per task)
 
 
+EVAL_TASK_JOBS = $(patsubst %,eval-task-%,${TASK_NRS})
+
 .PHONY: eval
-eval: ${EVAL_TASKS}
+eval: ${EVAL_TASK_JOBS}
 
-EVAL_TASKS = $(patsubst %,eval-task-%,${TASK_NRS})
-
-${EVAL_TASKS}:
-	${MAKE} -s TASK_NR=$(patsubst eval-task-%,%,$@) FIND_TESTDATA=1 eval-task
+${EVAL_TASK_JOBS}:
+	@${MAKE} -s TASK_NR=$(patsubst eval-task-%,%,$@) FIND_TESTDATA=1 eval-task
 
 
 ## this does not work:
@@ -39,7 +39,7 @@ eval-zero-shot-tasks:
 
 .PHONY: eval-wmt24pp
 eval-wmt24pp:
-	${MAKE} TESTDATA=wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
+	@${MAKE} -s TESTDATA=wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
 
 
 ##-------------------------------------------------------------------------------
@@ -64,7 +64,8 @@ ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
 	@echo "evaluate ${TASK}"
-	@${MAKE} ${EVAL_DIR}/eval_${TASK_ID}.slurmjob
+	@mkdir -p ${EVAL_DIR}
+	@${MAKE} -s ${INFERENCE_CONFIGFILE} ${EVAL_DIR}/eval_${TASK_ID}.slurmjob
     else
 	@echo "skip task ${TASK} (same source and target language)"
     endif
@@ -96,7 +97,11 @@ MT_METRICS = bleu chrf ter
 ${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 
 ${EVAL_DIR}/eval_${TASK_ID}: ${TESTDATA_OUTPUT}
+ifeq ($(suffix ${TESTDATA_TRG}),.gz)
+	sacrebleu <(gzip -cd ${TESTDATA_TRG}) --metrics ${MT_METRICS} < $< > $@
+else
 	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
+endif
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/translate.py \

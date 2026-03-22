@@ -21,8 +21,8 @@ SLURM_GPU_PARTITION ?= gpu
 SLURM_MAX_CPU_TIME  ?= 3-00:00:00
 SLURM_MAX_GPU_TIME  ?= 3-00:00:00
 SLURM_GPU_GRES      ?= gpu:v100
-# SLURM_MAX_NR_JOBS   ?= 200
-SLURM_MAX_NR_JOBS   ?= 210
+SLURM_MAX_NR_JOBS   ?= 200
+# SLURM_MAX_NR_JOBS   ?= 210
 SLURM_CPUS_PER_TASK ?= 16
 SLURM_MEM           ?= 48G
 SLURM_NODES         ?= ${NR_OF_NODES}
@@ -36,6 +36,8 @@ else
   SLURM_PARTITION ?= ${SLURM_CPU_PARTITION}
   SLURM_TIME      ?= ${SLURM_MAX_CPU_TIME}
 endif
+
+SRUN ?= srun
 
 
 ## create a slurm script and submit it
@@ -108,16 +110,26 @@ ifneq (${SLURM_NODES},1)
 	@echo 'export MASTER_PORT="$${MASTER_PORT}"'                                         >> $@
 	@echo 'export TOKENIZERS_PARALLELISM=False'                                          >> $@
 endif
+ifeq (${HPC_HOST},lumi)
+	@echo ''                                                                             >> $@
+	@echo '# ──────────────────────────────────────────────────'                         >> $@
+	@echo '# RCCL environment variables for Slingshot network'                           >> $@
+	@echo '# ──────────────────────────────────────────────────'                         >> $@
+	@echo '# Use all Slingshot network interfaces for inter-node communication'          >> $@
+	@echo 'export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3'                                >> $@
+	@echo '# Enable GPU RDMA (direct GPU-to-GPU transfers over the network)'             >> $@
+	@echo 'export NCCL_NET_GDR_LEVEL=PHB'                                                >> $@
+endif
 ifneq (${SLURM_GPUS},0)
 ifdef START_GPU_ENERGY_MONITORING
-	@echo 'srun ${START_GPU_ENERGY_MONITORING}'                                          >> $@
+	@echo '${SRUN} ${START_GPU_ENERGY_MONITORING}'                                       >> $@
 endif
 ifdef MONITOR_GPU_USAGE
 	@echo '${MONITOR_GPU_USAGE} > $(@:.slurm=).$${SLURM_JOBID}.gpu-usage &'              >> $@
 endif
 endif
 	@echo ''                                                                             >> $@
-	@echo "srun ${MAKE} -C ${EXPERIMENT_DIR} \\"                                         >> $@
+	@echo "${SRUN} ${MAKE} -C ${EXPERIMENT_DIR} \\"                                      >> $@
 	@echo "             HPC_HOST=${HPC_HOST} \\"                                         >> $@
 	@echo "             MODEL_NAME=${MODEL_NAME} \\"                                     >> $@
 ifneq (${SLURM_NODES},1)
@@ -128,7 +140,7 @@ endif
 	@echo ''                                                                             >> $@
 ifneq (${SLURM_GPUS},0)
 ifdef STOP_GPU_ENERGY_MONITORING
-	@echo 'srun ${STOP_GPU_ENERGY_MONITORING}'                                           >> $@
+	@echo '${SRUN} ${STOP_GPU_ENERGY_MONITORING}'                                        >> $@
 endif
 endif
 	@echo 'mv $@ $@.done'                                                                >> $@

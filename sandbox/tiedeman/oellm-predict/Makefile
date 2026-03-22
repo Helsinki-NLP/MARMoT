@@ -561,9 +561,3 @@ endif
 
 
 
-
-tt:
-	@echo "TESTDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_SRCS)) $(DEFAULT_TESTDATA_SRC))"
-	@echo "${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT}"
-	@echo $(DEFAULT_TESTDATA_SRC)
-	echo $(wildcard ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT})

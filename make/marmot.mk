@@ -5,6 +5,7 @@
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+include ${MAKEFILE_DIR}utilities.mk
 include ${MAKEFILE_DIR}env.mk
 include ${MAKEFILE_DIR}config.mk
 include ${MAKEFILE_DIR}train.mk

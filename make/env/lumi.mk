@@ -44,3 +44,27 @@ SINGULARITY_PARAMS ?= 	-B ${MODEL_DIR}:${MODEL_DIR}:rw \
 
 LOAD_MAMMOTH_ENV ?= singularity exec ${SINGULARITY_PARAMS} ${PYTORCH_CONTAINER}
 MAMMOTH_ENV      ?= ${MAMMOTH_HOME}/.venv
+
+
+
+# ──────────────────────────────────────────────────
+# CPU-GPU binding masks for LUMI-G'                 
+# ──────────────────────────────────────────────────
+# Each GCD (GPU die) on MI250X is wired to specific CPU cores.
+# These masks bind each of the 8 tasks (1 per GCD) to its 7 nearest CPU cores:
+#   GCD 0 -> CPUs 49-55, GCD 1 -> CPUs 57-63,
+#   GCD 2 -> CPUs 17-23, GCD 3 -> CPUs 25-31,
+#   GCD 4 -> CPUs  1-7,  GCD 5 -> CPUs  9-15,
+#   GCD 6 -> CPUs 33-39, GCD 7 -> CPUs 41-47
+
+
+## srun with cpu-bindings
+
+# CPU_BIND := mask_cpu:fe000000000000,fe00000000000000,fe0000,fe000000,fe,fe00,fe00000000,fe0000000000
+# SRUN := srun --cpu-bind=${CPU_BIND}
+
+# CPU_BIND_MASKS := 0x00fe000000000000,0xfe00000000000000,0x0000000000fe0000,0x00000000fe000000,0x00000000000000fe,0x000000000000fe00,0x000000fe00000000,0x0000fe0000000000
+
+# ifeq (${GPUS_PER_NODE},8)
+#   SRUN := srun --cpu-bind=mask_cpu=${CPU_BIND_MASKS}
+# endif

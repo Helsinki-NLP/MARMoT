@@ -34,6 +34,7 @@
 #--------------------------------------------------------------------------
 
 
+
 ## if no TASKS are defined: try to get the tasks from the TASK_IDS
 ## --> assumes that the task follows an underscore like in "task_fin-eng"
 
@@ -45,6 +46,8 @@ endif
 endif
 
 TASKS ?= fin-eng
+
+TASK_LANGPAIRS ?= ${TASKS}
 
 
 ## GPU assignments: simply distribute one task per GPU/Node
@@ -85,9 +88,9 @@ TASK_GPU_ASSIGNMENTS := $(shell \
 
 TASK_NR  ?= $(words $(TASKS))
 TASK     := $(word ${TASK_NR},$(TASKS))
-SRCLANG  ?= $(firstword $(subst -, ,${TASK}))
-TRGLANG  ?= $(lastword  $(subst -, ,${TASK}))
-LANGPAIR ?= ${SRCLANG}-${TRGLANG}
+LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
+SRCLANG  ?= $(firstword $(subst -, ,${LANGPAIR}))
+TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 
 
 ## path to config files
@@ -249,8 +252,8 @@ endif
 ## TESTDATA_OUTPUT: name of the output file (translations)
 
 ifdef FIND_TESTDATA
-  DEFAULT_SRCTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG_EXT} ${TESTDATA_DIR}/*.${SRCLANG_EXT} ${TESTDATA_DIR}/${SRCLANG}*
-  DEFAULT_TRGTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG_EXT} ${TESTDATA_DIR}/*.${TRGLANG_EXT} ${TESTDATA_DIR}/${TRGLANG}*
+  DEFAULT_SRCTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${SRCLANG} ${TESTDATA_DIR}/${SRCLANG}* ${TESTDATA_DIR}/*.${SRCLANG}
+  DEFAULT_TRGTEST_PATTERN ?= ${TESTDATA_DIR}/${TESTDATA_BASENAME}.${TRGLANG} ${TESTDATA_DIR}/${TRGLANG}* ${TESTDATA_DIR}/*.${TRGLANG}
   DEFAULT_TESTDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCTEST_PATTERN}))
   DEFAULT_TESTDATA_TRG    ?= $(firstword $(wildcard ${DEFAULT_TRGTEST_PATTERN}))
 endif
@@ -272,8 +275,17 @@ VOCAB_SRCLANGS ?= $(sort $(patsubst %/,%,$(dir $(subst -,/,${TASKS}))))
 VOCAB_TRGLANGS ?= $(sort $(notdir $(subst -,/,${TASKS})))
 
 VOCAB_SIZE     ?= 32000
-VOCAB_FILE     ?= ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
+VOCAB_SRC_SIZE ?= ${VOCAB_SIZE}
+VOCAB_TRG_SIZE ?= ${VOCAB_SIZE}
+VOCAB_SRC_DIR  ?= ${VOCAB_DIR}
+VOCAB_TRG_DIR  ?= ${VOCAB_DIR}
 
+VOCAB_FILE     ?= ${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json
+VOCAB_SRC_FILE ?= ${VOCAB_SRC_DIR}/${SRCLANG}/${VOCAB_SRC_SIZE}/tokenizer.json
+VOCAB_TRG_FILE ?= ${VOCAB_TRG_DIR}/${TRGLANG}/${VOCAB_TRG_SIZE}/tokenizer.json
+
+VOCAB_SRC_FILES ?= $(foreach l,${VOCAB_SRCLANGS},${VOCAB_SRC_DIR}/$l/${VOCAB_SRC_SIZE}/tokenizer.json)
+VOCAB_TRG_FILES ?= $(foreach l,${VOCAB_TRGLANGS},${VOCAB_TRG_DIR}/$l/${VOCAB_TRG_SIZE}/tokenizer.json)
 
 
 #--------------------------------------------------------------
@@ -381,8 +393,7 @@ DECODING_BATCH_TYPE ?= sents
 train-config: ${TRAIN_CONFIGFILE}
 
 .PHONY: inference-config
-inference-config:
-	${MAKE} ${INFERENCE_CONFIGFILE}
+inference-config: ${INFERENCE_CONFIGFILE}
 
 ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@mkdir -p $(dir $@)
@@ -391,11 +402,9 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	echo "tasks:"                                                 >> $@
 	${MAKE} -s CONFIGFILE=$@ FIND_TESTDATA=1 TASK_GPU=0:0 config-add-task
 	@echo ''                                                      >> $@
-	echo "src_vocab:"                                             >> $@
-	${MAKE} -s CONFIGFILE=$@ LANGID=${SRCLANG} config-add-vocab
-	echo "tgt_vocab:"                                             >> $@
-	@echo ''                                                      >> $@
 	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} \
+		config-add-srcvocabs \
+		config-add-trgvocabs \
 		config-add-vocab \
 		config-add-model-architecture \
 		config-add-transformer-params
@@ -431,28 +440,17 @@ ${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
 	echo "tasks:"                                                 > $@
 	@-cat $^                                                     >> $@
 	@echo ''                                                     >> $@
-	@echo "add vocabularies"
-	echo "src_vocab:"                                            >> $@
-	@for l in $(VOCAB_SRCLANGS); do \
-	  echo -n " $$l"; \
-	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
-	done
-	echo "tgt_vocab:"                                            >> $@
-	@for l in $(VOCAB_TRGLANGS); do \
-	  echo -n " $$l"; \
-	  ${MAKE} -s CONFIGFILE=$@ LANGID=$$l config-add-vocab; \
-	done
-	@echo ''                                                     >> $@
-	@echo ''
 	@echo "add model/training parameters"
-ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
-	${MAKE} -s CONFIGFILE=$@ config-add-denoising
-endif
 	${MAKE} -s -j1 CONFIGFILE=$@ \
+		config-add-srcvocabs \
+		config-add-trgvocabs \
 		config-add-model-architecture \
 		config-add-transformer-params \
 		config-add-training-params \
 		config-add-checkpoint-params
+ifeq ($(findstring denoising,$(TASK_TRANSFORMS)),denoising)
+	${MAKE} -s CONFIGFILE=$@ config-add-denoising
+endif
 	@echo ''                                                     >> $@
 	@echo '# Model saving'                                       >> $@
 	@echo 'save_model: ${MODEL_PATH}'                            >> $@
@@ -515,6 +513,24 @@ endif
 .PHONY: config-add-vocab
 config-add-vocab:
 	echo '   ${LANGID}: ${VOCAB_FILE}'                        >> ${CONFIGFILE}
+
+
+src-vocab-file = $(call lookup,$1,${VOCAB_SRCLANGS},${VOCAB_SRC_FILES})
+trg-vocab-file = $(call lookup,$1,${VOCAB_TRGLANGS},${VOCAB_TRG_FILES})
+
+PHONY: confg-add-srcvocabs
+config-add-srcvocabs:
+	@echo "src_vocab:"                                        >> ${CONFIGFILE}
+	@echo $(foreach i,${VOCAB_SRCLANGS},$i:$(call src-vocab-file,$i)) \
+	| tr ' ' "\n" | sed 's/:/: /' | sed 's/^/   /'            >> ${CONFIGFILE}
+	@echo ''                                                  >> ${CONFIGFILE}
+
+.PHONY: config-add-trgvocabs
+config-add-trgvocabs:
+	@echo "tgt_vocab:"                                        >> ${CONFIGFILE}
+	@echo $(foreach i,${VOCAB_TRGLANGS},$i:$(call trg-vocab-file,$i)) \
+	| tr ' ' "\n" | sed 's/:/: /' | sed 's/^/   /'            >> ${CONFIGFILE}
+	@echo ''                                                  >> ${CONFIGFILE}
 
 .PHONY: config-add-denoising
 config-add-denoising:
