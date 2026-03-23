@@ -62,8 +62,10 @@ TRANSLATE_TRAIN_SENT := sentmt
 TRANSLATE_DEV        := flores200/dev
 PREDICT_TRAIN        := multisynt/textpredict/train/len1024
 PREDICT_DEV          := multisynt/textpredict/dev/len1024
-INSTRUCT_TRAIN       := instruct/train
-INSTRUCT_DEV         := instruct/dev
+# INSTRUCT_TRAIN       := instruct/train
+# INSTRUCT_DEV         := instruct/dev
+INSTRUCT_TRAIN       := instruct/langgroups/train
+INSTRUCT_DEV         := instruct/langgroups/dev
 
 
 ## translation tasks
@@ -92,10 +94,11 @@ PREDICT_DEVDATA        := $(foreach l,${PREDICT_TASKS},${PREDICT_DEV})
 ## instruction tasks
 ##
 ## language pairs with > 10M taining examples
-## (egrep '^ *[0-9]{8}' train/*.stats | grep -v total)
+## (egrep '^ *[0-9]{8}' train/*.stats or similar queries)
 
-INSTRUCT_LANGPAIRS     := ces-eng deu-eng eng-eng fra-eng
-INSTRUCT_TASKS         := $(patsubst %,zsinstruct_%,${INSTRUCT_LANGPAIRS})
+# INSTRUCT_LANGPAIRS     := ces-eng deu-eng eng-eng fra-eng
+INSTRUCT_LANGPAIRS     := gmw-ces gmw-deu gmw-eng gmw-fra roa-eng zlw-eng
+INSTRUCT_TASKS         := $(patsubst %,instruct_%,${INSTRUCT_LANGPAIRS})
 INSTRUCT_TRAINDATA     := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_TRAIN})
 INSTRUCT_DEVDATA       := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_DEV})
 # INSTRUCT_TASK_PREFIXES := $(foreach l,${INSTRUCT_TASKS},<<reply>>)
@@ -105,15 +108,21 @@ INSTRUCT_DEVDATA       := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_DEV})
 
 DENOISE_TASKS          := $(foreach l,${OELLM_LANGS},denoise_$l-$l)
 DENOISE_TRAINDATA      := $(foreach l,${DENOISE_TASKS},${TRANSLATE_TRAIN_DOC})
-DENOISE_DEVDATA        := $(foreach l,${DENOISE_TASKS},skip)
+DENOISE_DEVDATA        := $(foreach l,${DENOISE_TASKS},${TRANSLATE_DEV})
 DENOISE_TRANSFORMS     := $(foreach l,${DENOISE_TASKS},denoising,filtertoolong)
+# DENOISE_DEVDATA        := $(foreach l,${DENOISE_TASKS},skip)
 # DENOISE_TRANSFORMS     := $(foreach l,${DENOISE_TASKS},denoising,prefix,filtertoolong)
 # DENOISE_TASK_PREFIXES  := $(foreach l,${DENOISE_TASKS},<<denoise>>)
 
 
 ## all task IDs and data directories
 
-langgroup = $(call lookup,$1,$(OELLM_LANGS),$(LANG_GROUPS))
+LANG_GROUPS_EXTENDED := ${LANG_GROUPS} gem ine mul sla
+LANGS_WITH_FALLBACK  := $(OELLM_LANGS) ${LANG_GROUPS_EXTENDED}
+
+# langgroup = $(call lookup,$1,$(OELLM_LANGS),$(LANG_GROUPS))
+langgroup = $(call lookup_with_fallback,$1,$(LANGS_WITH_FALLBACK),$(LANG_GROUPS_EXTENDED))
+
 
 # TASK_IDS         := ${DENOISE_TASKS} ${PREDICT_TASKS} ${MT_TASKS} ${INSTRUCT_TASKS}
 # TASK_TRAINDATA   := ${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${MT_TRAINDATA} ${INSTRUCT_TRAINDATA}
@@ -207,6 +216,38 @@ info:
 	$(basename $@)
 
 
+.PHONY: %.mammoth-docmt-large
+%.mammoth-docmt-large:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		MT_TASKS="${DOCMT_TASKS}" \
+		MT_TRAINDATA="${DOCMT_TRAINDATA}" \
+		ENCODER_LAYERS=12 \
+		DECODER_LAYERS=12 \
+		XTRF_HEADS=12 \
+	$(basename $@)
+
+
+## train only on sentence-level data (SENTMT)
+
+.PHONY: %.mammoth-sentmt
+%.mammoth-sentmt:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		MT_TASKS="${SENTMT_TASKS}" \
+		MT_TRAINDATA="${SENTMT_TRAINDATA}" \
+	$(basename $@)
+
+
+
+## FLAN-T5-like model (denoise - predict - instruct)
+
+.PHONY: %.mammoth-flan
+%.mammoth-flan:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${DENOISE_TASKS} ${PREDICT_TASKS} ${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+	$(basename $@)
 
 
 

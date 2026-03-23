@@ -10,6 +10,7 @@
 _pos      = $(if $(findstring $1,$2),$(call _pos,$1,$(wordlist 2,$(words $2),$2),x $3),$3)
 pos       = $(words $(call _pos,$1,$2))
 lookup    = $(word $(call pos,$1,$2),$3)
+lookup_with_fallback = $(firstword $(word $(call pos,$1,$2),$3) $1)
 
 
 
