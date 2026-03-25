@@ -356,6 +356,7 @@ VALID_METRICS    ?= bleu    # validation metrics
 SAVE_FREQ        ?= 2500    # checkpoint saving frequency (steps)
 KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
+REPORT_TFLOPS    ?= true
 
 OPTIMIZER        ?= adamw
 LEARNING_RATE    ?= 0.0003
@@ -465,10 +466,10 @@ ifneq ($(wildcard ${TRAINDATA_SRC}),)
 ifneq ($(wildcard ${TRAINDATA_TRG}),)
 	@${MAKE} -s config-add-task
 else
-	@echo "WARNING: no target training data ${TRAINDATA_TRG} found! skip task ${TASK}"
+	@echo "WARNING: no target training data ${TRAINDATA_TRG} found! skip task ${TASK_ID}"
 endif
 else
-	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK}"
+	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK_ID}"
 endif
 
 .PHONY: config-add-task
@@ -642,6 +643,7 @@ config-add-checkpoint-params:
 	@echo 'log_model_structure: false'                         >> ${CONFIGFILE}
 	@echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
 	@echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
+	@echo 'report_tflops: ${REPORT_TFLOPS}'                    >> ${CONFIGFILE}
 	@echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
 	@echo 'report_training_accuracy: false'                    >> ${CONFIGFILE}
 

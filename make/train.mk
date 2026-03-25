@@ -128,7 +128,7 @@ print-training-progress print-train-progress:
 .PHONY: print-task-progress
 print-task-progress:
 	@grep ' Step ' ${TRAIN_LOGFILES} | grep 'GPU ${TASK_GPU}' \
-	| cut -f2 -d] | sed 's/ *: Step/${TASK}:/' \
+	| cut -f2 -d] | sed 's/ *: Step/${TASK_ID}:/' \
 	| sed 's/\/[0-9]*;/;/' | tr ';' "\t" ${SELECT_LINES_CMD}
 
 

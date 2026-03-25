@@ -34,9 +34,16 @@ START_GPU_ENERGY_MONITORING ?= /appl/local/csc/soft/ai/bin/gpu-energy --save
 STOP_GPU_ENERGY_MONITORING  ?= /appl/local/csc/soft/ai/bin/gpu-energy --diff
 MONITOR_GPU_USAGE           ?= $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh
 
-PYTORCH_CONTAINER ?= /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif
+# PYTORCH_CONTAINER ?= /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif
+PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
 
-SINGULARITY_PARAMS ?= 	-B ${MODEL_DIR}:${MODEL_DIR}:rw \
+SINGULARITY_PARAMS ?= 	--env MASTER_NODE="$${MASTER_NODE}" \
+			--env MASTER_PORT="$${MASTER_PORT}" \
+			--env NCCL_SOCKET_IFNAME="$${NCCL_SOCKET_IFNAME}" \
+			--env NCCL_NET_GDR_LEVEL="$${NCCL_NET_GDR_LEVEL}" \
+			--env NCCL_DEBUG="INFO" \
+			--env LD_PRELOAD="/usr/lib/libfabric.so.1 /opt/rocm/lib/librccl.so.1"\
+			-B ${MODEL_DIR}:${MODEL_DIR}:rw \
 			-B ${MAMMOTH_HOME}:${MAMMOTH_HOME}:ro \
 			-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 			-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
@@ -68,3 +75,5 @@ MAMMOTH_ENV      ?= ${MAMMOTH_HOME}/.venv
 # ifeq (${GPUS_PER_NODE},8)
 #   SRUN := srun --cpu-bind=mask_cpu=${CPU_BIND_MASKS}
 # endif
+
+# SRUN := srun

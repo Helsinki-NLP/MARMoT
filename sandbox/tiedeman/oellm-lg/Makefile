@@ -183,6 +183,13 @@ info:
 # different variants of the model
 #-------------------------------------------------------------
 
+
+
+.PHONY: %.mammoth-mt
+%.mammoth-mt:
+	@${MAKE} $(basename $@)
+
+
 ## large transformer model (12x12 and 12 attention heads)
 
 .PHONY: %.mammoth-mt-large
@@ -251,6 +258,54 @@ info:
 
 
 
+## FLAN-T5-like model + docMT tasks (denoise - predict - docmt - instruct)
+
+DOCMT_DEVDATA := $(foreach l,${DOCMT_TASKS},${TRANSLATE_DEV})
+
+.PHONY: %.mammoth-flan-mt
+%.mammoth-flan-mt:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${DENOISE_TASKS} ${PREDICT_TASKS} ${DOCMT_TASKS} ${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${DOCMT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${DOCMT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+	$(basename $@)
+
+.PHONY: %.mammoth-flan-mt-large
+%.mammoth-flan-mt-large:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${DENOISE_TASKS} ${PREDICT_TASKS} ${DOCMT_TASKS} ${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${DOCMT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${DOCMT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+		ENCODER_LAYERS=12 \
+		DECODER_LAYERS=12 \
+		XTRF_HEADS=12 \
+	$(basename $@)
+
+
+
+
+
+
+DOCMT4_LANGPAIRS := $(sort $(foreach p,deu eng fra spa,$(foreach l,$(filter-out $p,${OELLM_LANGS}),$l-$p $p-$l)))
+DOCMT4_TASKS     := $(patsubst %,docmt_%,${DOCMT4_LANGPAIRS})
+DOCMT4_TRAINDATA := $(foreach l,${DOCMT4_TASKS},${TRANSLATE_TRAIN_DOC})
+DOCMT4_DEVDATA   := $(foreach l,${DOCMT4_TASKS},${TRANSLATE_DEV})
+
+DOCMT4_EXTRATASKS := $(wordlist 1,4,${DENOISE_TASKS})
+DOCMT4_EXTRATRAIN := $(foreach l,${DOCMT4_EXTRATASKS},${TRANSLATE_TRAIN_DOC})
+DOCMT4_EXTRADEV   := $(foreach l,${DOCMT4_EXTRATASKS},${TRANSLATE_DEV})
+DOCMT4_EXTRATRANS := $(foreach l,${DOCMT4_EXTRATASKS},denoising,filtertoolong)
+
+.PHONY: %.mammoth-docmt4
+%.mammoth-docmt4:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${DOCMT4_EXTRATASKS} ${DOCMT4_TASKS}" \
+		TASK_TRAINDATA="${DOCMT4_EXTRATRAIN} ${DOCMT4_TRAINDATA}" \
+		TASK_DEVDATA="${DOCMT4_EXTRADEV} ${DOCMT4_DEVDATA}" \
+		TASK_TRANSFORMS="${DOCMT4_EXTRATRANS}" \
+	$(basename $@)
 
 
 ## test run with only 8 tasks (one node), a tiny model and frequent reporting (every 100 steps)
