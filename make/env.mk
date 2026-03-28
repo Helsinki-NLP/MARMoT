@@ -81,3 +81,10 @@ endif
 VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/tatoeba
 
 
+## look for some tools
+
+THREADS  ?= 4
+SORT     := sort -T ${TMPDIR} --parallel=${THREADS}
+SHUFFLE  := ${shell which terashuf 2>/dev/null || echo "${SORT} --random-sort"}
+GZIP     := ${shell which pigz     2>/dev/null || echo gzip}
+ZCAT     := ${GZIP} -cd

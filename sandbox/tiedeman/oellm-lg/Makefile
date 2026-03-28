@@ -1,6 +1,6 @@
 
 #
-# big model for OpenEuroLLM languages
+# models for OpenEuroLLM languages
 #
 # - doc-level MT tasks:
 #   - English-centric translation tasks from MultiSynth
@@ -70,15 +70,23 @@ INSTRUCT_DEV         := instruct/langgroups/dev
 
 ## translation tasks
 
-DOCMT_TASKS      := $(patsubst %,docmt_%,${DOCMT_LANGPAIRS})
-SENTMT_TASKS     := $(patsubst %,sentmt_%,${SENTMT_LANGPAIRS})
-DOCMT_TRAINDATA  := $(foreach l,${DOCMT_TASKS},${TRANSLATE_TRAIN_DOC})
-SENTMT_TRAINDATA := $(foreach l,${SENTMT_TASKS},${TRANSLATE_TRAIN_SENT})
+DOCMT_TASKS          := $(patsubst %,docmt_%,${DOCMT_LANGPAIRS})
+DOCMT_TRAINDATA      := $(foreach l,${DOCMT_TASKS},${TRANSLATE_TRAIN_DOC})
+DOCMT_DEVDATA        := $(foreach l,${DOCMT_TASKS},${TRANSLATE_DEV})
+DOCMT_TRANSFORMS     := $(foreach l,${DOCMT_TASKS},filtertoolong)
+DOCMT_TASK_PREFIXES  := $(foreach l,${DOCMT_TASKS},<<translate>>)
+
+SENTMT_TASKS         := $(patsubst %,sentmt_%,${SENTMT_LANGPAIRS})
+SENTMT_TRAINDATA     := $(foreach l,${SENTMT_TASKS},${TRANSLATE_TRAIN_SENT})
+SENTMT_DEVDATA       := $(foreach l,${SENTMT_TASKS},${TRANSLATE_DEV})
+SENTMT_TRANSFORMS    := $(foreach l,${SENTMT_TASKS},filtertoolong)
+SENTMT_TASK_PREFIXES := $(foreach l,${SENTMT_TASKS},<<translate>>)
 
 MT_TASKS         := ${DOCMT_TASKS} ${SENTMT_TASKS}
 MT_TRAINDATA     := ${DOCMT_TRAINDATA} ${SENTMT_TRAINDATA}
-MT_DEVDATA       := $(foreach l,${MT_TASKS},${TRANSLATE_DEV})
-# MT_TASK_PREFIXES := $(foreach l,${MT_TASKS},<<translate>>)
+MT_DEVDATA       := ${DOCMT_DEVDATA} ${SENTMT_DEVDATA}
+MT_TRANSFORMS    := ${DOCMT_TRANSFORMS} ${SENTMT_TRANSFORMS}
+MT_TASK_PREFIXES := ${DOCMT_TASK_PREFIXES} ${SENTMT_TASK_PREFIXES}
 
 
 ## text-prediction tasks
@@ -88,7 +96,8 @@ PREDICT_LANGS          := ${OELLM_LANGS}
 PREDICT_TASKS          := $(foreach l,${PREDICT_LANGS},predict_$l-$l)
 PREDICT_TRAINDATA      := $(foreach l,${PREDICT_TASKS},${PREDICT_TRAIN})
 PREDICT_DEVDATA        := $(foreach l,${PREDICT_TASKS},${PREDICT_DEV})
-# PREDICT_TASK_PREFIXES  := $(foreach l,${PREDICT_TASKS},<<continue>>)
+PREDICT_TRANSFORMS     := $(foreach l,${PREDICT_TASKS},filtertoolong)
+PREDICT_TASK_PREFIXES  := $(foreach l,${PREDICT_TASKS},<<continue>>)
 
 
 ## instruction tasks
@@ -101,6 +110,7 @@ INSTRUCT_LANGPAIRS     := gmw-ces gmw-deu gmw-eng gmw-fra roa-eng zlw-eng
 INSTRUCT_TASKS         := $(patsubst %,instruct_%,${INSTRUCT_LANGPAIRS})
 INSTRUCT_TRAINDATA     := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_TRAIN})
 INSTRUCT_DEVDATA       := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_DEV})
+INSTRUCT_TRANSFORMS    := $(foreach l,${INSTRUCT_TASKS},filtertoolong)
 # INSTRUCT_TASK_PREFIXES := $(foreach l,${INSTRUCT_TASKS},<<reply>>)
 
 
@@ -112,7 +122,7 @@ DENOISE_DEVDATA        := $(foreach l,${DENOISE_TASKS},${TRANSLATE_DEV})
 DENOISE_TRANSFORMS     := $(foreach l,${DENOISE_TASKS},denoising,filtertoolong)
 # DENOISE_DEVDATA        := $(foreach l,${DENOISE_TASKS},skip)
 # DENOISE_TRANSFORMS     := $(foreach l,${DENOISE_TASKS},denoising,prefix,filtertoolong)
-# DENOISE_TASK_PREFIXES  := $(foreach l,${DENOISE_TASKS},<<denoise>>)
+DENOISE_TASK_PREFIXES  := $(foreach l,${DENOISE_TASKS},<<denoise>>)
 
 
 ## all task IDs and data directories
@@ -123,15 +133,16 @@ LANGS_WITH_FALLBACK  := $(OELLM_LANGS) ${LANG_GROUPS_EXTENDED}
 # langgroup = $(call lookup,$1,$(OELLM_LANGS),$(LANG_GROUPS))
 langgroup = $(call lookup_with_fallback,$1,$(LANGS_WITH_FALLBACK),$(LANG_GROUPS_EXTENDED))
 
-
 # TASK_IDS         := ${DENOISE_TASKS} ${PREDICT_TASKS} ${MT_TASKS} ${INSTRUCT_TASKS}
 # TASK_TRAINDATA   := ${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${MT_TRAINDATA} ${INSTRUCT_TRAINDATA}
 # TASK_DEVDATA     := ${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${MT_DEVDATA} ${INSTRUCT_DEVDATA}
 # TASK_TRANSFORMS  := ${DENOISE_TRANSFORMS}
 
+MODEL_NAME       := mammoth-mt
 TASK_IDS         := ${MT_TASKS}
 TASK_TRAINDATA   := ${MT_TRAINDATA}
 TASK_DEVDATA     := ${MT_DEVDATA}
+TASK_TRANSFORMS  := ${MT_TRANSFORMS}
 TASK_LANGPAIRS   := $(shell echo "${TASK_IDS}" | tr ' ' "\n" | sed 's/^[^_]*_//')
 TASKS            := $(foreach l,$(TASK_LANGPAIRS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
 
@@ -144,16 +155,17 @@ TASK_ENCODERS := $(foreach l,$(TASKS),"$(firstword $(subst -, ,$l))")
 ## task decoders require tas-specific prefix token (and not language prefix)
 ## --> set default prefix to empty string!
 
-ADD_LANGUAGE_TOKEN := false
-# ADD_LANGUAGE_TOKEN := true
-# DEFAULT_SRCPREFIX  :=
-# DEFAULT_TRGPREFIX  :=
+ifneq (${TASK_SRCPREFIXES}${TASK_TRGPREFIXES},)
+  ADD_LANGUAGE_TOKEN := true
+  DEFAULT_SRCPREFIX  :=
+  DEFAULT_TRGPREFIX  :=
+else
+  ADD_LANGUAGE_TOKEN := false
+endif
 
 
 
 ## final model parameters
-
-MODEL_NAME := mammoth-mt
 
 ENCODER_LAYERS := 6
 DECODER_LAYERS := 6
@@ -187,7 +199,7 @@ info:
 
 .PHONY: %.mammoth-mt
 %.mammoth-mt:
-	@${MAKE} $(basename $@)
+	@${MAKE} -s $(basename $@)
 
 
 ## large transformer model (12x12 and 12 attention heads)
@@ -254,6 +266,84 @@ info:
 		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
 		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${INSTRUCT_DEVDATA}" \
 		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+	$(basename $@)
+
+
+
+## complelety shared encoders
+
+FLAN_TASKIDS    := ${DENOISE_TASKS} ${PREDICT_TASKS} ${INSTRUCT_TASKS}
+FLAN_TRGS       := $(shell echo ${FLAN_TASKIDS} | tr " " "\n" | sed 's/^[^_]*_//' | cut -f2 -d-)
+SHAREDENC_TASKS := $(foreach t,${FLAN_TRGS},mul-$t)
+
+.PHONY: %.mammoth-flan-sharedenc
+%.mammoth-flan-sharedenc:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${FLAN_TASKIDS}" \
+		TASKS="${SHAREDENC_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+		TASK_ENCODERS= \
+		DEFAULT_ENCODER='"all"' \
+	$(basename $@)
+
+
+
+## completely shared model
+
+SHARED_TASKS := $(foreach t,${FLAN_TASKIDS},mul-mul)
+
+.PHONY: %.mammoth-flan-shared
+%.mammoth-flan-shared:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${FLAN_TASKIDS}" \
+		TASKS="${SHARED_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+		TASK_ENCODERS= \
+		TASK_DECODERS= \
+		DEFAULT_ENCODER='"all"' \
+		DEFAULT_DECODER='"all"' \
+	$(basename $@)
+
+
+## completely shared model including doc-MT tasks
+
+FLAN_MT_TASKIDS := ${DENOISE_TASKS} ${PREDICT_TASKS} ${DOCMT_TASKS} ${INSTRUCT_TASKS}
+SHARED_FLAN_MT_TASKS := $(foreach t,${FLAN_MT_TASKIDS},mul-mul)
+
+.PHONY: %.mammoth-flan-mt-shared
+%.mammoth-flan-mt-shared:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${FLAN_MT_TASKIDS}" \
+		TASKS="${SHARED_FLAN_MT_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${DOCMT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${DOCMT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_SRCPREFIXES="${DENOISE_TASK_PREFIXES} ${PREDICT_TASK_PREFIXES} ${DOCMT_TASK_PREFIXES}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+		TASK_ENCODERS= \
+		TASK_DECODERS= \
+		DEFAULT_ENCODER='"all"' \
+		DEFAULT_DECODER='"all"' \
+	$(basename $@)
+
+
+FLAN_MT_TRGS := $(shell echo ${FLAN_MT_TASKIDS} | tr " " "\n" | sed 's/^[^_]*_//' | cut -f2 -d-)
+SHAREDENC_FLAN_MT_TASKS := $(foreach t,${FLAN_MT_TRGS},mul-$t)
+
+.PHONY: %.mammoth-flan-mt-sharedenc
+%.mammoth-flan-mt-sharedenc:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${FLAN_MT_TASKIDS}" \
+		TASKS="${SHAREDENC_FLAN_MT_TASKS}" \
+		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${DOCMT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${DOCMT_DEVDATA} ${INSTRUCT_DEVDATA}" \
+		TASK_SRCPREFIXES="${DENOISE_TASK_PREFIXES} ${PREDICT_TASK_PREFIXES} ${DOCMT_TASK_PREFIXES}" \
+		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
+		TASK_ENCODERS= \
+		DEFAULT_ENCODER='"all"' \
 	$(basename $@)
 
 
@@ -327,3 +417,15 @@ DOCMT4_EXTRATRANS := $(foreach l,${DOCMT4_EXTRATASKS},denoising,filtertoolong)
 		SAVE_FREQ=1000 \
 	$(basename $@)
 
+
+
+
+
+.PHONY: %.mammoth-flanonly
+%.mammoth-flanonly:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		USE_DATASIZE_AS_TASK_WEIGHT=1 \
+		TASK_IDS="${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${INSTRUCT_TRAINDATA}" \
+		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
+	$(basename $@)

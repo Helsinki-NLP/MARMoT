@@ -107,26 +107,33 @@ ifeq (${ADD_LANGUAGE_TOKEN},true)
 endif
 
 DEFAULT_GPU        ?= 0:0
-DEFAULT_WEIGHT     ?= 1.0
 DEFAULT_TRANSFORM  ?= filtertoolong
 DEFAULT_TRAINSTEP  ?= 0
 DEFAULT_SRCPREFIX  ?= >>${TRGLANG}<<
 DEFAULT_TRGPREFIX  ?= <<${SRCLANG}>>
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
+# DEFAULT_WEIGHT     ?= 1.0
 
 # current task specifications - selected with TASK_NR or default value
 
 TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task_${TASK})
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
-TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
 TASK_SRCPREFIX := $(firstword $(word ${TASK_NR},$(TASK_SRCPREFIXES))     $(DEFAULT_SRCPREFIX))
 TASK_TRGPREFIX := $(firstword $(word ${TASK_NR},$(TASK_TRGPREFIXES))     $(DEFAULT_TRGPREFIX))
 TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAULT_ENCODER))
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
+# TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 
+## add prefix transform if necessary
+
+ifneq (${TASK_SRCPREFIX}${TASK_TRGPREFIX},)
+ifneq ($(findstring prefix,$(TASK_TRANSFORM)),prefix)
+  TASK_TRANSFORM := prefix,${TASK_TRANSFORM}
+endif
+endif
 
 #--------------------------------------------------------------
 # data sets
@@ -216,8 +223,18 @@ ifdef FIND_DATA
   DEFAULT_TRAINDATA_TRG      ?= $(firstword $(wildcard ${DEFAULT_TRGTRAIN_PATTERN}))
 endif
 
-TRAINDATA_SRC ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC))
-TRAINDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG))
+TRAINDATA_SRC ?= $(wildcard $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_SRCS)) $(DEFAULT_TRAINDATA_SRC)))
+TRAINDATA_TRG ?= $(wildcard $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_TRGS)) $(DEFAULT_TRAINDATA_TRG)))
+
+## data size in bytes (note: can be compressed data)
+
+ifneq (${TRAINDATA_SRC},)
+  ifneq (${TRAINDATA_TRG},)
+    TRAINDATA_SRC_SIZE := $(shell stat -c%s ${TRAINDATA_SRC})
+    TRAINDATA_TRG_SIZE := $(shell stat -c%s ${TRAINDATA_TRG})
+    TRAINDATA_SIZE     := $(shell echo $$(( $(TRAINDATA_SRC_SIZE) + $(TRAINDATA_TRG_SIZE) )) )
+  endif
+endif
 
 
 ## validation data
@@ -332,6 +349,22 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 # training parameters
 #--------------------------------------------------------------
 
+## task distribution: sampled proportional to the given weight
+## - default: uniform sampling (all tasks get weight 1.0)
+## - if USE_DATASIZE_AS_TASK_WEIGHT=1: sample proportional to TRAINDATA_SIZE
+## - task-specific weights can also be specified in TASK_WEIGHTS
+
+TASK_DISTRIBUTION ?= weighted_sampling
+
+ifeq (${USE_DATASIZE_AS_TASK_WEIGHT},1)
+  DEFAULT_WEIGHT ?= ${TRAINDATA_SIZE}
+else
+  DEFAULT_WEIGHT ?= 1.0
+endif
+
+TASK_WEIGHT := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS)) $(DEFAULT_WEIGHT))
+
+
 RANDOM_SEED          ?= 42
 BATCH_TYPE           ?= tokens  # type of unit for batch size
 BATCH_SIZE           ?= 8192    # per-GPU batch size
@@ -343,7 +376,6 @@ GRADIENT_ACCUM       ?= 20      # gradient accumulation
 LOOK_AHEAD           ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
 QUEUE_SIZE           ?= 80
 
-TASK_DISTRIBUTION ?= weighted_sampling
 MIN_SRCSEQ_LENGTH ?= 1
 MIN_TRGSEQ_LENGTH ?= 1
 MAX_SEQ_LENGTH    ?= 512
@@ -463,11 +495,11 @@ endif
 .PHONY: config-add-traintask
 config-add-traintask:
 ifneq ($(wildcard ${TRAINDATA_SRC}),)
-ifneq ($(wildcard ${TRAINDATA_TRG}),)
+  ifneq ($(wildcard ${TRAINDATA_TRG}),)
 	@${MAKE} -s config-add-task
-else
+  else
 	@echo "WARNING: no target training data ${TRAINDATA_TRG} found! skip task ${TASK_ID}"
-endif
+  endif
 else
 	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK_ID}"
 endif
@@ -649,3 +681,26 @@ config-add-checkpoint-params:
 
 
 
+
+
+## data size count files (countling lines, words and bytes with wc)
+## and make targets to create those files
+
+TRAINDATA_SRC_SIZEFILE ?= ${TRAINDATA_SRC}.size
+TRAINDATA_TRG_SIZEFILE ?= ${TRAINDATA_TRG}.size
+
+MAKE_TRAINDATA_SIZEFILES := $(patsubst %,make-train-datasize-files/%,${TASK_NRS})
+.PHONY: ${MAKE_TRAINDATA_SIZEFILES}
+${MAKE_TRAINDATA_SIZEFILES}:
+	${MAKE} TASK_NR=$(notdir $@) make-train-datasize-files
+
+.PHONY: make-train-datasize-files
+make-train-datasize-files: ${TRAINDATA_SRC_SIZEFILE} ${TRAINDATA_TRG_SIZEFILE}
+
+${TRAINDATA_SRC_SIZEFILE}: ${TRAINDATA_SRC}
+	${GZIP} -cd < $< | wc > $@
+
+ifneq (${TRAINDATA_SRC_SIZEFILE},${TRAINDATA_TRG_SIZEFILE})
+${TRAINDATA_TRG_SIZEFILE}: ${TRAINDATA_TRG}
+	${GZIP} -cd < $< | wc > $@
+endif
