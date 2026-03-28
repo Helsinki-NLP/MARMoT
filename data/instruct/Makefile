@@ -83,13 +83,42 @@ merge-langgroups:
 	  done \
 	done
 	find langgroups -empty -delete
-	for f in `find langgroups/train -type f -not -name '*.gz' | cut -f1 -d. | sort-u`; do \
+	for f in `find langgroups/train -type f -not -name '*.gz' | cut -f1 -d. | sort -u`; do \
 	  wc $$f.* > $$f.stats; \
 	done
 	find langgroups/dev -type f -not -name '*.gz' | xargs pigz -f
 	find langgroups/train -type f -not -name '*.gz' | xargs pigz -f
 
 
+langgroup-stats:
+	for f in `find langgroups/train -type f -name '*.gz'`; do \
+	  b=`echo $$f | cut -f1 -d.`; \
+	  pigz -cd < $$f | wc >> $$b.stats; \
+	done
+
+
+## shuffle lang-group data
+
+SHUFFLED_LANGGROUPS := $(patsubst langgroups/train/%,langgroups/train-shuffled/%,$(wildcard langgroups/train/*.stats))
+
+.PHONY: shuffle-langgroup-data
+shuffle-langgroup-data: ${SHUFFLED_LANGGROUPS}
+
+.PHONY: shuffle-langgroup-data-job
+shuffle-langgroup-data-job:
+	${MAKE} SLURM_CPUS=16 SLURM_MEM=96G TMPDIR=${PWD} shuffle-langgroup-data.slurmjob
+
+${SHUFFLED_LANGGROUPS}:
+	mkdir -p $(dir $@)
+	( s=$(firstword $(subst -, ,$(notdir $(@:.stats=)))); \
+	  t=$(lastword $(subst -, ,$(notdir $(@:.stats=)))); \
+	  paste <(gzip -cd langgroups/train/$$s-$$t.$$s.gz) <(gzip -cd langgroups/train/$$s-$$t.$$t.gz) \
+	  | terashuf \
+	  | tee >(cut -f1 | pigz -c > $(@:.stats=).$$s.gz) \
+	  | cut -f2 | pigz -c > $(@:.stats=).$$t.gz; \
+	  pigz -cd < $(@:.stats=).$$s.gz | wc >> $@; \
+	  pigz -cd < $(@:.stats=).$$t.gz | wc >> $@; \
+	)
 
 
 
