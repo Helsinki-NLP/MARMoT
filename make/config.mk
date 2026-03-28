@@ -104,13 +104,13 @@ CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 ifeq (${ADD_LANGUAGE_TOKEN},true)
   DEFAULT_TRANSFORM  ?= prefix,filtertoolong
+  DEFAULT_SRCPREFIX  ?= >>${TRGLANG}<<
+  DEFAULT_TRGPREFIX  ?= <<${SRCLANG}>>
 endif
 
 DEFAULT_GPU        ?= 0:0
 DEFAULT_TRANSFORM  ?= filtertoolong
 DEFAULT_TRAINSTEP  ?= 0
-DEFAULT_SRCPREFIX  ?= >>${TRGLANG}<<
-DEFAULT_TRGPREFIX  ?= <<${SRCLANG}>>
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
 # DEFAULT_WEIGHT     ?= 1.0
@@ -389,6 +389,8 @@ SAVE_FREQ        ?= 2500    # checkpoint saving frequency (steps)
 KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 REPORT_TFLOPS    ?= true
+TENSORBOARD      ?= true
+TENSORBOARD_DIR  ?= ${MODEL_PATH}/logs
 
 OPTIMIZER        ?= adamw
 LEARNING_RATE    ?= 0.0003
@@ -438,7 +440,6 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	${MAKE} -s CONFIGFILE=$@ LANGID=${TRGLANG} \
 		config-add-srcvocabs \
 		config-add-trgvocabs \
-		config-add-vocab \
 		config-add-model-architecture \
 		config-add-transformer-params
 	@echo ''                                                      >> $@
@@ -520,24 +521,24 @@ ifeq (${ADD_LANGUAGE_TOKEN},true)
 	@echo '    tgt_prefix: "${TASK_TRGPREFIX}"'               >> ${CONFIGFILE}
 endif
 ifneq (${TRAINDATA_SRC},)
-ifneq (${TRAINDATA_TRG},)
-ifneq ($(wildcard ${TRAINDATA_SRC}),)
-ifneq ($(wildcard ${TRAINDATA_TRG}),)
+  ifneq (${TRAINDATA_TRG},)
+    ifneq ($(wildcard ${TRAINDATA_SRC}),)
+      ifneq ($(wildcard ${TRAINDATA_TRG}),)
 	@echo '    path_src: ${TRAINDATA_SRC}'                    >> ${CONFIGFILE}
 	@echo '    path_tgt: ${TRAINDATA_TRG}'                    >> ${CONFIGFILE}
-endif
-endif
-endif
+      endif
+    endif
+   endif
 endif
 ifneq (${DEVDATA_SRC},)
-ifneq (${DEVDATA_TRG},)
-ifneq ($(wildcard ${DEVDATA_SRC}),)
-ifneq ($(wildcard ${DEVDATA_TRG}),)
+  ifneq (${DEVDATA_TRG},)
+    ifneq ($(wildcard ${DEVDATA_SRC}),)
+      ifneq ($(wildcard ${DEVDATA_TRG}),)
 	@echo '    path_valid_src: ${DEVDATA_SRC}'                >> ${CONFIGFILE}
 	@echo '    path_valid_tgt: ${DEVDATA_TRG}'                >> ${CONFIGFILE}
-endif
-endif
-endif
+      endif
+    endif
+  endif
 endif
 	@echo ''                                                  >> ${CONFIGFILE}
 
@@ -673,11 +674,13 @@ config-add-checkpoint-params:
 	@echo '# Logging and Monitoring'                           >> ${CONFIGFILE}
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo 'log_model_structure: false'                         >> ${CONFIGFILE}
-	@echo '# tensorboard: true               # enable tensorboard logging' >> ${CONFIGFILE}
-	@echo '# tensorboard_log_dir: ./logs     # tensorboard log directory'  >> ${CONFIGFILE}
+	@echo 'tensorboard: ${TENSORBOARD}'                        >> ${CONFIGFILE}
+	@echo 'tensorboard_log_dir: ${TENSORBOARD_DIR}'            >> ${CONFIGFILE}
 	@echo 'report_tflops: ${REPORT_TFLOPS}'                    >> ${CONFIGFILE}
 	@echo 'report_every: ${REPORT_FREQ}'                       >> ${CONFIGFILE}
 	@echo 'report_training_accuracy: false'                    >> ${CONFIGFILE}
+
+
 
 
 

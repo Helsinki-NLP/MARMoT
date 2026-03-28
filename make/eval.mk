@@ -15,13 +15,19 @@ SKIP_DENOISING_EVAL_TASKS     ?= 1
 # evaluation
 #--------------------------------------------------------------
 
-## submit SLURM jobs to evaluate all tasks (one job per task)
 
+## one job to evaluate all tasks
+
+.PHONY: eval
+eval: eval-slurmjob
+
+
+## submit SLURM jobs to evaluate all tasks (one job per task)
 
 EVAL_TASK_JOBS = $(patsubst %,eval-task-%,${TASK_NRS})
 
-.PHONY: eval
-eval: ${EVAL_TASK_JOBS}
+.PHONY: eval-jobs
+eval-jobs: ${EVAL_TASK_JOBS}
 
 ${EVAL_TASK_JOBS}:
 	@${MAKE} -s TASK_NR=$(patsubst eval-task-%,%,$@) FIND_TESTDATA=1 eval-task
@@ -35,24 +41,44 @@ eval-zero-shot-tasks:
 	done
 
 
-
-
 .PHONY: eval-wmt24pp
 eval-wmt24pp:
 	@${MAKE} -s TESTDATA=wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
 
 
+
 ##-------------------------------------------------------------------------------
-## submit SLURM job for evaluating a model
-## - translate the selected task (set TASK_NR) with the best mode
+## submit SLURM jobs for evaluating a model
 ##-------------------------------------------------------------------------------
 
-EVAL_NR_OF_NODES   ?= 1
-EVAL_GPUS_PER_NODE ?= 1
-EVAL_CPUS_PER_TASK ?= ${MAX_CPUS_PER_GPU}
-EVAL_MEM_PER_NODE  ?= ${MAX_MEM_PER_GPU}G
-EVAL_WALLTIME      ?= 00:30:00
+EVAL_NR_OF_NODES    ?= 1
+EVAL_GPUS_PER_NODE  ?= 1
+EVAL_CPUS_PER_TASK  ?= ${MAX_CPUS_PER_GPU}
+EVAL_MEM_PER_NODE   ?= ${MAX_MEM_PER_GPU}G
+EVAL_TASK_WALLTIME  ?= 00:30:00
+EVAL_TASKS_WALLTIME ?= 24:00:00
 
+
+## submit one SLURM job for evaluating all tasks of the model
+## this runs a sequential loop over all tasks
+## (see ${EVAL_DIR}/eval_tasks target)
+
+.PHONY: eval-tasks
+eval-tasks: eval-slurmjob
+
+.PHONY: eval-slurm eval-slurmjob
+eval-slurm eval-slurmjob:
+	@mkdir -p ${EVAL_DIR}
+	${MAKE} SLURM_TIME=${EVAL_TASKS_WALLTIME} \
+		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
+		SLURM_NODES=${EVAL_NR_OF_NODES} \
+		SLURM_MEM=${EVAL_MEM_PER_NODE} \
+		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
+	${EVAL_DIR}/eval-tasks.$(patsubst eval-%,%,$@)
+
+
+
+## translate the selected task (set TASK_NR) with the best mode
 ## only start evaluation jobs if the testdata source file exists
 ## skip evaluation jobs for denoising tasks (unless the skip-variable is not 1)
 ## skip evaluation jobs for tasks with the same source and target language
@@ -64,8 +90,7 @@ ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
 	@echo "evaluate ${TASK}"
-	@mkdir -p ${EVAL_DIR}
-	@${MAKE} -s ${INFERENCE_CONFIGFILE} ${EVAL_DIR}/eval_${TASK_ID}.slurmjob
+	@${MAKE} -s eval-task-slurmjob
     else
 	@echo "skip task ${TASK} (same source and target language)"
     endif
@@ -76,15 +101,17 @@ else
 	@echo "ERROR: cannot find testdata ${TESTDATA_SRC}"
 endif
 
-.PHONY: eval-slurm
-eval-slurm:
-	${MAKE} FIND_TESTDATA=1 ${INFERENCE_CONFIGFILE}
-	${MAKE} SLURM_TIME=${EVAL_WALLTIME} \
+
+.PHONY: eval-task-slurm eval-task-slurmjob
+eval-task-slurm eval-task-slurmjob:
+	@mkdir -p ${EVAL_DIR}
+	@${MAKE} SLURM_TIME=${EVAL_TASK_WALLTIME} \
 		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
 		SLURM_NODES=${EVAL_NR_OF_NODES} \
 		SLURM_MEM=${EVAL_MEM_PER_NODE} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
-	${EVAL_DIR}/eval_${TASK_ID}.slurm
+	${EVAL_DIR}/eval_${TASK_ID}.$(patsubst eval-task-%,%,$@)
+
 
 
 ##-------------------------------------------------------------------------------
@@ -93,21 +120,43 @@ eval-slurm:
 
 MT_METRICS = bleu chrf ter
 
+
+## eval all tasks in a loop
+
+.PHONY: ${EVAL_DIR}/eval-tasks
+${EVAL_DIR}/eval-tasks:
+	@for t in ${TASK_NRS}; do \
+	  ${MAKE} -s TASK_NR=$$t FIND_TESTDATA=1 ${EVAL_DIR}/eval_${TASK_ID}; \
+	done
+
+
+## eval just one task
+
 .PHONY: ${EVAL_DIR}/eval-task
 ${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 
+
+
+## only start mammoth if there is any input
+## otherwise just report that input is missing
+
+ifneq ($(wildcard ${TESTDATA_SRC}),)
+
 ${EVAL_DIR}/eval_${TASK_ID}: ${TESTDATA_OUTPUT}
-ifeq ($(suffix ${TESTDATA_TRG}),.gz)
-	sacrebleu <(gzip -cd ${TESTDATA_TRG}) --metrics ${MT_METRICS} < $< > $@
-else
 	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
-endif
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/translate.py \
 		-model ${MODEL_PATH} \
 		-config $<
 
+else
+
+${EVAL_DIR}/eval_${TASK_ID}:
+	@echo "no test input ${TESTDATA_SRC} found for task ${TASK_ID}"
+
+
+endif
 
 
 

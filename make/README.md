@@ -4,6 +4,7 @@
 A collection of makefile targets and configurations that support the setup of various experiments with MAMMOTH and shared environments / resources.
 
 * `marmot.mk`: top-level makefile that includes all makefiles below
+* `utilities.mk`: some convenient functions and utilities
 * `env.mk`: essential environment variables and directories
 * `config.mk`: configuration defaults and targets for generating MAMMOTH config files
 * `train.mk`: targets for generating / starting SLURM training jobs
