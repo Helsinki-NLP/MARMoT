@@ -1,7 +1,15 @@
 #-*-makefile-*-
 
 
-EVAL_TASKS ?= ${TASKS}
+## selected tasks to be evaluated
+## default: select all
+
+ifdef EVAL_TASKS
+  EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
+else
+  EVAL_TASKS     := ${TASK_IDS}
+  EVAL_TASKS_NRS := ${TASK_NRS}
+endif
 
 
 ## skip evaluation of denoising tasks
@@ -24,13 +32,14 @@ eval: eval-slurmjob
 
 ## submit SLURM jobs to evaluate all tasks (one job per task)
 
-EVAL_TASK_JOBS = $(patsubst %,eval-task-%,${TASK_NRS})
+EVAL_TASK_JOBS = $(patsubst %,eval-task/%,${EVAL_TASK_NRS})
 
 .PHONY: eval-jobs
 eval-jobs: ${EVAL_TASK_JOBS}
 
+.PHONY: ${EVAL_TASK_JOBS}
 ${EVAL_TASK_JOBS}:
-	@${MAKE} -s TASK_NR=$(patsubst eval-task-%,%,$@) FIND_TESTDATA=1 eval-task
+	@${MAKE} -s TASK_NR=$(notdir $@) FIND_TESTDATA=1 eval-task
 
 
 ## this does not work:
@@ -57,6 +66,8 @@ EVAL_CPUS_PER_TASK  ?= ${MAX_CPUS_PER_GPU}
 EVAL_MEM_PER_NODE   ?= ${MAX_MEM_PER_GPU}G
 EVAL_TASK_WALLTIME  ?= 00:30:00
 EVAL_TASKS_WALLTIME ?= 24:00:00
+EVAL_SLURM_TASKS    ?= 1
+EVAL_PARALLEL_JOBS  ?= 1
 
 
 ## submit one SLURM job for evaluating all tasks of the model
@@ -73,7 +84,9 @@ eval-slurm eval-slurmjob:
 		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
 		SLURM_NODES=${EVAL_NR_OF_NODES} \
 		SLURM_MEM=${EVAL_MEM_PER_NODE} \
+		SLURM_TASKS=${EVAL_SLURM_TASKS} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
+		SLURM_PARALLEL_JOBS=${EVAL_PARALLEL_JOBS} \
 	${EVAL_DIR}/eval-tasks.$(patsubst eval-%,%,$@)
 
 
@@ -109,7 +122,9 @@ eval-task-slurm eval-task-slurmjob:
 		SLURM_GPUS=${EVAL_GPUS_PER_NODE} \
 		SLURM_NODES=${EVAL_NR_OF_NODES} \
 		SLURM_MEM=${EVAL_MEM_PER_NODE} \
+		SLURM_TASKS=${EVAL_SLURM_TASKS} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
+		SLURM_PARALLEL_JOBS=${EVAL_PARALLEL_JOBS} \
 	${EVAL_DIR}/eval_${TASK_ID}.$(patsubst eval-task-%,%,$@)
 
 
@@ -121,24 +136,28 @@ eval-task-slurm eval-task-slurmjob:
 MT_METRICS = bleu chrf ter
 
 
-## eval all tasks in a loop
+## eval targets for all tasks
+
+EVAL_TASK_TARGETS = $(patsubst %,${EVAL_DIR}/eval-task/%,${EVAL_TASK_NRS})
 
 .PHONY: ${EVAL_DIR}/eval-tasks
-${EVAL_DIR}/eval-tasks:
-	@for t in ${TASK_NRS}; do \
-	  ${MAKE} -s TASK_NR=$$t FIND_TESTDATA=1 ${EVAL_DIR}/eval_${TASK_ID}; \
-	done
+${EVAL_DIR}/eval-tasks: ${EVAL_TASK_TARGETS}
+
+.PHONY: ${EVAL_TASK_TARGETS}
+${EVAL_TASK_TARGETS}:
+	@${MAKE} -s TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_DIR}/eval-task
 
 
-## eval just one task
+
+## eval currently selected task
 
 .PHONY: ${EVAL_DIR}/eval-task
 ${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 
 
 
-## only start mammoth if there is any input
-## otherwise just report that input is missing
+## only start mammoth if there is an input file
+## otherwise just report input is missing
 
 ifneq ($(wildcard ${TESTDATA_SRC}),)
 

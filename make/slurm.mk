@@ -26,7 +26,16 @@ SLURM_MAX_NR_JOBS   ?= 200
 SLURM_CPUS_PER_TASK ?= 16
 SLURM_MEM           ?= 48G
 SLURM_NODES         ?= ${NR_OF_NODES}
+SLURM_TASKS         ?= ${SLURM_NODES}
 SLURM_GPUS          ?= ${GPUS_PER_NODE}
+
+
+
+## number of parallel jobs that make can run
+## default = number of CPU cores we have allocated
+
+SLURM_PARALLEL_JOBS ?= ${SLURM_CPUS_PER_TASK}
+
 
 ifneq (${SLURM_GPUS},0)
   SLURM_PARTITION ?= ${SLURM_GPU_PARTITION}
@@ -63,7 +72,7 @@ SRUN ?= srun
 	@echo '#SBATCH -e $(@:.slurm=).%j.err'                                               >> $@
 	@echo '#SBATCH --partition=${SLURM_PARTITION}'                                       >> $@
 	@echo '#SBATCH --nodes=${SLURM_NODES}'                                               >> $@
-	@echo '#SBATCH --ntasks=${SLURM_NODES}'                                              >> $@
+	@echo '#SBATCH --ntasks=${SLURM_TASKS}'                                              >> $@
 	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}'                               >> $@
 	@echo '#SBATCH --mem=${SLURM_MEM}'                                                   >> $@
 	@echo '#SBATCH --time=${SLURM_TIME}'                                                 >> $@
@@ -129,7 +138,7 @@ ifdef MONITOR_GPU_USAGE
 endif
 endif
 	@echo ''                                                                             >> $@
-	@echo "${SRUN} ${MAKE} -C ${EXPERIMENT_DIR} \\"                                      >> $@
+	@echo "${SRUN} ${MAKE} -j ${SLURM_PARALLEL_JOBS} -C ${EXPERIMENT_DIR} \\"            >> $@
 	@echo "             HPC_HOST=${HPC_HOST} \\"                                         >> $@
 	@echo "             MODEL_NAME=${MODEL_NAME} \\"                                     >> $@
 ifneq (${SLURM_NODES},1)
