@@ -8,7 +8,7 @@ ifdef EVAL_TASKS
   EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
 else
   EVAL_TASKS     := ${TASK_IDS}
-  EVAL_TASKS_NRS := ${TASK_NRS}
+  EVAL_TASK_NRS  := ${TASK_NRS}
 endif
 
 
@@ -159,24 +159,30 @@ ${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 ## only start mammoth if there is an input file
 ## otherwise just report input is missing
 
-ifneq ($(wildcard ${TESTDATA_SRC}),)
 
-${EVAL_DIR}/eval_${TASK_ID}: ${TESTDATA_OUTPUT}
-	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < $< > $@
+.PRECIOUS: ${TESTDATA_OUTPUT}
+
+${EVAL_DIR}/eval_${TASK_ID}:
+ifneq ($(wildcard ${TESTDATA_SRC}),)
+  ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
+    ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
+	-${MAKE} ${TESTDATA_OUTPUT}
+	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < ${TESTDATA_OUTPUT} > $@
+    else
+	@echo "skip task ${TASK_ID} (same source and target language)"
+    endif
+  else
+	@echo "skip denoising task ${TASK_ID}"
+  endif
+else
+	@echo "ERROR: cannot find testdata ${TESTDATA_SRC}"
+endif
+
 
 ${TESTDATA_OUTPUT}: ${INFERENCE_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} ${MAMMOTH_DIR}/translate.py \
 		-model ${MODEL_PATH} \
 		-config $<
-
-else
-
-${EVAL_DIR}/eval_${TASK_ID}:
-	@echo "no test input ${TESTDATA_SRC} found for task ${TASK_ID}"
-
-
-endif
-
 
 
 
@@ -198,7 +204,7 @@ PRINT_METRIC  ?= bleu
 ${PRINT_EVAL_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
 	   taskids=(${TASK_IDS}); \
-	   echo "taskid	task	score	opus	diff"; \
+	   echo "taskid_lang	task	score	opus	diff"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    if [ $(words ${TASK_IDS}) -le $$i ]; then \
 	      taskid="task_$${tasks[$$i]}"; \
@@ -206,9 +212,10 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	      taskid=$${taskids[$$i]}; \
 	    fi; \
 	    if [ -s ${EVAL_DIR}/eval_$${taskid} ]; then \
+	      langpair=`echo $${taskid} | cut -f2- -d_`; \
 	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid} \
 	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
-	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${tasks[$$i]}" \
+	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${langpair}" \
 	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',}' "\t0" ); \
 	      diff=`echo "$${score} $${best}" | awk '{print $$1-$$2}'`; \
 	      echo "$${taskid}	$${tasks[$$i]}	$${score}$${best}$${diff}"; \
