@@ -56,15 +56,15 @@ endif
 
 ## data directories
 
-TRANSLATE_TRAIN_DOC  := multisynt/train/len1024
-TRANSLATE_TRAIN_SENT := sentmt
-TRANSLATE_DEV        := flores200/dev
-PREDICT_TRAIN        := multisynt/textpredict/train/len1024
-PREDICT_DEV          := multisynt/textpredict/dev/len1024
-# INSTRUCT_TRAIN       := instruct/train
-# INSTRUCT_DEV         := instruct/dev
-INSTRUCT_TRAIN       := instruct/langgroups/train
-INSTRUCT_DEV         := instruct/langgroups/dev
+TRANSLATE_TRAIN_DOC  ?= multisynt/train/len1024
+TRANSLATE_TRAIN_SENT ?= sentmt
+TRANSLATE_DEV        ?= flores200/dev
+PREDICT_TRAIN        ?= multisynt/textpredict/train/len1024
+PREDICT_DEV          ?= multisynt/textpredict/dev/len1024
+# INSTRUCT_TRAIN       ?= instruct/train
+# INSTRUCT_DEV         ?= instruct/dev
+INSTRUCT_TRAIN       ?= instruct/langgroups/train
+INSTRUCT_DEV         ?= instruct/langgroups/dev
 
 
 ## translation tasks
@@ -170,7 +170,6 @@ ENCODER_LAYERS := 6
 DECODER_LAYERS := 6
 XTRF_HEADS     := 8
 
-DEVDATA_BASENAME  := *
 MAX_SEQ_LENGTH    := 1024
 KEEP_CHECKPOINTS  := 1
 
@@ -304,12 +303,15 @@ SHARED_TASKS := $(foreach t,${FLAN_TASKIDS},mul-mul)
 		TASK_DECODERS= \
 		DEFAULT_ENCODER='"all"' \
 		DEFAULT_DECODER='"all"' \
+		VOCAB_TRG_SIZE=65472 \
 	$(basename $@)
 
 
 ## completely shared model including doc-MT tasks
 
-FLAN_MT_TASKIDS := ${DENOISE_TASKS} ${PREDICT_TASKS} ${DOCMT_TASKS} ${INSTRUCT_TASKS}
+FLAN_MT_TASKIDS      := ${DENOISE_TASKS} ${PREDICT_TASKS} ${DOCMT_TASKS} ${INSTRUCT_TASKS}
+DOCMT_TASK_TRGS      := $(shell echo ${DOCMT_TASKS} | tr " " "\n" | sed 's/^[^_]*_//' | cut -f2 -d-)
+DOCMT_TRG_PREFIXES   := $(foreach t,${DOCMT_TASK_TRGS},<<translate-to-$t>>)
 SHARED_FLAN_MT_TASKS := $(foreach t,${FLAN_MT_TASKIDS},mul-mul)
 
 .PHONY: %.mammoth-flan-mt-shared
@@ -319,12 +321,13 @@ SHARED_FLAN_MT_TASKS := $(foreach t,${FLAN_MT_TASKIDS},mul-mul)
 		TASKS="${SHARED_FLAN_MT_TASKS}" \
 		TASK_TRAINDATA="${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA} ${DOCMT_TRAINDATA} ${INSTRUCT_TRAINDATA}" \
 		TASK_DEVDATA="${DENOISE_DEVDATA} ${PREDICT_DEVDATA} ${DOCMT_DEVDATA} ${INSTRUCT_DEVDATA}" \
-		TASK_SRCPREFIXES="${DENOISE_TASK_PREFIXES} ${PREDICT_TASK_PREFIXES} ${DOCMT_TASK_PREFIXES}" \
+		TASK_SRCPREFIXES="${DENOISE_TASK_PREFIXES} ${PREDICT_TASK_PREFIXES} ${DOCMT_TRG_PREFIXES}" \
 		TASK_TRANSFORMS="${DENOISE_TRANSFORMS}" \
 		TASK_ENCODERS= \
 		TASK_DECODERS= \
 		DEFAULT_ENCODER='"all"' \
 		DEFAULT_DECODER='"all"' \
+		VOCAB_TRG_SIZE=65472 \
 	$(basename $@)
 
 
@@ -427,3 +430,22 @@ DOCMT4_EXTRATRANS := $(foreach l,${DOCMT4_EXTRATASKS},denoising,filtertoolong)
 		TASK_TRAINDATA="${INSTRUCT_TRAINDATA}" \
 		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
 	$(basename $@)
+
+
+INSTRUCT_TRAIN_SHUFFLED     := instruct/langgroups/train-shuffled
+INSTRUCT_TRAINDATA_SHUFFLED := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_TRAIN_SHUFFLED})
+
+.PHONY: %.mammoth-flanonly-shuffled
+%.mammoth-flanonly-shuffled:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		USE_DATASIZE_AS_TASK_WEIGHT=1 \
+		TASK_IDS="${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${INSTRUCT_TRAINDATA_SHUFFLED}" \
+		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
+	$(basename $@)
+
+
+tt:
+	echo ${DEVDATA_BASENAME}
+	echo ${DEFAULT_DEVDATA_SRC}
+	echo ${DEFAULT_DEVDATA_TRG}

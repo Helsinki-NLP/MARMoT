@@ -29,6 +29,9 @@ SKIP_DENOISING_EVAL_TASKS     ?= 1
 .PHONY: eval
 eval: eval-slurmjob
 
+.PHONY: print-eval-stats
+print-eval-stats: ${MODEL_DIR}/stats/eval-scores-bleu.txt ${MODEL_DIR}/stats/eval-scores-chrf.txt
+
 
 ## submit SLURM jobs to evaluate all tasks (one job per task)
 
@@ -145,7 +148,7 @@ ${EVAL_DIR}/eval-tasks: ${EVAL_TASK_TARGETS}
 
 .PHONY: ${EVAL_TASK_TARGETS}
 ${EVAL_TASK_TARGETS}:
-	@${MAKE} -s TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_DIR}/eval-task
+	${MAKE} TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_DIR}/eval-task
 
 
 
@@ -167,7 +170,7 @@ ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
 	-${MAKE} ${TESTDATA_OUTPUT}
-	sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < ${TESTDATA_OUTPUT} > $@
+	-sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < ${TESTDATA_OUTPUT} > $@
     else
 	@echo "skip task ${TASK_ID} (same source and target language)"
     endif
@@ -221,3 +224,13 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	      echo "$${taskid}	$${tasks[$$i]}	$${score}$${best}$${diff}"; \
 	    fi \
 	   done )
+
+
+
+${MODEL_DIR}/stats/eval-scores-bleu.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-eval-scores PRINT_METRIC=bleu > $@
+
+${MODEL_DIR}/stats/eval-scores-chrf.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-eval-scores PRINT_METRIC=chrf > $@

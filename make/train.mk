@@ -32,6 +32,14 @@ train-slurm: ${TRAIN_CONFIGFILE}
 
 
 
+.PHONY: print-train-stats
+print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
+		${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-ppl.txt \
+		${MODEL_DIR}/stats/valid-diff-bleu.txt \
+		${MODEL_DIR}/stats/valid-diff-ppl.txt
+
+
 
 
 ##------------------------------------------------------------------
@@ -215,3 +223,26 @@ print-valid-diff-table:
 ${PRINT_VALID_DIFF_ALIASES}:
 	@${MAKE} -s print-valid-diff-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "+%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; $$s=join("\t",@a);$$s=~s/\+\-/\-/g;$$s=~s/^\+//;print $$s; print "\n";'
 
+
+
+
+${MODEL_DIR}/stats/train-progress.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-train-progress > $@
+
+${MODEL_DIR}/stats/valid-scores-bleu.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-valid-scores PRINT_METRIC=bleu > $@
+
+${MODEL_DIR}/stats/valid-scores-ppl.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-valid-scores PRINT_METRIC=perplexity > $@
+
+
+${MODEL_DIR}/stats/valid-diff-bleu.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-valid-diffs PRINT_METRIC=bleu > $@
+
+${MODEL_DIR}/stats/valid-diff-ppl.txt:
+	@mkdir -p $(dir $@)
+	${MAKE} print-valid-diffs PRINT_METRIC=perplexity > $@
