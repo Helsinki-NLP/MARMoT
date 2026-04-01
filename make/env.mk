@@ -78,7 +78,8 @@ endif
 
 ## tokenizer directory
 
-VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/tatoeba
+VOCAB     ?= tatoeba
+VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/${VOCAB}
 
 
 ## look for some tools
