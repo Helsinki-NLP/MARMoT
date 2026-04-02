@@ -442,10 +442,30 @@ INSTRUCT_TRAINDATA_SHUFFLED := $(foreach l,${INSTRUCT_TASKS},${INSTRUCT_TRAIN_SH
 		TASK_IDS="${INSTRUCT_TASKS}" \
 		TASK_TRAINDATA="${INSTRUCT_TRAINDATA_SHUFFLED}" \
 		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
+		TESTDATA=${INSTRUCT_DEV} \
 	$(basename $@)
 
 
-tt:
-	echo ${DEVDATA_BASENAME}
-	echo ${DEFAULT_DEVDATA_SRC}
-	echo ${DEFAULT_DEVDATA_TRG}
+.PHONY: %.mammoth-flanonly-shuffled-uniformsampling
+%.mammoth-flanonly-shuffled-uniformsampling:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		TASK_IDS="${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${INSTRUCT_TRAINDATA_SHUFFLED}" \
+		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
+	$(basename $@)
+
+
+
+
+INSTRUCT_1GPU := $(foreach l,${INSTRUCT_TASKS},0:0)
+
+.PHONY: %.mammoth-flanonly-1gpu
+%.mammoth-flanonly-1gpu:
+	@${MAKE} -s MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		USE_DATASIZE_AS_TASK_WEIGHT=1 \
+		TASK_IDS="${INSTRUCT_TASKS}" \
+		TASK_TRAINDATA="${INSTRUCT_TRAINDATA_SHUFFLED}" \
+		TASK_DEVDATA="${INSTRUCT_DEVDATA}" \
+		TASK_GPUS="${INSTRUCT_1GPU}" \
+		TESTDATA=${INSTRUCT_DEV} \
+	$(basename $@)

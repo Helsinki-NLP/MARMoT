@@ -226,23 +226,28 @@ ${PRINT_VALID_DIFF_ALIASES}:
 
 
 
-${MODEL_DIR}/stats/train-progress.txt:
+${MODEL_DIR}/stats/train-progress.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print train progress"
 	@mkdir -p $(dir $@)
-	${MAKE} print-train-progress > $@
+	@${MAKE} -s print-train-progress > $@
 
-${MODEL_DIR}/stats/valid-scores-bleu.txt:
+${MODEL_DIR}/stats/valid-scores-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation BLEU scores"
 	@mkdir -p $(dir $@)
-	${MAKE} print-valid-scores PRINT_METRIC=bleu > $@
+	@${MAKE} -s print-valid-scores PRINT_METRIC=bleu > $@
 
-${MODEL_DIR}/stats/valid-scores-ppl.txt:
+${MODEL_DIR}/stats/valid-scores-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation perplexity scores"
 	@mkdir -p $(dir $@)
-	${MAKE} print-valid-scores PRINT_METRIC=perplexity > $@
+	@${MAKE} -s print-valid-scores PRINT_METRIC=perplexity > $@
 
 
-${MODEL_DIR}/stats/valid-diff-bleu.txt:
+${MODEL_DIR}/stats/valid-diff-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation BLEU differences"
 	@mkdir -p $(dir $@)
-	${MAKE} print-valid-diffs PRINT_METRIC=bleu > $@
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=bleu > $@
 
-${MODEL_DIR}/stats/valid-diff-ppl.txt:
+${MODEL_DIR}/stats/valid-diff-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation perplexity differences"
 	@mkdir -p $(dir $@)
-	${MAKE} print-valid-diffs PRINT_METRIC=perplexity > $@
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=perplexity > $@

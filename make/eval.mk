@@ -227,10 +227,12 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 
 
 
-${MODEL_DIR}/stats/eval-scores-bleu.txt:
+${MODEL_DIR}/stats/eval-scores-bleu.txt: ${EVAL_DIR}
+	@echo "print evaluation BLEU scores"
 	@mkdir -p $(dir $@)
-	${MAKE} print-eval-scores PRINT_METRIC=bleu > $@
+	@${MAKE} -s print-eval-scores PRINT_METRIC=bleu > $@
 
-${MODEL_DIR}/stats/eval-scores-chrf.txt:
+${MODEL_DIR}/stats/eval-scores-chrf.txt: ${EVAL_DIR}
+	@echo "print evaluation ChrF scores"
 	@mkdir -p $(dir $@)
-	${MAKE} print-eval-scores PRINT_METRIC=chrf > $@
+	@${MAKE} -s print-eval-scores PRINT_METRIC=chrf > $@
