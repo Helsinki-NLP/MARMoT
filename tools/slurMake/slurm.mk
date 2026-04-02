@@ -27,6 +27,7 @@ SLURM_MEM           ?= 48G
 SLURM_CPUS          ?= 16
 SLURM_CPUS_PER_TASK ?= ${SLURM_CPUS}
 SLURM_NODES         ?= ${NR_OF_NODES}
+SLURM_TASKS         ?= ${SLURM_NODES}
 SLURM_GPUS          ?= ${GPUS_PER_NODE}
 
 ifneq (${SLURM_GPUS},0)
@@ -43,7 +44,7 @@ endif
 ## number of parallel jobs that make can run
 ## default = number of CPU cores we have allocated
 
-MAKE_JOBS ?= ${SLURM_CPUS_PER_TASK}
+SLURM_PARALLEL_JOBS ?= ${SLURM_CPUS_PER_TASK}
 
 
 ## create a slurm script and submit it
@@ -69,7 +70,7 @@ MAKE_JOBS ?= ${SLURM_CPUS_PER_TASK}
 	@echo '#SBATCH -e $(@:.slurm=).%j.err'                                               >> $@
 	@echo '#SBATCH --partition=${SLURM_PARTITION}'                                       >> $@
 	@echo '#SBATCH --nodes=${SLURM_NODES}'                                               >> $@
-	@echo '#SBATCH --ntasks=${SLURM_NODES}'                                              >> $@
+	@echo '#SBATCH --ntasks=${SLURM_TASKS}'                                              >> $@
 	@echo '#SBATCH --cpus-per-task=${SLURM_CPUS_PER_TASK}'                               >> $@
 	@echo '#SBATCH --mem=${SLURM_MEM}'                                                   >> $@
 	@echo '#SBATCH --time=${SLURM_TIME}'                                                 >> $@
@@ -88,7 +89,7 @@ ifdef START_GPU_ENERGY_MONITORING
 endif
 endif
 	@echo ''                                                                             >> $@
-	@echo "srun ${MAKE} -j ${MAKE_JOBS} $(@:.slurm=)"                                    >> $@
+	@echo "srun ${MAKE} -j ${SLURM_PARALLEL_JOBS} $(@:.slurm=)"                          >> $@
 	@echo ''                                                                             >> $@
 ifneq (${SLURM_GPUS},0)
 ifdef STOP_GPU_ENERGY_MONITORING
