@@ -164,14 +164,20 @@ print-valid-scores-table:
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    task=$${tasks[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
+	      pattern="${PRINT_METRIC}"; \
+	    else \
+	      pattern="${PRINT_METRIC}/$${task}"; \
+	    fi; \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"${PRINT_METRIC}.*\":" \
+	    | grep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
 	    if [ "$${score}" != "0.000	" ]; then \
-	      task=$${taskids[$$i]:=$${tasks[$$i]}}; \
-	      echo "$${gpus[$$i]}	$${task}	$${score}"; \
+	      echo "$${gpus[$$i]}	$${taskid}	$${score}"; \
 	    fi \
 	   done )
 
@@ -202,13 +208,19 @@ print-valid-diff-table:
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    task=$${tasks[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
+	      pattern="${PRINT_METRIC}"; \
+	    else \
+	      pattern="${PRINT_METRIC}/$${task}"; \
+	    fi; \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"${PRINT_METRIC}.*\":" \
+	    | grep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \
-	    task=$${taskids[$$i]:=$${tasks[$$i]}}; \
-	    echo -n "$${gpus[$$i]}	$${task}	$${score[0]}"; \
+	    echo -n "$${gpus[$$i]}	$${taskid}	$${score[0]}"; \
 	    last=$${score[0]}; \
 	    for (( j=1; j<$${#score[@]}; j++ )); do \
 	      diff=`echo "$${score[$$j]} $${last}" | awk '{print $$1-$$2}' | sed 's/^/+/;s/+-/-/;'`; \
