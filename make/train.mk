@@ -154,8 +154,46 @@ PRINT_VALID_SCORE_ALIASES := 	print-valid-score \
 				print-validation-scores
 
 
+## get all validation scores
+## this is slower but does not skip steps if there is no score
+
 .PHONY: print-valid-scores-table
 print-valid-scores-table:
+	@( tasks=(${TASKS}); \
+	   taskids=(${TASK_IDS}); \
+	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
+	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
+	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
+	   echo "gpu	task-ids	$${steps}"; \
+	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    task=$${tasks[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
+	      pattern="${PRINT_METRIC}"; \
+	    else \
+	      pattern="${PRINT_METRIC}/$${task}"; \
+	    fi; \
+	    echo -n "$${gpus[$$i]}	$${taskid}"; \
+	    for s in $${steps}; do \
+	      score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	      | grep "\"step\": $${s}," \
+	      | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
+	      | tr ',}' "\n\n" \
+	      | grep "\"$${pattern}\":" \
+	      | cut -f2 -d: | xargs printf "%.3f" ); \
+	      echo -n "	$${score}"; \
+	    done; \
+	    echo ""; \
+	   done )
+
+
+
+## this is a faster variant of printing all validation scores
+## but it fails of there are steps for which no score has been reported
+
+.PHONY: print-valid-scores-table-fast
+print-valid-scores-table-fast:
 	@( tasks=(${TASKS}); \
 	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
@@ -180,6 +218,8 @@ print-valid-scores-table:
 	      echo "$${gpus[$$i]}	$${taskid}	$${score}"; \
 	    fi \
 	   done )
+
+
 
 
 ifeq (${MULTIPLE_JOBS_PER_GPU},1)
