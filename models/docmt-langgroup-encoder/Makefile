@@ -20,13 +20,6 @@ LANG_GROUPS := 	zls zls roa zlw gmq gmw grk gmw \
 		mul zls gmq trk zle
 
 
-## data directories and vocabularies
-
-TRAINDATA := multisynt/train/len1024
-DEVDATA   := flores200/dev
-TESTDATA  := flores200/devtest
-VOCAB     := tatoeba_hplt_multisynt
-
 ## all task IDs and langgroup-based encoder definitions
 ## - English-centric translation tasks in both directions
 ## - task encoders: use the language groups defined in the TASKS
@@ -40,15 +33,17 @@ TASKS          := $(foreach l,$(TASK_LANGPAIRS),$(call langgroup,$(firstword $(s
 TASK_ENCODERS  := $(foreach l,$(TASKS),"$(firstword $(subst -, ,$l))")
 
 
-## final model parameters
 
-ENCODER_LAYERS    := 6
-DECODER_LAYERS    := 6
-XTRF_HEADS        := 8
-MAX_SEQ_LENGTH    := 1024
-KEEP_CHECKPOINTS  := 1
-VOCAB_SRC_SIZE    := 65472
-VOCAB_TRG_SIZE    := 32000
+## select MultiSynth doc-level training data
+TRAINDATA := multisynt/train/len1024
+
+
+## use document-level tokenizers trained on Tatoeba/HPLT/MultiSynth
+## use 65K lang-group vocabularies on encoder side
+
+VOCAB          := tatoeba_hplt_multisynt
+VOCAB_SRC_SIZE := 65472
+
 
 
 ## include this at the end to set all variables and
@@ -56,3 +51,13 @@ VOCAB_TRG_SIZE    := 32000
 
 include ../../make/marmot.mk
 
+
+
+
+## some other variants
+
+.PHONY: %.mammoth-docmt-1node
+%.mammoth-docmt-1node:
+	@${MAKE} -s $(basename $@) \
+		MODEL_NAME=$(patsubst .%,%,$(suffix $@)) \
+		NR_OF_NODES=1

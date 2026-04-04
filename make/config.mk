@@ -45,7 +45,8 @@ ifdef TASK_IDS
 endif
 endif
 
-TASKS ?= fin-eng
+TASKS    ?= fin-eng
+TASK_IDS ?= $(patsubst %,task_%,${TASKS})
 
 TASK_LANGPAIRS ?= ${TASKS}
 
@@ -92,6 +93,25 @@ LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
 SRCLANG  ?= $(firstword $(subst -, ,${LANGPAIR}))
 TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 
+
+
+## find tasks allocated for each GPU
+## - ALLOCATED_GPUS: all GPUs that have a task assigned
+## - GPU_TASK_PAIRS: GPU-task pairs (format = gpu/task)
+## - GPU_TASKID_PAIRS: GPU-taskid pairs (format = gpu/taskid)
+## - GPU_TASKS: all tasks for each GPU in the same order as ALLOCATED_GPUS
+##              (tasks merged with ':' if there is more than one per GPU)
+## - GPU_TASK_IDS: same as above but with task_ids
+
+ifeq (${MULTIPLE_JOBS_PER_GPU},1)
+
+ALLOCATED_GPUS   := $(sort ${TASK_GPU_ASSIGNMENTS})
+GPU_TASKID_PAIRS := $(foreach t,${TASK_IDS},$(call lookup,$t,${TASK_IDS},${TASK_GPU_ASSIGNMENTS})/$t)
+GPU_TASK_PAIRS   := $(foreach t,${GPU_TASKID_PAIRS},$(dir $t)$(call lookup,$(notdir $t),${TASK_IDS},${TASKS}))
+GPU_TASKS        := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(sort $(notdir $(filter $g/%,${GPU_TASK_PAIRS}))))))
+GPU_TASK_IDS     := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(notdir $(filter $g/%,${GPU_TASKID_PAIRS})))))
+
+endif
 
 ## path to config files
 
@@ -326,7 +346,7 @@ ADD_LANGUAGE_TOKEN ?= false
 XTRF_FLASH_ATTENTION       ?= true     # Flash attention (not supported on V100)
 XTRF_ROTARY_POS_EMBEDDINGS ?= true     # Use rotary positional embeddings
 XTRF_TIE_EMBEDDINGS        ?= false    # Tie input/output embeddings
-XTRF_HEADS                 ?= 12
+XTRF_HEADS                 ?= 8
 XTRF_PRE_NORM              ?= false
 XTRF_POST_EMB_NORM         ?= true
 XTRF_POST_EMB_NORM_BIAS    ?= true
@@ -379,7 +399,7 @@ QUEUE_SIZE           ?= 80
 
 MIN_SRCSEQ_LENGTH ?= 1
 MIN_TRGSEQ_LENGTH ?= 1
-MAX_SEQ_LENGTH    ?= 512
+MAX_SEQ_LENGTH    ?= 1024
 MAX_SRCSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 MAX_TRGSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 
@@ -387,7 +407,7 @@ MAX_TRGSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 VALID_FREQ       ?= 2500    # validation frequency (steps)
 VALID_METRICS    ?= bleu    # validation metrics
 SAVE_FREQ        ?= 2500    # checkpoint saving frequency (steps)
-KEEP_CHECKPOINTS ?= 5       # nr of checkpoints to keep
+KEEP_CHECKPOINTS ?= 1       # nr of checkpoints to keep
 REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
 REPORT_TFLOPS    ?= true
 TENSORBOARD      ?= true

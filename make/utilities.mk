@@ -17,3 +17,9 @@ lookup_with_fallback = $(firstword $(word $(call pos,$1,$2),$3) $1)
 ## reverse language pair string
 
 reverse = $(lastword $(subst -, ,$(1)))-$(firstword $(subst -, ,$(1)))
+
+
+
+## matching a space
+
+space := $(subst ,, )

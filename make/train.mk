@@ -182,6 +182,38 @@ print-valid-scores-table:
 	   done )
 
 
+ifeq (${MULTIPLE_JOBS_PER_GPU},1)
+
+## print ppl table per GPU rather than per task
+## --> join all tasks on each GPU
+## --> this is because perplexity is computed collectively per GPU
+
+.PHONY: print-valid-ppl-table
+print-valid-ppl-table:
+	@( tasks=(${GPU_TASKS}); \
+	   taskids=(${GPU_TASK_IDS}); \
+	   gpus=(${ALLOCATED_GPUS}); \
+	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
+	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
+	   echo "gpu	task-ids	$${steps}"; \
+	   for i in $$(seq 0 $$(( $(words $(GPU_TASKS))-1 )) ); do \
+	    task=$${tasks[$$i]}; \
+	    taskid=$${taskids[$$i]}; \
+	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
+	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
+	    | tr ',}' "\n\n" \
+	    | grep '"perplexity":' \
+	    | cut -f2 -d: | xargs printf "%.3f	" ); \
+	    if [ "$${score}" != "0.000	" ]; then \
+	      echo "$${gpus[$$i]}	$${taskid}	$${score}"; \
+	    fi \
+	   done )
+
+endif
+
+
+
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
 	@${MAKE} -s print-valid-scores-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; print join("\t",@a); print "\n";'
