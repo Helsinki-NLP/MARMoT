@@ -103,15 +103,16 @@ TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 ##              (tasks merged with ':' if there is more than one per GPU)
 ## - GPU_TASK_IDS: same as above but with task_ids
 
-ifeq (${MULTIPLE_JOBS_PER_GPU},1)
+ALLOCATED_GPUS := $(sort ${TASK_GPU_ASSIGNMENTS})
 
-ALLOCATED_GPUS   := $(sort ${TASK_GPU_ASSIGNMENTS})
-GPU_TASKID_PAIRS := $(foreach t,${TASK_IDS},$(call lookup,$t,${TASK_IDS},${TASK_GPU_ASSIGNMENTS})/$t)
-GPU_TASK_PAIRS   := $(foreach t,${GPU_TASKID_PAIRS},$(dir $t)$(call lookup,$(notdir $t),${TASK_IDS},${TASKS}))
-GPU_TASKS        := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(sort $(notdir $(filter $g/%,${GPU_TASK_PAIRS}))))))
-GPU_TASK_IDS     := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(notdir $(filter $g/%,${GPU_TASKID_PAIRS})))))
-
+ifneq ($(words ${ALLOCATED_GPUS}),$(words ${TASK_IDS}))
+  MULTIPLE_JOBS_PER_GPU := 1
+  GPU_TASKID_PAIRS := $(foreach t,${TASK_IDS},$(call lookup,$t,${TASK_IDS},${TASK_GPU_ASSIGNMENTS})/$t)
+  GPU_TASK_PAIRS   := $(foreach t,${GPU_TASKID_PAIRS},$(dir $t)$(call lookup,$(notdir $t),${TASK_IDS},${TASKS}))
+  GPU_TASKS        := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(sort $(notdir $(filter $g/%,${GPU_TASK_PAIRS}))))))
+  GPU_TASK_IDS     := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(notdir $(filter $g/%,${GPU_TASKID_PAIRS})))))
 endif
+
 
 ## path to config files
 
