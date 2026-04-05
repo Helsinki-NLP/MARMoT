@@ -1,5 +1,3 @@
-make[2]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_bos-eng: 500	 acc: --	 ppl: 20064.20	 xent: 9.91	  16.87 TFLOP/s	 16233/18511 tok/s	 134971 sents	   1457 sec	
 mt_bos-eng: 1000	 acc: --	 ppl: 4689.64	 xent: 8.45	  17.40 TFLOP/s	 16761/19092 tok/s	 267369 sents	   2843 sec	
 mt_bos-eng: 1500	 acc: --	 ppl: 1490.92	 xent: 7.31	  18.05 TFLOP/s	 17376/19805 tok/s	 405335 sents	   4235 sec	
@@ -122,9 +120,7 @@ mt_bos-eng: 59500	 acc: --	 ppl: 13.29	 xent: 2.59	  18.52 TFLOP/s	 17844/20313 
 mt_bos-eng: 60000	 acc: --	 ppl: 13.37	 xent: 2.59	  18.32 TFLOP/s	 17646/20093 tok/s	 16212835 sents	 169495 sec	
 mt_bos-eng: 60500	 acc: --	 ppl: 13.38	 xent: 2.59	  14.78 TFLOP/s	 14231/16214 tok/s	 16348151 sents	 171163 sec	
 mt_bos-eng: 61000	 acc: --	 ppl: 13.37	 xent: 2.59	  18.41 TFLOP/s	 17719/20197 tok/s	 16484565 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-bos: 500	 acc: --	 ppl: 24592.65	 xent: 10.11	  16.81 TFLOP/s	 18542/16476 tok/s	 138059 sents	   1457 sec	
 mt_eng-bos: 1000	 acc: --	 ppl: 10274.41	 xent: 9.24	  17.19 TFLOP/s	 18950/16859 tok/s	 272191 sents	   2843 sec	
 mt_eng-bos: 1500	 acc: --	 ppl: 4496.87	 xent: 8.41	  17.92 TFLOP/s	 19774/17572 tok/s	 412788 sents	   4235 sec	
@@ -247,9 +243,7 @@ mt_eng-bos: 59500	 acc: --	 ppl:  9.09	 xent: 2.21	  18.00 TFLOP/s	 19842/17655 
 mt_eng-bos: 60000	 acc: --	 ppl:  9.07	 xent: 2.20	  18.07 TFLOP/s	 19938/17709 tok/s	 16459304 sents	 169495 sec	
 mt_eng-bos: 60500	 acc: --	 ppl:  9.09	 xent: 2.21	  14.37 TFLOP/s	 15849/14093 tok/s	 16593801 sents	 171163 sec	
 mt_eng-bos: 61000	 acc: --	 ppl:  9.06	 xent: 2.20	  18.03 TFLOP/s	 19863/17697 tok/s	 16731062 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_bul-eng: 500	 acc: --	 ppl: 19943.89	 xent: 9.90	  17.95 TFLOP/s	 19138/18037 tok/s	 131503 sents	   1457 sec	
 mt_bul-eng: 1000	 acc: --	 ppl: 4700.64	 xent: 8.46	  18.52 TFLOP/s	 19740/18615 tok/s	 260669 sents	   2843 sec	
 mt_bul-eng: 1500	 acc: --	 ppl: 1488.06	 xent: 7.31	  19.09 TFLOP/s	 20349/19192 tok/s	 394330 sents	   4236 sec	
@@ -372,9 +366,7 @@ mt_bul-eng: 59500	 acc: --	 ppl:  9.16	 xent: 2.22	  19.18 TFLOP/s	 20442/19264 
 mt_bul-eng: 60000	 acc: --	 ppl:  9.14	 xent: 2.21	  19.16 TFLOP/s	 20419/19250 tok/s	 15832797 sents	 169495 sec	
 mt_bul-eng: 60500	 acc: --	 ppl:  9.16	 xent: 2.21	  15.55 TFLOP/s	 16569/15626 tok/s	 15962931 sents	 171162 sec	
 mt_bul-eng: 61000	 acc: --	 ppl:  9.11	 xent: 2.21	  19.65 TFLOP/s	 20951/19738 tok/s	 16096977 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-bul: 500	 acc: --	 ppl: 22254.59	 xent: 10.01	  17.99 TFLOP/s	 18157/18972 tok/s	 135079 sents	   1456 sec	
 mt_eng-bul: 1000	 acc: --	 ppl: 7800.15	 xent: 8.96	  18.55 TFLOP/s	 18718/19555 tok/s	 267641 sents	   2843 sec	
 mt_eng-bul: 1500	 acc: --	 ppl: 3179.92	 xent: 8.06	  19.14 TFLOP/s	 19315/20182 tok/s	 405137 sents	   4236 sec	
@@ -497,9 +489,7 @@ mt_eng-bul: 59500	 acc: --	 ppl:  7.65	 xent: 2.03	  19.29 TFLOP/s	 19469/20335 
 mt_eng-bul: 60000	 acc: --	 ppl:  7.67	 xent: 2.04	  19.77 TFLOP/s	 19955/20845 tok/s	 16180817 sents	 169495 sec	
 mt_eng-bul: 60500	 acc: --	 ppl:  7.67	 xent: 2.04	  15.75 TFLOP/s	 15893/16603 tok/s	 16316124 sents	 171163 sec	
 mt_eng-bul: 61000	 acc: --	 ppl:  7.65	 xent: 2.03	  19.27 TFLOP/s	 19448/20311 tok/s	 16450497 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_cat-eng: 500	 acc: --	 ppl: 20079.46	 xent: 9.91	  17.98 TFLOP/s	 19393/17868 tok/s	 130217 sents	   1456 sec	
 mt_cat-eng: 1000	 acc: --	 ppl: 4716.39	 xent: 8.46	  18.65 TFLOP/s	 20109/18540 tok/s	 258939 sents	   2843 sec	
 mt_cat-eng: 1500	 acc: --	 ppl: 1490.52	 xent: 7.31	  19.12 TFLOP/s	 20614/18997 tok/s	 391332 sents	   4236 sec	
@@ -622,9 +612,7 @@ mt_cat-eng: 59500	 acc: --	 ppl:  8.08	 xent: 2.09	  19.70 TFLOP/s	 21233/19583 
 mt_cat-eng: 60000	 acc: --	 ppl:  8.08	 xent: 2.09	  19.41 TFLOP/s	 20929/19285 tok/s	 15679363 sents	 169495 sec	
 mt_cat-eng: 60500	 acc: --	 ppl:  8.09	 xent: 2.09	  15.69 TFLOP/s	 16915/15591 tok/s	 15809534 sents	 171163 sec	
 mt_cat-eng: 61000	 acc: --	 ppl:  8.08	 xent: 2.09	  19.07 TFLOP/s	 20556/18950 tok/s	 15937636 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-cat: 500	 acc: --	 ppl: 20159.16	 xent: 9.91	  17.83 TFLOP/s	 17473/19200 tok/s	 130043 sents	   1457 sec	
 mt_eng-cat: 1000	 acc: --	 ppl: 5624.16	 xent: 8.63	  18.62 TFLOP/s	 18245/20049 tok/s	 259297 sents	   2843 sec	
 mt_eng-cat: 1500	 acc: --	 ppl: 1933.30	 xent: 7.57	  19.18 TFLOP/s	 18793/20656 tok/s	 393025 sents	   4235 sec	
@@ -747,9 +735,7 @@ mt_eng-cat: 59500	 acc: --	 ppl:  6.59	 xent: 1.89	  19.59 TFLOP/s	 19204/21098 
 mt_eng-cat: 60000	 acc: --	 ppl:  6.58	 xent: 1.88	  19.19 TFLOP/s	 18810/20666 tok/s	 15762287 sents	 169495 sec	
 mt_eng-cat: 60500	 acc: --	 ppl:  6.58	 xent: 1.88	  15.48 TFLOP/s	 15179/16668 tok/s	 15891406 sents	 171162 sec	
 mt_eng-cat: 61000	 acc: --	 ppl:  6.58	 xent: 1.88	  19.38 TFLOP/s	 18997/20866 tok/s	 16022636 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_ces-eng: 500	 acc: --	 ppl: 20067.94	 xent: 9.91	  17.63 TFLOP/s	 17667/18726 tok/s	 136557 sents	   1457 sec	
 mt_ces-eng: 1000	 acc: --	 ppl: 4713.26	 xent: 8.46	  18.18 TFLOP/s	 18215/19311 tok/s	 270477 sents	   2843 sec	
 mt_ces-eng: 1500	 acc: --	 ppl: 1519.94	 xent: 7.33	  18.73 TFLOP/s	 18763/19894 tok/s	 409063 sents	   4236 sec	
@@ -872,9 +858,7 @@ mt_ces-eng: 59500	 acc: --	 ppl:  9.45	 xent: 2.25	  19.29 TFLOP/s	 19325/20487 
 mt_ces-eng: 60000	 acc: --	 ppl:  9.44	 xent: 2.25	  19.02 TFLOP/s	 19060/20206 tok/s	 16363854 sents	 169495 sec	
 mt_ces-eng: 60500	 acc: --	 ppl:  9.46	 xent: 2.25	  15.31 TFLOP/s	 15326/16265 tok/s	 16499282 sents	 171162 sec	
 mt_ces-eng: 61000	 acc: --	 ppl:  9.43	 xent: 2.24	  18.76 TFLOP/s	 18792/19923 tok/s	 16633800 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-ces: 500	 acc: --	 ppl: 25676.47	 xent: 10.15	  17.95 TFLOP/s	 18437/18666 tok/s	 137280 sents	   1457 sec	
 mt_eng-ces: 1000	 acc: --	 ppl: 11271.50	 xent: 9.33	  18.43 TFLOP/s	 18929/19167 tok/s	 271261 sents	   2843 sec	
 mt_eng-ces: 1500	 acc: --	 ppl: 5189.45	 xent: 8.55	  19.07 TFLOP/s	 19595/19840 tok/s	 410672 sents	   4236 sec	
@@ -997,9 +981,7 @@ mt_eng-ces: 59500	 acc: --	 ppl:  8.78	 xent: 2.17	  19.58 TFLOP/s	 20113/20359 
 mt_eng-ces: 60000	 acc: --	 ppl:  8.76	 xent: 2.17	  19.37 TFLOP/s	 19899/20143 tok/s	 16389633 sents	 169495 sec	
 mt_eng-ces: 60500	 acc: --	 ppl:  8.75	 xent: 2.17	  15.51 TFLOP/s	 15943/16130 tok/s	 16525281 sents	 171163 sec	
 mt_eng-ces: 61000	 acc: --	 ppl:  8.74	 xent: 2.17	  19.03 TFLOP/s	 19546/19784 tok/s	 16659830 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_dan-eng: 500	 acc: --	 ppl: 20121.82	 xent: 9.91	  17.81 TFLOP/s	 18196/18599 tok/s	 135561 sents	   1456 sec	
 mt_dan-eng: 1000	 acc: --	 ppl: 4690.20	 xent: 8.45	  18.42 TFLOP/s	 18815/19252 tok/s	 269132 sents	   2843 sec	
 mt_dan-eng: 1500	 acc: --	 ppl: 1494.44	 xent: 7.31	  19.07 TFLOP/s	 19487/19920 tok/s	 407857 sents	   4235 sec	
@@ -1122,9 +1104,7 @@ mt_dan-eng: 59500	 acc: --	 ppl:  6.99	 xent: 1.94	  19.62 TFLOP/s	 20036/20495 
 mt_dan-eng: 60000	 acc: --	 ppl:  6.97	 xent: 1.94	  19.18 TFLOP/s	 19600/20035 tok/s	 16342022 sents	 169495 sec	
 mt_dan-eng: 60500	 acc: --	 ppl:  6.97	 xent: 1.94	  15.71 TFLOP/s	 16046/16411 tok/s	 16478740 sents	 171163 sec	
 mt_dan-eng: 61000	 acc: --	 ppl:  6.97	 xent: 1.94	  18.93 TFLOP/s	 19333/19770 tok/s	 16612157 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-dan: 500	 acc: --	 ppl: 22429.96	 xent: 10.02	  18.18 TFLOP/s	 18619/18953 tok/s	 138600 sents	   1457 sec	
 mt_eng-dan: 1000	 acc: --	 ppl: 7370.81	 xent: 8.91	  18.72 TFLOP/s	 19180/19516 tok/s	 274353 sents	   2843 sec	
 mt_eng-dan: 1500	 acc: --	 ppl: 2683.68	 xent: 7.89	  19.18 TFLOP/s	 19637/19998 tok/s	 414057 sents	   4235 sec	
@@ -1247,9 +1227,7 @@ mt_eng-dan: 59500	 acc: --	 ppl:  6.28	 xent: 1.84	  19.38 TFLOP/s	 19847/20201 
 mt_eng-dan: 60000	 acc: --	 ppl:  6.25	 xent: 1.83	  19.42 TFLOP/s	 19894/20244 tok/s	 16454135 sents	 169495 sec	
 mt_eng-dan: 60500	 acc: --	 ppl:  6.26	 xent: 1.83	  15.53 TFLOP/s	 15901/16182 tok/s	 16589081 sents	 171163 sec	
 mt_eng-dan: 61000	 acc: --	 ppl:  6.26	 xent: 1.83	  19.31 TFLOP/s	 19771/20134 tok/s	 16725627 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_deu-eng: 500	 acc: --	 ppl: 20741.76	 xent: 9.94	  18.02 TFLOP/s	 18853/18431 tok/s	 134382 sents	   1457 sec	
 mt_deu-eng: 1000	 acc: --	 ppl: 4734.09	 xent: 8.46	  18.64 TFLOP/s	 19487/19064 tok/s	 266593 sents	   2843 sec	
 mt_deu-eng: 1500	 acc: --	 ppl: 1498.98	 xent: 7.31	  19.22 TFLOP/s	 20106/19661 tok/s	 403537 sents	   4236 sec	
@@ -1372,9 +1350,7 @@ mt_deu-eng: 59500	 acc: --	 ppl: 11.51	 xent: 2.44	  19.40 TFLOP/s	 20298/19841 
 mt_deu-eng: 60000	 acc: --	 ppl: 11.48	 xent: 2.44	  19.58 TFLOP/s	 20486/20017 tok/s	 16126582 sents	 169495 sec	
 mt_deu-eng: 60500	 acc: --	 ppl: 11.52	 xent: 2.44	  15.93 TFLOP/s	 16662/16295 tok/s	 16262338 sents	 171162 sec	
 mt_deu-eng: 61000	 acc: --	 ppl: 11.50	 xent: 2.44	  19.33 TFLOP/s	 20217/19770 tok/s	 16396231 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-deu: 500	 acc: --	 ppl: 23921.70	 xent: 10.08	  18.12 TFLOP/s	 18300/19089 tok/s	 136246 sents	   1457 sec	
 mt_eng-deu: 1000	 acc: --	 ppl: 9310.65	 xent: 9.14	  18.60 TFLOP/s	 18786/19594 tok/s	 269249 sents	   2843 sec	
 mt_eng-deu: 1500	 acc: --	 ppl: 3396.16	 xent: 8.13	  19.26 TFLOP/s	 19455/20301 tok/s	 407672 sents	   4236 sec	
@@ -1497,9 +1473,7 @@ mt_eng-deu: 59500	 acc: --	 ppl:  7.88	 xent: 2.06	  19.60 TFLOP/s	 19795/20660 
 mt_eng-deu: 60000	 acc: --	 ppl:  7.90	 xent: 2.07	  19.81 TFLOP/s	 20004/20863 tok/s	 16249878 sents	 169495 sec	
 mt_eng-deu: 60500	 acc: --	 ppl:  7.88	 xent: 2.06	  15.80 TFLOP/s	 15966/16647 tok/s	 16385945 sents	 171163 sec	
 mt_eng-deu: 61000	 acc: --	 ppl:  7.89	 xent: 2.07	  19.22 TFLOP/s	 19410/20252 tok/s	 16519882 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_ell-eng: 500	 acc: --	 ppl: 20109.72	 xent: 9.91	  17.81 TFLOP/s	 18049/18728 tok/s	 136577 sents	   1457 sec	
 mt_ell-eng: 1000	 acc: --	 ppl: 4706.00	 xent: 8.46	  18.37 TFLOP/s	 18614/19321 tok/s	 270484 sents	   2843 sec	
 mt_ell-eng: 1500	 acc: --	 ppl: 1518.04	 xent: 7.33	  18.87 TFLOP/s	 19126/19855 tok/s	 408881 sents	   4236 sec	
@@ -1622,9 +1596,7 @@ mt_ell-eng: 59500	 acc: --	 ppl:  8.09	 xent: 2.09	  19.52 TFLOP/s	 19795/20524 
 mt_ell-eng: 60000	 acc: --	 ppl:  8.11	 xent: 2.09	  19.27 TFLOP/s	 19535/20266 tok/s	 16284693 sents	 169495 sec	
 mt_ell-eng: 60500	 acc: --	 ppl:  8.11	 xent: 2.09	  15.32 TFLOP/s	 15526/16120 tok/s	 16418942 sents	 171163 sec	
 mt_ell-eng: 61000	 acc: --	 ppl:  8.12	 xent: 2.09	  19.00 TFLOP/s	 19252/19984 tok/s	 16553846 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-ell: 500	 acc: --	 ppl: 23227.05	 xent: 10.05	  17.54 TFLOP/s	 16833/19173 tok/s	 125287 sents	   1456 sec	
 mt_eng-ell: 1000	 acc: --	 ppl: 8170.77	 xent: 9.01	  18.44 TFLOP/s	 17687/20159 tok/s	 250633 sents	   2842 sec	
 mt_eng-ell: 1500	 acc: --	 ppl: 2925.41	 xent: 7.98	  18.75 TFLOP/s	 17986/20487 tok/s	 378810 sents	   4236 sec	
@@ -1747,9 +1719,7 @@ mt_eng-ell: 59500	 acc: --	 ppl:  7.03	 xent: 1.95	  19.46 TFLOP/s	 18671/21265 
 mt_eng-ell: 60000	 acc: --	 ppl:  7.03	 xent: 1.95	  19.13 TFLOP/s	 18349/20901 tok/s	 15231143 sents	 169495 sec	
 mt_eng-ell: 60500	 acc: --	 ppl:  7.02	 xent: 1.95	  15.55 TFLOP/s	 14920/16996 tok/s	 15358664 sents	 171163 sec	
 mt_eng-ell: 61000	 acc: --	 ppl:  7.02	 xent: 1.95	  19.18 TFLOP/s	 18407/20955 tok/s	 15485679 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_est-eng: 500	 acc: --	 ppl: 20020.74	 xent: 9.90	  17.50 TFLOP/s	 17379/18727 tok/s	 136573 sents	   1457 sec	
 mt_est-eng: 1000	 acc: --	 ppl: 4707.89	 xent: 8.46	  17.97 TFLOP/s	 17842/19240 tok/s	 269991 sents	   2843 sec	
 mt_est-eng: 1500	 acc: --	 ppl: 1515.94	 xent: 7.32	  18.58 TFLOP/s	 18441/19892 tok/s	 408599 sents	   4236 sec	
@@ -1872,9 +1842,7 @@ mt_est-eng: 59500	 acc: --	 ppl: 10.74	 xent: 2.37	  19.11 TFLOP/s	 18971/20461 
 mt_est-eng: 60000	 acc: --	 ppl: 10.80	 xent: 2.38	  18.85 TFLOP/s	 18716/20181 tok/s	 16302503 sents	 169496 sec	
 mt_est-eng: 60500	 acc: --	 ppl: 10.75	 xent: 2.37	  15.13 TFLOP/s	 15019/16192 tok/s	 16437523 sents	 171163 sec	
 mt_est-eng: 61000	 acc: --	 ppl: 10.79	 xent: 2.38	  18.58 TFLOP/s	 18444/19897 tok/s	 16571640 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-est: 500	 acc: --	 ppl: 24864.65	 xent: 10.12	  17.61 TFLOP/s	 18528/17974 tok/s	 137896 sents	   1456 sec	
 mt_eng-est: 1000	 acc: --	 ppl: 10188.65	 xent: 9.23	  18.09 TFLOP/s	 19033/18458 tok/s	 272702 sents	   2843 sec	
 mt_eng-est: 1500	 acc: --	 ppl: 4569.30	 xent: 8.43	  18.80 TFLOP/s	 19787/19182 tok/s	 413443 sents	   4236 sec	
@@ -1997,9 +1965,7 @@ mt_eng-est: 59500	 acc: --	 ppl:  9.18	 xent: 2.22	  18.68 TFLOP/s	 19656/19060 
 mt_eng-est: 60000	 acc: --	 ppl:  9.15	 xent: 2.21	  18.97 TFLOP/s	 19966/19356 tok/s	 16473371 sents	 169495 sec	
 mt_eng-est: 60500	 acc: --	 ppl:  9.17	 xent: 2.22	  15.04 TFLOP/s	 15827/15338 tok/s	 16607765 sents	 171163 sec	
 mt_eng-est: 61000	 acc: --	 ppl:  9.17	 xent: 2.22	  18.78 TFLOP/s	 19762/19175 tok/s	 16744218 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eus-eng: 500	 acc: --	 ppl: 19984.92	 xent: 9.90	  15.39 TFLOP/s	 12865/18597 tok/s	 135551 sents	   1456 sec	
 mt_eus-eng: 1000	 acc: --	 ppl: 4708.90	 xent: 8.46	  15.92 TFLOP/s	 13313/19248 tok/s	 269117 sents	   2843 sec	
 mt_eus-eng: 1500	 acc: --	 ppl: 1504.96	 xent: 7.32	  16.32 TFLOP/s	 13638/19729 tok/s	 406534 sents	   4236 sec	
@@ -2122,9 +2088,7 @@ mt_eus-eng: 59500	 acc: --	 ppl: 25.67	 xent: 3.25	  16.88 TFLOP/s	 14112/20404 
 mt_eus-eng: 60000	 acc: --	 ppl: 25.78	 xent: 3.25	  16.66 TFLOP/s	 13932/20143 tok/s	 16272878 sents	 169495 sec	
 mt_eus-eng: 60500	 acc: --	 ppl: 25.82	 xent: 3.25	  13.34 TFLOP/s	 11151/16134 tok/s	 16407479 sents	 171163 sec	
 mt_eus-eng: 61000	 acc: --	 ppl: 25.76	 xent: 3.25	  16.48 TFLOP/s	 13770/19923 tok/s	 16541871 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-eus: 500	 acc: --	 ppl: 25385.55	 xent: 10.14	  16.08 TFLOP/s	 18571/15100 tok/s	 138207 sents	   1456 sec	
 mt_eng-eus: 1000	 acc: --	 ppl: 10822.22	 xent: 9.29	  16.59 TFLOP/s	 19161/15590 tok/s	 273853 sents	   2843 sec	
 mt_eng-eus: 1500	 acc: --	 ppl: 4889.56	 xent: 8.49	  16.97 TFLOP/s	 19605/15941 tok/s	 413374 sents	   4236 sec	
@@ -2247,9 +2211,7 @@ mt_eng-eus: 59500	 acc: --	 ppl: 17.27	 xent: 2.85	  16.97 TFLOP/s	 19601/15941 
 mt_eng-eus: 60000	 acc: --	 ppl: 17.23	 xent: 2.85	  17.21 TFLOP/s	 19884/16155 tok/s	 16480489 sents	 169495 sec	
 mt_eng-eus: 60500	 acc: --	 ppl: 17.27	 xent: 2.85	  13.60 TFLOP/s	 15710/12771 tok/s	 16613986 sents	 171163 sec	
 mt_eng-eus: 61000	 acc: --	 ppl: 17.21	 xent: 2.85	  17.04 TFLOP/s	 19676/16014 tok/s	 16749845 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_fin-eng: 500	 acc: --	 ppl: 20070.84	 xent: 9.91	  17.72 TFLOP/s	 17961/18640 tok/s	 135940 sents	   1457 sec	
 mt_fin-eng: 1000	 acc: --	 ppl: 4727.31	 xent: 8.46	  18.45 TFLOP/s	 18698/19406 tok/s	 270485 sents	   2843 sec	
 mt_fin-eng: 1500	 acc: --	 ppl: 1525.24	 xent: 7.33	  18.93 TFLOP/s	 19184/19912 tok/s	 409180 sents	   4236 sec	
@@ -2372,9 +2334,7 @@ mt_fin-eng: 59500	 acc: --	 ppl: 10.32	 xent: 2.33	  19.48 TFLOP/s	 19747/20485 
 mt_fin-eng: 60000	 acc: --	 ppl: 10.34	 xent: 2.34	  19.22 TFLOP/s	 19484/20212 tok/s	 16310006 sents	 169495 sec	
 mt_fin-eng: 60500	 acc: --	 ppl: 10.32	 xent: 2.33	  15.52 TFLOP/s	 15736/16331 tok/s	 16446187 sents	 171162 sec	
 mt_fin-eng: 61000	 acc: --	 ppl: 10.33	 xent: 2.34	  18.77 TFLOP/s	 19023/19748 tok/s	 16579368 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-fin: 500	 acc: --	 ppl: 27123.38	 xent: 10.21	  17.86 TFLOP/s	 18627/18359 tok/s	 138691 sents	   1457 sec	
 mt_eng-fin: 1000	 acc: --	 ppl: 12763.86	 xent: 9.45	  18.36 TFLOP/s	 19139/18872 tok/s	 274102 sents	   2843 sec	
 mt_eng-fin: 1500	 acc: --	 ppl: 6960.20	 xent: 8.85	  18.93 TFLOP/s	 19743/19465 tok/s	 414630 sents	   4236 sec	
@@ -2497,9 +2457,7 @@ mt_eng-fin: 59500	 acc: --	 ppl: 10.20	 xent: 2.32	  18.94 TFLOP/s	 19741/19473 
 mt_eng-fin: 60000	 acc: --	 ppl: 10.17	 xent: 2.32	  19.09 TFLOP/s	 19911/19623 tok/s	 16457111 sents	 169495 sec	
 mt_eng-fin: 60500	 acc: --	 ppl: 10.19	 xent: 2.32	  15.16 TFLOP/s	 15806/15580 tok/s	 16591253 sents	 171163 sec	
 mt_eng-fin: 61000	 acc: --	 ppl: 10.18	 xent: 2.32	  18.99 TFLOP/s	 19794/19532 tok/s	 16727949 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_fra-eng: 500	 acc: --	 ppl: 20027.00	 xent: 9.90	  17.88 TFLOP/s	 19526/17548 tok/s	 127936 sents	   1457 sec	
 mt_fra-eng: 1000	 acc: --	 ppl: 4710.79	 xent: 8.46	  18.54 TFLOP/s	 20236/18205 tok/s	 254330 sents	   2843 sec	
 mt_fra-eng: 1500	 acc: --	 ppl: 1496.21	 xent: 7.31	  19.09 TFLOP/s	 20842/18742 tok/s	 384965 sents	   4236 sec	
@@ -2622,9 +2580,7 @@ mt_fra-eng: 59500	 acc: --	 ppl:  9.47	 xent: 2.25	  19.54 TFLOP/s	 21330/19173 
 mt_fra-eng: 60000	 acc: --	 ppl:  9.46	 xent: 2.25	  19.46 TFLOP/s	 21247/19095 tok/s	 15445277 sents	 169495 sec	
 mt_fra-eng: 60500	 acc: --	 ppl:  9.50	 xent: 2.25	  15.87 TFLOP/s	 17312/15576 tok/s	 15575095 sents	 171163 sec	
 mt_fra-eng: 61000	 acc: --	 ppl:  9.48	 xent: 2.25	  19.07 TFLOP/s	 20814/18713 tok/s	 15701307 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-fra: 500	 acc: --	 ppl: 20741.03	 xent: 9.94	  18.09 TFLOP/s	 17915/19329 tok/s	 133262 sents	   1456 sec	
 mt_eng-fra: 1000	 acc: --	 ppl: 6308.63	 xent: 8.75	  18.84 TFLOP/s	 18666/20127 tok/s	 265495 sents	   2843 sec	
 mt_eng-fra: 1500	 acc: --	 ppl: 1930.63	 xent: 7.57	  19.18 TFLOP/s	 19005/20495 tok/s	 400689 sents	   4236 sec	
@@ -2747,9 +2703,7 @@ mt_eng-fra: 59500	 acc: --	 ppl:  7.05	 xent: 1.95	  19.36 TFLOP/s	 19186/20688 
 mt_eng-fra: 60000	 acc: --	 ppl:  7.05	 xent: 1.95	  19.40 TFLOP/s	 19224/20733 tok/s	 15982921 sents	 169496 sec	
 mt_eng-fra: 60500	 acc: --	 ppl:  7.04	 xent: 1.95	  15.86 TFLOP/s	 15708/16950 tok/s	 16117060 sents	 171163 sec	
 mt_eng-fra: 61000	 acc: --	 ppl:  7.06	 xent: 1.95	  19.81 TFLOP/s	 19631/21166 tok/s	 16252449 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_gle-eng: 500	 acc: --	 ppl: 20017.12	 xent: 9.90	  17.94 TFLOP/s	 18352/18717 tok/s	 136530 sents	   1457 sec	
 mt_gle-eng: 1000	 acc: --	 ppl: 4718.90	 xent: 8.46	  18.46 TFLOP/s	 18873/19266 tok/s	 270062 sents	   2843 sec	
 mt_gle-eng: 1500	 acc: --	 ppl: 1509.47	 xent: 7.32	  18.98 TFLOP/s	 19417/19814 tok/s	 408122 sents	   4236 sec	
@@ -2872,9 +2826,7 @@ mt_gle-eng: 59500	 acc: --	 ppl: 11.12	 xent: 2.41	  19.44 TFLOP/s	 19887/20282 
 mt_gle-eng: 60000	 acc: --	 ppl: 11.14	 xent: 2.41	  19.33 TFLOP/s	 19774/20172 tok/s	 16259509 sents	 169495 sec	
 mt_gle-eng: 60500	 acc: --	 ppl: 11.12	 xent: 2.41	  15.45 TFLOP/s	 15805/16127 tok/s	 16394112 sents	 171163 sec	
 mt_gle-eng: 61000	 acc: --	 ppl: 11.17	 xent: 2.41	  18.93 TFLOP/s	 19357/19754 tok/s	 16527582 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-gle: 500	 acc: --	 ppl: 19665.85	 xent: 9.89	  17.99 TFLOP/s	 18049/19049 tok/s	 134359 sents	   1457 sec	
 mt_eng-gle: 1000	 acc: --	 ppl: 4651.20	 xent: 8.44	  18.81 TFLOP/s	 18874/19910 tok/s	 267996 sents	   2843 sec	
 mt_eng-gle: 1500	 acc: --	 ppl: 1483.71	 xent: 7.30	  19.20 TFLOP/s	 19264/20333 tok/s	 405075 sents	   4236 sec	
@@ -2997,9 +2949,7 @@ mt_eng-gle: 59500	 acc: --	 ppl:  8.99	 xent: 2.20	  19.31 TFLOP/s	 19378/20448 
 mt_eng-gle: 60000	 acc: --	 ppl:  9.00	 xent: 2.20	  19.82 TFLOP/s	 19885/20983 tok/s	 16162689 sents	 169496 sec	
 mt_eng-gle: 60500	 acc: --	 ppl:  8.99	 xent: 2.20	  15.86 TFLOP/s	 15916/16800 tok/s	 16298364 sents	 171163 sec	
 mt_eng-gle: 61000	 acc: --	 ppl:  8.96	 xent: 2.19	  19.50 TFLOP/s	 19568/20642 tok/s	 16433362 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_glg-eng: 500	 acc: --	 ppl: 20030.44	 xent: 9.91	  17.97 TFLOP/s	 18720/18446 tok/s	 134497 sents	   1457 sec	
 mt_glg-eng: 1000	 acc: --	 ppl: 4695.83	 xent: 8.45	  18.79 TFLOP/s	 19568/19298 tok/s	 268337 sents	   2843 sec	
 mt_glg-eng: 1500	 acc: --	 ppl: 1491.62	 xent: 7.31	  19.19 TFLOP/s	 19984/19700 tok/s	 405593 sents	   4236 sec	
@@ -3122,9 +3072,7 @@ mt_glg-eng: 59500	 acc: --	 ppl:  8.45	 xent: 2.13	  19.42 TFLOP/s	 20223/19933 
 mt_glg-eng: 60000	 acc: --	 ppl:  8.41	 xent: 2.13	  19.69 TFLOP/s	 20516/20209 tok/s	 16126326 sents	 169496 sec	
 mt_glg-eng: 60500	 acc: --	 ppl:  8.46	 xent: 2.13	  15.91 TFLOP/s	 16573/16337 tok/s	 16262487 sents	 171163 sec	
 mt_glg-eng: 61000	 acc: --	 ppl:  8.43	 xent: 2.13	  19.38 TFLOP/s	 20182/19905 tok/s	 16397225 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-glg: 500	 acc: --	 ppl: 21045.06	 xent: 9.95	  17.96 TFLOP/s	 18263/18825 tok/s	 135942 sents	   1457 sec	
 mt_eng-glg: 1000	 acc: --	 ppl: 6848.98	 xent: 8.83	  18.69 TFLOP/s	 19009/19590 tok/s	 270486 sents	   2843 sec	
 mt_eng-glg: 1500	 acc: --	 ppl: 2389.08	 xent: 7.78	  19.12 TFLOP/s	 19448/20047 tok/s	 408864 sents	   4236 sec	
@@ -3247,9 +3195,7 @@ mt_eng-glg: 59500	 acc: --	 ppl:  6.85	 xent: 1.92	  19.74 TFLOP/s	 20074/20701 
 mt_eng-glg: 60000	 acc: --	 ppl:  6.85	 xent: 1.92	  19.42 TFLOP/s	 19744/20354 tok/s	 16296797 sents	 169496 sec	
 mt_eng-glg: 60500	 acc: --	 ppl:  6.85	 xent: 1.92	  15.66 TFLOP/s	 15931/16407 tok/s	 16432270 sents	 171162 sec	
 mt_eng-glg: 61000	 acc: --	 ppl:  6.87	 xent: 1.93	  19.05 TFLOP/s	 19374/19962 tok/s	 16565732 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_hrv-eng: 500	 acc: --	 ppl: 19979.45	 xent: 9.90	  17.58 TFLOP/s	 17817/18488 tok/s	 134799 sents	   1457 sec	
 mt_hrv-eng: 1000	 acc: --	 ppl: 4706.49	 xent: 8.46	  18.40 TFLOP/s	 18646/19356 tok/s	 269061 sents	   2843 sec	
 mt_hrv-eng: 1500	 acc: --	 ppl: 1506.45	 xent: 7.32	  18.96 TFLOP/s	 19214/19951 tok/s	 408047 sents	   4236 sec	
@@ -3372,9 +3318,7 @@ mt_hrv-eng: 59500	 acc: --	 ppl:  9.14	 xent: 2.21	  19.42 TFLOP/s	 19683/20432 
 mt_hrv-eng: 60000	 acc: --	 ppl:  9.16	 xent: 2.21	  19.16 TFLOP/s	 19419/20155 tok/s	 16296293 sents	 169496 sec	
 mt_hrv-eng: 60500	 acc: --	 ppl:  9.15	 xent: 2.21	  15.53 TFLOP/s	 15732/16339 tok/s	 16432460 sents	 171163 sec	
 mt_hrv-eng: 61000	 acc: --	 ppl:  9.15	 xent: 2.21	  18.93 TFLOP/s	 19172/19912 tok/s	 16566720 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-hrv: 500	 acc: --	 ppl: 24322.30	 xent: 10.10	  17.79 TFLOP/s	 18001/18717 tok/s	 133990 sents	   1457 sec	
 mt_eng-hrv: 1000	 acc: --	 ppl: 9214.18	 xent: 9.13	  18.46 TFLOP/s	 18676/19422 tok/s	 266268 sents	   2843 sec	
 mt_eng-hrv: 1500	 acc: --	 ppl: 3975.14	 xent: 8.29	  19.28 TFLOP/s	 19515/20289 tok/s	 405118 sents	   4236 sec	
@@ -3497,9 +3441,7 @@ mt_eng-hrv: 59500	 acc: --	 ppl:  7.78	 xent: 2.05	  19.15 TFLOP/s	 19378/20142 
 mt_eng-hrv: 60000	 acc: --	 ppl:  7.78	 xent: 2.05	  19.55 TFLOP/s	 19785/20575 tok/s	 16123635 sents	 169495 sec	
 mt_eng-hrv: 60500	 acc: --	 ppl:  7.80	 xent: 2.05	  15.78 TFLOP/s	 15967/16598 tok/s	 16259482 sents	 171163 sec	
 mt_eng-hrv: 61000	 acc: --	 ppl:  7.78	 xent: 2.05	  19.20 TFLOP/s	 19430/20198 tok/s	 16393807 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_hun-eng: 500	 acc: --	 ppl: 20059.32	 xent: 9.91	  17.91 TFLOP/s	 18468/18557 tok/s	 135334 sents	   1457 sec	
 mt_hun-eng: 1000	 acc: --	 ppl: 4701.34	 xent: 8.46	  18.49 TFLOP/s	 19067/19165 tok/s	 268180 sents	   2843 sec	
 mt_hun-eng: 1500	 acc: --	 ppl: 1494.62	 xent: 7.31	  19.05 TFLOP/s	 19640/19737 tok/s	 405727 sents	   4236 sec	
@@ -3622,9 +3564,7 @@ mt_hun-eng: 59500	 acc: --	 ppl: 11.31	 xent: 2.43	  19.43 TFLOP/s	 20041/20123 
 mt_hun-eng: 60000	 acc: --	 ppl: 11.36	 xent: 2.43	  19.58 TFLOP/s	 20190/20289 tok/s	 16206044 sents	 169495 sec	
 mt_hun-eng: 60500	 acc: --	 ppl: 11.34	 xent: 2.43	  15.57 TFLOP/s	 16059/16129 tok/s	 16340496 sents	 171162 sec	
 mt_hun-eng: 61000	 acc: --	 ppl: 11.33	 xent: 2.43	  19.39 TFLOP/s	 19987/20092 tok/s	 16476371 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-hun: 500	 acc: --	 ppl: 22146.60	 xent: 10.01	  17.97 TFLOP/s	 18529/18643 tok/s	 137898 sents	   1456 sec	
 mt_eng-hun: 1000	 acc: --	 ppl: 8178.56	 xent: 9.01	  18.42 TFLOP/s	 18997/19110 tok/s	 272406 sents	   2843 sec	
 mt_eng-hun: 1500	 acc: --	 ppl: 3637.55	 xent: 8.20	  19.17 TFLOP/s	 19761/19885 tok/s	 412951 sents	   4235 sec	
@@ -3747,9 +3687,7 @@ mt_eng-hun: 59500	 acc: --	 ppl:  9.89	 xent: 2.29	  19.37 TFLOP/s	 19970/20092 
 mt_eng-hun: 60000	 acc: --	 ppl:  9.88	 xent: 2.29	  18.99 TFLOP/s	 19577/19697 tok/s	 16401843 sents	 169496 sec	
 mt_eng-hun: 60500	 acc: --	 ppl:  9.87	 xent: 2.29	  15.56 TFLOP/s	 16043/16135 tok/s	 16538067 sents	 171162 sec	
 mt_eng-hun: 61000	 acc: --	 ppl:  9.86	 xent: 2.29	  18.98 TFLOP/s	 19561/19693 tok/s	 16673134 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_isl-eng: 500	 acc: --	 ppl: 19944.85	 xent: 9.90	  17.47 TFLOP/s	 17820/18271 tok/s	 133170 sents	   1457 sec	
 mt_isl-eng: 1000	 acc: --	 ppl: 4683.92	 xent: 8.45	  18.16 TFLOP/s	 18515/19011 tok/s	 265091 sents	   2843 sec	
 mt_isl-eng: 1500	 acc: --	 ppl: 1478.78	 xent: 7.30	  18.65 TFLOP/s	 19014/19518 tok/s	 400976 sents	   4236 sec	
@@ -3872,9 +3810,7 @@ mt_isl-eng: 59500	 acc: --	 ppl: 12.36	 xent: 2.51	  18.65 TFLOP/s	 19016/19520 
 mt_isl-eng: 60000	 acc: --	 ppl: 12.28	 xent: 2.51	  18.94 TFLOP/s	 19318/19820 tok/s	 16053972 sents	 169496 sec	
 mt_isl-eng: 60500	 acc: --	 ppl: 12.33	 xent: 2.51	  15.69 TFLOP/s	 15989/16419 tok/s	 16191275 sents	 171163 sec	
 mt_isl-eng: 61000	 acc: --	 ppl: 12.33	 xent: 2.51	  18.70 TFLOP/s	 19066/19575 tok/s	 16323543 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-isl: 500	 acc: --	 ppl: 21313.91	 xent: 9.97	  17.56 TFLOP/s	 18262/18099 tok/s	 135960 sents	   1457 sec	
 mt_eng-isl: 1000	 acc: --	 ppl: 6451.50	 xent: 8.77	  18.17 TFLOP/s	 18899/18721 tok/s	 269756 sents	   2843 sec	
 mt_eng-isl: 1500	 acc: --	 ppl: 2529.15	 xent: 7.84	  18.57 TFLOP/s	 19315/19139 tok/s	 407101 sents	   4235 sec	
@@ -3997,9 +3933,7 @@ mt_eng-isl: 59500	 acc: --	 ppl:  9.35	 xent: 2.23	  19.33 TFLOP/s	 20112/19913 
 mt_eng-isl: 60000	 acc: --	 ppl:  9.38	 xent: 2.24	  19.13 TFLOP/s	 19895/19702 tok/s	 16258452 sents	 169496 sec	
 mt_eng-isl: 60500	 acc: --	 ppl:  9.34	 xent: 2.23	  15.14 TFLOP/s	 15747/15595 tok/s	 16392623 sents	 171163 sec	
 mt_eng-isl: 61000	 acc: --	 ppl:  9.34	 xent: 2.23	  18.65 TFLOP/s	 19394/19218 tok/s	 16526358 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_ita-eng: 500	 acc: --	 ppl: 19987.68	 xent: 9.90	  18.02 TFLOP/s	 19363/17972 tok/s	 131004 sents	   1456 sec	
 mt_ita-eng: 1000	 acc: --	 ppl: 4696.44	 xent: 8.45	  18.52 TFLOP/s	 19882/18471 tok/s	 259185 sents	   2843 sec	
 mt_ita-eng: 1500	 acc: --	 ppl: 1490.11	 xent: 7.31	  19.07 TFLOP/s	 20487/19022 tok/s	 391686 sents	   4235 sec	
@@ -4122,9 +4056,7 @@ mt_ita-eng: 59500	 acc: --	 ppl:  8.39	 xent: 2.13	  19.51 TFLOP/s	 20958/19459 
 mt_ita-eng: 60000	 acc: --	 ppl:  8.41	 xent: 2.13	  19.42 TFLOP/s	 20860/19365 tok/s	 15691776 sents	 169495 sec	
 mt_ita-eng: 60500	 acc: --	 ppl:  8.41	 xent: 2.13	  15.43 TFLOP/s	 16575/15391 tok/s	 15820170 sents	 171163 sec	
 mt_ita-eng: 61000	 acc: --	 ppl:  8.39	 xent: 2.13	  19.24 TFLOP/s	 20662/19186 tok/s	 15949903 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-ita: 500	 acc: --	 ppl: 22401.99	 xent: 10.02	  18.02 TFLOP/s	 17955/19181 tok/s	 133640 sents	   1457 sec	
 mt_eng-ita: 1000	 acc: --	 ppl: 7806.74	 xent: 8.96	  18.67 TFLOP/s	 18613/19872 tok/s	 265489 sents	   2843 sec	
 mt_eng-ita: 1500	 acc: --	 ppl: 2508.50	 xent: 7.83	  19.14 TFLOP/s	 19070/20369 tok/s	 401090 sents	   4236 sec	
@@ -4247,9 +4179,7 @@ mt_eng-ita: 59500	 acc: --	 ppl:  6.87	 xent: 1.93	  18.87 TFLOP/s	 18814/20082 
 mt_eng-ita: 60000	 acc: --	 ppl:  6.87	 xent: 1.93	  19.32 TFLOP/s	 19246/20552 tok/s	 15985654 sents	 169495 sec	
 mt_eng-ita: 60500	 acc: --	 ppl:  6.86	 xent: 1.93	  15.94 TFLOP/s	 15882/16963 tok/s	 16121328 sents	 171163 sec	
 mt_eng-ita: 61000	 acc: --	 ppl:  6.88	 xent: 1.93	  19.69 TFLOP/s	 19626/20954 tok/s	 16256626 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_kat-eng: 500	 acc: --	 ppl: 20046.23	 xent: 9.91	  15.92 TFLOP/s	 13957/18684 tok/s	 136213 sents	   1456 sec	
 mt_kat-eng: 1000	 acc: --	 ppl: 4714.63	 xent: 8.46	  16.39 TFLOP/s	 14363/19232 tok/s	 269619 sents	   2843 sec	
 mt_kat-eng: 1500	 acc: --	 ppl: 1509.55	 xent: 7.32	  16.94 TFLOP/s	 14844/19886 tok/s	 408144 sents	   4235 sec	
@@ -4372,9 +4302,7 @@ mt_kat-eng: 59500	 acc: --	 ppl: 15.93	 xent: 2.77	  17.50 TFLOP/s	 15335/20542 
 mt_kat-eng: 60000	 acc: --	 ppl: 15.95	 xent: 2.77	  17.15 TFLOP/s	 15022/20130 tok/s	 16321493 sents	 169495 sec	
 mt_kat-eng: 60500	 acc: --	 ppl: 15.84	 xent: 2.76	  13.92 TFLOP/s	 12204/16338 tok/s	 16457872 sents	 171163 sec	
 mt_kat-eng: 61000	 acc: --	 ppl: 15.87	 xent: 2.76	  17.00 TFLOP/s	 14896/19944 tok/s	 16592225 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-kat: 500	 acc: --	 ppl: 25636.99	 xent: 10.15	  16.72 TFLOP/s	 18550/16318 tok/s	 138053 sents	   1456 sec	
 mt_eng-kat: 1000	 acc: --	 ppl: 11177.36	 xent: 9.32	  17.26 TFLOP/s	 19147/16845 tok/s	 273656 sents	   2843 sec	
 mt_eng-kat: 1500	 acc: --	 ppl: 5058.30	 xent: 8.53	  17.79 TFLOP/s	 19734/17353 tok/s	 413994 sents	   4235 sec	
@@ -4497,9 +4425,7 @@ mt_eng-kat: 59500	 acc: --	 ppl: 11.62	 xent: 2.45	  17.95 TFLOP/s	 19919/17514 
 mt_eng-kat: 60000	 acc: --	 ppl: 11.62	 xent: 2.45	  17.71 TFLOP/s	 19641/17283 tok/s	 16524893 sents	 169495 sec	
 mt_eng-kat: 60500	 acc: --	 ppl: 11.61	 xent: 2.45	  14.32 TFLOP/s	 15882/13967 tok/s	 16659779 sents	 171163 sec	
 mt_eng-kat: 61000	 acc: --	 ppl: 11.63	 xent: 2.45	  17.97 TFLOP/s	 19930/17534 tok/s	 16797582 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_lav-eng: 500	 acc: --	 ppl: 20031.57	 xent: 9.91	  17.30 TFLOP/s	 16890/18768 tok/s	 136897 sents	   1457 sec	
 mt_lav-eng: 1000	 acc: --	 ppl: 4729.68	 xent: 8.46	  17.96 TFLOP/s	 17538/19494 tok/s	 272021 sents	   2843 sec	
 mt_lav-eng: 1500	 acc: --	 ppl: 1524.78	 xent: 7.33	  18.39 TFLOP/s	 17959/19959 tok/s	 411089 sents	   4236 sec	
@@ -4622,9 +4548,7 @@ mt_lav-eng: 59500	 acc: --	 ppl:  9.64	 xent: 2.27	  18.95 TFLOP/s	 18493/20565 
 mt_lav-eng: 60000	 acc: --	 ppl:  9.61	 xent: 2.26	  18.52 TFLOP/s	 18082/20090 tok/s	 16396959 sents	 169495 sec	
 mt_lav-eng: 60500	 acc: --	 ppl:  9.62	 xent: 2.26	  14.99 TFLOP/s	 14629/16264 tok/s	 16532277 sents	 171162 sec	
 mt_lav-eng: 61000	 acc: --	 ppl:  9.62	 xent: 2.26	  18.47 TFLOP/s	 18034/20046 tok/s	 16667807 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-lav: 500	 acc: --	 ppl: 25951.34	 xent: 10.16	  17.46 TFLOP/s	 18673/17590 tok/s	 138973 sents	   1456 sec	
 mt_eng-lav: 1000	 acc: --	 ppl: 11740.58	 xent: 9.37	  18.21 TFLOP/s	 19466/18344 tok/s	 276819 sents	   2843 sec	
 mt_eng-lav: 1500	 acc: --	 ppl: 5371.51	 xent: 8.59	  18.58 TFLOP/s	 19859/18711 tok/s	 417998 sents	   4236 sec	
@@ -4747,9 +4671,7 @@ mt_eng-lav: 59500	 acc: --	 ppl:  9.01	 xent: 2.20	  18.51 TFLOP/s	 19786/18639 
 mt_eng-lav: 60000	 acc: --	 ppl:  9.01	 xent: 2.20	  18.47 TFLOP/s	 19747/18599 tok/s	 16645258 sents	 169496 sec	
 mt_eng-lav: 60500	 acc: --	 ppl:  9.02	 xent: 2.20	  15.25 TFLOP/s	 16301/15358 tok/s	 16784205 sents	 171163 sec	
 mt_eng-lav: 61000	 acc: --	 ppl:  9.01	 xent: 2.20	  18.88 TFLOP/s	 20188/19024 tok/s	 16923696 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_lit-eng: 500	 acc: --	 ppl: 20012.03	 xent: 9.90	  17.08 TFLOP/s	 16620/18587 tok/s	 135555 sents	   1457 sec	
 mt_lit-eng: 1000	 acc: --	 ppl: 4717.50	 xent: 8.46	  17.74 TFLOP/s	 17251/19303 tok/s	 269422 sents	   2843 sec	
 mt_lit-eng: 1500	 acc: --	 ppl: 1509.95	 xent: 7.32	  18.21 TFLOP/s	 17713/19828 tok/s	 407533 sents	   4235 sec	
@@ -4872,9 +4794,7 @@ mt_lit-eng: 59500	 acc: --	 ppl: 10.32	 xent: 2.33	  18.82 TFLOP/s	 18300/20485 
 mt_lit-eng: 60000	 acc: --	 ppl: 10.36	 xent: 2.34	  18.58 TFLOP/s	 18068/20219 tok/s	 16300746 sents	 169495 sec	
 mt_lit-eng: 60500	 acc: --	 ppl: 10.31	 xent: 2.33	  14.95 TFLOP/s	 14543/16273 tok/s	 16436425 sents	 171163 sec	
 mt_lit-eng: 61000	 acc: --	 ppl: 10.34	 xent: 2.34	  18.17 TFLOP/s	 17667/19772 tok/s	 16569769 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-lit: 500	 acc: --	 ppl: 26339.32	 xent: 10.18	  17.70 TFLOP/s	 18216/18381 tok/s	 135570 sents	   1456 sec	
 mt_eng-lit: 1000	 acc: --	 ppl: 11217.70	 xent: 9.33	  18.47 TFLOP/s	 19009/19181 tok/s	 270206 sents	   2843 sec	
 mt_eng-lit: 1500	 acc: --	 ppl: 5065.89	 xent: 8.53	  18.88 TFLOP/s	 19435/19603 tok/s	 408485 sents	   4235 sec	
@@ -4997,9 +4917,7 @@ mt_eng-lit: 59500	 acc: --	 ppl:  8.66	 xent: 2.16	  19.50 TFLOP/s	 20076/20248 
 mt_eng-lit: 60000	 acc: --	 ppl:  8.69	 xent: 2.16	  19.19 TFLOP/s	 19756/19920 tok/s	 16277538 sents	 169495 sec	
 mt_eng-lit: 60500	 acc: --	 ppl:  8.64	 xent: 2.16	  15.35 TFLOP/s	 15803/15938 tok/s	 16412193 sents	 171163 sec	
 mt_eng-lit: 61000	 acc: --	 ppl:  8.67	 xent: 2.16	  18.93 TFLOP/s	 19480/19654 tok/s	 16546357 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_mkd-eng: 500	 acc: --	 ppl: 19996.96	 xent: 9.90	  17.90 TFLOP/s	 18915/18135 tok/s	 132219 sents	   1457 sec	
 mt_mkd-eng: 1000	 acc: --	 ppl: 4692.66	 xent: 8.45	  18.62 TFLOP/s	 19664/18867 tok/s	 263141 sents	   2843 sec	
 mt_mkd-eng: 1500	 acc: --	 ppl: 1481.69	 xent: 7.30	  18.94 TFLOP/s	 20006/19202 tok/s	 396880 sents	   4236 sec	
@@ -5122,9 +5040,7 @@ mt_mkd-eng: 59500	 acc: --	 ppl:  9.17	 xent: 2.22	  19.15 TFLOP/s	 20229/19407 
 mt_mkd-eng: 60000	 acc: --	 ppl:  9.19	 xent: 2.22	  19.15 TFLOP/s	 20228/19404 tok/s	 15926641 sents	 169495 sec	
 mt_mkd-eng: 60500	 acc: --	 ppl:  9.13	 xent: 2.21	  15.72 TFLOP/s	 16612/15927 tok/s	 16059505 sents	 171162 sec	
 mt_mkd-eng: 61000	 acc: --	 ppl:  9.17	 xent: 2.22	  19.87 TFLOP/s	 20987/20142 tok/s	 16196066 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-mkd: 500	 acc: --	 ppl: 21475.11	 xent: 9.97	  17.95 TFLOP/s	 18049/18980 tok/s	 134358 sents	   1457 sec	
 mt_eng-mkd: 1000	 acc: --	 ppl: 6550.67	 xent: 8.79	  18.51 TFLOP/s	 18612/19562 tok/s	 266173 sents	   2843 sec	
 mt_eng-mkd: 1500	 acc: --	 ppl: 2569.70	 xent: 7.85	  19.11 TFLOP/s	 19215/20198 tok/s	 402822 sents	   4236 sec	
@@ -5247,9 +5163,7 @@ mt_eng-mkd: 59500	 acc: --	 ppl:  7.25	 xent: 1.98	  19.15 TFLOP/s	 19268/20241 
 mt_eng-mkd: 60000	 acc: --	 ppl:  7.23	 xent: 1.98	  19.46 TFLOP/s	 19577/20574 tok/s	 16072202 sents	 169495 sec	
 mt_eng-mkd: 60500	 acc: --	 ppl:  7.26	 xent: 1.98	  15.92 TFLOP/s	 16011/16827 tok/s	 16208714 sents	 171163 sec	
 mt_eng-mkd: 61000	 acc: --	 ppl:  7.25	 xent: 1.98	  19.17 TFLOP/s	 19282/20270 tok/s	 16341884 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_mlt-eng: 500	 acc: --	 ppl: 20067.74	 xent: 9.91	  17.28 TFLOP/s	 16902/18730 tok/s	 136580 sents	   1457 sec	
 mt_mlt-eng: 1000	 acc: --	 ppl: 4717.92	 xent: 8.46	  17.90 TFLOP/s	 17498/19396 tok/s	 271097 sents	   2843 sec	
 mt_mlt-eng: 1500	 acc: --	 ppl: 1519.51	 xent: 7.33	  18.35 TFLOP/s	 17944/19884 tok/s	 409627 sents	   4236 sec	
@@ -5372,9 +5286,7 @@ mt_mlt-eng: 59500	 acc: --	 ppl:  9.36	 xent: 2.24	  18.89 TFLOP/s	 18467/20473 
 mt_mlt-eng: 60000	 acc: --	 ppl:  9.35	 xent: 2.23	  18.73 TFLOP/s	 18309/20295 tok/s	 16371188 sents	 169495 sec	
 mt_mlt-eng: 60500	 acc: --	 ppl:  9.35	 xent: 2.24	  14.90 TFLOP/s	 14568/16151 tok/s	 16505781 sents	 171163 sec	
 mt_mlt-eng: 61000	 acc: --	 ppl:  9.32	 xent: 2.23	  18.39 TFLOP/s	 17989/19930 tok/s	 16640322 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-mlt: 500	 acc: --	 ppl: 24112.52	 xent: 10.09	  17.69 TFLOP/s	 18644/18024 tok/s	 138765 sents	   1457 sec	
 mt_eng-mlt: 1000	 acc: --	 ppl: 9921.70	 xent: 9.20	  18.27 TFLOP/s	 19254/18619 tok/s	 275081 sents	   2843 sec	
 mt_eng-mlt: 1500	 acc: --	 ppl: 4506.73	 xent: 8.41	  18.82 TFLOP/s	 19834/19180 tok/s	 416125 sents	   4235 sec	
@@ -5497,9 +5409,7 @@ mt_eng-mlt: 59500	 acc: --	 ppl:  9.26	 xent: 2.23	  19.21 TFLOP/s	 20254/19579 
 mt_eng-mlt: 60000	 acc: --	 ppl:  9.27	 xent: 2.23	  18.66 TFLOP/s	 19669/19017 tok/s	 16604656 sents	 169495 sec	
 mt_eng-mlt: 60500	 acc: --	 ppl:  9.26	 xent: 2.23	  15.35 TFLOP/s	 16176/15643 tok/s	 16742364 sents	 171162 sec	
 mt_eng-mlt: 61000	 acc: --	 ppl:  9.26	 xent: 2.23	  19.18 TFLOP/s	 20215/19544 tok/s	 16882179 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_nld-eng: 500	 acc: --	 ppl: 20708.61	 xent: 9.94	  17.92 TFLOP/s	 18680/18397 tok/s	 134148 sents	   1457 sec	
 mt_nld-eng: 1000	 acc: --	 ppl: 4735.16	 xent: 8.46	  18.52 TFLOP/s	 19294/19018 tok/s	 266054 sents	   2843 sec	
 mt_nld-eng: 1500	 acc: --	 ppl: 1493.69	 xent: 7.31	  18.97 TFLOP/s	 19764/19475 tok/s	 401609 sents	   4235 sec	
@@ -5622,9 +5532,7 @@ mt_nld-eng: 59500	 acc: --	 ppl:  9.44	 xent: 2.25	  19.13 TFLOP/s	 19928/19630 
 mt_nld-eng: 60000	 acc: --	 ppl:  9.39	 xent: 2.24	  19.44 TFLOP/s	 20258/19951 tok/s	 16070260 sents	 169495 sec	
 mt_nld-eng: 60500	 acc: --	 ppl:  9.45	 xent: 2.25	  15.85 TFLOP/s	 16511/16266 tok/s	 16206035 sents	 171163 sec	
 mt_nld-eng: 61000	 acc: --	 ppl:  9.44	 xent: 2.24	  19.25 TFLOP/s	 20060/19762 tok/s	 16339691 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-nld: 500	 acc: --	 ppl: 21155.79	 xent: 9.96	  17.92 TFLOP/s	 17807/19103 tok/s	 132536 sents	   1457 sec	
 mt_eng-nld: 1000	 acc: --	 ppl: 6296.02	 xent: 8.75	  18.56 TFLOP/s	 18444/19784 tok/s	 263182 sents	   2843 sec	
 mt_eng-nld: 1500	 acc: --	 ppl: 2292.12	 xent: 7.74	  18.98 TFLOP/s	 18862/20235 tok/s	 397386 sents	   4236 sec	
@@ -5747,9 +5655,7 @@ mt_eng-nld: 59500	 acc: --	 ppl:  6.68	 xent: 1.90	  19.07 TFLOP/s	 18953/20332 
 mt_eng-nld: 60000	 acc: --	 ppl:  6.67	 xent: 1.90	  18.86 TFLOP/s	 18755/20107 tok/s	 15869850 sents	 169496 sec	
 mt_eng-nld: 60500	 acc: --	 ppl:  6.66	 xent: 1.90	  15.66 TFLOP/s	 15567/16698 tok/s	 16002382 sents	 171163 sec	
 mt_eng-nld: 61000	 acc: --	 ppl:  6.67	 xent: 1.90	  19.63 TFLOP/s	 19510/20930 tok/s	 16137343 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_nno-eng: 500	 acc: --	 ppl: 19982.14	 xent: 9.90	  17.59 TFLOP/s	 18148/18226 tok/s	 132817 sents	   1456 sec	
 mt_nno-eng: 1000	 acc: --	 ppl: 4680.99	 xent: 8.45	  18.41 TFLOP/s	 18978/19084 tok/s	 265233 sents	   2843 sec	
 mt_nno-eng: 1500	 acc: --	 ppl: 1472.86	 xent: 7.29	  18.86 TFLOP/s	 19437/19542 tok/s	 401349 sents	   4236 sec	
@@ -5872,9 +5778,7 @@ mt_nno-eng: 59500	 acc: --	 ppl:  9.03	 xent: 2.20	  18.79 TFLOP/s	 19373/19467 
 mt_nno-eng: 60000	 acc: --	 ppl:  8.98	 xent: 2.19	  19.27 TFLOP/s	 19869/19966 tok/s	 16080909 sents	 169495 sec	
 mt_nno-eng: 60500	 acc: --	 ppl:  9.04	 xent: 2.20	  15.70 TFLOP/s	 16185/16270 tok/s	 16216703 sents	 171163 sec	
 mt_nno-eng: 61000	 acc: --	 ppl:  9.00	 xent: 2.20	  19.09 TFLOP/s	 19681/19788 tok/s	 16350549 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-nno: 500	 acc: --	 ppl: 22593.51	 xent: 10.03	  17.74 TFLOP/s	 18040/18601 tok/s	 134227 sents	   1456 sec	
 mt_eng-nno: 1000	 acc: --	 ppl: 7384.75	 xent: 8.91	  18.46 TFLOP/s	 18771/19345 tok/s	 267212 sents	   2843 sec	
 mt_eng-nno: 1500	 acc: --	 ppl: 2575.05	 xent: 7.85	  18.97 TFLOP/s	 19294/19886 tok/s	 404500 sents	   4236 sec	
@@ -5997,9 +5901,7 @@ mt_eng-nno: 59500	 acc: --	 ppl:  8.05	 xent: 2.09	  19.13 TFLOP/s	 19466/20053 
 mt_eng-nno: 60000	 acc: --	 ppl:  8.04	 xent: 2.08	  19.56 TFLOP/s	 19892/20496 tok/s	 16147064 sents	 169495 sec	
 mt_eng-nno: 60500	 acc: --	 ppl:  8.07	 xent: 2.09	  15.66 TFLOP/s	 15928/16413 tok/s	 16282751 sents	 171163 sec	
 mt_eng-nno: 61000	 acc: --	 ppl:  8.04	 xent: 2.08	  19.05 TFLOP/s	 19383/19966 tok/s	 16416542 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_nob-eng: 500	 acc: --	 ppl: 20002.95	 xent: 9.90	  17.64 TFLOP/s	 17910/18527 tok/s	 135014 sents	   1456 sec	
 mt_nob-eng: 1000	 acc: --	 ppl: 4699.33	 xent: 8.46	  18.35 TFLOP/s	 18620/19288 tok/s	 268880 sents	   2843 sec	
 mt_nob-eng: 1500	 acc: --	 ppl: 1488.24	 xent: 7.31	  18.87 TFLOP/s	 19145/19823 tok/s	 406931 sents	   4236 sec	
@@ -6122,9 +6024,7 @@ mt_nob-eng: 59500	 acc: --	 ppl:  6.91	 xent: 1.93	  19.38 TFLOP/s	 19677/20367 
 mt_nob-eng: 60000	 acc: --	 ppl:  6.95	 xent: 1.94	  19.20 TFLOP/s	 19481/20167 tok/s	 16266883 sents	 169495 sec	
 mt_nob-eng: 60500	 acc: --	 ppl:  6.93	 xent: 1.94	  15.48 TFLOP/s	 15710/16259 tok/s	 16402565 sents	 171163 sec	
 mt_nob-eng: 61000	 acc: --	 ppl:  6.94	 xent: 1.94	  19.04 TFLOP/s	 19323/20005 tok/s	 16537596 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-nob: 500	 acc: --	 ppl: 22424.99	 xent: 10.02	  17.76 TFLOP/s	 18063/18607 tok/s	 134379 sents	   1456 sec	
 mt_eng-nob: 1000	 acc: --	 ppl: 7179.76	 xent: 8.88	  18.58 TFLOP/s	 18906/19461 tok/s	 268336 sents	   2843 sec	
 mt_eng-nob: 1500	 acc: --	 ppl: 2507.49	 xent: 7.83	  19.16 TFLOP/s	 19494/20074 tok/s	 407024 sents	   4236 sec	
@@ -6247,9 +6147,7 @@ mt_eng-nob: 59500	 acc: --	 ppl:  6.27	 xent: 1.84	  19.42 TFLOP/s	 19767/20350 
 mt_eng-nob: 60000	 acc: --	 ppl:  6.29	 xent: 1.84	  19.52 TFLOP/s	 19861/20446 tok/s	 16223956 sents	 169495 sec	
 mt_eng-nob: 60500	 acc: --	 ppl:  6.28	 xent: 1.84	  15.59 TFLOP/s	 15854/16334 tok/s	 16359069 sents	 171163 sec	
 mt_eng-nob: 61000	 acc: --	 ppl:  6.28	 xent: 1.84	  19.21 TFLOP/s	 19552/20127 tok/s	 16493916 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_pol-eng: 500	 acc: --	 ppl: 20024.11	 xent: 9.90	  17.84 TFLOP/s	 18392/18484 tok/s	 134773 sents	   1457 sec	
 mt_pol-eng: 1000	 acc: --	 ppl: 4695.50	 xent: 8.45	  18.46 TFLOP/s	 19031/19135 tok/s	 267478 sents	   2843 sec	
 mt_pol-eng: 1500	 acc: --	 ppl: 1489.78	 xent: 7.31	  19.02 TFLOP/s	 19607/19721 tok/s	 404881 sents	   4236 sec	
@@ -6372,9 +6270,7 @@ mt_pol-eng: 59500	 acc: --	 ppl:  9.79	 xent: 2.28	  19.42 TFLOP/s	 20022/20129 
 mt_pol-eng: 60000	 acc: --	 ppl:  9.83	 xent: 2.29	  19.69 TFLOP/s	 20292/20411 tok/s	 16210430 sents	 169495 sec	
 mt_pol-eng: 60500	 acc: --	 ppl:  9.82	 xent: 2.28	  15.55 TFLOP/s	 16025/16113 tok/s	 16344853 sents	 171163 sec	
 mt_pol-eng: 61000	 acc: --	 ppl:  9.80	 xent: 2.28	  19.38 TFLOP/s	 19972/20093 tok/s	 16480616 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-pol: 500	 acc: --	 ppl: 25180.52	 xent: 10.13	  17.81 TFLOP/s	 17745/18962 tok/s	 132088 sents	   1457 sec	
 mt_eng-pol: 1000	 acc: --	 ppl: 10319.84	 xent: 9.24	  18.54 TFLOP/s	 18460/19735 tok/s	 262880 sents	   2843 sec	
 mt_eng-pol: 1500	 acc: --	 ppl: 4580.76	 xent: 8.43	  18.98 TFLOP/s	 18906/20201 tok/s	 397304 sents	   4235 sec	
@@ -6497,9 +6393,7 @@ mt_eng-pol: 59500	 acc: --	 ppl:  8.44	 xent: 2.13	  19.19 TFLOP/s	 19118/20420 
 mt_eng-pol: 60000	 acc: --	 ppl:  8.44	 xent: 2.13	  19.09 TFLOP/s	 19023/20318 tok/s	 15921154 sents	 169495 sec	
 mt_eng-pol: 60500	 acc: --	 ppl:  8.41	 xent: 2.13	  15.62 TFLOP/s	 15565/16627 tok/s	 16053744 sents	 171163 sec	
 mt_eng-pol: 61000	 acc: --	 ppl:  8.43	 xent: 2.13	  19.72 TFLOP/s	 19652/20989 tok/s	 16189839 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_por-eng: 500	 acc: --	 ppl: 19984.82	 xent: 9.90	  18.06 TFLOP/s	 19150/18244 tok/s	 133017 sents	   1457 sec	
 mt_por-eng: 1000	 acc: --	 ppl: 4692.54	 xent: 8.45	  18.86 TFLOP/s	 19992/19061 tok/s	 265214 sents	   2843 sec	
 mt_por-eng: 1500	 acc: --	 ppl: 1478.12	 xent: 7.30	  19.02 TFLOP/s	 20159/19220 tok/s	 399074 sents	   4236 sec	
@@ -6622,9 +6516,7 @@ mt_por-eng: 59500	 acc: --	 ppl:  7.83	 xent: 2.06	  19.41 TFLOP/s	 20572/19610 
 mt_por-eng: 60000	 acc: --	 ppl:  7.80	 xent: 2.05	  19.14 TFLOP/s	 20286/19332 tok/s	 15943733 sents	 169495 sec	
 mt_por-eng: 60500	 acc: --	 ppl:  7.78	 xent: 2.05	  15.86 TFLOP/s	 16826/16019 tok/s	 16077633 sents	 171163 sec	
 mt_por-eng: 61000	 acc: --	 ppl:  7.81	 xent: 2.06	  19.73 TFLOP/s	 20907/19928 tok/s	 16212483 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-por: 500	 acc: --	 ppl: 21157.98	 xent: 9.96	  18.00 TFLOP/s	 17854/19217 tok/s	 132888 sents	   1457 sec	
 mt_eng-por: 1000	 acc: --	 ppl: 6818.57	 xent: 8.83	  18.69 TFLOP/s	 18536/19951 tok/s	 264206 sents	   2843 sec	
 mt_eng-por: 1500	 acc: --	 ppl: 2211.09	 xent: 7.70	  19.18 TFLOP/s	 19025/20478 tok/s	 399499 sents	   4236 sec	
@@ -6747,9 +6639,7 @@ mt_eng-por: 59500	 acc: --	 ppl:  6.38	 xent: 1.85	  19.36 TFLOP/s	 19204/20667 
 mt_eng-por: 60000	 acc: --	 ppl:  6.38	 xent: 1.85	  19.17 TFLOP/s	 19016/20461 tok/s	 15940858 sents	 169495 sec	
 mt_eng-por: 60500	 acc: --	 ppl:  6.36	 xent: 1.85	  15.68 TFLOP/s	 15558/16746 tok/s	 16073605 sents	 171163 sec	
 mt_eng-por: 61000	 acc: --	 ppl:  6.38	 xent: 1.85	  19.88 TFLOP/s	 19719/21225 tok/s	 16209852 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_ron-eng: 500	 acc: --	 ppl: 20040.23	 xent: 9.91	  17.82 TFLOP/s	 19392/17544 tok/s	 127915 sents	   1457 sec	
 mt_ron-eng: 1000	 acc: --	 ppl: 4720.92	 xent: 8.46	  18.56 TFLOP/s	 20195/18285 tok/s	 254851 sents	   2843 sec	
 mt_ron-eng: 1500	 acc: --	 ppl: 1497.70	 xent: 7.31	  19.16 TFLOP/s	 20849/18873 tok/s	 386412 sents	   4236 sec	
@@ -6872,9 +6762,7 @@ mt_ron-eng: 59500	 acc: --	 ppl:  8.82	 xent: 2.18	  19.43 TFLOP/s	 21143/19136 
 mt_ron-eng: 60000	 acc: --	 ppl:  8.83	 xent: 2.18	  19.28 TFLOP/s	 20982/18989 tok/s	 15497597 sents	 169495 sec	
 mt_ron-eng: 60500	 acc: --	 ppl:  8.84	 xent: 2.18	  15.83 TFLOP/s	 17229/15585 tok/s	 15627555 sents	 171163 sec	
 mt_ron-eng: 61000	 acc: --	 ppl:  8.84	 xent: 2.18	  19.36 TFLOP/s	 21069/19065 tok/s	 15756596 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-ron: 500	 acc: --	 ppl: 22033.75	 xent: 10.00	  17.77 TFLOP/s	 17238/19275 tok/s	 128243 sents	   1456 sec	
 mt_eng-ron: 1000	 acc: --	 ppl: 6882.40	 xent: 8.84	  18.52 TFLOP/s	 17971/20088 tok/s	 255675 sents	   2843 sec	
 mt_eng-ron: 1500	 acc: --	 ppl: 2390.10	 xent: 7.78	  19.16 TFLOP/s	 18588/20780 tok/s	 388017 sents	   4236 sec	
@@ -6997,9 +6885,7 @@ mt_eng-ron: 59500	 acc: --	 ppl:  6.88	 xent: 1.93	  19.42 TFLOP/s	 18845/21063 
 mt_eng-ron: 60000	 acc: --	 ppl:  6.89	 xent: 1.93	  19.80 TFLOP/s	 19219/21475 tok/s	 15591153 sents	 169496 sec	
 mt_eng-ron: 60500	 acc: --	 ppl:  6.89	 xent: 1.93	  15.63 TFLOP/s	 15162/16951 tok/s	 15719867 sents	 171163 sec	
 mt_eng-ron: 61000	 acc: --	 ppl:  6.88	 xent: 1.93	  19.09 TFLOP/s	 18523/20697 tok/s	 15847897 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_slk-eng: 500	 acc: --	 ppl: 20063.25	 xent: 9.91	  17.77 TFLOP/s	 17975/18728 tok/s	 136562 sents	   1457 sec	
 mt_slk-eng: 1000	 acc: --	 ppl: 4717.17	 xent: 8.46	  18.39 TFLOP/s	 18589/19382 tok/s	 270923 sents	   2843 sec	
 mt_slk-eng: 1500	 acc: --	 ppl: 1521.89	 xent: 7.33	  18.86 TFLOP/s	 19071/19878 tok/s	 409442 sents	   4236 sec	
@@ -7122,9 +7008,7 @@ mt_slk-eng: 59500	 acc: --	 ppl:  9.11	 xent: 2.21	  19.39 TFLOP/s	 19611/20442 
 mt_slk-eng: 60000	 acc: --	 ppl:  9.10	 xent: 2.21	  18.93 TFLOP/s	 19147/19956 tok/s	 16344800 sents	 169495 sec	
 mt_slk-eng: 60500	 acc: --	 ppl:  9.10	 xent: 2.21	  15.59 TFLOP/s	 15759/16436 tok/s	 16481733 sents	 171163 sec	
 mt_slk-eng: 61000	 acc: --	 ppl:  9.10	 xent: 2.21	  18.70 TFLOP/s	 18908/19709 tok/s	 16614745 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-slk: 500	 acc: --	 ppl: 25626.82	 xent: 10.15	  17.98 TFLOP/s	 18487/18684 tok/s	 137663 sents	   1457 sec	
 mt_eng-slk: 1000	 acc: --	 ppl: 11426.21	 xent: 9.34	  18.55 TFLOP/s	 19077/19277 tok/s	 272688 sents	   2843 sec	
 mt_eng-slk: 1500	 acc: --	 ppl: 5085.00	 xent: 8.53	  19.08 TFLOP/s	 19620/19827 tok/s	 412270 sents	   4236 sec	
@@ -7247,9 +7131,7 @@ mt_eng-slk: 59500	 acc: --	 ppl:  8.32	 xent: 2.12	  19.54 TFLOP/s	 20096/20299 
 mt_eng-slk: 60000	 acc: --	 ppl:  8.30	 xent: 2.12	  19.01 TFLOP/s	 19556/19758 tok/s	 16411438 sents	 169496 sec	
 mt_eng-slk: 60500	 acc: --	 ppl:  8.31	 xent: 2.12	  15.56 TFLOP/s	 16002/16164 tok/s	 16547340 sents	 171163 sec	
 mt_eng-slk: 61000	 acc: --	 ppl:  8.29	 xent: 2.11	  19.07 TFLOP/s	 19606/19815 tok/s	 16682641 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_slv-eng: 500	 acc: --	 ppl: 20037.59	 xent: 9.91	  17.88 TFLOP/s	 18442/18514 tok/s	 134986 sents	   1457 sec	
 mt_slv-eng: 1000	 acc: --	 ppl: 4710.45	 xent: 8.46	  18.63 TFLOP/s	 19218/19300 tok/s	 268880 sents	   2843 sec	
 mt_slv-eng: 1500	 acc: --	 ppl: 1494.28	 xent: 7.31	  19.04 TFLOP/s	 19633/19722 tok/s	 406225 sents	   4236 sec	
@@ -7372,9 +7254,7 @@ mt_slv-eng: 59500	 acc: --	 ppl: 10.36	 xent: 2.34	  19.43 TFLOP/s	 20047/20127 
 mt_slv-eng: 60000	 acc: --	 ppl: 10.41	 xent: 2.34	  19.64 TFLOP/s	 20255/20346 tok/s	 16197811 sents	 169496 sec	
 mt_slv-eng: 60500	 acc: --	 ppl: 10.42	 xent: 2.34	  15.57 TFLOP/s	 16054/16122 tok/s	 16332126 sents	 171163 sec	
 mt_slv-eng: 61000	 acc: --	 ppl: 10.39	 xent: 2.34	  19.33 TFLOP/s	 19933/20028 tok/s	 16467700 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-slv: 500	 acc: --	 ppl: 24018.19	 xent: 10.09	  17.86 TFLOP/s	 18190/18705 tok/s	 135423 sents	   1457 sec	
 mt_eng-slv: 1000	 acc: --	 ppl: 9024.06	 xent: 9.11	  18.67 TFLOP/s	 19013/19553 tok/s	 270044 sents	   2843 sec	
 mt_eng-slv: 1500	 acc: --	 ppl: 3638.50	 xent: 8.20	  19.05 TFLOP/s	 19397/19942 tok/s	 408030 sents	   4236 sec	
@@ -7497,9 +7377,7 @@ mt_eng-slv: 59500	 acc: --	 ppl:  8.20	 xent: 2.10	  19.60 TFLOP/s	 19959/20520 
 mt_eng-slv: 60000	 acc: --	 ppl:  8.24	 xent: 2.11	  19.54 TFLOP/s	 19902/20457 tok/s	 16232616 sents	 169495 sec	
 mt_eng-slv: 60500	 acc: --	 ppl:  8.22	 xent: 2.11	  15.64 TFLOP/s	 15924/16371 tok/s	 16368324 sents	 171163 sec	
 mt_eng-slv: 61000	 acc: --	 ppl:  8.22	 xent: 2.11	  19.17 TFLOP/s	 19526/20068 tok/s	 16502988 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_spa-eng: 500	 acc: --	 ppl: 20067.51	 xent: 9.91	  17.95 TFLOP/s	 19068/18088 tok/s	 131822 sents	   1456 sec	
 mt_spa-eng: 1000	 acc: --	 ppl: 4687.04	 xent: 8.45	  18.61 TFLOP/s	 19768/18769 tok/s	 262106 sents	   2843 sec	
 mt_spa-eng: 1500	 acc: --	 ppl: 1485.42	 xent: 7.30	  18.99 TFLOP/s	 20172/19141 tok/s	 395441 sents	   4236 sec	
@@ -7622,9 +7500,7 @@ mt_spa-eng: 59500	 acc: --	 ppl:  8.58	 xent: 2.15	  19.29 TFLOP/s	 20499/19443 
 mt_spa-eng: 60000	 acc: --	 ppl:  8.57	 xent: 2.15	  19.22 TFLOP/s	 20423/19372 tok/s	 15897029 sents	 169495 sec	
 mt_spa-eng: 60500	 acc: --	 ppl:  8.58	 xent: 2.15	  15.67 TFLOP/s	 16643/15794 tok/s	 16028751 sents	 171163 sec	
 mt_spa-eng: 61000	 acc: --	 ppl:  8.56	 xent: 2.15	  19.65 TFLOP/s	 20882/19803 tok/s	 16162898 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-spa: 500	 acc: --	 ppl: 19673.88	 xent: 9.89	  18.06 TFLOP/s	 18145/19099 tok/s	 134988 sents	   1456 sec	
 mt_eng-spa: 1000	 acc: --	 ppl: 5537.04	 xent: 8.62	  18.64 TFLOP/s	 18736/19710 tok/s	 267699 sents	   2843 sec	
 mt_eng-spa: 1500	 acc: --	 ppl: 1946.46	 xent: 7.57	  19.07 TFLOP/s	 19159/20175 tok/s	 403993 sents	   4235 sec	
@@ -7747,9 +7623,7 @@ mt_eng-spa: 59500	 acc: --	 ppl:  6.66	 xent: 1.90	  19.47 TFLOP/s	 19563/20585 
 mt_eng-spa: 60000	 acc: --	 ppl:  6.67	 xent: 1.90	  19.82 TFLOP/s	 19912/20964 tok/s	 16176602 sents	 169496 sec	
 mt_eng-spa: 60500	 acc: --	 ppl:  6.67	 xent: 1.90	  15.93 TFLOP/s	 16005/16849 tok/s	 16312808 sents	 171162 sec	
 mt_eng-spa: 61000	 acc: --	 ppl:  6.66	 xent: 1.90	  19.47 TFLOP/s	 19577/20588 tok/s	 16448011 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_sqi-eng: 500	 acc: --	 ppl: 20090.87	 xent: 9.91	  17.48 TFLOP/s	 21589/14838 tok/s	 108221 sents	   1456 sec	
 mt_sqi-eng: 1000	 acc: --	 ppl: 4716.50	 xent: 8.46	  18.27 TFLOP/s	 22585/15510 tok/s	 216405 sents	   2843 sec	
 mt_sqi-eng: 1500	 acc: --	 ppl: 1520.42	 xent: 7.33	  18.29 TFLOP/s	 22586/15534 tok/s	 324686 sents	   4236 sec	
@@ -7872,9 +7746,7 @@ mt_sqi-eng: 59500	 acc: --	 ppl:  8.96	 xent: 2.19	  18.93 TFLOP/s	 23383/16076 
 mt_sqi-eng: 60000	 acc: --	 ppl:  8.93	 xent: 2.19	  19.03 TFLOP/s	 23518/16151 tok/s	 13021338 sents	 169495 sec	
 mt_sqi-eng: 60500	 acc: --	 ppl:  8.96	 xent: 2.19	  15.08 TFLOP/s	 18629/12795 tok/s	 13128128 sents	 171163 sec	
 mt_sqi-eng: 61000	 acc: --	 ppl:  8.96	 xent: 2.19	  18.89 TFLOP/s	 23339/16041 tok/s	 13237336 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-sqi: 500	 acc: --	 ppl: 17843.33	 xent: 9.79	  18.01 TFLOP/s	 17453/19547 tok/s	 129913 sents	   1457 sec	
 mt_eng-sqi: 1000	 acc: --	 ppl: 4540.55	 xent: 8.42	  18.56 TFLOP/s	 17988/20139 tok/s	 257356 sents	   2843 sec	
 mt_eng-sqi: 1500	 acc: --	 ppl: 1551.02	 xent: 7.35	  19.16 TFLOP/s	 18570/20799 tok/s	 389575 sents	   4236 sec	
@@ -7997,9 +7869,7 @@ mt_eng-sqi: 59500	 acc: --	 ppl:  7.29	 xent: 1.99	  19.44 TFLOP/s	 18845/21102 
 mt_eng-sqi: 60000	 acc: --	 ppl:  7.30	 xent: 1.99	  19.62 TFLOP/s	 19023/21283 tok/s	 15585593 sents	 169495 sec	
 mt_eng-sqi: 60500	 acc: --	 ppl:  7.31	 xent: 1.99	  15.47 TFLOP/s	 14988/16784 tok/s	 15712799 sents	 171163 sec	
 mt_eng-sqi: 61000	 acc: --	 ppl:  7.29	 xent: 1.99	  19.11 TFLOP/s	 18518/20738 tok/s	 15840852 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_srp_Cyrl-eng: 500	 acc: --	 ppl: 20027.69	 xent: 9.90	  17.44 TFLOP/s	 20245/16008 tok/s	 116809 sents	   1457 sec	
 mt_srp_Cyrl-eng: 1000	 acc: --	 ppl: 4697.43	 xent: 8.45	  18.58 TFLOP/s	 21561/17061 tok/s	 235382 sents	   2843 sec	
 mt_srp_Cyrl-eng: 1500	 acc: --	 ppl: 1513.01	 xent: 7.32	  18.61 TFLOP/s	 21587/17095 tok/s	 354694 sents	   4236 sec	
@@ -8122,9 +7992,7 @@ mt_srp_Cyrl-eng: 59500	 acc: --	 ppl:  9.06	 xent: 2.20	  18.93 TFLOP/s	 21975/1
 mt_srp_Cyrl-eng: 60000	 acc: --	 ppl:  9.07	 xent: 2.21	  19.14 TFLOP/s	 22221/17586 tok/s	 14216054 sents	 169495 sec	
 mt_srp_Cyrl-eng: 60500	 acc: --	 ppl:  9.07	 xent: 2.20	  15.60 TFLOP/s	 18110/14335 tok/s	 14335941 sents	 171163 sec	
 mt_srp_Cyrl-eng: 61000	 acc: --	 ppl:  9.04	 xent: 2.20	  19.34 TFLOP/s	 22439/17761 tok/s	 14456194 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-srp_Cyrl: 500	 acc: --	 ppl: 23543.45	 xent: 10.07	  17.72 TFLOP/s	 18108/18507 tok/s	 134742 sents	   1456 sec	
 mt_eng-srp_Cyrl: 1000	 acc: --	 ppl: 8949.95	 xent: 9.10	  18.56 TFLOP/s	 18972/19383 tok/s	 269130 sents	   2843 sec	
 mt_eng-srp_Cyrl: 1500	 acc: --	 ppl: 3930.67	 xent: 8.28	  19.10 TFLOP/s	 19529/19948 tok/s	 408134 sents	   4236 sec	
@@ -8247,9 +8115,7 @@ mt_eng-srp_Cyrl: 59500	 acc: --	 ppl:  7.46	 xent: 2.01	  19.38 TFLOP/s	 19812/2
 mt_eng-srp_Cyrl: 60000	 acc: --	 ppl:  7.48	 xent: 2.01	  19.45 TFLOP/s	 19882/20314 tok/s	 16268589 sents	 169496 sec	
 mt_eng-srp_Cyrl: 60500	 acc: --	 ppl:  7.46	 xent: 2.01	  15.40 TFLOP/s	 15741/16078 tok/s	 16402618 sents	 171163 sec	
 mt_eng-srp_Cyrl: 61000	 acc: --	 ppl:  7.46	 xent: 2.01	  19.12 TFLOP/s	 19541/19958 tok/s	 16537309 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_swe-eng: 500	 acc: --	 ppl: 20030.24	 xent: 9.90	  17.96 TFLOP/s	 18377/18727 tok/s	 136559 sents	   1457 sec	
 mt_swe-eng: 1000	 acc: --	 ppl: 4724.19	 xent: 8.46	  18.45 TFLOP/s	 18880/19250 tok/s	 270046 sents	   2843 sec	
 mt_swe-eng: 1500	 acc: --	 ppl: 1505.09	 xent: 7.32	  19.07 TFLOP/s	 19519/19890 tok/s	 408592 sents	   4235 sec	
@@ -8372,9 +8238,7 @@ mt_swe-eng: 59500	 acc: --	 ppl:  7.13	 xent: 1.96	  19.68 TFLOP/s	 20139/20536 
 mt_swe-eng: 60000	 acc: --	 ppl:  7.12	 xent: 1.96	  19.18 TFLOP/s	 19624/19997 tok/s	 16340482 sents	 169495 sec	
 mt_swe-eng: 60500	 acc: --	 ppl:  7.11	 xent: 1.96	  15.71 TFLOP/s	 16073/16389 tok/s	 16477048 sents	 171162 sec	
 mt_swe-eng: 61000	 acc: --	 ppl:  7.11	 xent: 1.96	  18.97 TFLOP/s	 19413/19787 tok/s	 16610529 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-swe: 500	 acc: --	 ppl: 22360.10	 xent: 10.02	  18.04 TFLOP/s	 18736/18611 tok/s	 139501 sents	   1457 sec	
 mt_eng-swe: 1000	 acc: --	 ppl: 7640.05	 xent: 8.94	  18.45 TFLOP/s	 19158/19030 tok/s	 275136 sents	   2843 sec	
 mt_eng-swe: 1500	 acc: --	 ppl: 2821.45	 xent: 7.95	  19.10 TFLOP/s	 19828/19705 tok/s	 416149 sents	   4236 sec	
@@ -8497,9 +8361,7 @@ mt_eng-swe: 59500	 acc: --	 ppl:  6.44	 xent: 1.86	  19.20 TFLOP/s	 19935/19801 
 mt_eng-swe: 60000	 acc: --	 ppl:  6.45	 xent: 1.86	  18.83 TFLOP/s	 19553/19422 tok/s	 16584082 sents	 169496 sec	
 mt_eng-swe: 60500	 acc: --	 ppl:  6.44	 xent: 1.86	  15.60 TFLOP/s	 16193/16093 tok/s	 16721958 sents	 171163 sec	
 mt_eng-swe: 61000	 acc: --	 ppl:  6.45	 xent: 1.86	  19.36 TFLOP/s	 20114/19969 tok/s	 16860962 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_tur-eng: 500	 acc: --	 ppl: 20078.00	 xent: 9.91	  16.74 TFLOP/s	 15657/18777 tok/s	 136901 sents	   1456 sec	
 mt_tur-eng: 1000	 acc: --	 ppl: 4730.63	 xent: 8.46	  17.37 TFLOP/s	 16248/19480 tok/s	 272027 sents	   2843 sec	
 mt_tur-eng: 1500	 acc: --	 ppl: 1527.07	 xent: 7.33	  17.80 TFLOP/s	 16649/19967 tok/s	 411097 sents	   4236 sec	
@@ -8622,9 +8484,7 @@ mt_tur-eng: 59500	 acc: --	 ppl: 10.19	 xent: 2.32	  18.34 TFLOP/s	 17150/20564 
 mt_tur-eng: 60000	 acc: --	 ppl: 10.17	 xent: 2.32	  18.01 TFLOP/s	 16844/20202 tok/s	 16390090 sents	 169495 sec	
 mt_tur-eng: 60500	 acc: --	 ppl: 10.18	 xent: 2.32	  14.47 TFLOP/s	 13533/16226 tok/s	 16525248 sents	 171163 sec	
 mt_tur-eng: 61000	 acc: --	 ppl: 10.16	 xent: 2.32	  17.77 TFLOP/s	 16621/19925 tok/s	 16659680 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-tur: 500	 acc: --	 ppl: 26120.65	 xent: 10.17	  17.25 TFLOP/s	 18723/17154 tok/s	 139361 sents	   1457 sec	
 mt_eng-tur: 1000	 acc: --	 ppl: 11541.15	 xent: 9.35	  17.91 TFLOP/s	 19433/17812 tok/s	 276986 sents	   2843 sec	
 mt_eng-tur: 1500	 acc: --	 ppl: 6060.06	 xent: 8.71	  18.37 TFLOP/s	 19939/18273 tok/s	 418728 sents	   4236 sec	
@@ -8747,9 +8607,7 @@ mt_eng-tur: 59500	 acc: --	 ppl:  9.36	 xent: 2.24	  18.36 TFLOP/s	 19917/18256 
 mt_eng-tur: 60000	 acc: --	 ppl:  9.35	 xent: 2.24	  18.14 TFLOP/s	 19683/18042 tok/s	 16649127 sents	 169495 sec	
 mt_eng-tur: 60500	 acc: --	 ppl:  9.35	 xent: 2.23	  15.05 TFLOP/s	 16329/14965 tok/s	 16788285 sents	 171163 sec	
 mt_eng-tur: 61000	 acc: --	 ppl:  9.35	 xent: 2.24	  18.40 TFLOP/s	 19972/18300 tok/s	 16926335 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_ukr-eng: 500	 acc: --	 ppl: 20056.41	 xent: 9.91	  17.66 TFLOP/s	 17728/18724 tok/s	 136578 sents	   1457 sec	
 mt_ukr-eng: 1000	 acc: --	 ppl: 4714.22	 xent: 8.46	  18.21 TFLOP/s	 18285/19316 tok/s	 270485 sents	   2843 sec	
 mt_ukr-eng: 1500	 acc: --	 ppl: 1520.91	 xent: 7.33	  18.76 TFLOP/s	 18830/19892 tok/s	 409075 sents	   4236 sec	
@@ -8872,9 +8730,7 @@ mt_ukr-eng: 59500	 acc: --	 ppl:  9.39	 xent: 2.24	  19.30 TFLOP/s	 19373/20475 
 mt_ukr-eng: 60000	 acc: --	 ppl:  9.36	 xent: 2.24	  18.96 TFLOP/s	 19034/20114 tok/s	 16354020 sents	 169495 sec	
 mt_ukr-eng: 60500	 acc: --	 ppl:  9.35	 xent: 2.24	  15.37 TFLOP/s	 15423/16299 tok/s	 16489797 sents	 171163 sec	
 mt_ukr-eng: 61000	 acc: --	 ppl:  9.36	 xent: 2.24	  18.68 TFLOP/s	 18749/19812 tok/s	 16623484 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 mt_eng-ukr: 500	 acc: --	 ppl: 26304.38	 xent: 10.18	  18.02 TFLOP/s	 18256/18939 tok/s	 135916 sents	   1457 sec	
 mt_eng-ukr: 1000	 acc: --	 ppl: 11522.49	 xent: 9.35	  18.53 TFLOP/s	 18775/19483 tok/s	 268884 sents	   2843 sec	
 mt_eng-ukr: 1500	 acc: --	 ppl: 4937.67	 xent: 8.50	  19.10 TFLOP/s	 19353/20082 tok/s	 406493 sents	   4235 sec	
@@ -8997,6 +8853,4 @@ mt_eng-ukr: 59500	 acc: --	 ppl:  8.48	 xent: 2.14	  19.34 TFLOP/s	 19601/20325 
 mt_eng-ukr: 60000	 acc: --	 ppl:  8.51	 xent: 2.14	  19.61 TFLOP/s	 19868/20608 tok/s	 16195618 sents	 169495 sec	
 mt_eng-ukr: 60500	 acc: --	 ppl:  8.50	 xent: 2.14	  15.48 TFLOP/s	 15682/16265 tok/s	 16329000 sents	 171163 sec	
 mt_eng-ukr: 61000	 acc: --	 ppl:  8.47	 xent: 2.14	  19.37 TFLOP/s	 19627/20361 tok/s	 16464594 sents	 172515 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'
 
-make[2]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt-langgroup-encoder'

@@ -89,9 +89,8 @@ task_bos-eng: 44000	 acc: --	 ppl: 12.70	 xent: 2.54	  17.66 TFLOP/s	 16931/1944
 task_bos-eng: 44500	 acc: --	 ppl: 12.61	 xent: 2.53	  17.83 TFLOP/s	 17101/19624 tok/s	 12034797 sents	 128490 sec	
 task_bos-eng: 45000	 acc: --	 ppl: 12.70	 xent: 2.54	  18.01 TFLOP/s	 17259/19841 tok/s	 12171273 sents	 129864 sec	
 task_bos-eng: 45500	 acc: --	 ppl: 12.67	 xent: 2.54	  14.34 TFLOP/s	 13744/15794 tok/s	 12305641 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_bos-eng: 46000	 acc: --	 ppl: 12.65	 xent: 2.54	  17.63 TFLOP/s	 16907/19412 tok/s	 12439215 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-bos: 500	 acc: --	 ppl: 24518.08	 xent: 10.11	  16.41 TFLOP/s	 18288/15915 tok/s	 134984 sents	   1475 sec	
 task_eng-bos: 1000	 acc: --	 ppl: 10221.69	 xent: 9.23	  16.97 TFLOP/s	 18901/16469 tok/s	 267590 sents	   2877 sec	
 task_eng-bos: 1500	 acc: --	 ppl: 4490.50	 xent: 8.41	  17.50 TFLOP/s	 19506/16983 tok/s	 405854 sents	   4294 sec	
@@ -183,9 +182,8 @@ task_eng-bos: 44000	 acc: --	 ppl:  8.88	 xent: 2.18	  17.45 TFLOP/s	 19446/1693
 task_eng-bos: 44500	 acc: --	 ppl:  8.85	 xent: 2.18	  17.62 TFLOP/s	 19623/17100 tok/s	 12034797 sents	 128490 sec	
 task_eng-bos: 45000	 acc: --	 ppl:  8.85	 xent: 2.18	  17.79 TFLOP/s	 19841/17259 tok/s	 12171273 sents	 129864 sec	
 task_eng-bos: 45500	 acc: --	 ppl:  8.85	 xent: 2.18	  14.16 TFLOP/s	 15791/13741 tok/s	 12305641 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-bos: 46000	 acc: --	 ppl:  8.85	 xent: 2.18	  17.42 TFLOP/s	 19410/16906 tok/s	 12439215 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_bul-eng: 500	 acc: --	 ppl: 20361.81	 xent: 9.92	  17.66 TFLOP/s	 18484/18058 tok/s	 133263 sents	   1475 sec	
 task_bul-eng: 1000	 acc: --	 ppl: 4684.17	 xent: 8.45	  18.39 TFLOP/s	 19235/18800 tok/s	 265293 sents	   2878 sec	
 task_bul-eng: 1500	 acc: --	 ppl: 1380.52	 xent: 7.23	  18.78 TFLOP/s	 19652/19207 tok/s	 401223 sents	   4294 sec	
@@ -277,9 +275,8 @@ task_bul-eng: 44000	 acc: --	 ppl:  8.30	 xent: 2.12	  19.25 TFLOP/s	 20144/1968
 task_bul-eng: 44500	 acc: --	 ppl:  8.32	 xent: 2.12	  18.70 TFLOP/s	 19558/19122 tok/s	 11918632 sents	 128491 sec	
 task_bul-eng: 45000	 acc: --	 ppl:  8.29	 xent: 2.11	  19.05 TFLOP/s	 19929/19482 tok/s	 12052503 sents	 129864 sec	
 task_bul-eng: 45500	 acc: --	 ppl:  8.29	 xent: 2.12	  15.34 TFLOP/s	 16053/15688 tok/s	 12185878 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_bul-eng: 46000	 acc: --	 ppl:  8.29	 xent: 2.11	  19.01 TFLOP/s	 19889/19446 tok/s	 12319671 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-bul: 500	 acc: --	 ppl: 21843.69	 xent: 9.99	  17.69 TFLOP/s	 18050/18476 tok/s	 133263 sents	   1476 sec	
 task_eng-bul: 1000	 acc: --	 ppl: 7687.66	 xent: 8.95	  18.44 TFLOP/s	 18818/19252 tok/s	 265293 sents	   2877 sec	
 task_eng-bul: 1500	 acc: --	 ppl: 3100.95	 xent: 8.04	  18.81 TFLOP/s	 19199/19643 tok/s	 401223 sents	   4294 sec	
@@ -371,9 +368,8 @@ task_eng-bul: 44000	 acc: --	 ppl:  7.41	 xent: 2.00	  19.30 TFLOP/s	 19690/2015
 task_eng-bul: 44500	 acc: --	 ppl:  7.42	 xent: 2.00	  18.73 TFLOP/s	 19122/19558 tok/s	 11918632 sents	 128490 sec	
 task_eng-bul: 45000	 acc: --	 ppl:  7.41	 xent: 2.00	  19.08 TFLOP/s	 19475/19921 tok/s	 12052503 sents	 129864 sec	
 task_eng-bul: 45500	 acc: --	 ppl:  7.40	 xent: 2.00	  15.38 TFLOP/s	 15692/16057 tok/s	 12185878 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-bul: 46000	 acc: --	 ppl:  7.39	 xent: 2.00	  19.05 TFLOP/s	 19440/19883 tok/s	 12319671 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_cat-eng: 500	 acc: --	 ppl: 20345.32	 xent: 9.92	  17.65 TFLOP/s	 18952/17607 tok/s	 130000 sents	   1475 sec	
 task_cat-eng: 1000	 acc: --	 ppl: 4706.20	 xent: 8.46	  18.24 TFLOP/s	 19587/18201 tok/s	 257786 sents	   2878 sec	
 task_cat-eng: 1500	 acc: --	 ppl: 1380.54	 xent: 7.23	  18.76 TFLOP/s	 20145/18716 tok/s	 390438 sents	   4294 sec	
@@ -465,9 +461,8 @@ task_cat-eng: 44000	 acc: --	 ppl:  7.59	 xent: 2.03	  18.83 TFLOP/s	 20200/1879
 task_cat-eng: 44500	 acc: --	 ppl:  7.58	 xent: 2.03	  18.98 TFLOP/s	 20365/18939 tok/s	 11649782 sents	 128490 sec	
 task_cat-eng: 45000	 acc: --	 ppl:  7.55	 xent: 2.02	  18.92 TFLOP/s	 20319/18881 tok/s	 11779869 sents	 129864 sec	
 task_cat-eng: 45500	 acc: --	 ppl:  7.59	 xent: 2.03	  15.13 TFLOP/s	 16234/15102 tok/s	 11908366 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_cat-eng: 46000	 acc: --	 ppl:  7.55	 xent: 2.02	  19.05 TFLOP/s	 20456/19016 tok/s	 12039064 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-cat: 500	 acc: --	 ppl: 20396.10	 xent: 9.92	  17.76 TFLOP/s	 17608/18952 tok/s	 130000 sents	   1475 sec	
 task_eng-cat: 1000	 acc: --	 ppl: 5734.63	 xent: 8.65	  18.36 TFLOP/s	 18197/19583 tok/s	 257786 sents	   2878 sec	
 task_eng-cat: 1500	 acc: --	 ppl: 1931.50	 xent: 7.57	  18.88 TFLOP/s	 18713/20141 tok/s	 390438 sents	   4295 sec	
@@ -559,9 +554,8 @@ task_eng-cat: 44000	 acc: --	 ppl:  6.54	 xent: 1.88	  18.95 TFLOP/s	 18799/2020
 task_eng-cat: 44500	 acc: --	 ppl:  6.53	 xent: 1.88	  19.08 TFLOP/s	 18921/20346 tok/s	 11649782 sents	 128491 sec	
 task_eng-cat: 45000	 acc: --	 ppl:  6.52	 xent: 1.87	  19.05 TFLOP/s	 18885/20323 tok/s	 11779869 sents	 129864 sec	
 task_eng-cat: 45500	 acc: --	 ppl:  6.53	 xent: 1.88	  15.23 TFLOP/s	 15109/16242 tok/s	 11908366 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-cat: 46000	 acc: --	 ppl:  6.52	 xent: 1.87	  19.16 TFLOP/s	 19003/20442 tok/s	 12039064 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_ces-eng: 500	 acc: --	 ppl: 20358.76	 xent: 9.92	  17.76 TFLOP/s	 18282/18435 tok/s	 136175 sents	   1475 sec	
 task_ces-eng: 1000	 acc: --	 ppl: 4700.23	 xent: 8.46	  18.28 TFLOP/s	 18811/18968 tok/s	 269210 sents	   2878 sec	
 task_ces-eng: 1500	 acc: --	 ppl: 1409.81	 xent: 7.25	  18.72 TFLOP/s	 19263/19428 tok/s	 406917 sents	   4295 sec	
@@ -653,9 +647,8 @@ task_ces-eng: 44000	 acc: --	 ppl:  9.17	 xent: 2.22	  18.88 TFLOP/s	 19426/1960
 task_ces-eng: 44500	 acc: --	 ppl:  9.13	 xent: 2.21	  18.74 TFLOP/s	 19283/19455 tok/s	 12026877 sents	 128491 sec	
 task_ces-eng: 45000	 acc: --	 ppl:  9.14	 xent: 2.21	  19.15 TFLOP/s	 19711/19885 tok/s	 12163648 sents	 129864 sec	
 task_ces-eng: 45500	 acc: --	 ppl:  9.13	 xent: 2.21	  15.20 TFLOP/s	 15636/15775 tok/s	 12297826 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_ces-eng: 46000	 acc: --	 ppl:  9.12	 xent: 2.21	  18.77 TFLOP/s	 19325/19487 tok/s	 12432042 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-ces: 500	 acc: --	 ppl: 25317.03	 xent: 10.14	  17.75 TFLOP/s	 18436/18282 tok/s	 136175 sents	   1475 sec	
 task_eng-ces: 1000	 acc: --	 ppl: 10911.97	 xent: 9.30	  18.25 TFLOP/s	 18959/18802 tok/s	 269210 sents	   2878 sec	
 task_eng-ces: 1500	 acc: --	 ppl: 5010.95	 xent: 8.52	  18.72 TFLOP/s	 19441/19276 tok/s	 406917 sents	   4294 sec	
@@ -747,9 +740,8 @@ task_eng-ces: 44000	 acc: --	 ppl:  8.54	 xent: 2.14	  18.87 TFLOP/s	 19606/1943
 task_eng-ces: 44500	 acc: --	 ppl:  8.52	 xent: 2.14	  18.73 TFLOP/s	 19455/19282 tok/s	 12026877 sents	 128491 sec	
 task_eng-ces: 45000	 acc: --	 ppl:  8.51	 xent: 2.14	  19.14 TFLOP/s	 19881/19708 tok/s	 12163648 sents	 129864 sec	
 task_eng-ces: 45500	 acc: --	 ppl:  8.50	 xent: 2.14	  15.18 TFLOP/s	 15776/15637 tok/s	 12297826 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-ces: 46000	 acc: --	 ppl:  8.50	 xent: 2.14	  18.76 TFLOP/s	 19490/19328 tok/s	 12432042 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_dan-eng: 500	 acc: --	 ppl: 20320.47	 xent: 9.92	  17.78 TFLOP/s	 18351/18403 tok/s	 135939 sents	   1476 sec	
 task_dan-eng: 1000	 acc: --	 ppl: 4692.09	 xent: 8.45	  18.41 TFLOP/s	 18992/19058 tok/s	 269628 sents	   2878 sec	
 task_dan-eng: 1500	 acc: --	 ppl: 1405.77	 xent: 7.25	  18.81 TFLOP/s	 19412/19465 tok/s	 407577 sents	   4295 sec	
@@ -841,9 +833,8 @@ task_dan-eng: 44000	 acc: --	 ppl:  6.68	 xent: 1.90	  18.76 TFLOP/s	 19353/1942
 task_dan-eng: 44500	 acc: --	 ppl:  6.67	 xent: 1.90	  18.94 TFLOP/s	 19546/19607 tok/s	 12076592 sents	 128491 sec	
 task_dan-eng: 45000	 acc: --	 ppl:  6.67	 xent: 1.90	  19.21 TFLOP/s	 19830/19882 tok/s	 12213340 sents	 129864 sec	
 task_dan-eng: 45500	 acc: --	 ppl:  6.68	 xent: 1.90	  15.20 TFLOP/s	 15687/15738 tok/s	 12347244 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_dan-eng: 46000	 acc: --	 ppl:  6.66	 xent: 1.90	  19.13 TFLOP/s	 19753/19810 tok/s	 12483649 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-dan: 500	 acc: --	 ppl: 22136.24	 xent: 10.00	  17.78 TFLOP/s	 18406/18354 tok/s	 135939 sents	   1475 sec	
 task_eng-dan: 1000	 acc: --	 ppl: 7303.41	 xent: 8.90	  18.40 TFLOP/s	 19056/18989 tok/s	 269628 sents	   2878 sec	
 task_eng-dan: 1500	 acc: --	 ppl: 2602.42	 xent: 7.86	  18.81 TFLOP/s	 19473/19420 tok/s	 407577 sents	   4294 sec	
@@ -935,9 +926,8 @@ task_eng-dan: 44000	 acc: --	 ppl:  6.24	 xent: 1.83	  18.75 TFLOP/s	 19424/1935
 task_eng-dan: 44500	 acc: --	 ppl:  6.23	 xent: 1.83	  18.93 TFLOP/s	 19605/19544 tok/s	 12076592 sents	 128491 sec	
 task_eng-dan: 45000	 acc: --	 ppl:  6.22	 xent: 1.83	  19.19 TFLOP/s	 19871/19818 tok/s	 12213340 sents	 129864 sec	
 task_eng-dan: 45500	 acc: --	 ppl:  6.22	 xent: 1.83	  15.20 TFLOP/s	 15743/15692 tok/s	 12347244 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-dan: 46000	 acc: --	 ppl:  6.23	 xent: 1.83	  19.13 TFLOP/s	 19806/19749 tok/s	 12483649 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_deu-eng: 500	 acc: --	 ppl: 20245.95	 xent: 9.92	  17.84 TFLOP/s	 18652/18254 tok/s	 134793 sents	   1475 sec	
 task_deu-eng: 1000	 acc: --	 ppl: 4697.07	 xent: 8.45	  18.44 TFLOP/s	 19276/18871 tok/s	 267219 sents	   2878 sec	
 task_deu-eng: 1500	 acc: --	 ppl: 1386.59	 xent: 7.23	  18.85 TFLOP/s	 19713/19291 tok/s	 403852 sents	   4294 sec	
@@ -1029,9 +1019,8 @@ task_deu-eng: 44000	 acc: --	 ppl:  8.35	 xent: 2.12	  18.95 TFLOP/s	 19820/1939
 task_deu-eng: 44500	 acc: --	 ppl:  8.34	 xent: 2.12	  18.99 TFLOP/s	 19849/19438 tok/s	 11963133 sents	 128491 sec	
 task_deu-eng: 45000	 acc: --	 ppl:  8.33	 xent: 2.12	  19.15 TFLOP/s	 20016/19594 tok/s	 12097716 sents	 129864 sec	
 task_deu-eng: 45500	 acc: --	 ppl:  8.33	 xent: 2.12	  15.42 TFLOP/s	 16125/15778 tok/s	 12231904 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_deu-eng: 46000	 acc: --	 ppl:  8.32	 xent: 2.12	  19.13 TFLOP/s	 19999/19576 tok/s	 12366753 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-deu: 500	 acc: --	 ppl: 23899.52	 xent: 10.08	  17.87 TFLOP/s	 18254/18652 tok/s	 134793 sents	   1475 sec	
 task_eng-deu: 1000	 acc: --	 ppl: 9410.37	 xent: 9.15	  18.48 TFLOP/s	 18882/19287 tok/s	 267219 sents	   2877 sec	
 task_eng-deu: 1500	 acc: --	 ppl: 3400.30	 xent: 8.13	  18.88 TFLOP/s	 19281/19703 tok/s	 403852 sents	   4294 sec	
@@ -1123,9 +1112,8 @@ task_eng-deu: 44000	 acc: --	 ppl:  7.78	 xent: 2.05	  18.99 TFLOP/s	 19391/1981
 task_eng-deu: 44500	 acc: --	 ppl:  7.77	 xent: 2.05	  19.03 TFLOP/s	 19439/19850 tok/s	 11963133 sents	 128491 sec	
 task_eng-deu: 45000	 acc: --	 ppl:  7.76	 xent: 2.05	  19.19 TFLOP/s	 19597/20020 tok/s	 12097716 sents	 129864 sec	
 task_eng-deu: 45500	 acc: --	 ppl:  7.76	 xent: 2.05	  15.45 TFLOP/s	 15776/16123 tok/s	 12231904 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-deu: 46000	 acc: --	 ppl:  7.74	 xent: 2.05	  19.17 TFLOP/s	 19583/20007 tok/s	 12366753 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_ell-eng: 500	 acc: --	 ppl: 20341.44	 xent: 9.92	  17.31 TFLOP/s	 18927/16964 tok/s	 125266 sents	   1475 sec	
 task_ell-eng: 1000	 acc: --	 ppl: 4689.23	 xent: 8.45	  18.15 TFLOP/s	 19850/17783 tok/s	 250212 sents	   2878 sec	
 task_ell-eng: 1500	 acc: --	 ppl: 1395.55	 xent: 7.24	  18.40 TFLOP/s	 20117/18036 tok/s	 378100 sents	   4294 sec	
@@ -1217,9 +1205,8 @@ task_ell-eng: 44000	 acc: --	 ppl:  8.07	 xent: 2.09	  18.72 TFLOP/s	 20477/1834
 task_ell-eng: 44500	 acc: --	 ppl:  8.06	 xent: 2.09	  18.77 TFLOP/s	 20515/18396 tok/s	 11282042 sents	 128490 sec	
 task_ell-eng: 45000	 acc: --	 ppl:  8.09	 xent: 2.09	  18.87 TFLOP/s	 20623/18495 tok/s	 11409125 sents	 129864 sec	
 task_ell-eng: 45500	 acc: --	 ppl:  8.06	 xent: 2.09	  14.95 TFLOP/s	 16336/14646 tok/s	 11533143 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_ell-eng: 46000	 acc: --	 ppl:  8.05	 xent: 2.09	  18.70 TFLOP/s	 20444/18324 tok/s	 11658426 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-ell: 500	 acc: --	 ppl: 22878.08	 xent: 10.04	  17.47 TFLOP/s	 16959/18921 tok/s	 125266 sents	   1475 sec	
 task_eng-ell: 1000	 acc: --	 ppl: 8105.66	 xent: 9.00	  18.34 TFLOP/s	 17796/19864 tok/s	 250212 sents	   2877 sec	
 task_eng-ell: 1500	 acc: --	 ppl: 2858.94	 xent: 7.96	  18.57 TFLOP/s	 18026/20106 tok/s	 378100 sents	   4294 sec	
@@ -1311,9 +1298,8 @@ task_eng-ell: 44000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.90 TFLOP/s	 18340/2047
 task_eng-ell: 44500	 acc: --	 ppl:  6.89	 xent: 1.93	  18.94 TFLOP/s	 18390/20507 tok/s	 11282042 sents	 128491 sec	
 task_eng-ell: 45000	 acc: --	 ppl:  6.90	 xent: 1.93	  19.05 TFLOP/s	 18500/20630 tok/s	 11409125 sents	 129864 sec	
 task_eng-ell: 45500	 acc: --	 ppl:  6.89	 xent: 1.93	  15.09 TFLOP/s	 14646/16336 tok/s	 11533143 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-ell: 46000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.88 TFLOP/s	 18321/20442 tok/s	 11658426 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_est-eng: 500	 acc: --	 ppl: 20296.16	 xent: 9.92	  17.38 TFLOP/s	 17487/18403 tok/s	 135932 sents	   1475 sec	
 task_est-eng: 1000	 acc: --	 ppl: 4687.71	 xent: 8.45	  17.98 TFLOP/s	 18087/19044 tok/s	 269547 sents	   2878 sec	
 task_est-eng: 1500	 acc: --	 ppl: 1415.49	 xent: 7.26	  18.49 TFLOP/s	 18598/19588 tok/s	 408372 sents	   4294 sec	
@@ -1405,9 +1391,8 @@ task_est-eng: 44000	 acc: --	 ppl: 10.03	 xent: 2.31	  18.37 TFLOP/s	 18473/1946
 task_est-eng: 44500	 acc: --	 ppl:  9.99	 xent: 2.30	  18.53 TFLOP/s	 18637/19622 tok/s	 12047819 sents	 128490 sec	
 task_est-eng: 45000	 acc: --	 ppl:  9.96	 xent: 2.30	  18.80 TFLOP/s	 18909/19898 tok/s	 12184675 sents	 129864 sec	
 task_est-eng: 45500	 acc: --	 ppl:  9.96	 xent: 2.30	  14.92 TFLOP/s	 15007/15800 tok/s	 12319115 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_est-eng: 46000	 acc: --	 ppl:  9.97	 xent: 2.30	  18.39 TFLOP/s	 18501/19473 tok/s	 12453191 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-est: 500	 acc: --	 ppl: 25064.18	 xent: 10.13	  17.30 TFLOP/s	 18401/17485 tok/s	 135932 sents	   1475 sec	
 task_eng-est: 1000	 acc: --	 ppl: 10347.81	 xent: 9.24	  17.91 TFLOP/s	 19054/18096 tok/s	 269547 sents	   2877 sec	
 task_eng-est: 1500	 acc: --	 ppl: 4563.80	 xent: 8.43	  18.41 TFLOP/s	 19589/18598 tok/s	 408372 sents	   4294 sec	
@@ -1499,9 +1484,8 @@ task_eng-est: 44000	 acc: --	 ppl:  9.05	 xent: 2.20	  18.30 TFLOP/s	 19468/1848
 task_eng-est: 44500	 acc: --	 ppl:  9.03	 xent: 2.20	  18.44 TFLOP/s	 19615/18630 tok/s	 12047819 sents	 128490 sec	
 task_eng-est: 45000	 acc: --	 ppl:  9.00	 xent: 2.20	  18.71 TFLOP/s	 19898/18908 tok/s	 12184675 sents	 129864 sec	
 task_eng-est: 45500	 acc: --	 ppl:  9.00	 xent: 2.20	  14.85 TFLOP/s	 15800/15008 tok/s	 12319115 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-est: 46000	 acc: --	 ppl:  9.02	 xent: 2.20	  18.31 TFLOP/s	 19472/18500 tok/s	 12453191 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eus-eng: 500	 acc: --	 ppl: 20274.25	 xent: 9.92	  16.09 TFLOP/s	 14652/18398 tok/s	 135921 sents	   1475 sec	
 task_eus-eng: 1000	 acc: --	 ppl: 4703.24	 xent: 8.46	  16.60 TFLOP/s	 15124/18981 tok/s	 269104 sents	   2878 sec	
 task_eus-eng: 1500	 acc: --	 ppl: 1409.66	 xent: 7.25	  17.00 TFLOP/s	 15478/19432 tok/s	 406695 sents	   4294 sec	
@@ -1593,9 +1577,8 @@ task_eus-eng: 44000	 acc: --	 ppl: 25.78	 xent: 3.25	  16.98 TFLOP/s	 15455/1942
 task_eus-eng: 44500	 acc: --	 ppl: 25.64	 xent: 3.24	  16.98 TFLOP/s	 15460/19420 tok/s	 12011115 sents	 128491 sec	
 task_eus-eng: 45000	 acc: --	 ppl: 25.69	 xent: 3.25	  17.62 TFLOP/s	 16038/20150 tok/s	 12149861 sents	 129864 sec	
 task_eus-eng: 45500	 acc: --	 ppl: 25.63	 xent: 3.24	  13.85 TFLOP/s	 12607/15838 tok/s	 12284410 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eus-eng: 46000	 acc: --	 ppl: 25.50	 xent: 3.24	  17.05 TFLOP/s	 15531/19497 tok/s	 12418749 sents	 132934 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-eus: 500	 acc: --	 ppl: 25459.18	 xent: 10.14	  15.78 TFLOP/s	 18401/14656 tok/s	 135921 sents	   1475 sec	
 task_eng-eus: 1000	 acc: --	 ppl: 10751.51	 xent: 9.28	  16.27 TFLOP/s	 18977/15121 tok/s	 269104 sents	   2878 sec	
 task_eng-eus: 1500	 acc: --	 ppl: 4811.33	 xent: 8.48	  16.65 TFLOP/s	 19421/15469 tok/s	 406695 sents	   4295 sec	
@@ -1687,9 +1670,8 @@ task_eng-eus: 44000	 acc: --	 ppl: 16.96	 xent: 2.83	  16.65 TFLOP/s	 19431/1546
 task_eng-eus: 44500	 acc: --	 ppl: 16.90	 xent: 2.83	  16.64 TFLOP/s	 19409/15451 tok/s	 12011115 sents	 128491 sec	
 task_eng-eus: 45000	 acc: --	 ppl: 16.89	 xent: 2.83	  17.28 TFLOP/s	 20160/16046 tok/s	 12149861 sents	 129864 sec	
 task_eng-eus: 45500	 acc: --	 ppl: 16.89	 xent: 2.83	  13.57 TFLOP/s	 15832/12602 tok/s	 12284410 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-eus: 46000	 acc: --	 ppl: 16.83	 xent: 2.82	  16.72 TFLOP/s	 19502/15535 tok/s	 12418749 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_fin-eng: 500	 acc: --	 ppl: 20340.44	 xent: 9.92	  17.54 TFLOP/s	 17801/18437 tok/s	 136193 sents	   1476 sec	
 task_fin-eng: 1000	 acc: --	 ppl: 4705.84	 xent: 8.46	  18.19 TFLOP/s	 18462/19117 tok/s	 270296 sents	   2878 sec	
 task_fin-eng: 1500	 acc: --	 ppl: 1431.48	 xent: 7.27	  18.65 TFLOP/s	 18921/19597 tok/s	 409149 sents	   4295 sec	
@@ -1781,9 +1763,8 @@ task_fin-eng: 44000	 acc: --	 ppl:  9.54	 xent: 2.26	  18.47 TFLOP/s	 18742/1942
 task_fin-eng: 44500	 acc: --	 ppl:  9.51	 xent: 2.25	  18.74 TFLOP/s	 19019/19690 tok/s	 12068576 sents	 128491 sec	
 task_fin-eng: 45000	 acc: --	 ppl:  9.51	 xent: 2.25	  18.82 TFLOP/s	 19095/19777 tok/s	 12204719 sents	 129864 sec	
 task_fin-eng: 45500	 acc: --	 ppl:  9.51	 xent: 2.25	  15.17 TFLOP/s	 15394/15946 tok/s	 12340357 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_fin-eng: 46000	 acc: --	 ppl:  9.52	 xent: 2.25	  18.84 TFLOP/s	 19107/19799 tok/s	 12476692 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-fin: 500	 acc: --	 ppl: 27170.12	 xent: 10.21	  17.49 TFLOP/s	 18437/17801 tok/s	 136193 sents	   1476 sec	
 task_eng-fin: 1000	 acc: --	 ppl: 12817.22	 xent: 9.46	  18.14 TFLOP/s	 19116/18461 tok/s	 270296 sents	   2878 sec	
 task_eng-fin: 1500	 acc: --	 ppl: 6772.59	 xent: 8.82	  18.59 TFLOP/s	 19598/18922 tok/s	 409149 sents	   4295 sec	
@@ -1875,9 +1856,8 @@ task_eng-fin: 44000	 acc: --	 ppl:  9.83	 xent: 2.29	  18.42 TFLOP/s	 19425/1874
 task_eng-fin: 44500	 acc: --	 ppl:  9.81	 xent: 2.28	  18.68 TFLOP/s	 19682/19011 tok/s	 12068576 sents	 128491 sec	
 task_eng-fin: 45000	 acc: --	 ppl:  9.79	 xent: 2.28	  18.76 TFLOP/s	 19777/19096 tok/s	 12204719 sents	 129864 sec	
 task_eng-fin: 45500	 acc: --	 ppl:  9.79	 xent: 2.28	  15.13 TFLOP/s	 15946/15394 tok/s	 12340357 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-fin: 46000	 acc: --	 ppl:  9.81	 xent: 2.28	  18.78 TFLOP/s	 19799/19107 tok/s	 12476692 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_fra-eng: 500	 acc: --	 ppl: 20205.22	 xent: 9.91	  17.82 TFLOP/s	 18959/17938 tok/s	 132462 sents	   1476 sec	
 task_fra-eng: 1000	 acc: --	 ppl: 4668.10	 xent: 8.45	  18.52 TFLOP/s	 19693/18648 tok/s	 263379 sents	   2878 sec	
 task_fra-eng: 1500	 acc: --	 ppl: 1369.24	 xent: 7.22	  18.74 TFLOP/s	 19925/18868 tok/s	 397001 sents	   4294 sec	
@@ -1969,9 +1949,8 @@ task_fra-eng: 44000	 acc: --	 ppl:  8.58	 xent: 2.15	  19.02 TFLOP/s	 20220/1915
 task_fra-eng: 44500	 acc: --	 ppl:  8.54	 xent: 2.15	  19.27 TFLOP/s	 20499/19397 tok/s	 11796082 sents	 128491 sec	
 task_fra-eng: 45000	 acc: --	 ppl:  8.56	 xent: 2.15	  18.71 TFLOP/s	 19896/18844 tok/s	 11925635 sents	 129864 sec	
 task_fra-eng: 45500	 acc: --	 ppl:  8.53	 xent: 2.14	  15.55 TFLOP/s	 16533/15657 tok/s	 12058733 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_fra-eng: 46000	 acc: --	 ppl:  8.53	 xent: 2.14	  19.28 TFLOP/s	 20518/19409 tok/s	 12192042 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-fra: 500	 acc: --	 ppl: 21108.67	 xent: 9.96	  17.91 TFLOP/s	 17940/18961 tok/s	 132462 sents	   1475 sec	
 task_eng-fra: 1000	 acc: --	 ppl: 6545.04	 xent: 8.79	  18.60 TFLOP/s	 18646/19691 tok/s	 263379 sents	   2878 sec	
 task_eng-fra: 1500	 acc: --	 ppl: 1941.35	 xent: 7.57	  18.83 TFLOP/s	 18868/19925 tok/s	 397001 sents	   4294 sec	
@@ -2063,9 +2042,8 @@ task_eng-fra: 44000	 acc: --	 ppl:  6.94	 xent: 1.94	  19.11 TFLOP/s	 19158/2022
 task_eng-fra: 44500	 acc: --	 ppl:  6.93	 xent: 1.94	  19.35 TFLOP/s	 19389/20490 tok/s	 11796082 sents	 128491 sec	
 task_eng-fra: 45000	 acc: --	 ppl:  6.93	 xent: 1.94	  18.80 TFLOP/s	 18846/19898 tok/s	 11925635 sents	 129864 sec	
 task_eng-fra: 45500	 acc: --	 ppl:  6.92	 xent: 1.93	  15.63 TFLOP/s	 15661/16538 tok/s	 12058733 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-fra: 46000	 acc: --	 ppl:  6.91	 xent: 1.93	  19.37 TFLOP/s	 19401/20510 tok/s	 12192042 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_gle-eng: 500	 acc: --	 ppl: 20255.08	 xent: 9.92	  17.77 TFLOP/s	 18688/18075 tok/s	 133472 sents	   1476 sec	
 task_gle-eng: 1000	 acc: --	 ppl: 4668.77	 xent: 8.45	  18.45 TFLOP/s	 19399/18778 tok/s	 265282 sents	   2878 sec	
 task_gle-eng: 1500	 acc: --	 ppl: 1375.36	 xent: 7.23	  18.73 TFLOP/s	 19696/19057 tok/s	 400199 sents	   4294 sec	
@@ -2157,9 +2135,8 @@ task_gle-eng: 44000	 acc: --	 ppl: 11.03	 xent: 2.40	  18.73 TFLOP/s	 19693/1906
 task_gle-eng: 44500	 acc: --	 ppl: 11.04	 xent: 2.40	  18.99 TFLOP/s	 19967/19324 tok/s	 11886977 sents	 128490 sec	
 task_gle-eng: 45000	 acc: --	 ppl: 11.02	 xent: 2.40	  18.88 TFLOP/s	 19854/19218 tok/s	 12019086 sents	 129864 sec	
 task_gle-eng: 45500	 acc: --	 ppl: 10.99	 xent: 2.40	  15.73 TFLOP/s	 16548/15994 tok/s	 12155193 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_gle-eng: 46000	 acc: --	 ppl: 10.97	 xent: 2.40	  19.01 TFLOP/s	 19991/19338 tok/s	 12288052 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-gle: 500	 acc: --	 ppl: 20080.71	 xent: 9.91	  17.82 TFLOP/s	 18075/18687 tok/s	 133472 sents	   1476 sec	
 task_eng-gle: 1000	 acc: --	 ppl: 4687.27	 xent: 8.45	  18.50 TFLOP/s	 18779/19400 tok/s	 265282 sents	   2878 sec	
 task_eng-gle: 1500	 acc: --	 ppl: 1458.06	 xent: 7.28	  18.78 TFLOP/s	 19057/19696 tok/s	 400199 sents	   4294 sec	
@@ -2251,9 +2228,8 @@ task_eng-gle: 44000	 acc: --	 ppl:  8.89	 xent: 2.19	  18.78 TFLOP/s	 19055/1968
 task_eng-gle: 44500	 acc: --	 ppl:  8.88	 xent: 2.18	  19.04 TFLOP/s	 19323/19966 tok/s	 11886977 sents	 128491 sec	
 task_eng-gle: 45000	 acc: --	 ppl:  8.89	 xent: 2.19	  18.95 TFLOP/s	 19229/19865 tok/s	 12019086 sents	 129864 sec	
 task_eng-gle: 45500	 acc: --	 ppl:  8.86	 xent: 2.18	  15.78 TFLOP/s	 15998/16552 tok/s	 12155193 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-gle: 46000	 acc: --	 ppl:  8.85	 xent: 2.18	  19.05 TFLOP/s	 19332/19984 tok/s	 12288052 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_glg-eng: 500	 acc: --	 ppl: 20324.88	 xent: 9.92	  17.72 TFLOP/s	 18415/18239 tok/s	 134682 sents	   1475 sec	
 task_glg-eng: 1000	 acc: --	 ppl: 4691.58	 xent: 8.45	  18.53 TFLOP/s	 19250/19074 tok/s	 268490 sents	   2878 sec	
 task_glg-eng: 1500	 acc: --	 ppl: 1401.93	 xent: 7.25	  18.83 TFLOP/s	 19559/19375 tok/s	 405807 sents	   4295 sec	
@@ -2345,9 +2321,8 @@ task_glg-eng: 44000	 acc: --	 ppl:  8.06	 xent: 2.09	  18.86 TFLOP/s	 19593/1940
 task_glg-eng: 44500	 acc: --	 ppl:  8.06	 xent: 2.09	  18.91 TFLOP/s	 19639/19472 tok/s	 11971043 sents	 128490 sec	
 task_glg-eng: 45000	 acc: --	 ppl:  8.04	 xent: 2.08	  19.03 TFLOP/s	 19769/19578 tok/s	 12105541 sents	 129864 sec	
 task_glg-eng: 45500	 acc: --	 ppl:  8.03	 xent: 2.08	  15.48 TFLOP/s	 16086/15924 tok/s	 12241003 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_glg-eng: 46000	 acc: --	 ppl:  8.01	 xent: 2.08	  18.80 TFLOP/s	 19539/19353 tok/s	 12374414 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-glg: 500	 acc: --	 ppl: 21441.18	 xent: 9.97	  17.75 TFLOP/s	 18248/18424 tok/s	 134682 sents	   1475 sec	
 task_eng-glg: 1000	 acc: --	 ppl: 6853.65	 xent: 8.83	  18.54 TFLOP/s	 19065/19240 tok/s	 268490 sents	   2878 sec	
 task_eng-glg: 1500	 acc: --	 ppl: 2362.66	 xent: 7.77	  18.84 TFLOP/s	 19374/19558 tok/s	 405807 sents	   4295 sec	
@@ -2439,9 +2414,8 @@ task_eng-glg: 44000	 acc: --	 ppl:  6.80	 xent: 1.92	  18.88 TFLOP/s	 19410/1959
 task_eng-glg: 44500	 acc: --	 ppl:  6.80	 xent: 1.92	  18.92 TFLOP/s	 19460/19628 tok/s	 11971043 sents	 128491 sec	
 task_eng-glg: 45000	 acc: --	 ppl:  6.80	 xent: 1.92	  19.04 TFLOP/s	 19579/19770 tok/s	 12105541 sents	 129864 sec	
 task_eng-glg: 45500	 acc: --	 ppl:  6.79	 xent: 1.92	  15.50 TFLOP/s	 15930/16091 tok/s	 12241003 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-glg: 46000	 acc: --	 ppl:  6.78	 xent: 1.91	  18.82 TFLOP/s	 19352/19538 tok/s	 12374414 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_hrv-eng: 500	 acc: --	 ppl: 20284.81	 xent: 9.92	  17.60 TFLOP/s	 18367/18033 tok/s	 133138 sents	   1475 sec	
 task_hrv-eng: 1000	 acc: --	 ppl: 4669.75	 xent: 8.45	  18.34 TFLOP/s	 19140/18794 tok/s	 265010 sents	   2877 sec	
 task_hrv-eng: 1500	 acc: --	 ppl: 1383.94	 xent: 7.23	  18.83 TFLOP/s	 19652/19305 tok/s	 401805 sents	   4295 sec	
@@ -2533,9 +2507,8 @@ task_hrv-eng: 44000	 acc: --	 ppl:  8.67	 xent: 2.16	  18.76 TFLOP/s	 19567/1922
 task_hrv-eng: 44500	 acc: --	 ppl:  8.69	 xent: 2.16	  18.88 TFLOP/s	 19693/19351 tok/s	 11882373 sents	 128491 sec	
 task_hrv-eng: 45000	 acc: --	 ppl:  8.67	 xent: 2.16	  18.66 TFLOP/s	 19466/19132 tok/s	 12013747 sents	 129864 sec	
 task_hrv-eng: 45500	 acc: --	 ppl:  8.65	 xent: 2.16	  15.53 TFLOP/s	 16208/15912 tok/s	 12149235 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_hrv-eng: 46000	 acc: --	 ppl:  8.63	 xent: 2.16	  18.88 TFLOP/s	 19697/19350 tok/s	 12282318 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-hrv: 500	 acc: --	 ppl: 24608.01	 xent: 10.11	  17.63 TFLOP/s	 18034/18368 tok/s	 133138 sents	   1475 sec	
 task_eng-hrv: 1000	 acc: --	 ppl: 9551.39	 xent: 9.16	  18.36 TFLOP/s	 18783/19129 tok/s	 265010 sents	   2878 sec	
 task_eng-hrv: 1500	 acc: --	 ppl: 3997.52	 xent: 8.29	  18.87 TFLOP/s	 19315/19662 tok/s	 401805 sents	   4295 sec	
@@ -2627,9 +2600,8 @@ task_eng-hrv: 44000	 acc: --	 ppl:  7.69	 xent: 2.04	  18.78 TFLOP/s	 19222/1956
 task_eng-hrv: 44500	 acc: --	 ppl:  7.68	 xent: 2.04	  18.91 TFLOP/s	 19353/19695 tok/s	 11882373 sents	 128491 sec	
 task_eng-hrv: 45000	 acc: --	 ppl:  7.67	 xent: 2.04	  18.68 TFLOP/s	 19124/19458 tok/s	 12013747 sents	 129864 sec	
 task_eng-hrv: 45500	 acc: --	 ppl:  7.66	 xent: 2.04	  15.56 TFLOP/s	 15920/16216 tok/s	 12149235 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-hrv: 46000	 acc: --	 ppl:  7.64	 xent: 2.03	  18.90 TFLOP/s	 19344/19691 tok/s	 12282318 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_hun-eng: 500	 acc: --	 ppl: 20354.24	 xent: 9.92	  17.61 TFLOP/s	 18070/18335 tok/s	 135355 sents	   1475 sec	
 task_hun-eng: 1000	 acc: --	 ppl: 4690.55	 xent: 8.45	  18.25 TFLOP/s	 18721/19001 tok/s	 268744 sents	   2878 sec	
 task_hun-eng: 1500	 acc: --	 ppl: 1409.07	 xent: 7.25	  18.74 TFLOP/s	 19221/19506 tok/s	 406944 sents	   4295 sec	
@@ -2721,9 +2693,8 @@ task_hun-eng: 44000	 acc: --	 ppl: 10.39	 xent: 2.34	  18.73 TFLOP/s	 19211/1950
 task_hun-eng: 44500	 acc: --	 ppl: 10.34	 xent: 2.34	  18.89 TFLOP/s	 19379/19670 tok/s	 12036386 sents	 128491 sec	
 task_hun-eng: 45000	 acc: --	 ppl: 10.34	 xent: 2.34	  19.12 TFLOP/s	 19620/19906 tok/s	 12173323 sents	 129864 sec	
 task_hun-eng: 45500	 acc: --	 ppl: 10.34	 xent: 2.34	  15.28 TFLOP/s	 15669/15905 tok/s	 12308604 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_hun-eng: 46000	 acc: --	 ppl: 10.34	 xent: 2.34	  18.71 TFLOP/s	 19191/19476 tok/s	 12442621 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-hun: 500	 acc: --	 ppl: 22323.40	 xent: 10.01	  17.58 TFLOP/s	 18325/18061 tok/s	 135355 sents	   1476 sec	
 task_eng-hun: 1000	 acc: --	 ppl: 8396.93	 xent: 9.04	  18.24 TFLOP/s	 19018/18738 tok/s	 268744 sents	   2878 sec	
 task_eng-hun: 1500	 acc: --	 ppl: 3625.20	 xent: 8.20	  18.71 TFLOP/s	 19504/19219 tok/s	 406944 sents	   4294 sec	
@@ -2815,9 +2786,8 @@ task_eng-hun: 44000	 acc: --	 ppl:  9.35	 xent: 2.24	  18.70 TFLOP/s	 19501/1921
 task_eng-hun: 44500	 acc: --	 ppl:  9.32	 xent: 2.23	  18.87 TFLOP/s	 19671/19380 tok/s	 12036386 sents	 128491 sec	
 task_eng-hun: 45000	 acc: --	 ppl:  9.29	 xent: 2.23	  19.11 TFLOP/s	 19912/19627 tok/s	 12173323 sents	 129864 sec	
 task_eng-hun: 45500	 acc: --	 ppl:  9.29	 xent: 2.23	  15.25 TFLOP/s	 15901/15664 tok/s	 12308604 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-hun: 46000	 acc: --	 ppl:  9.30	 xent: 2.23	  18.68 TFLOP/s	 19477/19192 tok/s	 12442621 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_isl-eng: 500	 acc: --	 ppl: 20114.58	 xent: 9.91	  17.21 TFLOP/s	 17512/18037 tok/s	 133170 sents	   1475 sec	
 task_isl-eng: 1000	 acc: --	 ppl: 4679.77	 xent: 8.45	  17.99 TFLOP/s	 18295/18861 tok/s	 265491 sents	   2877 sec	
 task_isl-eng: 1500	 acc: --	 ppl: 1374.19	 xent: 7.23	  18.23 TFLOP/s	 18539/19108 tok/s	 400878 sents	   4295 sec	
@@ -2909,9 +2879,8 @@ task_isl-eng: 44000	 acc: --	 ppl: 11.31	 xent: 2.43	  18.58 TFLOP/s	 18899/1947
 task_isl-eng: 44500	 acc: --	 ppl: 11.34	 xent: 2.43	  18.24 TFLOP/s	 18550/19127 tok/s	 11904359 sents	 128491 sec	
 task_isl-eng: 45000	 acc: --	 ppl: 11.31	 xent: 2.43	  18.56 TFLOP/s	 18872/19463 tok/s	 12038162 sents	 129864 sec	
 task_isl-eng: 45500	 acc: --	 ppl: 11.27	 xent: 2.42	  15.17 TFLOP/s	 15440/15906 tok/s	 12173328 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_isl-eng: 46000	 acc: --	 ppl: 11.27	 xent: 2.42	  18.61 TFLOP/s	 18934/19518 tok/s	 12307672 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-isl: 500	 acc: --	 ppl: 21397.19	 xent: 9.97	  17.17 TFLOP/s	 18042/17517 tok/s	 133170 sents	   1475 sec	
 task_eng-isl: 1000	 acc: --	 ppl: 6465.07	 xent: 8.77	  17.93 TFLOP/s	 18856/18291 tok/s	 265491 sents	   2877 sec	
 task_eng-isl: 1500	 acc: --	 ppl: 2482.00	 xent: 7.82	  18.18 TFLOP/s	 19113/18544 tok/s	 400878 sents	   4294 sec	
@@ -3003,9 +2972,8 @@ task_eng-isl: 44000	 acc: --	 ppl:  9.20	 xent: 2.22	  18.53 TFLOP/s	 19480/1890
 task_eng-isl: 44500	 acc: --	 ppl:  9.20	 xent: 2.22	  18.20 TFLOP/s	 19135/18557 tok/s	 11904359 sents	 128490 sec	
 task_eng-isl: 45000	 acc: --	 ppl:  9.20	 xent: 2.22	  18.50 TFLOP/s	 19456/18865 tok/s	 12038162 sents	 129864 sec	
 task_eng-isl: 45500	 acc: --	 ppl:  9.16	 xent: 2.21	  15.13 TFLOP/s	 15902/15436 tok/s	 12173328 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-isl: 46000	 acc: --	 ppl:  9.17	 xent: 2.22	  18.57 TFLOP/s	 19526/18942 tok/s	 12307672 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_ita-eng: 500	 acc: --	 ppl: 20279.48	 xent: 9.92	  17.77 TFLOP/s	 18813/17978 tok/s	 132757 sents	   1475 sec	
 task_ita-eng: 1000	 acc: --	 ppl: 4659.64	 xent: 8.45	  18.40 TFLOP/s	 19471/18621 tok/s	 263479 sents	   2878 sec	
 task_ita-eng: 1500	 acc: --	 ppl: 1371.50	 xent: 7.22	  18.80 TFLOP/s	 19892/19020 tok/s	 398205 sents	   4295 sec	
@@ -3097,9 +3065,8 @@ task_ita-eng: 44000	 acc: --	 ppl:  7.74	 xent: 2.05	  19.14 TFLOP/s	 20242/1936
 task_ita-eng: 44500	 acc: --	 ppl:  7.72	 xent: 2.04	  19.10 TFLOP/s	 20208/19325 tok/s	 11796203 sents	 128491 sec	
 task_ita-eng: 45000	 acc: --	 ppl:  7.73	 xent: 2.05	  18.65 TFLOP/s	 19727/18872 tok/s	 11925988 sents	 129864 sec	
 task_ita-eng: 45500	 acc: --	 ppl:  7.71	 xent: 2.04	  15.44 TFLOP/s	 16334/15620 tok/s	 12058728 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_ita-eng: 46000	 acc: --	 ppl:  7.70	 xent: 2.04	  18.93 TFLOP/s	 20033/19144 tok/s	 12190211 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-ita: 500	 acc: --	 ppl: 22188.17	 xent: 10.01	  17.84 TFLOP/s	 17978/18813 tok/s	 132757 sents	   1476 sec	
 task_eng-ita: 1000	 acc: --	 ppl: 7430.14	 xent: 8.91	  18.47 TFLOP/s	 18621/19471 tok/s	 263479 sents	   2878 sec	
 task_eng-ita: 1500	 acc: --	 ppl: 2464.81	 xent: 7.81	  18.88 TFLOP/s	 19026/19898 tok/s	 398205 sents	   4294 sec	
@@ -3191,9 +3158,8 @@ task_eng-ita: 44000	 acc: --	 ppl:  6.72	 xent: 1.90	  19.21 TFLOP/s	 19359/2023
 task_eng-ita: 44500	 acc: --	 ppl:  6.71	 xent: 1.90	  19.19 TFLOP/s	 19339/20224 tok/s	 11796203 sents	 128490 sec	
 task_eng-ita: 45000	 acc: --	 ppl:  6.71	 xent: 1.90	  18.72 TFLOP/s	 18871/19726 tok/s	 11925988 sents	 129864 sec	
 task_eng-ita: 45500	 acc: --	 ppl:  6.70	 xent: 1.90	  15.49 TFLOP/s	 15613/16326 tok/s	 12058728 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-ita: 46000	 acc: --	 ppl:  6.69	 xent: 1.90	  19.00 TFLOP/s	 19148/20036 tok/s	 12190211 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_kat-eng: 500	 acc: --	 ppl: 20305.43	 xent: 9.92	  16.55 TFLOP/s	 15770/18302 tok/s	 135108 sents	   1475 sec	
 task_kat-eng: 1000	 acc: --	 ppl: 4689.67	 xent: 8.45	  17.08 TFLOP/s	 16278/18895 tok/s	 267679 sents	   2877 sec	
 task_kat-eng: 1500	 acc: --	 ppl: 1395.17	 xent: 7.24	  17.53 TFLOP/s	 16700/19388 tok/s	 405159 sents	   4294 sec	
@@ -3285,9 +3251,8 @@ task_kat-eng: 44000	 acc: --	 ppl: 15.87	 xent: 2.76	  17.52 TFLOP/s	 16685/1938
 task_kat-eng: 44500	 acc: --	 ppl: 15.80	 xent: 2.76	  17.71 TFLOP/s	 16874/19582 tok/s	 12046349 sents	 128491 sec	
 task_kat-eng: 45000	 acc: --	 ppl: 15.80	 xent: 2.76	  17.95 TFLOP/s	 17107/19854 tok/s	 12182826 sents	 129864 sec	
 task_kat-eng: 45500	 acc: --	 ppl: 15.74	 xent: 2.76	  14.43 TFLOP/s	 13751/15967 tok/s	 12318668 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_kat-eng: 46000	 acc: --	 ppl: 15.80	 xent: 2.76	  17.71 TFLOP/s	 16869/19587 tok/s	 12453552 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-kat: 500	 acc: --	 ppl: 25860.62	 xent: 10.16	  16.33 TFLOP/s	 18293/15762 tok/s	 135108 sents	   1476 sec	
 task_eng-kat: 1000	 acc: --	 ppl: 11178.47	 xent: 9.32	  16.86 TFLOP/s	 18894/16277 tok/s	 267679 sents	   2878 sec	
 task_eng-kat: 1500	 acc: --	 ppl: 4955.75	 xent: 8.51	  17.32 TFLOP/s	 19405/16715 tok/s	 405159 sents	   4294 sec	
@@ -3379,9 +3344,8 @@ task_eng-kat: 44000	 acc: --	 ppl: 11.53	 xent: 2.44	  17.29 TFLOP/s	 19386/1668
 task_eng-kat: 44500	 acc: --	 ppl: 11.51	 xent: 2.44	  17.47 TFLOP/s	 19577/16870 tok/s	 12046349 sents	 128491 sec	
 task_eng-kat: 45000	 acc: --	 ppl: 11.48	 xent: 2.44	  17.72 TFLOP/s	 19854/17107 tok/s	 12182826 sents	 129864 sec	
 task_eng-kat: 45500	 acc: --	 ppl: 11.45	 xent: 2.44	  14.25 TFLOP/s	 15967/13751 tok/s	 12318668 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-kat: 46000	 acc: --	 ppl: 11.47	 xent: 2.44	  17.48 TFLOP/s	 19597/16877 tok/s	 12453552 sents	 132934 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_lav-eng: 500	 acc: --	 ppl: 20321.85	 xent: 9.92	  17.27 TFLOP/s	 17098/18529 tok/s	 136892 sents	   1475 sec	
 task_lav-eng: 1000	 acc: --	 ppl: 4716.67	 xent: 8.46	  17.93 TFLOP/s	 17749/19233 tok/s	 271817 sents	   2878 sec	
 task_lav-eng: 1500	 acc: --	 ppl: 1422.70	 xent: 7.26	  18.26 TFLOP/s	 18078/19589 tok/s	 410583 sents	   4294 sec	
@@ -3473,9 +3437,8 @@ task_lav-eng: 44000	 acc: --	 ppl:  9.30	 xent: 2.23	  18.37 TFLOP/s	 18177/1971
 task_lav-eng: 44500	 acc: --	 ppl:  9.28	 xent: 2.23	  19.01 TFLOP/s	 18825/20389 tok/s	 12147340 sents	 128491 sec	
 task_lav-eng: 45000	 acc: --	 ppl:  9.27	 xent: 2.23	  18.46 TFLOP/s	 18274/19808 tok/s	 12283611 sents	 129864 sec	
 task_lav-eng: 45500	 acc: --	 ppl:  9.27	 xent: 2.23	  14.84 TFLOP/s	 14695/15924 tok/s	 12419248 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_lav-eng: 46000	 acc: --	 ppl:  9.27	 xent: 2.23	  18.55 TFLOP/s	 18361/19903 tok/s	 12556172 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-lav: 500	 acc: --	 ppl: 25816.41	 xent: 10.16	  17.15 TFLOP/s	 18529/17098 tok/s	 136892 sents	   1476 sec	
 task_eng-lav: 1000	 acc: --	 ppl: 11837.58	 xent: 9.38	  17.81 TFLOP/s	 19243/17758 tok/s	 271817 sents	   2877 sec	
 task_eng-lav: 1500	 acc: --	 ppl: 5351.94	 xent: 8.59	  18.12 TFLOP/s	 19579/18069 tok/s	 410583 sents	   4295 sec	
@@ -3567,9 +3530,8 @@ task_eng-lav: 44000	 acc: --	 ppl:  8.90	 xent: 2.19	  18.24 TFLOP/s	 19717/1818
 task_eng-lav: 44500	 acc: --	 ppl:  8.86	 xent: 2.18	  18.87 TFLOP/s	 20387/18824 tok/s	 12147340 sents	 128491 sec	
 task_eng-lav: 45000	 acc: --	 ppl:  8.86	 xent: 2.18	  18.33 TFLOP/s	 19808/18274 tok/s	 12283611 sents	 129864 sec	
 task_eng-lav: 45500	 acc: --	 ppl:  8.87	 xent: 2.18	  14.74 TFLOP/s	 15927/14698 tok/s	 12419248 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-lav: 46000	 acc: --	 ppl:  8.86	 xent: 2.18	  18.41 TFLOP/s	 19897/18356 tok/s	 12556172 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_lit-eng: 500	 acc: --	 ppl: 20261.65	 xent: 9.92	  17.49 TFLOP/s	 17965/18177 tok/s	 134247 sents	   1475 sec	
 task_lit-eng: 1000	 acc: --	 ppl: 4683.40	 xent: 8.45	  18.17 TFLOP/s	 18665/18888 tok/s	 266732 sents	   2878 sec	
 task_lit-eng: 1500	 acc: --	 ppl: 1387.97	 xent: 7.24	  18.51 TFLOP/s	 19012/19247 tok/s	 403164 sents	   4294 sec	
@@ -3661,9 +3623,8 @@ task_lit-eng: 44000	 acc: --	 ppl:  9.95	 xent: 2.30	  18.78 TFLOP/s	 19291/1952
 task_lit-eng: 44500	 acc: --	 ppl:  9.97	 xent: 2.30	  18.77 TFLOP/s	 19275/19517 tok/s	 11963203 sents	 128491 sec	
 task_lit-eng: 45000	 acc: --	 ppl:  9.94	 xent: 2.30	  18.83 TFLOP/s	 19342/19575 tok/s	 12097633 sents	 129864 sec	
 task_lit-eng: 45500	 acc: --	 ppl:  9.93	 xent: 2.30	  15.31 TFLOP/s	 15728/15910 tok/s	 12233002 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_lit-eng: 46000	 acc: --	 ppl:  9.93	 xent: 2.30	  18.63 TFLOP/s	 19133/19370 tok/s	 12366400 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-lit: 500	 acc: --	 ppl: 26255.23	 xent: 10.18	  17.48 TFLOP/s	 18185/17973 tok/s	 134247 sents	   1475 sec	
 task_eng-lit: 1000	 acc: --	 ppl: 11151.83	 xent: 9.32	  18.14 TFLOP/s	 18879/18657 tok/s	 266732 sents	   2877 sec	
 task_eng-lit: 1500	 acc: --	 ppl: 4958.96	 xent: 8.51	  18.49 TFLOP/s	 19247/19011 tok/s	 403164 sents	   4295 sec	
@@ -3755,9 +3716,8 @@ task_eng-lit: 44000	 acc: --	 ppl:  8.47	 xent: 2.14	  18.76 TFLOP/s	 19524/1929
 task_eng-lit: 44500	 acc: --	 ppl:  8.46	 xent: 2.14	  18.75 TFLOP/s	 19518/19276 tok/s	 11963203 sents	 128491 sec	
 task_eng-lit: 45000	 acc: --	 ppl:  8.45	 xent: 2.13	  18.81 TFLOP/s	 19574/19341 tok/s	 12097633 sents	 129864 sec	
 task_eng-lit: 45500	 acc: --	 ppl:  8.44	 xent: 2.13	  15.29 TFLOP/s	 15913/15732 tok/s	 12233002 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-lit: 46000	 acc: --	 ppl:  8.43	 xent: 2.13	  18.60 TFLOP/s	 19365/19129 tok/s	 12366400 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_mkd-eng: 500	 acc: --	 ppl: 20294.99	 xent: 9.92	  17.64 TFLOP/s	 18518/17979 tok/s	 132754 sents	   1475 sec	
 task_mkd-eng: 1000	 acc: --	 ppl: 4675.03	 xent: 8.45	  18.37 TFLOP/s	 19280/18730 tok/s	 264244 sents	   2878 sec	
 task_mkd-eng: 1500	 acc: --	 ppl: 1371.40	 xent: 7.22	  18.60 TFLOP/s	 19516/18960 tok/s	 398497 sents	   4294 sec	
@@ -3849,9 +3809,8 @@ task_mkd-eng: 44000	 acc: --	 ppl:  8.52	 xent: 2.14	  18.75 TFLOP/s	 19674/1911
 task_mkd-eng: 44500	 acc: --	 ppl:  8.52	 xent: 2.14	  18.92 TFLOP/s	 19854/19287 tok/s	 11842301 sents	 128490 sec	
 task_mkd-eng: 45000	 acc: --	 ppl:  8.53	 xent: 2.14	  18.72 TFLOP/s	 19634/19091 tok/s	 11973477 sents	 129864 sec	
 task_mkd-eng: 45500	 acc: --	 ppl:  8.51	 xent: 2.14	  15.41 TFLOP/s	 16181/15714 tok/s	 12107003 sents	 131561 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_mkd-eng: 46000	 acc: --	 ppl:  8.50	 xent: 2.14	  18.98 TFLOP/s	 19920/19343 tok/s	 12240128 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-mkd: 500	 acc: --	 ppl: 21450.37	 xent: 9.97	  17.68 TFLOP/s	 17978/18517 tok/s	 132754 sents	   1476 sec	
 task_eng-mkd: 1000	 acc: --	 ppl: 6588.11	 xent: 8.79	  18.42 TFLOP/s	 18730/19281 tok/s	 264244 sents	   2878 sec	
 task_eng-mkd: 1500	 acc: --	 ppl: 2541.33	 xent: 7.84	  18.64 TFLOP/s	 18960/19517 tok/s	 398497 sents	   4294 sec	
@@ -3943,9 +3902,8 @@ task_eng-mkd: 44000	 acc: --	 ppl:  7.10	 xent: 1.96	  18.80 TFLOP/s	 19117/1967
 task_eng-mkd: 44500	 acc: --	 ppl:  7.09	 xent: 1.96	  18.96 TFLOP/s	 19287/19854 tok/s	 11842301 sents	 128490 sec	
 task_eng-mkd: 45000	 acc: --	 ppl:  7.09	 xent: 1.96	  18.75 TFLOP/s	 19080/19624 tok/s	 11973477 sents	 129864 sec	
 task_eng-mkd: 45500	 acc: --	 ppl:  7.08	 xent: 1.96	  15.45 TFLOP/s	 15714/16180 tok/s	 12107003 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-mkd: 46000	 acc: --	 ppl:  7.07	 xent: 1.96	  19.03 TFLOP/s	 19353/19930 tok/s	 12240128 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_mlt-eng: 500	 acc: --	 ppl: 20315.25	 xent: 9.92	  17.44 TFLOP/s	 17506/18487 tok/s	 136560 sents	   1475 sec	
 task_mlt-eng: 1000	 acc: --	 ppl: 4701.16	 xent: 8.46	  18.00 TFLOP/s	 18078/19090 tok/s	 270477 sents	   2878 sec	
 task_mlt-eng: 1500	 acc: --	 ppl: 1417.70	 xent: 7.26	  18.49 TFLOP/s	 18571/19607 tok/s	 409365 sents	   4294 sec	
@@ -4037,9 +3995,8 @@ task_mlt-eng: 44000	 acc: --	 ppl:  9.27	 xent: 2.23	  18.45 TFLOP/s	 18524/1956
 task_mlt-eng: 44500	 acc: --	 ppl:  9.28	 xent: 2.23	  18.93 TFLOP/s	 18999/20071 tok/s	 12120309 sents	 128491 sec	
 task_mlt-eng: 45000	 acc: --	 ppl:  9.27	 xent: 2.23	  18.78 TFLOP/s	 18852/19911 tok/s	 12257297 sents	 129864 sec	
 task_mlt-eng: 45500	 acc: --	 ppl:  9.23	 xent: 2.22	  15.05 TFLOP/s	 15116/15956 tok/s	 12393349 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_mlt-eng: 46000	 acc: --	 ppl:  9.24	 xent: 2.22	  18.72 TFLOP/s	 18795/19847 tok/s	 12529807 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-mlt: 500	 acc: --	 ppl: 24138.07	 xent: 10.09	  17.35 TFLOP/s	 18490/17509 tok/s	 136560 sents	   1475 sec	
 task_eng-mlt: 1000	 acc: --	 ppl: 9734.45	 xent: 9.18	  17.92 TFLOP/s	 19097/18085 tok/s	 270477 sents	   2877 sec	
 task_eng-mlt: 1500	 acc: --	 ppl: 4383.15	 xent: 8.39	  18.39 TFLOP/s	 19596/18560 tok/s	 409365 sents	   4294 sec	
@@ -4131,9 +4088,8 @@ task_eng-mlt: 44000	 acc: --	 ppl:  9.18	 xent: 2.22	  18.36 TFLOP/s	 19556/1852
 task_eng-mlt: 44500	 acc: --	 ppl:  9.17	 xent: 2.22	  18.85 TFLOP/s	 20083/19010 tok/s	 12120309 sents	 128491 sec	
 task_eng-mlt: 45000	 acc: --	 ppl:  9.17	 xent: 2.22	  18.70 TFLOP/s	 19921/18862 tok/s	 12257297 sents	 129864 sec	
 task_eng-mlt: 45500	 acc: --	 ppl:  9.15	 xent: 2.21	  14.97 TFLOP/s	 15945/15106 tok/s	 12393349 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-mlt: 46000	 acc: --	 ppl:  9.15	 xent: 2.21	  18.63 TFLOP/s	 19851/18799 tok/s	 12529807 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_nld-eng: 500	 acc: --	 ppl: 20306.05	 xent: 9.92	  17.57 TFLOP/s	 18639/17738 tok/s	 130984 sents	   1475 sec	
 task_nld-eng: 1000	 acc: --	 ppl: 4670.10	 xent: 8.45	  18.17 TFLOP/s	 19276/18349 tok/s	 259800 sents	   2878 sec	
 task_nld-eng: 1500	 acc: --	 ppl: 1371.61	 xent: 7.22	  18.71 TFLOP/s	 19847/18890 tok/s	 393684 sents	   4294 sec	
@@ -4225,9 +4181,8 @@ task_nld-eng: 44000	 acc: --	 ppl:  7.25	 xent: 1.98	  19.10 TFLOP/s	 20254/1929
 task_nld-eng: 44500	 acc: --	 ppl:  7.25	 xent: 1.98	  18.77 TFLOP/s	 19900/18950 tok/s	 11723605 sents	 128491 sec	
 task_nld-eng: 45000	 acc: --	 ppl:  7.24	 xent: 1.98	  18.80 TFLOP/s	 19943/18983 tok/s	 11854311 sents	 129864 sec	
 task_nld-eng: 45500	 acc: --	 ppl:  7.25	 xent: 1.98	  15.18 TFLOP/s	 16098/15336 tok/s	 11984730 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_nld-eng: 46000	 acc: --	 ppl:  7.23	 xent: 1.98	  19.23 TFLOP/s	 20394/19413 tok/s	 12118187 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-nld: 500	 acc: --	 ppl: 21175.33	 xent: 9.96	  17.65 TFLOP/s	 17740/18642 tok/s	 130984 sents	   1475 sec	
 task_eng-nld: 1000	 acc: --	 ppl: 6349.71	 xent: 8.76	  18.25 TFLOP/s	 18347/19274 tok/s	 259800 sents	   2878 sec	
 task_eng-nld: 1500	 acc: --	 ppl: 2255.05	 xent: 7.72	  18.80 TFLOP/s	 18895/19852 tok/s	 393684 sents	   4294 sec	
@@ -4319,9 +4274,8 @@ task_eng-nld: 44000	 acc: --	 ppl:  6.65	 xent: 1.90	  19.19 TFLOP/s	 19290/2025
 task_eng-nld: 44500	 acc: --	 ppl:  6.64	 xent: 1.89	  18.85 TFLOP/s	 18948/19897 tok/s	 11723605 sents	 128491 sec	
 task_eng-nld: 45000	 acc: --	 ppl:  6.65	 xent: 1.89	  18.89 TFLOP/s	 18987/19947 tok/s	 11854311 sents	 129864 sec	
 task_eng-nld: 45500	 acc: --	 ppl:  6.64	 xent: 1.89	  15.25 TFLOP/s	 15336/16097 tok/s	 11984730 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-nld: 46000	 acc: --	 ppl:  6.63	 xent: 1.89	  19.31 TFLOP/s	 19412/20394 tok/s	 12118187 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_nno-eng: 500	 acc: --	 ppl: 20229.03	 xent: 9.91	  17.57 TFLOP/s	 18255/18073 tok/s	 133391 sents	   1475 sec	
 task_nno-eng: 1000	 acc: --	 ppl: 4688.60	 xent: 8.45	  18.25 TFLOP/s	 18954/18781 tok/s	 265228 sents	   2877 sec	
 task_nno-eng: 1500	 acc: --	 ppl: 1373.01	 xent: 7.22	  18.60 TFLOP/s	 19325/19148 tok/s	 400862 sents	   4294 sec	
@@ -4413,9 +4367,8 @@ task_nno-eng: 44000	 acc: --	 ppl:  8.63	 xent: 2.15	  18.58 TFLOP/s	 19297/1912
 task_nno-eng: 44500	 acc: --	 ppl:  8.63	 xent: 2.15	  18.62 TFLOP/s	 19345/19166 tok/s	 11875980 sents	 128491 sec	
 task_nno-eng: 45000	 acc: --	 ppl:  8.60	 xent: 2.15	  18.58 TFLOP/s	 19294/19132 tok/s	 12007473 sents	 129864 sec	
 task_nno-eng: 45500	 acc: --	 ppl:  8.60	 xent: 2.15	  15.50 TFLOP/s	 16107/15956 tok/s	 12143228 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_nno-eng: 46000	 acc: --	 ppl:  8.59	 xent: 2.15	  18.87 TFLOP/s	 19605/19424 tok/s	 12276752 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-nno: 500	 acc: --	 ppl: 22530.93	 xent: 10.02	  17.58 TFLOP/s	 18074/18256 tok/s	 133391 sents	   1475 sec	
 task_eng-nno: 1000	 acc: --	 ppl: 7382.32	 xent: 8.91	  18.25 TFLOP/s	 18771/18944 tok/s	 265228 sents	   2878 sec	
 task_eng-nno: 1500	 acc: --	 ppl: 2543.21	 xent: 7.84	  18.63 TFLOP/s	 19157/19335 tok/s	 400862 sents	   4294 sec	
@@ -4507,9 +4460,8 @@ task_eng-nno: 44000	 acc: --	 ppl:  7.96	 xent: 2.07	  18.59 TFLOP/s	 19114/1929
 task_eng-nno: 44500	 acc: --	 ppl:  7.97	 xent: 2.08	  18.65 TFLOP/s	 19180/19359 tok/s	 11875980 sents	 128490 sec	
 task_eng-nno: 45000	 acc: --	 ppl:  7.95	 xent: 2.07	  18.58 TFLOP/s	 19122/19284 tok/s	 12007473 sents	 129864 sec	
 task_eng-nno: 45500	 acc: --	 ppl:  7.95	 xent: 2.07	  15.52 TFLOP/s	 15957/16108 tok/s	 12143228 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-nno: 46000	 acc: --	 ppl:  7.94	 xent: 2.07	  18.89 TFLOP/s	 19425/19606 tok/s	 12276752 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_nob-eng: 500	 acc: --	 ppl: 20205.49	 xent: 9.91	  17.58 TFLOP/s	 18266/18100 tok/s	 133654 sents	   1476 sec	
 task_nob-eng: 1000	 acc: --	 ppl: 4672.73	 xent: 8.45	  18.28 TFLOP/s	 18974/18823 tok/s	 265743 sents	   2878 sec	
 task_nob-eng: 1500	 acc: --	 ppl: 1380.98	 xent: 7.23	  18.80 TFLOP/s	 19522/19359 tok/s	 402871 sents	   4295 sec	
@@ -4601,9 +4553,8 @@ task_nob-eng: 44000	 acc: --	 ppl:  6.71	 xent: 1.90	  18.81 TFLOP/s	 19534/1936
 task_nob-eng: 44500	 acc: --	 ppl:  6.73	 xent: 1.91	  18.76 TFLOP/s	 19472/19321 tok/s	 11937565 sents	 128490 sec	
 task_nob-eng: 45000	 acc: --	 ppl:  6.72	 xent: 1.91	  19.07 TFLOP/s	 19804/19641 tok/s	 12072491 sents	 129864 sec	
 task_nob-eng: 45500	 acc: --	 ppl:  6.70	 xent: 1.90	  15.32 TFLOP/s	 15916/15774 tok/s	 12206752 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_nob-eng: 46000	 acc: --	 ppl:  6.69	 xent: 1.90	  18.90 TFLOP/s	 19628/19457 tok/s	 12340659 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-nob: 500	 acc: --	 ppl: 22985.49	 xent: 10.04	  17.60 TFLOP/s	 18101/18266 tok/s	 133654 sents	   1475 sec	
 task_eng-nob: 1000	 acc: --	 ppl: 7380.29	 xent: 8.91	  18.30 TFLOP/s	 18830/18981 tok/s	 265743 sents	   2877 sec	
 task_eng-nob: 1500	 acc: --	 ppl: 2507.72	 xent: 7.83	  18.81 TFLOP/s	 19350/19513 tok/s	 402871 sents	   4295 sec	
@@ -4695,9 +4646,8 @@ task_eng-nob: 44000	 acc: --	 ppl:  6.20	 xent: 1.82	  18.81 TFLOP/s	 19350/1952
 task_eng-nob: 44500	 acc: --	 ppl:  6.21	 xent: 1.83	  18.77 TFLOP/s	 19319/19470 tok/s	 11937565 sents	 128491 sec	
 task_eng-nob: 45000	 acc: --	 ppl:  6.21	 xent: 1.83	  19.09 TFLOP/s	 19641/19804 tok/s	 12072491 sents	 129864 sec	
 task_eng-nob: 45500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.35 TFLOP/s	 15785/15927 tok/s	 12206752 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-nob: 46000	 acc: --	 ppl:  6.18	 xent: 1.82	  18.91 TFLOP/s	 19448/19619 tok/s	 12340659 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_pol-eng: 500	 acc: --	 ppl: 20335.27	 xent: 9.92	  17.69 TFLOP/s	 18722/17887 tok/s	 132086 sents	   1475 sec	
 task_pol-eng: 1000	 acc: --	 ppl: 4688.25	 xent: 8.45	  18.26 TFLOP/s	 19335/18466 tok/s	 261726 sents	   2878 sec	
 task_pol-eng: 1500	 acc: --	 ppl: 1375.23	 xent: 7.23	  18.65 TFLOP/s	 19735/18862 tok/s	 395374 sents	   4295 sec	
@@ -4789,9 +4739,8 @@ task_pol-eng: 44000	 acc: --	 ppl:  9.32	 xent: 2.23	  18.84 TFLOP/s	 19942/1905
 task_pol-eng: 44500	 acc: --	 ppl:  9.32	 xent: 2.23	  18.94 TFLOP/s	 20049/19163 tok/s	 11759931 sents	 128491 sec	
 task_pol-eng: 45000	 acc: --	 ppl:  9.34	 xent: 2.23	  18.93 TFLOP/s	 20034/19157 tok/s	 11891759 sents	 129864 sec	
 task_pol-eng: 45500	 acc: --	 ppl:  9.32	 xent: 2.23	  15.12 TFLOP/s	 16007/15299 tok/s	 12021680 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_pol-eng: 46000	 acc: --	 ppl:  9.30	 xent: 2.23	  19.04 TFLOP/s	 20151/19254 tok/s	 12154214 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-pol: 500	 acc: --	 ppl: 25784.38	 xent: 10.16	  17.76 TFLOP/s	 17892/18728 tok/s	 132086 sents	   1475 sec	
 task_eng-pol: 1000	 acc: --	 ppl: 10567.00	 xent: 9.27	  18.34 TFLOP/s	 18467/19336 tok/s	 261726 sents	   2878 sec	
 task_eng-pol: 1500	 acc: --	 ppl: 4421.66	 xent: 8.39	  18.72 TFLOP/s	 18860/19733 tok/s	 395374 sents	   4294 sec	
@@ -4883,9 +4832,8 @@ task_eng-pol: 44000	 acc: --	 ppl:  8.11	 xent: 2.09	  18.92 TFLOP/s	 19053/1994
 task_eng-pol: 44500	 acc: --	 ppl:  8.11	 xent: 2.09	  19.02 TFLOP/s	 19167/20054 tok/s	 11759931 sents	 128490 sec	
 task_eng-pol: 45000	 acc: --	 ppl:  8.12	 xent: 2.09	  19.01 TFLOP/s	 19159/20036 tok/s	 11891759 sents	 129864 sec	
 task_eng-pol: 45500	 acc: --	 ppl:  8.10	 xent: 2.09	  15.18 TFLOP/s	 15295/16002 tok/s	 12021680 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-pol: 46000	 acc: --	 ppl:  8.09	 xent: 2.09	  19.11 TFLOP/s	 19254/20151 tok/s	 12154214 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_por-eng: 500	 acc: --	 ppl: 20285.65	 xent: 9.92	  17.86 TFLOP/s	 18981/18002 tok/s	 132886 sents	   1475 sec	
 task_por-eng: 1000	 acc: --	 ppl: 4679.82	 xent: 8.45	  18.42 TFLOP/s	 19569/18564 tok/s	 263267 sents	   2878 sec	
 task_por-eng: 1500	 acc: --	 ppl: 1368.61	 xent: 7.22	  18.83 TFLOP/s	 20001/18978 tok/s	 397673 sents	   4294 sec	
@@ -4977,9 +4925,8 @@ task_por-eng: 44000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.85 TFLOP/s	 20019/1900
 task_por-eng: 44500	 acc: --	 ppl:  7.27	 xent: 1.98	  19.16 TFLOP/s	 20363/19317 tok/s	 11786482 sents	 128491 sec	
 task_por-eng: 45000	 acc: --	 ppl:  7.28	 xent: 1.99	  18.79 TFLOP/s	 19954/18943 tok/s	 11916848 sents	 129864 sec	
 task_por-eng: 45500	 acc: --	 ppl:  7.26	 xent: 1.98	  15.44 TFLOP/s	 16406/15569 tok/s	 12049091 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_por-eng: 46000	 acc: --	 ppl:  7.26	 xent: 1.98	  19.19 TFLOP/s	 20390/19339 tok/s	 12182101 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-por: 500	 acc: --	 ppl: 21170.57	 xent: 9.96	  17.95 TFLOP/s	 18003/18982 tok/s	 132886 sents	   1475 sec	
 task_eng-por: 1000	 acc: --	 ppl: 6824.53	 xent: 8.83	  18.51 TFLOP/s	 18572/19578 tok/s	 263267 sents	   2877 sec	
 task_eng-por: 1500	 acc: --	 ppl: 2197.43	 xent: 7.70	  18.90 TFLOP/s	 18969/19992 tok/s	 397673 sents	   4294 sec	
@@ -5071,9 +5018,8 @@ task_eng-por: 44000	 acc: --	 ppl:  6.23	 xent: 1.83	  18.95 TFLOP/s	 19019/2003
 task_eng-por: 44500	 acc: --	 ppl:  6.22	 xent: 1.83	  19.25 TFLOP/s	 19308/20354 tok/s	 11786482 sents	 128491 sec	
 task_eng-por: 45000	 acc: --	 ppl:  6.23	 xent: 1.83	  18.87 TFLOP/s	 18944/19955 tok/s	 11916848 sents	 129864 sec	
 task_eng-por: 45500	 acc: --	 ppl:  6.22	 xent: 1.83	  15.52 TFLOP/s	 15570/16407 tok/s	 12049091 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-por: 46000	 acc: --	 ppl:  6.21	 xent: 1.83	  19.29 TFLOP/s	 19349/20400 tok/s	 12182101 sents	 132934 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_ron-eng: 500	 acc: --	 ppl: 20359.77	 xent: 9.92	  17.54 TFLOP/s	 19004/17351 tok/s	 128130 sents	   1475 sec	
 task_ron-eng: 1000	 acc: --	 ppl: 4701.20	 xent: 8.46	  18.35 TFLOP/s	 19871/18152 tok/s	 255610 sents	   2878 sec	
 task_ron-eng: 1500	 acc: --	 ppl: 1384.53	 xent: 7.23	  18.80 TFLOP/s	 20359/18597 tok/s	 387472 sents	   4295 sec	
@@ -5165,9 +5111,8 @@ task_ron-eng: 44000	 acc: --	 ppl:  8.09	 xent: 2.09	  19.01 TFLOP/s	 20589/1881
 task_ron-eng: 44500	 acc: --	 ppl:  8.07	 xent: 2.09	  18.61 TFLOP/s	 20148/18409 tok/s	 11523070 sents	 128491 sec	
 task_ron-eng: 45000	 acc: --	 ppl:  8.08	 xent: 2.09	  18.86 TFLOP/s	 20419/18663 tok/s	 11650838 sents	 129864 sec	
 task_ron-eng: 45500	 acc: --	 ppl:  8.04	 xent: 2.08	  15.30 TFLOP/s	 16571/15128 tok/s	 11779642 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_ron-eng: 46000	 acc: --	 ppl:  8.08	 xent: 2.09	  18.92 TFLOP/s	 20489/18724 tok/s	 11908477 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-ron: 500	 acc: --	 ppl: 21827.69	 xent: 9.99	  17.68 TFLOP/s	 17351/19005 tok/s	 128130 sents	   1475 sec	
 task_eng-ron: 1000	 acc: --	 ppl: 6845.35	 xent: 8.83	  18.49 TFLOP/s	 18151/19869 tok/s	 255610 sents	   2878 sec	
 task_eng-ron: 1500	 acc: --	 ppl: 2350.88	 xent: 7.76	  18.95 TFLOP/s	 18602/20364 tok/s	 387472 sents	   4294 sec	
@@ -5259,9 +5204,8 @@ task_eng-ron: 44000	 acc: --	 ppl:  6.78	 xent: 1.91	  19.16 TFLOP/s	 18813/2058
 task_eng-ron: 44500	 acc: --	 ppl:  6.78	 xent: 1.91	  18.76 TFLOP/s	 18408/20147 tok/s	 11523070 sents	 128491 sec	
 task_eng-ron: 45000	 acc: --	 ppl:  6.77	 xent: 1.91	  19.01 TFLOP/s	 18663/20419 tok/s	 11650838 sents	 129864 sec	
 task_eng-ron: 45500	 acc: --	 ppl:  6.76	 xent: 1.91	  15.42 TFLOP/s	 15132/16576 tok/s	 11779642 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-ron: 46000	 acc: --	 ppl:  6.77	 xent: 1.91	  19.07 TFLOP/s	 18728/20493 tok/s	 11908477 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_slk-eng: 500	 acc: --	 ppl: 20312.19	 xent: 9.92	  17.75 TFLOP/s	 18254/18439 tok/s	 136198 sents	   1475 sec	
 task_slk-eng: 1000	 acc: --	 ppl: 4692.29	 xent: 8.45	  18.39 TFLOP/s	 18911/19110 tok/s	 270215 sents	   2878 sec	
 task_slk-eng: 1500	 acc: --	 ppl: 1419.16	 xent: 7.26	  18.75 TFLOP/s	 19275/19477 tok/s	 408245 sents	   4294 sec	
@@ -5353,9 +5297,8 @@ task_slk-eng: 44000	 acc: --	 ppl:  8.92	 xent: 2.19	  18.57 TFLOP/s	 19091/1929
 task_slk-eng: 44500	 acc: --	 ppl:  8.88	 xent: 2.18	  18.92 TFLOP/s	 19451/19662 tok/s	 12044685 sents	 128491 sec	
 task_slk-eng: 45000	 acc: --	 ppl:  8.89	 xent: 2.18	  19.05 TFLOP/s	 19587/19790 tok/s	 12180758 sents	 129864 sec	
 task_slk-eng: 45500	 acc: --	 ppl:  8.87	 xent: 2.18	  15.35 TFLOP/s	 15783/15951 tok/s	 12316416 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_slk-eng: 46000	 acc: --	 ppl:  8.88	 xent: 2.18	  18.77 TFLOP/s	 19302/19505 tok/s	 12450644 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-slk: 500	 acc: --	 ppl: 25399.01	 xent: 10.14	  17.73 TFLOP/s	 18438/18253 tok/s	 136198 sents	   1476 sec	
 task_eng-slk: 1000	 acc: --	 ppl: 11296.55	 xent: 9.33	  18.38 TFLOP/s	 19111/18913 tok/s	 270215 sents	   2878 sec	
 task_eng-slk: 1500	 acc: --	 ppl: 5045.26	 xent: 8.53	  18.73 TFLOP/s	 19477/19275 tok/s	 408245 sents	   4294 sec	
@@ -5447,9 +5390,8 @@ task_eng-slk: 44000	 acc: --	 ppl:  8.07	 xent: 2.09	  18.55 TFLOP/s	 19295/1909
 task_eng-slk: 44500	 acc: --	 ppl:  8.04	 xent: 2.08	  18.90 TFLOP/s	 19662/19451 tok/s	 12044685 sents	 128491 sec	
 task_eng-slk: 45000	 acc: --	 ppl:  8.04	 xent: 2.08	  19.03 TFLOP/s	 19790/19587 tok/s	 12180758 sents	 129864 sec	
 task_eng-slk: 45500	 acc: --	 ppl:  8.03	 xent: 2.08	  15.34 TFLOP/s	 15951/15783 tok/s	 12316416 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-slk: 46000	 acc: --	 ppl:  8.04	 xent: 2.08	  18.75 TFLOP/s	 19498/19295 tok/s	 12450644 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_slv-eng: 500	 acc: --	 ppl: 20315.26	 xent: 9.92	  17.65 TFLOP/s	 18319/18187 tok/s	 134254 sents	   1475 sec	
 task_slv-eng: 1000	 acc: --	 ppl: 4696.58	 xent: 8.45	  18.40 TFLOP/s	 19090/18954 tok/s	 267324 sents	   2878 sec	
 task_slv-eng: 1500	 acc: --	 ppl: 1392.23	 xent: 7.24	  18.75 TFLOP/s	 19448/19316 tok/s	 404202 sents	   4294 sec	
@@ -5541,9 +5483,8 @@ task_slv-eng: 44000	 acc: --	 ppl:  9.61	 xent: 2.26	  19.00 TFLOP/s	 19716/1958
 task_slv-eng: 44500	 acc: --	 ppl:  9.61	 xent: 2.26	  18.62 TFLOP/s	 19313/19194 tok/s	 11937383 sents	 128490 sec	
 task_slv-eng: 45000	 acc: --	 ppl:  9.59	 xent: 2.26	  18.91 TFLOP/s	 19621/19490 tok/s	 12071332 sents	 129864 sec	
 task_slv-eng: 45500	 acc: --	 ppl:  9.58	 xent: 2.26	  15.21 TFLOP/s	 15778/15673 tok/s	 12204690 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_slv-eng: 46000	 acc: --	 ppl:  9.56	 xent: 2.26	  18.83 TFLOP/s	 19532/19411 tok/s	 12338150 sents	 132934 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-slv: 500	 acc: --	 ppl: 24115.37	 xent: 10.09	  17.66 TFLOP/s	 18187/18318 tok/s	 134254 sents	   1475 sec	
 task_eng-slv: 1000	 acc: --	 ppl: 8864.21	 xent: 9.09	  18.41 TFLOP/s	 18955/19090 tok/s	 267324 sents	   2878 sec	
 task_eng-slv: 1500	 acc: --	 ppl: 3588.78	 xent: 8.19	  18.75 TFLOP/s	 19314/19446 tok/s	 404202 sents	   4295 sec	
@@ -5635,9 +5576,8 @@ task_eng-slv: 44000	 acc: --	 ppl:  7.99	 xent: 2.08	  19.01 TFLOP/s	 19584/1971
 task_eng-slv: 44500	 acc: --	 ppl:  7.99	 xent: 2.08	  18.63 TFLOP/s	 19188/19307 tok/s	 11937383 sents	 128491 sec	
 task_eng-slv: 45000	 acc: --	 ppl:  7.98	 xent: 2.08	  18.93 TFLOP/s	 19500/19630 tok/s	 12071332 sents	 129864 sec	
 task_eng-slv: 45500	 acc: --	 ppl:  7.96	 xent: 2.07	  15.21 TFLOP/s	 15671/15775 tok/s	 12204690 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-slv: 46000	 acc: --	 ppl:  7.96	 xent: 2.07	  18.83 TFLOP/s	 19401/19522 tok/s	 12338150 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_spa-eng: 500	 acc: --	 ppl: 20274.83	 xent: 9.92	  17.84 TFLOP/s	 18741/18175 tok/s	 134160 sents	   1475 sec	
 task_spa-eng: 1000	 acc: --	 ppl: 4680.56	 xent: 8.45	  18.51 TFLOP/s	 19435/18865 tok/s	 266571 sents	   2878 sec	
 task_spa-eng: 1500	 acc: --	 ppl: 1385.85	 xent: 7.23	  18.74 TFLOP/s	 19681/19088 tok/s	 401810 sents	   4295 sec	
@@ -5729,9 +5669,8 @@ task_spa-eng: 44000	 acc: --	 ppl:  8.02	 xent: 2.08	  19.15 TFLOP/s	 20124/1951
 task_spa-eng: 44500	 acc: --	 ppl:  8.04	 xent: 2.08	  19.05 TFLOP/s	 19995/19415 tok/s	 11916987 sents	 128490 sec	
 task_spa-eng: 45000	 acc: --	 ppl:  8.01	 xent: 2.08	  18.97 TFLOP/s	 19920/19328 tok/s	 12049859 sents	 129864 sec	
 task_spa-eng: 45500	 acc: --	 ppl:  8.01	 xent: 2.08	  15.47 TFLOP/s	 16247/15757 tok/s	 12183829 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_spa-eng: 46000	 acc: --	 ppl:  8.02	 xent: 2.08	  19.08 TFLOP/s	 20035/19439 tok/s	 12317523 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-spa: 500	 acc: --	 ppl: 19399.86	 xent: 9.87	  17.89 TFLOP/s	 18175/18741 tok/s	 134160 sents	   1475 sec	
 task_eng-spa: 1000	 acc: --	 ppl: 5350.19	 xent: 8.58	  18.56 TFLOP/s	 18865/19435 tok/s	 266571 sents	   2878 sec	
 task_eng-spa: 1500	 acc: --	 ppl: 1920.82	 xent: 7.56	  18.79 TFLOP/s	 19087/19680 tok/s	 401810 sents	   4295 sec	
@@ -5823,9 +5762,8 @@ task_eng-spa: 44000	 acc: --	 ppl:  6.55	 xent: 1.88	  19.20 TFLOP/s	 19502/2011
 task_eng-spa: 44500	 acc: --	 ppl:  6.56	 xent: 1.88	  19.10 TFLOP/s	 19417/19997 tok/s	 11916987 sents	 128490 sec	
 task_eng-spa: 45000	 acc: --	 ppl:  6.55	 xent: 1.88	  19.02 TFLOP/s	 19333/19925 tok/s	 12049859 sents	 129864 sec	
 task_eng-spa: 45500	 acc: --	 ppl:  6.54	 xent: 1.88	  15.51 TFLOP/s	 15760/16250 tok/s	 12183829 sents	 131561 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-spa: 46000	 acc: --	 ppl:  6.54	 xent: 1.88	  19.12 TFLOP/s	 19430/20025 tok/s	 12317523 sents	 132934 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_sqi-eng: 500	 acc: --	 ppl: 20315.45	 xent: 9.92	  17.87 TFLOP/s	 19375/17661 tok/s	 130371 sents	   1475 sec	
 task_sqi-eng: 1000	 acc: --	 ppl: 4703.51	 xent: 8.46	  18.37 TFLOP/s	 19907/18154 tok/s	 257819 sents	   2877 sec	
 task_sqi-eng: 1500	 acc: --	 ppl: 1382.37	 xent: 7.23	  18.83 TFLOP/s	 20412/18611 tok/s	 389811 sents	   4294 sec	
@@ -5917,9 +5855,8 @@ task_sqi-eng: 44000	 acc: --	 ppl:  8.89	 xent: 2.18	  19.16 TFLOP/s	 20762/1893
 task_sqi-eng: 44500	 acc: --	 ppl:  8.86	 xent: 2.18	  18.77 TFLOP/s	 20344/18560 tok/s	 11541740 sents	 128491 sec	
 task_sqi-eng: 45000	 acc: --	 ppl:  8.85	 xent: 2.18	  18.92 TFLOP/s	 20502/18710 tok/s	 11669754 sents	 129864 sec	
 task_sqi-eng: 45500	 acc: --	 ppl:  8.85	 xent: 2.18	  15.39 TFLOP/s	 16692/15215 tok/s	 11799437 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_sqi-eng: 46000	 acc: --	 ppl:  8.86	 xent: 2.18	  18.60 TFLOP/s	 20165/18391 tok/s	 11925901 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-sqi: 500	 acc: --	 ppl: 17778.30	 xent: 9.79	  18.01 TFLOP/s	 17655/19368 tok/s	 130371 sents	   1476 sec	
 task_eng-sqi: 1000	 acc: --	 ppl: 4509.58	 xent: 8.41	  18.52 TFLOP/s	 18161/19914 tok/s	 257819 sents	   2877 sec	
 task_eng-sqi: 1500	 acc: --	 ppl: 1558.89	 xent: 7.35	  18.98 TFLOP/s	 18613/20413 tok/s	 389811 sents	   4294 sec	
@@ -6011,9 +5948,8 @@ task_eng-sqi: 44000	 acc: --	 ppl:  7.25	 xent: 1.98	  19.32 TFLOP/s	 18946/2077
 task_eng-sqi: 44500	 acc: --	 ppl:  7.24	 xent: 1.98	  18.92 TFLOP/s	 18551/20334 tok/s	 11541740 sents	 128491 sec	
 task_eng-sqi: 45000	 acc: --	 ppl:  7.24	 xent: 1.98	  19.07 TFLOP/s	 18704/20496 tok/s	 11669754 sents	 129864 sec	
 task_eng-sqi: 45500	 acc: --	 ppl:  7.23	 xent: 1.98	  15.52 TFLOP/s	 15213/16691 tok/s	 11799437 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-sqi: 46000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.76 TFLOP/s	 18397/20172 tok/s	 11925901 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_srp_Cyrl-eng: 500	 acc: --	 ppl: 20220.78	 xent: 9.91	  17.60 TFLOP/s	 18207/18186 tok/s	 134249 sents	   1475 sec	
 task_srp_Cyrl-eng: 1000	 acc: --	 ppl: 4688.77	 xent: 8.45	  18.39 TFLOP/s	 19017/19007 tok/s	 267701 sents	   2878 sec	
 task_srp_Cyrl-eng: 1500	 acc: --	 ppl: 1401.99	 xent: 7.25	  18.92 TFLOP/s	 19560/19553 tok/s	 406226 sents	   4294 sec	
@@ -6105,9 +6041,8 @@ task_srp_Cyrl-eng: 44000	 acc: --	 ppl:  8.36	 xent: 2.12	  18.85 TFLOP/s	 19490
 task_srp_Cyrl-eng: 44500	 acc: --	 ppl:  8.36	 xent: 2.12	  18.85 TFLOP/s	 19489/19492 tok/s	 11967637 sents	 128490 sec	
 task_srp_Cyrl-eng: 45000	 acc: --	 ppl:  8.35	 xent: 2.12	  18.98 TFLOP/s	 19625/19608 tok/s	 12102285 sents	 129864 sec	
 task_srp_Cyrl-eng: 45500	 acc: --	 ppl:  8.33	 xent: 2.12	  15.47 TFLOP/s	 16003/15990 tok/s	 12238454 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_srp_Cyrl-eng: 46000	 acc: --	 ppl:  8.32	 xent: 2.12	  18.73 TFLOP/s	 19364/19360 tok/s	 12371761 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-srp_Cyrl: 500	 acc: --	 ppl: 23420.94	 xent: 10.06	  17.60 TFLOP/s	 18186/18207 tok/s	 134249 sents	   1475 sec	
 task_eng-srp_Cyrl: 1000	 acc: --	 ppl: 8823.92	 xent: 9.09	  18.39 TFLOP/s	 19006/19017 tok/s	 267701 sents	   2878 sec	
 task_eng-srp_Cyrl: 1500	 acc: --	 ppl: 3899.09	 xent: 8.27	  18.91 TFLOP/s	 19549/19556 tok/s	 406226 sents	   4295 sec	
@@ -6199,9 +6134,8 @@ task_eng-srp_Cyrl: 44000	 acc: --	 ppl:  7.38	 xent: 2.00	  18.85 TFLOP/s	 19485
 task_eng-srp_Cyrl: 44500	 acc: --	 ppl:  7.37	 xent: 2.00	  18.86 TFLOP/s	 19498/19495 tok/s	 11967637 sents	 128490 sec	
 task_eng-srp_Cyrl: 45000	 acc: --	 ppl:  7.37	 xent: 2.00	  18.98 TFLOP/s	 19608/19625 tok/s	 12102285 sents	 129864 sec	
 task_eng-srp_Cyrl: 45500	 acc: --	 ppl:  7.35	 xent: 1.99	  15.47 TFLOP/s	 15988/16001 tok/s	 12238454 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-srp_Cyrl: 46000	 acc: --	 ppl:  7.34	 xent: 1.99	  18.74 TFLOP/s	 19366/19371 tok/s	 12371761 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_swe-eng: 500	 acc: --	 ppl: 20318.92	 xent: 9.92	  17.66 TFLOP/s	 17990/18488 tok/s	 136578 sents	   1476 sec	
 task_swe-eng: 1000	 acc: --	 ppl: 4708.68	 xent: 8.46	  18.21 TFLOP/s	 18555/19075 tok/s	 270303 sents	   2877 sec	
 task_swe-eng: 1500	 acc: --	 ppl: 1410.63	 xent: 7.25	  18.64 TFLOP/s	 18995/19516 tok/s	 408612 sents	   4294 sec	
@@ -6293,9 +6227,8 @@ task_swe-eng: 44000	 acc: --	 ppl:  6.77	 xent: 1.91	  18.73 TFLOP/s	 19071/1961
 task_swe-eng: 44500	 acc: --	 ppl:  6.76	 xent: 1.91	  19.23 TFLOP/s	 19592/20132 tok/s	 12130608 sents	 128491 sec	
 task_swe-eng: 45000	 acc: --	 ppl:  6.77	 xent: 1.91	  18.81 TFLOP/s	 19169/19700 tok/s	 12266101 sents	 129864 sec	
 task_swe-eng: 45500	 acc: --	 ppl:  6.76	 xent: 1.91	  15.20 TFLOP/s	 15491/15921 tok/s	 12401909 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_swe-eng: 46000	 acc: --	 ppl:  6.76	 xent: 1.91	  19.01 TFLOP/s	 19366/19914 tok/s	 12538747 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-swe: 500	 acc: --	 ppl: 22646.27	 xent: 10.03	  17.61 TFLOP/s	 18487/17988 tok/s	 136578 sents	   1476 sec	
 task_eng-swe: 1000	 acc: --	 ppl: 7997.22	 xent: 8.99	  18.16 TFLOP/s	 19067/18548 tok/s	 270303 sents	   2878 sec	
 task_eng-swe: 1500	 acc: --	 ppl: 2840.85	 xent: 7.95	  18.60 TFLOP/s	 19526/19004 tok/s	 408612 sents	   4294 sec	
@@ -6387,9 +6320,8 @@ task_eng-swe: 44000	 acc: --	 ppl:  6.34	 xent: 1.85	  18.67 TFLOP/s	 19607/1906
 task_eng-swe: 44500	 acc: --	 ppl:  6.33	 xent: 1.85	  19.19 TFLOP/s	 20144/19603 tok/s	 12130608 sents	 128491 sec	
 task_eng-swe: 45000	 acc: --	 ppl:  6.33	 xent: 1.85	  18.77 TFLOP/s	 19705/19174 tok/s	 12266101 sents	 129864 sec	
 task_eng-swe: 45500	 acc: --	 ppl:  6.33	 xent: 1.84	  15.16 TFLOP/s	 15917/15486 tok/s	 12401909 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-swe: 46000	 acc: --	 ppl:  6.32	 xent: 1.84	  18.97 TFLOP/s	 19921/19373 tok/s	 12538747 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_tur-eng: 500	 acc: --	 ppl: 20306.04	 xent: 9.92	  17.02 TFLOP/s	 16597/18493 tok/s	 136580 sents	   1475 sec	
 task_tur-eng: 1000	 acc: --	 ppl: 4715.82	 xent: 8.46	  17.70 TFLOP/s	 17256/19222 tok/s	 271403 sents	   2878 sec	
 task_tur-eng: 1500	 acc: --	 ppl: 1426.76	 xent: 7.26	  18.08 TFLOP/s	 17631/19643 tok/s	 410612 sents	   4295 sec	
@@ -6481,9 +6413,8 @@ task_tur-eng: 44000	 acc: --	 ppl: 10.07	 xent: 2.31	  18.03 TFLOP/s	 17578/1958
 task_tur-eng: 44500	 acc: --	 ppl: 10.07	 xent: 2.31	  18.59 TFLOP/s	 18124/20195 tok/s	 12134932 sents	 128491 sec	
 task_tur-eng: 45000	 acc: --	 ppl: 10.07	 xent: 2.31	  18.12 TFLOP/s	 17671/19686 tok/s	 12270279 sents	 129864 sec	
 task_tur-eng: 45500	 acc: --	 ppl: 10.03	 xent: 2.31	  14.76 TFLOP/s	 14390/16029 tok/s	 12406916 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_tur-eng: 46000	 acc: --	 ppl: 10.02	 xent: 2.30	  18.39 TFLOP/s	 17921/19977 tok/s	 12544298 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-tur: 500	 acc: --	 ppl: 25856.98	 xent: 10.16	  16.86 TFLOP/s	 18491/16596 tok/s	 136580 sents	   1475 sec	
 task_eng-tur: 1000	 acc: --	 ppl: 11494.09	 xent: 9.35	  17.53 TFLOP/s	 19224/17258 tok/s	 271403 sents	   2878 sec	
 task_eng-tur: 1500	 acc: --	 ppl: 5996.63	 xent: 8.70	  17.91 TFLOP/s	 19646/17634 tok/s	 410612 sents	   4294 sec	
@@ -6575,9 +6506,8 @@ task_eng-tur: 44000	 acc: --	 ppl:  9.22	 xent: 2.22	  17.86 TFLOP/s	 19587/1757
 task_eng-tur: 44500	 acc: --	 ppl:  9.21	 xent: 2.22	  18.41 TFLOP/s	 20194/18124 tok/s	 12134932 sents	 128491 sec	
 task_eng-tur: 45000	 acc: --	 ppl:  9.20	 xent: 2.22	  17.96 TFLOP/s	 19698/17682 tok/s	 12270279 sents	 129864 sec	
 task_eng-tur: 45500	 acc: --	 ppl:  9.19	 xent: 2.22	  14.61 TFLOP/s	 16017/14379 tok/s	 12406916 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_eng-tur: 46000	 acc: --	 ppl:  9.17	 xent: 2.22	  18.21 TFLOP/s	 19977/17921 tok/s	 12544298 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_ukr-eng: 500	 acc: --	 ppl: 20364.38	 xent: 9.92	  17.94 TFLOP/s	 18699/18401 tok/s	 135913 sents	   1475 sec	
 task_ukr-eng: 1000	 acc: --	 ppl: 4705.51	 xent: 8.46	  18.36 TFLOP/s	 19137/18831 tok/s	 267994 sents	   2878 sec	
 task_ukr-eng: 1500	 acc: --	 ppl: 1402.27	 xent: 7.25	  18.73 TFLOP/s	 19526/19215 tok/s	 404211 sents	   4295 sec	
@@ -6669,9 +6599,8 @@ task_ukr-eng: 44000	 acc: --	 ppl:  9.26	 xent: 2.23	  18.95 TFLOP/s	 19759/1944
 task_ukr-eng: 44500	 acc: --	 ppl:  9.27	 xent: 2.23	  18.55 TFLOP/s	 19328/19037 tok/s	 11927083 sents	 128491 sec	
 task_ukr-eng: 45000	 acc: --	 ppl:  9.24	 xent: 2.22	  19.08 TFLOP/s	 19887/19575 tok/s	 12061723 sents	 129864 sec	
 task_ukr-eng: 45500	 acc: --	 ppl:  9.24	 xent: 2.22	  15.37 TFLOP/s	 16025/15767 tok/s	 12195648 sents	 131562 sec	
-make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
+task_ukr-eng: 46000	 acc: --	 ppl:  9.22	 xent: 2.22	  18.88 TFLOP/s	 19686/19374 tok/s	 12328996 sents	 132935 sec	
 
-make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/docmt'
 task_eng-ukr: 500	 acc: --	 ppl: 26106.87	 xent: 10.17	  17.96 TFLOP/s	 18397/18695 tok/s	 135913 sents	   1476 sec	
 task_eng-ukr: 1000	 acc: --	 ppl: 11348.07	 xent: 9.34	  18.38 TFLOP/s	 18827/19133 tok/s	 267994 sents	   2878 sec	
 task_eng-ukr: 1500	 acc: --	 ppl: 4940.50	 xent: 8.51	  18.77 TFLOP/s	 19227/19538 tok/s	 404211 sents	   4294 sec	
@@ -6763,3 +6692,5 @@ task_eng-ukr: 44000	 acc: --	 ppl:  8.35	 xent: 2.12	  18.99 TFLOP/s	 19451/1976
 task_eng-ukr: 44500	 acc: --	 ppl:  8.35	 xent: 2.12	  18.56 TFLOP/s	 19029/19320 tok/s	 11927083 sents	 128491 sec	
 task_eng-ukr: 45000	 acc: --	 ppl:  8.34	 xent: 2.12	  19.10 TFLOP/s	 19575/19887 tok/s	 12061723 sents	 129864 sec	
 task_eng-ukr: 45500	 acc: --	 ppl:  8.32	 xent: 2.12	  15.39 TFLOP/s	 15767/16025 tok/s	 12195648 sents	 131562 sec	
+task_eng-ukr: 46000	 acc: --	 ppl:  8.32	 xent: 2.12	  18.91 TFLOP/s	 19371/19683 tok/s	 12328996 sents	 132935 sec	
+
