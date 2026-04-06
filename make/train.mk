@@ -39,7 +39,9 @@ print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
 		${MODEL_DIR}/stats/valid-diff-bleu.txt \
 		${MODEL_DIR}/stats/valid-diff-ppl.txt
 
-
+.PHONY: print-valid-stats
+print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-ppl.txt
 
 
 ##------------------------------------------------------------------

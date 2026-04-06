@@ -226,6 +226,7 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	   done )
 
 
+ifneq ($(wildcard ${EVAL_DIR}),)
 
 ${MODEL_DIR}/stats/eval-scores-bleu.txt: ${EVAL_DIR}
 	@echo "print evaluation BLEU scores"
@@ -236,3 +237,10 @@ ${MODEL_DIR}/stats/eval-scores-chrf.txt: ${EVAL_DIR}
 	@echo "print evaluation ChrF scores"
 	@mkdir -p $(dir $@)
 	@${MAKE} -s print-eval-scores PRINT_METRIC=chrf > $@
+
+else
+
+${MODEL_DIR}/stats/eval-scores-bleu.txt ${MODEL_DIR}/stats/eval-scores-chrf.txt:
+	@echo "no model evaluation done for ${MODEL_DIR}"
+
+endif
