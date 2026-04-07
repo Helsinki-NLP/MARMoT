@@ -7,53 +7,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<script>
+function resetSelected() {
+  var inputs=document.getElementsByTagName("input");
+  for (var i in inputs)
+      if (inputs[i].type=="checkbox") inputs[i].checked=false;
+}
+</script>
 <?php
 
-session_start();
+if (isset($_POST['submit'])){
+    if ($_POST['submit']=='reset'){
+        // session_destroy();
+        $_POST = array();
+        $_REQUEST = array();
+        $_SESSION = array();
+    }
+}
+// session_start();
 
-
-// $model_dir = 'models';
-// $models = get_models($model_dir);
 
 $MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/sandbox';
-$model_dir = $MarmotGitRaw;
-$models = array('sandbox/tiedeman/oellm-lg/mammoth-flanonly-shuffled',
-                'sandbox/tiedeman/oellm-lg/mammoth-docmt4',
-                'sandbox/tiedeman/oellm-lg/mammoth-flan-mt-sharedenc',
-                'sandbox/tiedeman/oellm-lg/mammoth-flan-mt',
-                'models/docmt-langgroup-encoder/mammoth-docmt');
+$model_dir = $MarmotGitRaw.'/models';
+$available_models = file($MarmotGitRaw.'/models/models.txt');
 
-$model = get_param('model', $models[0]);
-$file = get_param('file', 'valid-scores-bleu.txt');
-$tasks = get_param('tasks', array());
-$types = get_param('types', array());
+$models    = get_param('models', array());
+$file      = get_param('file', 'valid-scores-bleu.txt');
+$tasks     = get_param('tasks', array());
+$types     = get_param('types', array());
 $langpairs = get_param('langpairs', array());
-// $tasks = isset($_REQUEST['tasks']) ? $_REQUEST['tasks'] : array();
-// $types = isset($_REQUEST['types']) ? $_REQUEST['types'] : array();
-// $langpairs = isset($_REQUEST['langpairs']) ? $_REQUEST['langpairs'] : array();
+
+$metric = $file == 'valid-scores-bleu.txt' ? 'BLEU' : 'perplexity';
 
 
-
+echo('<form method="post">');
 echo('<small>');
-foreach ($models as $m){
-    echo("[<a href='?model=$m&file=$file'>$m</a>] ");
-}
+select_models($available_models, $models);
 echo('</small><br/><hr/>');
 
 echo("<h1>MAMMOTH Training Dashboard</h1>");
 
-echo("<ul>");
-echo("<li><a href='?model=$model&file=valid-scores-bleu.txt'>Validation Scores (BLEU)</a></li>");
-echo("<li><a href='?model=$model&file=valid-scores-ppl.txt'>Validation Scores (perplexity)</a></li>");
-echo("</ul>");
-
-
-
-$scores = read_valid_scores($model, $file, $model_dir);
+$scores = array();
+$available_langpairs = array();
+foreach ($models as $m){
+    read_valid_scores($scores, $available_langpairs, rtrim($m), $file, $model_dir);
+}
 $selected = select_tasks($scores, $tasks, $types, $langpairs);
-scores_plotly($scores,$selected,$file);
-model_tasks($scores, $tasks, $types, $langpairs, $file);
-
+scores_plotly($scores, $selected, 'training steps', $metric);
+model_tasks($available_models, $available_langpairs, $scores, $models, $tasks, $types, $langpairs, $file);
+echo('</form></body></html>');
     
 
 
@@ -76,33 +78,43 @@ function get_models($dir='models'){
 
 function select_tasks(&$scores, &$selected_tasks, &$selected_types, &$selected_langpairs){
     $selected = $selected_tasks;
-    
-    foreach ($scores as $task => $score){
-        if (! in_array($task, $selected_tasks)){
-            list($type,$langpair) = explode('_',$task);
-            if (in_array($type, $selected_types)){
-                array_push($selected,$task);
-            }
-            elseif (in_array($langpair, $selected_langpairs)){
-                array_push($selected,$task);
+    $models = array();
+
+    foreach ($scores as $model => $tasks){
+        $models[$model] = 1;
+        foreach ($tasks as $task => $score){
+            if (! in_array($model.':'.$task, $selected_tasks)){
+                $parts = explode('_',$task);
+                $type = array_shift($parts);
+                $langpair = implode('-',$parts);
+                if (in_array($type, $selected_types)){
+                    array_push($selected,$model.':'.$task);
+                }
+                elseif (in_array($langpair, $selected_langpairs)){
+                    array_push($selected,$model.':'.$task);
+                }
             }
         }
     }
-    if (count($selected) == 0)
-        array_push($selected,'average-score');
+    if (count($selected) == 0){
+        foreach (array_keys($models) as $model){
+            array_push($selected,$model.":average-score");
+            array_push($selected_tasks,$model.":average-score");
+        }
+    }
     return $selected;
 }
 
 
-function read_valid_scores($model,$file,$dir='models'){
+function read_valid_scores(&$scores, &$langpairs, $model, $file, $dir='models'){
     $lines = file(implode('/',[$dir,$model,'stats',$file]));
 
     $gpus = array();
     $tasks = array();
     $checkpoints = array();
-    $scores = array();
 
     $header = array_shift($lines);
+    if (strpos($header,'make') === 0) $header = array_shift($lines);
     $header = rtrim($header);
     $parts = explode("\t",$header);
     array_shift($parts);
@@ -112,8 +124,10 @@ function read_valid_scores($model,$file,$dir='models'){
     }
     
     $key = '';
+    $scores[$model] = array();
     foreach ($lines as $line) {
         if ($line){
+            if (strpos($line,'make') === 0) continue;
             $line = rtrim($line);
             $parts = explode("\t",$line);
             $gpu=array_shift($parts);
@@ -121,86 +135,129 @@ function read_valid_scores($model,$file,$dir='models'){
             
             array_push($gpus,$gpu);
             array_push($tasks,$task);
-            $scores[$task] = array();
+            $scores[$model][$task] = array();
+            $taskparts = explode('_',$task);
+            array_shift($taskparts);
+            if ($taskparts){
+                $langpair = implode('-',$taskparts);
+                $langpairs[$langpair] = 1;
+            }
+
             foreach ($checkpoints as $checkpoint){
                 $score = array_shift($parts);
-                $scores[$task][$checkpoint] = $score;
-                // array_push($scores[$task],$score);
+                $scores[$model][$task][$checkpoint] = $score;
             }
         }
     }
     ksort($scores);
-    return $scores;
 }
 
-function model_tasks(&$scores, &$selected_tasks, &$selected_types, &$selected_langpairs, $file='valid-scores-bleu.txt'){
-    echo('<form method="post">');
-    echo('<input type="submit" value="plot graph" />');
-    echo("<input type=\"hidden\" name=\"file\" value=\"$file\" />");
-    echo('<input type="hidden" name="tasks[]" value="dummy" />');
-    echo('<table><tr><td valign="top">');
-    $types = array();
-    $langpairs = array();
-    foreach ($scores as $task => $score){
-        list($type,$langpair) = explode('_',$task);
-        if ($type and $type != 'average-score') $types[$type]++;
-        if ($langpair) $langpairs[$langpair]++;
-        if (in_array($task, $selected_tasks)){
-            echo("<input checked='1' type='checkbox' name='tasks[]' value='$task'> $task<br/>");
+
+function select_models(&$models, &$selected_models){
+    // echo('<form method="post" style="display: inline;">');
+    if (count($selected_models) == 0){
+        foreach ($models as $m){
+            $m = rtrim($m);
+            array_push($selected_models,$m);
+        }
+    }
+    foreach ($models as $m){
+        $m = rtrim($m);
+        list($name,$dir) = explode('/',$m);
+        if (in_array($m, $selected_models)){
+            echo("<input checked='1' type='checkbox' name='models[]' value='$m'>&nbsp;$name ");
         }
         else {
-            echo("<input type='checkbox' name='tasks[]' value='$task'> $task<br/>");
+            echo("<input type='checkbox' name='models[]' value='$m'>&nbsp;$name ");
+        }
+    }
+    // echo('<br/><input type="submit" value="select" />');
+    // echo('</form>');
+}
+
+
+function model_tasks(&$models, &$langpairs, &$scores,
+                     &$selected_models,
+                     &$selected_tasks,
+                     &$selected_types, &$selected_langpairs,
+                     $file='valid-scores-bleu.txt'){
+
+    echo('<p><input type="submit" name="submit" value="plot graph" />');
+    echo('<button type="button" onclick="resetSelected();">reset</button> ');
+    
+    echo("<input type=\"hidden\" name=\"file\" value=\"$file\" />");
+    echo('<input type="radio" id="valid-scores-bleu" name="file" value="valid-scores-bleu.txt"');
+    if ($file == 'valid-scores-bleu.txt') echo(' checked="checked"');
+    echo('><label for="valid-scores-bleu">BLEU</label></input> ');
+    echo('<input type="radio" id="valid-scores-ppl" name="file" value="valid-scores-ppl.txt"');
+    if ($file == 'valid-scores-ppl.txt') echo(' checked="checked"');
+    echo('><label for="valid-scores-bleu">perplexity</label></input></p>');
+    
+    echo('<table><tr>');
+    echo("<th>languages</th>");
+    foreach ($scores as $model => $tasks){
+        list($name,$dir) = explode('/',$model);
+        echo("<th>$name</th>");
+        // $name = str_replace('/','<br/>',$model);
+        // echo("<th>$name</th>");
+    }
+    echo('</tr><tr>');
+
+    echo('<td valign="top">');
+    ksort($langpairs);
+    foreach ($langpairs as $langpair => $count){
+        if (in_array($langpair, $selected_langpairs)){
+            echo("<input checked='1' type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
+        }
+        else {
+            echo("<input type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
         }
     }
     echo('</td>');
-    if (count($langpairs) > 1 and count($langpairs) < count($scores) - 1 ){
+    
+    foreach ($scores as $model => $tasks){
         echo('<td valign="top">');
-        echo('<input type="hidden" name="langpairs[]" value="dummy" />');
-        ksort($langpairs);
-        foreach ($langpairs as $langpair => $count){
-            if (in_array($langpair, $selected_langpairs)){
-                echo("<input checked='1' type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
+        ksort($tasks);
+        foreach ($tasks as $task => $score){
+            if (in_array($model.':'.$task, $selected_tasks)){
+                echo("<input checked='1' type='checkbox' name='tasks[]' value='$model:$task'> $task<br/>");
             }
             else {
-                echo("<input type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
+                echo("<input type='checkbox' name='tasks[]' value='$model:$task'> $task<br/>");
             }
         }
         echo('</td>');
     }
-    if (count($types) > 1 and count($types) < count($scores) - 1){
-        ksort($types);
-        echo('<td valign="top">');
-        echo('<input type="hidden" name="types[]" value="dummy" />');
-        foreach ($types as $type => $count){
-            if (in_array($type, $selected_types)){
-                echo("<input checked='1' type='checkbox' name='types[]' value='$type'> $type<br/>");
-            }
-            else {
-                echo("<input type='checkbox' name='types[]' value='$type'> $type<br/>");
-            }
-        }
-        echo('</td>');
-    }
-    echo('</tr></table></form>');
+    echo('</tr></table>');
 }
 
 
-function scores_plotly(&$scores,&$selected,$label){
-    
+function scores_plotly(&$scores,&$selected,$xlabel,$ylabel='BLEU'){
+
     echo('<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>');
-    echo('<div id="myPlot" style="width:200%;max-width:680px;max-height:400px"></div><script>');
+    echo('<div id="myPlot" style="width:200%;max-width:960px;max-height:400px"></div><script>');
 
     echo("\nconst data = [\n");
+    $nr = 0;
     foreach ($selected as $sel){
-        echo("{ x: [");
-        echo(implode(', ',array_keys($scores[$sel])));
-        echo("], y: [");
-        echo(implode(', ',array_values($scores[$sel])));
-        echo("], mode: 'lines+markers', name: '$sel' },\n");
+        list($model,$task) = explode(':',$sel);
+        list($name,$dir) = explode('/',$model);
+        if ($model and $task){
+            $nr++;
+            echo("{ x: [");
+            echo(implode(', ',array_keys($scores[$model][$task])));
+            echo("], y: [");
+            echo(implode(', ',array_values($scores[$model][$task])));
+            echo("], mode: 'lines+markers', name: '$task/$name' },\n");
+        }
     }
-    echo("];\n");    
+    echo("];\n");
+    if ($ylabel == 'perplexity') $yaxis = "title: '$ylabel', type: 'log'";
+    else $yaxis = "title: '$ylabel'";
     echo("const layout = {
-xaxis:{title: '$label'},
+showlegend: true,
+xaxis:{ title: '$xlabel' },
+yaxis:{ $yaxis },
 margin: {
     l: 50,
     r: 150,
@@ -280,7 +337,8 @@ function get_param($key, $default){
         // echo("return session variable for $key (--".var_dump($_SESSION['params'][$key])."--)</br>");
         return $_SESSION['params'][$key];
     }
-    
+
+    if (! is_array($_SESSION)) $_SESSION=array();
     if (array_key_exists('params', $_SESSION)){
         if (isset($_SESSION['params'][$key])){
             return $_SESSION['params'][$key];
