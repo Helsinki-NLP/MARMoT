@@ -31,9 +31,9 @@ langgroup = $(call lookup,$1,$(LANGS),$(LANG_GROUPS))
 ## 4 pivot languages + 4 extra language pairs to distribute uiformely across 35 nodes (280 tasks)
 
 PIVOT_LANGS    := deu eng fra spa
-TASK_LANGPAIRS := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) fin-swe swe-fin fin-ukr ukr-fin)
+TASKS          := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) fin-swe swe-fin fin-ukr ukr-fin)
 TASK_IDS       := $(patsubst %,mt_%,${TASK_LANGPAIRS})
-TASKS          := $(foreach l,$(TASK_LANGPAIRS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
+TASK_LANGPAIRS := $(foreach l,$(TASKS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
 TASK_ENCODERS  := $(foreach l,$(TASKS),"$(firstword $(subst -, ,$l))")
 
 

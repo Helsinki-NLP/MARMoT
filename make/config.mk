@@ -40,14 +40,14 @@
 
 ifeq (${TASKS},)
 ifdef TASK_IDS
-  # TASKS ?= $(notdir $(subst _,/,${TASK_IDS}))
   TASKS ?= $(shell echo ${TASK_IDS} | tr " " "\n" | sed 's/^[^_]*_//')
 endif
 endif
 
-TASKS    ?= fin-eng
-TASK_IDS ?= $(patsubst %,task_%,${TASKS})
-
+TASKS          ?= fin-eng
+TASK_NRS       := $(shell seq $(words ${TASKS}))
+TASK_IDS       ?= $(foreach t,${TASK_NRS},task$(word $t,${TASK_NR})_$(word $t,${TASKS}))
+# TASK_IDS     ?= $(patsubst %,task_%,${TASKS})
 TASK_LANGPAIRS ?= ${TASKS}
 
 
@@ -87,9 +87,14 @@ TASK_GPU_ASSIGNMENTS := $(shell \
 
 ## select a task
 
-TASK_NR  ?= $(words $(TASKS))
-TASK     := $(word ${TASK_NR},$(TASKS))
-LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
+TASK_NR       ?= $(words $(TASKS))
+TASK          := $(word ${TASK_NR},$(TASKS))
+TASK_LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
+
+
+## languages for the task data
+
+LANGPAIR ?= $(word ${TASK_NR},$(TASKS))
 SRCLANG  ?= $(firstword $(subst -, ,${LANGPAIR}))
 TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 
@@ -138,7 +143,7 @@ DEFAULT_DECODER    ?= "${TRGLANG}"
 
 # current task specifications - selected with TASK_NR or default value
 
-TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task_${TASK})
+TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task${TASK_NR}_${TASK})
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
@@ -310,8 +315,8 @@ TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TASK_ID}.${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
 ## really ugly way of getting from tasks to a unique set
 ## of source and target languages for the vocabs
 
-VOCAB_SRCLANGS ?= $(sort $(patsubst %/,%,$(dir $(subst -,/,${TASKS}))))
-VOCAB_TRGLANGS ?= $(sort $(notdir $(subst -,/,${TASKS})))
+VOCAB_SRCLANGS ?= $(sort $(patsubst %/,%,$(dir $(subst -,/,${TASK_LANGPAIRS}))))
+VOCAB_TRGLANGS ?= $(sort $(notdir $(subst -,/,${TASK_LANGPAIRS})))
 
 VOCAB_SIZE     ?= 32000
 VOCAB_SRC_SIZE ?= ${VOCAB_SIZE}
@@ -482,7 +487,6 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
-TASK_NRS := $(shell seq $(words ${TASKS}))
 TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.%,${TASK_NRS})
 
 .INTERMEDIATE: ${TASK_CONFIGFILES}
@@ -531,7 +535,7 @@ endif
 config-add-task:
 	@echo "add task ${TASK} with ID ${TASK_ID}"
 	@echo '  ${TASK_ID}:'                                     >> ${CONFIGFILE}
-	@echo '    src_tgt: "${TASK}"'                            >> ${CONFIGFILE}
+	@echo '    src_tgt: "${TASK_LANGPAIR}"'                   >> ${CONFIGFILE}
 	@echo '    weight: ${TASK_WEIGHT}'                        >> ${CONFIGFILE}
 	@echo '    introduce_at_training_step: ${TASK_TRAINSTEP}' >> ${CONFIGFILE}
 	@echo '    node_gpu: "${TASK_GPU}"'                       >> ${CONFIGFILE}

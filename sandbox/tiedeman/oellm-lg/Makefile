@@ -142,8 +142,8 @@ TASK_IDS         := ${MT_TASKS}
 TASK_TRAINDATA   := ${MT_TRAINDATA}
 TASK_DEVDATA     := ${MT_DEVDATA}
 TASK_TRANSFORMS  := ${MT_TRANSFORMS}
-TASK_LANGPAIRS   := $(shell echo "${TASK_IDS}" | tr ' ' "\n" | sed 's/^[^_]*_//')
-TASKS            := $(foreach l,$(TASK_LANGPAIRS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
+TASKS            := $(shell echo "${TASK_IDS}" | tr ' ' "\n" | sed 's/^[^_]*_//')
+TASK_LANGPAIRS   := $(foreach l,$(TASKS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
 
 
 ## task encoders: use the language groups defined in the TASKS
