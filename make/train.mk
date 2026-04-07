@@ -91,9 +91,9 @@ ${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
 ## show a list of tasks and their GPU assignments
 
 task-info:
-	@( tasks=(${TASKS}); \
+	@( tasks=(${TASK_IDS}); \
 	  gpus=(${TASK_GPU_ASSIGNMENTS}); \
-	  for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	  for i in $$(seq 0 $$(( $(words $(TASK_IDS))-1 )) ); do \
 	    echo "$${gpus[$$i]}	$${tasks[$$i]}"; \
 	  done )
 
@@ -165,7 +165,7 @@ ifneq (${MULTIPLE_JOBS_PER_GPU},1)
 
 .PHONY: print-valid-scores-table
 print-valid-scores-table:
-	@( tasks=(${TASKS}); \
+	@( langpairs=(${TASK_LANGPAIRS}); \
 	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
@@ -173,12 +173,12 @@ print-valid-scores-table:
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    task=$${tasks[$$i]}; \
-	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    langpair=$${langpairs[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${task}"; \
+	      pattern="${PRINT_METRIC}/$${langpair}"; \
 	    fi; \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
@@ -197,7 +197,7 @@ else
 
 .PHONY: print-valid-scores-table
 print-valid-scores-table:
-	@( tasks=(${TASKS}); \
+	@( langpairs=(${TASK_LANGPAIRS}); \
 	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
@@ -205,12 +205,12 @@ print-valid-scores-table:
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    task=$${tasks[$$i]}; \
-	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    langpair=$${langpairs[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${task}"; \
+	      pattern="${PRINT_METRIC}/$${langpair}"; \
 	    fi; \
 	    echo -n "$${gpus[$$i]}	$${taskid}"; \
 	    for s in $${steps}; do \
@@ -232,15 +232,13 @@ print-valid-scores-table:
 
 .PHONY: print-valid-ppl-table
 print-valid-ppl-table:
-	@( tasks=(${GPU_TASKS}); \
-	   taskids=(${GPU_TASK_IDS}); \
+	@( taskids=(${GPU_TASK_IDS}); \
 	   gpus=(${ALLOCATED_GPUS}); \
 	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
-	   for i in $$(seq 0 $$(( $(words $(GPU_TASKS))-1 )) ); do \
-	    task=$${tasks[$$i]}; \
+	   for i in $$(seq 0 $$(( $(words $(GPU_LANGPAIRS))-1 )) ); do \
 	    taskid=$${taskids[$$i]}; \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
@@ -274,7 +272,7 @@ PRINT_VALID_DIFF_ALIASES := 	print-valid-diff \
 
 .PHONY: print-valid-diff-table
 print-valid-diff-table:
-	@( tasks=(${TASKS}); \
+	@( langpairs=(${TASK_LANGPAIRS}); \
 	   taskids=(${TASK_IDS}); \
 	   gpus=(${TASK_GPU_ASSIGNMENTS}); \
 	   steps=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
@@ -282,12 +280,12 @@ print-valid-diff-table:
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
-	    task=$${tasks[$$i]}; \
-	    taskid=$${taskids[$$i]:=$${tasks[$$i]}}; \
+	    langpair=$${langpairs[$$i]}; \
+	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${task}"; \
+	      pattern="${PRINT_METRIC}/$${langpair}"; \
 	    fi; \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \

@@ -32,10 +32,9 @@ langgroup = $(call lookup,$1,$(LANGS),$(LANG_GROUPS))
 
 PIVOT_LANGS    := deu eng fra spa
 TASKS          := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) fin-swe swe-fin fin-ukr ukr-fin)
-TASK_IDS       := $(patsubst %,mt_%,${TASK_LANGPAIRS})
 TASK_LANGPAIRS := $(foreach l,$(TASKS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
 TASK_ENCODERS  := $(foreach l,$(TASKS),"$(firstword $(subst -, ,$l))")
-
+TASK_IDS       := $(patsubst %,mt_%,${TASK_LANGPAIRS})
 
 
 ## select MultiSynth doc-level training data
