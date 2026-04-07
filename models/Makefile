@@ -5,6 +5,10 @@ MODEL_STATS := $(patsubst %/Makefile,%/stats,$(wildcard */Makefile))
 .PHONY: all
 all: ${MODEL_STATS}
 	find . -name stats -type d | sed 's/^.\///;s/\/stats//' | sort > models.txt
+	find . -wholename '*/stats/*.txt' | xargs git add
+	git pull
+	git commit -am 'updated validation statistics'
+	git push
 
 .PHONY: ${MODEL_STATS}
 ${MODEL_STATS}:
