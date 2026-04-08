@@ -51,13 +51,12 @@ SRUN ?= srun
 
 ## create a slurm script and submit it
 
-.PHONY: %.slurmjob
 %.slurmjob: %.slurm
 	@while [ `squeue -u ${WHOAMI} | wc -l` -gt ${SLURM_MAX_NR_JOBS} ]; do \
 	  echo "waiting for space in the queue";\
 	  sleep 1; \
 	done
-	sbatch $<
+	sbatch $< > $@
 
 
 ## create a slurm script
@@ -140,6 +139,7 @@ endif
 	@echo ''                                                                             >> $@
 	@echo "${SRUN} ${MAKE} -j ${SLURM_PARALLEL_JOBS} -C ${EXPERIMENT_DIR} \\"            >> $@
 	@echo "             HPC_HOST=${HPC_HOST} \\"                                         >> $@
+	@echo "             TRAIN_STAGE=${TRAIN_STAGE} \\"                                   >> $@
 	@echo "             MODEL_NAME=${MODEL_NAME} \\"                                     >> $@
 ifneq (${SLURM_NODES},1)
 	@echo "             MASTER_NODE=\$${MASTER_NODE} \\"                                 >> $@

@@ -121,7 +121,8 @@ endif
 
 ## path to config files
 
-TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/train.yaml
+TRAIN_STAGE           ?= train
+TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
 INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
@@ -500,18 +501,18 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
-TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.%,${TASK_NRS})
+TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.d/%,${TASK_NRS})
 
 .INTERMEDIATE: ${TASK_CONFIGFILES}
 
 ${TASK_CONFIGFILES}:
 	@mkdir -p $(dir $@)
-	@${MAKE} -s CONFIGFILE=$@ TASK_NR=$(lastword $(subst ., ,$@)) FIND_DATA=1 config-add-traintask
+	@${MAKE} -s CONFIGFILE=$@ TASK_NR=$(notdir $@) FIND_DATA=1 config-add-traintask
 
 ${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
-	@find $(dir $@) -name '$@.[0-9]*' | sort -k3 -t. -n | xargs cat >> $@
+	find $(dir $<) -name '[0-9]*' | sort -n | xargs cat          >> $@
 	@echo ''                                                     >> $@
 	@echo "add model/training parameters"
 	${MAKE} -s -j1 CONFIGFILE=$@ \

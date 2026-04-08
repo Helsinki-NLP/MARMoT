@@ -18,7 +18,7 @@ TRAIN_WALLTIME      ?= ${SLURM_MAX_GPU_TIME}
 
 .PHONY: train
 train: train-slurm
-	${MAKE} ${MODEL_DIR}/train.slurmjob
+	${MAKE} ${MODEL_DIR}/${TRAIN_STAGE}.slurmjob
 
 .PHONY: train-slurm
 train-slurm: ${TRAIN_CONFIGFILE}
@@ -28,7 +28,7 @@ train-slurm: ${TRAIN_CONFIGFILE}
 		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
 		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
 		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
-	${MODEL_DIR}/train.slurm
+	${MODEL_DIR}/${TRAIN_STAGE}.slurm
 
 
 
@@ -63,8 +63,8 @@ ifneq (${NR_OF_NODES},1)
 				--master_port ${MASTER_PORT}
 endif
 
-.PHONY: ${MODEL_DIR}/train
-${MODEL_DIR}/train: ${TRAIN_CONFIGFILE}
+.PHONY: ${MODEL_DIR}/${TRAIN_STAGE}
+${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
 	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
 	${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
 		-save_model ${MODEL_PATH} \
@@ -98,7 +98,7 @@ task-info:
 	  done )
 
 
-TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/train.*.err))
+TRAIN_LOGFILES := $(sort $(wildcard ${MODEL_DIR}/${TRAIN_STAGE}.*.err))
 TRAIN_LOGFILE  ?= $(lastword ${TRAIN_LOGFILES})
 
 ifdef LAST_LOGFILE
