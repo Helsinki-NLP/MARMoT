@@ -53,7 +53,7 @@ TASK_LANGPAIRS ?= ${TASKS}
 
 ## GPU assignments: simply distribute one task per GPU/Node
 ## - skip the initial GPU assignments if they exist (in TASK_GPUS)
-## - if NR_NODES is set: rotate over available nodes
+## - if NR_OF_NODES is set: rotate over available nodes
 
 ## don't allocate more nodes than what we can fill with tasks
 NR_OF_NODES ?= $(shell 	if [ $(words ${TASKS}) -gt ${MAX_GPUS_PER_NODE} ]; then \
