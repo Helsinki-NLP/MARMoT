@@ -384,12 +384,25 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 TASK_DISTRIBUTION ?= weighted_sampling
 
 ifeq (${USE_DATASIZE_AS_TASK_WEIGHT},1)
-  DEFAULT_WEIGHT ?= ${TRAINDATA_SIZE}
-else
-  DEFAULT_WEIGHT ?= 1.0
+  ifneq (${TRAINDATA_SIZE},)
+    DEFAULT_WEIGHT ?= ${TRAINDATA_SIZE}
+  endif
 endif
 
-TASK_WEIGHT := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS)) $(DEFAULT_WEIGHT))
+DEFAULT_WEIGHT ?= 1
+DEFAULT_WEIGHT_FACTOR ?= 1
+
+
+TASK_WEIGHT_BASE   := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS)) $(DEFAULT_WEIGHT))
+TASK_WEIGHT_FACTOR := $(firstword $(word ${TASK_NR},$(TASK_WEIGHT_FACTORS)) $(DEFAULT_WEIGHT_FACTOR))
+
+# TASK_WEIGHT := ${TASK_WEIGHT_BASE}
+
+ifneq ($(TASK_WEIGHT_FACTOR),1)
+  TASK_WEIGHT := $(shell echo '${TASK_WEIGHT_BASE}*${TASK_WEIGHT_FACTOR}' | bc)
+else
+  TASK_WEIGHT := ${TASK_WEIGHT_BASE}
+endif
 
 
 RANDOM_SEED          ?= 42
@@ -429,12 +442,12 @@ ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
-LR_DECAY         ?= 0.5     # learning rate decay
-DECAY_START      ?= 10000   # steps when to start lr-decay
-# AVERAGE_DECAY    ?= 0.0005
-AVERAGE_DECAY    ?= 0
 WARMUP_STEPS     ?= 10000
 DECAY_METHOD     ?= linear_warmup
+LR_DECAY         ?= 0.5
+DECAY_START      ?= ${WARMUP_STEPS}
+# AVERAGE_DECAY    ?= 0.0005
+AVERAGE_DECAY    ?= 0
 TRAINING_STEPS   ?= 100000
 
 
@@ -498,7 +511,7 @@ ${TASK_CONFIGFILES}:
 ${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
-	@-cat $^                                                     >> $@
+	@find $(dir $@) -name '$@.[0-9]*' | sort -k3 -t. -n | xargs cat >> $@
 	@echo ''                                                     >> $@
 	@echo "add model/training parameters"
 	${MAKE} -s -j1 CONFIGFILE=$@ \
