@@ -35,7 +35,7 @@ SLURM_GPU_GRES      ?= gpu
 SLURM_NODE_LOGDIR           ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 START_GPU_ENERGY_MONITORING ?= /appl/local/csc/soft/ai/bin/gpu-energy --save
 STOP_GPU_ENERGY_MONITORING  ?= /appl/local/csc/soft/ai/bin/gpu-energy --diff > ${SLURM_NODE_LOGDIR}/gpu-energy.txt
-MONITOR_GPU_USAGE           ?= $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh > ${SLURM_NODE_LOGDIR}/gpu-usage.txt &
+MONITOR_GPU_USAGE           ?= nohup $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh > ${SLURM_NODE_LOGDIR}/gpu-usage.txt &
 CLEANUP_TRAP                ?= trap '${STOP_GPU_ENERGY_MONITORING}' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM
 
 
@@ -62,7 +62,7 @@ TORCH_ENV_VARIABLES ?= 	export NCCL_SOCKET_IFNAME=${NCCL_SOCKET_IFNAME}; \
 
 ## commands to run before the main GPU task and after finishing the main task
 
-PREPARE_GPU_ENV ?= mkdir -p ${SLURM_NODE_LOGDIR};${START_GPU_ENERGY_MONITORING};${MONITOR_GPU_USAGE};${TORCH_ENV_VARIABLES};${CLEANUP_TRAP}
+PREPARE_GPU_ENV ?= ${START_GPU_ENERGY_MONITORING};${TORCH_ENV_VARIABLES};${CLEANUP_TRAP}
 CLEANUP_GPU_ENV ?= ${STOP_GPU_ENERGY_MONITORING}
 
 

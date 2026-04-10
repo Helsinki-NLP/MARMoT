@@ -32,18 +32,6 @@ train-slurm: ${TRAIN_CONFIGFILE}
 
 
 
-.PHONY: print-train-stats
-print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
-		${MODEL_DIR}/stats/valid-scores-bleu.txt \
-		${MODEL_DIR}/stats/valid-scores-ppl.txt \
-		${MODEL_DIR}/stats/valid-diff-bleu.txt \
-		${MODEL_DIR}/stats/valid-diff-ppl.txt
-
-.PHONY: print-valid-stats
-print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
-		${MODEL_DIR}/stats/valid-scores-ppl.txt
-
-
 ##------------------------------------------------------------------
 ## train a model
 ##------------------------------------------------------------------
@@ -65,17 +53,14 @@ endif
 
 .PHONY: ${MODEL_DIR}/${TRAIN_STAGE}
 ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
-	@mkdir -p ${MODEL_LOGDIR}
+	@mkdir -p ${MODEL_LOGDIR} ${SLURM_NODE_LOGDIR}
+	@${MONITOR_GPU_USAGE}
 	( ${PREPARE_GPU_ENV}; \
 	  ${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
 	  ${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
 		-save_model ${MODEL_PATH} \
 		-config $<; \
 	  ${CLEANUP_GPU_ENV}; )
-
-
-
-
 
 
 
@@ -89,6 +74,19 @@ ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
 ## - PRINT_METRIC: set name of validation metric to be reported
 ##   possible values: perplexity, accuracy, crossentropy, bleu
 ##------------------------------------------------------------------
+
+
+.PHONY: print-train-stats
+print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
+		${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-ppl.txt \
+		${MODEL_DIR}/stats/valid-diff-bleu.txt \
+		${MODEL_DIR}/stats/valid-diff-ppl.txt
+
+.PHONY: print-valid-stats
+print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-ppl.txt
+
 
 
 ## show a list of tasks and their GPU assignments

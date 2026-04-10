@@ -8,10 +8,16 @@ WHOAMI := $(shell whoami)
 EXPERIMENT_DIR ?= ${PWD}
 MODEL_NAME     ?= mammoth
 MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
-MODEL_LOGDIR   ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
 MODEL_PATH     ?= ${MODEL_DIR}/model
 MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
 EVAL_DIR       ?= ${MODEL_DIR}/eval
+
+
+## model log directories
+## and job/node-specific log directories for SLURM jobs
+
+MODEL_LOGDIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
+SLURM_NODE_LOGDIR ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 
 
 ## host specific configuration:
@@ -46,8 +52,9 @@ MAX_CPUS_PER_GPU ?= 10
 
 ## in case we need some commands for setting up and cleaning up GPU environments
 
-PREPARE_GPU_ENV ?= echo "all ready to run"
-CLEANUP_GPU_ENV ?= echo "ready for shutting down"
+PREPARE_GPU_ENV   ?= echo "all ready to run"
+CLEANUP_GPU_ENV   ?= echo "ready for shutting down"
+MONITOR_GPU_USAGE ?= echo "Monitoring GPU Usage is not implemented"
 
 
 ## mammoth environment
@@ -58,6 +65,8 @@ MAMMOTH_ENV_PYTHON   ?= ${MAMMOTH_ENV}/bin/python
 MAMMOTH_ENV_ACTIVATE ?= source ${MAMMOTH_ENV}/bin/activate
 
 
+## TODO: should the data and vocab default definitions move somewhere else?
+##
 ## data directories (assuming that we have data prepared in the project dir)
 ## - default training data from the Tatoeba translation challenge
 ## - default dev and test data from Flores200 if the exists (Tatoeba otherwise)
