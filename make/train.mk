@@ -52,7 +52,7 @@ print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
 ## if the mode meta file exits: continue from existing checkpoint
 
 ifneq ($(wildcard ${MODEL_META}),)
-  TRAIN_FROM = --train_from ${MODEL_PATH} --reset_optim none
+  TRAIN_FROM ?= --train_from ${MODEL_PATH} --reset_optim none
 endif
 
 ## for multi-node runs: need to set communication parameters
@@ -65,10 +65,13 @@ endif
 
 .PHONY: ${MODEL_DIR}/${TRAIN_STAGE}
 ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
-	${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
-	${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
+	@mkdir -p ${MODEL_LOGDIR}
+	( ${PREPARE_GPU_ENV}; \
+	  ${LOAD_MAMMOTH_ENV} ${MAMMOTH_ENV_PYTHON} \
+	  ${MAMMOTH_DIR}/train.py ${MAMMOTH_COMMUNICATION_PARAMS} ${TRAIN_FROM} \
 		-save_model ${MODEL_PATH} \
-		-config $<
+		-config $<; \
+	  ${CLEANUP_GPU_ENV}; )
 
 
 

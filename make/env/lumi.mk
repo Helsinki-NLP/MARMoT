@@ -5,7 +5,7 @@
 
 
 ## temporarly exclude this node
-SLURM_EXCLUDE := nid005878
+# SLURM_EXCLUDE := nid005878
 
 MAMMOTH_VERSION ?= dev
 # MAMMOTH_VERSION ?= joerg
@@ -17,7 +17,6 @@ MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth-${MAMMOTH_VERSION}/mammoth
 
 
 MAX_GPUS_PER_NODE   ?= 8
-# MAX_MEM_PER_GPU     ?= 48
 MAX_MEM_PER_GPU     ?= 60
 MAX_CPUS_PER_GPU    ?= 7
 
@@ -30,27 +29,84 @@ SLURM_GPU_PARTITION ?= standard-g
 SLURM_MAX_GPU_TIME  ?= 2-00:00:00
 SLURM_GPU_GRES      ?= gpu
 
+
+## some logfiles for energy consumption, GPU usage, Flight Recorder logs
+
+SLURM_NODE_LOGDIR           ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 START_GPU_ENERGY_MONITORING ?= /appl/local/csc/soft/ai/bin/gpu-energy --save
-STOP_GPU_ENERGY_MONITORING  ?= /appl/local/csc/soft/ai/bin/gpu-energy --diff
-MONITOR_GPU_USAGE           ?= $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh
+STOP_GPU_ENERGY_MONITORING  ?= /appl/local/csc/soft/ai/bin/gpu-energy --diff > ${SLURM_NODE_LOGDIR}/gpu-energy.txt
+MONITOR_GPU_USAGE           ?= $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh > ${SLURM_NODE_LOGDIR}/gpu-usage.txt &
+CLEANUP_TRAP                ?= trap '${STOP_GPU_ENERGY_MONITORING}' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM
+
+
+## export various NCCL variables
+## ──────────────────────────────────────────────────
+## RCCL environment variables for Slingshot network
+## ──────────────────────────────────────────────────
+## Use all Slingshot network interfaces for inter-node communication
+##    NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3
+## Enable GPU RDMA (direct GPU-to-GPU transfers over the network)
+##    NCCL_NET_GDR_LEVEL=PHB
+## Flight Recorder: dump RCCL collective traces on timeout
+## TODO: is it enough to set them as env parameters for singularity?
+
+NCCL_SOCKET_IFNAME ?= hsn0,hsn1,hsn2,hsn3
+NCCL_NET_GDR_LEVEL ?= PHB
+
+TORCH_ENV_VARIABLES ?= 	export NCCL_SOCKET_IFNAME=${NCCL_SOCKET_IFNAME}; \
+			export NCCL_NET_GDR_LEVEL=${NCCL_NET_GDR_LEVEL}; \
+			export TORCH_NCCL_TRACE_BUFFER_SIZE=2000; \
+			export TORCH_NCCL_DUMP_ON_TIMEOUT=true; \
+			export TORCH_FR_DUMP_TEMP_FILE=${SLURM_NODE_LOGDIR}/nccl_trace_rank_
+
+
+## commands to run before the main GPU task and after finishing the main task
+
+PREPARE_GPU_ENV ?= mkdir -p ${SLURM_NODE_LOGDIR};${START_GPU_ENERGY_MONITORING};${MONITOR_GPU_USAGE};${TORCH_ENV_VARIABLES};${CLEANUP_TRAP}
+CLEANUP_GPU_ENV ?= ${STOP_GPU_ENERGY_MONITORING}
+
+
 
 # PYTORCH_CONTAINER ?= /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif
-PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
+# PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
+PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
+
+
+ifdef PRETRAINED_MODEL
+  ifneq ($(dir ${PRETRAINED_MODEL}),${MODEL_DIR})
+    EXTRA_SINGULARITY_PARAM += -B $(dir ${PRETRAINED_MODEL}):$(dir ${PRETRAINED_MODEL})
+  endif
+endif
 
 SINGULARITY_PARAMS ?= 	--env MASTER_NODE="$${MASTER_NODE}" \
 			--env MASTER_PORT="$${MASTER_PORT}" \
-			--env NCCL_SOCKET_IFNAME="$${NCCL_SOCKET_IFNAME}" \
-			--env NCCL_NET_GDR_LEVEL="$${NCCL_NET_GDR_LEVEL}" \
+			--env NCCL_SOCKET_IFNAME="${NCCL_SOCKET_IFNAME}" \
+			--env NCCL_NET_GDR_LEVEL="${NCCL_NET_GDR_LEVEL}" \
 			--env NCCL_DEBUG="INFO" \
-			--env LD_PRELOAD="/usr/lib/libfabric.so.1 /opt/rocm/lib/librccl.so.1"\
+			--env TORCH_NCCL_TRACE_BUFFER_SIZE=2000 \
+			--env TORCH_NCCL_DUMP_ON_TIMEOUT=true \
+			--env TORCH_FR_DUMP_TEMP_FILE=${SLURM_NODE_LOGDIR}/nccl_trace_rank_ \
 			-B ${MODEL_DIR}:${MODEL_DIR}:rw \
 			-B ${MAMMOTH_HOME}:${MAMMOTH_HOME}:ro \
 			-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
 			-B ${MAKEFILE_DIR}:${MAKEFILE_DIR}:ro \
-			-B /dev/shm:/dev/shm:rw \
+			${EXTRA_SINGULARITY_PARAM}
+
+
+## not needed with latest PYTORCH_CONTAINER anymore
+#			--env LD_PRELOAD="/usr/lib/libfabric.so.1 /opt/rocm/lib/librccl.so.1"
+
+
+## not needed anymore?
+# -B /dev/shm:/dev/shm:rw 
+
+
+
+## finally the command to load the MAMMOTH environment
 
 LOAD_MAMMOTH_ENV ?= singularity exec ${SINGULARITY_PARAMS} ${PYTORCH_CONTAINER}
 MAMMOTH_ENV      ?= ${MAMMOTH_HOME}/.venv
+
 
 
 

@@ -154,13 +154,23 @@ TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAU
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
 # TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 
-## add prefix transform if necessary
+
+# add language tokens and prefix transform if necessary
+
+ADD_LANGUAGE_TOKEN ?= false
 
 ifneq (${TASK_SRCPREFIX}${TASK_TRGPREFIX},)
 ifneq ($(findstring prefix,$(TASK_TRANSFORM)),prefix)
   TASK_TRANSFORM := prefix,${TASK_TRANSFORM}
+  ADD_LANGUAGE_TOKEN := true
 endif
 endif
+
+
+
+
+
+
 
 #--------------------------------------------------------------
 # data sets
@@ -337,15 +347,21 @@ VOCAB_TRG_FILES ?= $(foreach l,${VOCAB_TRGLANGS},${VOCAB_TRG_DIR}/$l/${VOCAB_TRG
 # model architecture
 #--------------------------------------------------------------
 
+# total nr of encoder and decoder layers
 
-ENCODER_LAYERS     ?= 6        # Encoder layers (total size)
-DECODER_LAYERS     ?= 6        # Decoder layers (total size)
+ENCODER_LAYERS     ?= 6
+DECODER_LAYERS     ?= 6
 
-MODEL_DIMENSION    ?= 768      # Transformer model dimension
-MODEL_DTYPE        ?= bf16     # parameter precision and type
-DROPOUT_RATE       ?= 0.1      # dropout rate
+# Transformer model dimension
+# parameter precision and type
+# dropout rate
 
-ADD_LANGUAGE_TOKEN ?= false
+MODEL_DIMENSION    ?= 768
+MODEL_DTYPE        ?= bf16
+DROPOUT_RATE       ?= 0.1
+
+
+
 
 
 # X-Transformer options
@@ -406,16 +422,17 @@ else
 endif
 
 
-RANDOM_SEED          ?= 42
-BATCH_TYPE           ?= tokens  # type of unit for batch size
-BATCH_SIZE           ?= 8192    # per-GPU batch size
-VALID_BATCH          ?= 16      # validation batch size
-VALID_TIMEOUT        ?= 300     # validation time-out after 5 min
-VALID_DECODE_TIMEOUT ?= 60      # validation batch decoding time-out after 1 min
-VALID_MAX_LENGTH     ?= ${MAX_SEQ_LENGTH}
-GRADIENT_ACCUM       ?= 20      # gradient accumulation
-LOOK_AHEAD           ?= ${GRADIENT_ACCUM} # batch look-ahead to sort training examples by length
-QUEUE_SIZE           ?= 80
+
+
+
+# type of unit for batch size
+# batch size per GPU
+
+BATCH_TYPE           ?= tokens
+BATCH_SIZE           ?= 8192
+
+
+## sequence length restrictions (min and max)
 
 MIN_SRCSEQ_LENGTH ?= 1
 MIN_TRGSEQ_LENGTH ?= 1
@@ -424,16 +441,47 @@ MAX_SRCSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 MAX_TRGSEQ_LENGTH ?= ${MAX_SEQ_LENGTH}
 
 
-VALID_FREQ       ?= 2500    # validation frequency (steps)
-VALID_METRICS    ?= bleu    # validation metrics
-SAVE_FREQ        ?= 2500    # checkpoint saving frequency (steps)
-KEEP_CHECKPOINTS ?= 1       # nr of checkpoints to keep
-REPORT_FREQ      ?= 500     # progress reporting frequency (steps)
+# validation batch size
+# max sequence length for validation examples
+# time-out for validation tasks (5 min)
+# time-out for decoding one batch during validation (1 min)
+
+VALID_BATCH          ?= 16
+VALID_MAX_LENGTH     ?= ${MAX_SEQ_LENGTH}
+VALID_TIMEOUT        ?= 300
+VALID_DECODE_TIMEOUT ?= 60
+
+
+# gradient accumulation (number of batches)
+# batch look-ahead to sort training examples by length
+# queue size in data loader
+
+GRADIENT_ACCUM       ?= 20
+LOOK_AHEAD           ?= ${GRADIENT_ACCUM}
+QUEUE_SIZE           ?= 80
+
+
+# validation frequency (in steps)
+# validation metrics
+# checkpoint saving frequency (in steps)
+# nr of checkpoints to keep
+# progress reporting frequency (steps)
+# activate tensorboard logging
+
+VALID_FREQ       ?= 2500
+VALID_METRICS    ?= bleu
+SAVE_FREQ        ?= 2500
+KEEP_CHECKPOINTS ?= 1
+REPORT_FREQ      ?= 500
 REPORT_TFLOPS    ?= true
 TENSORBOARD      ?= true
-TENSORBOARD_DIR  ?= ${MODEL_DIR}/logs
+TENSORBOARD_DIR  ?= ${MODEL_DIR}/tb_logs
+
+
+# optimizer and learning parameters
 
 OPTIMIZER        ?= adamw
+RESET_OPTIMIZER  ?= none
 LEARNING_RATE    ?= 0.0003
 # LEARNING_RATE    ?= 0.0005
 # LEARNING_RATE    ?= 0.0008
@@ -449,6 +497,12 @@ LR_DECAY         ?= 0.5
 DECAY_START      ?= ${WARMUP_STEPS}
 # AVERAGE_DECAY    ?= 0.0005
 AVERAGE_DECAY    ?= 0
+RANDOM_SEED      ?= 42
+
+
+# number of training steps to run
+
+
 TRAINING_STEPS   ?= 100000
 
 
@@ -529,6 +583,10 @@ endif
 	@echo '# Model saving'                                       >> $@
 	@echo 'save_model: ${MODEL_PATH}'                            >> $@
 	@echo 'save_strategy: best_and_last'                         >> $@
+ifdef PRETRAINED_MODEL
+	@echo 'train_from: ${PRETRAINED_MODEL}'                      >> $@
+	@echo 'reset_optim: ${RESET_OPTIMIZER}'                      >> $@
+endif
 
 
 ## add a task section
@@ -691,10 +749,10 @@ config-add-training-params:
 ifeq (${NR_OF_NODES},1)
 	@echo 'node_rank: 0'                                       >> ${CONFIGFILE}
 endif
-	@echo ''                                                   >> ${CONFIGFILE}
 ifdef RANDOM_SEED
 	@echo 'seed: ${RANDOM_SEED}'                               >> ${CONFIGFILE}
 endif
+	@echo ''                                                   >> ${CONFIGFILE}
 
 
 .PHONY: config-add-checkpoint-params

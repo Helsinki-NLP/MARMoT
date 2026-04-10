@@ -8,6 +8,7 @@ WHOAMI := $(shell whoami)
 EXPERIMENT_DIR ?= ${PWD}
 MODEL_NAME     ?= mammoth
 MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
+MODEL_LOGDIR   ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
 MODEL_PATH     ?= ${MODEL_DIR}/model
 MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
 EVAL_DIR       ?= ${MODEL_DIR}/eval
@@ -41,6 +42,12 @@ PROJECT_SPACE    ?= /scratch/${HPC_PROJECT}
 PROJECT_DIR      ?= ${PROJECT_SPACE}/MARMoT
 MAX_MEM_PER_GPU  ?= 32
 MAX_CPUS_PER_GPU ?= 10
+
+
+## in case we need some commands for setting up and cleaning up GPU environments
+
+PREPARE_GPU_ENV ?= echo "all ready to run"
+CLEANUP_GPU_ENV ?= echo "ready for shutting down"
 
 
 ## mammoth environment

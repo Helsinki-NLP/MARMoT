@@ -31,6 +31,7 @@ SLURM_GPUS          ?= ${GPUS_PER_NODE}
 
 
 
+
 ## number of parallel jobs that make can run
 ## default = number of CPU cores we have allocated
 
@@ -56,7 +57,8 @@ SRUN ?= srun
 	  echo "waiting for space in the queue";\
 	  sleep 1; \
 	done
-	sbatch $< > $@
+	@sbatch ${SBATCH_ARGS} $< >> $@
+	@echo "tail -1 $@"
 
 
 ## create a slurm script
@@ -92,18 +94,10 @@ endif
 	@echo '# (useful if running several commands in the same script)'                    >> $@
 	@echo 'set -eux'                                                                     >> $@
 	@echo ''                                                                             >> $@
-ifdef STOP_GPU_ENERGY_MONITORING
-	@echo '#--------------------------------------------------------------------------'  >> $@
-	@echo '# define a function for finishing up interrupted jobs'                        >> $@
-	@echo 'abort_function()'                                                             >> $@
-	@echo '{'                                                                            >> $@
-	@echo '    echo "abort_function called at `date`"'                                   >> $@
-	@echo '    ${STOP_GPU_ENERGY_MONITORING}'                                            >> $@
-	@echo '}'                                                                            >> $@
-	@echo "trap 'abort_function' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"                  >> $@
-	@echo '#--------------------------------------------------------------------------'  >> $@
+	@echo '# mark job as running and failed if interrupted'                              >> $@
+	@echo "mv $@job $@job.running"                                                       >> $@
+	@echo "trap 'mv $@job.running $@job.failed' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"   >> $@
 	@echo ''                                                                             >> $@
-endif
 ifneq (${SLURM_NODES},1)
 	@echo '# Get the master node (first node in the job allocation) and set its port'    >> $@
 	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
@@ -117,26 +111,8 @@ ifneq (${SLURM_NODES},1)
 	@echo 'export MASTER_NODE="$${MASTER_NODE}"'                                         >> $@
 	@echo 'export MASTER_PORT="$${MASTER_PORT}"'                                         >> $@
 	@echo 'export TOKENIZERS_PARALLELISM=False'                                          >> $@
-endif
-ifeq (${HPC_HOST},lumi)
 	@echo ''                                                                             >> $@
-	@echo '# ──────────────────────────────────────────────────'                         >> $@
-	@echo '# RCCL environment variables for Slingshot network'                           >> $@
-	@echo '# ──────────────────────────────────────────────────'                         >> $@
-	@echo '# Use all Slingshot network interfaces for inter-node communication'          >> $@
-	@echo 'export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3'                                >> $@
-	@echo '# Enable GPU RDMA (direct GPU-to-GPU transfers over the network)'             >> $@
-	@echo 'export NCCL_NET_GDR_LEVEL=PHB'                                                >> $@
 endif
-ifneq (${SLURM_GPUS},0)
-ifdef START_GPU_ENERGY_MONITORING
-	@echo '${SRUN} ${START_GPU_ENERGY_MONITORING}'                                       >> $@
-endif
-ifdef MONITOR_GPU_USAGE
-	@echo '${MONITOR_GPU_USAGE} > $(@:.slurm=).$${SLURM_JOBID}.gpu-usage &'              >> $@
-endif
-endif
-	@echo ''                                                                             >> $@
 	@echo "${SRUN} ${MAKE} -j ${SLURM_PARALLEL_JOBS} -C ${EXPERIMENT_DIR} \\"            >> $@
 	@echo "             HPC_HOST=${HPC_HOST} \\"                                         >> $@
 	@echo "             TRAIN_STAGE=${TRAIN_STAGE} \\"                                   >> $@
@@ -147,11 +123,5 @@ ifneq (${SLURM_NODES},1)
 endif
 	@echo "             $(@:.slurm=)"                                                    >> $@
 	@echo ''                                                                             >> $@
-ifneq (${SLURM_GPUS},0)
-ifdef STOP_GPU_ENERGY_MONITORING
-	@echo '${SRUN} ${STOP_GPU_ENERGY_MONITORING}'                                        >> $@
-endif
-endif
-	@echo 'mv $@ $@.done'                                                                >> $@
 	@echo 'echo "Finishing at `date`"'                                                   >> $@
 

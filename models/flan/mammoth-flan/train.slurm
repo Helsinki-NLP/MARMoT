@@ -55,6 +55,7 @@ srun /appl/local/csc/soft/ai/bin/gpu-energy --save
 
 srun make -j 56 -C /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/flan \
              HPC_HOST=lumi \
+             TRAIN_STAGE=train \
              MODEL_NAME=mammoth-flan \
              MASTER_NODE=${MASTER_NODE} \
              MASTER_PORT=${MASTER_PORT} \
