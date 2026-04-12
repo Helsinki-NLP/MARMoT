@@ -46,7 +46,7 @@ endif
 
 TASKS          ?= fin-eng
 TASK_NRS       := $(shell seq $(words ${TASKS}))
-TASK_IDS       ?= $(foreach t,${TASK_NRS},task$(word $t,${TASK_NR})_$(word $t,${TASKS}))
+TASK_IDS       ?= $(foreach t,${TASK_NRS},task$t_$(word $t,${TASKS}))
 # TASK_IDS     ?= $(patsubst %,task_%,${TASKS})
 TASK_LANGPAIRS ?= ${TASKS}
 
@@ -397,28 +397,40 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 ## - default: uniform sampling (all tasks get weight 1.0)
 ## - if USE_DATASIZE_AS_TASK_WEIGHT=1: sample proportional to TRAINDATA_SIZE
 ## - task-specific weights can also be specified in TASK_WEIGHTS
+## - multiply by TASK_WEIGHT_FACTORS
+## - temperature-based sampling using SAMPLING_TEMP or TASK_WEIGHT_TEMPS
 
 TASK_DISTRIBUTION ?= weighted_sampling
 
 ifeq (${USE_DATASIZE_AS_TASK_WEIGHT},1)
   ifneq (${TRAINDATA_SIZE},)
-    DEFAULT_WEIGHT ?= ${TRAINDATA_SIZE}
+    SAMPLING_WEIGHT ?= ${TRAINDATA_SIZE}
   endif
 endif
 
-DEFAULT_WEIGHT ?= 1
-DEFAULT_WEIGHT_FACTOR ?= 1
+SAMPLING_WEIGHT  ?= 1
+SAMPLING_FACTOR  ?= 1
+SAMPLING_TEMP    ?= 1
 
+TASK_WEIGHT_BASE   := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS)) $(SAMPLING_WEIGHT))
+TASK_WEIGHT_FACTOR := $(firstword $(word ${TASK_NR},$(TASK_WEIGHT_FACTORS)) $(SAMPLING_FACTOR))
+TASK_WEIGHT_TEMP   := $(firstword $(word ${TASK_NR},$(TASK_WEIGHT_TEMPS)) $(SAMPLING_TEMP))
 
-TASK_WEIGHT_BASE   := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS)) $(DEFAULT_WEIGHT))
-TASK_WEIGHT_FACTOR := $(firstword $(word ${TASK_NR},$(TASK_WEIGHT_FACTORS)) $(DEFAULT_WEIGHT_FACTOR))
-
-# TASK_WEIGHT := ${TASK_WEIGHT_BASE}
+## temperature-based scaling of weights: w_t = w^(1/T)
+## for bc we need to transform this to   w_t = e(1/T*l(w))
 
 ifneq ($(TASK_WEIGHT_FACTOR),1)
-  TASK_WEIGHT := $(shell echo '${TASK_WEIGHT_BASE}*${TASK_WEIGHT_FACTOR}' | bc)
+  ifneq ($(TASK_WEIGHT_TEMP),1)
+    TASK_WEIGHT := $(shell echo 'e(1/${TASK_WEIGHT_TEMP}*l(${TASK_WEIGHT_BASE}*${TASK_WEIGHT_FACTOR}))' | bc -l)
+  else
+    TASK_WEIGHT := $(shell echo '${TASK_WEIGHT_BASE}*${TASK_WEIGHT_FACTOR}' | bc)
+  endif
 else
-  TASK_WEIGHT := ${TASK_WEIGHT_BASE}
+  ifneq ($(TASK_WEIGHT_TEMP),1)
+    TASK_WEIGHT := $(shell echo 'e(1/${TASK_WEIGHT_TEMP}*l(${TASK_WEIGHT_BASE}))' | bc -l)
+  else
+    TASK_WEIGHT := ${TASK_WEIGHT_BASE}
+  endif
 endif
 
 
@@ -429,7 +441,8 @@ endif
 # batch size per GPU
 
 BATCH_TYPE           ?= tokens
-BATCH_SIZE           ?= 8192
+BATCH_SIZE           ?= 32768
+# BATCH_SIZE           ?= 8192
 
 
 ## sequence length restrictions (min and max)
@@ -457,8 +470,8 @@ VALID_DECODE_TIMEOUT ?= 60
 # queue size in data loader
 
 GRADIENT_ACCUM       ?= 20
-LOOK_AHEAD           ?= ${GRADIENT_ACCUM}
-QUEUE_SIZE           ?= 80
+LOOK_AHEAD           ?= 80
+QUEUE_SIZE           ?= 120
 
 
 # validation frequency (in steps)
@@ -487,7 +500,8 @@ LEARNING_RATE    ?= 0.0003
 # LEARNING_RATE    ?= 0.0008
 # LEARNING_RATE    ?= 0.00001
 ADAM_BETA1       ?= 0.9
-ADAM_BETA2       ?= 0.999
+ADAM_BETA2       ?= 0.9
+# ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
@@ -502,8 +516,7 @@ RANDOM_SEED      ?= 42
 
 # number of training steps to run
 
-
-TRAINING_STEPS   ?= 100000
+TRAINING_STEPS   ?= 250000
 
 
 #--------------------------------------------------------------
@@ -583,10 +596,12 @@ endif
 	@echo '# Model saving'                                       >> $@
 	@echo 'save_model: ${MODEL_PATH}'                            >> $@
 	@echo 'save_strategy: best_and_last'                         >> $@
+	@echo 'reset_optim: ${RESET_OPTIMIZER}'                      >> $@
 ifdef PRETRAINED_MODEL
 	@echo 'train_from: ${PRETRAINED_MODEL}'                      >> $@
-	@echo 'reset_optim: ${RESET_OPTIMIZER}'                      >> $@
 endif
+
+
 
 
 ## add a task section
@@ -805,3 +820,11 @@ ifneq (${TRAINDATA_SRC_SIZEFILE},${TRAINDATA_TRG_SIZEFILE})
 ${TRAINDATA_TRG_SIZEFILE}: ${TRAINDATA_TRG}
 	${GZIP} -cd < $< | wc > $@
 endif
+
+
+
+## return task number for a give task ID
+
+.PHONY: find_tasknr
+find_tasknr:
+	@echo "${TASK_ID} = task nr $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})"

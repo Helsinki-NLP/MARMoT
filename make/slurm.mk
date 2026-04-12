@@ -50,18 +50,56 @@ endif
 SRUN ?= srun
 
 
-## create a slurm script and submit it
+##---------------------------
+## submit a slurm job
+##---------------------------
+
+## add slurm dependencies
+
+ifneq (${SLURM_DEPENDENCIES},)
+  SLURM_DEPENDENCY_FILES := $(wildcard ${SLURM_DEPENDENCIES} $(addsuffix .running,${SLURM_DEPENDENCIES}))
+  ifneq (${SLURM_DEPENDENCY_FILES},)
+    SLURM_DEPENDENCY_JOBIDS := $(shell cat ${SLURM_DEPENDENCY_FILES} | rev | cut -f1 -d' ' | rev )
+    SBATCH_ARGS += -d afterok:$(subst $(space),:,${SLURM_DEPENDENCY_JOBIDS})
+  endif
+endif
 
 %.slurmjob: %.slurm
-	@while [ `squeue -u ${WHOAMI} | wc -l` -gt ${SLURM_MAX_NR_JOBS} ]; do \
-	  echo "waiting for space in the queue";\
-	  sleep 1; \
-	done
-	@sbatch ${SBATCH_ARGS} $< >> $@
-	@echo "tail -1 $@"
+	@if [ -e $@.done ]; then \
+	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
+	  echo "Job $@ is already done!"; \
+	  echo "Delete $@.done if you want to restart it!"; \
+	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
+	elif [ -e $@.running ]; then \
+	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
+	  echo "Job $@ is running!"; \
+	  echo "Delete $@.running if the job is stalled!"; \
+	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
+	else \
+	  while [ `squeue -u ${WHOAMI} | wc -l` -gt ${SLURM_MAX_NR_JOBS} ]; do \
+	    echo "waiting for space in the queue";\
+	    sleep 10; \
+	  done; \
+	  echo "sbatch ${SBATCH_ARGS} $<"; \
+	  sbatch ${SBATCH_ARGS} $< >> $@; \
+	  echo "tail -1 $@"; \
+	fi
 
 
+##---------------------------
 ## create a slurm script
+##---------------------------
+
+
+## define how many restarts of slurm training jobs we
+## can submit in case a jobs times out or breaks
+##
+## SLURM_RESTART_COUNT = current iteration
+## SLURM_MAX_RESTARTS  = maximum number of restarts
+
+SLURM_RESTART_COUNT ?= 0
+SLURM_MAX_RESTARTS  ?= 0
+
 
 %.slurm:
 	@mkdir -p $(dir $@)
@@ -94,10 +132,22 @@ endif
 	@echo '# (useful if running several commands in the same script)'                    >> $@
 	@echo 'set -eux'                                                                     >> $@
 	@echo ''                                                                             >> $@
-	@echo '# mark job as running and failed if interrupted'                              >> $@
+	@echo '# mark job as running'                                                        >> $@
 	@echo "mv $@job $@job.running"                                                       >> $@
+	@echo ''                                                                             >> $@
+	@echo '# mark job as failed if interrupted'                                          >> $@
 	@echo "trap 'mv $@job.running $@job.failed' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM"   >> $@
 	@echo ''                                                                             >> $@
+ifneq (${SLURM_MAX_RESTARTS},0)
+  ifneq (${SLURM_MAX_RESTARTS},${SLURM_RESTART_COUNT})
+	@echo '# submit job that continues in case the current one breaks or times out'      >> $@
+	@echo "# current iteration: ${SLURM_RESTART_COUNT}/${SLURM_MAX_RESTARTS}"            >> $@
+	@echo "${MAKE} -C ${EXPERIMENT_DIR} $@job \\"                                        >> $@
+	@echo "	SLURM_RESTART_COUNT=$$(( ${SLURM_RESTART_COUNT} + 1 )) \\"                   >> $@
+	@echo '	SBATCH_ARGS="-d afternotok:$${SLURM_JOBID}"'                                 >> $@
+	@echo ''                                                                             >> $@
+  endif
+endif
 ifneq (${SLURM_NODES},1)
 	@echo '# Get the master node (first node in the job allocation) and set its port'    >> $@
 	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
@@ -122,6 +172,9 @@ ifneq (${SLURM_NODES},1)
 	@echo "             MASTER_PORT=\$${MASTER_PORT} \\"                                 >> $@
 endif
 	@echo "             $(@:.slurm=)"                                                    >> $@
+	@echo ''                                                                             >> $@
+	@echo '# mark job as done'                                                           >> $@
+	@echo 'mv $@job $@job.done'                                                          >> $@
 	@echo ''                                                                             >> $@
 	@echo 'echo "Finishing at `date`"'                                                   >> $@
 

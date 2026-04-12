@@ -52,6 +52,12 @@ include ../../make/marmot.mk
 
 
 
+## test zero-shot translation
+
+.PHONY: %.zero-shot
+%.zero-shot:
+	@${MAKE} -s $(basename $@) TASKS="deu-fra por-swe swe-fin"
+
 
 ## some other variants
 

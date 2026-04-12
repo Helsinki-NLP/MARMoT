@@ -1,6 +1,11 @@
 #-*-makefile-*-
 
 
+# EVAL_DEFAULT_TRANSFORM ?=
+VALID_MAX_LENGTH ?= 32768
+
+
+
 ## selected tasks to be evaluated
 ## default: select all
 
@@ -45,12 +50,6 @@ ${EVAL_TASK_JOBS}:
 	@${MAKE} -s TASK_NR=$(notdir $@) FIND_TESTDATA=1 eval-task
 
 
-## this does not work:
-.PHONY: eval-zero-shot-tasks
-eval-zero-shot-tasks:
-	@for t in $(shell seq $(words ${ZERO_SHOT_TASKS})); do \
-	  ${MAKE} TASKS="${ZERO_SHOT_TASKS}" TASK_NR=$$t FIND_TESTDATA=1 eval-task; \
-	done
 
 
 .PHONY: eval-wmt24pp
@@ -169,7 +168,11 @@ ${EVAL_DIR}/eval_${TASK_ID}:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
-	-${MAKE} ${TESTDATA_OUTPUT}
+	-${MAKE} ${TESTDATA_OUTPUT} \
+		DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} \
+		MAX_SEQ_LENGTH=${VALID_MAX_LENGTH} \
+		MAX_SRCSEQ_LENGTH=${VALID_MAX_LENGTH} \
+		MAX_TRGSEQ_LENGTH=${VALID_MAX_LENGTH}
 	-sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < ${TESTDATA_OUTPUT} > $@
     else
 	@echo "skip task ${TASK_ID} (same source and target language)"

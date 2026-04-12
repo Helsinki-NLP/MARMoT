@@ -33,7 +33,7 @@ langgroup = $(call lookup,$1,$(LANGS),$(LANG_GROUPS))
 PIVOT_LANGS    := deu eng fra spa
 TASKS          := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) fin-swe swe-fin fin-ukr ukr-fin)
 TASK_LANGPAIRS := $(foreach l,$(TASKS),$(call langgroup,$(firstword $(subst -, ,$l)))-$(lastword $(subst -, ,$l)))
-TASK_ENCODERS  := $(foreach l,$(TASKS),"$(firstword $(subst -, ,$l))")
+TASK_ENCODERS  := $(foreach l,$(TASK_LANGPAIRS),"$(firstword $(subst -, ,$l))")
 TASK_IDS       := $(patsubst %,mt_%,${TASKS})
 
 
@@ -57,3 +57,9 @@ include ../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})
+
+## test zero-shot translation
+
+.PHONY: %.zero-shot
+%.zero-shot:
+	@${MAKE} -s $(basename $@) TASKS="por-swe swe-fin"

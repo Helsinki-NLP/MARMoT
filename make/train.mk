@@ -16,18 +16,25 @@ TRAIN_CPUS_PER_TASK ?= $(shell echo $$(( ${GPUS_PER_NODE} * ${MAX_CPUS_PER_GPU} 
 TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * ${MAX_MEM_PER_GPU} )) )G
 TRAIN_WALLTIME      ?= ${SLURM_MAX_GPU_TIME}
 
+# make it possible that training jobs restart if interrupted or timing out
+TRAIN_RESTARTS      ?= 10
+
+# add dependency on job from previous stage (if defined)
+TRAIN_DEPENDENCIES  ?= $(patsubst %,${MODEL_DIR}/%.slurmjob,${PREV_TRAIN_STAGE})
+
 .PHONY: train
 train: train-slurm
-	${MAKE} ${MODEL_DIR}/${TRAIN_STAGE}.slurmjob
+	${MAKE} SLURM_DEPENDENCIES=${TRAIN_DEPENDENCIES} ${MODEL_DIR}/${TRAIN_STAGE}.slurmjob
 
 .PHONY: train-slurm
 train-slurm: ${TRAIN_CONFIGFILE}
-	@echo "make ${MODEL_DIR}/train.slurm"
+	@echo "make ${MODEL_DIR}/${TRAIN_STAGE}.slurm"
 	${MAKE} SLURM_TIME=${TRAIN_WALLTIME} \
 		SLURM_NODES=${TRAIN_NR_OF_NODES} \
 		SLURM_GPUS=${TRAIN_GPUS_PER_NODE} \
 		SLURM_CPUS_PER_TASK=$(TRAIN_CPUS_PER_TASK) \
 		SLURM_MEM=$(TRAIN_MEM_PER_NODE) \
+		SLURM_MAX_RESTARTS=${TRAIN_RESTARTS} \
 	${MODEL_DIR}/${TRAIN_STAGE}.slurm
 
 
@@ -50,6 +57,7 @@ ifneq (${NR_OF_NODES},1)
 				--master_ip ${MASTER_NODE} \
 				--master_port ${MASTER_PORT}
 endif
+
 
 .PHONY: ${MODEL_DIR}/${TRAIN_STAGE}
 ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}

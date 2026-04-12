@@ -5,7 +5,7 @@
 #  - language-specific decoders
 
 
-MODEL_NAME := mammoth-docmt
+MODEL_NAME := mammoth
 
 LANGS := bos bul cat ces dan deu ell eng \
 	est eus fin fra gle glg hrv hun \
@@ -24,6 +24,10 @@ TRAINDATA := multisynt/train/len1024
 
 ## use document-level tokenizers trained on Tatoeba/HPLT/MultiSynth
 VOCAB := tatoeba_hplt_multisynt
+
+
+## set the encoder to be shared among all langages
+DEFAULT_ENCODER := "all"
 
 
 ## include this at the end to set all variables and
