@@ -5,8 +5,6 @@
 #  - language-specific decoders
 
 
-MODEL_NAME := mammoth
-
 LANGS := bos bul cat ces dan deu ell eng \
 	est eus fin fra gle glg hrv hun \
 	isl ita kat lav lit mkd mlt nld \
@@ -14,11 +12,13 @@ LANGS := bos bul cat ces dan deu ell eng \
 	sqi srp_Cyrl swe tur ukr
 
 
-## all English-centric translation tasks in both directions
+## all pivot-centric translation tasks in both directions
+## (add four additional language pairs to fill all GPUs on allocated compute nodes)
 
-PIVOT_LANGS    := deu eng fra spa
-TASKS          := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) fin-swe swe-fin fin-ukr ukr-fin)
-TASK_IDS       := $(patsubst %,mt_%,${TASKS})
+PIVOT_LANGS := deu eng fra spa
+EXTRA_TASKS := fin-swe swe-fin fin-ukr ukr-fin
+TASKS       := $(sort $(foreach p,${PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGS}),$l-$p $p-$l)) ${EXTRA_TASKS})
+TASK_IDS    := $(patsubst %,mt_%,${TASKS})
 
 
 ## select MultiSynth doc-level training data

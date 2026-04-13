@@ -515,9 +515,10 @@ RANDOM_SEED      ?= 42
 
 
 # number of training steps to run
+# early stopping: number of validation steps without improving
 
 TRAINING_STEPS   ?= 250000
-
+EARLY_STOPPING   ?= 5
 
 #--------------------------------------------------------------
 # decoding parameters
@@ -733,6 +734,7 @@ config-add-training-params:
 	@echo ''                                                   >> ${CONFIGFILE}
 	@echo '# Training Configuration'                           >> ${CONFIGFILE}
 	@echo 'train_steps: ${TRAINING_STEPS}'                     >> ${CONFIGFILE}
+	@echo 'early_stopping: ${EARLY_STOPPING}'                  >> ${CONFIGFILE}
 	@echo 'accum_count: [$(strip ${GRADIENT_ACCUM})]'          >> ${CONFIGFILE}
 	@echo 'lookahead_minibatches: ${LOOK_AHEAD}'               >> ${CONFIGFILE}
 	@echo 'batch_size: ${BATCH_SIZE}'                          >> ${CONFIGFILE}

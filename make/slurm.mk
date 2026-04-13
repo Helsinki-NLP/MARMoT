@@ -22,7 +22,6 @@ SLURM_MAX_CPU_TIME  ?= 3-00:00:00
 SLURM_MAX_GPU_TIME  ?= 3-00:00:00
 SLURM_GPU_GRES      ?= gpu:v100
 SLURM_MAX_NR_JOBS   ?= 200
-# SLURM_MAX_NR_JOBS   ?= 210
 SLURM_CPUS_PER_TASK ?= 16
 SLURM_MEM           ?= 48G
 SLURM_NODES         ?= ${NR_OF_NODES}
@@ -70,7 +69,7 @@ endif
 	  echo "Job $@ is already done!"; \
 	  echo "Delete $@.done if you want to restart it!"; \
 	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
-	elif [ -e $@.running ]; then \
+	elif [ -e $@.running ] && [ "${SLURM_RESTART_JOB}" != "1" ] ; then \
 	  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; \
 	  echo "Job $@ is running!"; \
 	  echo "Delete $@.running if the job is stalled!"; \
@@ -143,6 +142,7 @@ ifneq (${SLURM_MAX_RESTARTS},0)
 	@echo '# submit job that continues in case the current one breaks or times out'      >> $@
 	@echo "# current iteration: ${SLURM_RESTART_COUNT}/${SLURM_MAX_RESTARTS}"            >> $@
 	@echo "${MAKE} -C ${EXPERIMENT_DIR} $@job \\"                                        >> $@
+	@echo "	SLURM_RESTART_JOB=1 \\"                                                      >> $@
 	@echo "	SLURM_RESTART_COUNT=$$(( ${SLURM_RESTART_COUNT} + 1 )) \\"                   >> $@
 	@echo '	SBATCH_ARGS="-d afternotok:$${SLURM_JOBID}"'                                 >> $@
 	@echo ''                                                                             >> $@
@@ -174,7 +174,7 @@ endif
 	@echo "             $(@:.slurm=)"                                                    >> $@
 	@echo ''                                                                             >> $@
 	@echo '# mark job as done'                                                           >> $@
-	@echo 'mv $@job $@job.done'                                                          >> $@
+	@echo 'mv $@job.running $@job.done'                                                  >> $@
 	@echo ''                                                                             >> $@
 	@echo 'echo "Finishing at `date`"'                                                   >> $@
 
