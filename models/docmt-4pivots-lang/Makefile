@@ -29,6 +29,9 @@ TRAINDATA := multisynt/train/len1024
 VOCAB := tatoeba_hplt_multisynt
 
 
+BATCH_SIZE := 32768
+
+
 ## include this at the end to set all variables and
 ## to include all makefile targets for marmot experiments
 include ../../make/marmot.mk

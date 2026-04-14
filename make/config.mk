@@ -40,7 +40,7 @@
 
 ifeq (${TASKS},)
 ifdef TASK_IDS
-  TASKS ?= $(shell echo ${TASK_IDS} | tr " " "\n" | sed 's/^[^_]*_//')
+  TASKS := $(shell echo ${TASK_IDS} | tr " " "\n" | sed 's/^[^_]*_//')
 endif
 endif
 
@@ -48,6 +48,7 @@ TASKS          ?= fin-eng
 TASK_NRS       := $(shell seq $(words ${TASKS}))
 TASK_IDS       ?= $(foreach t,${TASK_NRS},task$t_$(word $t,${TASKS}))
 # TASK_IDS     ?= $(patsubst %,task_%,${TASKS})
+TASK_TYPES     ?= $(notdir $(subst _,/,$(TASK_IDS)))
 TASK_LANGPAIRS ?= ${TASKS}
 
 
@@ -140,11 +141,11 @@ DEFAULT_TRANSFORM  ?= filtertoolong
 DEFAULT_TRAINSTEP  ?= 0
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
-# DEFAULT_WEIGHT     ?= 1.0
 
 # current task specifications - selected with TASK_NR or default value
 
 TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task${TASK_NR}_${TASK})
+TASK_TYPE      := $(firstword $(word ${TASK_NR},$(TASK_TYPES))           $(notdir $(subst _,/,$(TASK_ID))))
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
 TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
@@ -152,8 +153,16 @@ TASK_SRCPREFIX := $(firstword $(word ${TASK_NR},$(TASK_SRCPREFIXES))     $(DEFAU
 TASK_TRGPREFIX := $(firstword $(word ${TASK_NR},$(TASK_TRGPREFIXES))     $(DEFAULT_TRGPREFIX))
 TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAULT_ENCODER))
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
-# TASK_WEIGHT    := $(firstword $(word ${TASK_NR},$(TASK_WEIGHTS))         $(DEFAULT_WEIGHT))
 
+
+## replace variables for {LANG} and {LANGGROUP}
+
+ifeq ($(findstring {LANG,${TASK_ENCODER}),{LANG)
+  TASK_ENCODER := $(subst {LANGGROUP},$(call langgroup,${SRCLANG}),$(subst {LANG},${SRCLANG},${TASK_ENCODER}))
+endif
+ifeq ($(findstring {LANG,${TASK_DECODER}),{LANG)
+  TASK_DECODER := $(subst {LANGGROUP},$(call langgroup,${TRGLANG}),$(subst {LANG},${TRGLANG},${TASK_DECODER}))
+endif
 
 # add language tokens and prefix transform if necessary
 
@@ -441,8 +450,8 @@ endif
 # batch size per GPU
 
 BATCH_TYPE           ?= tokens
-BATCH_SIZE           ?= 32768
-# BATCH_SIZE           ?= 8192
+# BATCH_SIZE           ?= 32768
+BATCH_SIZE           ?= 8192
 
 
 ## sequence length restrictions (min and max)

@@ -135,7 +135,8 @@ eval-task-slurm eval-task-slurmjob:
 ## translate and evaluate
 ##-------------------------------------------------------------------------------
 
-MT_METRICS = bleu chrf ter
+# MT_METRICS = bleu chrf ter
+MT_METRICS = bleu chrf
 
 
 ## eval targets for all tasks

@@ -10,7 +10,9 @@
 _pos      = $(if $(findstring $1,$2),$(call _pos,$1,$(wordlist 2,$(words $2),$2),x $3),$3)
 pos       = $(words $(call _pos,$1,$2))
 lookup    = $(word $(call pos,$1,$2),$3)
-lookup_with_fallback = $(firstword $(word $(call pos,$1,$2),$3) $1)
+
+## lookup function that returns the same string if not found
+lookup_with_fallback = $(word $(call pos,$1,$1 $2),$1 $3)
 
 
 
@@ -23,3 +25,35 @@ reverse = $(lastword $(subst -, ,$(1)))-$(firstword $(subst -, ,$(1)))
 ## matching a space
 
 space := $(subst ,, )
+
+
+## some pre-defined subset of languages
+## and a mapping from languages to language-groups
+## (OpenEuroLLM languages only)
+
+
+LANGUAGES ?= 	bos bul cat ces dan deu ell eng \
+		est eus fin fra gle glg hrv hun \
+		isl ita kat lav lit mkd mlt nld \
+		nno nob pol por ron slk slv spa \
+		sqi srp_Cyrl swe tur ukr
+
+LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
+		urj euq urj roa cel roa zls urj \
+		gmq roa ccs bat bat zls sem gmw \
+		gmq gmq zlw roa roa zlw zls roa \
+		mul zls gmq trk zle
+
+
+## look up the language group for a given language ID
+## (LANGUAGE2GROUP needs to match the list of language IDs in LANGUAGES)
+## NOTE: this falls back to immediate language group parent from ISO standard
+##       this requires the langgroup tool!
+
+
+
+ifneq ($(shell which langgroup 2>/dev/null),)
+  langgroup = $(call lookup,$1,$1 $(LANGUAGES),$(shell langgroup -p -n $1) $(LANGUAGE2GROUP))
+else
+  langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGES),$1 $(LANGUAGE2GROUP))
+endif
