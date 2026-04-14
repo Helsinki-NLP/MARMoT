@@ -449,9 +449,10 @@ endif
 # type of unit for batch size
 # batch size per GPU
 
-BATCH_TYPE           ?= tokens
-# BATCH_SIZE           ?= 32768
-BATCH_SIZE           ?= 8192
+BATCH_TYPE   ?= tokens
+# BATCH_SIZE ?= 32768
+BATCH_SIZE   ?= 16384
+# BATCH_SIZE ?= 8192
 
 
 ## sequence length restrictions (min and max)

@@ -16,7 +16,7 @@
   - trained on English-centric translation tasks using MultiSynt data
   - STATUS: 2-day training done?
   - NOTE: training logfile was over-written for some strange reason --> validation results are lost
-* docmt-4pivots-lang:
+* docmt-4pivots:
   - transfomer-base model with language-specific encoders and decoders
   - trained on German/English/French/Spanish-centric MultiSynt data
   - STATUS: 2-day training done
