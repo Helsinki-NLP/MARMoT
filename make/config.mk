@@ -142,26 +142,30 @@ DEFAULT_TRAINSTEP  ?= 0
 DEFAULT_ENCODER    ?= "${SRCLANG}"
 DEFAULT_DECODER    ?= "${TRGLANG}"
 
+ENCODER    ?= ${DEFAULT_ENCODER}
+DECODER    ?= ${DEFAULT_DECODER}
+TRANSFORM  ?= ${DEFAULT_TRANSFORM}
+
 # current task specifications - selected with TASK_NR or default value
 
 TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task${TASK_NR}_${TASK})
 TASK_TYPE      := $(firstword $(word ${TASK_NR},$(TASK_TYPES))           $(notdir $(subst _,/,$(TASK_ID))))
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
-TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(DEFAULT_TRANSFORM))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
 TASK_SRCPREFIX := $(firstword $(word ${TASK_NR},$(TASK_SRCPREFIXES))     $(DEFAULT_SRCPREFIX))
 TASK_TRGPREFIX := $(firstword $(word ${TASK_NR},$(TASK_TRGPREFIXES))     $(DEFAULT_TRGPREFIX))
-TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(DEFAULT_ENCODER))
-TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DEFAULT_DECODER))
+TASK_TRANSFORM := $(firstword $(word ${TASK_NR},$(TASK_TRANSFORMS))      $(TRANSFORM))
+TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(ENCODER))
+TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DECODER))
 
 
-## replace variables for {LANG} and {LANGGROUP}
+## replace variables for {lang} and {langgroup}
 
-ifeq ($(findstring {LANG,${TASK_ENCODER}),{LANG)
-  TASK_ENCODER := $(subst {LANGGROUP},$(call langgroup,${SRCLANG}),$(subst {LANG},${SRCLANG},${TASK_ENCODER}))
+ifeq ($(findstring {lang,${TASK_ENCODER}),{lang)
+  TASK_ENCODER := $(subst {langgroup},$(call langgroup,${SRCLANG}),$(subst {lang},${SRCLANG},${TASK_ENCODER}))
 endif
-ifeq ($(findstring {LANG,${TASK_DECODER}),{LANG)
-  TASK_DECODER := $(subst {LANGGROUP},$(call langgroup,${TRGLANG}),$(subst {LANG},${TRGLANG},${TASK_DECODER}))
+ifeq ($(findstring {lang,${TASK_DECODER}),{lang)
+  TASK_DECODER := $(subst {langgroup},$(call langgroup,${TRGLANG}),$(subst {lang},${TRGLANG},${TASK_DECODER}))
 endif
 
 # add language tokens and prefix transform if necessary
