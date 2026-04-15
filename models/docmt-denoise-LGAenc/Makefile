@@ -32,7 +32,7 @@ DENOISE_WEIGHTS    := $(foreach l,${DENOISE_TASK_IDS},1)
 
 DOCMT_TASK_IDS     := $(foreach l,$(filter-out eng,${LANGUAGES}),mt_$l-eng mt_eng-$l)
 DOCMT_TRANSFORMS   := $(foreach l,${DOCMT_TASK_IDS},filtertoolong)
-DOCMT_WEIGHTS      := $(foreach l,${DOCMT_TASK_IDS},3)
+DOCMT_WEIGHTS      := $(foreach l,${DOCMT_TASK_IDS},10)
 
 
 ## task definitions put together
