@@ -57,6 +57,10 @@ VOCAB := tatoeba_hplt_multisynt
 DEFAULT_ENCODER := "all"
 
 
+NR_OF_NODES                 := 9
+USE_DATASIZE_AS_TASK_WEIGHT := 1
+SAMPLING_TEMP               := 2
+
 
 include ../../make/marmot.mk
 

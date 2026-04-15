@@ -32,13 +32,14 @@ DENOISE_WEIGHTS    := $(foreach l,${DENOISE_TASK_IDS},1)
 
 DOCMT_TASK_IDS     := $(foreach l,$(filter-out eng,${LANGUAGES}),mt_$l-eng mt_eng-$l)
 DOCMT_TRANSFORMS   := $(foreach l,${DOCMT_TASK_IDS},filtertoolong)
-DOCMT_WEIGHTS      := $(foreach l,${DOCMT_TASK_IDS},2)
+DOCMT_WEIGHTS      := $(foreach l,${DOCMT_TASK_IDS},3)
 
 
 ## task definitions put together
 
-TASK_IDS           := ${DOCMT_TASK_IDS} ${DENOISE_TASK_IDS} 
-TASK_TRANSFORMS    := ${DOCMT_TRANSFORMS} ${DENOISE_TRANSFORMS}
+TASK_IDS            := ${DOCMT_TASK_IDS} ${DENOISE_TASK_IDS} 
+TASK_TRANSFORMS     := ${DOCMT_TRANSFORMS} ${DENOISE_TRANSFORMS}
+TASK_WEIGHT_FACTORS := ${DOCMT_WEIGHTS} ${DENOISE_WEIGHTS}
 
 
 ## set the encoder to be shared among all langages
