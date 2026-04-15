@@ -140,10 +140,10 @@ endif
 ifneq (${SLURM_MAX_RESTARTS},0)
   ifneq (${SLURM_MAX_RESTARTS},${SLURM_RESTART_COUNT})
 	@echo '# submit job that continues in case the current one breaks or times out'      >> $@
-	@echo 'echo "current iteration: $${SLURM_RESTART_COUNT}/$${SLURM_MAX_RESTARTS}"'     >> $@
+	@echo 'echo "current iteration: $${SLURM_RESTART_COUNT:-0}/${SLURM_MAX_RESTARTS}"'   >> $@
 	@echo "${MAKE} -C ${EXPERIMENT_DIR} $@job \\"                                        >> $@
 	@echo "	SLURM_RESTART_JOB=1 \\"                                                      >> $@
-	@echo '	SLURM_RESTART_COUNT=$$$$(( $${SLURM_RESTART_COUNT:-0} + 1 )) \\'             >> $@
+	@echo '	SLURM_RESTART_COUNT=$$(( $${SLURM_RESTART_COUNT:-0} + 1 )) \'                >> $@  # '
 	@echo '	SBATCH_ARGS="-d afternotok:$${SLURM_JOBID}"'                                 >> $@
 	@echo ''                                                                             >> $@
   endif
