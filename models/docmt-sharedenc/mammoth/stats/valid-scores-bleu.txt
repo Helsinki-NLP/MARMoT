@@ -1,70 +1,70 @@
-gpu	task-ids	37500	
-0:0	task1_bos-eng	20.356	
-0:1	task2_eng-bos	28.746	
-0:2	task3_bul-eng	33.372	
-0:3	task4_eng-bul	41.975	
-0:4	task5_cat-eng	39.410	
-0:5	task6_eng-cat	41.930	
-0:6	task7_ces-eng	33.097	
-0:7	task8_eng-ces	30.997	
-1:0	task9_dan-eng	42.866	
-1:1	task10_eng-dan	45.517	
-1:2	task11_deu-eng	38.820	
-1:3	task12_eng-deu	38.181	
-1:4	task13_ell-eng	24.798	
-1:5	task14_eng-ell	26.613	
-1:6	task15_est-eng	31.465	
-1:7	task16_eng-est	26.967	
-2:0	task17_eus-eng	23.228	
-2:1	task18_eng-eus	14.724	
-2:2	task19_fin-eng	26.534	
-2:3	task20_eng-fin	25.767	
-2:4	task21_fra-eng	40.746	
-2:5	task22_eng-fra	48.782	
-2:6	task23_gle-eng	31.682	
-2:7	task24_eng-gle	32.075	
-3:0	task25_glg-eng	31.450	
-3:1	task26_eng-glg	36.087	
-3:2	task27_hrv-eng	32.643	
-3:3	task28_eng-hrv	31.317	
-3:4	task29_hun-eng	29.803	
-3:5	task30_eng-hun	28.053	
-3:6	task31_isl-eng	26.737	
-3:7	task32_eng-isl	23.756	
-4:0	task33_ita-eng	27.232	
-4:1	task34_eng-ita	27.841	
-4:2	task35_kat-eng	17.020	
-4:3	task36_eng-kat	8.894	
-4:6	task39_lit-eng	27.582	
-4:7	task40_eng-lit	25.406	
-5:0	task41_mkd-eng	36.858	
-5:1	task42_eng-mkd	34.473	
-5:2	task43_mlt-eng	39.725	
-5:3	task44_eng-mlt	34.785	
-5:4	task45_nld-eng	27.207	
-5:5	task46_eng-nld	26.635	
-5:6	task47_nno-eng	40.092	
-5:7	task48_eng-nno	35.238	
-6:0	task49_nob-eng	37.619	
-6:1	task50_eng-nob	33.792	
-6:2	task51_pol-eng	23.668	
-6:3	task52_eng-pol	20.080	
-6:4	task53_por-eng	33.689	
-6:5	task54_eng-por	48.710	
-6:6	task55_ron-eng	37.521	
-6:7	task56_eng-ron	40.919	
-7:0	task57_slk-eng	33.112	
-7:1	task58_eng-slk	33.944	
-7:2	task59_slv-eng	29.562	
-7:3	task60_eng-slv	29.969	
-7:4	task61_spa-eng	22.721	
-7:5	task62_eng-spa	26.927	
-8:0	task65_srp_Cyrl-eng	37.602	
-8:1	task66_eng-srp_Cyrl	36.177	
-8:2	task67_swe-eng	42.897	
-8:3	task68_eng-swe	45.434	
-8:4	task69_tur-eng	29.862	
-8:5	task70_eng-tur	30.726	
-8:6	task71_ukr-eng	32.118	
-8:7	task72_eng-ukr	29.306	
-all	average-score	31.968
+gpu	task-ids	37500	40000	
+0:0	task1_bos-eng	20.356	13.158	
+0:1	task2_eng-bos	28.746	28.981	
+0:2	task3_bul-eng	33.372	34.295	
+0:3	task4_eng-bul	41.975	42.125	
+0:4	task5_cat-eng	39.410	39.443	
+0:5	task6_eng-cat	41.930	42.238	
+0:6	task7_ces-eng	33.097	30.525	
+0:7	task8_eng-ces	30.997	31.640	
+1:0	task9_dan-eng	42.866	43.415	
+1:1	task10_eng-dan	45.517	45.818	
+1:2	task11_deu-eng	38.820	35.313	
+1:3	task12_eng-deu	38.181	38.321	
+1:4	task13_ell-eng	24.798	20.590	
+1:5	task14_eng-ell	26.613	26.907	
+1:6	task15_est-eng	31.465	31.781	
+1:7	task16_eng-est	26.967	26.853	
+2:0	task17_eus-eng	23.228	18.883	
+2:1	task18_eng-eus	14.724	14.781	
+2:2	task19_fin-eng	26.534	28.326	
+2:3	task20_eng-fin	25.767	25.285	
+2:4	task21_fra-eng	40.746	35.887	
+2:5	task22_eng-fra	48.782	48.916	
+2:6	task23_gle-eng	31.682	28.170	
+2:7	task24_eng-gle	32.075	32.276	
+3:0	task25_glg-eng	31.450	33.592	
+3:1	task26_eng-glg	36.087	35.973	
+3:2	task27_hrv-eng	32.643	30.995	
+3:3	task28_eng-hrv	31.317	31.685	
+3:4	task29_hun-eng	29.803	27.012	
+3:5	task30_eng-hun	28.053	28.124	
+3:6	task31_isl-eng	26.737	26.914	
+3:7	task32_eng-isl	23.756	23.947	
+4:0	task33_ita-eng	27.232	25.761	
+4:1	task34_eng-ita	27.841	28.146	
+4:2	task35_kat-eng	17.020	17.494	
+4:3	task36_eng-kat	8.894	9.839	
+4:6	task39_lit-eng	27.582	26.350	
+4:7	task40_eng-lit	25.406	25.994	
+5:0	task41_mkd-eng	36.858	36.901	
+5:1	task42_eng-mkd	34.473	34.685	
+5:2	task43_mlt-eng	39.725	40.818	
+5:3	task44_eng-mlt	34.785	34.913	
+5:4	task45_nld-eng	27.207	27.274	
+5:5	task46_eng-nld	26.635	26.607	
+5:6	task47_nno-eng	40.092	38.073	
+5:7	task48_eng-nno	35.238	35.212	
+6:0	task49_nob-eng	37.619	37.636	
+6:1	task50_eng-nob	33.792	33.840	
+6:2	task51_pol-eng	23.668	23.036	
+6:3	task52_eng-pol	20.080	20.039	
+6:4	task53_por-eng	33.689	30.551	
+6:5	task54_eng-por	48.710	48.832	
+6:6	task55_ron-eng	37.521	35.162	
+6:7	task56_eng-ron	40.919	40.969	
+7:0	task57_slk-eng	33.112	33.393	
+7:1	task58_eng-slk	33.944	33.970	
+7:2	task59_slv-eng	29.562	29.599	
+7:3	task60_eng-slv	29.969	29.990	
+7:4	task61_spa-eng	22.721	23.010	
+7:5	task62_eng-spa	26.927	26.990	
+8:0	task65_srp_Cyrl-eng	37.602	36.220	
+8:1	task66_eng-srp_Cyrl	36.177	36.308	
+8:2	task67_swe-eng	42.897	44.716	
+8:3	task68_eng-swe	45.434	45.909	
+8:4	task69_tur-eng	29.862	31.798	
+8:5	task70_eng-tur	30.726	30.503	
+8:6	task71_ukr-eng	32.118	31.816	
+8:7	task72_eng-ukr	29.306	29.403	
+all	average-score	31.968	31.528
