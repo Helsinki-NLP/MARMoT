@@ -496,7 +496,7 @@ QUEUE_SIZE           ?= 120
 # activate tensorboard logging
 
 VALID_FREQ       ?= 2500
-VALID_METRICS    ?= bleu
+VALID_METRICS    ?= bleu,chrf
 SAVE_FREQ        ?= 2500
 KEEP_CHECKPOINTS ?= 1
 REPORT_FREQ      ?= 500
