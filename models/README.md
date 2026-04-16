@@ -5,6 +5,10 @@
 
 Training with only monolingual pre-training tasks:
 
+* predict-sharedenc:
+  - transformer-base model with fully shared encoder (but language-specific vocabs) and language-specific decoders
+  - trained on monolingual text prediction tasks using MultiSynt data
+  - STATUS: queued
 * denoise-predict-sharedenc:
   - transformer-base model with fully shared encoder (but language-specific vocabs) and language-specific decoders
   - trained on monolingual denoising and text prediction tasks using MultiSynt data
@@ -44,8 +48,14 @@ Training on English-centric MT tasks without additional denoising tasks:
 
 
 
-Training on German/English/French/Spanish-centric MultiSynt data (without denoising tasks):
+Training on additional language pairs using more than just English-centric data (without denoising tasks):
 
+* docmt-2pivots:
+  - transfomer-base model with language-specific encoders and decoders
+  - English/French-centric MultiSynt data (without denoising tasks) + 2 additional language pairs to fill compute nodes
+  - STATUS: running
 * docmt-4pivots:
   - transfomer-base model with language-specific encoders and decoders
+  - German/English/French/Spanish-centric MultiSynt data (without denoising tasks) + 4 additional language pairs to fill compute nodes
   - STATUS: 2-day training done
+  
