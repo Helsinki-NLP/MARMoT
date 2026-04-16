@@ -60,3 +60,10 @@ include ../../make/marmot.mk
 info:
 	@echo $(words ${TASK_IDS})
 
+
+## test zero-shot translation
+
+
+.PHONY: %.zero-shot
+%.zero-shot:
+	@${MAKE} -s $(basename $@) TASKS="por-swe swe-fin"
