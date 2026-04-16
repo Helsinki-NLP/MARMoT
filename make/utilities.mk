@@ -53,7 +53,7 @@ LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
 
 
 ifneq ($(shell which langgroup 2>/dev/null),)
-  langgroup = $(call lookup,$1,$1 $(LANGUAGES),$(shell langgroup -p -n $1) $(LANGUAGE2GROUP))
+  langgroup = $(call lookup,$1,$1 $(LANGUAGES),$(shell langgroup -p -n $1 2>/dev/null) $(LANGUAGE2GROUP))
 else
   langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGES),$1 $(LANGUAGE2GROUP))
 endif

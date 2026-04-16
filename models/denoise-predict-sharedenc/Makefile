@@ -27,6 +27,7 @@ DENOISE_TASK_IDS   := $(foreach l,$(filter-out bos,${LANGUAGES}),denoise_$l-$l)
 DENOISE_TRAINDATA  := $(foreach l,${DENOISE_TASK_IDS},${TRANSLATE_TRAIN})
 DENOISE_DEVDATA    := $(foreach l,${DENOISE_TASK_IDS},${TRANSLATE_DEV})
 DENOISE_TRANSFORMS := $(foreach l,${DENOISE_TASK_IDS},denoising,filtertoolong)
+DENOISE_WEIGHTS    := $(foreach l,${DENOISE_TASK_IDS},1)
 
 
 ## text-prediction tasks
@@ -35,16 +36,17 @@ DENOISE_TRANSFORMS := $(foreach l,${DENOISE_TASK_IDS},denoising,filtertoolong)
 PREDICT_TASK_IDS   := $(foreach l,$(filter-out bos,${LANGUAGES}),predict_$l-$l)
 PREDICT_TRAINDATA  := $(foreach l,${PREDICT_TASK_IDS},${PREDICT_TRAIN})
 PREDICT_DEVDATA    := $(foreach l,${PREDICT_TASK_IDS},${PREDICT_DEV})
-
+PREDICT_WEIGHTS    := $(foreach l,${PREDICT_TASK_IDS},10)
 
 
 
 ## task definitions put together
 
-TASK_IDS           := ${DENOISE_TASK_IDS} ${PREDICT_TASK_IDS}
-TASK_TRAINDATA     := ${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA}
-TASK_DEVDATA       := ${DENOISE_DEVDATA} ${PREDICT_DEVDATA}
-TASK_TRANSFORMS    := ${DENOISE_TRANSFORMS}
+TASK_IDS            := ${DENOISE_TASK_IDS} ${PREDICT_TASK_IDS}
+TASK_TRAINDATA      := ${DENOISE_TRAINDATA} ${PREDICT_TRAINDATA}
+TASK_DEVDATA        := ${DENOISE_DEVDATA} ${PREDICT_DEVDATA}
+TASK_TRANSFORMS     := ${DENOISE_TRANSFORMS}
+TASK_WEIGHT_FACTORS := ${DENOISE_WEIGHTS} ${PREDICT_WEIGHTS}
 
 
 # vocabularies / tokenizers

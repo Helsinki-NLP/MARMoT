@@ -24,7 +24,11 @@ TRAIN_DEPENDENCIES  ?= $(patsubst %,${MODEL_DIR}/%.slurmjob,${PREV_TRAIN_STAGE})
 
 .PHONY: train
 train: train-slurm
-	${MAKE} SLURM_DEPENDENCIES=${TRAIN_DEPENDENCIES} ${MODEL_DIR}/${TRAIN_STAGE}.slurmjob
+	@${MAKE} SLURM_DEPENDENCIES=${TRAIN_DEPENDENCIES} ${MODEL_DIR}/${TRAIN_STAGE}.slurmjob
+
+.PHONY: trainstop stop
+trainstop stop:
+	@${MAKE} -s SLURM_DEPENDENCIES=${TRAIN_DEPENDENCIES} ${MODEL_DIR}/${TRAIN_STAGE}.slurmstop
 
 .PHONY: train-slurm
 train-slurm: ${TRAIN_CONFIGFILE}

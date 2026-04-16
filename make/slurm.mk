@@ -49,6 +49,20 @@ endif
 SRUN ?= srun
 
 
+.PHONY: %.slurmstop
+%.slurmstop:
+	@if [ -e $(@:stop=job) ]; then \
+	  j=`cat $(@:stop=job) | rev | cut -f1 -d' ' | rev`; \
+	  echo "scancel $$j"; \
+	  scancel $$j; \
+	fi
+	if [ -e $(@:stop=job.running) ]; then \
+	  j=`cat $(@:stop=job.running) | rev | cut -f1 -d' ' | rev`; \
+	  echo "scancel $$j"; \
+	  scancel $$j; \
+	fi
+
+
 ##---------------------------
 ## submit a slurm job
 ##---------------------------
