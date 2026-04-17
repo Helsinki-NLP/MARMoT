@@ -5,20 +5,13 @@ PWD    := $(shell pwd | xargs realpath)
 WHOAMI := $(shell whoami)
 
 
-EXPERIMENT_DIR ?= ${PWD}
-MODEL_NAME     ?= mammoth
-MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
-MODEL_PATH     ?= ${MODEL_DIR}/model
-MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
-EVAL_DIR       ?= ${MODEL_DIR}/eval
-
 
 ## model log directories
 ## and job/node-specific log directories for SLURM jobs
 
-MODEL_LOGDIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
-SLURM_NODE_LOGDIR ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
-# SLURM_NODE_LOGDIR ?= ${PWD}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
+# MODEL_LOGDIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
+# SLURM_NODE_LOGDIR ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
+SLURM_NODE_LOGDIR ?= ${PWD}/log/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 
 
 ## host specific configuration:
@@ -66,38 +59,6 @@ MAMMOTH_ENV_PYTHON   ?= ${MAMMOTH_ENV}/bin/python
 MAMMOTH_ENV_ACTIVATE ?= source ${MAMMOTH_ENV}/bin/activate
 
 
-## TODO: should the data and vocab default definitions move somewhere else?
-##
-## data directories (assuming that we have data prepared in the project dir)
-## - default training data from the Tatoeba translation challenge
-## - default dev and test data from Flores200 if the exists (Tatoeba otherwise)
-
-DATA_DIR        ?= ${PROJECT_DIR}/data
-TRAINDATA       ?= tatoeba/train
-TRAINDATA_NAME  ?= tatoeba-test-v2023-09-26
-
-ifneq ($(wildcard ${DATA_DIR}/flores200/dev),)
-  DEVDATA       ?= flores200/dev
-  DEVDATA_NAME  ?= flores200-dev
-else
-  DEVDATA       ?= tatoeba/dev5K
-  DEVDATA_NAME  ?= tatoeba-test-v2023-09-26
-endif
-
-ifneq ($(wildcard ${DATA_DIR}/flores200/devtest),)
-  TESTDATA      ?= flores200/devtest
-  TESTDATA_NAME ?= flores200-devtest
-else
-  TESTDATA      ?= tatoeba/test
-  TESTDATA_NAME ?= tatoeba-test-v2023-09-26
-endif
-
-
-## tokenizer directory
-
-VOCAB     ?= tatoeba
-VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/${VOCAB}
-
 
 ## look for some tools
 
@@ -106,3 +67,6 @@ SORT     := sort -T ${TMPDIR} --parallel=${THREADS}
 SHUFFLE  := ${shell which terashuf 2>/dev/null || echo "${SORT} --random-sort"}
 GZIP     := ${shell which pigz     2>/dev/null || echo gzip}
 ZCAT     := ${GZIP} -cd
+
+
+include ${MAKEFILE_DIR}utilities.mk

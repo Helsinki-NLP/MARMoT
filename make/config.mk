@@ -34,6 +34,48 @@
 #--------------------------------------------------------------------------
 
 
+EXPERIMENT_DIR ?= ${PWD}
+MODEL_NAME     ?= mammoth
+MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
+MODEL_LOGDIR   ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
+MODEL_PATH     ?= ${MODEL_DIR}/model
+MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
+EVAL_DIR       ?= ${MODEL_DIR}/eval
+
+
+## data directories (assuming that we have data prepared in the project dir)
+## - default training data from the Tatoeba translation challenge
+## - default dev and test data from Flores200 if the exists (Tatoeba otherwise)
+
+DATA_DIR        ?= ${PROJECT_DIR}/data
+TRAINDATA       ?= tatoeba/train
+TRAINDATA_NAME  ?= tatoeba-test-v2023-09-26
+
+ifneq ($(wildcard ${DATA_DIR}/flores200/dev),)
+  DEVDATA       ?= flores200/dev
+  DEVDATA_NAME  ?= flores200-dev
+else
+  DEVDATA       ?= tatoeba/dev5K
+  DEVDATA_NAME  ?= tatoeba-test-v2023-09-26
+endif
+
+ifneq ($(wildcard ${DATA_DIR}/flores200/devtest),)
+  TESTDATA      ?= flores200/devtest
+  TESTDATA_NAME ?= flores200-devtest
+else
+  TESTDATA      ?= tatoeba/test
+  TESTDATA_NAME ?= tatoeba-test-v2023-09-26
+endif
+
+
+## tokenizer directory
+
+VOCAB     ?= tatoeba
+VOCAB_DIR ?= ${PROJECT_DIR}/tokenizer/${VOCAB}
+
+
+
+
 
 ## if no TASKS are defined: try to get the tasks from the TASK_IDS
 ## --> assumes that the task follows an underscore like in "task_fin-eng"
@@ -86,27 +128,6 @@ TASK_GPU_ASSIGNMENTS := $(shell \
 	done )
 
 
-## assign GPUs over a number of nodes
-## use like $(call rotating_gpu_assignment,$start,$nr_nodes,$nr_tasks) with
-## $start = start node number
-## $nr_nodes = number of nodes to be used
-## $nr_tasks = number of tasks
-
-rotating_gpu_assignment_old = $(shell \
-	n=$1; g=0; \
-	l=$$(( $$n + $2 )); \
-	tasks=($2); \
-	for i in `seq 0 $$(( $3-1 ))`; do \
-	  echo "$$n:$$g"; \
-	  ((g++)); \
-	  if [ $$g -eq ${MAX_GPUS_PER_NODE} ]; then \
-	    ((n++)); \
-	    g=0; \
-	  fi; \
-	  if [ $$n -eq $$l ]; then \
-	     n=$1; \
-	  fi \
-	done )
 
 
 ## select a task
