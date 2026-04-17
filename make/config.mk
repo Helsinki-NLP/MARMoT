@@ -86,6 +86,29 @@ TASK_GPU_ASSIGNMENTS := $(shell \
 	done )
 
 
+## assign GPUs over a number of nodes
+## use like $(call rotating_gpu_assignment,$start,$nr_nodes,$nr_tasks) with
+## $start = start node number
+## $nr_nodes = number of nodes to be used
+## $nr_tasks = number of tasks
+
+rotating_gpu_assignment_old = $(shell \
+	n=$1; g=0; \
+	l=$$(( $$n + $2 )); \
+	tasks=($2); \
+	for i in `seq 0 $$(( $3-1 ))`; do \
+	  echo "$$n:$$g"; \
+	  ((g++)); \
+	  if [ $$g -eq ${MAX_GPUS_PER_NODE} ]; then \
+	    ((n++)); \
+	    g=0; \
+	  fi; \
+	  if [ $$n -eq $$l ]; then \
+	     n=$1; \
+	  fi \
+	done )
+
+
 ## select a task
 
 TASK_NR       ?= $(words $(TASKS))

@@ -32,7 +32,6 @@ SLURM_GPU_GRES      ?= gpu
 
 ## some logfiles for energy consumption, GPU usage, Flight Recorder logs
 
-SLURM_NODE_LOGDIR           ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 START_GPU_ENERGY_MONITORING ?= /appl/local/csc/soft/ai/bin/gpu-energy --save
 STOP_GPU_ENERGY_MONITORING  ?= /appl/local/csc/soft/ai/bin/gpu-energy --diff > ${SLURM_NODE_LOGDIR}/gpu-energy.txt
 MONITOR_GPU_USAGE           ?= nohup $(abspath ${MAKEFILE_DIR}..)/tools/lumi_gpu_usage.sh > ${SLURM_NODE_LOGDIR}/gpu-usage.txt &

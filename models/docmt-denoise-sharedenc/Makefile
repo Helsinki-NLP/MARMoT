@@ -66,4 +66,4 @@ info:
 
 .PHONY: %.zero-shot
 %.zero-shot:
-	@${MAKE} -s $(basename $@) TASKS="por-swe swe-fin"
+	@${MAKE} -s $(basename $@) TASK_IDS="mt_por-swe mt_swe-fin"

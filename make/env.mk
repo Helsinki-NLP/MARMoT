@@ -18,6 +18,7 @@ EVAL_DIR       ?= ${MODEL_DIR}/eval
 
 MODEL_LOGDIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
 SLURM_NODE_LOGDIR ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
+# SLURM_NODE_LOGDIR ?= ${PWD}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 
 
 ## host specific configuration:

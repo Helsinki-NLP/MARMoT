@@ -17,7 +17,7 @@ TRAIN_MEM_PER_NODE  ?= $(shell echo $$(( ${GPUS_PER_NODE} * ${MAX_MEM_PER_GPU} )
 TRAIN_WALLTIME      ?= ${SLURM_MAX_GPU_TIME}
 
 # make it possible that training jobs restart if interrupted or timing out
-TRAIN_RESTARTS      ?= 10
+TRAIN_RESTARTS      ?= 0
 
 # add dependency on job from previous stage (if defined)
 TRAIN_DEPENDENCIES  ?= $(patsubst %,${MODEL_DIR}/%.slurmjob,${PREV_TRAIN_STAGE})
