@@ -91,12 +91,15 @@ ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
 .PHONY: print-train-stats
 print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
 		${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-chrf.txt \
 		${MODEL_DIR}/stats/valid-scores-ppl.txt \
 		${MODEL_DIR}/stats/valid-diff-bleu.txt \
+		${MODEL_DIR}/stats/valid-diff-chrf.txt \
 		${MODEL_DIR}/stats/valid-diff-ppl.txt
 
 .PHONY: print-valid-stats
 print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
+		${MODEL_DIR}/stats/valid-scores-chrf.txt \
 		${MODEL_DIR}/stats/valid-scores-ppl.txt
 
 
@@ -333,6 +336,11 @@ ${MODEL_DIR}/stats/valid-scores-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata
 	@mkdir -p $(dir $@)
 	@${MAKE} -s print-valid-scores PRINT_METRIC=bleu > $@
 
+${MODEL_DIR}/stats/valid-scores-chrf.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation chrF scores"
+	@mkdir -p $(dir $@)
+	@${MAKE} -s print-valid-scores PRINT_METRIC=chrf > $@
+
 ${MODEL_DIR}/stats/valid-scores-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation perplexity scores"
 	@mkdir -p $(dir $@)
@@ -343,6 +351,11 @@ ${MODEL_DIR}/stats/valid-diff-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata.j
 	@echo "print validation BLEU differences"
 	@mkdir -p $(dir $@)
 	@${MAKE} -s print-valid-diffs PRINT_METRIC=bleu > $@
+
+${MODEL_DIR}/stats/valid-diff-chrf.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
+	@echo "print validation chrF differences"
+	@mkdir -p $(dir $@)
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=chrf > $@
 
 ${MODEL_DIR}/stats/valid-diff-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation perplexity differences"
