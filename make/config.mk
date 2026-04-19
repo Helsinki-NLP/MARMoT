@@ -404,6 +404,39 @@ VOCAB_TRG_FILES ?= $(foreach l,${VOCAB_TRGLANGS},${VOCAB_TRG_DIR}/$l/${VOCAB_TRG
 # model architecture
 #--------------------------------------------------------------
 
+
+MODEL_ARCHITECTURE ?= transformer-base
+
+ifeq (${MODEL_ARCHITECTURE},transformer-tiny)
+  ENCODER_LAYERS  ?= 6
+  DECODER_LAYERS  ?= 2
+  MODEL_DIMENSION ?= 256
+  XTRF_HEADS      ?= 8
+  BATCH_SIZE      ?= 32768
+else ifeq (${MODEL_ARCHITECTURE},transformer-small)
+  ENCODER_LAYERS  ?= 6
+  DECODER_LAYERS  ?= 2
+  MODEL_DIMENSION ?= 512
+  XTRF_HEADS      ?= 8
+  BATCH_SIZE      ?= 32768
+else ifeq (${MODEL_ARCHITECTURE},transformer-base)
+  ENCODER_LAYERS  ?= 6
+  DECODER_LAYERS  ?= 6
+  MODEL_DIMENSION ?= 512
+  XTRF_HEADS      ?= 8
+else ifeq (${MODEL_ARCHITECTURE},transformer-big)
+  ENCODER_LAYERS  ?= 6
+  DECODER_LAYERS  ?= 6
+  MODEL_DIMENSION ?= 1024
+  XTRF_HEADS      ?= 16
+else ifeq (${MODEL_ARCHITECTURE},transformer-xl)
+  ENCODER_LAYERS  ?= 12
+  DECODER_LAYERS  ?= 12
+  MODEL_DIMENSION ?= 1024
+  XTRF_HEADS      ?= 16
+endif
+
+
 # total nr of encoder and decoder layers
 
 ENCODER_LAYERS     ?= 6
@@ -416,8 +449,6 @@ DECODER_LAYERS     ?= 6
 MODEL_DIMENSION    ?= 768
 MODEL_DTYPE        ?= bf16
 DROPOUT_RATE       ?= 0.1
-
-
 
 
 
@@ -558,8 +589,8 @@ LEARNING_RATE    ?= 0.0003
 # LEARNING_RATE    ?= 0.0005
 # LEARNING_RATE    ?= 0.0008
 ADAM_BETA1       ?= 0.9
-ADAM_BETA2       ?= 0.9
-# ADAM_BETA2       ?= 0.95
+ADAM_BETA2       ?= 0.95
+# ADAM_BETA2       ?= 0.9
 # ADAM_BETA2       ?= 0.999
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
@@ -641,7 +672,9 @@ ${TASK_CONFIGFILES}:
 ${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
-	find $(dir $<) -name '[0-9]*' | sort -n | xargs cat          >> $@
+	@find $(dir $<) -name '[0-9]*' \
+	| awk -F/  '{print $$NF "/" $$0}' \
+	| sort -n | cut -d / -f 2- | xargs cat                       >> $@
 	@echo ''                                                     >> $@
 	@echo "add model/training parameters"
 	${MAKE} -s -j1 CONFIGFILE=$@ \
