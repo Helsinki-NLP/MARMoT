@@ -67,4 +67,8 @@ info:
 
 .PHONY: %.zero-shot
 %.zero-shot:
-	@${MAKE} -s $(basename $@) TASK_IDS="mt_por-swe mt_swe-ukr"
+	@${MAKE} -s $(basename $@) \
+		SLURM_GPU_PARTITION=dev-g \
+		EVAL_TASKS_WALLTIME=15:00 \
+		TASKS="por-swe ces-ukr" \
+		TASK_IDS="mt_por-swe mt_ces-ukr"
