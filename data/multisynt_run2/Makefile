@@ -16,15 +16,7 @@ FILEIDS  := $(shell seq -f "%05g" 0 499)
 SOURCES  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${SRC}.gz,${FILEIDS})
 TARGETS  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
 
-
-OELLM_LANGS := 	bul ces est fin gle ron swe tur ukr
-
-# OELLM_LANGS := 	deu fin nob nno spa mlt ukr \
-#		gle glg cat ces swe tur bul \
-#		lav lit slk nld dan ell est fra \
-#		hrv hun ita pol por ron \
-#		slv eus bos isl kat \
-#		mkd sqi srp_Cyrl
+OELLM_LANGS := bul ces est fin gle ron swe tur ukr
 
 
 CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
@@ -124,10 +116,6 @@ count-lines:
 
 ##------------------------------------------------------------------------------------
 ## MT training data
-##
-## TODO: for some languages, zcat with many files seems to break without error
-##       --> some files contain only a fraction of the data (e.g. bos, deu, ukr, ...)
-##       --> fall back to concatenating individual files in a loop for now
 ##------------------------------------------------------------------------------------
 
 TRAIN_DATA := $(filter-out len${LENGTH}/${FILEBASE}00499.${TRG}.gz,$(TARGETS))
@@ -135,23 +123,11 @@ TRAIN_DATA := $(filter-out len${LENGTH}/${FILEBASE}00499.${TRG}.gz,$(TARGETS))
 train/len${LENGTH}/${FILEBASE}000-498.${TRG}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | grep --text -v 'END_OF_DOCUMENT' | gzip -c > $@
-#	rm -f $(@:.gz=)
-#	for d in $^; do \
-#	  echo "adding $$d"; \
-#	  gzip -cd < $$d | grep --text -v 'END_OF_DOCUMENT' >> $(@:.gz=); \
-#	done
-#	gzip -f $(@:.gz=)
 
 
 train/len${LENGTH}/${FILEBASE}000-498.${SRC}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep --text -v 'END_OF_DOCUMENT' | gzip -c > $@
-#	rm -f $(@:.gz=)
-#	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
-#	  echo "adding $$d"; \
-#	  gzip -cd < $$d | grep --text -v 'END_OF_DOCUMENT' >> $(@:.gz=); \
-#	done
-#	gzip -f $(@:.gz=)
 
 
 ## MT development and test data
@@ -188,18 +164,6 @@ textpredict/train/len${LENGTH}/${FILEBASE}000-498.${TRG}1.gz: ${TRAIN_DATA}
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
 
-#	rm -f $@.1 $@.2
-#	for d in $^; do \
-#	  gzip -cd $$d >> $@.1; \
-#	done
-#	tail -n +2 $@.1 > $@.2
-
-
-#	zcat $^ | head -n -1 > $@.1
-#	zcat $^ | tail -n +2 > $@.2
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:1.gz=2.gz}
-#	rm -f $@.1 $@.2
 
 textpredict/train/len${LENGTH}/${FILEBASE}000-498.${SRC}1.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
@@ -210,15 +174,6 @@ textpredict/train/len${LENGTH}/${FILEBASE}000-498.${SRC}1.gz: ${TRAIN_DATA}
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
 
-#	rm -f $@.1 $@.2
-#	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
-#	  gzip -cd $$d >> $@.1; \
-#	done
-#	tail -n +2 $@.1 > $@.2
-
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:1.gz=2.gz}
-#	rm -f $@.1 $@.2
 
 
 ## textpredict devdata
@@ -232,9 +187,6 @@ textpredict/dev/len${LENGTH}/${FILEBASE}499-tail2000.${TRG}1.gz: ${DEVTEST_DATA}
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
 
-#	zcat $^ | head -n -1 | tail -2000 > $@.1
-#	zcat $^ | tail -2000 > $@.2
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' \
 
 
 
@@ -247,9 +199,6 @@ textpredict/dev/len${LENGTH}/${FILEBASE}499-tail2000.${SRC}1.gz: ${DEVTEST_DATA}
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
 
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 | tail -2000 > $@.1
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -2000 > $@.2
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' \
 
 
 ## textpredict test data
@@ -263,9 +212,6 @@ textpredict/test/len${LENGTH}/${FILEBASE}499-head2000.${TRG}1.gz: ${DEVTEST_DATA
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
 
-#	zcat $^ | head -2000 > $@.1
-#	zcat $^ | tail -n +2 | head -2000 > $@.2
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' \
 
 
 textpredict/test/len${LENGTH}/${FILEBASE}499-head2000.${SRC}1.gz: ${DEVTEST_DATA}
@@ -276,10 +222,6 @@ textpredict/test/len${LENGTH}/${FILEBASE}499-head2000.${SRC}1.gz: ${DEVTEST_DATA
 	| tee >(cut -f1 | gzip -c > $@) \
 	| cut -f2 | gzip -c > ${@:1.gz=2.gz}
 	rm -f $@.1 $@.2
-
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -2000 > $@.1
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 | head -2000 > $@.2
-#	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' \
 
 
 
@@ -310,112 +252,6 @@ len${LENGTH}/${FILEBASE}%.${TRG}.gz: jsonl/${SRC}/${FILEBASE}%.jsonl.gz txt/${SR
 	   | tee >(cut -f2 | gzip -c > $@) \
 	   | cut -f1 | gzip -c > ${@:.${TRG}.gz=.${SRC}.gz}; \
 	fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##------------------------------------------------------------------------------------
-## OLD AND DEPRECATED
-## text prediction data
-## OLD AND DEPRECATED
-##------------------------------------------------------------------------------------
-
-textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}000-498.first.gz: ${TRAIN_DATA}
-	mkdir -p $(dir $@)
-	rm -f $@.1 $@.2
-	for d in $^; do \
-	  gzip -cd $$d >> $@.1; \
-	done
-	tail -n +2 $@.1 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-#	| tee >(cut -f1 | gzip -c > $@) \
-#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-#	rm -f $@.1 $@.2
-#
-#	mkdir -p $(dir $@)
-#	zcat $^ | head -n -1 > $@.1
-#	zcat $^ | tail -n +2 > $@.2
-#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-#	| tee >(cut -f1 | gzip -c > $@) \
-#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-#	rm -f $@.1 $@.2
-
-textpredict/${SRC}/train/len${LENGTH}/${FILEBASE}000-498.first.gz: ${TRAIN_DATA}
-	mkdir -p $(dir $@)
-	rm -f $@.1 $@.2
-	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
-	  gzip -cd $$d >> $@.1; \
-	done
-	tail -n +2 $@.1 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f1 | gzip -c > $@
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-#	| tee >(cut -f1 | gzip -c > $@) \
-#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-#	rm -f $@.1 $@.2
-#
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 > $@.1
-#	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 > $@.2
-#	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-#	| tee >(cut -f1 | gzip -c > $@) \
-#	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-#	rm -f $@.1 $@.2
-
-textpredict/${TRG}/dev/len${LENGTH}/${FILEBASE}499-tail2000.first.gz: ${DEVTEST_DATA}
-	mkdir -p $(dir $@)
-	zcat $^ | head -n -1 | tail -2000 > $@.1
-	zcat $^ | tail -2000 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-textpredict/${SRC}/dev/len${LENGTH}/${FILEBASE}499-tail2000.first.gz: ${DEVTEST_DATA}
-	mkdir -p $(dir $@)
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -n -1 | tail -2000 > $@.1
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -2000 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-textpredict/${TRG}/test/len${LENGTH}/${FILEBASE}499-head2000.first.gz: ${DEVTEST_DATA}
-	mkdir -p $(dir $@)
-	zcat $^ | head -2000 > $@.1
-	zcat $^ | tail -n +2 | head -2000 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-textpredict/${SRC}/test/len${LENGTH}/${FILEBASE}499-head2000.first.gz: ${DEVTEST_DATA}
-	mkdir -p $(dir $@)
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | head -2000 > $@.1
-	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | tail -n +2 | head -2000 > $@.2
-	paste $@.1 $@.2 | grep -v 'END_OF_DOCUMENT' \
-	| tee >(cut -f1 | gzip -c > $@) \
-	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
-	rm -f $@.1 $@.2
-
-
-
-
 
 
 

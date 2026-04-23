@@ -1,23 +1,23 @@
 
 SHELL := bash
 
-HPC_PROJECT := project_465001864
+# HPC_PROJECT := project_465001864
+HPC_PROJECT := project_462000964
 
 include ../../tools/slurMake/slurm.mk
 
-DATASET  := fineweb-edu/350BT
+DATASET  := OELLM-synthetic/fineweb-edu/350BT
 FILEBASE := fineweb-edu_350BT_
 SRC      := eng
 TRG      := fin
 FILEID   := 00000
 LENGTH   := 1024
-LASTID   := 49
-FILEIDS  := $(shell seq -f "%05g" 0 ${LASTID})
+FILEIDS  := $(shell seq -f "%05g" 0 49)
 SOURCES  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${SRC}.gz,${FILEIDS})
 TARGETS  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
 
-OELLM_LANGS := 	deu nob nno spa mlt \
-		gle glg cat swe tur bul \
+OELLM_LANGS := 	ces deu nob nno spa mlt ukr \
+		gle glg cat swe tur bul fin \
 		lav lit slk nld dan ell est fra \
 		hrv hun ita pol por ron \
 		slv eus bos isl kat \
@@ -35,12 +35,6 @@ CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
 
 .PHONY: all
 all:
-	${MAKE} OELLM_LANGS=fin LASTID=471 prepare
-	${MAKE} OELLM_LANGS="ces ukr" LASTID=99 prepare
-	${MAKE} prepare
-
-.PHONY: prepare
-prepare:
 	${MAKE} all-mt
 	${MAKE} all-src-textpredict
 	${MAKE} all-trg-textpredict
@@ -48,8 +42,8 @@ prepare:
 
 
 .PHONY: all-mt
-all-mt: train/len${LENGTH}/${FILEBASE}except49.${TRG}.gz \
-	train/len${LENGTH}/${FILEBASE}except49.${SRC}.gz \
+all-mt: train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
+	train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz \
 	dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz \
 	dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz \
 	test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}.gz \
@@ -69,12 +63,12 @@ all-textpredict:
 	${MAKE} all-trg-textpredict
 
 .PHONY: all-trg-textpredict
-all-trg-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}except49.${TRG}1.gz \
+all-trg-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${TRG}1.gz \
 		textpredict/dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}1.gz \
 		textpredict/test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}1.gz
 
 .PHONY: all-src-textpredict
-all-src-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}except49.${SRC}1.gz \
+all-src-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${SRC}1.gz \
 		textpredict/dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}1.gz \
 		textpredict/test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}1.gz
 
@@ -133,7 +127,7 @@ count-lines:
 
 TRAIN_DATA := $(filter-out len${LENGTH}/${FILEBASE}00049.${TRG}.gz,$(TARGETS))
 
-train/len${LENGTH}/${FILEBASE}except49.${TRG}.gz: ${TRAIN_DATA}
+train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ | grep --text -v 'END_OF_DOCUMENT' | gzip -c > $@
 #	rm -f $(@:.gz=)
@@ -144,7 +138,7 @@ train/len${LENGTH}/${FILEBASE}except49.${TRG}.gz: ${TRAIN_DATA}
 #	gzip -f $(@:.gz=)
 
 
-train/len${LENGTH}/${FILEBASE}except49.${SRC}.gz: ${TRAIN_DATA}
+train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) | grep --text -v 'END_OF_DOCUMENT' | gzip -c > $@
 #	rm -f $(@:.gz=)
@@ -180,7 +174,7 @@ test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz: ${DEVTEST_DATA}
 ## text prediction data
 ##------------------------------------------------------------------------------------
 
-textpredict/train/len${LENGTH}/${FILEBASE}except49.${TRG}1.gz: ${TRAIN_DATA}
+textpredict/train/len${LENGTH}/${FILEBASE}00-48.${TRG}1.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $^ > $@.1
 	tail -n +2 $@.1 > $@.2
@@ -202,7 +196,7 @@ textpredict/train/len${LENGTH}/${FILEBASE}except49.${TRG}1.gz: ${TRAIN_DATA}
 #	paste $@.1 $@.2 | grep --text -v 'END_OF_DOCUMENT' | cut -f2 | gzip -c > ${@:1.gz=2.gz}
 #	rm -f $@.1 $@.2
 
-textpredict/train/len${LENGTH}/${FILEBASE}except49.${SRC}1.gz: ${TRAIN_DATA}
+textpredict/train/len${LENGTH}/${FILEBASE}00-48.${SRC}1.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	zcat $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^) > $@.1
 	tail -n +2 $@.1 > $@.2
@@ -331,7 +325,7 @@ len${LENGTH}/${FILEBASE}%.${TRG}.gz: jsonl/${SRC}/${FILEBASE}%.jsonl.gz txt/${SR
 ## OLD AND DEPRECATED
 ##------------------------------------------------------------------------------------
 
-textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}except49.first.gz: ${TRAIN_DATA}
+textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	rm -f $@.1 $@.2
 	for d in $^; do \
@@ -355,7 +349,7 @@ textpredict/${TRG}/train/len${LENGTH}/${FILEBASE}except49.first.gz: ${TRAIN_DATA
 #	| cut -f2 | gzip -c > ${@:.first.gz=.second.gz}
 #	rm -f $@.1 $@.2
 
-textpredict/${SRC}/train/len${LENGTH}/${FILEBASE}except49.first.gz: ${TRAIN_DATA}
+textpredict/${SRC}/train/len${LENGTH}/${FILEBASE}00-48.first.gz: ${TRAIN_DATA}
 	mkdir -p $(dir $@)
 	rm -f $@.1 $@.2
 	for d in $(patsubst %.${TRG}.gz,%.${SRC}.gz,$^); do \
