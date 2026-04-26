@@ -232,7 +232,7 @@ print-valid-scores-table:
 	    for s in $${steps}; do \
 	      score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	      | grep "\"step\": $${s}," \
-	      | grep "GPU *$${gpus[$$i]}" \
+	      | grep "GPU *$${gpus[$$i]}" | head -1 \
 	      | tr ',}' "\n\n" \
 	      | grep "\"$${pattern}\":" \
 	      | cut -f2 -d: | xargs printf "%.3f" ); \
