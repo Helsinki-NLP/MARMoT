@@ -37,7 +37,6 @@
 EXPERIMENT_DIR ?= ${PWD}
 MODEL_NAME     ?= mammoth
 MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
-MODEL_LOGDIR   ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
 MODEL_PATH     ?= ${MODEL_DIR}/model
 MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
 EVAL_DIR       ?= ${MODEL_DIR}/eval
@@ -577,7 +576,8 @@ KEEP_CHECKPOINTS ?= 1
 REPORT_FREQ      ?= 500
 REPORT_TFLOPS    ?= true
 TENSORBOARD      ?= true
-TENSORBOARD_DIR  ?= ${MODEL_DIR}/tb_logs
+TENSORBOARD_DIR  ?= ${EXPERIMENT_DIR}/tb_logs
+# TENSORBOARD_DIR  ?= ${MODEL_DIR}/tb_logs
 
 
 # optimizer and learning parameters

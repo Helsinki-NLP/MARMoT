@@ -6,11 +6,8 @@ WHOAMI := $(shell whoami)
 
 
 
-## model log directories
-## and job/node-specific log directories for SLURM jobs
+## job/node-specific log directories for SLURM jobs
 
-# MODEL_LOGDIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}/log
-# SLURM_NODE_LOGDIR ?= ${MODEL_LOGDIR}/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 SLURM_NODE_LOGDIR ?= ${PWD}/log/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 
 
