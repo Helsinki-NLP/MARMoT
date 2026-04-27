@@ -24,7 +24,7 @@ ENCODER         := "{lang}","all"
 ENCODER_LAYERS  := 6,6
 
 
-PRETRAINED_MODEL := $(shell realpath ../docmt-4pivots-denoise-halfsharedenc-xl)
+PRETRAINED_MODEL := $(shell realpath ../docmt-4pivots-denoise-halfsharedenc-xl/mammoth/)
 
 
 include ../../make/marmot.mk
