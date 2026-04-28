@@ -15,6 +15,7 @@ LENGTH   := 1024
 FILEIDS  := $(shell seq -f "%05g" 0 49)
 SOURCES  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${SRC}.gz,${FILEIDS})
 TARGETS  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
+JSONL    := $(patsubst %,jsonl/${SRC}/${FILEBASE}%.jsonl.gz,${FILEIDS})
 
 OELLM_LANGS := 	ces deu nob nno spa mlt ukr \
 		gle glg cat swe tur bul fin \
@@ -50,6 +51,19 @@ all-mt: train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
 	test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
 
 
+.PHONY: all-mt-trg
+all-mt-trg: train/len${LENGTH}/${FILEBASE}00-48.${TRG}.gz \
+	dev/len${LENGTH}/${FILEBASE}49-tail2000.${TRG}.gz \
+	test/len${LENGTH}/${FILEBASE}49-head2000.${TRG}.gz
+
+.PHONY: all-mt-src
+all-mt-src: train/len${LENGTH}/${FILEBASE}00-48.${SRC}.gz \
+	dev/len${LENGTH}/${FILEBASE}49-tail2000.${SRC}.gz \
+	test/len${LENGTH}/${FILEBASE}49-head2000.${SRC}.gz
+
+
+
+
 all-4096:
 	${MAKE} LENGTH=4096 SLURM_CPUS=32 SLURM_MEM=64g all.slurmjob
 
@@ -79,7 +93,7 @@ all-src-textpredict: textpredict/train/len${LENGTH}/${FILEBASE}00-48.${SRC}1.gz 
 .PHONY: all-oellm-mt
 all-oellm-mt:
 	for l in ${OELLM_LANGS}; do \
-	  ${MAKE} TRG=$$l all-mt.slurmjob; \
+	  ${MAKE} TRG=$$l all-mt-trg.slurmjob; \
 	done
 
 .PHONY: all-oellm-predict
@@ -98,6 +112,9 @@ convert: len${LENGTH}/${FILEBASE}${FILEID}.${TRG}.gz
 
 .PHONY: fetch
 fetch: jsonl/${SRC}/${FILEBASE}${FILEID}.jsonl.gz txt/${SRC}/${FILEBASE}${FILEID}.txt.gz txt/${TRG}/${FILEBASE}${FILEID}.txt.gz
+
+.PHONY: fetch-all
+fetch-all: ${JSONL}
 
 
 ## count lines
