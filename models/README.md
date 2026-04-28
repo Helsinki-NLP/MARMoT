@@ -3,59 +3,64 @@
 # Mammoth Models
 
 
-Training with only monolingual pre-training tasks:
+## Naming conventions
 
-* predict-sharedenc:
-  - transformer-base model with fully shared encoder (but language-specific vocabs) and language-specific decoders
-  - trained on monolingual text prediction tasks using MultiSynt data
+
+Naming conventions for tasks:
+
+* sentmt: sentence-level MT with OPUS data (Tatoeba TC, HPLT, OpenSubtitles2024)
+* docmt: document-level MT with synthetic data (max length 1024 characters)
+* 4pivots: English/Spanish/German/French-centric MT training data (default otherwise is English-centric)
+* denoise: monolingual denoising tasks (using doc-level synthetic data, English is original)
+* predict: next sentence prediction as a text generation task using synthetic data, English as original
+* flan: FLAN instruction data
+
+
+Naming conventions for parameter sharing:
+
+* sharedenc: fully shared encoder (but still language-specific vocabs/embeddings)
+* halfsharedenc: half of the encoder is shared across all languages, the other is language-specific
+* LGAenc: encoders with three components: language-specific + shared across language group + fully-shared
+* default is to have completely language-specific encoders and decoders
+
+
+Naming conventions for model sizes:
+
+* tiny: transformer-tiny (student) model with 2 decoder layers and model dimension = 256
+* small: transformer-small (student) model with 2 decoder layers and model dimension = 512
+* base: transformer-base model (6x6) and model dimension = 512
+* big: transformer-big model (6x6) with 16 attention heads and double model dimensions (1024)
+* xl: 12x12 transformer model with 16 attention heads and double model dimensions (1024)
+* default is transformer-base
+
+
+
+## Models
+
+
+Training on English/Spanish/German/French-centric machine translatino tasks
+
+* docmt-4pivots
+* docmt-4pivots-denoise-halfsharedenc-small
+* docmt-4pivots-denoise-halfsharedenc-base
+* docmt-4pivots-denoise-halfsharedenc-xl
+
+
+Training on English-centric machine translation tasks + monolingual denoising:
+
+* sentmt-denoise
+* docmt-denoise
+* docmt-denoise-sharedenc
+* docmt-denoise-halfsharedenc
+* docmt-denoise-LGAenc
+
+
+Other models:
+
+* predict-halfshared-xl:
+  - initialized with MT model with 4 pivot languages in training data
+  - STATUS: running
+* flan-halfshared-xl:
+  - initialized with MT model with 4 pivot languages in training data
   - STATUS: queued
-* denoise-predict-sharedenc:
-  - transformer-base model with fully shared encoder (but language-specific vocabs) and language-specific decoders
-  - trained on monolingual denoising and text prediction tasks using MultiSynt data
-  - STATUS: running
 
-
-
-Training on English-centric machine translatino tasks + monolingual denoising:
-
-* docmt-denoise:
-  - transfomer-base model with language-specific encoders and decoders
-  - STATUS: running
-* docmt-denoise-sharedenc:
-  - transfomer-base model with fully-shared encoders and language-specific decoders
-  - STATUS: running
-* docmt-denoise-halfsharedenc:
-  - transfomer-base model with partially shared encoders (3 language-specific layers + 3 fully-shared layers) and language-specific decoders
-  - STATUS: running
-* docmt-denoise-LGAenc:
-  - transfomer-base model with partially shared encoders (2 language-specific layers + 2 language-group-specific layers + 2 fully-shared layers) and language-specific decoders
-  - STATUS: running
-* docmt-denoise-small:
-  - transfomer-small model with language-specific encoders and decoders
-  - STATUS: running
-* docmt-denoise-tiny:
-  - transfomer-tiny model with language-specific encoders and decoders
-  - STATUS: queued
-
-
-
-Training on English-centric MT tasks without additional denoising tasks:
-
-* docmt-sharedenc:
-  - transfomer-base model with fully shared encoder (but language-specific vocabs) and language-specific decoders
-  - STATUS: 2-day training done?
-  - NOTE: training logfile was over-written for some strange reason --> validation results are lost
-
-
-
-Training on additional language pairs using more than just English-centric data (without denoising tasks):
-
-* docmt-2pivots:
-  - transfomer-base model with language-specific encoders and decoders
-  - English/French-centric MultiSynt data (without denoising tasks) + 2 additional language pairs to fill compute nodes
-  - STATUS: running
-* docmt-4pivots:
-  - transfomer-base model with language-specific encoders and decoders
-  - German/English/French/Spanish-centric MultiSynt data (without denoising tasks) + 4 additional language pairs to fill compute nodes
-  - STATUS: 2-day training done
-  

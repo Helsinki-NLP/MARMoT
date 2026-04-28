@@ -1,38 +1,38 @@
-gpu	task-ids	30000	
-0:0	predict_bos-bos	14.507
-0:1	predict_bul-bul	15.624
-0:2	predict_cat-cat	16.349
-0:3	predict_ces-ces	12.956
-0:4	predict_dan-dan	15.967
-0:5	predict_deu-deu	15.987
-0:6	predict_ell-ell	14.933
-0:7	predict_eng-eng	15.825
-1:0	predict_est-est	14.794
-1:1	predict_eus-eus	15.295
-1:2	predict_fin-fin	14.092
-1:3	predict_fra-fra	17.336
-1:4	predict_gle-gle	17.295
-1:5	predict_glg-glg	16.367
-1:6	predict_hrv-hrv	15.157
-1:7	predict_hun-hun	13.212
-2:0	predict_isl-isl	12.613
-2:1	predict_ita-ita	16.776
-2:2	predict_lav-lav	13.587
-2:3	predict_lit-lit	15.122
-2:4	predict_mkd-mkd	16.486
-2:5	predict_mlt-mlt	15.237
-2:6	predict_nld-nld	16.280
-2:7	predict_nno-nno	15.359
-3:0	predict_nob-nob	16.183
-3:1	predict_pol-pol	14.050
-3:2	predict_por-por	15.055
-3:3	predict_ron-ron	15.808
-3:4	predict_slk-slk	13.354
-3:5	predict_slv-slv	15.430
-3:6	predict_spa-spa	16.365
-3:7	predict_sqi-sqi	16.299
-0:0	predict_srp_Cyrl-srp_Cyrl	0.000
-0:1	predict_swe-swe	0.000
-0:2	predict_tur-tur	0.000
-0:3	predict_ukr-ukr	0.000
-all	average-score	13.603
+gpu	task-ids	30000	32500	35000	37500	
+0:0	predict_bos-bos	14.507	15.253	14.627	13.362
+0:1	predict_bul-bul	15.624	15.192	15.903	16.241
+0:2	predict_cat-cat	16.349	16.344	17.576	16.512
+0:3	predict_ces-ces	12.956	13.964	12.328	12.061
+0:4	predict_dan-dan	15.967	15.663	15.288	15.467
+0:5	predict_deu-deu	15.987	17.012	17.256	15.964
+0:6	predict_ell-ell	14.933	15.967	15.421	16.022
+0:7	predict_eng-eng	15.825	15.748	16.017	14.745
+1:0	predict_est-est	14.794	15.323	14.524	13.580
+1:1	predict_eus-eus	15.295	15.923	16.009	16.115
+1:2	predict_fin-fin	14.092	14.661	15.120	14.178
+1:3	predict_fra-fra	17.336	17.695	16.180	16.816
+1:4	predict_gle-gle	17.295	16.687	16.606	16.565
+1:5	predict_glg-glg	16.367	16.245	15.975	14.932
+1:6	predict_hrv-hrv	15.157	15.163	15.563	14.675
+1:7	predict_hun-hun	13.212	12.862	13.665	12.612
+2:0	predict_isl-isl	12.613	12.925	13.116	12.545
+2:1	predict_ita-ita	16.776	15.944	16.930	15.826
+2:2	predict_lav-lav	13.587	12.995	13.263	13.560
+2:3	predict_lit-lit	15.122	15.130	15.217	15.065
+2:4	predict_mkd-mkd	16.486	16.211	15.438	15.699
+2:5	predict_mlt-mlt	15.237	15.754	14.595	15.244
+2:6	predict_nld-nld	16.280	17.642	17.303	15.897
+2:7	predict_nno-nno	15.359	15.492	15.671	15.223
+3:0	predict_nob-nob	16.183	15.686	15.823	15.390
+3:1	predict_pol-pol	14.050	14.883	14.918	13.615
+3:2	predict_por-por	15.055	16.047	14.760	15.427
+3:3	predict_ron-ron	15.808	17.611	16.231	16.282
+3:4	predict_slk-slk	13.354	12.752	13.222	13.473
+3:5	predict_slv-slv	15.430	14.962	14.467	14.304
+3:6	predict_spa-spa	16.365	17.018	17.607	16.567
+3:7	predict_sqi-sqi	16.299	16.482	15.803	15.948
+0:0	predict_srp_Cyrl-srp_Cyrl	0.000	0.000	0.000	0.000
+0:1	predict_swe-swe	0.000	0.000	0.000	0.000
+0:2	predict_tur-tur	0.000	0.000	0.000	0.000
+0:3	predict_ukr-ukr	0.000	0.000	0.000	0.000
+all	average-score	13.603	13.812	13.678	13.331
