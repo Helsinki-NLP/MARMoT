@@ -279,6 +279,13 @@ DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES)) *
 TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES)) *${SORTED_LANGPAIR}*)
 
 
+# replace variables if they exist
+
+TRAINDATA_BASENAME_PATTERN := $(subst {langpair},${LANGPAIR},$(subst {reverse_langpair},${REVERSE_LANGPAIR},$(subst {sorted_langpair},${SORTED_LANGPAIR},${TRAINDATA_BASENAME})))
+DEVDATA_BASENAME_PATTERN := $(subst {langpair},${LANGPAIR},$(subst {reverse_langpair},${REVERSE_LANGPAIR},$(subst {sorted_langpair},${SORTED_LANGPAIR},${DEVDATA_BASENAME})))
+TESTDATA_BASENAME_PATTERN := $(subst {langpair},${LANGPAIR},$(subst {reverse_langpair},${REVERSE_LANGPAIR},$(subst {sorted_langpair},${SORTED_LANGPAIR},${TESTDATA_BASENAME})))
+
+
 ## file extension for source and target language files
 ##
 ## if source and target language are the same AND this is not a denoising task
@@ -309,7 +316,7 @@ TRGLANG_EXT ?= $(firstword $(word ${TASK_NR},$(TASK_TRGLANG_EXT)) ${DEFAULT_TRGL
 ## overwrite with task-specific training data given in TASK_TRAINDATA_SRCS and TASK_TRAINDATA_TRGS
 
 ifdef FIND_DATA
-  DEFAULT_TRAINDATA_PATTERNS ?= ${TRAINDATA_BASENAME} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
+  DEFAULT_TRAINDATA_PATTERNS ?= ${TRAINDATA_BASENAME_PATTERN} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
   DEFAULT_SRCTRAIN_PATTERN   ?= $(patsubst %,${TRAINDATA_DIR}/%.${SRCLANG_EXT},${DEFAULT_TRAINDATA_PATTERNS})
   DEFAULT_TRGTRAIN_PATTERN   ?= $(patsubst %,${TRAINDATA_DIR}/%.${TRGLANG_EXT},${DEFAULT_TRAINDATA_PATTERNS})
   DEFAULT_TRAINDATA_SRC      ?= $(firstword $(wildcard ${DEFAULT_SRCTRAIN_PATTERN}))
@@ -339,7 +346,7 @@ endif
 ## overwrite with task-specific development data given in TASK_DEVDATA_SRCS and TASK_DEVDATA_TRGS
 
 ifdef FIND_DATA
-  DEFAULT_DEVDATA_PATTERNS ?= ${DEVDATA_BASENAME} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
+  DEFAULT_DEVDATA_PATTERNS ?= ${DEVDATA_BASENAME_PATTERN} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
   DEFAULT_SRCDEV_PATTERN ?= $(patsubst %,${DEVDATA_DIR}/%.${SRCLANG_EXT},${DEFAULT_DEVDATA_PATTERNS}) ${DEVDATA_DIR}/${SRCLANG}*
   DEFAULT_TRGDEV_PATTERN ?= $(patsubst %,${DEVDATA_DIR}/%.${TRGLANG_EXT},${DEFAULT_DEVDATA_PATTERNS}) ${DEVDATA_DIR}/${TRGLANG}*
   DEFAULT_DEVDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCDEV_PATTERN}))
@@ -362,7 +369,7 @@ endif
 ## TESTDATA_OUTPUT: name of the output file (translations)
 
 ifdef FIND_TESTDATA
-  DEFAULT_TESTDATA_PATTERNS ?= ${TESTDATA_BASENAME} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
+  DEFAULT_TESTDATA_PATTERNS ?= ${TESTDATA_BASENAME_PATTERN} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
   DEFAULT_SRCTEST_PATTERN ?= $(patsubst %,${TESTDATA_DIR}/%.${SRCLANG_EXT},${DEFAULT_TESTDATA_PATTERNS}) ${TESTDATA_DIR}/${SRCLANG}*
   DEFAULT_TRGTEST_PATTERN ?= $(patsubst %,${TESTDATA_DIR}/%.${TRGLANG_EXT},${DEFAULT_TESTDATA_PATTERNS}) ${TESTDATA_DIR}/${TRGLANG}*
   DEFAULT_TESTDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCTEST_PATTERN}))
@@ -693,7 +700,7 @@ endif
 	@echo 'save_strategy: best_and_last'                         >> $@
 	@echo 'reset_optim: ${RESET_OPTIMIZER}'                      >> $@
 ifdef PRETRAINED_MODEL
-	@echo 'train_from: ${PRETRAINED_MODEL}'                      >> $@
+	@echo 'train_from: $(shell realpath ${PRETRAINED_MODEL})/'   >> $@
 endif
 
 

@@ -73,7 +73,8 @@ PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t2
 
 ifdef PRETRAINED_MODEL
   ifneq ($(dir ${PRETRAINED_MODEL}),${MODEL_DIR})
-    EXTRA_SINGULARITY_PARAM += -B $(dir ${PRETRAINED_MODEL}):$(dir ${PRETRAINED_MODEL})
+    PRETRAINED_MODEL_PATH := $(shell realpath ${PRETRAINED_MODEL})
+    EXTRA_SINGULARITY_PARAM += -B ${PRETRAINED_MODEL_PATH}:${PRETRAINED_MODEL_PATH}
   endif
 endif
 

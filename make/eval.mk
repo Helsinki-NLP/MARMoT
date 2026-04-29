@@ -211,6 +211,26 @@ PRINT_METRIC  ?= bleu
 ${PRINT_EVAL_SCORE_ALIASES}:
 	@( tasks=(${TASKS}); \
 	   taskids=(${TASK_IDS}); \
+	   echo "taskid_lang	task	${PRINT_METRIC}"; \
+	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	    if [ $(words ${TASK_IDS}) -le $$i ]; then \
+	      taskid="task_$${tasks[$$i]}"; \
+	    else \
+	      taskid=$${taskids[$$i]}; \
+	    fi; \
+	    if [ -s ${EVAL_DIR}/eval_$${taskid} ]; then \
+	      langpair=`echo $${taskid} | cut -f2- -d_`; \
+	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid} \
+	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
+	      echo "$${taskid}	$${tasks[$$i]}	$${score}"; \
+	    fi \
+	   done )
+
+
+.PHONY: print-eval-score-comparison
+print-eval-score-comparison:
+	@( tasks=(${TASKS}); \
+	   taskids=(${TASK_IDS}); \
 	   echo "taskid_lang	task	score	opus	diff"; \
 	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
 	    if [ $(words ${TASK_IDS}) -le $$i ]; then \
@@ -228,6 +248,7 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	      echo "$${taskid}	$${tasks[$$i]}	$${score}$${best}$${diff}"; \
 	    fi \
 	   done )
+
 
 
 ifneq ($(wildcard ${EVAL_DIR}),)
