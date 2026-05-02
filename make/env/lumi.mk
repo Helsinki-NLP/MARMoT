@@ -68,8 +68,8 @@ CLEANUP_GPU_ENV ?= ${STOP_GPU_ENERGY_MONITORING}
 
 # PYTORCH_CONTAINER ?= /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif
 # PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
-PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
-
+# PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
+PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260415_130625/lumi-multitorch-full-u24r70f21m50t210-20260415_130625.sif
 
 ifdef PRETRAINED_MODEL
   ifneq ($(dir ${PRETRAINED_MODEL}),${MODEL_DIR})
@@ -86,6 +86,7 @@ SINGULARITY_PARAMS ?= 	--env MASTER_NODE="$${MASTER_NODE}" \
 			--env TORCH_NCCL_TRACE_BUFFER_SIZE=2000 \
 			--env TORCH_NCCL_DUMP_ON_TIMEOUT=true \
 			--env TORCH_FR_DUMP_TEMP_FILE=${SLURM_NODE_LOGDIR}/nccl_trace_rank_ \
+			--env MAMMOTH_PLATFORM='lumi' \
 			-B ${MODEL_DIR}:${MODEL_DIR}:rw \
 			-B ${MAMMOTH_HOME}:${MAMMOTH_HOME}:ro \
 			-B ${PROJECT_DIR}:${PROJECT_DIR}:ro \
