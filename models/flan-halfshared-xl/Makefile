@@ -3,7 +3,7 @@
 # INSTRUCT_LANGPAIRS := ces-eng deu-eng eng-ces eng-deu eng-eng eng-fin eng-fra eng-ron fin-eng fra-eng ron-eng
 
 
-INSTRUCT_LANGPAIRS := bul-bul bul-ell bul-eng cat-cat cat-eng ces-eng deu-deu deu-eng deu-fra deu-spa eng-bul eng-cat eng-ces eng-deu eng-eng eng-fin eng-fra eng-glg eng-hrv eng-ita eng-pol eng-por eng-ron eng-spa eng-swe eng-tur est-eng fin-eng fra-deu fra-eng fra-fra fra-slk fra-spa glg-eng glg-ita glg-pol glg-por glg-spa hrv-eng hrv-hrv ita-eng ita-glg ita-ita ita-pol ita-por ita-spa nld-eng nld-nld nld-por pol-eng pol-glg pol-ita pol-por pol-spa por-eng por-glg por-ita por-pol por-spa ron-eng spa-deu spa-eng spa-fra spa-glg spa-ita spa-lit spa-pol spa-por spa-spa swe-eng tur-eng
+INSTRUCT_LANGPAIRS := bul-bul bul-eng cat-cat cat-eng ces-eng deu-deu deu-eng deu-fra deu-spa eng-bul eng-cat eng-ces eng-deu eng-eng eng-fin eng-fra eng-glg eng-hrv eng-ita eng-pol eng-por eng-ron eng-spa eng-swe eng-tur est-eng fin-eng fra-deu fra-eng fra-fra fra-slk fra-spa glg-eng glg-ita glg-pol glg-por glg-spa hrv-eng hrv-hrv ita-eng ita-glg ita-ita ita-pol ita-por ita-spa nld-eng nld-nld nld-por pol-eng pol-glg pol-ita pol-por pol-spa por-eng por-glg por-ita por-pol por-spa ron-eng spa-deu spa-eng spa-fra spa-glg spa-ita spa-pol spa-por spa-spa swe-eng tur-eng
 
 TASK_IDS           := $(patsubst %,instruct_%,${INSTRUCT_LANGPAIRS})
 
