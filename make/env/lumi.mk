@@ -71,6 +71,7 @@ CLEANUP_GPU_ENV ?= ${STOP_GPU_ENERGY_MONITORING}
 # PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
 PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260415_130625/lumi-multitorch-full-u24r70f21m50t210-20260415_130625.sif
 
+
 ifdef PRETRAINED_MODEL
   ifneq ($(dir ${PRETRAINED_MODEL}),${MODEL_DIR})
     PRETRAINED_MODEL_PATH := $(shell realpath ${PRETRAINED_MODEL})

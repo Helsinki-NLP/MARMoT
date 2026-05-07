@@ -599,6 +599,7 @@ ADAM_BETA1       ?= 0.9
 ADAM_BETA2       ?= 0.95
 # ADAM_BETA2       ?= 0.9
 # ADAM_BETA2       ?= 0.999
+ADAMW_FUSED      ?= true
 WEIGHT_DECAY     ?= 0.01
 MAX_GRAD_NORM    ?= 1.0
 LABEL_SMOOTHING  ?= 0.1
@@ -849,6 +850,7 @@ config-add-training-params:
 	@echo 'learning_rate: ${LEARNING_RATE}'                    >> ${CONFIGFILE}
 	@echo 'adam_beta1: ${ADAM_BETA1}'                          >> ${CONFIGFILE}
 	@echo 'adam_beta2: ${ADAM_BETA2}'                          >> ${CONFIGFILE}
+	@echo 'adamw_fused: ${ADAMW_FUSED}'                        >> ${CONFIGFILE}
 	@echo 'weight_decay: ${WEIGHT_DECAY}'                      >> ${CONFIGFILE}
 	@echo 'max_grad_norm: ${MAX_GRAD_NORM}'                    >> ${CONFIGFILE}
 	@echo 'label_smoothing: ${LABEL_SMOOTHING}'                >> ${CONFIGFILE}
