@@ -16,7 +16,9 @@ SLURM_NODE_LOGDIR ?= ${PWD}/log/job$${SLURM_JOBID}/node$${SLURM_PROCID}
 ## - LUMI is used as default
 
 ifndef HPC_HOST
-  ifeq ($(findstring puhti,${HOSTNAME}),puhti)
+  ifeq ($(findstring roihu,${HOSTNAME}),roihu)
+    HPC_HOST := roihu
+  else ifeq ($(findstring puhti,${HOSTNAME}),puhti)
     HPC_HOST := puhti
   else ifeq ($(findstring mahti,${HOSTNAME}),mahti)
     HPC_HOST := mahti
