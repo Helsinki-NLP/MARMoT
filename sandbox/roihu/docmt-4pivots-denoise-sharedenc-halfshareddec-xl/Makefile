@@ -64,10 +64,14 @@ info:
 
 ## test zero-shot translation
 
+ZERO_SHOT_TASKS := 	spa-cat cat-spa spa-eus eus-spa spa-glg glg-spa pol-ukr ukr-pol \
+			deu-tur tur-deu deu-ukr ukr-deu fra-nld nld-fra \
+			ces-slk slk-ces bos-hrv hrv-bos bos-srp_Cyrl srp_Cyrl-bos bos-slv slv-bos \
+			hrv-srp_Cyrl srp_Cyrl-hrv sqi-mkd mkd-sqi bul-tur tur-bul \
+			spa-ron ron-spa glg-por por-glg eus-fra fra-eus dan-nob nob-dan \
+			hun-ukr ukr-hun ces-ukr ukr-ces ukr-slk slk-ukr swe-ukr ukr-swe
+
+
 .PHONY: %.zero-shot
 %.zero-shot:
-	@${MAKE} -s $(basename $@) \
-		SLURM_GPU_PARTITION=dev-g \
-		EVAL_TASKS_WALLTIME=15:00 \
-		TASKS="por-swe ces-ukr" \
-		TASK_IDS="mt_por-swe mt_ces-ukr"
+	@${MAKE} -s $(basename $@) TASKS="${ZERO_SHOT_TASKS}"
