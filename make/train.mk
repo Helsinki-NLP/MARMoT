@@ -77,6 +77,14 @@ ${MODEL_DIR}/${TRAIN_STAGE}: ${TRAIN_CONFIGFILE}
 
 
 
+MEMORY_PROFILER = ${MAMMOTH_DIR}/mammoth/scripts/memory_profiler.py
+
+.PHONY: memory-profile
+memory-profile: ${TRAIN_CONFIGFILE}
+	python ${MEMORY_PROFILER} $< ${GPU_MEM}
+
+
+
 ##------------------------------------------------------------------
 ## reporting targets:
 ## show scores for each task and validation step

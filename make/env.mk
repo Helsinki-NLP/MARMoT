@@ -43,6 +43,7 @@ MAX_CPUS_PER_GPU ?= 10
 
 ## in case we need some commands for setting up and cleaning up GPU environments
 
+GPU_MEM           ?= 48
 PREPARE_GPU_ENV   ?= echo "all ready to run"
 CLEANUP_GPU_ENV   ?= echo "ready for shutting down"
 MONITOR_GPU_USAGE ?= echo "Monitoring GPU Usage is not implemented"

@@ -16,6 +16,7 @@ MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared
 MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth-${MAMMOTH_VERSION}/mammoth
 
 
+GPU_MEM             ?= 64
 MAX_GPUS_PER_NODE   ?= 8
 MAX_MEM_PER_GPU     ?= 60
 MAX_CPUS_PER_GPU    ?= 7
@@ -68,8 +69,9 @@ CLEANUP_GPU_ENV ?= ${STOP_GPU_ENERGY_MONITORING}
 
 # PYTORCH_CONTAINER ?= /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif
 # PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
-# PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
-PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260415_130625/lumi-multitorch-full-u24r70f21m50t210-20260415_130625.sif
+PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif
+# PYTORCH_CONTAINER ?= /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260415_130625/lumi-multitorch-full-u24r70f21m50t210-20260415_130625.sif
+
 
 
 ifdef PRETRAINED_MODEL

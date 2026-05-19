@@ -42,20 +42,27 @@ TASK_TRANSFORMS     := ${DOCMT_TRANSFORMS} ${DENOISE_TRANSFORMS}
 TASK_WEIGHT_FACTORS := ${DOCMT_WEIGHTS} ${DENOISE_WEIGHTS}
 
 
-DECODER_LAYERS  := 2
-MODEL_DIMENSION := 512
+## encoder definition: 3 language-specific layers and 3 shared layers
+
+ENCODER         := "{lang}","{langgroup}","all"
+ENCODER_LAYERS  := 2,2,2
+DECODER_LAYERS  := 3
 
 
-NR_OF_NODES                 := 9
+
+NR_OF_NODES                 := 1
 USE_DATASIZE_AS_TASK_WEIGHT := 1
 SAMPLING_TEMP               := 2
 
 
-include ../../../make/marmot.mk
+GRADIENT_ACCUM := 10
+BATCH_SIZE     := 26670
+
+
+include ../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})
-
 
 ## test zero-shot translation
 
