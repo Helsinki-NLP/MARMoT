@@ -2,7 +2,8 @@
 
 SHELL := bash
 
-HPC_PROJECT := project_465001864
+# HPC_PROJECT := project_465001864
+HPC_PROJECT := project_462000964
 
 include ../../tools/slurMake/slurm.mk
 
@@ -104,6 +105,28 @@ parallel/${TOWER_MODEL}/nemotron-cc.eng2.gz: ${ENGLISH_FILES}
 
 
 
+
+## bilingual data sets instead of multiparallel data (avoid empty lines!)
+
+
+.PHONY: eng-fin
+eng-fin:
+	${MAKE} SRC=eng TRG=fin bilingual
+
+.PHONY: fin-swe
+fin-swe:
+	${MAKE} SRC=fin TRG=swe bilingual
+
+.PHONY: bilingual
+bilingual: bilingual/${TOWER_MODEL}/nemotron-cc.${SRC}-${TRG}.${TRG}.gz
+
+bilingual/${TOWER_MODEL}/nemotron-cc.${SRC}-${TRG}.${TRG}.gz:
+	mkdir -p $(dir $@)
+	paste 	<(gzip -cd < parallel/${TOWER_MODEL}/nemotron-cc.${SRC}.gz | tr "\t" ' ') \
+		<(gzip -cd < parallel/${TOWER_MODEL}/nemotron-cc.${TRG}.gz | tr "\t" ' ') \
+	| grep --text ".	." \
+	| tee >(cut -f1 | gzip -c > $(@:.${TRG}.gz=.${SRC}.gz)) \
+	| cut -f2 | gzip -c > $@
 
 
 
