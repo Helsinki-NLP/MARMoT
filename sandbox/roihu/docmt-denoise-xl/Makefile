@@ -45,7 +45,8 @@ VOCAB := tatoeba_hplt_multisynt
 MODEL_ARCHITECTURE := transformer-xl
 ENCODER            := "all"
 
-BATCH_SIZE := 16384
+# BATCH_SIZE := 16384
+BATCH_SIZE := 12288
 
 
 include ../../../make/marmot.mk
@@ -62,12 +63,8 @@ print-tasks:
 ## test zero-shot translation
 
 
-ZERO_SHOT_TASKS := 	spa-cat cat-spa spa-eus eus-spa spa-glg glg-spa pol-ukr ukr-pol \
-			deu-tur tur-deu deu-ukr ukr-deu fra-nld nld-fra \
-			ces-slk slk-ces bos-hrv hrv-bos bos-srp_Cyrl srp_Cyrl-bos bos-slv slv-bos \
-			hrv-srp_Cyrl srp_Cyrl-hrv sqi-mkd mkd-sqi bul-tur tur-bul \
-			spa-ron ron-spa glg-por por-glg eus-fra fra-eus dan-nob nob-dan \
-			hun-ukr ukr-hun ces-ukr ukr-ces ukr-slk slk-ukr swe-ukr ukr-swe
+ZERO_SHOT_TASKS := 	bos-srp_Cyrl srp_Cyrl-bos bos-slv slv-bos \
+			sqi-mkd mkd-sqi glg-por por-glg dan-nob nob-dan
 
 
 .PHONY: %.zero-shot

@@ -8699,7 +8699,7 @@ train_steps: 250000
 early_stopping: 5
 accum_count: [20]
 lookahead_minibatches: 80
-batch_size: 16384
+batch_size: 12288
 batch_type: tokens
 normalization: tokens
 queue_size: 120
