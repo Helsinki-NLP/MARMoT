@@ -162,7 +162,7 @@ ifneq (${SLURM_MAX_RESTARTS},0)
 	@echo ''                                                                             >> $@
   endif
 endif
-	@echo 'export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True'                      >> $@
+	@echo 'export PYTORCH_ALLOC_CONF=expandable_segments:True'                           >> $@
 ifneq (${SLURM_NODES},1)
 	@echo '# Get the master node (first node in the job allocation) and set its port'    >> $@
 	@echo 'MASTER_NODE=$$(scontrol show hostnames "$${SLURM_JOB_NODELIST}" | head -n 1)' >> $@
