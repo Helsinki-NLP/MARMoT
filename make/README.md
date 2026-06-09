@@ -55,7 +55,7 @@ make train
 The model will be created in a sub-directory called `mammoth`. You can change the name using the variable `MODEL_NAME`. Logfiles will be stored in `mammoth/train.*.out` and `mammoth/train.*.err`. For some reasons, multi-node SLURM jobs submitted with `make train` crash with some errors about communication on LUMI. In those cases, create the SLURM script first and then submit from command-line:
 
 ```
-make train-slurm
+make -j8 train-slurm
 sbatch mammoth/train.slurm
 ```
 
@@ -105,11 +105,12 @@ This will create configuration files for each task and submit SLURM jobs to tran
 make TASK_NR=2 eval-task
 ```
 
-The resulting scores an be printed using the reporting target, including a comparison to the best OPUS-MT model score from the OPUS-MT Dashboard:
+The resulting scores can be printed using the reporting target, including a comparison to the best OPUS-MT model score from the OPUS-MT Dashboard if needed:
 
 
 ```
 make print-evaluation-scores
+make print-eval-score-comparison
 ```
 
 
@@ -117,6 +118,5 @@ make print-evaluation-scores
 
 ## Known issues
 
-* multi-node jobs on LUMI do not start correctly with `make train`. Quick fix: run 'make train-slurm' and run `sbatch` manually on the generated SLURM script
 * tokenizer settings and vocabulary selections are not very flexible
 

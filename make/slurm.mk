@@ -138,6 +138,9 @@ ifdef EMAIL
 	echo '#SBATCH --mail-type=END'                                                       >> $@
 	echo '#SBATCH --mail-user=${EMAIL}'                                                  >> $@
 endif
+ifdef SLURM_EXTRA
+	echo '${SLURM_EXTRA}'                                                                >> $@
+endif
 	@echo ''                                                                             >> $@
 	@echo 'echo "Starting at `date`"'                                                    >> $@
 	@echo ''                                                                             >> $@
