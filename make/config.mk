@@ -157,10 +157,10 @@ ALLOCATED_GPUS := $(sort ${TASK_GPU_ASSIGNMENTS})
 
 ifneq ($(words ${ALLOCATED_GPUS}),$(words ${TASK_IDS}))
   export MULTIPLE_JOBS_PER_GPU := 1
-  export GPU_TASKID_PAIRS   := $(foreach t,${TASK_IDS},$(call lookup,$t,${TASK_IDS},${TASK_GPU_ASSIGNMENTS})/$t)
-  export GPU_LANGPAIR_PAIRS := $(foreach t,${GPU_TASKID_PAIRS},$(dir $t)$(call lookup,$(notdir $t),${TASK_IDS},${TASK_LANGPAIRS}))
-  export GPU_LANGPAIRS      := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(sort $(notdir $(filter $g/%,${GPU_LANGPAIR_PAIRS}))))))
-  export GPU_TASK_IDS       := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(notdir $(filter $g/%,${GPU_TASKID_PAIRS})))))
+#  export GPU_TASKID_PAIRS   := $(foreach t,${TASK_IDS},$(call lookup,$t,${TASK_IDS},${TASK_GPU_ASSIGNMENTS})/$t)
+#  export GPU_LANGPAIR_PAIRS := $(foreach t,${GPU_TASKID_PAIRS},$(dir $t)$(call lookup,$(notdir $t),${TASK_IDS},${TASK_LANGPAIRS}))
+#  export GPU_LANGPAIRS      := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(sort $(notdir $(filter $g/%,${GPU_LANGPAIR_PAIRS}))))))
+#  export GPU_TASK_IDS       := $(strip $(foreach g,${ALLOCATED_GPUS},$(subst ${space},:,$(notdir $(filter $g/%,${GPU_TASKID_PAIRS})))))
 endif
 
 
