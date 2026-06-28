@@ -178,3 +178,32 @@ TESTDATA_TRG ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_TRGS)) $(DEFAULT_T
 
 TESTDATA_OUTPUT ?= ${EVAL_DIR}/${TASK_ID}.${TESTDATA_NAME}.${SRCLANG}.${TRGLANG}
 
+
+
+
+
+
+## data size count files (countling lines, words and bytes with wc)
+## and make targets to create those files
+
+TRAINDATA_SRC_SIZEFILE ?= ${TRAINDATA_SRC}.size
+TRAINDATA_TRG_SIZEFILE ?= ${TRAINDATA_TRG}.size
+
+MAKE_TRAINDATA_SIZEFILES := $(patsubst %,make-train-datasize-files/%,${TASK_NRS})
+.PHONY: ${MAKE_TRAINDATA_SIZEFILES}
+${MAKE_TRAINDATA_SIZEFILES}:
+	${MAKE} TASK_NR=$(notdir $@) make-train-datasize-files
+
+.PHONY: make-train-datasize-files
+make-train-datasize-files: ${TRAINDATA_SRC_SIZEFILE} ${TRAINDATA_TRG_SIZEFILE}
+
+${TRAINDATA_SRC_SIZEFILE}: ${TRAINDATA_SRC}
+	${GZIP} -cd < $< | wc > $@
+
+ifneq (${TRAINDATA_SRC_SIZEFILE},${TRAINDATA_TRG_SIZEFILE})
+${TRAINDATA_TRG_SIZEFILE}: ${TRAINDATA_TRG}
+	${GZIP} -cd < $< | wc > $@
+endif
+
+
+

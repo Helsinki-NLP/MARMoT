@@ -42,6 +42,9 @@ MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
 EVAL_DIR       ?= ${MODEL_DIR}/eval
 
 
+## transformer backend (x-transformers or pytorch)
+TRANSFORMER_BACKEND ?= x-transformers
+
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
@@ -246,6 +249,10 @@ config-add-model-architecture:
 	echo 'add_language_tokens: ${ADD_LANGUAGE_TOKEN}'         >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}
 
+
+
+ifeq (${TRANSFORMER_BACKEND},x-transformers)
+
 .PHONY: config-add-transformer-params
 config-add-transformer-params:
 	echo '# x-transformers specific options'                  >> ${CONFIGFILE}
@@ -262,6 +269,32 @@ config-add-transformer-params:
 	echo '  layernorm_bias: ${XTRF_LAYERNORM_BIAS}'           >> ${CONFIGFILE}
 	echo '  use_abs_pos_emb: ${XTRF_USE_ABS_POS_EMB}'         >> ${CONFIGFILE}
 	echo ''                                                   >> ${CONFIGFILE}
+
+else
+
+TRF_FF_ACTIVATION ?= swiglu
+
+# # Native pytorch transformer options
+# heads: 16              # attention heads (model_dim must be divisible by heads)
+# rotary_pos_emb: true   # rotary positional embeddings (RoPE, currently the only option)
+# post_emb_norm: true    # RMSNorm applied after token embedding (RMSNorm, the only option)
+# attn_dropout: 0.1
+# ff_dropout: 0.1
+# ff_activation: swiglu  # choose between "swiglu" and "gelu", "swiglu" by default
+
+.PHONY: config-add-transformer-params
+config-add-transformer-params:
+	echo 'heads: ${XTRF_HEADS}'                             >> ${CONFIGFILE}
+	echo 'rotary_pos_emb: ${XTRF_ROTARY_POS_EMBEDDINGS}'    >> ${CONFIGFILE}
+	echo 'post_emb_norm: ${XTRF_POST_EMB_NORM}'             >> ${CONFIGFILE}
+	echo 'attn_dropout: ${XTRF_ATTN_DROPOUT}'               >> ${CONFIGFILE}
+	echo 'ff_dropout: ${XTRF_FF_DROPOUT}'                   >> ${CONFIGFILE}
+	echo 'ff_activation: ${TRF_FF_ACTIVATION}'              >> ${CONFIGFILE}
+	echo ''                                                 >> ${CONFIGFILE}
+
+endif
+
+
 
 
 COMMA            := ,
@@ -342,35 +375,3 @@ config-add-checkpoint-params:
 
 
 
-
-
-
-## data size count files (countling lines, words and bytes with wc)
-## and make targets to create those files
-
-TRAINDATA_SRC_SIZEFILE ?= ${TRAINDATA_SRC}.size
-TRAINDATA_TRG_SIZEFILE ?= ${TRAINDATA_TRG}.size
-
-MAKE_TRAINDATA_SIZEFILES := $(patsubst %,make-train-datasize-files/%,${TASK_NRS})
-.PHONY: ${MAKE_TRAINDATA_SIZEFILES}
-${MAKE_TRAINDATA_SIZEFILES}:
-	${MAKE} TASK_NR=$(notdir $@) make-train-datasize-files
-
-.PHONY: make-train-datasize-files
-make-train-datasize-files: ${TRAINDATA_SRC_SIZEFILE} ${TRAINDATA_TRG_SIZEFILE}
-
-${TRAINDATA_SRC_SIZEFILE}: ${TRAINDATA_SRC}
-	${GZIP} -cd < $< | wc > $@
-
-ifneq (${TRAINDATA_SRC_SIZEFILE},${TRAINDATA_TRG_SIZEFILE})
-${TRAINDATA_TRG_SIZEFILE}: ${TRAINDATA_TRG}
-	${GZIP} -cd < $< | wc > $@
-endif
-
-
-
-## return task number for a give task ID
-
-.PHONY: find_tasknr
-find_tasknr:
-	@echo "${TASK_ID} = task nr $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})"

@@ -161,3 +161,8 @@ endif
 
 
 
+## return task number for a give task ID
+
+.PHONY: find_tasknr
+find_tasknr:
+	@echo "${TASK_ID} = task nr $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})"

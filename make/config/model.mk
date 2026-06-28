@@ -49,12 +49,22 @@ MODEL_DTYPE        ?= bf16
 DROPOUT_RATE       ?= 0.1
 
 
+# Transformer options
+
+TRF_HEADS                 ?= 8
+TRF_ROTARY_POS_EMBEDDINGS ?= true
+TRF_POST_EMB_NORM         ?= true
+TRF_ATTN_DROPOUT          ?= 0.1
+TRF_FF_DROPOUT            ?= 0.1
+TRF_FF_ACTIVATION         ?= swiglu
+
 
 # X-Transformer options
+# - Flash attention (not supported on V100)
 
-XTRF_FLASH_ATTENTION       ?= true     # Flash attention (not supported on V100)
-XTRF_ROTARY_POS_EMBEDDINGS ?= true     # Use rotary positional embeddings
-XTRF_TIE_EMBEDDINGS        ?= false    # Tie input/output embeddings
+XTRF_FLASH_ATTENTION       ?= true
+XTRF_ROTARY_POS_EMBEDDINGS ?= true
+XTRF_TIE_EMBEDDINGS        ?= false
 XTRF_HEADS                 ?= 8
 XTRF_PRE_NORM              ?= false
 XTRF_POST_EMB_NORM         ?= true
