@@ -272,8 +272,6 @@ config-add-transformer-params:
 
 else
 
-TRF_FF_ACTIVATION ?= swiglu
-
 # # Native pytorch transformer options
 # heads: 16              # attention heads (model_dim must be divisible by heads)
 # rotary_pos_emb: true   # rotary positional embeddings (RoPE, currently the only option)

@@ -3,35 +3,37 @@
 #--------------------------------------------------------------
 
 
+## some pre-defined model architectures
+
 MODEL_ARCHITECTURE ?= transformer-base
 
 ifeq (${MODEL_ARCHITECTURE},transformer-tiny)
   ENCODER_LAYERS  ?= 6
   DECODER_LAYERS  ?= 2
   MODEL_DIMENSION ?= 256
-  XTRF_HEADS      ?= 8
+  TRF_HEADS       ?= 8
   BATCH_SIZE      ?= 32768
 else ifeq (${MODEL_ARCHITECTURE},transformer-small)
   ENCODER_LAYERS  ?= 6
   DECODER_LAYERS  ?= 2
   MODEL_DIMENSION ?= 512
-  XTRF_HEADS      ?= 8
+  TRF_HEADS       ?= 8
   BATCH_SIZE      ?= 32768
 else ifeq (${MODEL_ARCHITECTURE},transformer-base)
   ENCODER_LAYERS  ?= 6
   DECODER_LAYERS  ?= 6
   MODEL_DIMENSION ?= 512
-  XTRF_HEADS      ?= 8
+  TRF_HEADS       ?= 8
 else ifeq (${MODEL_ARCHITECTURE},transformer-big)
   ENCODER_LAYERS  ?= 6
   DECODER_LAYERS  ?= 6
   MODEL_DIMENSION ?= 1024
-  XTRF_HEADS      ?= 16
+  TRF_HEADS       ?= 16
 else ifeq (${MODEL_ARCHITECTURE},transformer-xl)
   ENCODER_LAYERS  ?= 12
   DECODER_LAYERS  ?= 12
   MODEL_DIMENSION ?= 1024
-  XTRF_HEADS      ?= 16
+  TRF_HEADS       ?= 16
 endif
 
 
@@ -51,25 +53,25 @@ DROPOUT_RATE       ?= 0.1
 
 # Transformer options
 
-TRF_HEADS                 ?= 8
-TRF_ROTARY_POS_EMBEDDINGS ?= true
-TRF_POST_EMB_NORM         ?= true
-TRF_ATTN_DROPOUT          ?= 0.1
-TRF_FF_DROPOUT            ?= 0.1
-TRF_FF_ACTIVATION         ?= swiglu
+TRF_HEADS                  ?= 8
+TRF_ROTARY_POS_EMBEDDINGS  ?= true
+TRF_POST_EMB_NORM          ?= true
+TRF_ATTN_DROPOUT           ?= 0.1
+TRF_FF_DROPOUT             ?= 0.1
+TRF_FF_ACTIVATION          ?= swiglu
 
 
-# X-Transformer options
+# X-Transformer options (some are not implemented in pytorch backend)
 # - Flash attention (not supported on V100)
 
-XTRF_FLASH_ATTENTION       ?= true
-XTRF_ROTARY_POS_EMBEDDINGS ?= true
-XTRF_TIE_EMBEDDINGS        ?= false
-XTRF_HEADS                 ?= 8
-XTRF_PRE_NORM              ?= false
-XTRF_POST_EMB_NORM         ?= true
+XTRF_ROTARY_POS_EMBEDDINGS ?= ${TRF_ROTARY_POS_EMBEDDINGS}
+XTRF_ATTN_DROPOUT          ?= ${TRF_ATTN_DROPOUT}
+XTRF_FF_DROPOUT            ?= ${TRF_FF_DROPOUT}
+XTRF_HEADS                 ?= ${TRF_HEADS}
+XTRF_POST_EMB_NORM         ?= ${TRF_POST_EMB_NORM}
 XTRF_POST_EMB_NORM_BIAS    ?= true
-XTRF_ATTN_DROPOUT          ?= 0.1
-XTRF_FF_DROPOUT            ?= 0.1
+XTRF_PRE_NORM              ?= false
 XTRF_LAYERNORM_BIAS        ?= true
 XTRF_USE_ABS_POS_EMB       ?= false
+XTRF_TIE_EMBEDDINGS        ?= false
+XTRF_FLASH_ATTENTION       ?= true
