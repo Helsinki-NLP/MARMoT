@@ -8,7 +8,8 @@ HPC_PROJECT := project_462000964
 include ../../tools/slurMake/slurm.mk
 
 
-MULTISYNT_PARALLEL := /appl/local/openeurollm/training/catalogue/multisynt-mt/0.1/tower+/parallel
+# MULTISYNT_PARALLEL := /appl/local/openeurollm/training/catalogue/multisynt-mt/0.1/tower+/parallel
+MULTISYNT_PARALLEL := /appl/local/openeurollm/training/catalogue/nemotron-cc-tower+/0.1/parallel
 
 
 TOWER_MODEL := tower72b
