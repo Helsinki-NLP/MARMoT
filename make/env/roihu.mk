@@ -26,6 +26,7 @@ LOAD_MAMMOTH_ENV ?= module purge;module load python-pytorch/2.10;export export M
 ## roihu-specific environment
 
 MAX_GPUS_PER_NODE         ?= 4
+GPU_MEM                   ?= 96
 MAX_MEM_PER_GPU           ?= 120
 MAX_CPUS_PER_GPU          ?= 72
 

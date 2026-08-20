@@ -34,6 +34,11 @@ else ifeq (${MODEL_ARCHITECTURE},transformer-xl)
   DECODER_LAYERS  ?= 12
   MODEL_DIMENSION ?= 1024
   TRF_HEADS       ?= 16
+else ifeq (${MODEL_ARCHITECTURE},transformer-xxl)
+  ENCODER_LAYERS  ?= 24
+  DECODER_LAYERS  ?= 24
+  MODEL_DIMENSION ?= 2048
+  TRF_HEADS       ?= 24
 endif
 
 
