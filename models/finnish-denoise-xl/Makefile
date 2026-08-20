@@ -34,15 +34,11 @@ DOCMT5_TASK_IDS  := docmt5_fin-eng docmt5_eng-fin
 DOCMT5_TRAINDATA := transweb-edu_100-471/train/len1024 transweb-edu_100-471/train/len1024
 DOCMT5_GPUS      := 0:0 0:1
 
-DOCMT6_TASK_IDS  := $(addprefix docmt6_,${MT_TASKS})
-DOCMT6_TRAINDATA := $(patsubst %,multisynt_tower/parallel/tower72b,${MT_TASKS})
-
-
 ## list all document-level tasks
 
-DOCMT_TASK_IDS  := ${DOCMT1_TASK_IDS} ${DOCMT2_TASK_IDS} ${DOCMT3_TASK_IDS} ${DOCMT4_TASK_IDS} ${DOCMT5_TASK_IDS} ${DOCMT6_TASK_IDS}
-DOCMT_TRAINDATA := ${DOCMT1_TRAINDATA} ${DOCMT2_TRAINDATA} ${DOCMT3_TRAINDATA} ${DOCMT4_TRAINDATA} ${DOCMT5_TRAINDATA} ${DOCMT6_TRAINDATA}
-DOCMT_GPUS      := ${MT_GPUS} ${MT_GPUS} ${MT_GPUS} ${DOCMT4_GPUS} ${DOCMT5_GPUS} ${DOCMT6_GPUS}
+DOCMT_TASK_IDS  := ${DOCMT1_TASK_IDS} ${DOCMT2_TASK_IDS} ${DOCMT3_TASK_IDS} ${DOCMT4_TASK_IDS} ${DOCMT5_TASK_IDS}
+DOCMT_TRAINDATA := ${DOCMT1_TRAINDATA} ${DOCMT2_TRAINDATA} ${DOCMT3_TRAINDATA} ${DOCMT4_TRAINDATA} ${DOCMT5_TRAINDATA}
+DOCMT_GPUS      := ${MT_GPUS} ${MT_GPUS} ${MT_GPUS} ${DOCMT4_GPUS} ${DOCMT5_GPUS}
 
 
 
@@ -55,6 +51,16 @@ WIKI_BASENAMES   := *eng-fin* *fin-eng* *swe-fin* *fin-swe*
 
 
 
+## denoising tasks (use same as MT training data)
+## assign them all to one GPU-node (node 10) rotating over the GPUs on that node
+
+DENOISE_TASK_IDS      := $(foreach l,eng fin swe,denoise_$l-$l)
+DENOISE_TRAINDATA     := synthetic/Wikipedia synthetic/Wiki synthetic/Wiki
+DENOISE_BASENAMES     := *eng-fin* *fin-eng* *swe-fin*
+DENOISE_TRANSFORMS    := $(foreach l,${DENOISE_TASK_IDS},denoising,filtertoolong)
+DENOISE_GPUS          := 0:0 0:1 0:2
+# DENOISE_WEIGHT_FACTOR := 0.5 0.5 0.5
+
 
 ##----------------------------------------------------------
 ## task definitions put together
@@ -63,16 +69,14 @@ WIKI_BASENAMES   := *eng-fin* *fin-eng* *swe-fin* *fin-swe*
 ## - GPU assignments (put the same language pair on the same GPU)
 ##----------------------------------------------------------
 
-TASK_IDS       := ${WIKI_TASK_IDS} ${DOCMT_TASK_IDS} ${SENTMT_TASK_IDS} 
-TASK_TRAINDATA := ${WIKI_TRAINDATA} ${DOCMT_TRAINDATA} ${SENTMT_TRAINDATA}
-TASK_DEVDATA   := $(patsubst %,skip,${WIKI_TASK_IDS} ${DOCMT_TASK_IDS})
-TASK_GPUS      := ${MT_GPUS} ${DOCMT_GPUS} ${MT_GPUS}
+TASK_IDS         := ${DENOISE_TASK_IDS} ${WIKI_TASK_IDS} ${DOCMT_TASK_IDS} ${SENTMT_TASK_IDS} 
+TASK_TRAINDATA   := ${DENOISE_TRAINDATA} ${WIKI_TRAINDATA} ${DOCMT_TRAINDATA} ${SENTMT_TRAINDATA}
+TASK_DEVDATA     := $(patsubst %,skip,${WIKI_TASK_IDS} ${DOCMT_TASK_IDS})
+TASK_TRANSFORMS  := ${DENOISE_TRANSFORMS}
+TASK_GPUS        := ${MT_GPUS} ${DOCMT_GPUS} ${MT_GPUS}
 
-TASK_TRAINDATA_BASENAMES := ${WIKI_BASENAMES}
-
-
-MIN_SRCSEQ_LENGTH := 2
-MIN_TRGSEQ_LENGTH := 2
+TASK_TRAINDATA_BASENAMES := ${DENOISE_BASENAMES} ${WIKI_BASENAMES}
+# TASK_WEIGHT_FACTORS      := ${DENOISE_WEIGHT_FACTOR}
 
 
 
@@ -82,10 +86,14 @@ MIN_TRGSEQ_LENGTH := 2
 VOCAB := tatoeba_hplt_multisynt
 
 
+BATCH_SIZE     := 7637
+GRADIENT_ACCUM := 50
+LOOK_AHEAD     := 100
+QUEUE_SIZE     := 200
+
+
 USE_DATASIZE_AS_TASK_WEIGHT := 1
 SAMPLING_TEMP               := 2
-
-
 
 
 ## include this at the end to set all variables and

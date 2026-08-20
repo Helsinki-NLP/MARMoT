@@ -11,7 +11,9 @@ MAMMOTH_VERSION ?= dev
 # MAMMOTH_VERSION ?= joerg
 
 
-HPC_PROJECT  ?= project_462000964
+# HPC_PROJECT  ?= project_462000964
+HPC_PROJECT  ?= project_462001087
+
 MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared
 MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth-${MAMMOTH_VERSION}/mammoth
 
