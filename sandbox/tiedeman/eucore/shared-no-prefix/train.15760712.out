@@ -1,0 +1,91 @@
+Starting at Mon Jan  5 21:37:44 EET 2026
+Master node: nid007254
+Master port: 9973
+Node list: nid[007254-007256]
+make: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+make: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+make: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+singularity exec \
+	--env MASTER_NODE="nid007254" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid007254 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid007254" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid007254 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid007254" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid007254 MASTER_PORT=9973 multi-node-train
+make[1]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+make[1]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+make[1]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore'
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 1 starting training"; \
+  echo "Master node: nid007254"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/model \
+	--node_rank 1 \
+	--master_ip nid007254 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 2 starting training"; \
+  echo "Master node: nid007254"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/model \
+	--node_rank 2 \
+	--master_ip nid007254 \
+	--master_port 9973 )
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 0 starting training"; \
+  echo "Master node: nid007254"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/shared/model \
+	--node_rank 0 \
+	--master_ip nid007254 \
+	--master_port 9973 )
+Node 0 starting training
+Master node: nid007254
+Master port: 9973
+Node 2 starting training
+Master node: nid007254
+Master port: 9973
+Node 1 starting training
+Master node: nid007254
+Master port: 9973
+abort_function called at Tue Jan  6 13:47:40 EET 2026
+GPU 0: 4184.39 Wh, avg power: 258.86 W (58193.25 s)
+GPU 2: 4376.53 Wh, avg power: 270.74 W (58193.25 s)
+GPU 4: 4099.86 Wh, avg power: 253.63 W (58193.25 s)
+GPU 6: 4127.08 Wh, avg power: 255.31 W (58193.25 s)
+TOTAL: 16787.86 Wh

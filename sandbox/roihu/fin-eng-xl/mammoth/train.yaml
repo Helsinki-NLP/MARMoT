@@ -1,0 +1,163 @@
+tasks:
+  sentmt_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 131889.36520053464871763815
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_2017852/MARMoT/data/sentmt/eng-fin.fin.gz
+    path_tgt: /scratch/project_2017852/MARMoT/data/sentmt/eng-fin.eng.gz
+    path_valid_src: /scratch/project_2017852/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  docmt1_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 393087.17642019308182852315
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_2017852/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fin.gz
+    path_tgt: /scratch/project_2017852/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.eng.gz
+    path_valid_src: /scratch/project_2017852/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  docmt2_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 657760.41769781191356259110
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_2017852/MARMoT/data/multisynt_run2/train/len1024/nemotron-cc-english-run2-train-train-000-498.fin.gz
+    path_tgt: /scratch/project_2017852/MARMoT/data/multisynt_run2/train/len1024/nemotron-cc-english-run2-train-train-000-498.eng.gz
+    path_valid_src: /scratch/project_2017852/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  docmt3_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 364269.79860125653848125955
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_2017852/MARMoT/data/transweb-edu/train/len1024/fineweb-edu_350BT_00-48.fin.gz
+    path_tgt: /scratch/project_2017852/MARMoT/data/transweb-edu/train/len1024/fineweb-edu_350BT_00-48.eng.gz
+    path_valid_src: /scratch/project_2017852/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  docmt4_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 367443.06740772780566844909
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_2017852/MARMoT/data/transweb-edu_50-99/train/len1024/fineweb-edu_350BT_50-99.fin.gz
+    path_tgt: /scratch/project_2017852/MARMoT/data/transweb-edu_50-99/train/len1024/fineweb-edu_350BT_50-99.eng.gz
+    path_valid_src: /scratch/project_2017852/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+
+
+src_vocab:
+   fin: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/fin/32000/tokenizer.json
+
+tgt_vocab:
+   eng: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/eng/32000/tokenizer.json
+
+# Model Architecture Options
+enc_layers: [12]
+dec_layers: [12]
+
+model_dim: 1024
+dropout: 0.1
+model_dtype: bf16
+add_language_tokens: false
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true     
+  rotary_pos_emb: true     
+  tie_embedding: false    
+  heads: 16
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: false
+
+src_seq_length_min: 1
+tgt_seq_length_min: 1
+src_seq_length_max: 1024
+tgt_seq_length_max: 1024
+max_length: 1024
+
+# Training Configuration
+train_steps: 250000
+early_stopping: 5
+accum_count: [20]
+lookahead_minibatches: 80
+batch_size: 16384
+batch_type: tokens
+normalization: tokens
+queue_size: 120
+
+# Optimizer settings (from create_opts)
+optim: adamw
+
+learning_rate: 0.0003
+adam_beta1: 0.9
+adam_beta2: 0.95
+adamw_fused: true
+weight_decay: 0.01
+max_grad_norm: 1.0
+label_smoothing: 0.1
+
+# Learning rate scheduling
+warmup_steps: 1000
+decay_method: linear_warmup
+learning_rate_decay: 0.5
+start_decay_steps: 10000
+average_decay: 0
+
+world_size: 1
+gpu_ranks: [0]
+n_nodes: 1
+task_distribution_strategy: weighted_sampling
+node_rank: 0
+seed: 42
+
+# Decoding parameters during validation
+valid_batch_size: 16
+valid_steps: 2500
+valid_timeout: 300
+valid_decode_timeout: 60
+valid_max_length: 1024
+valid_metrics: [bleu,chrf]
+beam_size: 1
+
+save_checkpoint_steps: 2500
+keep_checkpoint: 1
+
+# Logging and Monitoring
+
+log_model_structure: false
+tensorboard: true
+tensorboard_log_dir: /scratch/project_2017852/members/tiedemann/MARMoT/sandbox/roihu/fin-eng-xl/tb_logs
+report_tflops: true
+report_every: 500
+report_training_accuracy: false
+
+# Model saving
+save_model: /scratch/project_2017852/members/tiedemann/MARMoT/sandbox/roihu/fin-eng-xl/mammoth/model
+save_strategy: best_and_last
+reset_optim: none
+train_from: /scratch/project_2017852/members/tiedemann/MARMoT/sandbox/roihu/finnish-xl/mammoth/

@@ -1,0 +1,12 @@
+++ scontrol show hostnames 'nid[005219-005221]'
+++ head -n 1
++ MASTER_NODE=nid005219
++ echo 'Master node: nid005219'
++ echo 'Master port: 9973'
++ echo 'Node list: nid[005219-005221]'
++ trap timeup_function USR1
++ trap abort_function SIGHUP SIGINT SIGABRT SIGKILL SIGTERM
++ srun /appl/local/csc/soft/ai/bin/gpu-energy --save
++ srun make -C /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore MASTER_NODE=nid005219 /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/eucore/eucore/train
++ /scratch/project_462000964/MARMoT/tools/lumi_gpu_usage.sh
+srun: error: Unable to create step for job 15724925: Memory required by task is not available

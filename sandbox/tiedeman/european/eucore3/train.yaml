@@ -1,0 +1,1100 @@
+tasks:
+  task_bos-eng:
+    src_tgt: "bos-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["hbs","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/bos-eng.bos.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/bos-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bos-eng.bos.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bos-eng.eng.gz
+
+  task_eng-bos:
+    src_tgt: "eng-bos"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","bos"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/bos-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/bos-eng.bos.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bos-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bos-eng.bos.gz
+
+  task_bul-eng:
+    src_tgt: "bul-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["bul","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/bul-eng.bul.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/bul-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bul-eng.bul.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bul-eng.eng.gz
+
+  task_eng-bul:
+    src_tgt: "eng-bul"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","bul"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/bul-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/bul-eng.bul.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bul-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/bul-eng.bul.gz
+
+  task_cat-eng:
+    src_tgt: "cat-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["cat","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/cat-eng.cat.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/cat-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/cat-eng.cat.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/cat-eng.eng.gz
+
+  task_eng-cat:
+    src_tgt: "eng-cat"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","cat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/cat-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/cat-eng.cat.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/cat-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/cat-eng.cat.gz
+
+  task_ces-eng:
+    src_tgt: "ces-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["ces","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/ces-eng.ces.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/ces-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ces-eng.ces.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ces-eng.eng.gz
+
+  task_eng-ces:
+    src_tgt: "eng-ces"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","ces"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/ces-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/ces-eng.ces.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ces-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ces-eng.ces.gz
+
+  task_dan-eng:
+    src_tgt: "dan-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:0"
+    enc_sharing_group: ["dan","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/dan-eng.dan.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/dan-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/dan-eng.dan.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/dan-eng.eng.gz
+
+  task_eng-dan:
+    src_tgt: "eng-dan"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","dan"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/dan-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/dan-eng.dan.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/dan-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/dan-eng.dan.gz
+
+  task_deu-eng:
+    src_tgt: "deu-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:2"
+    enc_sharing_group: ["deu","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.eng.gz
+
+  task_eng-deu:
+    src_tgt: "eng-deu"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/deu-eng.deu.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/deu-eng.deu.gz
+
+  task_ell-eng:
+    src_tgt: "ell-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:4"
+    enc_sharing_group: ["ell","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/ell-eng.ell.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/ell-eng.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ell-eng.ell.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ell-eng.eng.gz
+
+  task_eng-ell:
+    src_tgt: "eng-ell"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","ell"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/ell-eng.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/ell-eng.ell.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ell-eng.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/ell-eng.ell.gz
+
+  task_est-eng:
+    src_tgt: "est-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:6"
+    enc_sharing_group: ["est","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-est.est.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-est.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-est.est.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-est.eng.gz
+
+  task_eng-est:
+    src_tgt: "eng-est"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "1:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","est"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-est.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-est.est.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-est.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-est.est.gz
+
+  task_eus-eng:
+    src_tgt: "eus-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:0"
+    enc_sharing_group: ["eus","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-eus.eus.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-eus.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-eus.eus.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-eus.eng.gz
+
+  task_eng-eus:
+    src_tgt: "eng-eus"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","eus"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-eus.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-eus.eus.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-eus.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-eus.eus.gz
+
+  task_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:2"
+    enc_sharing_group: ["fin","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
+
+  task_eng-fin:
+    src_tgt: "eng-fin"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","fin"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fin.fin.gz
+
+  task_fra-eng:
+    src_tgt: "fra-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:4"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fra.fra.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fra.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fra.fra.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fra.eng.gz
+
+  task_eng-fra:
+    src_tgt: "eng-fra"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fra.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-fra.fra.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fra.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-fra.fra.gz
+
+  task_gle-eng:
+    src_tgt: "gle-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:6"
+    enc_sharing_group: ["gle","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-gle.gle.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-gle.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-gle.gle.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-gle.eng.gz
+
+  task_eng-gle:
+    src_tgt: "eng-gle"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "2:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","gle"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-gle.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-gle.gle.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-gle.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-gle.gle.gz
+
+  task_glg-eng:
+    src_tgt: "glg-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:0"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-glg.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-glg.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-glg.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-glg.eng.gz
+
+  task_eng-glg:
+    src_tgt: "eng-glg"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-glg.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-glg.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-glg.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-glg.glg.gz
+
+  task_hrv-eng:
+    src_tgt: "hrv-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:2"
+    enc_sharing_group: ["hbs","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hrv.hrv.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hrv.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hrv.hrv.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hrv.eng.gz
+
+  task_eng-hrv:
+    src_tgt: "eng-hrv"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","hrv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hrv.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hrv.hrv.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hrv.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hrv.hrv.gz
+
+  task_hun-eng:
+    src_tgt: "hun-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:4"
+    enc_sharing_group: ["hun","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hun.hun.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hun.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hun.hun.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hun.eng.gz
+
+  task_eng-hun:
+    src_tgt: "eng-hun"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","hun"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hun.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-hun.hun.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hun.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-hun.hun.gz
+
+  task_isl-eng:
+    src_tgt: "isl-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:6"
+    enc_sharing_group: ["isl","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.isl.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.isl.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.eng.gz
+
+  task_eng-isl:
+    src_tgt: "eng-isl"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "3:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","isl"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-isl.isl.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-isl.isl.gz
+
+  task_ita-eng:
+    src_tgt: "ita-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:0"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ita.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ita.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ita.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ita.eng.gz
+
+  task_eng-ita:
+    src_tgt: "eng-ita"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ita.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ita.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ita.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ita.ita.gz
+
+  task_kat-eng:
+    src_tgt: "kat-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:2"
+    enc_sharing_group: ["kat","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-kat.kat.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-kat.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-kat.kat.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-kat.eng.gz
+
+  task_eng-kat:
+    src_tgt: "eng-kat"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","kat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-kat.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-kat.kat.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-kat.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-kat.kat.gz
+
+  task_lav-eng:
+    src_tgt: "lav-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:4"
+    enc_sharing_group: ["lav","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lav.lav.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lav.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lav.lav.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lav.eng.gz
+
+  task_eng-lav:
+    src_tgt: "eng-lav"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","lav"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lav.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lav.lav.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lav.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lav.lav.gz
+
+  task_lit-eng:
+    src_tgt: "lit-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:6"
+    enc_sharing_group: ["lit","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lit.lit.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lit.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lit.lit.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lit.eng.gz
+
+  task_eng-lit:
+    src_tgt: "eng-lit"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "4:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","lit"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lit.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-lit.lit.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lit.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-lit.lit.gz
+
+  task_mkd-eng:
+    src_tgt: "mkd-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:0"
+    enc_sharing_group: ["mkd","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mkd.mkd.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mkd.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mkd.mkd.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mkd.eng.gz
+
+  task_eng-mkd:
+    src_tgt: "eng-mkd"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","mkd"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mkd.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mkd.mkd.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mkd.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mkd.mkd.gz
+
+  task_mlt-eng:
+    src_tgt: "mlt-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:2"
+    enc_sharing_group: ["mlt","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mlt.mlt.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mlt.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mlt.mlt.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mlt.eng.gz
+
+  task_eng-mlt:
+    src_tgt: "eng-mlt"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","mlt"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mlt.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-mlt.mlt.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mlt.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-mlt.mlt.gz
+
+  task_nld-eng:
+    src_tgt: "nld-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:4"
+    enc_sharing_group: ["nld","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nld.nld.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nld.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nld.nld.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nld.eng.gz
+
+  task_eng-nld:
+    src_tgt: "eng-nld"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","nld"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nld.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nld.nld.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nld.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nld.nld.gz
+
+  task_nno-eng:
+    src_tgt: "nno-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:6"
+    enc_sharing_group: ["nor","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nno.nno.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nno.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nno.nno.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nno.eng.gz
+
+  task_eng-nno:
+    src_tgt: "eng-nno"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "5:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","nno"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nno.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nno.nno.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nno.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nno.nno.gz
+
+  task_nob-eng:
+    src_tgt: "nob-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:0"
+    enc_sharing_group: ["nor","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nob.nob.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nob.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nob.nob.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nob.eng.gz
+
+  task_eng-nob:
+    src_tgt: "eng-nob"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","nob"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nob.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-nob.nob.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nob.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-nob.nob.gz
+
+  task_pol-eng:
+    src_tgt: "pol-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:2"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-pol.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-pol.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-pol.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-pol.eng.gz
+
+  task_eng-pol:
+    src_tgt: "eng-pol"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-pol.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-pol.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-pol.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-pol.pol.gz
+
+  task_por-eng:
+    src_tgt: "por-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:4"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-por.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-por.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-por.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-por.eng.gz
+
+  task_eng-por:
+    src_tgt: "eng-por"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-por.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-por.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-por.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-por.por.gz
+
+  task_ron-eng:
+    src_tgt: "ron-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:6"
+    enc_sharing_group: ["ron","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ron.ron.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ron.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ron.ron.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ron.eng.gz
+
+  task_eng-ron:
+    src_tgt: "eng-ron"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "6:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","ron"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ron.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ron.ron.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ron.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ron.ron.gz
+
+  task_slk-eng:
+    src_tgt: "slk-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:0"
+    enc_sharing_group: ["slk","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slk.slk.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slk.eng.gz
+
+  task_eng-slk:
+    src_tgt: "eng-slk"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","slk"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slk.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slk.slk.gz
+
+  task_slv-eng:
+    src_tgt: "slv-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:2"
+    enc_sharing_group: ["slv","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slv.slv.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slv.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-slv.slv.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-slv.eng.gz
+
+  task_eng-slv:
+    src_tgt: "eng-slv"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","slv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slv.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-slv.slv.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-slv.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-slv.slv.gz
+
+  task_spa-eng:
+    src_tgt: "spa-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:4"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-spa.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-spa.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-spa.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-spa.eng.gz
+
+  task_eng-spa:
+    src_tgt: "eng-spa"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-spa.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-spa.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-spa.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-spa.spa.gz
+
+  task_sqi-eng:
+    src_tgt: "sqi-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:6"
+    enc_sharing_group: ["sqi","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-sqi.sqi.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-sqi.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-sqi.sqi.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-sqi.eng.gz
+
+  task_eng-sqi:
+    src_tgt: "eng-sqi"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "7:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","sqi"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-sqi.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-sqi.sqi.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-sqi.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-sqi.sqi.gz
+
+  task_srp_Cyrl-eng:
+    src_tgt: "srp_Cyrl-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:0"
+    enc_sharing_group: ["hbs","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-srp_Cyrl.srp_Cyrl.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-srp_Cyrl.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-srp_Cyrl.srp_Cyrl.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-srp_Cyrl.eng.gz
+
+  task_eng-srp_Cyrl:
+    src_tgt: "eng-srp_Cyrl"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","srp_Cyrl"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-srp_Cyrl.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-srp_Cyrl.srp_Cyrl.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-srp_Cyrl.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-srp_Cyrl.srp_Cyrl.gz
+
+  task_swe-eng:
+    src_tgt: "swe-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:2"
+    enc_sharing_group: ["swe","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.swe.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.eng.gz
+
+  task_eng-swe:
+    src_tgt: "eng-swe"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","swe"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-swe.swe.gz
+
+  task_tur-eng:
+    src_tgt: "tur-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:4"
+    enc_sharing_group: ["tur","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-tur.tur.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-tur.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-tur.tur.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-tur.eng.gz
+
+  task_eng-tur:
+    src_tgt: "eng-tur"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","tur"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-tur.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-tur.tur.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-tur.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-tur.tur.gz
+
+  task_ukr-eng:
+    src_tgt: "ukr-eng"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:6"
+    enc_sharing_group: ["ukr","all"]
+    dec_sharing_group: ["all","eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ukr.ukr.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ukr.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ukr.ukr.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ukr.eng.gz
+
+  task_eng-ukr:
+    src_tgt: "eng-ukr"
+    weight: 1.0
+    introduce_at_training_step: 0
+    node_gpu: "8:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["all","ukr"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ukr.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/train/eng-ukr.ukr.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ukr.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/tatoeba/dev5K/eng-ukr.ukr.gz
+
+
+src_vocab:
+   bos: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/bos/32000/tokenizer.json
+   bul: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/bul/32000/tokenizer.json
+   cat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/cat/32000/tokenizer.json
+   ces: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ces/32000/tokenizer.json
+   dan: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/dan/32000/tokenizer.json
+   deu: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
+   ell: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ell/32000/tokenizer.json
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+   est: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/est/32000/tokenizer.json
+   eus: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eus/32000/tokenizer.json
+   fin: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fin/32000/tokenizer.json
+   fra: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fra/32000/tokenizer.json
+   gle: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/gle/32000/tokenizer.json
+   glg: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/glg/32000/tokenizer.json
+   hrv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/hrv/32000/tokenizer.json
+   hun: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/hun/32000/tokenizer.json
+   isl: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/isl/32000/tokenizer.json
+   ita: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ita/32000/tokenizer.json
+   kat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/kat/32000/tokenizer.json
+   lav: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/lav/32000/tokenizer.json
+   lit: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/lit/32000/tokenizer.json
+   mkd: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/mkd/32000/tokenizer.json
+   mlt: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/mlt/32000/tokenizer.json
+   nld: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nld/32000/tokenizer.json
+   nno: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nno/32000/tokenizer.json
+   nob: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nob/32000/tokenizer.json
+   pol: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/pol/32000/tokenizer.json
+   por: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/por/32000/tokenizer.json
+   ron: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ron/32000/tokenizer.json
+   slk: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/slk/32000/tokenizer.json
+   slv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/slv/32000/tokenizer.json
+   spa: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/spa/32000/tokenizer.json
+   sqi: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/sqi/32000/tokenizer.json
+   srp_Cyrl: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/srp_Cyrl/32000/tokenizer.json
+   swe: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/swe/32000/tokenizer.json
+   tur: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/tur/32000/tokenizer.json
+   ukr: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ukr/32000/tokenizer.json
+tgt_vocab:
+   bos: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/bos/32000/tokenizer.json
+   bul: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/bul/32000/tokenizer.json
+   cat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/cat/32000/tokenizer.json
+   ces: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ces/32000/tokenizer.json
+   dan: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/dan/32000/tokenizer.json
+   deu: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/deu/32000/tokenizer.json
+   ell: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ell/32000/tokenizer.json
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eng/32000/tokenizer.json
+   est: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/est/32000/tokenizer.json
+   eus: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/eus/32000/tokenizer.json
+   fin: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fin/32000/tokenizer.json
+   fra: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/fra/32000/tokenizer.json
+   gle: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/gle/32000/tokenizer.json
+   glg: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/glg/32000/tokenizer.json
+   hrv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/hrv/32000/tokenizer.json
+   hun: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/hun/32000/tokenizer.json
+   isl: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/isl/32000/tokenizer.json
+   ita: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ita/32000/tokenizer.json
+   kat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/kat/32000/tokenizer.json
+   lav: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/lav/32000/tokenizer.json
+   lit: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/lit/32000/tokenizer.json
+   mkd: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/mkd/32000/tokenizer.json
+   mlt: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/mlt/32000/tokenizer.json
+   nld: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nld/32000/tokenizer.json
+   nno: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nno/32000/tokenizer.json
+   nob: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/nob/32000/tokenizer.json
+   pol: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/pol/32000/tokenizer.json
+   por: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/por/32000/tokenizer.json
+   ron: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ron/32000/tokenizer.json
+   slk: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/slk/32000/tokenizer.json
+   slv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/slv/32000/tokenizer.json
+   spa: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/spa/32000/tokenizer.json
+   sqi: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/sqi/32000/tokenizer.json
+   srp_Cyrl: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/srp_Cyrl/32000/tokenizer.json
+   swe: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/swe/32000/tokenizer.json
+   tur: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/tur/32000/tokenizer.json
+   ukr: /scratch/project_462000964/MARMoT/tokenizer/tatoeba/ukr/32000/tokenizer.json
+
+# Denoising transform parameters
+denoising_objective: bart
+mask_ratio: 0.2              # Fraction of tokens to mask
+mask_length: span-poisson    # Options: "subword", "word", "span-poisson"
+poisson_lambda: 3.0          # Lambda for span length distribution
+replace_length: 1            # -1: keep N tokens, 0: remove all, 1: single mask per span
+
+# Model Architecture Options
+enc_layers: [3,3]
+dec_layers: [3,3]
+
+model_dim: 768      
+dropout: 0.1      
+model_dtype: bf16     
+add_language_tokens: false
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true     
+  rotary_pos_emb: true     
+  tie_embedding: false    
+  heads: 12
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: false
+
+src_seq_length_min: 1
+tgt_seq_length_min: 1
+src_seq_length_max: 512
+tgt_seq_length_max: 512
+max_length: 512
+
+# Training Configuration
+train_steps: 250000
+accum_count: [20]
+lookahead_minibatches: 16      
+batch_size: 8196    
+batch_type: tokens  
+normalization: tokens  
+queue_size: 40
+
+# Decoding parameters during validation
+valid_batch_size: 128     
+beam_size: 1
+
+# Optimizer settings (from create_opts)
+optim: adamw
+
+learning_rate: 0.0003
+adam_beta1: 0.9
+adam_beta2: 0.9
+weight_decay: 0.01
+max_grad_norm: 1.0
+label_smoothing: 0.1
+
+# Learning rate scheduling
+warmup_steps: 10000
+decay_method: linear_warmup
+learning_rate_decay: 0.5     
+start_decay_steps: 10000   
+average_decay: 0
+
+world_size: 72
+gpu_ranks: [0,1,2,3,4,5,6,7]
+n_nodes: 9
+task_distribution_strategy: weighted_sampling
+node_rank: 0
+
+seed: 42
+valid_steps: 5000    
+valid_metrics: [bleu]
+save_checkpoint_steps: 5000    
+keep_checkpoint: 1
+
+# Logging and Monitoring
+
+log_model_structure: false
+# tensorboard: true               # enable tensorboard logging
+# tensorboard_log_dir: ./logs     # tensorboard log directory
+report_every: 500     
+report_training_accuracy: true
+
+# Model saving
+save_model: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/eucore3/model
+save_strategy: best_and_last

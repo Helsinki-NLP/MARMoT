@@ -21,8 +21,10 @@ set -e
 path_to_data=/scratch/project_462000964/MARMoT/data
 path_to_tokenizer=/scratch/project_462000964/MARMoT/tokenizer
 path_to_tools=/scratch/project_462000964/MARMoT/tools
-path_to_workspace=/scratch/project_462000964/MARMoT/sandbox/tiedemann
+path_to_workspace=/scratch/project_462000964/MARMoT/sandbox/tiedeman
 path_to_mammoth=/scratch/project_462000964/MARMoT/mammoth
+
+path_to_workspace=/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/SingleNode4Langs
 
 
 /appl/local/csc/soft/ai/bin/gpu-energy --save
@@ -30,12 +32,14 @@ path_to_mammoth=/scratch/project_462000964/MARMoT/mammoth
 ${path_to_tools}/lumi_gpu_usage.sh > log/training.gpu-usage &
 singularity exec \
 	    -B $path_to_workspace:$path_to_workspace:rw \
+	    -B $path_to_mammoth:$path_to_mammoth:ro \
 	    -B $path_to_data:$path_to_data:ro \
 	    -B $path_to_tokenizer:$path_to_tokenizer:ro \
 	    /appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
 	    $path_to_mammoth/.venv/bin/python $path_to_mammoth/train.py \
-	    -config train.yaml \
-	    -train_from $path_to_workspace/SingleNode4Langs/model/de-en-fi-sv
+	    -config $path_to_workspace/train.yaml \
+	    -save_model $path_to_workspace/model/de-en-fi-sv \
+	    -train_from $path_to_workspace/best-model/de-en-fi-sv
 
 /appl/local/csc/soft/ai/bin/gpu-energy --diff
 echo "Finishing at `date`"
