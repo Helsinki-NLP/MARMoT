@@ -7,15 +7,31 @@
 ## temporarly exclude this node
 # SLURM_EXCLUDE := nid005878
 
-MAMMOTH_VERSION ?= dev
-# MAMMOTH_VERSION ?= joerg
-
 
 # HPC_PROJECT  ?= project_462000964
-HPC_PROJECT  ?= project_462001087
+# HPC_PROJECT  ?= project_462001087
+HPC_PROJECT  ?= project_462001509
 
-MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared
-MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/mammoth-${MAMMOTH_VERSION}/mammoth
+
+## path to mammoth installation
+
+# MAMMOTH_VERSION ?= dev
+# MAMMOTH_VERSION ?= joerg
+
+ifeq (${TRANSFORMER_BACKEND},x-transformers)
+  MAMMOTH_VERSION ?= mammoth_x_transformer
+else
+  MAMMOTH_VERSION ?= mammoth_pytorch
+endif
+
+
+# MAMMOTH_HOME ?= /scratch/project_462000964/shared/mammoth-shared
+MAMMOTH_HOME ?= /scratch/${HPC_PROJECT}/shared/mammoth-shared
+MAMMOTH_DIR  ?= ${MAMMOTH_HOME}/${MAMMOTH_VERSION}/mammoth
+
+
+PROJECT_SPACE ?= /scratch/${HPC_PROJECT}
+PROJECT_DIR   ?= ${PROJECT_SPACE}/shared/MARMoT
 
 
 GPU_MEM             ?= 64
