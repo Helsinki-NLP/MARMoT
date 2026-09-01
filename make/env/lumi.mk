@@ -22,6 +22,7 @@ ifeq (${TRANSFORMER_BACKEND},x-transformers)
   MAMMOTH_VERSION ?= mammoth_x_transformer
 else
   MAMMOTH_VERSION ?= mammoth_pytorch
+  TRANSFORMER_BACKEND ?= pytorch
 endif
 
 

@@ -43,7 +43,8 @@ EVAL_DIR       ?= ${MODEL_DIR}/eval
 
 
 ## transformer backend (x-transformers or pytorch)
-TRANSFORMER_BACKEND ?= x-transformers
+# TRANSFORMER_BACKEND ?= x-transformers
+TRANSFORMER_BACKEND ?= pytorch
 
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
