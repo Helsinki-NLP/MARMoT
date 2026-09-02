@@ -9,27 +9,7 @@ LANGUAGES := 	bos bul cat ces dan deu ell eng \
 		nno nob pol por ron slk slv spa \
 		sqi srp_Cyrl swe tur ukr
 
-
-## English-centric translation tasks
-## assign them to GPUs rotating over all GPUs on each node using 35 nodes (node 0-34)
-
-# DOCMT_PIVOT_LANGS := deu eng fra spa
-# DOCMT_EXTRA_TASKS := mt_fin-swe mt_swe-fin mt_fin-ukr mt_ukr-fin
-# DOCMT_TASK_IDS    := $(sort $(foreach p,${DOCMT_PIVOT_LANGS},$(foreach l,$(filter-out $p,${LANGUAGES}),mt_$l-$p mt_$p-$l)) ${DOCMT_EXTRA_TASKS})
-# DOCMT_TRANSFORMS  := $(foreach l,${DOCMT_TASK_IDS},filtertoolong)
-# DOCMT_GPUS        := $(call rotating_gpu_assignment,0,35,$(words ${DOCMT_TASK_IDS}))
-
-
-## denoising tasks (use same as MT training data)
-## assign them all to one GPU-node (node 35) rotating over the GPUs on that node
-
-# DENOISE_TASK_IDS   := $(foreach l,${LANGUAGES},denoise_$l-$l)
-# DENOISE_TRANSFORMS := $(foreach l,${DENOISE_TASK_IDS},denoising,filtertoolong)
-# DENOISE_GPUS       := $(call rotating_gpu_assignment,35,1,$(words ${DENOISE_TASK_IDS}))
-
-
-
-## English-centric translation tasks
+## translation tasks
 ## assign them to GPUs rotating over all GPUs on each node using 18 nodes (node 0-17)
 
 DOCMT_PIVOT_LANGS := deu eng fra spa
@@ -61,7 +41,13 @@ VOCAB := tatoeba_hplt_multisynt
 
 
 # from memory-profiler
-BATCH_SIZE ?= 46538
+# BATCH_SIZE ?= 46538
+
+# harmonize with other comparable runs with transformer-base
+BATCH_SIZE := 32768
+
+# 1 day only
+SLURM_MAX_GPU_TIME := 12:00:00
 
 
 include ../../../make/marmot.mk

@@ -3,6 +3,9 @@
 
 include ../../../make/env.mk
 
+DEFAULT_ENCODER := "all"
+
+
 LANGUAGES := 	bos bul cat ces dan deu ell eng \
 		est eus fin fra gle glg hrv hun \
 		isl ita kat lav lit mkd mlt nld \
