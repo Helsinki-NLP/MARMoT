@@ -97,19 +97,17 @@ memory-profile: ${TRAIN_CONFIGFILE}
 
 
 .PHONY: print-train-stats
-print-train-stats: ${MODEL_DIR}/stats/train-progress.txt \
-		${MODEL_DIR}/stats/valid-scores-bleu.txt \
-		${MODEL_DIR}/stats/valid-scores-chrf.txt \
-		${MODEL_DIR}/stats/valid-scores-ppl.txt \
-		${MODEL_DIR}/stats/valid-diff-bleu.txt \
-		${MODEL_DIR}/stats/valid-diff-chrf.txt \
-		${MODEL_DIR}/stats/valid-diff-ppl.txt
+print-train-stats: ${MODEL_DIR}/stats/train-progress.txt
 
 .PHONY: print-valid-stats
 print-valid-stats: ${MODEL_DIR}/stats/valid-scores-bleu.txt \
 		${MODEL_DIR}/stats/valid-scores-chrf.txt \
 		${MODEL_DIR}/stats/valid-scores-ppl.txt
 
+.PHONY: print-valid-diffs
+print-valid-diffs: ${MODEL_DIR}/stats/valid-diff-bleu.txt \
+		${MODEL_DIR}/stats/valid-diff-chrf.txt \
+		${MODEL_DIR}/stats/valid-diff-ppl.txt
 
 
 ## show a list of tasks and their GPU assignments

@@ -12,4 +12,4 @@ all: ${MODEL_STATS}
 
 .PHONY: ${MODEL_STATS}
 ${MODEL_STATS}:
-	-${MAKE} -s -C $(dir $@) print-valid-stats print-eval-stats
+	-${MAKE} -s -C $(dir $@) print-train-stats print-valid-stats print-eval-stats
