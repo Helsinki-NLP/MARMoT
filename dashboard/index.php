@@ -559,7 +559,27 @@ model selection filters:
 
 
 function select_model_features(&$models, &$selected_models, &$required_model_features, &$selected_model_features, &$removed_model_features){
-    // echo('<form method="post" style="display: inline;">');
+
+    // all model name components (separated by '-') are used as features
+    // only use components that are not present in all model names
+    $model_components = array();
+    foreach ($models as $m){
+        $m = rtrim($m);
+        list($name,$dir) = explode('/',$m);
+        $feats = explode('-',$name);
+        foreach ($feats as $feat)
+            $model_components[$feat] = array_key_exists($feat,$model_components) ? $model_components[$feat] + 1 : 1;
+    }
+    $features = array();
+    $modelcount = count($models);
+    foreach ($model_components as $comp => $count){
+        if ($count < $modelcount){
+            array_push($features,$comp);
+        }   
+    }
+    asort($features);
+        
+    /*
     $features = array();
     foreach ($models as $m){
         $m = rtrim($m);
@@ -570,6 +590,7 @@ function select_model_features(&$models, &$selected_models, &$required_model_fea
     }
     $features = array_unique($features);
     asort($features);
+    */
 
     echo('<tr><td>require:</td><td>');
     foreach ($features as $feature){
