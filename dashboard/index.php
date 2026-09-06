@@ -36,10 +36,13 @@ $model_dir = $MarmotGitRaw.'/models/pytorch';
 $available_models = file($MarmotGitRaw.'/models/pytorch/models.txt');
 
 $models    = get_param('models', array());
-$features  = get_param('features', array());
+$reqfeats  = get_param('reqfeats', array());
+$selfeats  = get_param('selfeats', array());
+$remfeats  = get_param('remfeats', array());
 $file      = get_param('file', 'valid-scores-bleu.txt');
 $tasks     = get_param('tasks', array());
 $types     = get_param('tasktypes', array());
+$langs     = get_param('langs', array());
 $srclangs  = get_param('srclangs', array());
 $trglangs  = get_param('trglangs', array());
 $langpairs = get_param('langpairs', array());
@@ -55,11 +58,11 @@ else $metric = 'perplexity';
 echo('<form method="post">');
 echo('<small><table>');
 // select_models($available_models, $models);
-select_model_features($available_models, $models, $features);
+select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeats);
 
 $scores = array();
 $traintoks = array();
-$available_tasks = array('averageavailable' => 1, 'averageselected' => 1);
+$available_tasks = array('average-filtered' => 1, 'average-selected' => 1);
 $available_tasktypes = array();
 $available_srclangs = array();
 $available_trglangs = array();
@@ -73,9 +76,6 @@ foreach ($models as $m){
                       $available_langpairs,
                       $available_tasktypes,
                       rtrim($m), $file, $model_dir);
-    if ($xaxis == "consumed-tokens"){
-        read_train_stats($traintoks,rtrim($m),'train-progress.txt', $model_dir);
-    }
 }
 
 // echo('<br/>');
@@ -86,7 +86,7 @@ $tasks = filter_tasks($available_tasks,
                       $available_langpairs,
                       $available_tasktypes,
                       $tasks,
-                      $srclangs,$trglangs,
+                      $langs,$srclangs,$trglangs,
                       $langpairs,
                       $types);
 
@@ -100,13 +100,20 @@ echo("<h1>MAMMOTH Training Dashboard</h1>");
 
 
 
-$selected = select_tasks($scores, $tasks, $types, $langpairs);
-add_averages($scores, $selected, $available_tasks, $metric);
+$selected_tasks = select_tasks($scores, $tasks, $types, $langpairs);
+$selected_models = get_selected_models($selected_tasks);
+
+add_averages($scores, $selected_tasks, $available_tasks, $metric);
+
+// read token statistics if we want to plot scores per consumed tokens
 if ($xaxis == "consumed-tokens"){
+    foreach ($selected_models as $model){
+        read_train_stats($traintoks,$model,'train-progress.txt', $model_dir, $selected_tasks, $available_tasks);
+    }
     $scores = score_per_tokenbudget($scores,$traintoks);
 }
 
-scores_plotly($scores, $selected, $xaxis, $metric);
+scores_plotly($scores, $selected_tasks, $xaxis, $metric);
 
 model_tasks($available_models, $available_tasks, $available_langpairs, $scores, $models, $tasks, $types, $langpairs, $file);
 echo('</form></body></html>');
@@ -132,10 +139,8 @@ function get_models($dir='models'){
 
 function select_tasks(&$scores, &$selected_tasks, &$selected_types, &$selected_langpairs){
     $selected = $selected_tasks;
-    $models = array();
 
     foreach ($scores as $model => $tasks){
-        $models[$model] = 1;
         foreach ($tasks as $task => $score){
             if (! in_array($model.':'.$task, $selected_tasks)){
                 list($type,$srclang,$trglang) = split_task_name($task);
@@ -149,6 +154,16 @@ function select_tasks(&$scores, &$selected_tasks, &$selected_types, &$selected_l
     return $selected;
 }
 
+function get_selected_models(&$selected_tasks){
+    $models = array();
+    foreach ($selected_tasks as $task){
+        list($model,$task) = explode(':',$task);
+        $models[$model] = 1;
+    }
+    return array_keys($models);
+}
+
+
 
 
 /*
@@ -159,10 +174,10 @@ add average scores if necessary:
 
 function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
     foreach ($scores as $model => $tasks){
-        $modeltask = $model.':averageavailable';
-        if (in_array('averageavailable',$selected_tasks) or
-            in_array($model.':averageavailable',$selected_tasks) or
-            array_key_exists($model.':averageavailable',$available_tasks)){
+        $modeltask = $model.':average-filtered';
+        if (in_array('average-filtered',$selected_tasks) or
+            in_array($model.':average-filtered',$selected_tasks) or
+            array_key_exists($model.':average-filtered',$available_tasks)){
             $avgscores = array();
             $counts = array();
             foreach ($available_tasks as $available_task => $idx){
@@ -185,11 +200,11 @@ function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
                     $avgscores[$step] /= $counts[$step];
                 }
             }
-            $scores[$model]['averageavailable'] = $avgscores;
+            $scores[$model]['average-filtered'] = $avgscores;
         }
-        if (in_array('averageselected',$selected_tasks) or
-            in_array($model.':averageselected',$selected_tasks) or
-            array_key_exists($model.':averageselected',$available_tasks)){
+        if (in_array('average-selected',$selected_tasks) or
+            in_array($model.':average-selected',$selected_tasks) or
+            array_key_exists($model.':average-selected',$available_tasks)){
             $avgscores = array();
             $counts = array();
             foreach ($selected_tasks as $selected_task){
@@ -213,17 +228,22 @@ function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
                     $avgscores[$step] /= $counts[$step];
                 }
             }
-            $scores[$model]['averageselected'] = $avgscores;
+            $scores[$model]['average-selected'] = $avgscores;
         }
     }
 }
 
-function read_train_stats(&$traintoks, $model, $file, $dir='models'){
+function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_tasks, &$available_tasks){
     $traintoks[$model] = array();
     $traintoks[$model]['average-score'] = array();
+    $traintoks[$model]['average-selected'] = array();
+    $traintoks[$model]['average-filtered'] = array();
+            
     $lines = file(implode('/',[$dir,$model,'stats',$file]));
     $tokcount = 0;
     $taskcount = 0;
+    $selected_taskcount = 0;
+    $available_taskcount = 0;
     foreach ($lines as $line) {
         if ($line){
             $line = rtrim($line);
@@ -231,6 +251,7 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models'){
             $taskparts = explode(': ',$parts[0]);
             if (count($taskparts) == 2){
                 $task = $taskparts[0];
+                // if (!in_array($model.':'.$task,$selected_tasks)) continue;
                 $step = $taskparts[1];
                 list($toks,$rest) = explode(' ',trim($parts[5]));
                 list($srctoks,$trgtoks) = explode('/',$toks);
@@ -238,19 +259,50 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models'){
                     // echo("$model ... $task");
                     $tokcount = 0;
                     $taskcount++;
+                    if (in_array($model.':'.$task,$selected_tasks)) $selected_taskcount++;
+                    if (array_key_exists($task,$available_tasks)) $available_taskcount++;
                 }
                 $tokcount += $srctoks + $trgtoks;
                 $traintoks[$model][$task][$step] = $tokcount;
+
+                // average token budget over all tasks
                 if (array_key_exists($step,$traintoks[$model]['average-score']))
                     $traintoks[$model]['average-score'][$step] += $tokcount;
                 else
                     $traintoks[$model]['average-score'][$step] = $tokcount;
+
+                // average token budget over all selected tasks
+                if (in_array($model.':'.$task,$selected_tasks)){
+                    if (array_key_exists($step,$traintoks[$model]['average-selected']))
+                        $traintoks[$model]['average-selected'][$step] += $tokcount;
+                    else
+                        $traintoks[$model]['average-selected'][$step] = $tokcount;
+                }
+                
+                // average token budget over all available tasks
+                if (array_key_exists($task,$available_tasks)){
+                    if (array_key_exists($step,$traintoks[$model]['average-filtered']))
+                        $traintoks[$model]['average-filtered'][$step] += $tokcount;
+                    else
+                        $traintoks[$model]['average-filtered'][$step] = $tokcount;
+                }
             }
         }
     }
-    if ($taskcount){ 
+
+    if ($taskcount){
         foreach ($traintoks[$model]['average-score'] as $step => $count){
             $traintoks[$model]['average-score'][$step] = $count/$taskcount;
+        }
+    }
+    if ($selected_taskcount){ 
+        foreach ($traintoks[$model]['average-selected'] as $step => $count){
+            $traintoks[$model]['average-selected'][$step] = $count/$selected_taskcount;
+        }
+    }
+    if ($available_taskcount){ 
+        foreach ($traintoks[$model]['average-filtered'] as $step => $count){
+            $traintoks[$model]['average-filtered'][$step] = $count/$available_taskcount;
         }
     }
 }
@@ -367,6 +419,7 @@ function filter_tasks(&$available_tasks,
                       &$available_langpairs,
                       &$available_tasktypes,
                       &$selected_tasks,
+                      &$selected_langs,
                       &$selected_srclangs,
                       &$selected_trglangs,
                       &$selected_langpairs,
@@ -392,6 +445,18 @@ function filter_tasks(&$available_tasks,
             echo("<input type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
         }
     }
+    $available_langs = array_merge($available_srclangs, $available_trglangs);
+    echo "</td></tr><tr><td>either source or target: </td><td>";
+    ksort($available_langs);
+    foreach ($available_langs as $lang => $nr){
+        if (in_array($lang,$selected_langs)){
+            echo("<input checked='1' type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
+        }
+        else{
+            echo("<input type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
+        }
+    }
+    
     echo "</td></tr><tr><td>task types: </td><td>";
     foreach ($available_tasktypes as $tasktype => $nr){
         if (in_array($tasktype,$selected_tasktypes)){
@@ -417,6 +482,11 @@ function filter_tasks(&$available_tasks,
             }
         }
 
+        if ($srclang && $trglang && $selected_langs){
+            if ((! in_array($srclang, $selected_langs)) and (! in_array($trglang, $selected_langs))){
+                continue;
+            }
+        }
         if ($srclang && $selected_srclangs){
             if (! in_array($srclang, $selected_srclangs)){
                 continue;
@@ -488,7 +558,7 @@ model selection filters:
 */
 
 
-function select_model_features(&$models, &$selected_models, &$selected_model_features){
+function select_model_features(&$models, &$selected_models, &$required_model_features, &$selected_model_features, &$removed_model_features){
     // echo('<form method="post" style="display: inline;">');
     $features = array();
     foreach ($models as $m){
@@ -499,27 +569,64 @@ function select_model_features(&$models, &$selected_models, &$selected_model_fea
             array_push($features,$feat);
     }
     $features = array_unique($features);
+    asort($features);
 
-    // var_dump($selected_model_features);
-    echo('<tr><td>models:</td><td>');
+    echo('<tr><td>require:</td><td>');
     foreach ($features as $feature){
-        if (in_array($feature, $selected_model_features)){
-            echo("<input checked='1' type='checkbox' name='features[]' value='$feature'>&nbsp;$feature ");
+        if (in_array($feature, $required_model_features)){
+            echo("<input checked='1' type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
         }
         else {
-            echo("<input type='checkbox' name='features[]' value='$feature'>&nbsp;$feature ");
+            echo("<input type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
         }
     }
     echo('</td></tr>');
+    echo('<tr><td>select:</td><td>');
+    foreach ($features as $feature){
+        if (in_array($feature, $selected_model_features)){
+            echo("<input checked='1' type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
+        }
+        else {
+            echo("<input type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
+        }
+    }
+    echo('</td></tr>');
+    echo('<tr><td>remove:</td><td>');
+    foreach ($features as $feature){
+        if (in_array($feature, $removed_model_features)){
+            echo("<input checked='1' type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
+        }
+        else {
+            echo("<input type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
+        }
+    }
+    echo('</td></tr>');
+
 
     foreach ($models as $m){
         $m = rtrim($m);
         list($name,$dir) = explode('/',$m);
         $feats = explode('-',$name);
-        $model_ok = true;
+        $model_ok = $selected_model_features ? false : true;
         foreach ($selected_model_features as $f){
-            if (! in_array($f,$feats)){
-                $model_ok = false;
+            if (in_array($f,$feats)){
+                $model_ok = true;
+                break;
+            }
+        }
+        if ($model_ok){
+            foreach ($removed_model_features as $f){
+                if (in_array($f,$feats)){
+                    $model_ok = false;
+                    break;
+                }
+            }
+        }
+        if ($model_ok){
+            foreach ($required_model_features as $f){
+                if (! in_array($f,$feats)){
+                    $model_ok = false;
+                }
             }
         }
         if ($model_ok)
@@ -586,8 +693,8 @@ function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
     
     foreach ($scores as $model => $tasks){
         echo('<td valign="top">');
-        $tasks['averageavailable'] = null;
-        $tasks['averageselected'] = null;
+        $tasks['average-filtered'] = null;
+        $tasks['average-selected'] = null;
         ksort($tasks);
         foreach ($tasks as $task => $score){
             if (array_key_exists($task, $available_tasks)){
