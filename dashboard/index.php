@@ -90,8 +90,8 @@ $tasks = filter_tasks($available_tasks,
                       $langpairs,
                       $types);
 
-echo('<tr><td></td><td><input type="submit" name="submit" value="select" />');
-echo('<button type="button" onclick="resetSelected();">reset</button></td></tr>');
+echo('<tr><td><input type="submit" name="submit" value="select" />');
+echo('<button type="button" onclick="resetSelected();">reset</button></td><td></td></tr>');
 echo('</table></small><hr/>');
 
 
@@ -113,7 +113,8 @@ if ($xaxis == "consumed-tokens"){
     $scores = score_per_tokenbudget($scores,$traintoks);
 }
 
-scores_plotly($scores, $selected_tasks, $xaxis, $metric);
+if (count($selected_tasks))
+    scores_plotly($scores, $selected_tasks, $xaxis, $metric);
 
 model_tasks($available_models, $available_tasks, $available_langpairs, $scores, $models, $tasks, $types, $langpairs, $file);
 echo('</form></body></html>');
@@ -244,6 +245,7 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_
     $taskcount = 0;
     $selected_taskcount = 0;
     $available_taskcount = 0;
+    $lasttime = 0;
     foreach ($lines as $line) {
         if ($line){
             $line = rtrim($line);
@@ -253,16 +255,22 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_
                 $task = $taskparts[0];
                 // if (!in_array($model.':'.$task,$selected_tasks)) continue;
                 $step = $taskparts[1];
+                $seconds = (int) str_replace(' sec','',$parts[7]);
                 list($toks,$rest) = explode(' ',trim($parts[5]));
                 list($srctoks,$trgtoks) = explode('/',$toks);
                 if (! array_key_exists($task,$traintoks[$model])){
                     // echo("$model ... $task");
                     $tokcount = 0;
+                    $lasttime = 0;
                     $taskcount++;
                     if (in_array($model.':'.$task,$selected_tasks)) $selected_taskcount++;
                     if (array_key_exists($task,$available_tasks)) $available_taskcount++;
                 }
-                $tokcount += $srctoks + $trgtoks;
+                // echo("$diffsec = $seconds - $lasttime</br>");
+                $diffsec = $seconds - $lasttime;
+                $tokcount += $diffsec*$srctoks + $diffsec*$trgtoks;
+                $lasttime = $seconds;
+                
                 $traintoks[$model][$task][$step] = $tokcount;
 
                 // average token budget over all tasks
@@ -427,34 +435,43 @@ function filter_tasks(&$available_tasks,
 
     echo "<tr><td>source languages: </td><td>";
     ksort($available_srclangs);
+    $count = 0;
     foreach ($available_srclangs as $lang => $nr){
+        $count++;
         if (in_array($lang,$selected_srclangs)){
             echo("<input checked='1' type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
         }
         else{
             echo("<input type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
         }
+        if (($count % 20) == 0) echo "<br/>";
     }
     echo "</td></tr><tr><td>target languages: </td><td>";
     ksort($available_trglangs);
+    $count = 0;
     foreach ($available_trglangs as $lang => $nr){
+        $count++;
         if (in_array($lang,$selected_trglangs)){
             echo("<input checked='1' type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
         }
         else{
             echo("<input type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
         }
+        if (($count % 20) == 0) echo "<br/>";
     }
     $available_langs = array_merge($available_srclangs, $available_trglangs);
     echo "</td></tr><tr><td>either source or target: </td><td>";
     ksort($available_langs);
+    $count = 0;
     foreach ($available_langs as $lang => $nr){
+        $count++;
         if (in_array($lang,$selected_langs)){
             echo("<input checked='1' type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
         }
         else{
             echo("<input type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
         }
+        if (($count % 20) == 0) echo "<br/>";
     }
     
     echo "</td></tr><tr><td>task types: </td><td>";
@@ -593,33 +610,42 @@ function select_model_features(&$models, &$selected_models, &$required_model_fea
     */
 
     echo('<tr><td>require:</td><td>');
+    $count=0;
     foreach ($features as $feature){
+        $count++;
         if (in_array($feature, $required_model_features)){
             echo("<input checked='1' type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
         }
         else {
             echo("<input type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
         }
+        if (($count % 10) == 0) echo "<br/>";
     }
     echo('</td></tr>');
     echo('<tr><td>select:</td><td>');
+    $count=0;
     foreach ($features as $feature){
+        $count++;
         if (in_array($feature, $selected_model_features)){
             echo("<input checked='1' type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
         }
         else {
             echo("<input type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
         }
+        if (($count % 10) == 0) echo "<br/>";
     }
     echo('</td></tr>');
     echo('<tr><td>remove:</td><td>');
+    $count=0;
     foreach ($features as $feature){
+        $count++;
         if (in_array($feature, $removed_model_features)){
             echo("<input checked='1' type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
         }
         else {
             echo("<input type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
         }
+        if (($count % 10) == 0) echo "<br/>";
     }
     echo('</td></tr>');
 
