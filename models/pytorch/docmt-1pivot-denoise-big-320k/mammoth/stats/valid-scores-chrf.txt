@@ -1,111 +1,111 @@
-gpu	task-ids	 2500	
-0:0	mt_bos-eng	48.513
-0:1	mt_bul-eng	53.885
-0:2	mt_cat-eng	57.206
-0:3	mt_ces-eng	50.836
-0:4	mt_dan-eng	57.340
-0:5	mt_deu-eng	54.417
-0:6	mt_ell-eng	47.500
-0:7	mt_eng-bos	50.050
-1:0	mt_eng-bul	56.521
-1:1	mt_eng-cat	59.508
-1:2	mt_eng-ces	48.735
-1:3	mt_eng-dan	61.506
-1:4	mt_eng-deu	54.870
-1:5	mt_eng-ell	45.780
-1:6	mt_eng-est	50.495
-1:7	mt_eng-eus	44.982
-2:0	mt_eng-fin	48.300
-2:1	mt_eng-fra	61.494
-2:2	mt_eng-gle	51.880
-2:3	mt_eng-glg	56.396
-2:4	mt_eng-hrv	50.726
-2:5	mt_eng-hun	47.634
-2:6	mt_eng-isl	45.112
-2:7	mt_eng-ita	50.295
-3:0	mt_eng-kat	40.750
-3:1	mt_eng-lav	0.000
-3:2	mt_eng-lit	48.458
-3:3	mt_eng-mkd	56.376
-3:4	mt_eng-mlt	61.101
-3:5	mt_eng-nld	50.569
-3:6	mt_eng-nno	55.324
-3:7	mt_eng-nob	55.132
-4:0	mt_eng-pol	45.635
-4:1	mt_eng-por	65.218
-4:2	mt_eng-ron	59.937
-4:3	mt_eng-slk	53.292
-4:4	mt_eng-slv	52.026
-4:5	mt_eng-spa	50.757
-4:6	mt_eng-sqi	0.000
-4:7	mt_eng-srp_Cyrl	56.799
-0:0	mt_eng-swe	62.053
-0:1	mt_eng-tur	49.566
-0:2	mt_eng-ukr	45.857
-0:3	mt_est-eng	46.687
-0:4	mt_eus-eng	40.816
-0:5	mt_fin-eng	46.699
-0:6	mt_fra-eng	56.323
-0:7	mt_gle-eng	50.467
-1:0	mt_glg-eng	53.925
-1:1	mt_hrv-eng	50.336
-1:2	mt_hun-eng	47.319
-1:3	mt_isl-eng	46.596
-1:4	mt_ita-eng	50.392
-1:5	mt_kat-eng	39.402
-1:6	mt_lav-eng	0.000
-1:7	mt_lit-eng	46.665
-2:0	mt_mkd-eng	53.063
-2:1	mt_mlt-eng	60.666
-2:2	mt_nld-eng	50.707
-2:3	mt_nno-eng	56.700
-2:4	mt_nob-eng	56.912
-2:5	mt_pol-eng	43.929
-2:6	mt_por-eng	60.115
-2:7	mt_ron-eng	55.580
-3:0	mt_slk-eng	52.244
-3:1	mt_slv-eng	48.996
-3:2	mt_spa-eng	48.503
-3:3	mt_sqi-eng	0.000
-3:4	mt_srp_Cyrl-eng	54.020
-3:5	mt_swe-eng	60.254
-3:6	mt_tur-eng	47.303
-3:7	mt_ukr-eng	49.685
-5:0	denoise_bos-bos	69.508
-5:1	denoise_bul-bul	62.888
-5:2	denoise_cat-cat	72.666
-5:3	denoise_ces-ces	67.639
-5:4	denoise_dan-dan	51.126
-5:5	denoise_deu-deu	70.581
-5:6	denoise_ell-ell	59.615
-5:7	denoise_eng-eng	69.187
-5:0	denoise_est-est	74.086
-5:1	denoise_eus-eus	66.338
-5:2	denoise_fin-fin	66.961
-5:3	denoise_fra-fra	74.002
-5:4	denoise_gle-gle	0.000
-5:5	denoise_glg-glg	70.465
-5:6	denoise_hrv-hrv	45.971
-5:7	denoise_hun-hun	67.163
-5:0	denoise_isl-isl	71.227
-5:1	denoise_ita-ita	0.000
-5:2	denoise_kat-kat	65.551
-5:3	denoise_lav-lav	0.000
-5:4	denoise_lit-lit	0.000
-5:5	denoise_mkd-mkd	73.202
-5:6	denoise_mlt-mlt	0.000
-5:7	denoise_nld-nld	0.000
-5:0	denoise_nno-nno	0.000
-5:1	denoise_nob-nob	0.000
-5:2	denoise_pol-pol	0.000
-5:3	denoise_por-por	67.519
-5:4	denoise_ron-ron	0.000
-5:5	denoise_slk-slk	0.000
-5:6	denoise_slv-slv	0.000
-5:7	denoise_spa-spa	0.000
-5:0	denoise_sqi-sqi	0.000
-5:1	denoise_srp_Cyrl-srp_Cyrl	0.000
-5:2	denoise_swe-swe	0.000
-5:3	denoise_tur-tur	0.000
-5:4	denoise_ukr-ukr	0.000
-all	average-score	44.063
+gpu	task-ids	 2500	 5000	
+0:0	mt_bos-eng	48.513	51.831
+0:1	mt_bul-eng	53.885	59.085
+0:2	mt_cat-eng	57.206	62.343
+0:3	mt_ces-eng	50.836	57.615
+0:4	mt_dan-eng	57.340	53.784
+0:5	mt_deu-eng	54.417	60.643
+0:6	mt_ell-eng	47.500	53.131
+0:7	mt_eng-bos	50.050	56.544
+1:0	mt_eng-bul	56.521	63.872
+1:1	mt_eng-cat	59.508	64.335
+1:2	mt_eng-ces	48.735	54.886
+1:3	mt_eng-dan	61.506	66.799
+1:4	mt_eng-deu	54.870	60.869
+1:5	mt_eng-ell	45.780	51.250
+1:6	mt_eng-est	50.495	56.811
+1:7	mt_eng-eus	44.982	50.331
+2:0	mt_eng-fin	48.300	55.163
+2:1	mt_eng-fra	61.494	66.906
+2:2	mt_eng-gle	51.880	57.710
+2:3	mt_eng-glg	56.396	60.152
+2:4	mt_eng-hrv	50.726	56.548
+2:5	mt_eng-hun	47.634	54.520
+2:6	mt_eng-isl	45.112	49.374
+2:7	mt_eng-ita	50.295	55.301
+3:0	mt_eng-kat	40.750	42.071
+3:1	mt_eng-lav	0.000	0.000
+3:2	mt_eng-lit	48.458	54.495
+3:3	mt_eng-mkd	56.376	61.835
+3:4	mt_eng-mlt	61.101	66.351
+3:5	mt_eng-nld	50.569	55.307
+3:6	mt_eng-nno	55.324	59.497
+3:7	mt_eng-nob	55.132	59.160
+4:0	mt_eng-pol	45.635	49.190
+4:1	mt_eng-por	65.218	69.085
+4:2	mt_eng-ron	59.937	63.007
+4:3	mt_eng-slk	53.292	58.501
+4:4	mt_eng-slv	52.026	56.214
+4:5	mt_eng-spa	50.757	54.141
+4:6	mt_eng-sqi	0.000	0.000
+4:7	mt_eng-srp_Cyrl	56.799	61.205
+0:0	mt_eng-swe	62.053	66.769
+0:1	mt_eng-tur	49.566	58.956
+0:2	mt_eng-ukr	45.857	53.770
+0:3	mt_est-eng	46.687	56.413
+0:4	mt_eus-eng	40.816	47.597
+0:5	mt_fin-eng	46.699	54.755
+0:6	mt_fra-eng	56.323	62.072
+0:7	mt_gle-eng	50.467	58.131
+1:0	mt_glg-eng	53.925	59.324
+1:1	mt_hrv-eng	50.336	53.881
+1:2	mt_hun-eng	47.319	54.997
+1:3	mt_isl-eng	46.596	51.864
+1:4	mt_ita-eng	50.392	55.400
+1:5	mt_kat-eng	39.402	45.029
+1:6	mt_lav-eng	0.000	0.000
+1:7	mt_lit-eng	46.665	52.283
+2:0	mt_mkd-eng	53.063	59.822
+2:1	mt_mlt-eng	60.666	65.966
+2:2	mt_nld-eng	50.707	54.583
+2:3	mt_nno-eng	56.700	62.462
+2:4	mt_nob-eng	56.912	62.109
+2:5	mt_pol-eng	43.929	50.947
+2:6	mt_por-eng	60.115	63.499
+2:7	mt_ron-eng	55.580	59.775
+3:0	mt_slk-eng	52.244	58.522
+3:1	mt_slv-eng	48.996	55.921
+3:2	mt_spa-eng	48.503	51.823
+3:3	mt_sqi-eng	0.000	0.000
+3:4	mt_srp_Cyrl-eng	54.020	61.006
+3:5	mt_swe-eng	60.254	65.904
+3:6	mt_tur-eng	47.303	56.895
+3:7	mt_ukr-eng	49.685	57.061
+5:0	denoise_bos-bos	69.508	76.267
+5:1	denoise_bul-bul	62.888	75.151
+5:2	denoise_cat-cat	72.666	75.592
+5:3	denoise_ces-ces	67.639	74.792
+5:4	denoise_dan-dan	51.126	62.082
+5:5	denoise_deu-deu	70.581	79.372
+5:6	denoise_ell-ell	59.615	71.716
+5:7	denoise_eng-eng	69.187	76.258
+5:0	denoise_est-est	74.086	77.147
+5:1	denoise_eus-eus	66.338	79.020
+5:2	denoise_fin-fin	66.961	75.219
+5:3	denoise_fra-fra	74.002	77.998
+5:4	denoise_gle-gle	0.000	77.261
+5:5	denoise_glg-glg	70.465	77.490
+5:6	denoise_hrv-hrv	45.971	75.076
+5:7	denoise_hun-hun	67.163	76.291
+5:0	denoise_isl-isl	71.227	76.399
+5:1	denoise_ita-ita	0.000	76.971
+5:2	denoise_kat-kat	65.551	77.013
+5:3	denoise_lav-lav	0.000	0.000
+5:4	denoise_lit-lit	0.000	0.000
+5:5	denoise_mkd-mkd	73.202	77.455
+5:6	denoise_mlt-mlt	0.000	74.022
+5:7	denoise_nld-nld	0.000	77.127
+5:0	denoise_nno-nno	0.000	77.380
+5:1	denoise_nob-nob	0.000	76.662
+5:2	denoise_pol-pol	0.000	76.421
+5:3	denoise_por-por	67.519	71.438
+5:4	denoise_ron-ron	0.000	0.000
+5:5	denoise_slk-slk	0.000	77.228
+5:6	denoise_slv-slv	0.000	0.000
+5:7	denoise_spa-spa	0.000	76.416
+5:0	denoise_sqi-sqi	0.000	0.000
+5:1	denoise_srp_Cyrl-srp_Cyrl	0.000	76.157
+5:2	denoise_swe-swe	0.000	69.354
+5:3	denoise_tur-tur	0.000	0.000
+5:4	denoise_ukr-ukr	0.000	0.000
+all	average-score	44.063	56.644
