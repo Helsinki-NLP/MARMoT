@@ -200,12 +200,12 @@ print-valid-scores-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${langpair}"; \
+	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
 	    fi; \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"$${pattern}\":" \
+	    | egrep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
 	    if [ "$${score}" != "0.000	" ]; then \
 	      echo "$${gpus[$$i]}	$${taskid}	$${score}"; \
@@ -232,7 +232,7 @@ print-valid-scores-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${langpair}"; \
+	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
 	    fi; \
 	    echo -n "$${gpus[$$i]}	$${taskid}"; \
 	    for s in $${steps}; do \
@@ -240,7 +240,7 @@ print-valid-scores-table:
 	      | grep "\"step\": $${s}," \
 	      | grep "GPU *$${gpus[$$i]}" | head -1 \
 	      | tr ',}' "\n\n" \
-	      | grep "\"$${pattern}\":" \
+	      | egrep "\"$${pattern}\":" \
 	      | cut -f2 -d: | xargs printf "%.3f" ); \
 	      echo -n "	$${score}"; \
 	    done; \
@@ -307,7 +307,7 @@ print-valid-diff-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${langpair}"; \
+	      pattern="${PRINT_METRIC}/$${taskid}"; \
 	    fi; \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
