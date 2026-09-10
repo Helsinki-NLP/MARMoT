@@ -62,6 +62,9 @@ select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeat
 
 $scores = array();
 $traintoks = array();
+$traintime = array();
+$modelgpus = array();
+
 $available_tasks = array('average-filtered' => 1, 'average-selected' => 1);
 $available_tasktypes = array();
 $available_srclangs = array();
@@ -69,16 +72,15 @@ $available_trglangs = array();
 $available_langpairs = array();
 
 foreach ($models as $m){
-    read_valid_scores($scores,
-                      $available_tasks,
-                      $available_srclangs,
-                      $available_trglangs,
-                      $available_langpairs,
-                      $available_tasktypes,
-                      rtrim($m), $file, $model_dir);
+    $model = rtrim($m);
+    $modelgpus[$model] = read_valid_scores($scores,
+                                           $available_tasks,
+                                           $available_srclangs,
+                                           $available_trglangs,
+                                           $available_langpairs,
+                                           $available_tasktypes,
+                                           $model, $file, $model_dir);
 }
-
-// echo('<br/>');
 
 $tasks = filter_tasks($available_tasks,
                       $available_srclangs,
@@ -106,11 +108,14 @@ $selected_models = get_selected_models($selected_tasks);
 add_averages($scores, $selected_tasks, $available_tasks, $metric);
 
 // read token statistics if we want to plot scores per consumed tokens
-if ($xaxis == "consumed-tokens"){
+if ($xaxis != "training-steps"){
     foreach ($selected_models as $model){
-        read_train_stats($traintoks,$model,'train-progress.txt', $model_dir, $selected_tasks, $available_tasks);
+        read_train_stats($traintoks,$traintime,$model,'train-progress.txt', $model_dir, $selected_tasks, $available_tasks);
     }
-    $scores = score_per_tokenbudget($scores,$traintoks);
+    if ($xaxis == "consumed-tokens")
+        $scores = score_per_trainbudget($scores,$traintoks);
+    elseif ($xaxis == "training-time")
+        $scores = score_per_trainbudget($scores,$traintime);
 }
 
 if (count($selected_tasks))
@@ -234,7 +239,7 @@ function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
     }
 }
 
-function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_tasks, &$available_tasks){
+function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models', &$selected_tasks, &$available_tasks){
     $traintoks[$model] = array();
     $traintoks[$model]['average-score'] = array();
     $traintoks[$model]['average-selected'] = array();
@@ -272,27 +277,40 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_
                 $lasttime = $seconds;
                 
                 $traintoks[$model][$task][$step] = $tokcount;
+                $traintime[$model][$task][$step] = $seconds;
 
                 // average token budget over all tasks
-                if (array_key_exists($step,$traintoks[$model]['average-score']))
+                if (array_key_exists($step,$traintoks[$model]['average-score'])){
                     $traintoks[$model]['average-score'][$step] += $tokcount;
-                else
+                    $traintime[$model]['average-score'][$step] += $seconds;
+                }
+                else{
                     $traintoks[$model]['average-score'][$step] = $tokcount;
+                    $traintime[$model]['average-score'][$step] = $seconds;
+                }
 
                 // average token budget over all selected tasks
                 if (in_array($model.':'.$task,$selected_tasks)){
-                    if (array_key_exists($step,$traintoks[$model]['average-selected']))
+                    if (array_key_exists($step,$traintoks[$model]['average-selected'])){
                         $traintoks[$model]['average-selected'][$step] += $tokcount;
-                    else
+                        $traintime[$model]['average-selected'][$step] += $seconds;
+                    }
+                    else{
                         $traintoks[$model]['average-selected'][$step] = $tokcount;
+                        $traintime[$model]['average-selected'][$step] = $seconds;
+                    }
                 }
                 
                 // average token budget over all available tasks
                 if (array_key_exists($task,$available_tasks)){
-                    if (array_key_exists($step,$traintoks[$model]['average-filtered']))
+                    if (array_key_exists($step,$traintoks[$model]['average-filtered'])){
                         $traintoks[$model]['average-filtered'][$step] += $tokcount;
-                    else
+                        $traintime[$model]['average-filtered'][$step] += $seconds;
+                    }
+                    else{
                         $traintoks[$model]['average-filtered'][$step] = $tokcount;
+                        $traintime[$model]['average-filtered'][$step] = $seconds;
+                    }
                 }
             }
         }
@@ -301,16 +319,19 @@ function read_train_stats(&$traintoks, $model, $file, $dir='models', &$selected_
     if ($taskcount){
         foreach ($traintoks[$model]['average-score'] as $step => $count){
             $traintoks[$model]['average-score'][$step] = $count/$taskcount;
+            $traintime[$model]['average-score'][$step] /= $taskcount;
         }
     }
     if ($selected_taskcount){ 
         foreach ($traintoks[$model]['average-selected'] as $step => $count){
             $traintoks[$model]['average-selected'][$step] = $count/$selected_taskcount;
+            $traintime[$model]['average-selected'][$step] /= $selected_taskcount;
         }
     }
     if ($available_taskcount){ 
         foreach ($traintoks[$model]['average-filtered'] as $step => $count){
             $traintoks[$model]['average-filtered'][$step] = $count/$available_taskcount;
+            $traintime[$model]['average-filtered'][$step] /= $available_taskcount;
         }
     }
 }
@@ -371,20 +392,20 @@ function read_valid_scores(&$scores, &$tasks, &$srclangs, &$trglangs, &$langpair
         }
     }
     ksort($scores);
+    return $gpus;
 }
 
-function score_per_tokenbudget(&$scores,&$traintoks){
-    // var_dump($traintoks);
-    $ScoresPerTok = array();
+function score_per_trainbudget(&$scores,&$trainbudget){
+    $ScoresPerBudget = array();
     foreach ($scores as $model => $tasks){
         foreach ($tasks as $task => $checkpoints){
             foreach ($checkpoints as $checkpoint => $score){
-                $nrtoks = $traintoks[$model][$task][$checkpoint];
-                $ScoresPerTok[$model][$task][$nrtoks] = $scores[$model][$task][$checkpoint];
+                $budget = $trainbudget[$model][$task][$checkpoint];
+                $ScoresPerBudget[$model][$task][$budget] = $scores[$model][$task][$checkpoint];
             }
         }
     }
-    return $ScoresPerTok;
+    return $ScoresPerBudget;
 }
 
 /*
@@ -708,12 +729,17 @@ function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
     echo('<input type="radio" id="valid-scores-ppl" name="file" value="valid-scores-ppl.txt"');
     if ($file == 'valid-scores-ppl.txt') echo(' checked="checked"');
     echo('><label for="valid-scores-bleu">perplexity</label></input> ');
+
+    
     echo('<input type="radio" id="xaxis-training-steps" name="xaxis" value="training-steps"');
     if ($xaxis == 'training-steps') echo(' checked="checked"');
-    echo('><label for="xaxis-training-steps">score per training-steps</label></input> ');
+    echo('><label for="xaxis-training-steps">iterations</label></input> ');
+    echo('<input type="radio" id="xaxis-training-time" name="xaxis" value="training-time"');
+    if ($xaxis == 'training-time') echo(' checked="checked"');
+    echo('><label for="xaxis-training-time">time</label></input> ');
     echo('<input type="radio" id="xaxis-consumed-tokens" name="xaxis" value="consumed-tokens"');
     if ($xaxis == 'consumed-tokens') echo(' checked="checked"');
-    echo('><label for="xaxis-consumed-tokens">score per consumed-tokens</label></input></p>');
+    echo('><label for="xaxis-consumed-tokens">token budget</label></input></p>');
 
     
     echo('<table><tr>');
