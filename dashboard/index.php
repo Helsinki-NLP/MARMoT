@@ -250,6 +250,7 @@ function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models'
     $taskcount = 0;
     $selected_taskcount = 0;
     $available_taskcount = 0;
+    $restart_time = 0;
     $lasttime = 0;
     foreach ($lines as $line) {
         if ($line){
@@ -267,11 +268,16 @@ function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models'
                     // echo("$model ... $task");
                     $tokcount = 0;
                     $lasttime = 0;
+                    $restart_time = 0;
                     $taskcount++;
                     if (in_array($model.':'.$task,$selected_tasks)) $selected_taskcount++;
                     if (array_key_exists($task,$available_tasks)) $available_taskcount++;
                 }
-                // echo("$diffsec = $seconds - $lasttime</br>");
+                if ($seconds+$restart_time < $lasttime){
+                    $restart_time = $lasttime;
+                    // echo "$seconds+$restart_time < $lasttime</br>";
+                }
+                $seconds += $restart_time;
                 $diffsec = $seconds - $lasttime;
                 $tokcount += $diffsec*$srctoks + $diffsec*$trgtoks;
                 $lasttime = $seconds;
