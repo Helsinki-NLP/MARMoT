@@ -254,6 +254,7 @@ function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models'
     $lasttime = 0;
     foreach ($lines as $line) {
         if ($line){
+            if (substr($line,0,4) == 'make') continue;
             $line = rtrim($line);
             $parts = explode("\t",$line);
             $taskparts = explode(': ',$parts[0]);
@@ -354,6 +355,7 @@ function read_valid_scores(&$scores, &$tasks, &$srclangs, &$trglangs, &$langpair
     $checkpoints = array();
 
     $header = array_shift($lines);
+    while (substr($header,0,4) == 'make') $header = array_shift($lines);
     if (strpos($header,'make') === 0) $header = array_shift($lines);
     $header = rtrim($header);
     $parts = explode("\t",$header);
@@ -368,7 +370,8 @@ function read_valid_scores(&$scores, &$tasks, &$srclangs, &$trglangs, &$langpair
     $scores[$model] = array();
     foreach ($lines as $line) {
         if ($line){
-            if (strpos($line,'make') === 0) continue;
+            // if (strpos($line,'make') === 0) continue;
+            if (substr($line,0,4) == 'make') continue;
             $line = rtrim($line);
             $parts = explode("\t",$line);
             $gpu=array_shift($parts);
