@@ -10,6 +10,13 @@ all: ${MODEL_STATS}
 	git commit -am 'updated validation statistics'
 	git push
 
+monitor:
+	while true; do \
+	  ${MAKE} all; \
+	  sleep 3600; \
+	done
+
+
 .PHONY: ${MODEL_STATS}
 ${MODEL_STATS}:
 	-${MAKE} -s -C $(dir $@) print-train-stats print-valid-stats print-eval-stats
