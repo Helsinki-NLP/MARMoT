@@ -15,16 +15,6 @@ Transformer-base models with language-specific encoders and decoders:
 
 * docmt-1pivot-denoise-base: gradient accumulation = 20
 * docmt-1pivot-denoise-base-320k: gradient accumulation = 10
-* docmt-1pivot-denoise-base-320k-contd: continuation of training
-* docmt-1pivot-denoise-labels-base-320k: using language-tokens as labels (not very useful)
-
-
-Transformer-base models with language-specific encoders and decoders and different batch sizes:
-
-* docmt-1pivot-denoise-base-nobatchaccum: no gradient accumulation
-* docmt-1pivot-denoise-base-smallbatch: small batches but gradient accumulation = 20
-* docmt-1pivot-denoise-base-mediumbatch: medium-sized batches but gradient accumulation = 20
-* docmt-1pivot-denoise-base-accum10: full-sized batch but gradient accumulation = 10
 
 
 Transformer-base models with different types of parameter sharing:
@@ -32,7 +22,6 @@ Transformer-base models with different types of parameter sharing:
 * docmt-1pivot-denoise-sharedenc-base
 * docmt-1pivot-denoise-sharedenc-base-320k
 * docmt-1pivot-denoise-groupsharedenc-base-320k
-* docmt-1pivot-denoise-groupsharedenc-labels-base-320k
 * docmt-1pivot-denoise-halfsharedenc-base-320k
 * docmt-1pivot-denoise-GAenc-base-320k
 * docmt-1pivot-denoise-LGAenc-base-320k
@@ -103,6 +92,3 @@ Failed runs:
 * docmt-4pivot-denoise-sharedenc-shareddec-base
 
 
-## other models
-
-docmt-validzeroshot
