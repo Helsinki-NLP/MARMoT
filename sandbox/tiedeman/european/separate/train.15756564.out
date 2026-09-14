@@ -1,0 +1,409 @@
+Starting at Mon Jan  5 14:45:58 EET 2026
+Master node: nid005234
+Master port: 9973
+Node list: nid[005234-005242]
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+singularity exec \
+	--env MASTER_NODE="nid005234" \
+	--env MASTER_PORT="9973" \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate:rw \
+	-B /scratch/project_462000964/shared/mammoth:/scratch/project_462000964/shared/mammoth:ro \
+	-B /scratch/project_462000964/MARMoT:/scratch/project_462000964/MARMoT:ro \
+	-B /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/make:ro \
+	-B /dev/shm:/dev/shm:rw \
+	/appl/local/containers/sif-images/lumi-pytorch-rocm-6.2.4-python-3.12-pytorch-v2.7.1.sif \
+	/usr/bin/make MASTER_NODE=nid005234 MASTER_PORT=9973 multi-node-train
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Entering directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 5 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 5 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 7 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 7 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 1 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 1 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 2 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 2 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 6 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 6 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 8 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 8 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+Node 1 starting training
+Master node: nid005234
+Master port: 9973
+Node 5 starting training
+Master node: nid005234
+Master port: 9973
+Node 7 starting training
+Master node: nid005234
+Master port: 9973
+Node 2 starting training
+Master node: nid005234
+Master port: 9973
+Node 6 starting training
+Master node: nid005234
+Master port: 9973
+Node 8 starting training
+Master node: nid005234
+Master port: 9973
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 3 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 3 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 4 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 4 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+echo /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml
+( source /scratch/project_462000964/shared/mammoth/.venv/bin/activate; \
+  echo "Node 0 starting training"; \
+  echo "Master node: nid005234"; \
+  echo "Master port: 9973"; \
+  /scratch/project_462000964/shared/mammoth/.venv/bin/python /scratch/project_462000964/shared/mammoth/train.py  \
+	-config /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/train.yaml \
+	-save_model /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european/separate/model \
+	--node_rank 0 \
+	--master_ip nid005234 \
+	--master_port 9973 )
+Node 3 starting training
+Master node: nid005234
+Master port: 9973
+Node 4 starting training
+Master node: nid005234
+Master port: 9973
+Node 0 starting training
+Master node: nid005234
+Master port: 9973
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+[DEBUG TransformerWrapper] No final_logits_bias provided (final_logits_bias=None)
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[4]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
+make[3]: Leaving directory '/pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/sandbox/tiedeman/european'
