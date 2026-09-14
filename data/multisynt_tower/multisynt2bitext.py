@@ -38,6 +38,24 @@ ALIGN_TYPES = np.array([
 ], dtype=float)
 
 
+## does not add to 1 at the moment (who cares?)
+PAR_ALIGN_TYPES = np.array([
+    (1, 0, 0.0001),
+    (0, 1, 0.0001),
+    (1, 1, 0.01),
+    (2, 1, 0.01),
+    (1, 2, 0.01),
+    (3, 1, 0.01),
+    (1, 3, 0.01),
+    (1, 4, 0.01),
+    (4, 1, 0.01),
+    (1, 5, 0.01),
+    (5, 1, 0.01),
+    (1, 6, 0.01),
+    (6, 1, 0.01),
+], dtype=float)
+
+
 ONE_TO_X_ALIGN_TYPES = np.array([
     (1, 0, 0.001),
     (1, 1, 0.1),
@@ -155,20 +173,44 @@ def print_aligned_lines(srcseg, trglines):
 def timeout_handler(signum, frame):
     raise Exception('Warning: Action took too much time')
 
+
+def align_sentences(srcdoc, trgdoc, srcSeg, trgSeg):
+
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(10)
+    try:
+        srcsent = srcSeg.get_document_segmentation(srcdoc)
+        trgsent = trgSeg.get_document_segmentation(trgdoc)
+    except:
+        print(f"Warning: sentence splitter timeout", file=sys.stderr)
+    signal.alarm(0)
+
+    aligned = align(srcsent, trgsent, SENT_ALIGN_TYPES)
+    count = 0
+    for src, trg in aligned:
+        srcstr = '\\n'.join(src)
+        trgstr = '\\n'.join(trg)
+        if srcstr:
+            print(f"{srcstr}\t{trgstr}")
+            count += 1
+    return count
+
     
+
+
 def align_paragraphs(srcseg, trgseg, trglines, segmenter):
     
     srcseglen = len(srcseg)
     trgseglen = len(trgseg)
     trglinelen = len(trglines)
-    print(f"need to fit: {srcseglen} - {trgseglen} / {trglinelen}", file=sys.stderr)
+    # print(f"need to fit: {srcseglen} - {trgseglen} / {trglinelen}", file=sys.stderr)
 
     ## if nr of target segments < nr of source segments: align target lines instead of target segments
     ## (only if nr of target lines is not more than double the nr of source segments)
     if trgseglen < srcseglen and trglinelen > trgseglen and trglinelen < srcseglen*2:
-        segaligned = align(srcseg, trglines, ALIGN_TYPES)
+        segaligned = align(srcseg, trglines, PAR_ALIGN_TYPES)
     else:                
-        segaligned = align(srcseg, trgseg, ALIGN_TYPES)
+        segaligned = align(srcseg, trgseg, PAR_ALIGN_TYPES)
 
     ## run through all alignments
     ## if there are more than one source segment in an alignment: try to align lines or even sentences
@@ -179,20 +221,41 @@ def align_paragraphs(srcseg, trgseg, trglines, segmenter):
     
     for src, trg in segaligned:
         srclen = len(src)
-        if srclen > 1:
+
+        if srclen==0:
+            continue
+        elif srclen == 1:
+            srcstr = '\\n'.join(src).replace("\n",'\\n')
+            trgstr = '\\n'.join(trg).replace("\n",'\\n')
+            if srcstr:
+                print(f"{srcstr}\t{trgstr}")
+                count += 1
+        else:
             trgstr = "\n".join(trg)
             trgsent = list(filter(None,trgstr.splitlines()))
-            if len(trgsent) < len(src):
-                # print(f"... split into sentences", file=sys.stderr)
+
+            ## fewer lines than source segments: split target language string into sentences
+            if len(trgsent) < srclen:
                 signal.alarm(10)
                 try:
                     trgsent = segmenter.get_document_segmentation(trgstr)
                 except:
                     print(f"Warning: sentence splitter timeout", file=sys.stderr)
                 signal.alarm(0)
-                    
+
+                ## still fewer segments in target language than source language?
+                ## print a warning and try the best with aligning segments
+                if len(trgsent) < srclen:
+                    print(f"Warning: cannot properly split {trgstr} into segments to align to {srclen} source segments", file=sys.stderr)
+
+            ## align target language segments to each single source language segment
+            ## we only allow 1:x alignments because we want to keep the same number of lines
+            ## for each target language (assume that source segments are proper paragraphs that can be aligned)
             aligned = align(src, trgsent, ONE_TO_X_ALIGN_TYPES)
 
+            ## no alignments found?
+            ## just print all source language paragraphs and leave the target side blank
+            ## TODO: is that a good ide?
             if (len(aligned) == 0):
                 print(f"Warning! No alignments found for {srclen} segments", file=sys.stderr)
                 for srctxt in src:
@@ -200,50 +263,31 @@ def align_paragraphs(srcseg, trgseg, trglines, segmenter):
                     if srcstr:
                         print(f"{srcstr}\t")
                         count += 1
-                    # print(f"SRC: {srcstr}", file=sys.stderr)
 
+            ## if we have fewer alignments than source language paragraphs
+            ## then this is a serious problem! What do we do?
+            ## same as above: print source language paragraphs and leave target blank
             elif (len(aligned) < srclen):
                 alglen = len(aligned)
                 print(f"Warning! Not all segments are aligned ({alglen} != {srclen})", file=sys.stderr)
-                
-                # for srctxt in src:
-                #     srcstr = srctxt.replace("\n",'\\n')
-                #     print(f"{srcstr}\t")
-                #     print(f"SRC: {srcstr}", file=sys.stderr)
-                # for trgtxt in trg:
-                #     trgstr = trgtxt.replace("\n",'\\n')
-                #     print(f"TRG: {trgtxt}", file=sys.stderr)
-                # for srctxt, trgtxt in aligned:
-                #     srcstr = '\\n'.join(srctxt).replace("\n",'\\n')
-                #     trgstr = '\\n'.join(trgtxt).replace("\n",'\\n')
-                #     print(f"A: {srcstr}", file=sys.stderr)
-                #     print(f"B: {trgstr}", file=sys.stderr)
-                #     print(f"--------------------------------------------", file=sys.stderr)
-                    
-            for srctxt, trgtxt in aligned:
-                srcstr = '\\n'.join(srctxt).replace("\n",'\\n')
-                trgstr = '\\n'.join(trgtxt).replace("\n",'\\n')
-                if srcstr:
-                    print(f"{srcstr}\t{trgstr}")
-                    count += 1
-                    # print(f"A2: {srcstr}", file=sys.stderr)
-                    # print(f"B2: {trgstr}", file=sys.stderr)
-                    # print(f"--------------------------------------------", file=sys.stderr)
-                
-        else:
-            srcstr = '\\n'.join(src).replace("\n",'\\n')
-            trgstr = '\\n'.join(trg).replace("\n",'\\n')
-            if srcstr:
-                print(f"{srcstr}\t{trgstr}")
-                count += 1
-                # print(f"A3: {srcstr}", file=sys.stderr)
-                # print(f"B3: {trgstr}", file=sys.stderr)
-                # print(f"--------------------------------------------", file=sys.stderr)
+                for srctxt in src:
+                    srcstr = srctxt.replace("\n",'\\n')
+                    if srcstr:
+                        print(f"{srcstr}\t")
+                        count += 1
+
+            ## print all aligned segments
+            else:
+                for srctxt, trgtxt in aligned:
+                    srcstr = '\\n'.join(srctxt).replace("\n",'\\n')
+                    trgstr = '\\n'.join(trgtxt).replace("\n",'\\n')
+                    if srcstr:
+                        print(f"{srcstr}\t{trgstr}")
+                        count += 1
             
     if count < len(srcseg):
         print(f"Warning! Not all segments are printed ({count} != {srclen})", file=sys.stderr)
     return count
-
 
 
 
@@ -252,12 +296,12 @@ def extract_bitext(source_file, target_file, target_lang):
     incount = 0
     outcount = 0
     
-    segmenter = LoomchildSegmenter(target_lang)
+    trgSegmenter = LoomchildSegmenter(target_lang)
     for srcline, trgline in zip(read_zst_lines(source_file),
                                 read_zst_lines(target_file)):
         try:
             srcdoc = json.loads(srcline)
-            srcseg = list(filter(None,srcdoc['text'].split("\n\n")))
+            srcseg = [s for s in srcdoc['text'].split("\n\n") if s]
             incount += len(srcseg)
         except:
             print(f"problem parsing {srcline}", file=sys.stderr)
@@ -265,7 +309,6 @@ def extract_bitext(source_file, target_file, target_lang):
 
         try:
             trgdoc = json.loads(trgline)
-            trgseg = list(filter(None,trgdoc['text'].split("\n\n")))
         except:
             print(f"problem parsing {trgline}", file=sys.stderr)
             ## print source segments anyway to get the same number of lines
@@ -276,39 +319,19 @@ def extract_bitext(source_file, target_file, target_lang):
                     print(f"{srcstr}\t")
                     outcount += 1
             print(f"END_OF_DOCUMENT\tEND_OF_DOCUMENT")
-            # outcount += len(srcseg)
             continue
 
-        ## same number of paragraphs --> simply align one-by-one
-        if len(srcseg) == len(trgseg):
-            for srctxt,trgtxt in zip(srcseg,trgseg):
-                trglines = trgtxt.splitlines()
-                srcstr = srctxt.replace("\n",'\\n')
-                trgstr = '\\n'.join(trglines)
-                if srcstr:
-                    print(f"{srcstr}\t{trgstr}")
-                    outcount += 1
-            print(f"END_OF_DOCUMENT\tEND_OF_DOCUMENT")
-            # outcount += len(srcseg)
+        if 'I was very much worried about this problem' in srcdoc['text']:
+            print('')
 
-        ## different number of paragraphs: first check number of lines
-        ## (1) same number of lines --> align them one-by-one to fill each paragraph
-        ## (2) different number of lines --> use a sentence alignment algorithm for aligning 1:x sentences
-        else:
-            # print(f"different number of paragraphs", file=sys.stderr)
-            srclines = list(filter(None,srcdoc['text'].splitlines()))
-            trglines = list(filter(None,trgdoc['text'].splitlines()))
-            
-            if len(srclines) == len(trglines):
-                outcount += print_aligned_lines(srcseg, trglines)
-            else:
-                outcount += align_paragraphs(srcseg, trgseg, trglines, segmenter)
-                
-            # print(f"=================END_OF_DOC============================", file=sys.stderr)
-            print(f"END_OF_DOCUMENT\tEND_OF_DOCUMENT")
-
+        trgseg = [s for s in trgdoc['text'].split("\n\n") if s]
+        trglines = [s for s in trgdoc['text'].splitlines() if s]
+        outcount += align_paragraphs(srcseg, trgseg, trglines, trgSegmenter)
+        print(f"END_OF_DOCUMENT\tEND_OF_DOCUMENT")
+        
     print(f"=============\nextracted: {outcount}/{incount} segments\n==========================", file=sys.stderr)
     return outcount
+
 
                 
 
@@ -323,4 +346,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     count = extract_bitext(args.source_file, args.target_file, args.lang)
-    # print(f"=============\ntotal: {count} segments\n==============================", file=sys.stderr)
+

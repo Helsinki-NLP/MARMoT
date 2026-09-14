@@ -4,6 +4,7 @@ SHELL := bash
 
 # HPC_PROJECT := project_465001864
 HPC_PROJECT := project_462000964
+HPC_PROJECT := project_462001087
 
 include ../../tools/slurMake/slurm.mk
 
@@ -13,7 +14,7 @@ MULTISYNT_PARALLEL := /appl/local/openeurollm/training/catalogue/nemotron-cc-tow
 
 
 TOWER_MODEL := tower72b
-TRGLANG     := swe_Latn
+TRGLANG     := fin_Latn
 TRG         := $(firstword $(subst _, ,${TRGLANG}))
 TRG2        := $(shell iso639 -2 -n ${TRG})
 
