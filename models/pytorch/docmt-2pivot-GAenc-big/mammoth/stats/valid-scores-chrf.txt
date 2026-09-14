@@ -1,176 +1,176 @@
 make[3]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
-gpu	task-ids	12000	13000	
-0:0	zero_deu-tur	49.962	49.743
-0:1	zero_deu-ukr	46.211	46.430
-0:2	zero_fra-nld	48.657	48.602
-0:3	zero_swe-fin	52.441	52.339
-0:4	zero_ces-slk	54.237	54.418
-0:5	zero_bos-hrv	56.653	56.715
-0:6	zero_bos-srp_Cyrl	56.859	55.511
-0:7	zero_hrv-srp_Cyrl	53.488	54.176
-1:0	zero_slv-bos	49.078	49.112
-1:1	zero_bul-tur	50.075	50.586
-1:2	zero_deu-ron	53.294	53.309
-1:3	zero_glg-por	57.304	57.497
-1:4	zero_eus-fra	48.713	48.509
-1:5	zero_dan-nob	56.890	56.545
-1:6	zero_tur-deu	48.549	48.922
-1:7	zero_ukr-deu	50.420	50.806
-2:0	zero_nld-fra	50.735	50.312
-2:1	zero_fin-swe	50.823	51.338
-2:2	zero_slk-ces	53.595	53.437
-2:3	zero_hrv-bos	53.225	52.636
-2:4	zero_srp_Cyrl-bos	55.466	55.132
-2:5	zero_srp_Cyrl-hrv	55.849	55.850
-2:6	zero_bos-slv	53.502	52.485
-2:7	zero_tur-bul	49.696	50.330
-3:0	zero_ron-deu	51.860	52.395
-3:1	zero_por-glg	55.713	55.747
-3:2	zero_fra-eus	41.636	44.390
-3:3	zero_nob-dan	57.810	57.743
-0:0	mt_bos-eng	56.555	51.704
-0:1	mt_bos-spa	49.183	47.754
-0:2	mt_bul-eng	62.518	61.823
-0:3	mt_bul-spa	48.882	48.695
-0:4	mt_cat-eng	64.536	64.864
-0:5	mt_cat-spa	52.695	52.725
-0:6	mt_ces-eng	61.284	61.534
-0:7	mt_ces-spa	48.473	48.966
-1:0	mt_dan-eng	67.110	67.958
-1:1	mt_dan-spa	50.546	50.535
-1:2	mt_deu-eng	63.458	62.713
-1:3	mt_deu-spa	48.616	49.179
-1:4	mt_ell-eng	57.566	56.721
-1:5	mt_ell-spa	48.164	47.937
-1:6	mt_eng-bos	58.354	58.180
-1:7	mt_eng-bul	66.977	67.313
-2:0	mt_eng-cat	65.341	65.750
-2:1	mt_eng-ces	57.365	57.645
-2:2	mt_eng-dan	68.809	68.862
-2:3	mt_eng-deu	63.544	63.706
-2:4	mt_eng-ell	53.469	53.602
-2:5	mt_eng-est	59.407	59.665
-2:6	mt_eng-eus	52.296	51.069
-2:7	mt_eng-fin	58.333	58.416
-3:0	mt_eng-fra	69.761	69.447
-3:1	mt_eng-gle	58.849	58.692
-3:2	mt_eng-glg	61.114	61.465
-3:3	mt_eng-hrv	59.803	59.715
-3:4	mt_eng-hun	57.532	57.358
-3:5	mt_eng-isl	50.672	50.773
-3:6	mt_eng-ita	57.650	57.376
-3:7	mt_eng-kat	43.933	43.894
-4:0	mt_eng-lav	0.000	0.000
-4:1	mt_eng-lit	56.859	56.745
-4:2	mt_eng-mkd	63.211	63.393
-4:3	mt_eng-mlt	67.002	66.879
-4:4	mt_eng-nld	57.113	57.231
-4:5	mt_eng-nno	61.176	61.371
-4:6	mt_eng-nob	61.491	61.733
-4:7	mt_eng-pol	50.113	50.253
-5:0	mt_eng-por	69.759	69.887
-5:1	mt_eng-ron	64.168	64.335
-5:2	mt_eng-slk	59.629	59.859
-5:3	mt_eng-slv	57.219	57.226
-5:4	mt_eng-spa	54.942	54.911
-5:5	mt_eng-sqi	0.000	0.000
-5:6	mt_eng-srp_Cyrl	62.253	62.436
-5:7	mt_eng-swe	68.936	68.922
-6:0	mt_eng-tur	62.193	62.333
-6:1	mt_eng-ukr	56.833	56.854
-6:2	mt_est-eng	59.383	58.790
-6:3	mt_est-spa	47.683	48.177
-6:4	mt_eus-eng	53.008	52.237
-6:5	mt_eus-spa	45.432	45.902
-6:6	mt_fin-eng	58.082	58.469
-6:7	mt_fin-spa	47.179	47.510
-7:0	mt_fra-eng	62.655	63.238
-7:1	mt_fra-spa	49.472	50.131
-7:2	mt_gle-eng	62.779	61.958
-7:3	mt_gle-spa	47.951	48.301
-7:4	mt_glg-eng	59.625	60.168
-7:5	mt_glg-spa	52.330	52.260
-7:6	mt_hrv-eng	59.797	58.981
-7:7	mt_hrv-spa	48.124	48.241
-8:0	mt_hun-eng	57.384	57.598
-8:1	mt_hun-spa	47.378	47.493
-8:2	mt_isl-eng	54.254	54.936
-8:3	mt_isl-spa	43.924	44.438
-8:4	mt_ita-eng	56.663	57.176
-8:5	mt_ita-spa	49.747	49.849
-8:6	mt_kat-eng	49.342	48.789
-8:7	mt_kat-spa	42.742	41.831
-0:0	mt_lav-eng	0.000	0.000
-0:1	mt_lav-spa	0.000	0.000
-0:2	mt_lit-eng	56.186	56.996
-0:3	mt_lit-spa	46.538	46.887
-0:4	mt_mkd-eng	63.047	63.480
-0:5	mt_mkd-spa	48.923	49.241
-0:6	mt_mlt-eng	69.952	68.751
-0:7	mt_mlt-spa	50.307	50.016
-1:0	mt_nld-eng	56.274	55.315
-1:1	mt_nld-spa	46.403	46.264
-1:2	mt_nno-eng	64.226	64.048
-1:3	mt_nno-spa	48.443	48.772
-1:4	mt_nob-eng	63.770	64.076
-1:5	mt_nob-spa	48.157	48.212
-1:6	mt_pol-eng	53.753	53.818
-1:7	mt_pol-spa	46.365	46.667
-2:0	mt_por-eng	65.492	65.644
-2:1	mt_por-spa	51.467	51.473
-2:2	mt_ron-eng	63.241	63.636
-2:3	mt_ron-spa	49.995	50.293
-2:4	mt_slk-eng	61.390	61.778
-2:5	mt_slk-spa	49.100	49.065
-2:6	mt_slv-eng	57.977	58.306
-2:7	mt_slv-spa	47.304	47.740
-3:0	mt_spa-bos	45.822	45.497
-3:1	mt_spa-bul	51.674	51.760
-3:2	mt_spa-cat	53.702	54.007
-3:3	mt_spa-ces	44.565	45.057
-3:4	mt_spa-dan	51.263	51.419
-3:5	mt_spa-deu	49.352	49.408
-3:6	mt_spa-ell	44.399	44.173
-3:7	mt_spa-eng	54.610	54.654
-4:0	mt_spa-est	48.542	48.342
-4:1	mt_spa-eus	47.044	46.431
-4:2	mt_spa-fin	47.994	47.854
-4:3	mt_spa-fra	54.616	54.429
-4:4	mt_spa-gle	45.888	46.083
-4:5	mt_spa-glg	52.820	52.736
-4:6	mt_spa-hrv	46.986	46.826
-4:7	mt_spa-hun	46.986	47.149
-5:0	mt_spa-isl	40.805	41.091
-5:1	mt_spa-ita	50.905	50.985
-5:2	mt_spa-kat	38.761	37.541
-5:3	mt_spa-lav	0.000	0.000
-5:4	mt_spa-lit	46.723	46.559
-5:5	mt_spa-mkd	50.055	49.594
-5:6	mt_spa-mlt	49.107	48.856
-5:7	mt_spa-nld	48.383	48.461
-6:0	mt_spa-nno	47.388	47.106
-6:1	mt_spa-nob	47.529	47.569
-6:2	mt_spa-pol	44.123	43.820
-6:3	mt_spa-por	54.154	53.877
-6:4	mt_spa-ron	51.160	48.598
-6:5	mt_spa-slk	45.648	41.244
-6:6	mt_spa-slv	46.927	46.958
-6:7	mt_spa-sqi	0.000	0.000
-7:0	mt_spa-srp_Cyrl	46.487	47.192
-7:1	mt_spa-swe	50.511	50.478
-7:2	mt_spa-tur	47.894	47.766
-7:3	mt_spa-ukr	44.512	44.687
-7:4	mt_sqi-eng	0.000	0.000
-7:5	mt_sqi-spa	0.000	0.000
-7:6	mt_srp_Cyrl-eng	63.568	64.285
-7:7	mt_srp_Cyrl-spa	49.207	49.301
-8:0	mt_swe-eng	68.137	66.459
-8:1	mt_swe-spa	50.011	50.070
-8:2	mt_tur-eng	60.440	61.269
-8:3	mt_tur-spa	48.217	47.980
-8:4	mt_ukr-eng	59.716	60.004
-8:5	mt_ukr-spa	48.414	48.423
+gpu	task-ids	12000	13000	14000	
+0:0	zero_deu-tur	49.962	49.743	50.578
+0:1	zero_deu-ukr	46.211	46.430	46.667
+0:2	zero_fra-nld	48.657	48.602	48.947
+0:3	zero_swe-fin	52.441	52.339	53.017
+0:4	zero_ces-slk	54.237	54.418	54.349
+0:5	zero_bos-hrv	56.653	56.715	57.046
+0:6	zero_bos-srp_Cyrl	56.859	55.511	57.206
+0:7	zero_hrv-srp_Cyrl	53.488	54.176	54.363
+1:0	zero_slv-bos	49.078	49.112	49.320
+1:1	zero_bul-tur	50.075	50.586	50.729
+1:2	zero_deu-ron	53.294	53.309	53.797
+1:3	zero_glg-por	57.304	57.497	57.590
+1:4	zero_eus-fra	48.713	48.509	48.493
+1:5	zero_dan-nob	56.890	56.545	56.764
+1:6	zero_tur-deu	48.549	48.922	48.645
+1:7	zero_ukr-deu	50.420	50.806	50.781
+2:0	zero_nld-fra	50.735	50.312	50.765
+2:1	zero_fin-swe	50.823	51.338	51.468
+2:2	zero_slk-ces	53.595	53.437	53.637
+2:3	zero_hrv-bos	53.225	52.636	52.635
+2:4	zero_srp_Cyrl-bos	55.466	55.132	55.164
+2:5	zero_srp_Cyrl-hrv	55.849	55.850	55.999
+2:6	zero_bos-slv	53.502	52.485	53.310
+2:7	zero_tur-bul	49.696	50.330	50.174
+3:0	zero_ron-deu	51.860	52.395	52.221
+3:1	zero_por-glg	55.713	55.747	55.638
+3:2	zero_fra-eus	41.636	44.390	43.876
+3:3	zero_nob-dan	57.810	57.743	57.913
+0:0	mt_bos-eng	56.555	51.704	53.485
+0:1	mt_bos-spa	49.183	47.754	48.737
+0:2	mt_bul-eng	62.518	61.823	62.934
+0:3	mt_bul-spa	48.882	48.695	49.499
+0:4	mt_cat-eng	64.536	64.864	64.705
+0:5	mt_cat-spa	52.695	52.725	52.524
+0:6	mt_ces-eng	61.284	61.534	60.917
+0:7	mt_ces-spa	48.473	48.966	48.927
+1:0	mt_dan-eng	67.110	67.958	67.478
+1:1	mt_dan-spa	50.546	50.535	50.740
+1:2	mt_deu-eng	63.458	62.713	63.536
+1:3	mt_deu-spa	48.616	49.179	49.300
+1:4	mt_ell-eng	57.566	56.721	56.019
+1:5	mt_ell-spa	48.164	47.937	48.302
+1:6	mt_eng-bos	58.354	58.180	58.020
+1:7	mt_eng-bul	66.977	67.313	67.219
+2:0	mt_eng-cat	65.341	65.750	65.530
+2:1	mt_eng-ces	57.365	57.645	57.873
+2:2	mt_eng-dan	68.809	68.862	68.815
+2:3	mt_eng-deu	63.544	63.706	63.509
+2:4	mt_eng-ell	53.469	53.602	53.382
+2:5	mt_eng-est	59.407	59.665	59.018
+2:6	mt_eng-eus	52.296	51.069	52.856
+2:7	mt_eng-fin	58.333	58.416	58.653
+3:0	mt_eng-fra	69.761	69.447	69.772
+3:1	mt_eng-gle	58.849	58.692	59.064
+3:2	mt_eng-glg	61.114	61.465	61.074
+3:3	mt_eng-hrv	59.803	59.715	59.768
+3:4	mt_eng-hun	57.532	57.358	57.630
+3:5	mt_eng-isl	50.672	50.773	50.505
+3:6	mt_eng-ita	57.650	57.376	57.636
+3:7	mt_eng-kat	43.933	43.894	43.768
+4:0	mt_eng-lav	0.000	0.000	0.000
+4:1	mt_eng-lit	56.859	56.745	56.886
+4:2	mt_eng-mkd	63.211	63.393	63.304
+4:3	mt_eng-mlt	67.002	66.879	67.176
+4:4	mt_eng-nld	57.113	57.231	57.240
+4:5	mt_eng-nno	61.176	61.371	61.357
+4:6	mt_eng-nob	61.491	61.733	61.494
+4:7	mt_eng-pol	50.113	50.253	50.192
+5:0	mt_eng-por	69.759	69.887	69.924
+5:1	mt_eng-ron	64.168	64.335	64.412
+5:2	mt_eng-slk	59.629	59.859	59.792
+5:3	mt_eng-slv	57.219	57.226	57.542
+5:4	mt_eng-spa	54.942	54.911	54.789
+5:5	mt_eng-sqi	0.000	0.000	0.000
+5:6	mt_eng-srp_Cyrl	62.253	62.436	62.366
+5:7	mt_eng-swe	68.936	68.922	68.771
+6:0	mt_eng-tur	62.193	62.333	62.274
+6:1	mt_eng-ukr	56.833	56.854	56.922
+6:2	mt_est-eng	59.383	58.790	60.099
+6:3	mt_est-spa	47.683	48.177	48.068
+6:4	mt_eus-eng	53.008	52.237	53.133
+6:5	mt_eus-spa	45.432	45.902	45.866
+6:6	mt_fin-eng	58.082	58.469	57.576
+6:7	mt_fin-spa	47.179	47.510	47.555
+7:0	mt_fra-eng	62.655	63.238	63.314
+7:1	mt_fra-spa	49.472	50.131	50.521
+7:2	mt_gle-eng	62.779	61.958	61.238
+7:3	mt_gle-spa	47.951	48.301	47.474
+7:4	mt_glg-eng	59.625	60.168	59.591
+7:5	mt_glg-spa	52.330	52.260	52.208
+7:6	mt_hrv-eng	59.797	58.981	59.715
+7:7	mt_hrv-spa	48.124	48.241	48.356
+8:0	mt_hun-eng	57.384	57.598	58.470
+8:1	mt_hun-spa	47.378	47.493	47.155
+8:2	mt_isl-eng	54.254	54.936	54.841
+8:3	mt_isl-spa	43.924	44.438	44.821
+8:4	mt_ita-eng	56.663	57.176	57.194
+8:5	mt_ita-spa	49.747	49.849	49.887
+8:6	mt_kat-eng	49.342	48.789	49.824
+8:7	mt_kat-spa	42.742	41.831	42.945
+0:0	mt_lav-eng	0.000	0.000	0.000
+0:1	mt_lav-spa	0.000	0.000	0.000
+0:2	mt_lit-eng	56.186	56.996	56.878
+0:3	mt_lit-spa	46.538	46.887	47.020
+0:4	mt_mkd-eng	63.047	63.480	62.822
+0:5	mt_mkd-spa	48.923	49.241	49.013
+0:6	mt_mlt-eng	69.952	68.751	68.974
+0:7	mt_mlt-spa	50.307	50.016	50.525
+1:0	mt_nld-eng	56.274	55.315	56.363
+1:1	mt_nld-spa	46.403	46.264	46.592
+1:2	mt_nno-eng	64.226	64.048	64.529
+1:3	mt_nno-spa	48.443	48.772	48.655
+1:4	mt_nob-eng	63.770	64.076	63.893
+1:5	mt_nob-spa	48.157	48.212	48.076
+1:6	mt_pol-eng	53.753	53.818	53.942
+1:7	mt_pol-spa	46.365	46.667	46.579
+2:0	mt_por-eng	65.492	65.644	64.875
+2:1	mt_por-spa	51.467	51.473	51.625
+2:2	mt_ron-eng	63.241	63.636	63.359
+2:3	mt_ron-spa	49.995	50.293	50.415
+2:4	mt_slk-eng	61.390	61.778	61.659
+2:5	mt_slk-spa	49.100	49.065	49.525
+2:6	mt_slv-eng	57.977	58.306	58.113
+2:7	mt_slv-spa	47.304	47.740	47.669
+3:0	mt_spa-bos	45.822	45.497	45.766
+3:1	mt_spa-bul	51.674	51.760	46.533
+3:2	mt_spa-cat	53.702	54.007	53.704
+3:3	mt_spa-ces	44.565	45.057	44.719
+3:4	mt_spa-dan	51.263	51.419	51.333
+3:5	mt_spa-deu	49.352	49.408	49.587
+3:6	mt_spa-ell	44.399	44.173	44.594
+3:7	mt_spa-eng	54.610	54.654	54.205
+4:0	mt_spa-est	48.542	48.342	48.552
+4:1	mt_spa-eus	47.044	46.431	46.727
+4:2	mt_spa-fin	47.994	47.854	47.928
+4:3	mt_spa-fra	54.616	54.429	54.944
+4:4	mt_spa-gle	45.888	46.083	45.827
+4:5	mt_spa-glg	52.820	52.736	52.509
+4:6	mt_spa-hrv	46.986	46.826	47.415
+4:7	mt_spa-hun	46.986	47.149	47.058
+5:0	mt_spa-isl	40.805	41.091	41.058
+5:1	mt_spa-ita	50.905	50.985	50.790
+5:2	mt_spa-kat	38.761	37.541	38.347
+5:3	mt_spa-lav	0.000	0.000	0.000
+5:4	mt_spa-lit	46.723	46.559	46.792
+5:5	mt_spa-mkd	50.055	49.594	50.185
+5:6	mt_spa-mlt	49.107	48.856	40.656
+5:7	mt_spa-nld	48.383	48.461	48.267
+6:0	mt_spa-nno	47.388	47.106	47.398
+6:1	mt_spa-nob	47.529	47.569	47.966
+6:2	mt_spa-pol	44.123	43.820	44.102
+6:3	mt_spa-por	54.154	53.877	53.891
+6:4	mt_spa-ron	51.160	48.598	50.296
+6:5	mt_spa-slk	45.648	41.244	45.948
+6:6	mt_spa-slv	46.927	46.958	47.084
+6:7	mt_spa-sqi	0.000	0.000	0.000
+7:0	mt_spa-srp_Cyrl	46.487	47.192	47.124
+7:1	mt_spa-swe	50.511	50.478	31.708
+7:2	mt_spa-tur	47.894	47.766	48.448
+7:3	mt_spa-ukr	44.512	44.687	44.706
+7:4	mt_sqi-eng	0.000	0.000	0.000
+7:5	mt_sqi-spa	0.000	0.000	0.000
+7:6	mt_srp_Cyrl-eng	63.568	64.285	63.519
+7:7	mt_srp_Cyrl-spa	49.207	49.301	49.532
+8:0	mt_swe-eng	68.137	66.459	68.052
+8:1	mt_swe-spa	50.011	50.070	50.159
+8:2	mt_tur-eng	60.440	61.269	61.320
+8:3	mt_tur-spa	48.217	47.980	47.718
+8:4	mt_ukr-eng	59.716	60.004	60.142
+8:5	mt_ukr-spa	48.414	48.423	48.412
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
-all	average-score	120.504	126.270
+all	average-score	120.504	126.270	132.051
 make[3]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
