@@ -307,12 +307,12 @@ print-valid-diff-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/$${taskid}"; \
+	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
 	    fi; \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
-	    | grep "\"$${pattern}\":" \
+	    | egrep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \
 	    echo -n "$${gpus[$$i]}	$${taskid}	$${score[0]}"; \
 	    last=$${score[0]}; \
