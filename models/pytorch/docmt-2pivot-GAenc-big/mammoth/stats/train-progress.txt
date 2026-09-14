@@ -34,6 +34,8 @@ zero_deu-tur: 18750	 acc: --	 ppl:  9.87	 xent: 2.29	  17.00 TFLOP/s	 12279/1368
 zero_deu-tur: 19000	 acc: --	 ppl:  9.80	 xent: 2.28	  17.22 TFLOP/s	 12436/13875 tok/s	 3337662 sents	  48769 sec	
 zero_deu-tur: 19250	 acc: --	 ppl:  9.77	 xent: 2.28	  15.50 TFLOP/s	 11171/12503 tok/s	 3440359 sents	  50406 sec	
 zero_deu-tur: 19500	 acc: --	 ppl:  9.32	 xent: 2.23	  17.52 TFLOP/s	 12663/14097 tok/s	 3542882 sents	  51856 sec	
+zero_deu-tur: 19750	 acc: --	 ppl:  9.77	 xent: 2.28	  17.63 TFLOP/s	 12740/14185 tok/s	 3645840 sents	  53308 sec	
+zero_deu-tur: 20000	 acc: --	 ppl:  9.81	 xent: 2.28	  17.51 TFLOP/s	 12623/14118 tok/s	 3747993 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -71,6 +73,8 @@ zero_deu-ukr: 18750	 acc: --	 ppl:  8.33	 xent: 2.12	  17.12 TFLOP/s	 12152/1394
 zero_deu-ukr: 19000	 acc: --	 ppl:  8.49	 xent: 2.14	  17.65 TFLOP/s	 12507/14389 tok/s	 3321575 sents	  48769 sec	
 zero_deu-ukr: 19250	 acc: --	 ppl:  8.56	 xent: 2.15	  16.02 TFLOP/s	 11360/13050 tok/s	 3425306 sents	  50406 sec	
 zero_deu-ukr: 19500	 acc: --	 ppl:  8.19	 xent: 2.10	  17.94 TFLOP/s	 12731/14616 tok/s	 3528355 sents	  51856 sec	
+zero_deu-ukr: 19750	 acc: --	 ppl:  8.18	 xent: 2.10	  18.03 TFLOP/s	 12781/14695 tok/s	 3632009 sents	  53307 sec	
+zero_deu-ukr: 20000	 acc: --	 ppl:  8.68	 xent: 2.16	  17.58 TFLOP/s	 12472/14328 tok/s	 3732779 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -108,6 +112,8 @@ zero_fra-nld: 18750	 acc: --	 ppl:  7.61	 xent: 2.03	  17.81 TFLOP/s	 13709/1362
 zero_fra-nld: 19000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.08 TFLOP/s	 13912/13846 tok/s	 3300524 sents	  48769 sec	
 zero_fra-nld: 19250	 acc: --	 ppl:  7.11	 xent: 1.96	  16.21 TFLOP/s	 12471/12409 tok/s	 3402459 sents	  50406 sec	
 zero_fra-nld: 19500	 acc: --	 ppl:  7.29	 xent: 1.99	  18.33 TFLOP/s	 14110/14019 tok/s	 3504353 sents	  51856 sec	
+zero_fra-nld: 19750	 acc: --	 ppl:  7.37	 xent: 2.00	  18.30 TFLOP/s	 14081/14012 tok/s	 3606332 sents	  53308 sec	
+zero_fra-nld: 20000	 acc: --	 ppl:  7.42	 xent: 2.00	  18.66 TFLOP/s	 14356/14279 tok/s	 3709743 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -145,6 +151,8 @@ zero_swe-fin: 18750	 acc: --	 ppl:  6.49	 xent: 1.87	  17.98 TFLOP/s	 13604/1393
 zero_swe-fin: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  18.71 TFLOP/s	 14140/14507 tok/s	 3305044 sents	  48769 sec	
 zero_swe-fin: 19250	 acc: --	 ppl:  6.41	 xent: 1.86	  16.56 TFLOP/s	 12525/12834 tok/s	 3407167 sents	  50406 sec	
 zero_swe-fin: 19500	 acc: --	 ppl:  6.44	 xent: 1.86	  18.53 TFLOP/s	 14012/14372 tok/s	 3508454 sents	  51856 sec	
+zero_swe-fin: 19750	 acc: --	 ppl:  6.61	 xent: 1.89	  18.50 TFLOP/s	 13987/14344 tok/s	 3609450 sents	  53308 sec	
+zero_swe-fin: 20000	 acc: --	 ppl:  6.38	 xent: 1.85	  18.67 TFLOP/s	 14124/14461 tok/s	 3711098 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -182,6 +190,8 @@ zero_ces-slk: 18750	 acc: --	 ppl:  6.67	 xent: 1.90	  18.71 TFLOP/s	 14748/1401
 zero_ces-slk: 19000	 acc: --	 ppl:  6.40	 xent: 1.86	  18.16 TFLOP/s	 14332/13602 tok/s	 3289900 sents	  48769 sec	
 zero_ces-slk: 19250	 acc: --	 ppl:  6.30	 xent: 1.84	  16.49 TFLOP/s	 13001/12347 tok/s	 3390916 sents	  50406 sec	
 zero_ces-slk: 19500	 acc: --	 ppl:  6.42	 xent: 1.86	  18.93 TFLOP/s	 14919/14194 tok/s	 3494208 sents	  51856 sec	
+zero_ces-slk: 19750	 acc: --	 ppl:  6.59	 xent: 1.88	  18.14 TFLOP/s	 14288/13606 tok/s	 3593494 sents	  53308 sec	
+zero_ces-slk: 20000	 acc: --	 ppl:  6.37	 xent: 1.85	  19.32 TFLOP/s	 15238/14471 tok/s	 3698067 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -219,6 +229,8 @@ zero_bos-hrv: 18750	 acc: --	 ppl:  5.98	 xent: 1.79	  18.91 TFLOP/s	 14644/1437
 zero_bos-hrv: 19000	 acc: --	 ppl:  6.05	 xent: 1.80	  18.88 TFLOP/s	 14635/14336 tok/s	 3309357 sents	  48769 sec	
 zero_bos-hrv: 19250	 acc: --	 ppl:  5.89	 xent: 1.77	  17.01 TFLOP/s	 13195/12912 tok/s	 3412283 sents	  50406 sec	
 zero_bos-hrv: 19500	 acc: --	 ppl:  6.08	 xent: 1.81	  18.89 TFLOP/s	 14653/14324 tok/s	 3513209 sents	  51856 sec	
+zero_bos-hrv: 19750	 acc: --	 ppl:  5.86	 xent: 1.77	  19.11 TFLOP/s	 14808/14508 tok/s	 3615520 sents	  53308 sec	
+zero_bos-hrv: 20000	 acc: --	 ppl:  5.87	 xent: 1.77	  18.73 TFLOP/s	 14517/14215 tok/s	 3715575 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -256,6 +268,8 @@ zero_bos-srp_Cyrl: 18750	 acc: --	 ppl:  8.05	 xent: 2.09	  17.66 TFLOP/s	 13312
 zero_bos-srp_Cyrl: 19000	 acc: --	 ppl:  7.93	 xent: 2.07	  18.22 TFLOP/s	 13754/14178 tok/s	 3340894 sents	  48769 sec	
 zero_bos-srp_Cyrl: 19250	 acc: --	 ppl:  8.00	 xent: 2.08	  16.23 TFLOP/s	 12253/12628 tok/s	 3444721 sents	  50406 sec	
 zero_bos-srp_Cyrl: 19500	 acc: --	 ppl:  8.09	 xent: 2.09	  18.23 TFLOP/s	 13743/14188 tok/s	 3547830 sents	  51856 sec	
+zero_bos-srp_Cyrl: 19750	 acc: --	 ppl:  8.29	 xent: 2.11	  18.46 TFLOP/s	 13947/14347 tok/s	 3651842 sents	  53308 sec	
+zero_bos-srp_Cyrl: 20000	 acc: --	 ppl:  7.86	 xent: 2.06	  18.19 TFLOP/s	 13741/14140 tok/s	 3754415 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -293,6 +307,8 @@ zero_hrv-srp_Cyrl: 18750	 acc: --	 ppl:  7.91	 xent: 2.07	  17.62 TFLOP/s	 13061
 zero_hrv-srp_Cyrl: 19000	 acc: --	 ppl:  7.38	 xent: 2.00	  18.21 TFLOP/s	 13513/14333 tok/s	 3323732 sents	  48769 sec	
 zero_hrv-srp_Cyrl: 19250	 acc: --	 ppl:  7.76	 xent: 2.05	  16.74 TFLOP/s	 12398/13202 tok/s	 3428996 sents	  50406 sec	
 zero_hrv-srp_Cyrl: 19500	 acc: --	 ppl:  7.11	 xent: 1.96	  18.11 TFLOP/s	 13396/14288 tok/s	 3529826 sents	  51856 sec	
+zero_hrv-srp_Cyrl: 19750	 acc: --	 ppl:  7.80	 xent: 2.05	  18.85 TFLOP/s	 13960/14864 tok/s	 3634375 sents	  53308 sec	
+zero_hrv-srp_Cyrl: 20000	 acc: --	 ppl:  7.64	 xent: 2.03	  18.07 TFLOP/s	 13386/14248 tok/s	 3734411 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -330,6 +346,8 @@ zero_slv-bos: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.38 TFLOP/s	 14298/1393
 zero_slv-bos: 19000	 acc: --	 ppl:  6.27	 xent: 1.84	  18.74 TFLOP/s	 14535/14242 tok/s	 3311372 sents	  48769 sec	
 zero_slv-bos: 19250	 acc: --	 ppl:  5.91	 xent: 1.78	  16.25 TFLOP/s	 12627/12339 tok/s	 3412908 sents	  50406 sec	
 zero_slv-bos: 19500	 acc: --	 ppl:  5.98	 xent: 1.79	  18.62 TFLOP/s	 14442/14151 tok/s	 3515141 sents	  51856 sec	
+zero_slv-bos: 19750	 acc: --	 ppl:  6.19	 xent: 1.82	  18.68 TFLOP/s	 14512/14174 tok/s	 3618146 sents	  53307 sec	
+zero_slv-bos: 20000	 acc: --	 ppl:  6.01	 xent: 1.79	  18.63 TFLOP/s	 14482/14134 tok/s	 3721157 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -367,6 +385,8 @@ zero_bul-tur: 18750	 acc: --	 ppl:  6.20	 xent: 1.82	  19.22 TFLOP/s	 14694/1476
 zero_bul-tur: 19000	 acc: --	 ppl:  6.24	 xent: 1.83	  18.55 TFLOP/s	 14148/14279 tok/s	 3309431 sents	  48769 sec	
 zero_bul-tur: 19250	 acc: --	 ppl:  5.71	 xent: 1.74	  16.73 TFLOP/s	 12777/12859 tok/s	 3411642 sents	  50406 sec	
 zero_bul-tur: 19500	 acc: --	 ppl:  5.82	 xent: 1.76	  18.96 TFLOP/s	 14473/14579 tok/s	 3514272 sents	  51856 sec	
+zero_bul-tur: 19750	 acc: --	 ppl:  5.92	 xent: 1.78	  18.49 TFLOP/s	 14115/14224 tok/s	 3614748 sents	  53307 sec	
+zero_bul-tur: 20000	 acc: --	 ppl:  5.92	 xent: 1.78	  18.83 TFLOP/s	 14391/14463 tok/s	 3716543 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -404,6 +424,8 @@ zero_deu-ron: 18750	 acc: --	 ppl:  7.53	 xent: 2.02	  18.32 TFLOP/s	 14161/1395
 zero_deu-ron: 19000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.57 TFLOP/s	 14374/14147 tok/s	 3308955 sents	  48769 sec	
 zero_deu-ron: 19250	 acc: --	 ppl:  7.43	 xent: 2.01	  16.23 TFLOP/s	 12559/12368 tok/s	 3411125 sents	  50406 sec	
 zero_deu-ron: 19500	 acc: --	 ppl:  7.35	 xent: 1.99	  18.69 TFLOP/s	 14460/14233 tok/s	 3514274 sents	  51856 sec	
+zero_deu-ron: 19750	 acc: --	 ppl:  7.01	 xent: 1.95	  18.38 TFLOP/s	 14221/14009 tok/s	 3615971 sents	  53307 sec	
+zero_deu-ron: 20000	 acc: --	 ppl:  7.05	 xent: 1.95	  18.63 TFLOP/s	 14411/14188 tok/s	 3718722 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -441,6 +463,8 @@ zero_glg-por: 18750	 acc: --	 ppl:  6.82	 xent: 1.92	  19.02 TFLOP/s	 14458/1467
 zero_glg-por: 19000	 acc: --	 ppl:  6.94	 xent: 1.94	  18.91 TFLOP/s	 14376/14596 tok/s	 3308942 sents	  48769 sec	
 zero_glg-por: 19250	 acc: --	 ppl:  7.50	 xent: 2.01	  16.37 TFLOP/s	 12451/12632 tok/s	 3409774 sents	  50406 sec	
 zero_glg-por: 19500	 acc: --	 ppl:  6.99	 xent: 1.95	  18.92 TFLOP/s	 14385/14596 tok/s	 3512376 sents	  51856 sec	
+zero_glg-por: 19750	 acc: --	 ppl:  7.24	 xent: 1.98	  18.81 TFLOP/s	 14301/14510 tok/s	 3614712 sents	  53307 sec	
+zero_glg-por: 20000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.47 TFLOP/s	 14040/14262 tok/s	 3715092 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -478,6 +502,8 @@ zero_eus-fra: 18750	 acc: --	 ppl:  6.42	 xent: 1.86	  18.31 TFLOP/s	 14538/1363
 zero_eus-fra: 19000	 acc: --	 ppl:  6.33	 xent: 1.84	  18.34 TFLOP/s	 14511/13693 tok/s	 3264001 sents	  48769 sec	
 zero_eus-fra: 19250	 acc: --	 ppl:  6.26	 xent: 1.83	  16.99 TFLOP/s	 13474/12658 tok/s	 3367968 sents	  50406 sec	
 zero_eus-fra: 19500	 acc: --	 ppl:  6.23	 xent: 1.83	  18.37 TFLOP/s	 14503/13743 tok/s	 3467775 sents	  51856 sec	
+zero_eus-fra: 19750	 acc: --	 ppl:  6.35	 xent: 1.85	  18.63 TFLOP/s	 14778/13871 tok/s	 3568396 sents	  53307 sec	
+zero_eus-fra: 20000	 acc: --	 ppl:  6.35	 xent: 1.85	  18.41 TFLOP/s	 14601/13718 tok/s	 3668170 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -515,6 +541,8 @@ zero_dan-nob: 18750	 acc: --	 ppl:  5.59	 xent: 1.72	  18.80 TFLOP/s	 14623/1422
 zero_dan-nob: 19000	 acc: --	 ppl:  5.81	 xent: 1.76	  18.89 TFLOP/s	 14742/14254 tok/s	 3262174 sents	  48769 sec	
 zero_dan-nob: 19250	 acc: --	 ppl:  5.75	 xent: 1.75	  16.57 TFLOP/s	 12894/12536 tok/s	 3362306 sents	  50406 sec	
 zero_dan-nob: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  19.08 TFLOP/s	 14827/14446 tok/s	 3464140 sents	  51856 sec	
+zero_dan-nob: 19750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.89 TFLOP/s	 14727/14272 tok/s	 3565089 sents	  53308 sec	
+zero_dan-nob: 20000	 acc: --	 ppl:  5.99	 xent: 1.79	  18.76 TFLOP/s	 14616/14165 tok/s	 3664300 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -552,6 +580,8 @@ zero_tur-deu: 18750	 acc: --	 ppl:  6.97	 xent: 1.94	  18.06 TFLOP/s	 14534/1333
 zero_tur-deu: 19000	 acc: --	 ppl:  6.59	 xent: 1.89	  17.16 TFLOP/s	 13851/12641 tok/s	 3304393 sents	  48768 sec	
 zero_tur-deu: 19250	 acc: --	 ppl:  6.65	 xent: 1.89	  15.81 TFLOP/s	 12748/11658 tok/s	 3406292 sents	  50406 sec	
 zero_tur-deu: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.83 TFLOP/s	 14366/13162 tok/s	 3508588 sents	  51855 sec	
+zero_tur-deu: 19750	 acc: --	 ppl:  6.65	 xent: 1.89	  17.84 TFLOP/s	 14369/13159 tok/s	 3610590 sents	  53307 sec	
+zero_tur-deu: 20000	 acc: --	 ppl:  6.56	 xent: 1.88	  17.50 TFLOP/s	 14105/12902 tok/s	 3710254 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -589,6 +619,8 @@ zero_ukr-deu: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.39 TFLOP/s	 14070/1412
 zero_ukr-deu: 19000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.94 TFLOP/s	 14491/14549 tok/s	 3301820 sents	  48768 sec	
 zero_ukr-deu: 19250	 acc: --	 ppl:  6.21	 xent: 1.83	  16.56 TFLOP/s	 12673/12716 tok/s	 3403273 sents	  50406 sec	
 zero_ukr-deu: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.86 TFLOP/s	 14430/14479 tok/s	 3505558 sents	  51855 sec	
+zero_ukr-deu: 19750	 acc: --	 ppl:  5.85	 xent: 1.77	  18.78 TFLOP/s	 14372/14415 tok/s	 3607915 sents	  53307 sec	
+zero_ukr-deu: 20000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.88 TFLOP/s	 14439/14505 tok/s	 3710097 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -626,6 +658,8 @@ zero_nld-fra: 18750	 acc: --	 ppl:  5.44	 xent: 1.69	  18.52 TFLOP/s	 14136/1423
 zero_nld-fra: 19000	 acc: --	 ppl:  5.77	 xent: 1.75	  18.92 TFLOP/s	 14486/14515 tok/s	 3283845 sents	  48768 sec	
 zero_nld-fra: 19250	 acc: --	 ppl:  5.60	 xent: 1.72	  16.64 TFLOP/s	 12665/12818 tok/s	 3385390 sents	  50406 sec	
 zero_nld-fra: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.45 TFLOP/s	 13986/14262 tok/s	 3484398 sents	  51855 sec	
+zero_nld-fra: 19750	 acc: --	 ppl:  5.65	 xent: 1.73	  19.22 TFLOP/s	 14630/14806 tok/s	 3588153 sents	  53307 sec	
+zero_nld-fra: 20000	 acc: --	 ppl:  5.67	 xent: 1.74	  18.42 TFLOP/s	 14037/14185 tok/s	 3687533 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -663,6 +697,8 @@ zero_fin-swe: 18750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.41 TFLOP/s	 14240/1401
 zero_fin-swe: 19000	 acc: --	 ppl:  5.64	 xent: 1.73	  18.36 TFLOP/s	 14195/13986 tok/s	 3320689 sents	  48768 sec	
 zero_fin-swe: 19250	 acc: --	 ppl:  5.53	 xent: 1.71	  16.61 TFLOP/s	 12847/12642 tok/s	 3422970 sents	  50406 sec	
 zero_fin-swe: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  18.96 TFLOP/s	 14664/14438 tok/s	 3526770 sents	  51855 sec	
+zero_fin-swe: 19750	 acc: --	 ppl:  5.46	 xent: 1.70	  18.73 TFLOP/s	 14491/14260 tok/s	 3629166 sents	  53307 sec	
+zero_fin-swe: 20000	 acc: --	 ppl:  5.50	 xent: 1.71	  18.54 TFLOP/s	 14344/14123 tok/s	 3730499 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -700,6 +736,8 @@ zero_slk-ces: 18750	 acc: --	 ppl:  5.90	 xent: 1.78	  18.63 TFLOP/s	 14662/1398
 zero_slk-ces: 19000	 acc: --	 ppl:  5.65	 xent: 1.73	  18.47 TFLOP/s	 14521/13870 tok/s	 3303677 sents	  48768 sec	
 zero_slk-ces: 19250	 acc: --	 ppl:  5.59	 xent: 1.72	  16.83 TFLOP/s	 13230/12647 tok/s	 3407655 sents	  50406 sec	
 zero_slk-ces: 19500	 acc: --	 ppl:  5.73	 xent: 1.75	  18.40 TFLOP/s	 14518/13779 tok/s	 3508099 sents	  51855 sec	
+zero_slk-ces: 19750	 acc: --	 ppl:  5.68	 xent: 1.74	  18.45 TFLOP/s	 14541/13824 tok/s	 3608644 sents	  53307 sec	
+zero_slk-ces: 20000	 acc: --	 ppl:  5.71	 xent: 1.74	  18.84 TFLOP/s	 14842/14128 tok/s	 3711187 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -737,6 +775,8 @@ zero_hrv-bos: 18750	 acc: --	 ppl:  5.70	 xent: 1.74	  18.57 TFLOP/s	 14444/1406
 zero_hrv-bos: 19000	 acc: --	 ppl:  5.80	 xent: 1.76	  19.32 TFLOP/s	 14961/14680 tok/s	 3300494 sents	  48768 sec	
 zero_hrv-bos: 19250	 acc: --	 ppl:  5.52	 xent: 1.71	  16.56 TFLOP/s	 12868/12553 tok/s	 3401277 sents	  50406 sec	
 zero_hrv-bos: 19500	 acc: --	 ppl:  5.79	 xent: 1.76	  19.09 TFLOP/s	 14767/14522 tok/s	 3504058 sents	  51855 sec	
+zero_hrv-bos: 19750	 acc: --	 ppl:  5.77	 xent: 1.75	  18.89 TFLOP/s	 14657/14330 tok/s	 3605606 sents	  53307 sec	
+zero_hrv-bos: 20000	 acc: --	 ppl:  5.76	 xent: 1.75	  18.75 TFLOP/s	 14496/14264 tok/s	 3706359 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -774,6 +814,8 @@ zero_srp_Cyrl-bos: 18750	 acc: --	 ppl:  6.27	 xent: 1.84	  18.73 TFLOP/s	 13845
 zero_srp_Cyrl-bos: 19000	 acc: --	 ppl:  6.30	 xent: 1.84	  18.67 TFLOP/s	 13840/14687 tok/s	 3280895 sents	  48768 sec	
 zero_srp_Cyrl-bos: 19250	 acc: --	 ppl:  5.98	 xent: 1.79	  16.92 TFLOP/s	 12497/13343 tok/s	 3383703 sents	  50406 sec	
 zero_srp_Cyrl-bos: 19500	 acc: --	 ppl:  6.06	 xent: 1.80	  18.45 TFLOP/s	 13631/14556 tok/s	 3483921 sents	  51855 sec	
+zero_srp_Cyrl-bos: 19750	 acc: --	 ppl:  6.10	 xent: 1.81	  19.14 TFLOP/s	 14168/15075 tok/s	 3587304 sents	  53307 sec	
+zero_srp_Cyrl-bos: 20000	 acc: --	 ppl:  6.20	 xent: 1.82	  18.53 TFLOP/s	 13718/14588 tok/s	 3687031 sents	  54754 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -811,6 +853,8 @@ zero_srp_Cyrl-hrv: 18750	 acc: --	 ppl:  6.53	 xent: 1.88	  18.52 TFLOP/s	 14262
 zero_srp_Cyrl-hrv: 19000	 acc: --	 ppl:  6.76	 xent: 1.91	  18.11 TFLOP/s	 13953/13866 tok/s	 3339178 sents	  48768 sec	
 zero_srp_Cyrl-hrv: 19250	 acc: --	 ppl:  6.57	 xent: 1.88	  15.86 TFLOP/s	 12186/12165 tok/s	 3439817 sents	  50406 sec	
 zero_srp_Cyrl-hrv: 19500	 acc: --	 ppl:  6.63	 xent: 1.89	  18.84 TFLOP/s	 14482/14437 tok/s	 3545218 sents	  51855 sec	
+zero_srp_Cyrl-hrv: 19750	 acc: --	 ppl:  6.29	 xent: 1.84	  17.57 TFLOP/s	 13518/13451 tok/s	 3644187 sents	  53307 sec	
+zero_srp_Cyrl-hrv: 20000	 acc: --	 ppl:  6.48	 xent: 1.87	  18.35 TFLOP/s	 14126/14051 tok/s	 3746912 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -848,6 +892,8 @@ zero_bos-slv: 18750	 acc: --	 ppl:  9.96	 xent: 2.30	  16.92 TFLOP/s	 13858/1233
 zero_bos-slv: 19000	 acc: --	 ppl:  9.88	 xent: 2.29	  17.02 TFLOP/s	 14012/12346 tok/s	 3312812 sents	  48768 sec	
 zero_bos-slv: 19250	 acc: --	 ppl:  9.56	 xent: 2.26	  15.46 TFLOP/s	 12564/11345 tok/s	 3415713 sents	  50406 sec	
 zero_bos-slv: 19500	 acc: --	 ppl:  9.07	 xent: 2.20	  17.55 TFLOP/s	 14249/12878 tok/s	 3518779 sents	  51855 sec	
+zero_bos-slv: 19750	 acc: --	 ppl:  9.47	 xent: 2.25	  17.25 TFLOP/s	 14187/12529 tok/s	 3621522 sents	  53307 sec	
+zero_bos-slv: 20000	 acc: --	 ppl:  9.42	 xent: 2.24	  17.27 TFLOP/s	 14133/12596 tok/s	 3723611 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -885,6 +931,8 @@ zero_tur-bul: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.11 TFLOP/s	 13912/1388
 zero_tur-bul: 19000	 acc: --	 ppl:  6.49	 xent: 1.87	  18.40 TFLOP/s	 14175/14071 tok/s	 3334434 sents	  48768 sec	
 zero_tur-bul: 19250	 acc: --	 ppl:  6.52	 xent: 1.87	  16.16 TFLOP/s	 12431/12382 tok/s	 3436605 sents	  50406 sec	
 zero_tur-bul: 19500	 acc: --	 ppl:  7.08	 xent: 1.96	  18.32 TFLOP/s	 14074/14039 tok/s	 3537931 sents	  51855 sec	
+zero_tur-bul: 19750	 acc: --	 ppl:  7.14	 xent: 1.97	  18.60 TFLOP/s	 14316/14237 tok/s	 3641925 sents	  53307 sec	
+zero_tur-bul: 20000	 acc: --	 ppl:  6.72	 xent: 1.90	  18.37 TFLOP/s	 14107/14072 tok/s	 3743510 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -922,6 +970,8 @@ zero_ron-deu: 18750	 acc: --	 ppl:  6.66	 xent: 1.90	  17.68 TFLOP/s	 13944/1327
 zero_ron-deu: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  17.81 TFLOP/s	 14078/13353 tok/s	 3310309 sents	  48768 sec	
 zero_ron-deu: 19250	 acc: --	 ppl:  6.86	 xent: 1.93	  16.20 TFLOP/s	 12908/12058 tok/s	 3414239 sents	  50406 sec	
 zero_ron-deu: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.95 TFLOP/s	 14195/13442 tok/s	 3515998 sents	  51855 sec	
+zero_ron-deu: 19750	 acc: --	 ppl:  6.46	 xent: 1.86	  18.10 TFLOP/s	 14307/13558 tok/s	 3618218 sents	  53307 sec	
+zero_ron-deu: 20000	 acc: --	 ppl:  6.34	 xent: 1.85	  17.98 TFLOP/s	 14137/13526 tok/s	 3719027 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -959,6 +1009,8 @@ zero_por-glg: 18750	 acc: --	 ppl:  7.93	 xent: 2.07	  18.19 TFLOP/s	 13837/1402
 zero_por-glg: 19000	 acc: --	 ppl:  7.41	 xent: 2.00	  18.78 TFLOP/s	 14303/14473 tok/s	 3315522 sents	  48768 sec	
 zero_por-glg: 19250	 acc: --	 ppl:  7.84	 xent: 2.06	  16.74 TFLOP/s	 12743/12906 tok/s	 3418608 sents	  50406 sec	
 zero_por-glg: 19500	 acc: --	 ppl:  7.77	 xent: 2.05	  18.40 TFLOP/s	 13989/14204 tok/s	 3519049 sents	  51855 sec	
+zero_por-glg: 19750	 acc: --	 ppl:  7.92	 xent: 2.07	  19.14 TFLOP/s	 14573/14752 tok/s	 3623289 sents	  53307 sec	
+zero_por-glg: 20000	 acc: --	 ppl:  7.95	 xent: 2.07	  18.37 TFLOP/s	 13995/14150 tok/s	 3723049 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -996,6 +1048,8 @@ zero_fra-eus: 18750	 acc: --	 ppl:  5.97	 xent: 1.79	  18.79 TFLOP/s	 14170/1458
 zero_fra-eus: 19000	 acc: --	 ppl:  5.85	 xent: 1.77	  18.58 TFLOP/s	 14049/14404 tok/s	 3311022 sents	  48768 sec	
 zero_fra-eus: 19250	 acc: --	 ppl:  6.16	 xent: 1.82	  16.69 TFLOP/s	 12587/12949 tok/s	 3412412 sents	  50406 sec	
 zero_fra-eus: 19500	 acc: --	 ppl:  5.94	 xent: 1.78	  18.99 TFLOP/s	 14341/14722 tok/s	 3515036 sents	  51855 sec	
+zero_fra-eus: 19750	 acc: --	 ppl:  5.80	 xent: 1.76	  18.39 TFLOP/s	 13857/14278 tok/s	 3614389 sents	  53307 sec	
+zero_fra-eus: 20000	 acc: --	 ppl:  5.98	 xent: 1.79	  19.06 TFLOP/s	 14390/14778 tok/s	 3716874 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1033,6 +1087,8 @@ zero_nob-dan: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.31 TFLOP/s	 14130/1397
 zero_nob-dan: 19000	 acc: --	 ppl:  6.69	 xent: 1.90	  18.27 TFLOP/s	 14102/13946 tok/s	 3318800 sents	  48768 sec	
 zero_nob-dan: 19250	 acc: --	 ppl:  6.94	 xent: 1.94	  16.24 TFLOP/s	 12529/12397 tok/s	 3420241 sents	  50406 sec	
 zero_nob-dan: 19500	 acc: --	 ppl:  6.60	 xent: 1.89	  18.72 TFLOP/s	 14468/14276 tok/s	 3523557 sents	  51856 sec	
+zero_nob-dan: 19750	 acc: --	 ppl:  6.52	 xent: 1.87	  18.31 TFLOP/s	 14131/13969 tok/s	 3624108 sents	  53307 sec	
+zero_nob-dan: 20000	 acc: --	 ppl:  6.47	 xent: 1.87	  18.03 TFLOP/s	 13894/13775 tok/s	 3723791 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1070,6 +1126,8 @@ mt_bos-eng: 18750	 acc: --	 ppl:  9.87	 xent: 2.29	  17.00 TFLOP/s	 12279/13686 
 mt_bos-eng: 19000	 acc: --	 ppl:  9.80	 xent: 2.28	  17.22 TFLOP/s	 12436/13875 tok/s	 3337662 sents	  48769 sec	
 mt_bos-eng: 19250	 acc: --	 ppl:  9.77	 xent: 2.28	  15.50 TFLOP/s	 11171/12503 tok/s	 3440359 sents	  50406 sec	
 mt_bos-eng: 19500	 acc: --	 ppl:  9.32	 xent: 2.23	  17.52 TFLOP/s	 12663/14097 tok/s	 3542882 sents	  51856 sec	
+mt_bos-eng: 19750	 acc: --	 ppl:  9.77	 xent: 2.28	  17.63 TFLOP/s	 12740/14185 tok/s	 3645840 sents	  53308 sec	
+mt_bos-eng: 20000	 acc: --	 ppl:  9.81	 xent: 2.28	  17.51 TFLOP/s	 12623/14118 tok/s	 3747993 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1107,6 +1165,8 @@ mt_bos-spa: 18750	 acc: --	 ppl:  8.33	 xent: 2.12	  17.12 TFLOP/s	 12152/13949 
 mt_bos-spa: 19000	 acc: --	 ppl:  8.49	 xent: 2.14	  17.65 TFLOP/s	 12507/14389 tok/s	 3321575 sents	  48769 sec	
 mt_bos-spa: 19250	 acc: --	 ppl:  8.56	 xent: 2.15	  16.02 TFLOP/s	 11360/13050 tok/s	 3425306 sents	  50406 sec	
 mt_bos-spa: 19500	 acc: --	 ppl:  8.19	 xent: 2.10	  17.94 TFLOP/s	 12731/14616 tok/s	 3528355 sents	  51856 sec	
+mt_bos-spa: 19750	 acc: --	 ppl:  8.18	 xent: 2.10	  18.03 TFLOP/s	 12781/14695 tok/s	 3632009 sents	  53307 sec	
+mt_bos-spa: 20000	 acc: --	 ppl:  8.68	 xent: 2.16	  17.58 TFLOP/s	 12472/14328 tok/s	 3732779 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1144,6 +1204,8 @@ mt_bul-eng: 18750	 acc: --	 ppl:  7.61	 xent: 2.03	  17.81 TFLOP/s	 13709/13620 
 mt_bul-eng: 19000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.08 TFLOP/s	 13912/13846 tok/s	 3300524 sents	  48769 sec	
 mt_bul-eng: 19250	 acc: --	 ppl:  7.11	 xent: 1.96	  16.21 TFLOP/s	 12471/12409 tok/s	 3402459 sents	  50406 sec	
 mt_bul-eng: 19500	 acc: --	 ppl:  7.29	 xent: 1.99	  18.33 TFLOP/s	 14110/14019 tok/s	 3504353 sents	  51856 sec	
+mt_bul-eng: 19750	 acc: --	 ppl:  7.37	 xent: 2.00	  18.30 TFLOP/s	 14081/14012 tok/s	 3606332 sents	  53308 sec	
+mt_bul-eng: 20000	 acc: --	 ppl:  7.42	 xent: 2.00	  18.66 TFLOP/s	 14356/14279 tok/s	 3709743 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1181,6 +1243,8 @@ mt_bul-spa: 18750	 acc: --	 ppl:  6.49	 xent: 1.87	  17.98 TFLOP/s	 13604/13931 
 mt_bul-spa: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  18.71 TFLOP/s	 14140/14507 tok/s	 3305044 sents	  48769 sec	
 mt_bul-spa: 19250	 acc: --	 ppl:  6.41	 xent: 1.86	  16.56 TFLOP/s	 12525/12834 tok/s	 3407167 sents	  50406 sec	
 mt_bul-spa: 19500	 acc: --	 ppl:  6.44	 xent: 1.86	  18.53 TFLOP/s	 14012/14372 tok/s	 3508454 sents	  51856 sec	
+mt_bul-spa: 19750	 acc: --	 ppl:  6.61	 xent: 1.89	  18.50 TFLOP/s	 13987/14344 tok/s	 3609450 sents	  53308 sec	
+mt_bul-spa: 20000	 acc: --	 ppl:  6.38	 xent: 1.85	  18.67 TFLOP/s	 14124/14461 tok/s	 3711098 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1218,6 +1282,8 @@ mt_cat-eng: 18750	 acc: --	 ppl:  6.67	 xent: 1.90	  18.71 TFLOP/s	 14748/14014 
 mt_cat-eng: 19000	 acc: --	 ppl:  6.40	 xent: 1.86	  18.16 TFLOP/s	 14332/13602 tok/s	 3289900 sents	  48769 sec	
 mt_cat-eng: 19250	 acc: --	 ppl:  6.30	 xent: 1.84	  16.49 TFLOP/s	 13001/12347 tok/s	 3390916 sents	  50406 sec	
 mt_cat-eng: 19500	 acc: --	 ppl:  6.42	 xent: 1.86	  18.93 TFLOP/s	 14919/14194 tok/s	 3494208 sents	  51856 sec	
+mt_cat-eng: 19750	 acc: --	 ppl:  6.59	 xent: 1.88	  18.14 TFLOP/s	 14288/13606 tok/s	 3593494 sents	  53308 sec	
+mt_cat-eng: 20000	 acc: --	 ppl:  6.37	 xent: 1.85	  19.32 TFLOP/s	 15238/14471 tok/s	 3698067 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1255,6 +1321,8 @@ mt_cat-spa: 18750	 acc: --	 ppl:  5.98	 xent: 1.79	  18.91 TFLOP/s	 14644/14372 
 mt_cat-spa: 19000	 acc: --	 ppl:  6.05	 xent: 1.80	  18.88 TFLOP/s	 14635/14336 tok/s	 3309357 sents	  48769 sec	
 mt_cat-spa: 19250	 acc: --	 ppl:  5.89	 xent: 1.77	  17.01 TFLOP/s	 13195/12912 tok/s	 3412283 sents	  50406 sec	
 mt_cat-spa: 19500	 acc: --	 ppl:  6.08	 xent: 1.81	  18.89 TFLOP/s	 14653/14324 tok/s	 3513209 sents	  51856 sec	
+mt_cat-spa: 19750	 acc: --	 ppl:  5.86	 xent: 1.77	  19.11 TFLOP/s	 14808/14508 tok/s	 3615520 sents	  53308 sec	
+mt_cat-spa: 20000	 acc: --	 ppl:  5.87	 xent: 1.77	  18.73 TFLOP/s	 14517/14215 tok/s	 3715575 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1292,6 +1360,8 @@ mt_ces-eng: 18750	 acc: --	 ppl:  8.05	 xent: 2.09	  17.66 TFLOP/s	 13312/13756 
 mt_ces-eng: 19000	 acc: --	 ppl:  7.93	 xent: 2.07	  18.22 TFLOP/s	 13754/14178 tok/s	 3340894 sents	  48769 sec	
 mt_ces-eng: 19250	 acc: --	 ppl:  8.00	 xent: 2.08	  16.23 TFLOP/s	 12253/12628 tok/s	 3444721 sents	  50406 sec	
 mt_ces-eng: 19500	 acc: --	 ppl:  8.09	 xent: 2.09	  18.23 TFLOP/s	 13743/14188 tok/s	 3547830 sents	  51856 sec	
+mt_ces-eng: 19750	 acc: --	 ppl:  8.29	 xent: 2.11	  18.46 TFLOP/s	 13947/14347 tok/s	 3651842 sents	  53308 sec	
+mt_ces-eng: 20000	 acc: --	 ppl:  7.86	 xent: 2.06	  18.19 TFLOP/s	 13741/14140 tok/s	 3754415 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1329,6 +1399,8 @@ mt_ces-spa: 18750	 acc: --	 ppl:  7.91	 xent: 2.07	  17.62 TFLOP/s	 13061/13880 
 mt_ces-spa: 19000	 acc: --	 ppl:  7.38	 xent: 2.00	  18.21 TFLOP/s	 13513/14333 tok/s	 3323732 sents	  48769 sec	
 mt_ces-spa: 19250	 acc: --	 ppl:  7.76	 xent: 2.05	  16.74 TFLOP/s	 12398/13202 tok/s	 3428996 sents	  50406 sec	
 mt_ces-spa: 19500	 acc: --	 ppl:  7.11	 xent: 1.96	  18.11 TFLOP/s	 13396/14288 tok/s	 3529826 sents	  51856 sec	
+mt_ces-spa: 19750	 acc: --	 ppl:  7.80	 xent: 2.05	  18.85 TFLOP/s	 13960/14864 tok/s	 3634375 sents	  53308 sec	
+mt_ces-spa: 20000	 acc: --	 ppl:  7.64	 xent: 2.03	  18.07 TFLOP/s	 13386/14248 tok/s	 3734411 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1366,6 +1438,8 @@ mt_dan-eng: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.38 TFLOP/s	 14298/13930 
 mt_dan-eng: 19000	 acc: --	 ppl:  6.27	 xent: 1.84	  18.74 TFLOP/s	 14535/14242 tok/s	 3311372 sents	  48769 sec	
 mt_dan-eng: 19250	 acc: --	 ppl:  5.91	 xent: 1.78	  16.25 TFLOP/s	 12627/12339 tok/s	 3412908 sents	  50406 sec	
 mt_dan-eng: 19500	 acc: --	 ppl:  5.98	 xent: 1.79	  18.62 TFLOP/s	 14442/14151 tok/s	 3515141 sents	  51856 sec	
+mt_dan-eng: 19750	 acc: --	 ppl:  6.19	 xent: 1.82	  18.68 TFLOP/s	 14512/14174 tok/s	 3618146 sents	  53307 sec	
+mt_dan-eng: 20000	 acc: --	 ppl:  6.01	 xent: 1.79	  18.63 TFLOP/s	 14482/14134 tok/s	 3721157 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1403,6 +1477,8 @@ mt_dan-spa: 18750	 acc: --	 ppl:  6.20	 xent: 1.82	  19.22 TFLOP/s	 14694/14762 
 mt_dan-spa: 19000	 acc: --	 ppl:  6.24	 xent: 1.83	  18.55 TFLOP/s	 14148/14279 tok/s	 3309431 sents	  48769 sec	
 mt_dan-spa: 19250	 acc: --	 ppl:  5.71	 xent: 1.74	  16.73 TFLOP/s	 12777/12859 tok/s	 3411642 sents	  50406 sec	
 mt_dan-spa: 19500	 acc: --	 ppl:  5.82	 xent: 1.76	  18.96 TFLOP/s	 14473/14579 tok/s	 3514272 sents	  51856 sec	
+mt_dan-spa: 19750	 acc: --	 ppl:  5.92	 xent: 1.78	  18.49 TFLOP/s	 14115/14224 tok/s	 3614748 sents	  53307 sec	
+mt_dan-spa: 20000	 acc: --	 ppl:  5.92	 xent: 1.78	  18.83 TFLOP/s	 14391/14463 tok/s	 3716543 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1440,6 +1516,8 @@ mt_deu-eng: 18750	 acc: --	 ppl:  7.53	 xent: 2.02	  18.32 TFLOP/s	 14161/13957 
 mt_deu-eng: 19000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.57 TFLOP/s	 14374/14147 tok/s	 3308955 sents	  48769 sec	
 mt_deu-eng: 19250	 acc: --	 ppl:  7.43	 xent: 2.01	  16.23 TFLOP/s	 12559/12368 tok/s	 3411125 sents	  50406 sec	
 mt_deu-eng: 19500	 acc: --	 ppl:  7.35	 xent: 1.99	  18.69 TFLOP/s	 14460/14233 tok/s	 3514274 sents	  51856 sec	
+mt_deu-eng: 19750	 acc: --	 ppl:  7.01	 xent: 1.95	  18.38 TFLOP/s	 14221/14009 tok/s	 3615971 sents	  53307 sec	
+mt_deu-eng: 20000	 acc: --	 ppl:  7.05	 xent: 1.95	  18.63 TFLOP/s	 14411/14188 tok/s	 3718722 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1477,6 +1555,8 @@ mt_deu-spa: 18750	 acc: --	 ppl:  6.82	 xent: 1.92	  19.02 TFLOP/s	 14458/14676 
 mt_deu-spa: 19000	 acc: --	 ppl:  6.94	 xent: 1.94	  18.91 TFLOP/s	 14376/14596 tok/s	 3308942 sents	  48769 sec	
 mt_deu-spa: 19250	 acc: --	 ppl:  7.50	 xent: 2.01	  16.37 TFLOP/s	 12451/12632 tok/s	 3409774 sents	  50406 sec	
 mt_deu-spa: 19500	 acc: --	 ppl:  6.99	 xent: 1.95	  18.92 TFLOP/s	 14385/14596 tok/s	 3512376 sents	  51856 sec	
+mt_deu-spa: 19750	 acc: --	 ppl:  7.24	 xent: 1.98	  18.81 TFLOP/s	 14301/14510 tok/s	 3614712 sents	  53307 sec	
+mt_deu-spa: 20000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.47 TFLOP/s	 14040/14262 tok/s	 3715092 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1514,6 +1594,8 @@ mt_ell-eng: 18750	 acc: --	 ppl:  6.42	 xent: 1.86	  18.31 TFLOP/s	 14538/13638 
 mt_ell-eng: 19000	 acc: --	 ppl:  6.33	 xent: 1.84	  18.34 TFLOP/s	 14511/13693 tok/s	 3264001 sents	  48769 sec	
 mt_ell-eng: 19250	 acc: --	 ppl:  6.26	 xent: 1.83	  16.99 TFLOP/s	 13474/12658 tok/s	 3367968 sents	  50406 sec	
 mt_ell-eng: 19500	 acc: --	 ppl:  6.23	 xent: 1.83	  18.37 TFLOP/s	 14503/13743 tok/s	 3467775 sents	  51856 sec	
+mt_ell-eng: 19750	 acc: --	 ppl:  6.35	 xent: 1.85	  18.63 TFLOP/s	 14778/13871 tok/s	 3568396 sents	  53307 sec	
+mt_ell-eng: 20000	 acc: --	 ppl:  6.35	 xent: 1.85	  18.41 TFLOP/s	 14601/13718 tok/s	 3668170 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1551,6 +1633,8 @@ mt_ell-spa: 18750	 acc: --	 ppl:  5.59	 xent: 1.72	  18.80 TFLOP/s	 14623/14222 
 mt_ell-spa: 19000	 acc: --	 ppl:  5.81	 xent: 1.76	  18.89 TFLOP/s	 14742/14254 tok/s	 3262174 sents	  48769 sec	
 mt_ell-spa: 19250	 acc: --	 ppl:  5.75	 xent: 1.75	  16.57 TFLOP/s	 12894/12536 tok/s	 3362306 sents	  50406 sec	
 mt_ell-spa: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  19.08 TFLOP/s	 14827/14446 tok/s	 3464140 sents	  51856 sec	
+mt_ell-spa: 19750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.89 TFLOP/s	 14727/14272 tok/s	 3565089 sents	  53308 sec	
+mt_ell-spa: 20000	 acc: --	 ppl:  5.99	 xent: 1.79	  18.76 TFLOP/s	 14616/14165 tok/s	 3664300 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1588,6 +1672,8 @@ mt_eng-bos: 18750	 acc: --	 ppl:  6.97	 xent: 1.94	  18.06 TFLOP/s	 14534/13331 
 mt_eng-bos: 19000	 acc: --	 ppl:  6.59	 xent: 1.89	  17.16 TFLOP/s	 13851/12641 tok/s	 3304393 sents	  48768 sec	
 mt_eng-bos: 19250	 acc: --	 ppl:  6.65	 xent: 1.89	  15.81 TFLOP/s	 12748/11658 tok/s	 3406292 sents	  50406 sec	
 mt_eng-bos: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.83 TFLOP/s	 14366/13162 tok/s	 3508588 sents	  51855 sec	
+mt_eng-bos: 19750	 acc: --	 ppl:  6.65	 xent: 1.89	  17.84 TFLOP/s	 14369/13159 tok/s	 3610590 sents	  53307 sec	
+mt_eng-bos: 20000	 acc: --	 ppl:  6.56	 xent: 1.88	  17.50 TFLOP/s	 14105/12902 tok/s	 3710254 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1625,6 +1711,8 @@ mt_eng-bul: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.39 TFLOP/s	 14070/14128 
 mt_eng-bul: 19000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.94 TFLOP/s	 14491/14549 tok/s	 3301820 sents	  48768 sec	
 mt_eng-bul: 19250	 acc: --	 ppl:  6.21	 xent: 1.83	  16.56 TFLOP/s	 12673/12716 tok/s	 3403273 sents	  50406 sec	
 mt_eng-bul: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.86 TFLOP/s	 14430/14479 tok/s	 3505558 sents	  51855 sec	
+mt_eng-bul: 19750	 acc: --	 ppl:  5.85	 xent: 1.77	  18.78 TFLOP/s	 14372/14415 tok/s	 3607915 sents	  53307 sec	
+mt_eng-bul: 20000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.88 TFLOP/s	 14439/14505 tok/s	 3710097 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1662,6 +1750,8 @@ mt_eng-cat: 18750	 acc: --	 ppl:  5.44	 xent: 1.69	  18.52 TFLOP/s	 14136/14236 
 mt_eng-cat: 19000	 acc: --	 ppl:  5.77	 xent: 1.75	  18.92 TFLOP/s	 14486/14515 tok/s	 3283845 sents	  48768 sec	
 mt_eng-cat: 19250	 acc: --	 ppl:  5.60	 xent: 1.72	  16.64 TFLOP/s	 12665/12818 tok/s	 3385390 sents	  50406 sec	
 mt_eng-cat: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.45 TFLOP/s	 13986/14262 tok/s	 3484398 sents	  51855 sec	
+mt_eng-cat: 19750	 acc: --	 ppl:  5.65	 xent: 1.73	  19.22 TFLOP/s	 14630/14806 tok/s	 3588153 sents	  53307 sec	
+mt_eng-cat: 20000	 acc: --	 ppl:  5.67	 xent: 1.74	  18.42 TFLOP/s	 14037/14185 tok/s	 3687533 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1699,6 +1789,8 @@ mt_eng-ces: 18750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.41 TFLOP/s	 14240/14015 
 mt_eng-ces: 19000	 acc: --	 ppl:  5.64	 xent: 1.73	  18.36 TFLOP/s	 14195/13986 tok/s	 3320689 sents	  48768 sec	
 mt_eng-ces: 19250	 acc: --	 ppl:  5.53	 xent: 1.71	  16.61 TFLOP/s	 12847/12642 tok/s	 3422970 sents	  50406 sec	
 mt_eng-ces: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  18.96 TFLOP/s	 14664/14438 tok/s	 3526770 sents	  51855 sec	
+mt_eng-ces: 19750	 acc: --	 ppl:  5.46	 xent: 1.70	  18.73 TFLOP/s	 14491/14260 tok/s	 3629166 sents	  53307 sec	
+mt_eng-ces: 20000	 acc: --	 ppl:  5.50	 xent: 1.71	  18.54 TFLOP/s	 14344/14123 tok/s	 3730499 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1736,6 +1828,8 @@ mt_eng-dan: 18750	 acc: --	 ppl:  5.90	 xent: 1.78	  18.63 TFLOP/s	 14662/13981 
 mt_eng-dan: 19000	 acc: --	 ppl:  5.65	 xent: 1.73	  18.47 TFLOP/s	 14521/13870 tok/s	 3303677 sents	  48768 sec	
 mt_eng-dan: 19250	 acc: --	 ppl:  5.59	 xent: 1.72	  16.83 TFLOP/s	 13230/12647 tok/s	 3407655 sents	  50406 sec	
 mt_eng-dan: 19500	 acc: --	 ppl:  5.73	 xent: 1.75	  18.40 TFLOP/s	 14518/13779 tok/s	 3508099 sents	  51855 sec	
+mt_eng-dan: 19750	 acc: --	 ppl:  5.68	 xent: 1.74	  18.45 TFLOP/s	 14541/13824 tok/s	 3608644 sents	  53307 sec	
+mt_eng-dan: 20000	 acc: --	 ppl:  5.71	 xent: 1.74	  18.84 TFLOP/s	 14842/14128 tok/s	 3711187 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1773,6 +1867,8 @@ mt_eng-deu: 18750	 acc: --	 ppl:  5.70	 xent: 1.74	  18.57 TFLOP/s	 14444/14061 
 mt_eng-deu: 19000	 acc: --	 ppl:  5.80	 xent: 1.76	  19.32 TFLOP/s	 14961/14680 tok/s	 3300494 sents	  48768 sec	
 mt_eng-deu: 19250	 acc: --	 ppl:  5.52	 xent: 1.71	  16.56 TFLOP/s	 12868/12553 tok/s	 3401277 sents	  50406 sec	
 mt_eng-deu: 19500	 acc: --	 ppl:  5.79	 xent: 1.76	  19.09 TFLOP/s	 14767/14522 tok/s	 3504058 sents	  51855 sec	
+mt_eng-deu: 19750	 acc: --	 ppl:  5.77	 xent: 1.75	  18.89 TFLOP/s	 14657/14330 tok/s	 3605606 sents	  53307 sec	
+mt_eng-deu: 20000	 acc: --	 ppl:  5.76	 xent: 1.75	  18.75 TFLOP/s	 14496/14264 tok/s	 3706359 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1810,6 +1906,8 @@ mt_eng-ell: 18750	 acc: --	 ppl:  6.27	 xent: 1.84	  18.73 TFLOP/s	 13845/14763 
 mt_eng-ell: 19000	 acc: --	 ppl:  6.30	 xent: 1.84	  18.67 TFLOP/s	 13840/14687 tok/s	 3280895 sents	  48768 sec	
 mt_eng-ell: 19250	 acc: --	 ppl:  5.98	 xent: 1.79	  16.92 TFLOP/s	 12497/13343 tok/s	 3383703 sents	  50406 sec	
 mt_eng-ell: 19500	 acc: --	 ppl:  6.06	 xent: 1.80	  18.45 TFLOP/s	 13631/14556 tok/s	 3483921 sents	  51855 sec	
+mt_eng-ell: 19750	 acc: --	 ppl:  6.10	 xent: 1.81	  19.14 TFLOP/s	 14168/15075 tok/s	 3587304 sents	  53307 sec	
+mt_eng-ell: 20000	 acc: --	 ppl:  6.20	 xent: 1.82	  18.53 TFLOP/s	 13718/14588 tok/s	 3687031 sents	  54754 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1847,6 +1945,8 @@ mt_eng-est: 18750	 acc: --	 ppl:  6.53	 xent: 1.88	  18.52 TFLOP/s	 14262/14172 
 mt_eng-est: 19000	 acc: --	 ppl:  6.76	 xent: 1.91	  18.11 TFLOP/s	 13953/13866 tok/s	 3339178 sents	  48768 sec	
 mt_eng-est: 19250	 acc: --	 ppl:  6.57	 xent: 1.88	  15.86 TFLOP/s	 12186/12165 tok/s	 3439817 sents	  50406 sec	
 mt_eng-est: 19500	 acc: --	 ppl:  6.63	 xent: 1.89	  18.84 TFLOP/s	 14482/14437 tok/s	 3545218 sents	  51855 sec	
+mt_eng-est: 19750	 acc: --	 ppl:  6.29	 xent: 1.84	  17.57 TFLOP/s	 13518/13451 tok/s	 3644187 sents	  53307 sec	
+mt_eng-est: 20000	 acc: --	 ppl:  6.48	 xent: 1.87	  18.35 TFLOP/s	 14126/14051 tok/s	 3746912 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1884,6 +1984,8 @@ mt_eng-eus: 18750	 acc: --	 ppl:  9.96	 xent: 2.30	  16.92 TFLOP/s	 13858/12332 
 mt_eng-eus: 19000	 acc: --	 ppl:  9.88	 xent: 2.29	  17.02 TFLOP/s	 14012/12346 tok/s	 3312812 sents	  48768 sec	
 mt_eng-eus: 19250	 acc: --	 ppl:  9.56	 xent: 2.26	  15.46 TFLOP/s	 12564/11345 tok/s	 3415713 sents	  50406 sec	
 mt_eng-eus: 19500	 acc: --	 ppl:  9.07	 xent: 2.20	  17.55 TFLOP/s	 14249/12878 tok/s	 3518779 sents	  51855 sec	
+mt_eng-eus: 19750	 acc: --	 ppl:  9.47	 xent: 2.25	  17.25 TFLOP/s	 14187/12529 tok/s	 3621522 sents	  53307 sec	
+mt_eng-eus: 20000	 acc: --	 ppl:  9.42	 xent: 2.24	  17.27 TFLOP/s	 14133/12596 tok/s	 3723611 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1921,6 +2023,8 @@ mt_eng-fin: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.11 TFLOP/s	 13912/13881 
 mt_eng-fin: 19000	 acc: --	 ppl:  6.49	 xent: 1.87	  18.40 TFLOP/s	 14175/14071 tok/s	 3334434 sents	  48768 sec	
 mt_eng-fin: 19250	 acc: --	 ppl:  6.52	 xent: 1.87	  16.16 TFLOP/s	 12431/12382 tok/s	 3436605 sents	  50406 sec	
 mt_eng-fin: 19500	 acc: --	 ppl:  7.08	 xent: 1.96	  18.32 TFLOP/s	 14074/14039 tok/s	 3537931 sents	  51855 sec	
+mt_eng-fin: 19750	 acc: --	 ppl:  7.14	 xent: 1.97	  18.60 TFLOP/s	 14316/14237 tok/s	 3641925 sents	  53307 sec	
+mt_eng-fin: 20000	 acc: --	 ppl:  6.72	 xent: 1.90	  18.37 TFLOP/s	 14107/14072 tok/s	 3743510 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1958,6 +2062,8 @@ mt_eng-fra: 18750	 acc: --	 ppl:  6.66	 xent: 1.90	  17.68 TFLOP/s	 13944/13274 
 mt_eng-fra: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  17.81 TFLOP/s	 14078/13353 tok/s	 3310309 sents	  48768 sec	
 mt_eng-fra: 19250	 acc: --	 ppl:  6.86	 xent: 1.93	  16.20 TFLOP/s	 12908/12058 tok/s	 3414239 sents	  50406 sec	
 mt_eng-fra: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.95 TFLOP/s	 14195/13442 tok/s	 3515998 sents	  51855 sec	
+mt_eng-fra: 19750	 acc: --	 ppl:  6.46	 xent: 1.86	  18.10 TFLOP/s	 14307/13558 tok/s	 3618218 sents	  53307 sec	
+mt_eng-fra: 20000	 acc: --	 ppl:  6.34	 xent: 1.85	  17.98 TFLOP/s	 14137/13526 tok/s	 3719027 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -1995,6 +2101,8 @@ mt_eng-gle: 18750	 acc: --	 ppl:  7.93	 xent: 2.07	  18.19 TFLOP/s	 13837/14028 
 mt_eng-gle: 19000	 acc: --	 ppl:  7.41	 xent: 2.00	  18.78 TFLOP/s	 14303/14473 tok/s	 3315522 sents	  48768 sec	
 mt_eng-gle: 19250	 acc: --	 ppl:  7.84	 xent: 2.06	  16.74 TFLOP/s	 12743/12906 tok/s	 3418608 sents	  50406 sec	
 mt_eng-gle: 19500	 acc: --	 ppl:  7.77	 xent: 2.05	  18.40 TFLOP/s	 13989/14204 tok/s	 3519049 sents	  51855 sec	
+mt_eng-gle: 19750	 acc: --	 ppl:  7.92	 xent: 2.07	  19.14 TFLOP/s	 14573/14752 tok/s	 3623289 sents	  53307 sec	
+mt_eng-gle: 20000	 acc: --	 ppl:  7.95	 xent: 2.07	  18.37 TFLOP/s	 13995/14150 tok/s	 3723049 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2032,6 +2140,8 @@ mt_eng-glg: 18750	 acc: --	 ppl:  5.97	 xent: 1.79	  18.79 TFLOP/s	 14170/14585 
 mt_eng-glg: 19000	 acc: --	 ppl:  5.85	 xent: 1.77	  18.58 TFLOP/s	 14049/14404 tok/s	 3311022 sents	  48768 sec	
 mt_eng-glg: 19250	 acc: --	 ppl:  6.16	 xent: 1.82	  16.69 TFLOP/s	 12587/12949 tok/s	 3412412 sents	  50406 sec	
 mt_eng-glg: 19500	 acc: --	 ppl:  5.94	 xent: 1.78	  18.99 TFLOP/s	 14341/14722 tok/s	 3515036 sents	  51855 sec	
+mt_eng-glg: 19750	 acc: --	 ppl:  5.80	 xent: 1.76	  18.39 TFLOP/s	 13857/14278 tok/s	 3614389 sents	  53307 sec	
+mt_eng-glg: 20000	 acc: --	 ppl:  5.98	 xent: 1.79	  19.06 TFLOP/s	 14390/14778 tok/s	 3716874 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2069,6 +2179,8 @@ mt_eng-hrv: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.31 TFLOP/s	 14130/13974 
 mt_eng-hrv: 19000	 acc: --	 ppl:  6.69	 xent: 1.90	  18.27 TFLOP/s	 14102/13946 tok/s	 3318800 sents	  48768 sec	
 mt_eng-hrv: 19250	 acc: --	 ppl:  6.94	 xent: 1.94	  16.24 TFLOP/s	 12529/12397 tok/s	 3420241 sents	  50406 sec	
 mt_eng-hrv: 19500	 acc: --	 ppl:  6.60	 xent: 1.89	  18.72 TFLOP/s	 14468/14276 tok/s	 3523557 sents	  51856 sec	
+mt_eng-hrv: 19750	 acc: --	 ppl:  6.52	 xent: 1.87	  18.31 TFLOP/s	 14131/13969 tok/s	 3624108 sents	  53307 sec	
+mt_eng-hrv: 20000	 acc: --	 ppl:  6.47	 xent: 1.87	  18.03 TFLOP/s	 13894/13775 tok/s	 3723791 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2106,6 +2218,8 @@ mt_eng-hun: 18750	 acc: --	 ppl:  6.75	 xent: 1.91	  18.11 TFLOP/s	 14085/13734 
 mt_eng-hun: 19000	 acc: --	 ppl:  6.75	 xent: 1.91	  18.28 TFLOP/s	 14213/13876 tok/s	 3337801 sents	  48768 sec	
 mt_eng-hun: 19250	 acc: --	 ppl:  6.97	 xent: 1.94	  16.63 TFLOP/s	 12933/12611 tok/s	 3441869 sents	  50406 sec	
 mt_eng-hun: 19500	 acc: --	 ppl:  7.00	 xent: 1.95	  18.25 TFLOP/s	 14197/13851 tok/s	 3543974 sents	  51856 sec	
+mt_eng-hun: 19750	 acc: --	 ppl:  6.98	 xent: 1.94	  18.99 TFLOP/s	 14764/14405 tok/s	 3649129 sents	  53307 sec	
+mt_eng-hun: 20000	 acc: --	 ppl:  6.56	 xent: 1.88	  17.90 TFLOP/s	 13929/13578 tok/s	 3748611 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2143,6 +2257,8 @@ mt_eng-isl: 18750	 acc: --	 ppl:  7.35	 xent: 1.99	  17.87 TFLOP/s	 13852/13597 
 mt_eng-isl: 19000	 acc: --	 ppl:  7.36	 xent: 2.00	  18.63 TFLOP/s	 14449/14169 tok/s	 3303867 sents	  48768 sec	
 mt_eng-isl: 19250	 acc: --	 ppl:  7.54	 xent: 2.02	  16.16 TFLOP/s	 12540/12285 tok/s	 3405109 sents	  50406 sec	
 mt_eng-isl: 19500	 acc: --	 ppl:  7.61	 xent: 2.03	  18.27 TFLOP/s	 14159/13901 tok/s	 3506347 sents	  51856 sec	
+mt_eng-isl: 19750	 acc: --	 ppl:  7.45	 xent: 2.01	  18.09 TFLOP/s	 14025/13759 tok/s	 3607048 sents	  53307 sec	
+mt_eng-isl: 20000	 acc: --	 ppl:  7.77	 xent: 2.05	  18.93 TFLOP/s	 14684/14394 tok/s	 3711483 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2180,6 +2296,8 @@ mt_eng-ita: 18750	 acc: --	 ppl:  6.28	 xent: 1.84	  19.24 TFLOP/s	 14235/15144 
 mt_eng-ita: 19000	 acc: --	 ppl:  6.18	 xent: 1.82	  18.73 TFLOP/s	 13841/14745 tok/s	 3249260 sents	  48768 sec	
 mt_eng-ita: 19250	 acc: --	 ppl:  5.89	 xent: 1.77	  16.64 TFLOP/s	 12315/13095 tok/s	 3349150 sents	  50406 sec	
 mt_eng-ita: 19500	 acc: --	 ppl:  5.88	 xent: 1.77	  19.07 TFLOP/s	 14122/15003 tok/s	 3450511 sents	  51855 sec	
+mt_eng-ita: 19750	 acc: --	 ppl:  5.96	 xent: 1.79	  18.76 TFLOP/s	 13871/14765 tok/s	 3550051 sents	  53307 sec	
+mt_eng-ita: 20000	 acc: --	 ppl:  6.07	 xent: 1.80	  19.01 TFLOP/s	 14053/14956 tok/s	 3650256 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2217,6 +2335,8 @@ mt_eng-kat: 18750	 acc: --	 ppl:  7.43	 xent: 2.01	  17.46 TFLOP/s	 14053/12908 
 mt_eng-kat: 19000	 acc: --	 ppl:  7.61	 xent: 2.03	  17.72 TFLOP/s	 14311/13058 tok/s	 3325091 sents	  48768 sec	
 mt_eng-kat: 19250	 acc: --	 ppl:  7.53	 xent: 2.02	  15.75 TFLOP/s	 12654/11655 tok/s	 3427049 sents	  50406 sec	
 mt_eng-kat: 19500	 acc: --	 ppl:  7.38	 xent: 2.00	  17.71 TFLOP/s	 14342/13023 tok/s	 3529941 sents	  51856 sec	
+mt_eng-kat: 19750	 acc: --	 ppl:  7.43	 xent: 2.01	  17.95 TFLOP/s	 14485/13236 tok/s	 3633670 sents	  53307 sec	
+mt_eng-kat: 20000	 acc: --	 ppl:  7.62	 xent: 2.03	  17.40 TFLOP/s	 14025/12840 tok/s	 3733936 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2254,6 +2374,8 @@ mt_eng-lav: 18750	 acc: --	 ppl:  7.23	 xent: 1.98	  17.44 TFLOP/s	 14001/12909 
 mt_eng-lav: 19000	 acc: --	 ppl:  7.05	 xent: 1.95	  17.21 TFLOP/s	 13812/12748 tok/s	 3335226 sents	  48768 sec	
 mt_eng-lav: 19250	 acc: --	 ppl:  7.35	 xent: 2.00	  15.94 TFLOP/s	 12800/11796 tok/s	 3438715 sents	  50406 sec	
 mt_eng-lav: 19500	 acc: --	 ppl:  7.45	 xent: 2.01	  17.87 TFLOP/s	 14343/13232 tok/s	 3541533 sents	  51856 sec	
+mt_eng-lav: 19750	 acc: --	 ppl:  7.72	 xent: 2.04	  18.15 TFLOP/s	 14572/13434 tok/s	 3645620 sents	  53307 sec	
+mt_eng-lav: 20000	 acc: --	 ppl:  7.55	 xent: 2.02	  17.92 TFLOP/s	 14388/13260 tok/s	 3748091 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2291,6 +2413,8 @@ mt_eng-lit: 18750	 acc: --	 ppl:  8.45	 xent: 2.13	  16.90 TFLOP/s	 13871/12289 
 mt_eng-lit: 19000	 acc: --	 ppl:  8.70	 xent: 2.16	  16.86 TFLOP/s	 13833/12254 tok/s	 3289562 sents	  48768 sec	
 mt_eng-lit: 19250	 acc: --	 ppl:  9.13	 xent: 2.21	  15.05 TFLOP/s	 12452/10860 tok/s	 3390109 sents	  50406 sec	
 mt_eng-lit: 19500	 acc: --	 ppl:  8.84	 xent: 2.18	  17.24 TFLOP/s	 14266/12446 tok/s	 3492149 sents	  51856 sec	
+mt_eng-lit: 19750	 acc: --	 ppl:  8.76	 xent: 2.17	  16.99 TFLOP/s	 13988/12316 tok/s	 3592542 sents	  53307 sec	
+mt_eng-lit: 20000	 acc: --	 ppl:  8.77	 xent: 2.17	  17.62 TFLOP/s	 14512/12762 tok/s	 3695802 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2328,6 +2452,8 @@ mt_eng-mkd: 18750	 acc: --	 ppl:  6.54	 xent: 1.88	  17.98 TFLOP/s	 13934/13685 
 mt_eng-mkd: 19000	 acc: --	 ppl:  6.76	 xent: 1.91	  18.12 TFLOP/s	 14051/13779 tok/s	 3319515 sents	  48768 sec	
 mt_eng-mkd: 19250	 acc: --	 ppl:  7.30	 xent: 1.99	  16.27 TFLOP/s	 12681/12325 tok/s	 3421408 sents	  50406 sec	
 mt_eng-mkd: 19500	 acc: --	 ppl:  6.72	 xent: 1.91	  18.56 TFLOP/s	 14362/14142 tok/s	 3524270 sents	  51856 sec	
+mt_eng-mkd: 19750	 acc: --	 ppl:  6.91	 xent: 1.93	  18.53 TFLOP/s	 14335/14114 tok/s	 3626919 sents	  53307 sec	
+mt_eng-mkd: 20000	 acc: --	 ppl:  6.48	 xent: 1.87	  18.39 TFLOP/s	 14191/14048 tok/s	 3728681 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2365,6 +2491,8 @@ mt_eng-mlt: 18750	 acc: --	 ppl:  7.20	 xent: 1.97	  18.26 TFLOP/s	 14121/13918 
 mt_eng-mlt: 19000	 acc: --	 ppl:  7.04	 xent: 1.95	  18.53 TFLOP/s	 14335/14125 tok/s	 3338076 sents	  48768 sec	
 mt_eng-mlt: 19250	 acc: --	 ppl:  6.98	 xent: 1.94	  16.31 TFLOP/s	 12606/12442 tok/s	 3440183 sents	  50406 sec	
 mt_eng-mlt: 19500	 acc: --	 ppl:  7.34	 xent: 1.99	  18.42 TFLOP/s	 14219/14057 tok/s	 3541546 sents	  51856 sec	
+mt_eng-mlt: 19750	 acc: --	 ppl:  7.16	 xent: 1.97	  18.62 TFLOP/s	 14366/14220 tok/s	 3644315 sents	  53307 sec	
+mt_eng-mlt: 20000	 acc: --	 ppl:  6.82	 xent: 1.92	  18.47 TFLOP/s	 14308/14053 tok/s	 3746201 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2402,6 +2530,8 @@ mt_eng-nld: 18750	 acc: --	 ppl:  7.84	 xent: 2.06	  18.74 TFLOP/s	 14155/14534 
 mt_eng-nld: 19000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.48 TFLOP/s	 13953/14328 tok/s	 3288690 sents	  48768 sec	
 mt_eng-nld: 19250	 acc: --	 ppl:  7.87	 xent: 2.06	  17.11 TFLOP/s	 12936/13265 tok/s	 3393460 sents	  50406 sec	
 mt_eng-nld: 19500	 acc: --	 ppl:  7.43	 xent: 2.01	  18.62 TFLOP/s	 14080/14429 tok/s	 3494036 sents	  51856 sec	
+mt_eng-nld: 19750	 acc: --	 ppl:  7.95	 xent: 2.07	  18.91 TFLOP/s	 14316/14637 tok/s	 3596224 sents	  53307 sec	
+mt_eng-nld: 20000	 acc: --	 ppl:  7.72	 xent: 2.04	  18.78 TFLOP/s	 14221/14533 tok/s	 3697604 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2439,6 +2569,8 @@ mt_eng-nno: 18750	 acc: --	 ppl:  6.30	 xent: 1.84	  18.38 TFLOP/s	 14135/14061 
 mt_eng-nno: 19000	 acc: --	 ppl:  6.08	 xent: 1.81	  18.03 TFLOP/s	 13876/13792 tok/s	 3302559 sents	  48768 sec	
 mt_eng-nno: 19250	 acc: --	 ppl:  6.13	 xent: 1.81	  16.61 TFLOP/s	 12776/12714 tok/s	 3405926 sents	  50406 sec	
 mt_eng-nno: 19500	 acc: --	 ppl:  6.24	 xent: 1.83	  18.61 TFLOP/s	 14333/14223 tok/s	 3508352 sents	  51856 sec	
+mt_eng-nno: 19750	 acc: --	 ppl:  5.93	 xent: 1.78	  18.45 TFLOP/s	 14192/14107 tok/s	 3609696 sents	  53307 sec	
+mt_eng-nno: 20000	 acc: --	 ppl:  6.20	 xent: 1.82	  19.08 TFLOP/s	 14692/14594 tok/s	 3714610 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2476,6 +2608,8 @@ mt_eng-nob: 18750	 acc: --	 ppl:  5.95	 xent: 1.78	  17.91 TFLOP/s	 13745/13725 
 mt_eng-nob: 19000	 acc: --	 ppl:  6.22	 xent: 1.83	  17.91 TFLOP/s	 13747/13721 tok/s	 3306040 sents	  48768 sec	
 mt_eng-nob: 19250	 acc: --	 ppl:  6.22	 xent: 1.83	  16.92 TFLOP/s	 12996/12966 tok/s	 3411308 sents	  50406 sec	
 mt_eng-nob: 19500	 acc: --	 ppl:  6.19	 xent: 1.82	  18.52 TFLOP/s	 14225/14191 tok/s	 3512938 sents	  51856 sec	
+mt_eng-nob: 19750	 acc: --	 ppl:  5.66	 xent: 1.73	  18.09 TFLOP/s	 13887/13862 tok/s	 3612587 sents	  53307 sec	
+mt_eng-nob: 20000	 acc: --	 ppl:  6.10	 xent: 1.81	  18.70 TFLOP/s	 14365/14322 tok/s	 3714769 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2513,6 +2647,8 @@ mt_eng-pol: 18750	 acc: --	 ppl:  7.12	 xent: 1.96	  18.70 TFLOP/s	 14326/14348 
 mt_eng-pol: 19000	 acc: --	 ppl:  7.25	 xent: 1.98	  18.39 TFLOP/s	 14113/14098 tok/s	 3314506 sents	  48768 sec	
 mt_eng-pol: 19250	 acc: --	 ppl:  6.96	 xent: 1.94	  16.35 TFLOP/s	 12536/12543 tok/s	 3416053 sents	  50406 sec	
 mt_eng-pol: 19500	 acc: --	 ppl:  7.27	 xent: 1.98	  18.77 TFLOP/s	 14386/14406 tok/s	 3519027 sents	  51856 sec	
+mt_eng-pol: 19750	 acc: --	 ppl:  6.96	 xent: 1.94	  18.69 TFLOP/s	 14332/14335 tok/s	 3621087 sents	  53307 sec	
+mt_eng-pol: 20000	 acc: --	 ppl:  7.13	 xent: 1.96	  18.03 TFLOP/s	 13837/13827 tok/s	 3720340 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2550,6 +2686,8 @@ mt_eng-por: 18750	 acc: --	 ppl:  7.04	 xent: 1.95	  18.34 TFLOP/s	 14060/14070 
 mt_eng-por: 19000	 acc: --	 ppl:  6.63	 xent: 1.89	  17.87 TFLOP/s	 13680/13726 tok/s	 3274794 sents	  48769 sec	
 mt_eng-por: 19250	 acc: --	 ppl:  6.94	 xent: 1.94	  16.07 TFLOP/s	 12335/12312 tok/s	 3374468 sents	  50406 sec	
 mt_eng-por: 19500	 acc: --	 ppl:  7.42	 xent: 2.00	  18.76 TFLOP/s	 14445/14346 tok/s	 3477646 sents	  51856 sec	
+mt_eng-por: 19750	 acc: --	 ppl:  6.79	 xent: 1.92	  17.96 TFLOP/s	 13779/13767 tok/s	 3576800 sents	  53307 sec	
+mt_eng-por: 20000	 acc: --	 ppl:  6.95	 xent: 1.94	  18.81 TFLOP/s	 14466/14387 tok/s	 3679574 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2587,6 +2725,8 @@ mt_eng-ron: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.89 TFLOP/s	 14044/14818 
 mt_eng-ron: 19000	 acc: --	 ppl:  5.91	 xent: 1.78	  19.25 TFLOP/s	 14291/15113 tok/s	 3282884 sents	  48769 sec	
 mt_eng-ron: 19250	 acc: --	 ppl:  5.84	 xent: 1.76	  16.88 TFLOP/s	 12542/13244 tok/s	 3384374 sents	  50406 sec	
 mt_eng-ron: 19500	 acc: --	 ppl:  6.02	 xent: 1.80	  19.03 TFLOP/s	 14168/14907 tok/s	 3485166 sents	  51856 sec	
+mt_eng-ron: 19750	 acc: --	 ppl:  5.71	 xent: 1.74	  18.92 TFLOP/s	 14083/14825 tok/s	 3586155 sents	  53307 sec	
+mt_eng-ron: 20000	 acc: --	 ppl:  5.73	 xent: 1.75	  18.92 TFLOP/s	 14083/14829 tok/s	 3687105 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2624,6 +2764,8 @@ mt_eng-slk: 18750	 acc: --	 ppl:  9.00	 xent: 2.20	  17.63 TFLOP/s	 14249/12982 
 mt_eng-slk: 19000	 acc: --	 ppl:  9.24	 xent: 2.22	  17.52 TFLOP/s	 14181/12880 tok/s	 3332984 sents	  48769 sec	
 mt_eng-slk: 19250	 acc: --	 ppl:  9.15	 xent: 2.21	  15.97 TFLOP/s	 12960/11715 tok/s	 3437454 sents	  50406 sec	
 mt_eng-slk: 19500	 acc: --	 ppl:  8.71	 xent: 2.16	  17.34 TFLOP/s	 13998/12783 tok/s	 3537761 sents	  51856 sec	
+mt_eng-slk: 19750	 acc: --	 ppl:  8.23	 xent: 2.11	  18.11 TFLOP/s	 14591/13364 tok/s	 3642209 sents	  53307 sec	
+mt_eng-slk: 20000	 acc: --	 ppl:  8.92	 xent: 2.19	  18.01 TFLOP/s	 14579/13242 tok/s	 3746080 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2661,6 +2803,8 @@ mt_eng-slv: 18750	 acc: --	 ppl:  7.24	 xent: 1.98	  17.72 TFLOP/s	 14031/13256 
 mt_eng-slv: 19000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.10 TFLOP/s	 14207/13640 tok/s	 3330419 sents	  48769 sec	
 mt_eng-slv: 19250	 acc: --	 ppl:  6.90	 xent: 1.93	  15.77 TFLOP/s	 12410/11854 tok/s	 3430909 sents	  50406 sec	
 mt_eng-slv: 19500	 acc: --	 ppl:  7.34	 xent: 1.99	  18.66 TFLOP/s	 14766/13969 tok/s	 3536205 sents	  51856 sec	
+mt_eng-slv: 19750	 acc: --	 ppl:  7.11	 xent: 1.96	  17.87 TFLOP/s	 14059/13443 tok/s	 3637295 sents	  53307 sec	
+mt_eng-slv: 20000	 acc: --	 ppl:  7.10	 xent: 1.96	  18.60 TFLOP/s	 14687/13950 tok/s	 3741932 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2698,6 +2842,8 @@ mt_eng-spa: 18750	 acc: --	 ppl:  6.20	 xent: 1.82	  17.80 TFLOP/s	 13706/13607 
 mt_eng-spa: 19000	 acc: --	 ppl:  5.75	 xent: 1.75	  18.18 TFLOP/s	 13973/13925 tok/s	 3302347 sents	  48769 sec	
 mt_eng-spa: 19250	 acc: --	 ppl:  6.42	 xent: 1.86	  16.67 TFLOP/s	 12832/12747 tok/s	 3406007 sents	  50406 sec	
 mt_eng-spa: 19500	 acc: --	 ppl:  6.21	 xent: 1.83	  18.53 TFLOP/s	 14266/14162 tok/s	 3508086 sents	  51856 sec	
+mt_eng-spa: 19750	 acc: --	 ppl:  6.07	 xent: 1.80	  18.09 TFLOP/s	 13937/13826 tok/s	 3607957 sents	  53307 sec	
+mt_eng-spa: 20000	 acc: --	 ppl:  6.09	 xent: 1.81	  18.87 TFLOP/s	 14529/14431 tok/s	 3711485 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2735,6 +2881,8 @@ mt_eng-sqi: 18750	 acc: --	 ppl:  6.65	 xent: 1.89	  18.75 TFLOP/s	 13972/14682 
 mt_eng-sqi: 19000	 acc: --	 ppl:  7.23	 xent: 1.98	  19.07 TFLOP/s	 14214/14924 tok/s	 3289045 sents	  48768 sec	
 mt_eng-sqi: 19250	 acc: --	 ppl:  6.97	 xent: 1.94	  16.67 TFLOP/s	 12455/13031 tok/s	 3389750 sents	  50406 sec	
 mt_eng-sqi: 19500	 acc: --	 ppl:  6.88	 xent: 1.93	  18.71 TFLOP/s	 13977/14627 tok/s	 3489603 sents	  51856 sec	
+mt_eng-sqi: 19750	 acc: --	 ppl:  6.96	 xent: 1.94	  18.93 TFLOP/s	 14147/14796 tok/s	 3591098 sents	  53307 sec	
+mt_eng-sqi: 20000	 acc: --	 ppl:  6.39	 xent: 1.85	  18.75 TFLOP/s	 14026/14645 tok/s	 3691325 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2772,6 +2920,8 @@ mt_eng-srp_Cyrl: 18750	 acc: --	 ppl:  7.79	 xent: 2.05	  17.50 TFLOP/s	 13706/1
 mt_eng-srp_Cyrl: 19000	 acc: --	 ppl:  8.28	 xent: 2.11	  17.70 TFLOP/s	 13951/13296 tok/s	 3317005 sents	  48768 sec	
 mt_eng-srp_Cyrl: 19250	 acc: --	 ppl:  7.73	 xent: 2.05	  16.73 TFLOP/s	 13142/12599 tok/s	 3423373 sents	  50406 sec	
 mt_eng-srp_Cyrl: 19500	 acc: --	 ppl:  7.90	 xent: 2.07	  17.92 TFLOP/s	 14111/13475 tok/s	 3524492 sents	  51856 sec	
+mt_eng-srp_Cyrl: 19750	 acc: --	 ppl:  7.70	 xent: 2.04	  18.65 TFLOP/s	 14605/14069 tok/s	 3628850 sents	  53307 sec	
+mt_eng-srp_Cyrl: 20000	 acc: --	 ppl:  8.01	 xent: 2.08	  18.24 TFLOP/s	 14307/13748 tok/s	 3731041 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2809,6 +2959,8 @@ mt_eng-swe: 18750	 acc: --	 ppl:  6.01	 xent: 1.79	  18.46 TFLOP/s	 14182/14139 
 mt_eng-swe: 19000	 acc: --	 ppl:  6.07	 xent: 1.80	  18.28 TFLOP/s	 14029/14009 tok/s	 3320842 sents	  48768 sec	
 mt_eng-swe: 19250	 acc: --	 ppl:  5.76	 xent: 1.75	  16.84 TFLOP/s	 12945/12887 tok/s	 3425590 sents	  50406 sec	
 mt_eng-swe: 19500	 acc: --	 ppl:  5.74	 xent: 1.75	  18.10 TFLOP/s	 13914/13860 tok/s	 3525450 sents	  51856 sec	
+mt_eng-swe: 19750	 acc: --	 ppl:  5.88	 xent: 1.77	  19.07 TFLOP/s	 14678/14581 tok/s	 3630746 sents	  53307 sec	
+mt_eng-swe: 20000	 acc: --	 ppl:  5.93	 xent: 1.78	  18.19 TFLOP/s	 13971/13934 tok/s	 3730271 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2846,6 +2998,8 @@ mt_eng-tur: 18750	 acc: --	 ppl:  6.50	 xent: 1.87	  18.01 TFLOP/s	 14291/13454 
 mt_eng-tur: 19000	 acc: --	 ppl:  6.88	 xent: 1.93	  17.81 TFLOP/s	 14164/13277 tok/s	 3320645 sents	  48769 sec	
 mt_eng-tur: 19250	 acc: --	 ppl:  6.96	 xent: 1.94	  15.81 TFLOP/s	 12558/11799 tok/s	 3422289 sents	  50406 sec	
 mt_eng-tur: 19500	 acc: --	 ppl:  6.77	 xent: 1.91	  18.49 TFLOP/s	 14681/13809 tok/s	 3526805 sents	  51856 sec	
+mt_eng-tur: 19750	 acc: --	 ppl:  6.65	 xent: 1.90	  17.65 TFLOP/s	 14051/13152 tok/s	 3627894 sents	  53307 sec	
+mt_eng-tur: 20000	 acc: --	 ppl:  7.01	 xent: 1.95	  18.09 TFLOP/s	 14399/13481 tok/s	 3730354 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2883,6 +3037,8 @@ mt_eng-ukr: 18750	 acc: --	 ppl:  7.01	 xent: 1.95	  17.83 TFLOP/s	 13701/13656 
 mt_eng-ukr: 19000	 acc: --	 ppl:  6.36	 xent: 1.85	  18.32 TFLOP/s	 14065/14044 tok/s	 3314445 sents	  48769 sec	
 mt_eng-ukr: 19250	 acc: --	 ppl:  6.59	 xent: 1.89	  16.74 TFLOP/s	 12865/12817 tok/s	 3418611 sents	  50406 sec	
 mt_eng-ukr: 19500	 acc: --	 ppl:  6.30	 xent: 1.84	  18.35 TFLOP/s	 14096/14055 tok/s	 3519207 sents	  51856 sec	
+mt_eng-ukr: 19750	 acc: --	 ppl:  6.66	 xent: 1.90	  18.78 TFLOP/s	 14435/14379 tok/s	 3622544 sents	  53307 sec	
+mt_eng-ukr: 20000	 acc: --	 ppl:  6.36	 xent: 1.85	  18.27 TFLOP/s	 14028/14002 tok/s	 3722562 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2920,6 +3076,8 @@ mt_est-eng: 18750	 acc: --	 ppl:  7.96	 xent: 2.07	  18.10 TFLOP/s	 13633/14086 
 mt_est-eng: 19000	 acc: --	 ppl:  7.35	 xent: 1.99	  18.46 TFLOP/s	 13909/14360 tok/s	 3311677 sents	  48769 sec	
 mt_est-eng: 19250	 acc: --	 ppl:  7.92	 xent: 2.07	  16.61 TFLOP/s	 12513/12922 tok/s	 3415541 sents	  50407 sec	
 mt_est-eng: 19500	 acc: --	 ppl:  7.57	 xent: 2.02	  18.13 TFLOP/s	 13649/14112 tok/s	 3515728 sents	  51856 sec	
+mt_est-eng: 19750	 acc: --	 ppl:  7.74	 xent: 2.05	  18.59 TFLOP/s	 14003/14469 tok/s	 3618554 sents	  53308 sec	
+mt_est-eng: 20000	 acc: --	 ppl:  7.88	 xent: 2.06	  18.27 TFLOP/s	 13762/14211 tok/s	 3719147 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2957,6 +3115,8 @@ mt_est-spa: 18750	 acc: --	 ppl:  6.86	 xent: 1.93	  18.18 TFLOP/s	 13546/14260 
 mt_est-spa: 19000	 acc: --	 ppl:  6.71	 xent: 1.90	  18.11 TFLOP/s	 13484/14207 tok/s	 3309293 sents	  48769 sec	
 mt_est-spa: 19250	 acc: --	 ppl:  6.98	 xent: 1.94	  16.68 TFLOP/s	 12417/13097 tok/s	 3412522 sents	  50407 sec	
 mt_est-spa: 19500	 acc: --	 ppl:  6.74	 xent: 1.91	  18.73 TFLOP/s	 13956/14686 tok/s	 3514551 sents	  51856 sec	
+mt_est-spa: 19750	 acc: --	 ppl:  7.23	 xent: 1.98	  18.61 TFLOP/s	 13844/14611 tok/s	 3616833 sents	  53308 sec	
+mt_est-spa: 20000	 acc: --	 ppl:  7.20	 xent: 1.97	  18.73 TFLOP/s	 13961/14677 tok/s	 3718362 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -2994,6 +3154,8 @@ mt_eus-eng: 18750	 acc: --	 ppl: 10.88	 xent: 2.39	  17.92 TFLOP/s	 12774/14530 
 mt_eus-eng: 19000	 acc: --	 ppl: 11.64	 xent: 2.45	  17.71 TFLOP/s	 12557/14423 tok/s	 3285014 sents	  48769 sec	
 mt_eus-eng: 19250	 acc: --	 ppl: 11.87	 xent: 2.47	  16.02 TFLOP/s	 11322/13071 tok/s	 3387825 sents	  50407 sec	
 mt_eus-eng: 19500	 acc: --	 ppl: 11.48	 xent: 2.44	  17.71 TFLOP/s	 12606/14373 tok/s	 3487392 sents	  51856 sec	
+mt_eus-eng: 19750	 acc: --	 ppl: 11.48	 xent: 2.44	  17.92 TFLOP/s	 12716/14579 tok/s	 3588350 sents	  53308 sec	
+mt_eus-eng: 20000	 acc: --	 ppl: 11.96	 xent: 2.48	  17.78 TFLOP/s	 12562/14520 tok/s	 3689686 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3031,6 +3193,8 @@ mt_eus-spa: 18750	 acc: --	 ppl: 11.27	 xent: 2.42	  16.98 TFLOP/s	 12353/13594 
 mt_eus-spa: 19000	 acc: --	 ppl: 11.04	 xent: 2.40	  17.56 TFLOP/s	 12750/14074 tok/s	 3315314 sents	  48769 sec	
 mt_eus-spa: 19250	 acc: --	 ppl: 11.37	 xent: 2.43	  15.94 TFLOP/s	 11572/12773 tok/s	 3419369 sents	  50407 sec	
 mt_eus-spa: 19500	 acc: --	 ppl: 11.07	 xent: 2.40	  17.38 TFLOP/s	 12646/13915 tok/s	 3519585 sents	  51857 sec	
+mt_eus-spa: 19750	 acc: --	 ppl: 10.34	 xent: 2.34	  18.11 TFLOP/s	 13317/14378 tok/s	 3623322 sents	  53308 sec	
+mt_eus-spa: 20000	 acc: --	 ppl: 10.85	 xent: 2.38	  17.72 TFLOP/s	 12952/14128 tok/s	 3724593 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3068,6 +3232,8 @@ mt_fin-eng: 18750	 acc: --	 ppl:  7.48	 xent: 2.01	  18.20 TFLOP/s	 13928/13995 
 mt_fin-eng: 19000	 acc: --	 ppl:  8.05	 xent: 2.09	  18.19 TFLOP/s	 13922/13987 tok/s	 3331619 sents	  48769 sec	
 mt_fin-eng: 19250	 acc: --	 ppl:  7.58	 xent: 2.03	  16.16 TFLOP/s	 12374/12411 tok/s	 3433003 sents	  50407 sec	
 mt_fin-eng: 19500	 acc: --	 ppl:  7.74	 xent: 2.05	  19.07 TFLOP/s	 14600/14666 tok/s	 3539433 sents	  51856 sec	
+mt_fin-eng: 19750	 acc: --	 ppl:  8.07	 xent: 2.09	  17.77 TFLOP/s	 13586/13668 tok/s	 3638582 sents	  53308 sec	
+mt_fin-eng: 20000	 acc: --	 ppl:  8.49	 xent: 2.14	  18.78 TFLOP/s	 14333/14473 tok/s	 3742805 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3105,6 +3271,8 @@ mt_fin-spa: 18750	 acc: --	 ppl:  8.26	 xent: 2.11	  18.74 TFLOP/s	 13858/14761 
 mt_fin-spa: 19000	 acc: --	 ppl:  8.24	 xent: 2.11	  18.84 TFLOP/s	 13927/14843 tok/s	 3287278 sents	  48769 sec	
 mt_fin-spa: 19250	 acc: --	 ppl:  8.22	 xent: 2.11	  16.78 TFLOP/s	 12409/13221 tok/s	 3388888 sents	  50407 sec	
 mt_fin-spa: 19500	 acc: --	 ppl:  8.47	 xent: 2.14	  18.80 TFLOP/s	 13899/14812 tok/s	 3489951 sents	  51856 sec	
+mt_fin-spa: 19750	 acc: --	 ppl:  8.07	 xent: 2.09	  19.21 TFLOP/s	 14207/15133 tok/s	 3593117 sents	  53308 sec	
+mt_fin-spa: 20000	 acc: --	 ppl:  7.94	 xent: 2.07	  17.97 TFLOP/s	 13287/14157 tok/s	 3689633 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3142,6 +3310,8 @@ mt_fra-eng: 18750	 acc: --	 ppl:  7.40	 xent: 2.00	  19.05 TFLOP/s	 14952/14334 
 mt_fra-eng: 19000	 acc: --	 ppl:  7.18	 xent: 1.97	  18.23 TFLOP/s	 14310/13711 tok/s	 3319940 sents	  48769 sec	
 mt_fra-eng: 19250	 acc: --	 ppl:  7.37	 xent: 2.00	  16.52 TFLOP/s	 12968/12425 tok/s	 3421585 sents	  50406 sec	
 mt_fra-eng: 19500	 acc: --	 ppl:  7.71	 xent: 2.04	  18.96 TFLOP/s	 14885/14257 tok/s	 3525108 sents	  51856 sec	
+mt_fra-eng: 19750	 acc: --	 ppl:  7.48	 xent: 2.01	  18.61 TFLOP/s	 14611/13999 tok/s	 3627173 sents	  53308 sec	
+mt_fra-eng: 20000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.51 TFLOP/s	 14527/13916 tok/s	 3727656 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3179,6 +3349,8 @@ mt_fra-spa: 18750	 acc: --	 ppl:  7.40	 xent: 2.00	  18.33 TFLOP/s	 14367/13810 
 mt_fra-spa: 19000	 acc: --	 ppl:  7.16	 xent: 1.97	  18.61 TFLOP/s	 14600/14008 tok/s	 3336096 sents	  48769 sec	
 mt_fra-spa: 19250	 acc: --	 ppl:  6.83	 xent: 1.92	  16.62 TFLOP/s	 13054/12501 tok/s	 3438900 sents	  50407 sec	
 mt_fra-spa: 19500	 acc: --	 ppl:  7.13	 xent: 1.96	  18.46 TFLOP/s	 14480/13898 tok/s	 3540174 sents	  51856 sec	
+mt_fra-spa: 19750	 acc: --	 ppl:  7.35	 xent: 1.99	  18.90 TFLOP/s	 14839/14215 tok/s	 3643420 sents	  53308 sec	
+mt_fra-spa: 20000	 acc: --	 ppl:  6.90	 xent: 1.93	  18.55 TFLOP/s	 14545/13964 tok/s	 3744457 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3216,6 +3388,8 @@ mt_gle-eng: 18750	 acc: --	 ppl:  9.15	 xent: 2.21	  17.98 TFLOP/s	 14458/13280 
 mt_gle-eng: 19000	 acc: --	 ppl:  8.85	 xent: 2.18	  18.03 TFLOP/s	 14537/13297 tok/s	 3329250 sents	  48769 sec	
 mt_gle-eng: 19250	 acc: --	 ppl:  8.68	 xent: 2.16	  15.77 TFLOP/s	 12702/11632 tok/s	 3429870 sents	  50406 sec	
 mt_gle-eng: 19500	 acc: --	 ppl:  8.70	 xent: 2.16	  18.59 TFLOP/s	 14976/13708 tok/s	 3535474 sents	  51856 sec	
+mt_gle-eng: 19750	 acc: --	 ppl:  8.68	 xent: 2.16	  17.41 TFLOP/s	 13985/12872 tok/s	 3633962 sents	  53308 sec	
+mt_gle-eng: 20000	 acc: --	 ppl:  9.01	 xent: 2.20	  18.71 TFLOP/s	 15009/13835 tok/s	 3739194 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3253,6 +3427,8 @@ mt_gle-spa: 18750	 acc: --	 ppl:  8.93	 xent: 2.19	  19.05 TFLOP/s	 14673/14552 
 mt_gle-spa: 19000	 acc: --	 ppl:  8.27	 xent: 2.11	  18.29 TFLOP/s	 14087/13974 tok/s	 3314871 sents	  48769 sec	
 mt_gle-spa: 19250	 acc: --	 ppl:  8.54	 xent: 2.14	  16.82 TFLOP/s	 12952/12840 tok/s	 3417595 sents	  50407 sec	
 mt_gle-spa: 19500	 acc: --	 ppl:  8.70	 xent: 2.16	  19.16 TFLOP/s	 14759/14631 tok/s	 3521622 sents	  51856 sec	
+mt_gle-spa: 19750	 acc: --	 ppl:  8.63	 xent: 2.16	  18.75 TFLOP/s	 14436/14326 tok/s	 3623458 sents	  53308 sec	
+mt_gle-spa: 20000	 acc: --	 ppl:  8.25	 xent: 2.11	  18.54 TFLOP/s	 14278/14159 tok/s	 3723584 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3290,6 +3466,8 @@ mt_glg-eng: 18750	 acc: --	 ppl:  6.97	 xent: 1.94	  18.52 TFLOP/s	 14606/13870 
 mt_glg-eng: 19000	 acc: --	 ppl:  6.55	 xent: 1.88	  18.35 TFLOP/s	 14490/13724 tok/s	 3289533 sents	  48769 sec	
 mt_glg-eng: 19250	 acc: --	 ppl:  6.88	 xent: 1.93	  16.39 TFLOP/s	 12910/12287 tok/s	 3390622 sents	  50407 sec	
 mt_glg-eng: 19500	 acc: --	 ppl:  6.58	 xent: 1.88	  18.47 TFLOP/s	 14577/13822 tok/s	 3491011 sents	  51857 sec	
+mt_glg-eng: 19750	 acc: --	 ppl:  6.52	 xent: 1.88	  18.41 TFLOP/s	 14539/13770 tok/s	 3590964 sents	  53308 sec	
+mt_glg-eng: 20000	 acc: --	 ppl:  6.65	 xent: 1.90	  18.48 TFLOP/s	 14561/13852 tok/s	 3691782 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3327,6 +3505,8 @@ mt_glg-spa: 18750	 acc: --	 ppl:  6.63	 xent: 1.89	  18.76 TFLOP/s	 14546/14245 
 mt_glg-spa: 19000	 acc: --	 ppl:  6.81	 xent: 1.92	  18.83 TFLOP/s	 14614/14281 tok/s	 3279903 sents	  48769 sec	
 mt_glg-spa: 19250	 acc: --	 ppl:  6.56	 xent: 1.88	  16.86 TFLOP/s	 13102/12770 tok/s	 3381616 sents	  50407 sec	
 mt_glg-spa: 19500	 acc: --	 ppl:  6.61	 xent: 1.89	  18.72 TFLOP/s	 14550/14170 tok/s	 3481551 sents	  51857 sec	
+mt_glg-spa: 19750	 acc: --	 ppl:  6.31	 xent: 1.84	  19.33 TFLOP/s	 14956/14703 tok/s	 3585164 sents	  53308 sec	
+mt_glg-spa: 20000	 acc: --	 ppl:  6.44	 xent: 1.86	  18.58 TFLOP/s	 14411/14095 tok/s	 3684417 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3364,6 +3544,8 @@ mt_hrv-eng: 18750	 acc: --	 ppl:  6.72	 xent: 1.91	  18.14 TFLOP/s	 13996/13862 
 mt_hrv-eng: 19000	 acc: --	 ppl:  6.66	 xent: 1.90	  17.70 TFLOP/s	 13657/13512 tok/s	 3311118 sents	  48769 sec	
 mt_hrv-eng: 19250	 acc: --	 ppl:  6.76	 xent: 1.91	  16.66 TFLOP/s	 12839/12732 tok/s	 3415403 sents	  50407 sec	
 mt_hrv-eng: 19500	 acc: --	 ppl:  6.77	 xent: 1.91	  18.44 TFLOP/s	 14214/14090 tok/s	 3518060 sents	  51857 sec	
+mt_hrv-eng: 19750	 acc: --	 ppl:  6.92	 xent: 1.93	  18.46 TFLOP/s	 14231/14101 tok/s	 3620424 sents	  53308 sec	
+mt_hrv-eng: 20000	 acc: --	 ppl:  6.88	 xent: 1.93	  18.08 TFLOP/s	 13948/13805 tok/s	 3720524 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3401,6 +3583,8 @@ mt_hrv-spa: 18750	 acc: --	 ppl:  6.40	 xent: 1.86	  17.65 TFLOP/s	 13365/13660 
 mt_hrv-spa: 19000	 acc: --	 ppl:  6.18	 xent: 1.82	  18.70 TFLOP/s	 14193/14454 tok/s	 3312592 sents	  48769 sec	
 mt_hrv-spa: 19250	 acc: --	 ppl:  6.15	 xent: 1.82	  16.62 TFLOP/s	 12584/12871 tok/s	 3415010 sents	  50407 sec	
 mt_hrv-spa: 19500	 acc: --	 ppl:  6.04	 xent: 1.80	  18.72 TFLOP/s	 14195/14479 tok/s	 3516920 sents	  51857 sec	
+mt_hrv-spa: 19750	 acc: --	 ppl:  6.37	 xent: 1.85	  18.53 TFLOP/s	 14039/14337 tok/s	 3618221 sents	  53308 sec	
+mt_hrv-spa: 20000	 acc: --	 ppl:  5.90	 xent: 1.77	  18.59 TFLOP/s	 14077/14388 tok/s	 3719358 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3438,6 +3622,8 @@ mt_hun-eng: 18750	 acc: --	 ppl:  7.02	 xent: 1.95	  17.85 TFLOP/s	 13533/13826 
 mt_hun-eng: 19000	 acc: --	 ppl:  6.91	 xent: 1.93	  17.94 TFLOP/s	 13600/13901 tok/s	 3350382 sents	  48770 sec	
 mt_hun-eng: 19250	 acc: --	 ppl:  7.44	 xent: 2.01	  16.28 TFLOP/s	 12357/12605 tok/s	 3454098 sents	  50407 sec	
 mt_hun-eng: 19500	 acc: --	 ppl:  7.54	 xent: 2.02	  18.49 TFLOP/s	 14028/14323 tok/s	 3558065 sents	  51857 sec	
+mt_hun-eng: 19750	 acc: --	 ppl:  7.52	 xent: 2.02	  18.37 TFLOP/s	 13936/14230 tok/s	 3661418 sents	  53308 sec	
+mt_hun-eng: 20000	 acc: --	 ppl:  6.96	 xent: 1.94	  18.18 TFLOP/s	 13781/14088 tok/s	 3763364 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3475,6 +3661,8 @@ mt_hun-spa: 18750	 acc: --	 ppl:  6.61	 xent: 1.89	  18.43 TFLOP/s	 13732/14455 
 mt_hun-spa: 19000	 acc: --	 ppl:  6.43	 xent: 1.86	  18.39 TFLOP/s	 13705/14430 tok/s	 3340596 sents	  48770 sec	
 mt_hun-spa: 19250	 acc: --	 ppl:  6.75	 xent: 1.91	  16.56 TFLOP/s	 12338/12996 tok/s	 3444085 sents	  50407 sec	
 mt_hun-spa: 19500	 acc: --	 ppl:  6.85	 xent: 1.92	  18.93 TFLOP/s	 14115/14844 tok/s	 3548466 sents	  51857 sec	
+mt_hun-spa: 19750	 acc: --	 ppl:  7.08	 xent: 1.96	  18.12 TFLOP/s	 13513/14214 tok/s	 3648858 sents	  53308 sec	
+mt_hun-spa: 20000	 acc: --	 ppl:  6.97	 xent: 1.94	  18.66 TFLOP/s	 13892/14643 tok/s	 3751665 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3512,6 +3700,8 @@ mt_isl-eng: 18750	 acc: --	 ppl:  9.63	 xent: 2.27	  17.49 TFLOP/s	 12921/13836 
 mt_isl-eng: 19000	 acc: --	 ppl:  9.05	 xent: 2.20	  17.90 TFLOP/s	 13263/14133 tok/s	 3316061 sents	  48770 sec	
 mt_isl-eng: 19250	 acc: --	 ppl:  8.94	 xent: 2.19	  15.50 TFLOP/s	 11443/12279 tok/s	 3416844 sents	  50407 sec	
 mt_isl-eng: 19500	 acc: --	 ppl:  9.08	 xent: 2.21	  17.89 TFLOP/s	 13197/14179 tok/s	 3519829 sents	  51857 sec	
+mt_isl-eng: 19750	 acc: --	 ppl:  8.91	 xent: 2.19	  17.40 TFLOP/s	 12838/13792 tok/s	 3620262 sents	  53308 sec	
+mt_isl-eng: 20000	 acc: --	 ppl:  9.23	 xent: 2.22	  18.13 TFLOP/s	 13398/14339 tok/s	 3723989 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3549,6 +3739,8 @@ mt_isl-spa: 18750	 acc: --	 ppl:  8.86	 xent: 2.18	  17.55 TFLOP/s	 12759/14041 
 mt_isl-spa: 19000	 acc: --	 ppl:  8.77	 xent: 2.17	  17.41 TFLOP/s	 12655/13929 tok/s	 3296413 sents	  48770 sec	
 mt_isl-spa: 19250	 acc: --	 ppl:  8.68	 xent: 2.16	  16.09 TFLOP/s	 11680/12888 tok/s	 3398742 sents	  50407 sec	
 mt_isl-spa: 19500	 acc: --	 ppl:  8.48	 xent: 2.14	  18.20 TFLOP/s	 13248/14553 tok/s	 3501929 sents	  51857 sec	
+mt_isl-spa: 19750	 acc: --	 ppl:  8.27	 xent: 2.11	  18.03 TFLOP/s	 13079/14448 tok/s	 3603696 sents	  53308 sec	
+mt_isl-spa: 20000	 acc: --	 ppl:  8.75	 xent: 2.17	  18.04 TFLOP/s	 13104/14442 tok/s	 3705031 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3586,6 +3778,8 @@ mt_ita-eng: 18750	 acc: --	 ppl:  7.26	 xent: 1.98	  17.97 TFLOP/s	 14021/13593 
 mt_ita-eng: 19000	 acc: --	 ppl:  6.83	 xent: 1.92	  17.98 TFLOP/s	 14022/13610 tok/s	 3300418 sents	  48770 sec	
 mt_ita-eng: 19250	 acc: --	 ppl:  6.95	 xent: 1.94	  16.71 TFLOP/s	 13047/12636 tok/s	 3404143 sents	  50407 sec	
 mt_ita-eng: 19500	 acc: --	 ppl:  6.73	 xent: 1.91	  18.42 TFLOP/s	 14363/13944 tok/s	 3505480 sents	  51857 sec	
+mt_ita-eng: 19750	 acc: --	 ppl:  7.09	 xent: 1.96	  18.53 TFLOP/s	 14468/14011 tok/s	 3607494 sents	  53308 sec	
+mt_ita-eng: 20000	 acc: --	 ppl:  6.66	 xent: 1.90	  18.81 TFLOP/s	 14662/14229 tok/s	 3710209 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3623,6 +3817,8 @@ mt_ita-spa: 18750	 acc: --	 ppl:  6.04	 xent: 1.80	  18.40 TFLOP/s	 14114/14095 
 mt_ita-spa: 19000	 acc: --	 ppl:  5.80	 xent: 1.76	  18.75 TFLOP/s	 14374/14377 tok/s	 3311746 sents	  48770 sec	
 mt_ita-spa: 19250	 acc: --	 ppl:  5.92	 xent: 1.78	  16.91 TFLOP/s	 12972/12957 tok/s	 3414960 sents	  50407 sec	
 mt_ita-spa: 19500	 acc: --	 ppl:  6.18	 xent: 1.82	  18.66 TFLOP/s	 14304/14293 tok/s	 3515579 sents	  51857 sec	
+mt_ita-spa: 19750	 acc: --	 ppl:  6.07	 xent: 1.80	  18.95 TFLOP/s	 14532/14522 tok/s	 3618042 sents	  53308 sec	
+mt_ita-spa: 20000	 acc: --	 ppl:  5.84	 xent: 1.76	  18.99 TFLOP/s	 14542/14568 tok/s	 3720344 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3660,6 +3856,8 @@ mt_kat-eng: 18750	 acc: --	 ppl: 13.26	 xent: 2.58	  17.05 TFLOP/s	 12034/13963 
 mt_kat-eng: 19000	 acc: --	 ppl: 14.07	 xent: 2.64	  16.92 TFLOP/s	 11941/13859 tok/s	 3339952 sents	  48770 sec	
 mt_kat-eng: 19250	 acc: --	 ppl: 13.70	 xent: 2.62	  15.83 TFLOP/s	 11172/12967 tok/s	 3446156 sents	  50407 sec	
 mt_kat-eng: 19500	 acc: --	 ppl: 14.20	 xent: 2.65	  17.31 TFLOP/s	 12211/14176 tok/s	 3549053 sents	  51857 sec	
+mt_kat-eng: 19750	 acc: --	 ppl: 15.22	 xent: 2.72	  17.74 TFLOP/s	 12525/14528 tok/s	 3654518 sents	  53308 sec	
+mt_kat-eng: 20000	 acc: --	 ppl: 13.86	 xent: 2.63	  18.00 TFLOP/s	 12703/14741 tok/s	 3761097 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3697,6 +3895,8 @@ mt_kat-spa: 18750	 acc: --	 ppl: 13.02	 xent: 2.57	  17.23 TFLOP/s	 11941/14270 
 mt_kat-spa: 19000	 acc: --	 ppl: 13.26	 xent: 2.58	  17.10 TFLOP/s	 11845/14179 tok/s	 3327174 sents	  48770 sec	
 mt_kat-spa: 19250	 acc: --	 ppl: 13.19	 xent: 2.58	  15.81 TFLOP/s	 10953/13096 tok/s	 3431224 sents	  50407 sec	
 mt_kat-spa: 19500	 acc: --	 ppl: 12.58	 xent: 2.53	  18.01 TFLOP/s	 12471/14924 tok/s	 3536167 sents	  51857 sec	
+mt_kat-spa: 19750	 acc: --	 ppl: 12.43	 xent: 2.52	  18.07 TFLOP/s	 12525/14976 tok/s	 3641946 sents	  53308 sec	
+mt_kat-spa: 20000	 acc: --	 ppl: 13.73	 xent: 2.62	  17.86 TFLOP/s	 12374/14793 tok/s	 3745696 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3734,6 +3934,8 @@ mt_lav-eng: 18750	 acc: --	 ppl:  9.87	 xent: 2.29	  17.00 TFLOP/s	 12279/13686 
 mt_lav-eng: 19000	 acc: --	 ppl:  9.80	 xent: 2.28	  17.22 TFLOP/s	 12436/13875 tok/s	 3337662 sents	  48769 sec	
 mt_lav-eng: 19250	 acc: --	 ppl:  9.77	 xent: 2.28	  15.50 TFLOP/s	 11171/12503 tok/s	 3440359 sents	  50406 sec	
 mt_lav-eng: 19500	 acc: --	 ppl:  9.32	 xent: 2.23	  17.52 TFLOP/s	 12663/14097 tok/s	 3542882 sents	  51856 sec	
+mt_lav-eng: 19750	 acc: --	 ppl:  9.77	 xent: 2.28	  17.63 TFLOP/s	 12740/14185 tok/s	 3645840 sents	  53308 sec	
+mt_lav-eng: 20000	 acc: --	 ppl:  9.81	 xent: 2.28	  17.51 TFLOP/s	 12623/14118 tok/s	 3747993 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3771,6 +3973,8 @@ mt_lav-spa: 18750	 acc: --	 ppl:  8.33	 xent: 2.12	  17.12 TFLOP/s	 12152/13949 
 mt_lav-spa: 19000	 acc: --	 ppl:  8.49	 xent: 2.14	  17.65 TFLOP/s	 12507/14389 tok/s	 3321575 sents	  48769 sec	
 mt_lav-spa: 19250	 acc: --	 ppl:  8.56	 xent: 2.15	  16.02 TFLOP/s	 11360/13050 tok/s	 3425306 sents	  50406 sec	
 mt_lav-spa: 19500	 acc: --	 ppl:  8.19	 xent: 2.10	  17.94 TFLOP/s	 12731/14616 tok/s	 3528355 sents	  51856 sec	
+mt_lav-spa: 19750	 acc: --	 ppl:  8.18	 xent: 2.10	  18.03 TFLOP/s	 12781/14695 tok/s	 3632009 sents	  53307 sec	
+mt_lav-spa: 20000	 acc: --	 ppl:  8.68	 xent: 2.16	  17.58 TFLOP/s	 12472/14328 tok/s	 3732779 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3808,6 +4012,8 @@ mt_lit-eng: 18750	 acc: --	 ppl:  7.61	 xent: 2.03	  17.81 TFLOP/s	 13709/13620 
 mt_lit-eng: 19000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.08 TFLOP/s	 13912/13846 tok/s	 3300524 sents	  48769 sec	
 mt_lit-eng: 19250	 acc: --	 ppl:  7.11	 xent: 1.96	  16.21 TFLOP/s	 12471/12409 tok/s	 3402459 sents	  50406 sec	
 mt_lit-eng: 19500	 acc: --	 ppl:  7.29	 xent: 1.99	  18.33 TFLOP/s	 14110/14019 tok/s	 3504353 sents	  51856 sec	
+mt_lit-eng: 19750	 acc: --	 ppl:  7.37	 xent: 2.00	  18.30 TFLOP/s	 14081/14012 tok/s	 3606332 sents	  53308 sec	
+mt_lit-eng: 20000	 acc: --	 ppl:  7.42	 xent: 2.00	  18.66 TFLOP/s	 14356/14279 tok/s	 3709743 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3845,6 +4051,8 @@ mt_lit-spa: 18750	 acc: --	 ppl:  6.49	 xent: 1.87	  17.98 TFLOP/s	 13604/13931 
 mt_lit-spa: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  18.71 TFLOP/s	 14140/14507 tok/s	 3305044 sents	  48769 sec	
 mt_lit-spa: 19250	 acc: --	 ppl:  6.41	 xent: 1.86	  16.56 TFLOP/s	 12525/12834 tok/s	 3407167 sents	  50406 sec	
 mt_lit-spa: 19500	 acc: --	 ppl:  6.44	 xent: 1.86	  18.53 TFLOP/s	 14012/14372 tok/s	 3508454 sents	  51856 sec	
+mt_lit-spa: 19750	 acc: --	 ppl:  6.61	 xent: 1.89	  18.50 TFLOP/s	 13987/14344 tok/s	 3609450 sents	  53308 sec	
+mt_lit-spa: 20000	 acc: --	 ppl:  6.38	 xent: 1.85	  18.67 TFLOP/s	 14124/14461 tok/s	 3711098 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3882,6 +4090,8 @@ mt_mkd-eng: 18750	 acc: --	 ppl:  6.67	 xent: 1.90	  18.71 TFLOP/s	 14748/14014 
 mt_mkd-eng: 19000	 acc: --	 ppl:  6.40	 xent: 1.86	  18.16 TFLOP/s	 14332/13602 tok/s	 3289900 sents	  48769 sec	
 mt_mkd-eng: 19250	 acc: --	 ppl:  6.30	 xent: 1.84	  16.49 TFLOP/s	 13001/12347 tok/s	 3390916 sents	  50406 sec	
 mt_mkd-eng: 19500	 acc: --	 ppl:  6.42	 xent: 1.86	  18.93 TFLOP/s	 14919/14194 tok/s	 3494208 sents	  51856 sec	
+mt_mkd-eng: 19750	 acc: --	 ppl:  6.59	 xent: 1.88	  18.14 TFLOP/s	 14288/13606 tok/s	 3593494 sents	  53308 sec	
+mt_mkd-eng: 20000	 acc: --	 ppl:  6.37	 xent: 1.85	  19.32 TFLOP/s	 15238/14471 tok/s	 3698067 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3919,6 +4129,8 @@ mt_mkd-spa: 18750	 acc: --	 ppl:  5.98	 xent: 1.79	  18.91 TFLOP/s	 14644/14372 
 mt_mkd-spa: 19000	 acc: --	 ppl:  6.05	 xent: 1.80	  18.88 TFLOP/s	 14635/14336 tok/s	 3309357 sents	  48769 sec	
 mt_mkd-spa: 19250	 acc: --	 ppl:  5.89	 xent: 1.77	  17.01 TFLOP/s	 13195/12912 tok/s	 3412283 sents	  50406 sec	
 mt_mkd-spa: 19500	 acc: --	 ppl:  6.08	 xent: 1.81	  18.89 TFLOP/s	 14653/14324 tok/s	 3513209 sents	  51856 sec	
+mt_mkd-spa: 19750	 acc: --	 ppl:  5.86	 xent: 1.77	  19.11 TFLOP/s	 14808/14508 tok/s	 3615520 sents	  53308 sec	
+mt_mkd-spa: 20000	 acc: --	 ppl:  5.87	 xent: 1.77	  18.73 TFLOP/s	 14517/14215 tok/s	 3715575 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3956,6 +4168,8 @@ mt_mlt-eng: 18750	 acc: --	 ppl:  8.05	 xent: 2.09	  17.66 TFLOP/s	 13312/13756 
 mt_mlt-eng: 19000	 acc: --	 ppl:  7.93	 xent: 2.07	  18.22 TFLOP/s	 13754/14178 tok/s	 3340894 sents	  48769 sec	
 mt_mlt-eng: 19250	 acc: --	 ppl:  8.00	 xent: 2.08	  16.23 TFLOP/s	 12253/12628 tok/s	 3444721 sents	  50406 sec	
 mt_mlt-eng: 19500	 acc: --	 ppl:  8.09	 xent: 2.09	  18.23 TFLOP/s	 13743/14188 tok/s	 3547830 sents	  51856 sec	
+mt_mlt-eng: 19750	 acc: --	 ppl:  8.29	 xent: 2.11	  18.46 TFLOP/s	 13947/14347 tok/s	 3651842 sents	  53308 sec	
+mt_mlt-eng: 20000	 acc: --	 ppl:  7.86	 xent: 2.06	  18.19 TFLOP/s	 13741/14140 tok/s	 3754415 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -3993,6 +4207,8 @@ mt_mlt-spa: 18750	 acc: --	 ppl:  7.91	 xent: 2.07	  17.62 TFLOP/s	 13061/13880 
 mt_mlt-spa: 19000	 acc: --	 ppl:  7.38	 xent: 2.00	  18.21 TFLOP/s	 13513/14333 tok/s	 3323732 sents	  48769 sec	
 mt_mlt-spa: 19250	 acc: --	 ppl:  7.76	 xent: 2.05	  16.74 TFLOP/s	 12398/13202 tok/s	 3428996 sents	  50406 sec	
 mt_mlt-spa: 19500	 acc: --	 ppl:  7.11	 xent: 1.96	  18.11 TFLOP/s	 13396/14288 tok/s	 3529826 sents	  51856 sec	
+mt_mlt-spa: 19750	 acc: --	 ppl:  7.80	 xent: 2.05	  18.85 TFLOP/s	 13960/14864 tok/s	 3634375 sents	  53308 sec	
+mt_mlt-spa: 20000	 acc: --	 ppl:  7.64	 xent: 2.03	  18.07 TFLOP/s	 13386/14248 tok/s	 3734411 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4030,6 +4246,8 @@ mt_nld-eng: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.38 TFLOP/s	 14298/13930 
 mt_nld-eng: 19000	 acc: --	 ppl:  6.27	 xent: 1.84	  18.74 TFLOP/s	 14535/14242 tok/s	 3311372 sents	  48769 sec	
 mt_nld-eng: 19250	 acc: --	 ppl:  5.91	 xent: 1.78	  16.25 TFLOP/s	 12627/12339 tok/s	 3412908 sents	  50406 sec	
 mt_nld-eng: 19500	 acc: --	 ppl:  5.98	 xent: 1.79	  18.62 TFLOP/s	 14442/14151 tok/s	 3515141 sents	  51856 sec	
+mt_nld-eng: 19750	 acc: --	 ppl:  6.19	 xent: 1.82	  18.68 TFLOP/s	 14512/14174 tok/s	 3618146 sents	  53307 sec	
+mt_nld-eng: 20000	 acc: --	 ppl:  6.01	 xent: 1.79	  18.63 TFLOP/s	 14482/14134 tok/s	 3721157 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4067,6 +4285,8 @@ mt_nld-spa: 18750	 acc: --	 ppl:  6.20	 xent: 1.82	  19.22 TFLOP/s	 14694/14762 
 mt_nld-spa: 19000	 acc: --	 ppl:  6.24	 xent: 1.83	  18.55 TFLOP/s	 14148/14279 tok/s	 3309431 sents	  48769 sec	
 mt_nld-spa: 19250	 acc: --	 ppl:  5.71	 xent: 1.74	  16.73 TFLOP/s	 12777/12859 tok/s	 3411642 sents	  50406 sec	
 mt_nld-spa: 19500	 acc: --	 ppl:  5.82	 xent: 1.76	  18.96 TFLOP/s	 14473/14579 tok/s	 3514272 sents	  51856 sec	
+mt_nld-spa: 19750	 acc: --	 ppl:  5.92	 xent: 1.78	  18.49 TFLOP/s	 14115/14224 tok/s	 3614748 sents	  53307 sec	
+mt_nld-spa: 20000	 acc: --	 ppl:  5.92	 xent: 1.78	  18.83 TFLOP/s	 14391/14463 tok/s	 3716543 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4104,6 +4324,8 @@ mt_nno-eng: 18750	 acc: --	 ppl:  7.53	 xent: 2.02	  18.32 TFLOP/s	 14161/13957 
 mt_nno-eng: 19000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.57 TFLOP/s	 14374/14147 tok/s	 3308955 sents	  48769 sec	
 mt_nno-eng: 19250	 acc: --	 ppl:  7.43	 xent: 2.01	  16.23 TFLOP/s	 12559/12368 tok/s	 3411125 sents	  50406 sec	
 mt_nno-eng: 19500	 acc: --	 ppl:  7.35	 xent: 1.99	  18.69 TFLOP/s	 14460/14233 tok/s	 3514274 sents	  51856 sec	
+mt_nno-eng: 19750	 acc: --	 ppl:  7.01	 xent: 1.95	  18.38 TFLOP/s	 14221/14009 tok/s	 3615971 sents	  53307 sec	
+mt_nno-eng: 20000	 acc: --	 ppl:  7.05	 xent: 1.95	  18.63 TFLOP/s	 14411/14188 tok/s	 3718722 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4141,6 +4363,8 @@ mt_nno-spa: 18750	 acc: --	 ppl:  6.82	 xent: 1.92	  19.02 TFLOP/s	 14458/14676 
 mt_nno-spa: 19000	 acc: --	 ppl:  6.94	 xent: 1.94	  18.91 TFLOP/s	 14376/14596 tok/s	 3308942 sents	  48769 sec	
 mt_nno-spa: 19250	 acc: --	 ppl:  7.50	 xent: 2.01	  16.37 TFLOP/s	 12451/12632 tok/s	 3409774 sents	  50406 sec	
 mt_nno-spa: 19500	 acc: --	 ppl:  6.99	 xent: 1.95	  18.92 TFLOP/s	 14385/14596 tok/s	 3512376 sents	  51856 sec	
+mt_nno-spa: 19750	 acc: --	 ppl:  7.24	 xent: 1.98	  18.81 TFLOP/s	 14301/14510 tok/s	 3614712 sents	  53307 sec	
+mt_nno-spa: 20000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.47 TFLOP/s	 14040/14262 tok/s	 3715092 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4178,6 +4402,8 @@ mt_nob-eng: 18750	 acc: --	 ppl:  6.42	 xent: 1.86	  18.31 TFLOP/s	 14538/13638 
 mt_nob-eng: 19000	 acc: --	 ppl:  6.33	 xent: 1.84	  18.34 TFLOP/s	 14511/13693 tok/s	 3264001 sents	  48769 sec	
 mt_nob-eng: 19250	 acc: --	 ppl:  6.26	 xent: 1.83	  16.99 TFLOP/s	 13474/12658 tok/s	 3367968 sents	  50406 sec	
 mt_nob-eng: 19500	 acc: --	 ppl:  6.23	 xent: 1.83	  18.37 TFLOP/s	 14503/13743 tok/s	 3467775 sents	  51856 sec	
+mt_nob-eng: 19750	 acc: --	 ppl:  6.35	 xent: 1.85	  18.63 TFLOP/s	 14778/13871 tok/s	 3568396 sents	  53307 sec	
+mt_nob-eng: 20000	 acc: --	 ppl:  6.35	 xent: 1.85	  18.41 TFLOP/s	 14601/13718 tok/s	 3668170 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4215,6 +4441,8 @@ mt_nob-spa: 18750	 acc: --	 ppl:  5.59	 xent: 1.72	  18.80 TFLOP/s	 14623/14222 
 mt_nob-spa: 19000	 acc: --	 ppl:  5.81	 xent: 1.76	  18.89 TFLOP/s	 14742/14254 tok/s	 3262174 sents	  48769 sec	
 mt_nob-spa: 19250	 acc: --	 ppl:  5.75	 xent: 1.75	  16.57 TFLOP/s	 12894/12536 tok/s	 3362306 sents	  50406 sec	
 mt_nob-spa: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  19.08 TFLOP/s	 14827/14446 tok/s	 3464140 sents	  51856 sec	
+mt_nob-spa: 19750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.89 TFLOP/s	 14727/14272 tok/s	 3565089 sents	  53308 sec	
+mt_nob-spa: 20000	 acc: --	 ppl:  5.99	 xent: 1.79	  18.76 TFLOP/s	 14616/14165 tok/s	 3664300 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4252,6 +4480,8 @@ mt_pol-eng: 18750	 acc: --	 ppl:  6.97	 xent: 1.94	  18.06 TFLOP/s	 14534/13331 
 mt_pol-eng: 19000	 acc: --	 ppl:  6.59	 xent: 1.89	  17.16 TFLOP/s	 13851/12641 tok/s	 3304393 sents	  48768 sec	
 mt_pol-eng: 19250	 acc: --	 ppl:  6.65	 xent: 1.89	  15.81 TFLOP/s	 12748/11658 tok/s	 3406292 sents	  50406 sec	
 mt_pol-eng: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.83 TFLOP/s	 14366/13162 tok/s	 3508588 sents	  51855 sec	
+mt_pol-eng: 19750	 acc: --	 ppl:  6.65	 xent: 1.89	  17.84 TFLOP/s	 14369/13159 tok/s	 3610590 sents	  53307 sec	
+mt_pol-eng: 20000	 acc: --	 ppl:  6.56	 xent: 1.88	  17.50 TFLOP/s	 14105/12902 tok/s	 3710254 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4289,6 +4519,8 @@ mt_pol-spa: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.39 TFLOP/s	 14070/14128 
 mt_pol-spa: 19000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.94 TFLOP/s	 14491/14549 tok/s	 3301820 sents	  48768 sec	
 mt_pol-spa: 19250	 acc: --	 ppl:  6.21	 xent: 1.83	  16.56 TFLOP/s	 12673/12716 tok/s	 3403273 sents	  50406 sec	
 mt_pol-spa: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.86 TFLOP/s	 14430/14479 tok/s	 3505558 sents	  51855 sec	
+mt_pol-spa: 19750	 acc: --	 ppl:  5.85	 xent: 1.77	  18.78 TFLOP/s	 14372/14415 tok/s	 3607915 sents	  53307 sec	
+mt_pol-spa: 20000	 acc: --	 ppl:  5.89	 xent: 1.77	  18.88 TFLOP/s	 14439/14505 tok/s	 3710097 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4326,6 +4558,8 @@ mt_por-eng: 18750	 acc: --	 ppl:  5.44	 xent: 1.69	  18.52 TFLOP/s	 14136/14236 
 mt_por-eng: 19000	 acc: --	 ppl:  5.77	 xent: 1.75	  18.92 TFLOP/s	 14486/14515 tok/s	 3283845 sents	  48768 sec	
 mt_por-eng: 19250	 acc: --	 ppl:  5.60	 xent: 1.72	  16.64 TFLOP/s	 12665/12818 tok/s	 3385390 sents	  50406 sec	
 mt_por-eng: 19500	 acc: --	 ppl:  5.75	 xent: 1.75	  18.45 TFLOP/s	 13986/14262 tok/s	 3484398 sents	  51855 sec	
+mt_por-eng: 19750	 acc: --	 ppl:  5.65	 xent: 1.73	  19.22 TFLOP/s	 14630/14806 tok/s	 3588153 sents	  53307 sec	
+mt_por-eng: 20000	 acc: --	 ppl:  5.67	 xent: 1.74	  18.42 TFLOP/s	 14037/14185 tok/s	 3687533 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4363,6 +4597,8 @@ mt_por-spa: 18750	 acc: --	 ppl:  5.73	 xent: 1.75	  18.41 TFLOP/s	 14240/14015 
 mt_por-spa: 19000	 acc: --	 ppl:  5.64	 xent: 1.73	  18.36 TFLOP/s	 14195/13986 tok/s	 3320689 sents	  48768 sec	
 mt_por-spa: 19250	 acc: --	 ppl:  5.53	 xent: 1.71	  16.61 TFLOP/s	 12847/12642 tok/s	 3422970 sents	  50406 sec	
 mt_por-spa: 19500	 acc: --	 ppl:  5.63	 xent: 1.73	  18.96 TFLOP/s	 14664/14438 tok/s	 3526770 sents	  51855 sec	
+mt_por-spa: 19750	 acc: --	 ppl:  5.46	 xent: 1.70	  18.73 TFLOP/s	 14491/14260 tok/s	 3629166 sents	  53307 sec	
+mt_por-spa: 20000	 acc: --	 ppl:  5.50	 xent: 1.71	  18.54 TFLOP/s	 14344/14123 tok/s	 3730499 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4400,6 +4636,8 @@ mt_ron-eng: 18750	 acc: --	 ppl:  5.90	 xent: 1.78	  18.63 TFLOP/s	 14662/13981 
 mt_ron-eng: 19000	 acc: --	 ppl:  5.65	 xent: 1.73	  18.47 TFLOP/s	 14521/13870 tok/s	 3303677 sents	  48768 sec	
 mt_ron-eng: 19250	 acc: --	 ppl:  5.59	 xent: 1.72	  16.83 TFLOP/s	 13230/12647 tok/s	 3407655 sents	  50406 sec	
 mt_ron-eng: 19500	 acc: --	 ppl:  5.73	 xent: 1.75	  18.40 TFLOP/s	 14518/13779 tok/s	 3508099 sents	  51855 sec	
+mt_ron-eng: 19750	 acc: --	 ppl:  5.68	 xent: 1.74	  18.45 TFLOP/s	 14541/13824 tok/s	 3608644 sents	  53307 sec	
+mt_ron-eng: 20000	 acc: --	 ppl:  5.71	 xent: 1.74	  18.84 TFLOP/s	 14842/14128 tok/s	 3711187 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4437,6 +4675,8 @@ mt_ron-spa: 18750	 acc: --	 ppl:  5.70	 xent: 1.74	  18.57 TFLOP/s	 14444/14061 
 mt_ron-spa: 19000	 acc: --	 ppl:  5.80	 xent: 1.76	  19.32 TFLOP/s	 14961/14680 tok/s	 3300494 sents	  48768 sec	
 mt_ron-spa: 19250	 acc: --	 ppl:  5.52	 xent: 1.71	  16.56 TFLOP/s	 12868/12553 tok/s	 3401277 sents	  50406 sec	
 mt_ron-spa: 19500	 acc: --	 ppl:  5.79	 xent: 1.76	  19.09 TFLOP/s	 14767/14522 tok/s	 3504058 sents	  51855 sec	
+mt_ron-spa: 19750	 acc: --	 ppl:  5.77	 xent: 1.75	  18.89 TFLOP/s	 14657/14330 tok/s	 3605606 sents	  53307 sec	
+mt_ron-spa: 20000	 acc: --	 ppl:  5.76	 xent: 1.75	  18.75 TFLOP/s	 14496/14264 tok/s	 3706359 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4474,6 +4714,8 @@ mt_slk-eng: 18750	 acc: --	 ppl:  6.27	 xent: 1.84	  18.73 TFLOP/s	 13845/14763 
 mt_slk-eng: 19000	 acc: --	 ppl:  6.30	 xent: 1.84	  18.67 TFLOP/s	 13840/14687 tok/s	 3280895 sents	  48768 sec	
 mt_slk-eng: 19250	 acc: --	 ppl:  5.98	 xent: 1.79	  16.92 TFLOP/s	 12497/13343 tok/s	 3383703 sents	  50406 sec	
 mt_slk-eng: 19500	 acc: --	 ppl:  6.06	 xent: 1.80	  18.45 TFLOP/s	 13631/14556 tok/s	 3483921 sents	  51855 sec	
+mt_slk-eng: 19750	 acc: --	 ppl:  6.10	 xent: 1.81	  19.14 TFLOP/s	 14168/15075 tok/s	 3587304 sents	  53307 sec	
+mt_slk-eng: 20000	 acc: --	 ppl:  6.20	 xent: 1.82	  18.53 TFLOP/s	 13718/14588 tok/s	 3687031 sents	  54754 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4511,6 +4753,8 @@ mt_slk-spa: 18750	 acc: --	 ppl:  6.53	 xent: 1.88	  18.52 TFLOP/s	 14262/14172 
 mt_slk-spa: 19000	 acc: --	 ppl:  6.76	 xent: 1.91	  18.11 TFLOP/s	 13953/13866 tok/s	 3339178 sents	  48768 sec	
 mt_slk-spa: 19250	 acc: --	 ppl:  6.57	 xent: 1.88	  15.86 TFLOP/s	 12186/12165 tok/s	 3439817 sents	  50406 sec	
 mt_slk-spa: 19500	 acc: --	 ppl:  6.63	 xent: 1.89	  18.84 TFLOP/s	 14482/14437 tok/s	 3545218 sents	  51855 sec	
+mt_slk-spa: 19750	 acc: --	 ppl:  6.29	 xent: 1.84	  17.57 TFLOP/s	 13518/13451 tok/s	 3644187 sents	  53307 sec	
+mt_slk-spa: 20000	 acc: --	 ppl:  6.48	 xent: 1.87	  18.35 TFLOP/s	 14126/14051 tok/s	 3746912 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4548,6 +4792,8 @@ mt_slv-eng: 18750	 acc: --	 ppl:  9.96	 xent: 2.30	  16.92 TFLOP/s	 13858/12332 
 mt_slv-eng: 19000	 acc: --	 ppl:  9.88	 xent: 2.29	  17.02 TFLOP/s	 14012/12346 tok/s	 3312812 sents	  48768 sec	
 mt_slv-eng: 19250	 acc: --	 ppl:  9.56	 xent: 2.26	  15.46 TFLOP/s	 12564/11345 tok/s	 3415713 sents	  50406 sec	
 mt_slv-eng: 19500	 acc: --	 ppl:  9.07	 xent: 2.20	  17.55 TFLOP/s	 14249/12878 tok/s	 3518779 sents	  51855 sec	
+mt_slv-eng: 19750	 acc: --	 ppl:  9.47	 xent: 2.25	  17.25 TFLOP/s	 14187/12529 tok/s	 3621522 sents	  53307 sec	
+mt_slv-eng: 20000	 acc: --	 ppl:  9.42	 xent: 2.24	  17.27 TFLOP/s	 14133/12596 tok/s	 3723611 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4585,6 +4831,8 @@ mt_slv-spa: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.11 TFLOP/s	 13912/13881 
 mt_slv-spa: 19000	 acc: --	 ppl:  6.49	 xent: 1.87	  18.40 TFLOP/s	 14175/14071 tok/s	 3334434 sents	  48768 sec	
 mt_slv-spa: 19250	 acc: --	 ppl:  6.52	 xent: 1.87	  16.16 TFLOP/s	 12431/12382 tok/s	 3436605 sents	  50406 sec	
 mt_slv-spa: 19500	 acc: --	 ppl:  7.08	 xent: 1.96	  18.32 TFLOP/s	 14074/14039 tok/s	 3537931 sents	  51855 sec	
+mt_slv-spa: 19750	 acc: --	 ppl:  7.14	 xent: 1.97	  18.60 TFLOP/s	 14316/14237 tok/s	 3641925 sents	  53307 sec	
+mt_slv-spa: 20000	 acc: --	 ppl:  6.72	 xent: 1.90	  18.37 TFLOP/s	 14107/14072 tok/s	 3743510 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4622,6 +4870,8 @@ mt_spa-bos: 18750	 acc: --	 ppl:  6.66	 xent: 1.90	  17.68 TFLOP/s	 13944/13274 
 mt_spa-bos: 19000	 acc: --	 ppl:  6.37	 xent: 1.85	  17.81 TFLOP/s	 14078/13353 tok/s	 3310309 sents	  48768 sec	
 mt_spa-bos: 19250	 acc: --	 ppl:  6.86	 xent: 1.93	  16.20 TFLOP/s	 12908/12058 tok/s	 3414239 sents	  50406 sec	
 mt_spa-bos: 19500	 acc: --	 ppl:  6.66	 xent: 1.90	  17.95 TFLOP/s	 14195/13442 tok/s	 3515998 sents	  51855 sec	
+mt_spa-bos: 19750	 acc: --	 ppl:  6.46	 xent: 1.86	  18.10 TFLOP/s	 14307/13558 tok/s	 3618218 sents	  53307 sec	
+mt_spa-bos: 20000	 acc: --	 ppl:  6.34	 xent: 1.85	  17.98 TFLOP/s	 14137/13526 tok/s	 3719027 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4659,6 +4909,8 @@ mt_spa-bul: 18750	 acc: --	 ppl:  7.93	 xent: 2.07	  18.19 TFLOP/s	 13837/14028 
 mt_spa-bul: 19000	 acc: --	 ppl:  7.41	 xent: 2.00	  18.78 TFLOP/s	 14303/14473 tok/s	 3315522 sents	  48768 sec	
 mt_spa-bul: 19250	 acc: --	 ppl:  7.84	 xent: 2.06	  16.74 TFLOP/s	 12743/12906 tok/s	 3418608 sents	  50406 sec	
 mt_spa-bul: 19500	 acc: --	 ppl:  7.77	 xent: 2.05	  18.40 TFLOP/s	 13989/14204 tok/s	 3519049 sents	  51855 sec	
+mt_spa-bul: 19750	 acc: --	 ppl:  7.92	 xent: 2.07	  19.14 TFLOP/s	 14573/14752 tok/s	 3623289 sents	  53307 sec	
+mt_spa-bul: 20000	 acc: --	 ppl:  7.95	 xent: 2.07	  18.37 TFLOP/s	 13995/14150 tok/s	 3723049 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4696,6 +4948,8 @@ mt_spa-cat: 18750	 acc: --	 ppl:  5.97	 xent: 1.79	  18.79 TFLOP/s	 14170/14585 
 mt_spa-cat: 19000	 acc: --	 ppl:  5.85	 xent: 1.77	  18.58 TFLOP/s	 14049/14404 tok/s	 3311022 sents	  48768 sec	
 mt_spa-cat: 19250	 acc: --	 ppl:  6.16	 xent: 1.82	  16.69 TFLOP/s	 12587/12949 tok/s	 3412412 sents	  50406 sec	
 mt_spa-cat: 19500	 acc: --	 ppl:  5.94	 xent: 1.78	  18.99 TFLOP/s	 14341/14722 tok/s	 3515036 sents	  51855 sec	
+mt_spa-cat: 19750	 acc: --	 ppl:  5.80	 xent: 1.76	  18.39 TFLOP/s	 13857/14278 tok/s	 3614389 sents	  53307 sec	
+mt_spa-cat: 20000	 acc: --	 ppl:  5.98	 xent: 1.79	  19.06 TFLOP/s	 14390/14778 tok/s	 3716874 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4733,6 +4987,8 @@ mt_spa-ces: 18750	 acc: --	 ppl:  6.62	 xent: 1.89	  18.31 TFLOP/s	 14130/13974 
 mt_spa-ces: 19000	 acc: --	 ppl:  6.69	 xent: 1.90	  18.27 TFLOP/s	 14102/13946 tok/s	 3318800 sents	  48768 sec	
 mt_spa-ces: 19250	 acc: --	 ppl:  6.94	 xent: 1.94	  16.24 TFLOP/s	 12529/12397 tok/s	 3420241 sents	  50406 sec	
 mt_spa-ces: 19500	 acc: --	 ppl:  6.60	 xent: 1.89	  18.72 TFLOP/s	 14468/14276 tok/s	 3523557 sents	  51856 sec	
+mt_spa-ces: 19750	 acc: --	 ppl:  6.52	 xent: 1.87	  18.31 TFLOP/s	 14131/13969 tok/s	 3624108 sents	  53307 sec	
+mt_spa-ces: 20000	 acc: --	 ppl:  6.47	 xent: 1.87	  18.03 TFLOP/s	 13894/13775 tok/s	 3723791 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4770,6 +5026,8 @@ mt_spa-dan: 18750	 acc: --	 ppl:  6.75	 xent: 1.91	  18.11 TFLOP/s	 14085/13734 
 mt_spa-dan: 19000	 acc: --	 ppl:  6.75	 xent: 1.91	  18.28 TFLOP/s	 14213/13876 tok/s	 3337801 sents	  48768 sec	
 mt_spa-dan: 19250	 acc: --	 ppl:  6.97	 xent: 1.94	  16.63 TFLOP/s	 12933/12611 tok/s	 3441869 sents	  50406 sec	
 mt_spa-dan: 19500	 acc: --	 ppl:  7.00	 xent: 1.95	  18.25 TFLOP/s	 14197/13851 tok/s	 3543974 sents	  51856 sec	
+mt_spa-dan: 19750	 acc: --	 ppl:  6.98	 xent: 1.94	  18.99 TFLOP/s	 14764/14405 tok/s	 3649129 sents	  53307 sec	
+mt_spa-dan: 20000	 acc: --	 ppl:  6.56	 xent: 1.88	  17.90 TFLOP/s	 13929/13578 tok/s	 3748611 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4807,6 +5065,8 @@ mt_spa-deu: 18750	 acc: --	 ppl:  7.35	 xent: 1.99	  17.87 TFLOP/s	 13852/13597 
 mt_spa-deu: 19000	 acc: --	 ppl:  7.36	 xent: 2.00	  18.63 TFLOP/s	 14449/14169 tok/s	 3303867 sents	  48768 sec	
 mt_spa-deu: 19250	 acc: --	 ppl:  7.54	 xent: 2.02	  16.16 TFLOP/s	 12540/12285 tok/s	 3405109 sents	  50406 sec	
 mt_spa-deu: 19500	 acc: --	 ppl:  7.61	 xent: 2.03	  18.27 TFLOP/s	 14159/13901 tok/s	 3506347 sents	  51856 sec	
+mt_spa-deu: 19750	 acc: --	 ppl:  7.45	 xent: 2.01	  18.09 TFLOP/s	 14025/13759 tok/s	 3607048 sents	  53307 sec	
+mt_spa-deu: 20000	 acc: --	 ppl:  7.77	 xent: 2.05	  18.93 TFLOP/s	 14684/14394 tok/s	 3711483 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4844,6 +5104,8 @@ mt_spa-ell: 18750	 acc: --	 ppl:  6.28	 xent: 1.84	  19.24 TFLOP/s	 14235/15144 
 mt_spa-ell: 19000	 acc: --	 ppl:  6.18	 xent: 1.82	  18.73 TFLOP/s	 13841/14745 tok/s	 3249260 sents	  48768 sec	
 mt_spa-ell: 19250	 acc: --	 ppl:  5.89	 xent: 1.77	  16.64 TFLOP/s	 12315/13095 tok/s	 3349150 sents	  50406 sec	
 mt_spa-ell: 19500	 acc: --	 ppl:  5.88	 xent: 1.77	  19.07 TFLOP/s	 14122/15003 tok/s	 3450511 sents	  51855 sec	
+mt_spa-ell: 19750	 acc: --	 ppl:  5.96	 xent: 1.79	  18.76 TFLOP/s	 13871/14765 tok/s	 3550051 sents	  53307 sec	
+mt_spa-ell: 20000	 acc: --	 ppl:  6.07	 xent: 1.80	  19.01 TFLOP/s	 14053/14956 tok/s	 3650256 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4881,6 +5143,8 @@ mt_spa-eng: 18750	 acc: --	 ppl:  7.43	 xent: 2.01	  17.46 TFLOP/s	 14053/12908 
 mt_spa-eng: 19000	 acc: --	 ppl:  7.61	 xent: 2.03	  17.72 TFLOP/s	 14311/13058 tok/s	 3325091 sents	  48768 sec	
 mt_spa-eng: 19250	 acc: --	 ppl:  7.53	 xent: 2.02	  15.75 TFLOP/s	 12654/11655 tok/s	 3427049 sents	  50406 sec	
 mt_spa-eng: 19500	 acc: --	 ppl:  7.38	 xent: 2.00	  17.71 TFLOP/s	 14342/13023 tok/s	 3529941 sents	  51856 sec	
+mt_spa-eng: 19750	 acc: --	 ppl:  7.43	 xent: 2.01	  17.95 TFLOP/s	 14485/13236 tok/s	 3633670 sents	  53307 sec	
+mt_spa-eng: 20000	 acc: --	 ppl:  7.62	 xent: 2.03	  17.40 TFLOP/s	 14025/12840 tok/s	 3733936 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4918,6 +5182,8 @@ mt_spa-est: 18750	 acc: --	 ppl:  7.23	 xent: 1.98	  17.44 TFLOP/s	 14001/12909 
 mt_spa-est: 19000	 acc: --	 ppl:  7.05	 xent: 1.95	  17.21 TFLOP/s	 13812/12748 tok/s	 3335226 sents	  48768 sec	
 mt_spa-est: 19250	 acc: --	 ppl:  7.35	 xent: 2.00	  15.94 TFLOP/s	 12800/11796 tok/s	 3438715 sents	  50406 sec	
 mt_spa-est: 19500	 acc: --	 ppl:  7.45	 xent: 2.01	  17.87 TFLOP/s	 14343/13232 tok/s	 3541533 sents	  51856 sec	
+mt_spa-est: 19750	 acc: --	 ppl:  7.72	 xent: 2.04	  18.15 TFLOP/s	 14572/13434 tok/s	 3645620 sents	  53307 sec	
+mt_spa-est: 20000	 acc: --	 ppl:  7.55	 xent: 2.02	  17.92 TFLOP/s	 14388/13260 tok/s	 3748091 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4955,6 +5221,8 @@ mt_spa-eus: 18750	 acc: --	 ppl:  8.45	 xent: 2.13	  16.90 TFLOP/s	 13871/12289 
 mt_spa-eus: 19000	 acc: --	 ppl:  8.70	 xent: 2.16	  16.86 TFLOP/s	 13833/12254 tok/s	 3289562 sents	  48768 sec	
 mt_spa-eus: 19250	 acc: --	 ppl:  9.13	 xent: 2.21	  15.05 TFLOP/s	 12452/10860 tok/s	 3390109 sents	  50406 sec	
 mt_spa-eus: 19500	 acc: --	 ppl:  8.84	 xent: 2.18	  17.24 TFLOP/s	 14266/12446 tok/s	 3492149 sents	  51856 sec	
+mt_spa-eus: 19750	 acc: --	 ppl:  8.76	 xent: 2.17	  16.99 TFLOP/s	 13988/12316 tok/s	 3592542 sents	  53307 sec	
+mt_spa-eus: 20000	 acc: --	 ppl:  8.77	 xent: 2.17	  17.62 TFLOP/s	 14512/12762 tok/s	 3695802 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -4992,6 +5260,8 @@ mt_spa-fin: 18750	 acc: --	 ppl:  6.54	 xent: 1.88	  17.98 TFLOP/s	 13934/13685 
 mt_spa-fin: 19000	 acc: --	 ppl:  6.76	 xent: 1.91	  18.12 TFLOP/s	 14051/13779 tok/s	 3319515 sents	  48768 sec	
 mt_spa-fin: 19250	 acc: --	 ppl:  7.30	 xent: 1.99	  16.27 TFLOP/s	 12681/12325 tok/s	 3421408 sents	  50406 sec	
 mt_spa-fin: 19500	 acc: --	 ppl:  6.72	 xent: 1.91	  18.56 TFLOP/s	 14362/14142 tok/s	 3524270 sents	  51856 sec	
+mt_spa-fin: 19750	 acc: --	 ppl:  6.91	 xent: 1.93	  18.53 TFLOP/s	 14335/14114 tok/s	 3626919 sents	  53307 sec	
+mt_spa-fin: 20000	 acc: --	 ppl:  6.48	 xent: 1.87	  18.39 TFLOP/s	 14191/14048 tok/s	 3728681 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5029,6 +5299,8 @@ mt_spa-fra: 18750	 acc: --	 ppl:  7.20	 xent: 1.97	  18.26 TFLOP/s	 14121/13918 
 mt_spa-fra: 19000	 acc: --	 ppl:  7.04	 xent: 1.95	  18.53 TFLOP/s	 14335/14125 tok/s	 3338076 sents	  48768 sec	
 mt_spa-fra: 19250	 acc: --	 ppl:  6.98	 xent: 1.94	  16.31 TFLOP/s	 12606/12442 tok/s	 3440183 sents	  50406 sec	
 mt_spa-fra: 19500	 acc: --	 ppl:  7.34	 xent: 1.99	  18.42 TFLOP/s	 14219/14057 tok/s	 3541546 sents	  51856 sec	
+mt_spa-fra: 19750	 acc: --	 ppl:  7.16	 xent: 1.97	  18.62 TFLOP/s	 14366/14220 tok/s	 3644315 sents	  53307 sec	
+mt_spa-fra: 20000	 acc: --	 ppl:  6.82	 xent: 1.92	  18.47 TFLOP/s	 14308/14053 tok/s	 3746201 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5066,6 +5338,8 @@ mt_spa-gle: 18750	 acc: --	 ppl:  7.84	 xent: 2.06	  18.74 TFLOP/s	 14155/14534 
 mt_spa-gle: 19000	 acc: --	 ppl:  7.29	 xent: 1.99	  18.48 TFLOP/s	 13953/14328 tok/s	 3288690 sents	  48768 sec	
 mt_spa-gle: 19250	 acc: --	 ppl:  7.87	 xent: 2.06	  17.11 TFLOP/s	 12936/13265 tok/s	 3393460 sents	  50406 sec	
 mt_spa-gle: 19500	 acc: --	 ppl:  7.43	 xent: 2.01	  18.62 TFLOP/s	 14080/14429 tok/s	 3494036 sents	  51856 sec	
+mt_spa-gle: 19750	 acc: --	 ppl:  7.95	 xent: 2.07	  18.91 TFLOP/s	 14316/14637 tok/s	 3596224 sents	  53307 sec	
+mt_spa-gle: 20000	 acc: --	 ppl:  7.72	 xent: 2.04	  18.78 TFLOP/s	 14221/14533 tok/s	 3697604 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5103,6 +5377,8 @@ mt_spa-glg: 18750	 acc: --	 ppl:  6.30	 xent: 1.84	  18.38 TFLOP/s	 14135/14061 
 mt_spa-glg: 19000	 acc: --	 ppl:  6.08	 xent: 1.81	  18.03 TFLOP/s	 13876/13792 tok/s	 3302559 sents	  48768 sec	
 mt_spa-glg: 19250	 acc: --	 ppl:  6.13	 xent: 1.81	  16.61 TFLOP/s	 12776/12714 tok/s	 3405926 sents	  50406 sec	
 mt_spa-glg: 19500	 acc: --	 ppl:  6.24	 xent: 1.83	  18.61 TFLOP/s	 14333/14223 tok/s	 3508352 sents	  51856 sec	
+mt_spa-glg: 19750	 acc: --	 ppl:  5.93	 xent: 1.78	  18.45 TFLOP/s	 14192/14107 tok/s	 3609696 sents	  53307 sec	
+mt_spa-glg: 20000	 acc: --	 ppl:  6.20	 xent: 1.82	  19.08 TFLOP/s	 14692/14594 tok/s	 3714610 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5140,6 +5416,8 @@ mt_spa-hrv: 18750	 acc: --	 ppl:  5.95	 xent: 1.78	  17.91 TFLOP/s	 13745/13725 
 mt_spa-hrv: 19000	 acc: --	 ppl:  6.22	 xent: 1.83	  17.91 TFLOP/s	 13747/13721 tok/s	 3306040 sents	  48768 sec	
 mt_spa-hrv: 19250	 acc: --	 ppl:  6.22	 xent: 1.83	  16.92 TFLOP/s	 12996/12966 tok/s	 3411308 sents	  50406 sec	
 mt_spa-hrv: 19500	 acc: --	 ppl:  6.19	 xent: 1.82	  18.52 TFLOP/s	 14225/14191 tok/s	 3512938 sents	  51856 sec	
+mt_spa-hrv: 19750	 acc: --	 ppl:  5.66	 xent: 1.73	  18.09 TFLOP/s	 13887/13862 tok/s	 3612587 sents	  53307 sec	
+mt_spa-hrv: 20000	 acc: --	 ppl:  6.10	 xent: 1.81	  18.70 TFLOP/s	 14365/14322 tok/s	 3714769 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5177,6 +5455,8 @@ mt_spa-hun: 18750	 acc: --	 ppl:  7.12	 xent: 1.96	  18.70 TFLOP/s	 14326/14348 
 mt_spa-hun: 19000	 acc: --	 ppl:  7.25	 xent: 1.98	  18.39 TFLOP/s	 14113/14098 tok/s	 3314506 sents	  48768 sec	
 mt_spa-hun: 19250	 acc: --	 ppl:  6.96	 xent: 1.94	  16.35 TFLOP/s	 12536/12543 tok/s	 3416053 sents	  50406 sec	
 mt_spa-hun: 19500	 acc: --	 ppl:  7.27	 xent: 1.98	  18.77 TFLOP/s	 14386/14406 tok/s	 3519027 sents	  51856 sec	
+mt_spa-hun: 19750	 acc: --	 ppl:  6.96	 xent: 1.94	  18.69 TFLOP/s	 14332/14335 tok/s	 3621087 sents	  53307 sec	
+mt_spa-hun: 20000	 acc: --	 ppl:  7.13	 xent: 1.96	  18.03 TFLOP/s	 13837/13827 tok/s	 3720340 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5214,6 +5494,8 @@ mt_spa-isl: 18750	 acc: --	 ppl:  7.04	 xent: 1.95	  18.34 TFLOP/s	 14060/14070 
 mt_spa-isl: 19000	 acc: --	 ppl:  6.63	 xent: 1.89	  17.87 TFLOP/s	 13680/13726 tok/s	 3274794 sents	  48769 sec	
 mt_spa-isl: 19250	 acc: --	 ppl:  6.94	 xent: 1.94	  16.07 TFLOP/s	 12335/12312 tok/s	 3374468 sents	  50406 sec	
 mt_spa-isl: 19500	 acc: --	 ppl:  7.42	 xent: 2.00	  18.76 TFLOP/s	 14445/14346 tok/s	 3477646 sents	  51856 sec	
+mt_spa-isl: 19750	 acc: --	 ppl:  6.79	 xent: 1.92	  17.96 TFLOP/s	 13779/13767 tok/s	 3576800 sents	  53307 sec	
+mt_spa-isl: 20000	 acc: --	 ppl:  6.95	 xent: 1.94	  18.81 TFLOP/s	 14466/14387 tok/s	 3679574 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5251,6 +5533,8 @@ mt_spa-ita: 18750	 acc: --	 ppl:  5.94	 xent: 1.78	  18.89 TFLOP/s	 14044/14818 
 mt_spa-ita: 19000	 acc: --	 ppl:  5.91	 xent: 1.78	  19.25 TFLOP/s	 14291/15113 tok/s	 3282884 sents	  48769 sec	
 mt_spa-ita: 19250	 acc: --	 ppl:  5.84	 xent: 1.76	  16.88 TFLOP/s	 12542/13244 tok/s	 3384374 sents	  50406 sec	
 mt_spa-ita: 19500	 acc: --	 ppl:  6.02	 xent: 1.80	  19.03 TFLOP/s	 14168/14907 tok/s	 3485166 sents	  51856 sec	
+mt_spa-ita: 19750	 acc: --	 ppl:  5.71	 xent: 1.74	  18.92 TFLOP/s	 14083/14825 tok/s	 3586155 sents	  53307 sec	
+mt_spa-ita: 20000	 acc: --	 ppl:  5.73	 xent: 1.75	  18.92 TFLOP/s	 14083/14829 tok/s	 3687105 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5288,6 +5572,8 @@ mt_spa-kat: 18750	 acc: --	 ppl:  9.00	 xent: 2.20	  17.63 TFLOP/s	 14249/12982 
 mt_spa-kat: 19000	 acc: --	 ppl:  9.24	 xent: 2.22	  17.52 TFLOP/s	 14181/12880 tok/s	 3332984 sents	  48769 sec	
 mt_spa-kat: 19250	 acc: --	 ppl:  9.15	 xent: 2.21	  15.97 TFLOP/s	 12960/11715 tok/s	 3437454 sents	  50406 sec	
 mt_spa-kat: 19500	 acc: --	 ppl:  8.71	 xent: 2.16	  17.34 TFLOP/s	 13998/12783 tok/s	 3537761 sents	  51856 sec	
+mt_spa-kat: 19750	 acc: --	 ppl:  8.23	 xent: 2.11	  18.11 TFLOP/s	 14591/13364 tok/s	 3642209 sents	  53307 sec	
+mt_spa-kat: 20000	 acc: --	 ppl:  8.92	 xent: 2.19	  18.01 TFLOP/s	 14579/13242 tok/s	 3746080 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5325,6 +5611,8 @@ mt_spa-lav: 18750	 acc: --	 ppl:  7.24	 xent: 1.98	  17.72 TFLOP/s	 14031/13256 
 mt_spa-lav: 19000	 acc: --	 ppl:  6.89	 xent: 1.93	  18.10 TFLOP/s	 14207/13640 tok/s	 3330419 sents	  48769 sec	
 mt_spa-lav: 19250	 acc: --	 ppl:  6.90	 xent: 1.93	  15.77 TFLOP/s	 12410/11854 tok/s	 3430909 sents	  50406 sec	
 mt_spa-lav: 19500	 acc: --	 ppl:  7.34	 xent: 1.99	  18.66 TFLOP/s	 14766/13969 tok/s	 3536205 sents	  51856 sec	
+mt_spa-lav: 19750	 acc: --	 ppl:  7.11	 xent: 1.96	  17.87 TFLOP/s	 14059/13443 tok/s	 3637295 sents	  53307 sec	
+mt_spa-lav: 20000	 acc: --	 ppl:  7.10	 xent: 1.96	  18.60 TFLOP/s	 14687/13950 tok/s	 3741932 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5362,6 +5650,8 @@ mt_spa-lit: 18750	 acc: --	 ppl:  6.20	 xent: 1.82	  17.80 TFLOP/s	 13706/13607 
 mt_spa-lit: 19000	 acc: --	 ppl:  5.75	 xent: 1.75	  18.18 TFLOP/s	 13973/13925 tok/s	 3302347 sents	  48769 sec	
 mt_spa-lit: 19250	 acc: --	 ppl:  6.42	 xent: 1.86	  16.67 TFLOP/s	 12832/12747 tok/s	 3406007 sents	  50406 sec	
 mt_spa-lit: 19500	 acc: --	 ppl:  6.21	 xent: 1.83	  18.53 TFLOP/s	 14266/14162 tok/s	 3508086 sents	  51856 sec	
+mt_spa-lit: 19750	 acc: --	 ppl:  6.07	 xent: 1.80	  18.09 TFLOP/s	 13937/13826 tok/s	 3607957 sents	  53307 sec	
+mt_spa-lit: 20000	 acc: --	 ppl:  6.09	 xent: 1.81	  18.87 TFLOP/s	 14529/14431 tok/s	 3711485 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5399,6 +5689,8 @@ mt_spa-mkd: 18750	 acc: --	 ppl:  6.65	 xent: 1.89	  18.75 TFLOP/s	 13972/14682 
 mt_spa-mkd: 19000	 acc: --	 ppl:  7.23	 xent: 1.98	  19.07 TFLOP/s	 14214/14924 tok/s	 3289045 sents	  48768 sec	
 mt_spa-mkd: 19250	 acc: --	 ppl:  6.97	 xent: 1.94	  16.67 TFLOP/s	 12455/13031 tok/s	 3389750 sents	  50406 sec	
 mt_spa-mkd: 19500	 acc: --	 ppl:  6.88	 xent: 1.93	  18.71 TFLOP/s	 13977/14627 tok/s	 3489603 sents	  51856 sec	
+mt_spa-mkd: 19750	 acc: --	 ppl:  6.96	 xent: 1.94	  18.93 TFLOP/s	 14147/14796 tok/s	 3591098 sents	  53307 sec	
+mt_spa-mkd: 20000	 acc: --	 ppl:  6.39	 xent: 1.85	  18.75 TFLOP/s	 14026/14645 tok/s	 3691325 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5436,6 +5728,8 @@ mt_spa-mlt: 18750	 acc: --	 ppl:  7.79	 xent: 2.05	  17.50 TFLOP/s	 13706/13207 
 mt_spa-mlt: 19000	 acc: --	 ppl:  8.28	 xent: 2.11	  17.70 TFLOP/s	 13951/13296 tok/s	 3317005 sents	  48768 sec	
 mt_spa-mlt: 19250	 acc: --	 ppl:  7.73	 xent: 2.05	  16.73 TFLOP/s	 13142/12599 tok/s	 3423373 sents	  50406 sec	
 mt_spa-mlt: 19500	 acc: --	 ppl:  7.90	 xent: 2.07	  17.92 TFLOP/s	 14111/13475 tok/s	 3524492 sents	  51856 sec	
+mt_spa-mlt: 19750	 acc: --	 ppl:  7.70	 xent: 2.04	  18.65 TFLOP/s	 14605/14069 tok/s	 3628850 sents	  53307 sec	
+mt_spa-mlt: 20000	 acc: --	 ppl:  8.01	 xent: 2.08	  18.24 TFLOP/s	 14307/13748 tok/s	 3731041 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5473,6 +5767,8 @@ mt_spa-nld: 18750	 acc: --	 ppl:  6.01	 xent: 1.79	  18.46 TFLOP/s	 14182/14139 
 mt_spa-nld: 19000	 acc: --	 ppl:  6.07	 xent: 1.80	  18.28 TFLOP/s	 14029/14009 tok/s	 3320842 sents	  48768 sec	
 mt_spa-nld: 19250	 acc: --	 ppl:  5.76	 xent: 1.75	  16.84 TFLOP/s	 12945/12887 tok/s	 3425590 sents	  50406 sec	
 mt_spa-nld: 19500	 acc: --	 ppl:  5.74	 xent: 1.75	  18.10 TFLOP/s	 13914/13860 tok/s	 3525450 sents	  51856 sec	
+mt_spa-nld: 19750	 acc: --	 ppl:  5.88	 xent: 1.77	  19.07 TFLOP/s	 14678/14581 tok/s	 3630746 sents	  53307 sec	
+mt_spa-nld: 20000	 acc: --	 ppl:  5.93	 xent: 1.78	  18.19 TFLOP/s	 13971/13934 tok/s	 3730271 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5510,6 +5806,8 @@ mt_spa-nno: 18750	 acc: --	 ppl:  6.50	 xent: 1.87	  18.01 TFLOP/s	 14291/13454 
 mt_spa-nno: 19000	 acc: --	 ppl:  6.88	 xent: 1.93	  17.81 TFLOP/s	 14164/13277 tok/s	 3320645 sents	  48769 sec	
 mt_spa-nno: 19250	 acc: --	 ppl:  6.96	 xent: 1.94	  15.81 TFLOP/s	 12558/11799 tok/s	 3422289 sents	  50406 sec	
 mt_spa-nno: 19500	 acc: --	 ppl:  6.77	 xent: 1.91	  18.49 TFLOP/s	 14681/13809 tok/s	 3526805 sents	  51856 sec	
+mt_spa-nno: 19750	 acc: --	 ppl:  6.65	 xent: 1.90	  17.65 TFLOP/s	 14051/13152 tok/s	 3627894 sents	  53307 sec	
+mt_spa-nno: 20000	 acc: --	 ppl:  7.01	 xent: 1.95	  18.09 TFLOP/s	 14399/13481 tok/s	 3730354 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5547,6 +5845,8 @@ mt_spa-nob: 18750	 acc: --	 ppl:  7.01	 xent: 1.95	  17.83 TFLOP/s	 13701/13656 
 mt_spa-nob: 19000	 acc: --	 ppl:  6.36	 xent: 1.85	  18.32 TFLOP/s	 14065/14044 tok/s	 3314445 sents	  48769 sec	
 mt_spa-nob: 19250	 acc: --	 ppl:  6.59	 xent: 1.89	  16.74 TFLOP/s	 12865/12817 tok/s	 3418611 sents	  50406 sec	
 mt_spa-nob: 19500	 acc: --	 ppl:  6.30	 xent: 1.84	  18.35 TFLOP/s	 14096/14055 tok/s	 3519207 sents	  51856 sec	
+mt_spa-nob: 19750	 acc: --	 ppl:  6.66	 xent: 1.90	  18.78 TFLOP/s	 14435/14379 tok/s	 3622544 sents	  53307 sec	
+mt_spa-nob: 20000	 acc: --	 ppl:  6.36	 xent: 1.85	  18.27 TFLOP/s	 14028/14002 tok/s	 3722562 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5584,6 +5884,8 @@ mt_spa-pol: 18750	 acc: --	 ppl:  7.96	 xent: 2.07	  18.10 TFLOP/s	 13633/14086 
 mt_spa-pol: 19000	 acc: --	 ppl:  7.35	 xent: 1.99	  18.46 TFLOP/s	 13909/14360 tok/s	 3311677 sents	  48769 sec	
 mt_spa-pol: 19250	 acc: --	 ppl:  7.92	 xent: 2.07	  16.61 TFLOP/s	 12513/12922 tok/s	 3415541 sents	  50407 sec	
 mt_spa-pol: 19500	 acc: --	 ppl:  7.57	 xent: 2.02	  18.13 TFLOP/s	 13649/14112 tok/s	 3515728 sents	  51856 sec	
+mt_spa-pol: 19750	 acc: --	 ppl:  7.74	 xent: 2.05	  18.59 TFLOP/s	 14003/14469 tok/s	 3618554 sents	  53308 sec	
+mt_spa-pol: 20000	 acc: --	 ppl:  7.88	 xent: 2.06	  18.27 TFLOP/s	 13762/14211 tok/s	 3719147 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5621,6 +5923,8 @@ mt_spa-por: 18750	 acc: --	 ppl:  6.86	 xent: 1.93	  18.18 TFLOP/s	 13546/14260 
 mt_spa-por: 19000	 acc: --	 ppl:  6.71	 xent: 1.90	  18.11 TFLOP/s	 13484/14207 tok/s	 3309293 sents	  48769 sec	
 mt_spa-por: 19250	 acc: --	 ppl:  6.98	 xent: 1.94	  16.68 TFLOP/s	 12417/13097 tok/s	 3412522 sents	  50407 sec	
 mt_spa-por: 19500	 acc: --	 ppl:  6.74	 xent: 1.91	  18.73 TFLOP/s	 13956/14686 tok/s	 3514551 sents	  51856 sec	
+mt_spa-por: 19750	 acc: --	 ppl:  7.23	 xent: 1.98	  18.61 TFLOP/s	 13844/14611 tok/s	 3616833 sents	  53308 sec	
+mt_spa-por: 20000	 acc: --	 ppl:  7.20	 xent: 1.97	  18.73 TFLOP/s	 13961/14677 tok/s	 3718362 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5658,6 +5962,8 @@ mt_spa-ron: 18750	 acc: --	 ppl: 10.88	 xent: 2.39	  17.92 TFLOP/s	 12774/14530 
 mt_spa-ron: 19000	 acc: --	 ppl: 11.64	 xent: 2.45	  17.71 TFLOP/s	 12557/14423 tok/s	 3285014 sents	  48769 sec	
 mt_spa-ron: 19250	 acc: --	 ppl: 11.87	 xent: 2.47	  16.02 TFLOP/s	 11322/13071 tok/s	 3387825 sents	  50407 sec	
 mt_spa-ron: 19500	 acc: --	 ppl: 11.48	 xent: 2.44	  17.71 TFLOP/s	 12606/14373 tok/s	 3487392 sents	  51856 sec	
+mt_spa-ron: 19750	 acc: --	 ppl: 11.48	 xent: 2.44	  17.92 TFLOP/s	 12716/14579 tok/s	 3588350 sents	  53308 sec	
+mt_spa-ron: 20000	 acc: --	 ppl: 11.96	 xent: 2.48	  17.78 TFLOP/s	 12562/14520 tok/s	 3689686 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5695,6 +6001,8 @@ mt_spa-slk: 18750	 acc: --	 ppl: 11.27	 xent: 2.42	  16.98 TFLOP/s	 12353/13594 
 mt_spa-slk: 19000	 acc: --	 ppl: 11.04	 xent: 2.40	  17.56 TFLOP/s	 12750/14074 tok/s	 3315314 sents	  48769 sec	
 mt_spa-slk: 19250	 acc: --	 ppl: 11.37	 xent: 2.43	  15.94 TFLOP/s	 11572/12773 tok/s	 3419369 sents	  50407 sec	
 mt_spa-slk: 19500	 acc: --	 ppl: 11.07	 xent: 2.40	  17.38 TFLOP/s	 12646/13915 tok/s	 3519585 sents	  51857 sec	
+mt_spa-slk: 19750	 acc: --	 ppl: 10.34	 xent: 2.34	  18.11 TFLOP/s	 13317/14378 tok/s	 3623322 sents	  53308 sec	
+mt_spa-slk: 20000	 acc: --	 ppl: 10.85	 xent: 2.38	  17.72 TFLOP/s	 12952/14128 tok/s	 3724593 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5732,6 +6040,8 @@ mt_spa-slv: 18750	 acc: --	 ppl:  7.48	 xent: 2.01	  18.20 TFLOP/s	 13928/13995 
 mt_spa-slv: 19000	 acc: --	 ppl:  8.05	 xent: 2.09	  18.19 TFLOP/s	 13922/13987 tok/s	 3331619 sents	  48769 sec	
 mt_spa-slv: 19250	 acc: --	 ppl:  7.58	 xent: 2.03	  16.16 TFLOP/s	 12374/12411 tok/s	 3433003 sents	  50407 sec	
 mt_spa-slv: 19500	 acc: --	 ppl:  7.74	 xent: 2.05	  19.07 TFLOP/s	 14600/14666 tok/s	 3539433 sents	  51856 sec	
+mt_spa-slv: 19750	 acc: --	 ppl:  8.07	 xent: 2.09	  17.77 TFLOP/s	 13586/13668 tok/s	 3638582 sents	  53308 sec	
+mt_spa-slv: 20000	 acc: --	 ppl:  8.49	 xent: 2.14	  18.78 TFLOP/s	 14333/14473 tok/s	 3742805 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5769,6 +6079,8 @@ mt_spa-sqi: 18750	 acc: --	 ppl:  8.26	 xent: 2.11	  18.74 TFLOP/s	 13858/14761 
 mt_spa-sqi: 19000	 acc: --	 ppl:  8.24	 xent: 2.11	  18.84 TFLOP/s	 13927/14843 tok/s	 3287278 sents	  48769 sec	
 mt_spa-sqi: 19250	 acc: --	 ppl:  8.22	 xent: 2.11	  16.78 TFLOP/s	 12409/13221 tok/s	 3388888 sents	  50407 sec	
 mt_spa-sqi: 19500	 acc: --	 ppl:  8.47	 xent: 2.14	  18.80 TFLOP/s	 13899/14812 tok/s	 3489951 sents	  51856 sec	
+mt_spa-sqi: 19750	 acc: --	 ppl:  8.07	 xent: 2.09	  19.21 TFLOP/s	 14207/15133 tok/s	 3593117 sents	  53308 sec	
+mt_spa-sqi: 20000	 acc: --	 ppl:  7.94	 xent: 2.07	  17.97 TFLOP/s	 13287/14157 tok/s	 3689633 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5806,6 +6118,8 @@ mt_spa-srp_Cyrl: 18750	 acc: --	 ppl:  7.40	 xent: 2.00	  19.05 TFLOP/s	 14952/1
 mt_spa-srp_Cyrl: 19000	 acc: --	 ppl:  7.18	 xent: 1.97	  18.23 TFLOP/s	 14310/13711 tok/s	 3319940 sents	  48769 sec	
 mt_spa-srp_Cyrl: 19250	 acc: --	 ppl:  7.37	 xent: 2.00	  16.52 TFLOP/s	 12968/12425 tok/s	 3421585 sents	  50406 sec	
 mt_spa-srp_Cyrl: 19500	 acc: --	 ppl:  7.71	 xent: 2.04	  18.96 TFLOP/s	 14885/14257 tok/s	 3525108 sents	  51856 sec	
+mt_spa-srp_Cyrl: 19750	 acc: --	 ppl:  7.48	 xent: 2.01	  18.61 TFLOP/s	 14611/13999 tok/s	 3627173 sents	  53308 sec	
+mt_spa-srp_Cyrl: 20000	 acc: --	 ppl:  7.23	 xent: 1.98	  18.51 TFLOP/s	 14527/13916 tok/s	 3727656 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5843,6 +6157,8 @@ mt_spa-swe: 18750	 acc: --	 ppl:  7.40	 xent: 2.00	  18.33 TFLOP/s	 14367/13810 
 mt_spa-swe: 19000	 acc: --	 ppl:  7.16	 xent: 1.97	  18.61 TFLOP/s	 14600/14008 tok/s	 3336096 sents	  48769 sec	
 mt_spa-swe: 19250	 acc: --	 ppl:  6.83	 xent: 1.92	  16.62 TFLOP/s	 13054/12501 tok/s	 3438900 sents	  50407 sec	
 mt_spa-swe: 19500	 acc: --	 ppl:  7.13	 xent: 1.96	  18.46 TFLOP/s	 14480/13898 tok/s	 3540174 sents	  51856 sec	
+mt_spa-swe: 19750	 acc: --	 ppl:  7.35	 xent: 1.99	  18.90 TFLOP/s	 14839/14215 tok/s	 3643420 sents	  53308 sec	
+mt_spa-swe: 20000	 acc: --	 ppl:  6.90	 xent: 1.93	  18.55 TFLOP/s	 14545/13964 tok/s	 3744457 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5880,6 +6196,8 @@ mt_spa-tur: 18750	 acc: --	 ppl:  9.15	 xent: 2.21	  17.98 TFLOP/s	 14458/13280 
 mt_spa-tur: 19000	 acc: --	 ppl:  8.85	 xent: 2.18	  18.03 TFLOP/s	 14537/13297 tok/s	 3329250 sents	  48769 sec	
 mt_spa-tur: 19250	 acc: --	 ppl:  8.68	 xent: 2.16	  15.77 TFLOP/s	 12702/11632 tok/s	 3429870 sents	  50406 sec	
 mt_spa-tur: 19500	 acc: --	 ppl:  8.70	 xent: 2.16	  18.59 TFLOP/s	 14976/13708 tok/s	 3535474 sents	  51856 sec	
+mt_spa-tur: 19750	 acc: --	 ppl:  8.68	 xent: 2.16	  17.41 TFLOP/s	 13985/12872 tok/s	 3633962 sents	  53308 sec	
+mt_spa-tur: 20000	 acc: --	 ppl:  9.01	 xent: 2.20	  18.71 TFLOP/s	 15009/13835 tok/s	 3739194 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5917,6 +6235,8 @@ mt_spa-ukr: 18750	 acc: --	 ppl:  8.93	 xent: 2.19	  19.05 TFLOP/s	 14673/14552 
 mt_spa-ukr: 19000	 acc: --	 ppl:  8.27	 xent: 2.11	  18.29 TFLOP/s	 14087/13974 tok/s	 3314871 sents	  48769 sec	
 mt_spa-ukr: 19250	 acc: --	 ppl:  8.54	 xent: 2.14	  16.82 TFLOP/s	 12952/12840 tok/s	 3417595 sents	  50407 sec	
 mt_spa-ukr: 19500	 acc: --	 ppl:  8.70	 xent: 2.16	  19.16 TFLOP/s	 14759/14631 tok/s	 3521622 sents	  51856 sec	
+mt_spa-ukr: 19750	 acc: --	 ppl:  8.63	 xent: 2.16	  18.75 TFLOP/s	 14436/14326 tok/s	 3623458 sents	  53308 sec	
+mt_spa-ukr: 20000	 acc: --	 ppl:  8.25	 xent: 2.11	  18.54 TFLOP/s	 14278/14159 tok/s	 3723584 sents	  54755 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5954,6 +6274,8 @@ mt_sqi-eng: 18750	 acc: --	 ppl:  6.97	 xent: 1.94	  18.52 TFLOP/s	 14606/13870 
 mt_sqi-eng: 19000	 acc: --	 ppl:  6.55	 xent: 1.88	  18.35 TFLOP/s	 14490/13724 tok/s	 3289533 sents	  48769 sec	
 mt_sqi-eng: 19250	 acc: --	 ppl:  6.88	 xent: 1.93	  16.39 TFLOP/s	 12910/12287 tok/s	 3390622 sents	  50407 sec	
 mt_sqi-eng: 19500	 acc: --	 ppl:  6.58	 xent: 1.88	  18.47 TFLOP/s	 14577/13822 tok/s	 3491011 sents	  51857 sec	
+mt_sqi-eng: 19750	 acc: --	 ppl:  6.52	 xent: 1.88	  18.41 TFLOP/s	 14539/13770 tok/s	 3590964 sents	  53308 sec	
+mt_sqi-eng: 20000	 acc: --	 ppl:  6.65	 xent: 1.90	  18.48 TFLOP/s	 14561/13852 tok/s	 3691782 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -5991,6 +6313,8 @@ mt_sqi-spa: 18750	 acc: --	 ppl:  6.63	 xent: 1.89	  18.76 TFLOP/s	 14546/14245 
 mt_sqi-spa: 19000	 acc: --	 ppl:  6.81	 xent: 1.92	  18.83 TFLOP/s	 14614/14281 tok/s	 3279903 sents	  48769 sec	
 mt_sqi-spa: 19250	 acc: --	 ppl:  6.56	 xent: 1.88	  16.86 TFLOP/s	 13102/12770 tok/s	 3381616 sents	  50407 sec	
 mt_sqi-spa: 19500	 acc: --	 ppl:  6.61	 xent: 1.89	  18.72 TFLOP/s	 14550/14170 tok/s	 3481551 sents	  51857 sec	
+mt_sqi-spa: 19750	 acc: --	 ppl:  6.31	 xent: 1.84	  19.33 TFLOP/s	 14956/14703 tok/s	 3585164 sents	  53308 sec	
+mt_sqi-spa: 20000	 acc: --	 ppl:  6.44	 xent: 1.86	  18.58 TFLOP/s	 14411/14095 tok/s	 3684417 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6028,6 +6352,8 @@ mt_srp_Cyrl-eng: 18750	 acc: --	 ppl:  6.72	 xent: 1.91	  18.14 TFLOP/s	 13996/1
 mt_srp_Cyrl-eng: 19000	 acc: --	 ppl:  6.66	 xent: 1.90	  17.70 TFLOP/s	 13657/13512 tok/s	 3311118 sents	  48769 sec	
 mt_srp_Cyrl-eng: 19250	 acc: --	 ppl:  6.76	 xent: 1.91	  16.66 TFLOP/s	 12839/12732 tok/s	 3415403 sents	  50407 sec	
 mt_srp_Cyrl-eng: 19500	 acc: --	 ppl:  6.77	 xent: 1.91	  18.44 TFLOP/s	 14214/14090 tok/s	 3518060 sents	  51857 sec	
+mt_srp_Cyrl-eng: 19750	 acc: --	 ppl:  6.92	 xent: 1.93	  18.46 TFLOP/s	 14231/14101 tok/s	 3620424 sents	  53308 sec	
+mt_srp_Cyrl-eng: 20000	 acc: --	 ppl:  6.88	 xent: 1.93	  18.08 TFLOP/s	 13948/13805 tok/s	 3720524 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6065,6 +6391,8 @@ mt_srp_Cyrl-spa: 18750	 acc: --	 ppl:  6.40	 xent: 1.86	  17.65 TFLOP/s	 13365/1
 mt_srp_Cyrl-spa: 19000	 acc: --	 ppl:  6.18	 xent: 1.82	  18.70 TFLOP/s	 14193/14454 tok/s	 3312592 sents	  48769 sec	
 mt_srp_Cyrl-spa: 19250	 acc: --	 ppl:  6.15	 xent: 1.82	  16.62 TFLOP/s	 12584/12871 tok/s	 3415010 sents	  50407 sec	
 mt_srp_Cyrl-spa: 19500	 acc: --	 ppl:  6.04	 xent: 1.80	  18.72 TFLOP/s	 14195/14479 tok/s	 3516920 sents	  51857 sec	
+mt_srp_Cyrl-spa: 19750	 acc: --	 ppl:  6.37	 xent: 1.85	  18.53 TFLOP/s	 14039/14337 tok/s	 3618221 sents	  53308 sec	
+mt_srp_Cyrl-spa: 20000	 acc: --	 ppl:  5.90	 xent: 1.77	  18.59 TFLOP/s	 14077/14388 tok/s	 3719358 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6102,6 +6430,8 @@ mt_swe-eng: 18750	 acc: --	 ppl:  7.02	 xent: 1.95	  17.85 TFLOP/s	 13533/13826 
 mt_swe-eng: 19000	 acc: --	 ppl:  6.91	 xent: 1.93	  17.94 TFLOP/s	 13600/13901 tok/s	 3350382 sents	  48770 sec	
 mt_swe-eng: 19250	 acc: --	 ppl:  7.44	 xent: 2.01	  16.28 TFLOP/s	 12357/12605 tok/s	 3454098 sents	  50407 sec	
 mt_swe-eng: 19500	 acc: --	 ppl:  7.54	 xent: 2.02	  18.49 TFLOP/s	 14028/14323 tok/s	 3558065 sents	  51857 sec	
+mt_swe-eng: 19750	 acc: --	 ppl:  7.52	 xent: 2.02	  18.37 TFLOP/s	 13936/14230 tok/s	 3661418 sents	  53308 sec	
+mt_swe-eng: 20000	 acc: --	 ppl:  6.96	 xent: 1.94	  18.18 TFLOP/s	 13781/14088 tok/s	 3763364 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6139,6 +6469,8 @@ mt_swe-spa: 18750	 acc: --	 ppl:  6.61	 xent: 1.89	  18.43 TFLOP/s	 13732/14455 
 mt_swe-spa: 19000	 acc: --	 ppl:  6.43	 xent: 1.86	  18.39 TFLOP/s	 13705/14430 tok/s	 3340596 sents	  48770 sec	
 mt_swe-spa: 19250	 acc: --	 ppl:  6.75	 xent: 1.91	  16.56 TFLOP/s	 12338/12996 tok/s	 3444085 sents	  50407 sec	
 mt_swe-spa: 19500	 acc: --	 ppl:  6.85	 xent: 1.92	  18.93 TFLOP/s	 14115/14844 tok/s	 3548466 sents	  51857 sec	
+mt_swe-spa: 19750	 acc: --	 ppl:  7.08	 xent: 1.96	  18.12 TFLOP/s	 13513/14214 tok/s	 3648858 sents	  53308 sec	
+mt_swe-spa: 20000	 acc: --	 ppl:  6.97	 xent: 1.94	  18.66 TFLOP/s	 13892/14643 tok/s	 3751665 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6176,6 +6508,8 @@ mt_tur-eng: 18750	 acc: --	 ppl:  9.63	 xent: 2.27	  17.49 TFLOP/s	 12921/13836 
 mt_tur-eng: 19000	 acc: --	 ppl:  9.05	 xent: 2.20	  17.90 TFLOP/s	 13263/14133 tok/s	 3316061 sents	  48770 sec	
 mt_tur-eng: 19250	 acc: --	 ppl:  8.94	 xent: 2.19	  15.50 TFLOP/s	 11443/12279 tok/s	 3416844 sents	  50407 sec	
 mt_tur-eng: 19500	 acc: --	 ppl:  9.08	 xent: 2.21	  17.89 TFLOP/s	 13197/14179 tok/s	 3519829 sents	  51857 sec	
+mt_tur-eng: 19750	 acc: --	 ppl:  8.91	 xent: 2.19	  17.40 TFLOP/s	 12838/13792 tok/s	 3620262 sents	  53308 sec	
+mt_tur-eng: 20000	 acc: --	 ppl:  9.23	 xent: 2.22	  18.13 TFLOP/s	 13398/14339 tok/s	 3723989 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6213,6 +6547,8 @@ mt_tur-spa: 18750	 acc: --	 ppl:  8.86	 xent: 2.18	  17.55 TFLOP/s	 12759/14041 
 mt_tur-spa: 19000	 acc: --	 ppl:  8.77	 xent: 2.17	  17.41 TFLOP/s	 12655/13929 tok/s	 3296413 sents	  48770 sec	
 mt_tur-spa: 19250	 acc: --	 ppl:  8.68	 xent: 2.16	  16.09 TFLOP/s	 11680/12888 tok/s	 3398742 sents	  50407 sec	
 mt_tur-spa: 19500	 acc: --	 ppl:  8.48	 xent: 2.14	  18.20 TFLOP/s	 13248/14553 tok/s	 3501929 sents	  51857 sec	
+mt_tur-spa: 19750	 acc: --	 ppl:  8.27	 xent: 2.11	  18.03 TFLOP/s	 13079/14448 tok/s	 3603696 sents	  53308 sec	
+mt_tur-spa: 20000	 acc: --	 ppl:  8.75	 xent: 2.17	  18.04 TFLOP/s	 13104/14442 tok/s	 3705031 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6250,6 +6586,8 @@ mt_ukr-eng: 18750	 acc: --	 ppl:  7.26	 xent: 1.98	  17.97 TFLOP/s	 14021/13593 
 mt_ukr-eng: 19000	 acc: --	 ppl:  6.83	 xent: 1.92	  17.98 TFLOP/s	 14022/13610 tok/s	 3300418 sents	  48770 sec	
 mt_ukr-eng: 19250	 acc: --	 ppl:  6.95	 xent: 1.94	  16.71 TFLOP/s	 13047/12636 tok/s	 3404143 sents	  50407 sec	
 mt_ukr-eng: 19500	 acc: --	 ppl:  6.73	 xent: 1.91	  18.42 TFLOP/s	 14363/13944 tok/s	 3505480 sents	  51857 sec	
+mt_ukr-eng: 19750	 acc: --	 ppl:  7.09	 xent: 1.96	  18.53 TFLOP/s	 14468/14011 tok/s	 3607494 sents	  53308 sec	
+mt_ukr-eng: 20000	 acc: --	 ppl:  6.66	 xent: 1.90	  18.81 TFLOP/s	 14662/14229 tok/s	 3710209 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[4]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
@@ -6287,6 +6625,8 @@ mt_ukr-spa: 18750	 acc: --	 ppl:  6.04	 xent: 1.80	  18.40 TFLOP/s	 14114/14095 
 mt_ukr-spa: 19000	 acc: --	 ppl:  5.80	 xent: 1.76	  18.75 TFLOP/s	 14374/14377 tok/s	 3311746 sents	  48770 sec	
 mt_ukr-spa: 19250	 acc: --	 ppl:  5.92	 xent: 1.78	  16.91 TFLOP/s	 12972/12957 tok/s	 3414960 sents	  50407 sec	
 mt_ukr-spa: 19500	 acc: --	 ppl:  6.18	 xent: 1.82	  18.66 TFLOP/s	 14304/14293 tok/s	 3515579 sents	  51857 sec	
+mt_ukr-spa: 19750	 acc: --	 ppl:  6.07	 xent: 1.80	  18.95 TFLOP/s	 14532/14522 tok/s	 3618042 sents	  53308 sec	
+mt_ukr-spa: 20000	 acc: --	 ppl:  5.84	 xent: 1.76	  18.99 TFLOP/s	 14542/14568 tok/s	 3720344 sents	  54756 sec	
 make[4]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
 
 make[3]: Leaving directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/pytorch/docmt-2pivot-GAenc-big'
