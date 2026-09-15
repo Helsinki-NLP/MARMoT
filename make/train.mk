@@ -278,7 +278,9 @@ endif
 
 .PHONY: ${PRINT_VALID_SCORE_ALIASES}
 ${PRINT_VALID_SCORE_ALIASES}:
-	@${MAKE} -s print-valid-scores-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; print join("\t",@a); print "\n";'
+	@${MAKE} -s print-valid-scores-table \
+	| grep -v '^make' \
+	| perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; print join("\t",@a); print "\n";'
 
 
 
@@ -327,7 +329,9 @@ print-valid-diff-table:
 
 .PHONY: ${PRINT_VALID_DIFF_ALIASES}
 ${PRINT_VALID_DIFF_ALIASES}:
-	@${MAKE} -s print-valid-diff-table | perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "+%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; $$s=join("\t",@a);$$s=~s/\+\-/\-/g;$$s=~s/^\+//;print $$s; print "\n";'
+	@${MAKE} -s print-valid-diff-table \
+	| grep -v '^make' \
+	| perl -e '$$_=<>;print;while (<>){ print;chomp;$$i++; @s=split(/\t/); foreach (2..$$#s){ $$t[$$_-2]+=$$s[$$_]; } }; @a = map { sprintf "+%5.3f",$$_/$$i } @t; print "all\taverage-score\t"; $$s=join("\t",@a);$$s=~s/\+\-/\-/g;$$s=~s/^\+//;print $$s; print "\n";'
 
 
 
@@ -335,35 +339,35 @@ ${PRINT_VALID_DIFF_ALIASES}:
 ${MODEL_DIR}/stats/train-progress.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print train progress"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-train-progress > $@
+	@${MAKE} -s print-train-progress | grep -v '^make' > $@
 
 ${MODEL_DIR}/stats/valid-scores-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation BLEU scores"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-scores PRINT_METRIC=bleu > $@
+	@${MAKE} -s print-valid-scores PRINT_METRIC=bleu  | grep -v '^make' > $@
 
 ${MODEL_DIR}/stats/valid-scores-chrf.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation chrF scores"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-scores PRINT_METRIC=chrf > $@
+	@${MAKE} -s print-valid-scores PRINT_METRIC=chrf  | grep -v '^make' > $@
 
 ${MODEL_DIR}/stats/valid-scores-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation perplexity scores"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-scores PRINT_METRIC=perplexity > $@
+	@${MAKE} -s print-valid-scores PRINT_METRIC=perplexity  | grep -v '^make' > $@
 
 
 ${MODEL_DIR}/stats/valid-diff-bleu.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation BLEU differences"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-diffs PRINT_METRIC=bleu > $@
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=bleu  | grep -v '^make' > $@
 
 ${MODEL_DIR}/stats/valid-diff-chrf.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation chrF differences"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-diffs PRINT_METRIC=chrf > $@
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=chrf | grep -v '^make' > $@
 
 ${MODEL_DIR}/stats/valid-diff-ppl.txt: ${MODEL_DIR}/model_checkpoint_metadata.json
 	@echo "print validation perplexity differences"
 	@mkdir -p $(dir $@)
-	@${MAKE} -s print-valid-diffs PRINT_METRIC=perplexity > $@
+	@${MAKE} -s print-valid-diffs PRINT_METRIC=perplexity  | grep -v '^make' > $@
