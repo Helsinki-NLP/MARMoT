@@ -16,6 +16,8 @@ make status
 
 The Makefiles supply the required paths, environment variables, and execution environment.
 
+Developers changing these programs should also read [`MAINTAINERS.md`](MAINTAINERS.md), which documents their interfaces, invariants, and known issues.
+
 ## Programs
 
 | Program | Role in the workflow | Normally reached through |
@@ -29,6 +31,7 @@ The Makefiles supply the required paths, environment variables, and execution en
 | `summarize_sacre.py` | Converts individual SacreBLEU result files into readable tables or long-form TSV. | `mt-bleu`, `mt-chrf`, `sacre-tsv-all`, and related targets |
 | `partition_coverage.py` | Groups evaluation tasks by the exact set of models that cover them. | `make coverage-partition` |
 | `compare_scores.py` | Compares models on common tasks, including rankings and pairwise wins. | `make compare`, `make list-groups` |
+
 
 ## How the pieces fit together
 
@@ -71,7 +74,7 @@ The helpers operate on files under each model directory:
 | `inf_scores/*.sacre` and `*.0ssacre` | Supervised and zero-shot score files. |
 | `eval3/sacre.tsv` | Normalized score table used by comparison tools. |
 
-The TSV preserves localized task identifiers such as `CA.fra` and `FR.fra`. Comparison code uses these exact `src_xcode` and `tgt_xcode` fields so distinct localized tasks are not accidentally merged.
+The TSV preserves localized task identifiers such as `CA.fra` and `FR.fra`. `compare_scores.py` uses these exact `src_xcode` and `tgt_xcode` fields so distinct localized tasks are not accidentally merged. `partition_coverage.py` currently uses the coarser `src` and `tgt` fields; see `MAINTAINERS.md` before using its groups as exact localized-task partitions.
 
 ## Running selected tools manually
 
@@ -135,4 +138,3 @@ The location of `slurm_distr.sh` must also agree with the generated templates an
 - Update resource tables when cluster policies or hardware change.
 - Treat the shell call files as executable input: `slurm_distr.sh` executes selected lines with `eval`.
 - Keep command-line help and this table current when a script is added, renamed, or retired.
-
