@@ -23,6 +23,7 @@ module load cray-python
 cd $DATA
 source $PROJHOME/venvs/eval/bin/activate
 python dl-bouquet-all.py
+python dl-bouquet-all-par.py
 ```
 Example files after downloading:
 ```
@@ -45,10 +46,10 @@ following:
 
 This keeps exploratory work separate from the main benchmark results.
 
+To access FLORES+ through Hugging Face, the user must:
 
-To access FLORES+ through Hugging Face, the user must
-1. install the \texttt{datasets} package (see above),
-2. log in to Hugging Face at \url{https://huggingface.co/},
+1. install the _datasets_ package (see above),
+2. log in to Hugging Face at `https://huggingface.co/`,
 3. accept the FLORES+ terms of use, and
 4. authenticate locally using the authentication token.
 
@@ -95,9 +96,9 @@ It is distributed through Hugging Face, and its README describes it as
 human translation and post-edit data for 55 English-to-target language
 pairs. Unlike FLORES+, where one can think in terms of
 language-centered parallel files, WMT24++ is organized primarily by
-\emph{language-pair configuration}. Each pair is stored in its own
+_language-pair configuration_. Each pair is stored in its own
 JSONL file and exposed on Hugging Face as its own dataset
-configuration, such as _en-fi\_FI_ or _en-de\_DE_.  The directory
+configuration, such as `en-fi_FI` or `en-de_DE`.  The directory
 structure follows this pattern:
 ```
 data/wmt24pp/
