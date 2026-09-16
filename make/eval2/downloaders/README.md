@@ -70,6 +70,22 @@ Now the files can be downloaded:
 ```
 python dl-flores-all.py
 ```
+This should give files:
+```
+data/flores_plus/
+  dev/
+    eng_Latn.txt
+    bos_Latn.txt
+    bul_Cyrl.txt
+    cat_Latn.txt
+    ...
+  devtest/
+    eng_Latn.txt
+    bos_Latn.txt
+    bul_Cyrl.txt
+    cat_Latn.txt
+    ...
+```
 
 ## Downloading WMT24++
 
