@@ -1,0 +1,138 @@
+# Evaluation helper programs
+
+This directory contains the helper programs used by the `eval2` Makefile workflow. They inspect models, select evaluation pairs, plan inference, distribute work through SLURM, and summarize results.
+
+Most users do **not** need to run these programs directly. Start with the targets documented by the parent Makefile:
+
+```console
+make help
+make list
+make <model-alias> mk-basic
+make <model-alias> mk-pairs
+make <model-alias> mk-calls
+make <model-alias> mk-infer-score
+make status
+```
+
+The Makefiles supply the required paths, environment variables, and execution environment.
+
+## Programs
+
+| Program | Role in the workflow | Normally reached through |
+| --- | --- | --- |
+| `inspect-model-files.py` | Inspects Mammoth/PyTorch checkpoints and identifies architecture details, including legacy attention-head dimensions. | `make <model> mk-basic`, `inspect-model-summary` |
+| `inf_pairs.py` | Extracts supervised language pairs from `train.yaml` and ranks possible zero-shot pairs. | `make <model> mk-pairs` |
+| `inf_plan.py` | Creates task-specific inference YAML files and the inference, SacreBLEU, and COMET call lists. | `make <model> mk-calls` |
+| `slurm_distr.sh` | Calculates a suitable SLURM allocation outside a job and distributes call-list entries among ranks inside a job. | SLURM script generation and execution |
+| `slurm_wrapper.sh` | Activates the selected environment and invokes the distributor inside a SLURM allocation. | Generated inference and metric scripts |
+| `status.py` | Prints a compact progress table for configured models. | `make status` |
+| `summarize_sacre.py` | Converts individual SacreBLEU result files into readable tables or long-form TSV. | `mt-bleu`, `mt-chrf`, `sacre-tsv-all`, and related targets |
+| `partition_coverage.py` | Groups evaluation tasks by the exact set of models that cover them. | `make coverage-partition` |
+| `compare_scores.py` | Compares models on common tasks, including rankings and pairwise wins. | `make compare`, `make list-groups` |
+
+## How the pieces fit together
+
+The main evaluation path is:
+
+```text
+train.yaml
+    │
+    ├─ inf_pairs.py ──> supervised and zero-shot pair selections
+    │
+    └─ inf_plan.py  ──> per-task YAML files and calls.*.out
+                              │
+                     slurm_distr.sh
+                              │
+                     slurm_wrapper.sh
+                              │
+                  hypotheses and score files
+                              │
+                  summarize_sacre.py ──> eval3/sacre.tsv
+                              │
+                 ┌────────────┴────────────┐
+        partition_coverage.py       compare_scores.py
+```
+
+`inspect-model-files.py` runs during preparation, before this path, while `status.py` reports progress across it.
+
+## Main generated files
+
+The helpers operate on files under each model directory:
+
+| File or directory | Purpose |
+| --- | --- |
+| `model-summary.yaml` | Inferred checkpoint architecture. |
+| `inf_zeroshot.txt.input` | Proposed zero-shot pairs. |
+| `inf_supervised.txt.input` | Proposed supervised pairs. |
+| `inf_out/*.yaml` | Generated inference configurations. |
+| `inf_out/calls.out` | Commands for translation/inference. |
+| `inf_out/calls.sacre.out` | Commands for SacreBLEU scoring. |
+| `inf_out/calls.comet.out` | Commands planned for COMET scoring. |
+| `inf_scores/*.sacre` and `*.0ssacre` | Supervised and zero-shot score files. |
+| `eval3/sacre.tsv` | Normalized score table used by comparison tools. |
+
+The TSV preserves localized task identifiers such as `CA.fra` and `FR.fra`. Comparison code uses these exact `src_xcode` and `tgt_xcode` fields so distinct localized tasks are not accidentally merged.
+
+## Running selected tools manually
+
+Direct use is mainly useful for diagnostics and result analysis. Every Python program supports `--help`.
+
+Summarize scores as TSV:
+
+```console
+python bin/summarize_sacre.py MODEL/inf_scores \
+  --kind mt --tsv --model MODEL_ALIAS > MODEL/eval3/sacre.tsv
+```
+
+Inspect a trusted model checkpoint set:
+
+```console
+python bin/inspect-model-files.py --model-summary --yaml-like MODEL/*.pt
+```
+
+List available comparison groups:
+
+```console
+python bin/compare_scores.py \
+  --mk-models include/mk-model.mk --list-groups
+```
+
+For normal evaluation runs, prefer the Make targets because `inf_plan.py`, `slurm_distr.sh`, and `slurm_wrapper.sh` depend on environment variables prepared by the workflow.
+
+## Dependencies
+
+The scripts use Python 3 and Bash. Additional Python packages are needed for some tools:
+
+| Dependency | Used by |
+| --- | --- |
+| PyYAML | `inf_pairs.py`, `inf_plan.py` |
+| NetworkX | `inf_pairs.py` |
+| PyTorch | `inspect-model-files.py` |
+| Mammoth and tokenizer classes | Optional safe loading of some checkpoint metadata |
+| lang2vec/URIEL data | Linguistic-distance features in zero-shot ranking |
+
+The runtime workflow also expects GNU/Linux command-line tools, environment modules, Singularity, and SLURM commands such as `sbatch`, `srun`, and `squeue`.
+
+Use `--unsafe` with `inspect-model-files.py` only for checkpoints you trust. That option permits Python object unpickling through `torch.load`.
+
+## Portability
+
+These helpers currently encode assumptions from the CSC/LUMI installation. Moving the workflow to another system requires reviewing at least:
+
+- hard-coded scratch and lang2vec paths in `inf_pairs.py`;
+- the built-in language, locale, dataset, and default zero-shot tables in `inf_plan.py`;
+- LUMI partitions, GPU counts, wall-time limits, and resource lookup tables in `slurm_distr.sh`;
+- module loading, Singularity, shared virtual environments, and filesystem bindings supplied by the Makefiles and templates;
+- filename conventions expected by `summarize_sacre.py`; and
+- model aliases and comparison groups embedded in the analysis tools.
+
+The location of `slurm_distr.sh` must also agree with the generated templates and Makefiles. The supplied sources contain references to both `$(SELFDIR)/slurm_distr.sh` and `$(SELFDIR)/bin/slurm_distr.sh`; install it at the expected path or make those references consistent.
+
+## Notes for maintainers
+
+- Keep ordinary diagnostics on stderr when stdout is intended for TSV or another machine-readable format.
+- Preserve exact localized task identity in analysis code; `src` and `tgt` alone are not sufficient.
+- Update resource tables when cluster policies or hardware change.
+- Treat the shell call files as executable input: `slurm_distr.sh` executes selected lines with `eval`.
+- Keep command-line help and this table current when a script is added, renamed, or retired.
+
