@@ -1,0 +1,1028 @@
+tasks:
+  instruct_bul-bul:
+    src_tgt: "bul-bul"
+    weight: 866.66602564078857514729
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["bul","all"]
+    dec_sharing_group: ["bul"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/bul-bul.data.bul1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/bul-bul.data.bul2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/bul-bul.data.bul1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/bul-bul.data.bul2.gz
+
+  instruct_bul-eng:
+    src_tgt: "bul-eng"
+    weight: 669.17337065965199687893
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["bul","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/bul-eng.data.bul.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/bul-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/bul-eng.data.bul.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/bul-eng.data.eng.gz
+
+  instruct_cat-cat:
+    src_tgt: "cat-cat"
+    weight: 1366.58918479548929876744
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["cat","all"]
+    dec_sharing_group: ["cat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/cat-cat.data.cat1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/cat-cat.data.cat2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/cat-cat.data.cat1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/cat-cat.data.cat2.gz
+
+  instruct_cat-eng:
+    src_tgt: "cat-eng"
+    weight: 879.44982801749412815565
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["cat","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/cat-eng.data.cat.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/cat-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/cat-eng.data.cat.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/cat-eng.data.eng.gz
+
+  instruct_ces-eng:
+    src_tgt: "ces-eng"
+    weight: 35965.18605540641437145249
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["ces","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ces-eng.data.ces.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ces-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ces-eng.data.ces.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ces-eng.data.eng.gz
+
+  instruct_deu-deu:
+    src_tgt: "deu-deu"
+    weight: 606.80309821226193208297
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["deu","all"]
+    dec_sharing_group: ["deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/deu-deu.data.deu1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/deu-deu.data.deu2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-deu.data.deu1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-deu.data.deu2.gz
+
+  instruct_deu-eng:
+    src_tgt: "deu-eng"
+    weight: 34477.84439317516265509477
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["deu","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/deu-eng.data.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/deu-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-eng.data.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-eng.data.eng.gz
+
+  instruct_deu-fra:
+    src_tgt: "deu-fra"
+    weight: 82.29823813423954460582
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["deu","all"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/deu-fra.data.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/deu-fra.data.fra.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-fra.data.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-fra.data.fra.gz
+
+  instruct_deu-spa:
+    src_tgt: "deu-spa"
+    weight: 663.44253707461356897364
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["deu","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/deu-spa.data.deu.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/deu-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-spa.data.deu.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/deu-spa.data.spa.gz
+
+  instruct_eng-bul:
+    src_tgt: "eng-bul"
+    weight: 648.65013682261718921641
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["bul"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-bul.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-bul.data.bul.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-bul.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-bul.data.bul.gz
+
+  instruct_eng-cat:
+    src_tgt: "eng-cat"
+    weight: 490.35497346310254386030
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["cat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-cat.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-cat.data.cat.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-cat.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-cat.data.cat.gz
+
+  instruct_eng-ces:
+    src_tgt: "eng-ces"
+    weight: 38855.49246889041811820730
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["ces"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ces.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ces.data.ces.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ces.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ces.data.ces.gz
+
+  instruct_eng-deu:
+    src_tgt: "eng-deu"
+    weight: 37343.93122048079179668410
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-deu.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-deu.data.deu.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-deu.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-deu.data.deu.gz
+
+  instruct_eng-eng:
+    src_tgt: "eng-eng"
+    weight: 237154.27968518721209704877
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-eng.data.eng1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-eng.data.eng2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-eng.data.eng1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-eng.data.eng2.gz
+
+  instruct_eng-fin:
+    src_tgt: "eng-fin"
+    weight: 23457.89866974448331733449
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["fin"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-fin.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-fin.data.fin.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-fin.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-fin.data.fin.gz
+
+  instruct_eng-fra:
+    src_tgt: "eng-fra"
+    weight: 62738.49088079820875604821
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-fra.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-fra.data.fra.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-fra.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-fra.data.fra.gz
+
+  instruct_eng-glg:
+    src_tgt: "eng-glg"
+    weight: 706.44886580700234003653
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-glg.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-glg.data.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-glg.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-glg.data.glg.gz
+
+  instruct_eng-hrv:
+    src_tgt: "eng-hrv"
+    weight: 729.75132750821358132379
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["hrv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-hrv.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-hrv.data.hrv.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-hrv.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-hrv.data.hrv.gz
+
+  instruct_eng-ita:
+    src_tgt: "eng-ita"
+    weight: 764.27154860036494753495
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ita.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ita.data.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ita.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ita.data.ita.gz
+
+  instruct_eng-pol:
+    src_tgt: "eng-pol"
+    weight: 786.25759137829632785524
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-pol.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-pol.data.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-pol.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-pol.data.pol.gz
+
+  instruct_eng-por:
+    src_tgt: "eng-por"
+    weight: 796.95733888333069292485
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-por.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-por.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-por.data.por.gz
+
+  instruct_eng-ron:
+    src_tgt: "eng-ron"
+    weight: 13284.29644354566486873992
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["ron"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ron.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-ron.data.ron.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ron.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-ron.data.ron.gz
+
+  instruct_eng-spa:
+    src_tgt: "eng-spa"
+    weight: 3308.20359107476938848581
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-spa.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-spa.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-spa.data.spa.gz
+
+  instruct_eng-swe:
+    src_tgt: "eng-swe"
+    weight: 1084.17203431927720978865
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["swe"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-swe.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-swe.data.swe.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-swe.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-swe.data.swe.gz
+
+  instruct_eng-tur:
+    src_tgt: "eng-tur"
+    weight: 7605.06265588916762338038
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["eng","all"]
+    dec_sharing_group: ["tur"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/eng-tur.data.eng.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/eng-tur.data.tur.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-tur.data.eng.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/eng-tur.data.tur.gz
+
+  instruct_est-eng:
+    src_tgt: "est-eng"
+    weight: 202.13114554664751120110
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["est","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/est-eng.data.est.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/est-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/est-eng.data.est.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/est-eng.data.eng.gz
+
+  instruct_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 21660.31560250219438149017
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["fin","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fin-eng.data.fin.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fin-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fin-eng.data.fin.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fin-eng.data.eng.gz
+
+  instruct_fra-deu:
+    src_tgt: "fra-deu"
+    weight: 86.81589716175258186753
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fra-deu.data.fra.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fra-deu.data.deu.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-deu.data.fra.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-deu.data.deu.gz
+
+  instruct_fra-eng:
+    src_tgt: "fra-eng"
+    weight: 49316.02803349028837908691
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fra-eng.data.fra.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fra-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-eng.data.fra.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-eng.data.eng.gz
+
+  instruct_fra-fra:
+    src_tgt: "fra-fra"
+    weight: 599.16024567723115920399
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fra-fra.data.fra1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fra-fra.data.fra2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-fra.data.fra1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-fra.data.fra2.gz
+
+  instruct_fra-slk:
+    src_tgt: "fra-slk"
+    weight: 149.60614960622440937368
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["slk"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fra-slk.data.fra.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fra-slk.data.slk.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-slk.data.fra.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-slk.data.slk.gz
+
+  instruct_fra-spa:
+    src_tgt: "fra-spa"
+    weight: 82.61961026293939133117
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["fra","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/fra-spa.data.fra.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/fra-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-spa.data.fra.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/fra-spa.data.spa.gz
+
+  instruct_glg-eng:
+    src_tgt: "glg-eng"
+    weight: 707.65387019361379310765
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/glg-eng.data.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/glg-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-eng.data.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-eng.data.eng.gz
+
+  instruct_glg-ita:
+    src_tgt: "glg-ita"
+    weight: 713.56289141182222775090
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/glg-ita.data.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/glg-ita.data.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-ita.data.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-ita.data.ita.gz
+
+  instruct_glg-pol:
+    src_tgt: "glg-pol"
+    weight: 708.12428287695374018008
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/glg-pol.data.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/glg-pol.data.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-pol.data.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-pol.data.pol.gz
+
+  instruct_glg-por:
+    src_tgt: "glg-por"
+    weight: 438.60460553897516044788
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/glg-por.data.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/glg-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-por.data.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-por.data.por.gz
+
+  instruct_glg-spa:
+    src_tgt: "glg-spa"
+    weight: 712.93267564335974962975
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["glg","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/glg-spa.data.glg.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/glg-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-spa.data.glg.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/glg-spa.data.spa.gz
+
+  instruct_hrv-eng:
+    src_tgt: "hrv-eng"
+    weight: 347.11381418779633466860
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["hrv","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/hrv-eng.data.hrv.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/hrv-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/hrv-eng.data.hrv.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/hrv-eng.data.eng.gz
+
+  instruct_hrv-hrv:
+    src_tgt: "hrv-hrv"
+    weight: 381.31614180362205064989
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["hrv","all"]
+    dec_sharing_group: ["hrv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/hrv-hrv.data.hrv1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/hrv-hrv.data.hrv2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/hrv-hrv.data.hrv1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/hrv-hrv.data.hrv2.gz
+
+  instruct_ita-eng:
+    src_tgt: "ita-eng"
+    weight: 978.07412807005584344455
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-eng.data.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-eng.data.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-eng.data.eng.gz
+
+  instruct_ita-glg:
+    src_tgt: "ita-glg"
+    weight: 712.28224742724003958568
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-glg.data.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-glg.data.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-glg.data.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-glg.data.glg.gz
+
+  instruct_ita-ita:
+    src_tgt: "ita-ita"
+    weight: 563.63019791349008236605
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-ita.data.ita1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-ita.data.ita2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-ita.data.ita1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-ita.data.ita2.gz
+
+  instruct_ita-pol:
+    src_tgt: "ita-pol"
+    weight: 737.96070356083324444825
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-pol.data.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-pol.data.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-pol.data.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-pol.data.pol.gz
+
+  instruct_ita-por:
+    src_tgt: "ita-por"
+    weight: 702.52615609669651643937
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-por.data.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-por.data.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-por.data.por.gz
+
+  instruct_ita-spa:
+    src_tgt: "ita-spa"
+    weight: 739.25029590795565673073
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["ita","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ita-spa.data.ita.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ita-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-spa.data.ita.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ita-spa.data.spa.gz
+
+  instruct_nld-eng:
+    src_tgt: "nld-eng"
+    weight: 236.18848405457874905601
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["nld","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/nld-eng.data.nld.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/nld-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-eng.data.nld.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-eng.data.eng.gz
+
+  instruct_nld-nld:
+    src_tgt: "nld-nld"
+    weight: 554.23821593246346620827
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["nld","all"]
+    dec_sharing_group: ["nld"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/nld-nld.data.nld1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/nld-nld.data.nld2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-nld.data.nld1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-nld.data.nld2.gz
+
+  instruct_nld-por:
+    src_tgt: "nld-por"
+    weight: 625.67083997897808374536
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["nld","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/nld-por.data.nld.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/nld-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-por.data.nld.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/nld-por.data.por.gz
+
+  instruct_pol-eng:
+    src_tgt: "pol-eng"
+    weight: 1025.80797423299454481530
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/pol-eng.data.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/pol-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-eng.data.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-eng.data.eng.gz
+
+  instruct_pol-glg:
+    src_tgt: "pol-glg"
+    weight: 708.25419165720438395917
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/pol-glg.data.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/pol-glg.data.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-glg.data.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-glg.data.glg.gz
+
+  instruct_pol-ita:
+    src_tgt: "pol-ita"
+    weight: 739.38893689316179813310
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/pol-ita.data.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/pol-ita.data.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-ita.data.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-ita.data.ita.gz
+
+  instruct_pol-por:
+    src_tgt: "pol-por"
+    weight: 708.28454733955618043589
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/pol-por.data.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/pol-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-por.data.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-por.data.por.gz
+
+  instruct_pol-spa:
+    src_tgt: "pol-spa"
+    weight: 737.88481485933832706365
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["pol","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/pol-spa.data.pol.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/pol-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-spa.data.pol.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/pol-spa.data.spa.gz
+
+  instruct_por-eng:
+    src_tgt: "por-eng"
+    weight: 756.56328221768732621618
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/por-eng.data.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/por-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/por-eng.data.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/por-eng.data.eng.gz
+
+  instruct_por-glg:
+    src_tgt: "por-glg"
+    weight: 440.16928561634102276893
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/por-glg.data.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/por-glg.data.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/por-glg.data.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/por-glg.data.glg.gz
+
+  instruct_por-ita:
+    src_tgt: "por-ita"
+    weight: 703.81886874394039649728
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/por-ita.data.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/por-ita.data.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/por-ita.data.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/por-ita.data.ita.gz
+
+  instruct_por-pol:
+    src_tgt: "por-pol"
+    weight: 708.73902107898645035109
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/por-pol.data.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/por-pol.data.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/por-pol.data.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/por-pol.data.pol.gz
+
+  instruct_por-spa:
+    src_tgt: "por-spa"
+    weight: 702.26561926382242622906
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["por","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/por-spa.data.por.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/por-spa.data.spa.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/por-spa.data.por.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/por-spa.data.spa.gz
+
+  instruct_ron-eng:
+    src_tgt: "ron-eng"
+    weight: 12253.41021920020434926555
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["ron","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/ron-eng.data.ron.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/ron-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/ron-eng.data.ron.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/ron-eng.data.eng.gz
+
+  instruct_spa-deu:
+    src_tgt: "spa-deu"
+    weight: 84.51035439518639244967
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-deu.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-deu.data.deu.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-deu.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-deu.data.deu.gz
+
+  instruct_spa-eng:
+    src_tgt: "spa-eng"
+    weight: 3239.94135749399019887528
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-eng.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-eng.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-eng.data.eng.gz
+
+  instruct_spa-fra:
+    src_tgt: "spa-fra"
+    weight: 84.81745103456009895134
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-fra.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-fra.data.fra.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-fra.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-fra.data.fra.gz
+
+  instruct_spa-glg:
+    src_tgt: "spa-glg"
+    weight: 713.32320865088919381780
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-glg.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-glg.data.glg.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-glg.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-glg.data.glg.gz
+
+  instruct_spa-ita:
+    src_tgt: "spa-ita"
+    weight: 739.76279982167256853385
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-ita.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-ita.data.ita.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-ita.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-ita.data.ita.gz
+
+  instruct_spa-pol:
+    src_tgt: "spa-pol"
+    weight: 738.00338752610072283712
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-pol.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-pol.data.pol.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-pol.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-pol.data.pol.gz
+
+  instruct_spa-por:
+    src_tgt: "spa-por"
+    weight: 701.45848059596513797839
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-por.data.spa.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-por.data.por.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-por.data.spa.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-por.data.por.gz
+
+  instruct_spa-spa:
+    src_tgt: "spa-spa"
+    weight: 2915.77451117194588867370
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["spa","all"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/spa-spa.data.spa1.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/spa-spa.data.spa2.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-spa.data.spa1.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/spa-spa.data.spa2.gz
+
+  instruct_swe-eng:
+    src_tgt: "swe-eng"
+    weight: 866.31864807355959396458
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["swe","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/swe-eng.data.swe.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/swe-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/swe-eng.data.swe.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/swe-eng.data.eng.gz
+
+  instruct_tur-eng:
+    src_tgt: "tur-eng"
+    weight: 7022.05411542804902071533
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["tur","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462000964/MARMoT/data/instruct/train/tur-eng.data.tur.gz
+    path_tgt: /scratch/project_462000964/MARMoT/data/instruct/train/tur-eng.data.eng.gz
+    path_valid_src: /scratch/project_462000964/MARMoT/data/instruct/dev/tur-eng.data.tur.gz
+    path_valid_tgt: /scratch/project_462000964/MARMoT/data/instruct/dev/tur-eng.data.eng.gz
+
+
+src_vocab:
+   bul: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/bul/32000/tokenizer.json
+   cat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/cat/32000/tokenizer.json
+   ces: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ces/32000/tokenizer.json
+   deu: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/deu/32000/tokenizer.json
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/eng/32000/tokenizer.json
+   est: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/est/32000/tokenizer.json
+   fin: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/fin/32000/tokenizer.json
+   fra: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/fra/32000/tokenizer.json
+   glg: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/glg/32000/tokenizer.json
+   hrv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/hrv/32000/tokenizer.json
+   ita: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ita/32000/tokenizer.json
+   nld: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/nld/32000/tokenizer.json
+   pol: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/pol/32000/tokenizer.json
+   por: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/por/32000/tokenizer.json
+   ron: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ron/32000/tokenizer.json
+   spa: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/spa/32000/tokenizer.json
+   swe: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/swe/32000/tokenizer.json
+   tur: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/tur/32000/tokenizer.json
+
+tgt_vocab:
+   bul: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/bul/32000/tokenizer.json
+   cat: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/cat/32000/tokenizer.json
+   ces: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ces/32000/tokenizer.json
+   deu: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/deu/32000/tokenizer.json
+   eng: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/eng/32000/tokenizer.json
+   fin: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/fin/32000/tokenizer.json
+   fra: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/fra/32000/tokenizer.json
+   glg: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/glg/32000/tokenizer.json
+   hrv: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/hrv/32000/tokenizer.json
+   ita: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ita/32000/tokenizer.json
+   nld: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/nld/32000/tokenizer.json
+   pol: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/pol/32000/tokenizer.json
+   por: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/por/32000/tokenizer.json
+   ron: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/ron/32000/tokenizer.json
+   slk: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/slk/32000/tokenizer.json
+   spa: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/spa/32000/tokenizer.json
+   swe: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/swe/32000/tokenizer.json
+   tur: /scratch/project_462000964/MARMoT/tokenizer/tatoeba_hplt_multisynt/tur/32000/tokenizer.json
+
+# Model Architecture Options
+enc_layers: [6,6]
+dec_layers: [12]
+
+model_dim: 1024
+dropout: 0.1
+model_dtype: bf16
+add_language_tokens: false
+
+# x-transformers specific options
+x_transformers_opts:
+  attn_flash: true     
+  rotary_pos_emb: true     
+  tie_embedding: false    
+  heads: 16
+  pre_norm: false
+  post_emb_norm: true
+  post_emb_norm_bias: true
+  attn_dropout: 0.1
+  ff_dropout: 0.1
+  layernorm_bias: true
+  use_abs_pos_emb: false
+
+src_seq_length_min: 1
+tgt_seq_length_min: 1
+src_seq_length_max: 1024
+tgt_seq_length_max: 1024
+max_length: 1024
+
+# Training Configuration
+train_steps: 250000
+early_stopping: 5
+accum_count: [20]
+lookahead_minibatches: 80
+batch_size: 8192
+batch_type: tokens
+normalization: tokens
+queue_size: 120
+
+# Optimizer settings (from create_opts)
+optim: adamw
+
+learning_rate: 0.0003
+adam_beta1: 0.9
+adam_beta2: 0.95
+weight_decay: 0.01
+max_grad_norm: 1.0
+label_smoothing: 0.1
+
+# Learning rate scheduling
+warmup_steps: 1000
+decay_method: linear_warmup
+learning_rate_decay: 0.5
+start_decay_steps: 10000
+average_decay: 0
+
+world_size: 8
+gpu_ranks: [0,1,2,3,4,5,6,7]
+n_nodes: 1
+task_distribution_strategy: weighted_sampling
+node_rank: 0
+seed: 42
+
+# Decoding parameters during validation
+valid_batch_size: 16
+valid_steps: 2500
+valid_timeout: 300
+valid_decode_timeout: 60
+valid_max_length: 1024
+valid_metrics: [bleu,chrf]
+beam_size: 1
+
+save_checkpoint_steps: 2500
+keep_checkpoint: 1
+
+# Logging and Monitoring
+
+log_model_structure: false
+tensorboard: true
+tensorboard_log_dir: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/flan-halfshared-xl/tb_logs
+report_tflops: true
+report_every: 500
+report_training_accuracy: false
+
+# Model saving
+save_model: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/flan-halfshared-xl/mammoth/model
+save_strategy: best_and_last
+reset_optim: none
+train_from: /pfs/lustrep1/scratch/project_462000964/members/tiedeman/MARMoT/models/predict-halfshared-xl/mammoth/
