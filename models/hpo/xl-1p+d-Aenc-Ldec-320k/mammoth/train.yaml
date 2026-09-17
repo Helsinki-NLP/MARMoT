@@ -1484,15 +1484,15 @@ tgt_vocab:
    ukr: /scratch/project_462001509/shared/MARMoT/tokenizer/tatoeba_hplt_multisynt/ukr/32000/tokenizer.json
 
 # Model Architecture Options
-enc_layers: [6]
-dec_layers: [6]
+enc_layers: [12]
+dec_layers: [12]
 
-model_dim: 512
+model_dim: 1024
 dropout: 0.1
 model_dtype: bf16
 add_language_tokens: false
 
-heads: 8
+heads: 16
 rotary_pos_emb: true
 post_emb_norm: true
 attn_dropout: 0.1
@@ -1510,7 +1510,7 @@ train_steps: 250000
 early_stopping: 5
 accum_count: [20]
 lookahead_minibatches: 80
-batch_size: 32768
+batch_size: 8192
 batch_type: tokens
 normalization: tokens
 queue_size: 120
@@ -1554,7 +1554,7 @@ keep_checkpoint: 1
 
 log_model_structure: false
 tensorboard: true
-tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-1p+d-Lenc-Ldec-640k/tb_logs
+tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/xl-1p+d-Aenc-Ldec-320k/tb_logs
 report_tflops: true
 report_every: 500
 report_training_accuracy: false
@@ -1567,6 +1567,6 @@ replace_length: 1            # -1: keep N tokens, 0: remove all, 1: single mask 
 
 
 # Model saving
-save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-1p+d-Lenc-Ldec-640k/mammoth/model
+save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/xl-1p+d-Aenc-Ldec-320k/mammoth/model
 save_strategy: best_and_last
 reset_optim: none

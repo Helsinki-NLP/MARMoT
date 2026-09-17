@@ -12,11 +12,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bos_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_bos-fra:
+    src_tgt: "bos-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["bos"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.bos.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bos_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_bul-eng:
     src_tgt: "bul-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:1"
+    node_gpu: "0:2"
     enc_sharing_group: ["bul"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -25,11 +38,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bul_Cyrl.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_bul-fra:
+    src_tgt: "bul-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["bul"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.bul.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bul_Cyrl.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_cat-eng:
     src_tgt: "cat-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:2"
+    node_gpu: "0:4"
     enc_sharing_group: ["cat"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -38,11 +64,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/cat_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_cat-fra:
+    src_tgt: "cat-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["cat"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.cat.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/cat_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_ces-eng:
     src_tgt: "ces-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:3"
+    node_gpu: "0:6"
     enc_sharing_group: ["ces"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -51,11 +90,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ces_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_ces-fra:
+    src_tgt: "ces-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["ces"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ces.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ces_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_dan-eng:
     src_tgt: "dan-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:4"
+    node_gpu: "1:0"
     enc_sharing_group: ["dan"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -64,11 +116,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/dan_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_dan-fra:
+    src_tgt: "dan-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:1"
+    enc_sharing_group: ["dan"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.dan.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/dan_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_deu-eng:
     src_tgt: "deu-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:5"
+    node_gpu: "1:2"
     enc_sharing_group: ["deu"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -77,11 +142,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/deu_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_deu-fra:
+    src_tgt: "deu-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:3"
+    enc_sharing_group: ["deu"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.deu.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/deu_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_ell-eng:
     src_tgt: "ell-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:6"
+    node_gpu: "1:4"
     enc_sharing_group: ["ell"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -90,11 +168,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ell_Grek.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_ell-fra:
+    src_tgt: "ell-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:5"
+    enc_sharing_group: ["ell"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ell.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ell_Grek.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_eng-bos:
     src_tgt: "eng-bos"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:7"
+    node_gpu: "1:6"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["bos"]
     transforms: [filtertoolong]
@@ -107,7 +198,7 @@ tasks:
     src_tgt: "eng-bul"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:0"
+    node_gpu: "1:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["bul"]
     transforms: [filtertoolong]
@@ -120,7 +211,7 @@ tasks:
     src_tgt: "eng-cat"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:1"
+    node_gpu: "2:0"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["cat"]
     transforms: [filtertoolong]
@@ -133,7 +224,7 @@ tasks:
     src_tgt: "eng-ces"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:2"
+    node_gpu: "2:1"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["ces"]
     transforms: [filtertoolong]
@@ -146,7 +237,7 @@ tasks:
     src_tgt: "eng-dan"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:3"
+    node_gpu: "2:2"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["dan"]
     transforms: [filtertoolong]
@@ -159,7 +250,7 @@ tasks:
     src_tgt: "eng-deu"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:4"
+    node_gpu: "2:3"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["deu"]
     transforms: [filtertoolong]
@@ -172,7 +263,7 @@ tasks:
     src_tgt: "eng-ell"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:5"
+    node_gpu: "2:4"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["ell"]
     transforms: [filtertoolong]
@@ -185,7 +276,7 @@ tasks:
     src_tgt: "eng-est"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:6"
+    node_gpu: "2:5"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["est"]
     transforms: [filtertoolong]
@@ -198,7 +289,7 @@ tasks:
     src_tgt: "eng-eus"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:7"
+    node_gpu: "2:6"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["eus"]
     transforms: [filtertoolong]
@@ -211,7 +302,7 @@ tasks:
     src_tgt: "eng-fin"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:0"
+    node_gpu: "2:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["fin"]
     transforms: [filtertoolong]
@@ -224,7 +315,7 @@ tasks:
     src_tgt: "eng-fra"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:1"
+    node_gpu: "3:0"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["fra"]
     transforms: [filtertoolong]
@@ -237,7 +328,7 @@ tasks:
     src_tgt: "eng-gle"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:2"
+    node_gpu: "3:1"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["gle"]
     transforms: [filtertoolong]
@@ -250,7 +341,7 @@ tasks:
     src_tgt: "eng-glg"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:3"
+    node_gpu: "3:2"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["glg"]
     transforms: [filtertoolong]
@@ -263,7 +354,7 @@ tasks:
     src_tgt: "eng-hrv"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:4"
+    node_gpu: "3:3"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["hrv"]
     transforms: [filtertoolong]
@@ -276,7 +367,7 @@ tasks:
     src_tgt: "eng-hun"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:5"
+    node_gpu: "3:4"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["hun"]
     transforms: [filtertoolong]
@@ -289,7 +380,7 @@ tasks:
     src_tgt: "eng-isl"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:6"
+    node_gpu: "3:5"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["isl"]
     transforms: [filtertoolong]
@@ -302,7 +393,7 @@ tasks:
     src_tgt: "eng-ita"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:7"
+    node_gpu: "3:6"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["ita"]
     transforms: [filtertoolong]
@@ -315,7 +406,7 @@ tasks:
     src_tgt: "eng-kat"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:0"
+    node_gpu: "3:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["kat"]
     transforms: [filtertoolong]
@@ -328,7 +419,7 @@ tasks:
     src_tgt: "eng-lav"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:1"
+    node_gpu: "4:0"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["lav"]
     transforms: [filtertoolong]
@@ -339,7 +430,7 @@ tasks:
     src_tgt: "eng-lit"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:2"
+    node_gpu: "4:1"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["lit"]
     transforms: [filtertoolong]
@@ -352,7 +443,7 @@ tasks:
     src_tgt: "eng-mkd"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:3"
+    node_gpu: "4:2"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["mkd"]
     transforms: [filtertoolong]
@@ -365,7 +456,7 @@ tasks:
     src_tgt: "eng-mlt"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:4"
+    node_gpu: "4:3"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["mlt"]
     transforms: [filtertoolong]
@@ -378,7 +469,7 @@ tasks:
     src_tgt: "eng-nld"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:5"
+    node_gpu: "4:4"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["nld"]
     transforms: [filtertoolong]
@@ -391,7 +482,7 @@ tasks:
     src_tgt: "eng-nno"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:6"
+    node_gpu: "4:5"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["nno"]
     transforms: [filtertoolong]
@@ -404,7 +495,7 @@ tasks:
     src_tgt: "eng-nob"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:7"
+    node_gpu: "4:6"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["nob"]
     transforms: [filtertoolong]
@@ -417,7 +508,7 @@ tasks:
     src_tgt: "eng-pol"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:0"
+    node_gpu: "4:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["pol"]
     transforms: [filtertoolong]
@@ -430,7 +521,7 @@ tasks:
     src_tgt: "eng-por"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:1"
+    node_gpu: "5:0"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["por"]
     transforms: [filtertoolong]
@@ -443,7 +534,7 @@ tasks:
     src_tgt: "eng-ron"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:2"
+    node_gpu: "5:1"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["ron"]
     transforms: [filtertoolong]
@@ -456,7 +547,7 @@ tasks:
     src_tgt: "eng-slk"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:3"
+    node_gpu: "5:2"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["slk"]
     transforms: [filtertoolong]
@@ -469,7 +560,7 @@ tasks:
     src_tgt: "eng-slv"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:4"
+    node_gpu: "5:3"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["slv"]
     transforms: [filtertoolong]
@@ -482,7 +573,7 @@ tasks:
     src_tgt: "eng-spa"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:5"
+    node_gpu: "5:4"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["spa"]
     transforms: [filtertoolong]
@@ -495,7 +586,7 @@ tasks:
     src_tgt: "eng-sqi"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:6"
+    node_gpu: "5:5"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["sqi"]
     transforms: [filtertoolong]
@@ -506,7 +597,7 @@ tasks:
     src_tgt: "eng-srp_Cyrl"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "4:7"
+    node_gpu: "5:6"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["srp_Cyrl"]
     transforms: [filtertoolong]
@@ -519,7 +610,7 @@ tasks:
     src_tgt: "eng-swe"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:0"
+    node_gpu: "5:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["swe"]
     transforms: [filtertoolong]
@@ -532,7 +623,7 @@ tasks:
     src_tgt: "eng-tur"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:1"
+    node_gpu: "6:0"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["tur"]
     transforms: [filtertoolong]
@@ -545,7 +636,7 @@ tasks:
     src_tgt: "eng-ukr"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:2"
+    node_gpu: "6:1"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["ukr"]
     transforms: [filtertoolong]
@@ -558,7 +649,7 @@ tasks:
     src_tgt: "est-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:3"
+    node_gpu: "6:2"
     enc_sharing_group: ["est"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -567,11 +658,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/est_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_est-fra:
+    src_tgt: "est-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:3"
+    enc_sharing_group: ["est"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.est.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/est_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_eus-eng:
     src_tgt: "eus-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:4"
+    node_gpu: "6:4"
     enc_sharing_group: ["eus"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -580,11 +684,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eus_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_eus-fra:
+    src_tgt: "eus-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:5"
+    enc_sharing_group: ["eus"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.eus.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eus_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_fin-eng:
     src_tgt: "fin-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:5"
+    node_gpu: "6:6"
     enc_sharing_group: ["fin"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -593,11 +710,115 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fin_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_fin-fra:
+    src_tgt: "fin-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:7"
+    enc_sharing_group: ["fin"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fin.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
+  mt_fra-bos:
+    src_tgt: "fra-bos"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:0"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["bos"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.bos.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bos_Latn.dev
+
+  mt_fra-bul:
+    src_tgt: "fra-bul"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:1"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["bul"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.bul.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/bul_Cyrl.dev
+
+  mt_fra-cat:
+    src_tgt: "fra-cat"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:2"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["cat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.cat.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/cat_Latn.dev
+
+  mt_fra-ces:
+    src_tgt: "fra-ces"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:3"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["ces"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ces.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ces_Latn.dev
+
+  mt_fra-dan:
+    src_tgt: "fra-dan"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:4"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["dan"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.dan.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/dan_Latn.dev
+
+  mt_fra-deu:
+    src_tgt: "fra-deu"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:5"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["deu"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.deu.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/deu_Latn.dev
+
+  mt_fra-ell:
+    src_tgt: "fra-ell"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:6"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["ell"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ell.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ell_Grek.dev
+
   mt_fra-eng:
     src_tgt: "fra-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:6"
+    node_gpu: "7:7"
     enc_sharing_group: ["fra"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -606,11 +827,371 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_fra-est:
+    src_tgt: "fra-est"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:0"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["est"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.est.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/est_Latn.dev
+
+  mt_fra-eus:
+    src_tgt: "fra-eus"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:1"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["eus"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.eus.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eus_Latn.dev
+
+  mt_fra-fin:
+    src_tgt: "fra-fin"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:2"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["fin"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fin.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fin_Latn.dev
+
+  mt_fra-gle:
+    src_tgt: "fra-gle"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:3"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["gle"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.gle.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/gle_Latn.dev
+
+  mt_fra-glg:
+    src_tgt: "fra-glg"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:4"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["glg"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.glg.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/glg_Latn.dev
+
+  mt_fra-hrv:
+    src_tgt: "fra-hrv"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:5"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["hrv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.hrv.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hrv_Latn.dev
+
+  mt_fra-hun:
+    src_tgt: "fra-hun"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:6"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["hun"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.hun.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hun_Latn.dev
+
+  mt_fra-isl:
+    src_tgt: "fra-isl"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:7"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["isl"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.isl.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/isl_Latn.dev
+
+  mt_fra-ita:
+    src_tgt: "fra-ita"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["ita"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ita.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ita_Latn.dev
+
+  mt_fra-kat:
+    src_tgt: "fra-kat"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["kat"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.kat.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/kat_Geor.dev
+
+  mt_fra-lav:
+    src_tgt: "fra-lav"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["lav"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.lav.gz
+
+  mt_fra-lit:
+    src_tgt: "fra-lit"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["lit"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.lit.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/lit_Latn.dev
+
+  mt_fra-mkd:
+    src_tgt: "fra-mkd"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["mkd"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.mkd.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mkd_Cyrl.dev
+
+  mt_fra-mlt:
+    src_tgt: "fra-mlt"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["mlt"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.mlt.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mlt_Latn.dev
+
+  mt_fra-nld:
+    src_tgt: "fra-nld"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["nld"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nld.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nld_Latn.dev
+
+  mt_fra-nno:
+    src_tgt: "fra-nno"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["nno"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nno.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nno_Latn.dev
+
+  mt_fra-nob:
+    src_tgt: "fra-nob"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:0"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["nob"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nob.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nob_Latn.dev
+
+  mt_fra-pol:
+    src_tgt: "fra-pol"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:1"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["pol"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.pol.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/pol_Latn.dev
+
+  mt_fra-por:
+    src_tgt: "fra-por"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:2"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["por"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.por.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/por_Latn.dev
+
+  mt_fra-ron:
+    src_tgt: "fra-ron"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:3"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["ron"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ron.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ron_Latn.dev
+
+  mt_fra-slk:
+    src_tgt: "fra-slk"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:4"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["slk"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.slk.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slk_Latn.dev
+
+  mt_fra-slv:
+    src_tgt: "fra-slv"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:5"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["slv"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.slv.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slv_Latn.dev
+
+  mt_fra-spa:
+    src_tgt: "fra-spa"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:6"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["spa"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.spa.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/spa_Latn.dev
+
+  mt_fra-sqi:
+    src_tgt: "fra-sqi"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "1:7"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["sqi"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.sqi.gz
+
+  mt_fra-srp_Cyrl:
+    src_tgt: "fra-srp_Cyrl"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:0"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["srp_Cyrl"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.srp_Cyrl.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/srp_Cyrl.dev
+
+  mt_fra-swe:
+    src_tgt: "fra-swe"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:1"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["swe"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.swe.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/swe_Latn.dev
+
+  mt_fra-tur:
+    src_tgt: "fra-tur"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:2"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["tur"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.tur.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/tur_Latn.dev
+
+  mt_fra-ukr:
+    src_tgt: "fra-ukr"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:3"
+    enc_sharing_group: ["fra"]
+    dec_sharing_group: ["ukr"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ukr.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ukr_Cyrl.dev
+
   mt_gle-eng:
     src_tgt: "gle-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "0:7"
+    node_gpu: "2:4"
     enc_sharing_group: ["gle"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -619,11 +1200,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/gle_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_gle-fra:
+    src_tgt: "gle-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:5"
+    enc_sharing_group: ["gle"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.gle.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/gle_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_glg-eng:
     src_tgt: "glg-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:0"
+    node_gpu: "2:6"
     enc_sharing_group: ["glg"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -632,11 +1226,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/glg_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_glg-fra:
+    src_tgt: "glg-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "2:7"
+    enc_sharing_group: ["glg"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.glg.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/glg_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_hrv-eng:
     src_tgt: "hrv-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:1"
+    node_gpu: "3:0"
     enc_sharing_group: ["hrv"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -645,11 +1252,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hrv_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_hrv-fra:
+    src_tgt: "hrv-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "3:1"
+    enc_sharing_group: ["hrv"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.hrv.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hrv_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_hun-eng:
     src_tgt: "hun-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:2"
+    node_gpu: "3:2"
     enc_sharing_group: ["hun"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -658,11 +1278,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hun_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_hun-fra:
+    src_tgt: "hun-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "3:3"
+    enc_sharing_group: ["hun"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.hun.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/hun_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_isl-eng:
     src_tgt: "isl-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:3"
+    node_gpu: "3:4"
     enc_sharing_group: ["isl"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -671,11 +1304,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/isl_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_isl-fra:
+    src_tgt: "isl-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "3:5"
+    enc_sharing_group: ["isl"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.isl.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/isl_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_ita-eng:
     src_tgt: "ita-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:4"
+    node_gpu: "3:6"
     enc_sharing_group: ["ita"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -684,11 +1330,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ita_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_ita-fra:
+    src_tgt: "ita-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "3:7"
+    enc_sharing_group: ["ita"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ita.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ita_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_kat-eng:
     src_tgt: "kat-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:5"
+    node_gpu: "4:0"
     enc_sharing_group: ["kat"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -697,22 +1356,46 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/kat_Geor.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_kat-fra:
+    src_tgt: "kat-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "4:1"
+    enc_sharing_group: ["kat"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.kat.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/kat_Geor.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_lav-eng:
     src_tgt: "lav-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:6"
+    node_gpu: "4:2"
     enc_sharing_group: ["lav"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
     path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.lav.gz
     path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.eng.gz
 
+  mt_lav-fra:
+    src_tgt: "lav-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "4:3"
+    enc_sharing_group: ["lav"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.lav.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+
   mt_lit-eng:
     src_tgt: "lit-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "1:7"
+    node_gpu: "4:4"
     enc_sharing_group: ["lit"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -721,11 +1404,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/lit_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_lit-fra:
+    src_tgt: "lit-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "4:5"
+    enc_sharing_group: ["lit"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.lit.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/lit_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_mkd-eng:
     src_tgt: "mkd-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:0"
+    node_gpu: "4:6"
     enc_sharing_group: ["mkd"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -734,11 +1430,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mkd_Cyrl.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_mkd-fra:
+    src_tgt: "mkd-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "4:7"
+    enc_sharing_group: ["mkd"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.mkd.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mkd_Cyrl.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_mlt-eng:
     src_tgt: "mlt-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:1"
+    node_gpu: "5:0"
     enc_sharing_group: ["mlt"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -747,11 +1456,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mlt_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_mlt-fra:
+    src_tgt: "mlt-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "5:1"
+    enc_sharing_group: ["mlt"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.mlt.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/mlt_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_nld-eng:
     src_tgt: "nld-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:2"
+    node_gpu: "5:2"
     enc_sharing_group: ["nld"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -760,11 +1482,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nld_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_nld-fra:
+    src_tgt: "nld-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "5:3"
+    enc_sharing_group: ["nld"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nld.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nld_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_nno-eng:
     src_tgt: "nno-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:3"
+    node_gpu: "5:4"
     enc_sharing_group: ["nno"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -773,11 +1508,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nno_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_nno-fra:
+    src_tgt: "nno-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "5:5"
+    enc_sharing_group: ["nno"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nno.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nno_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_nob-eng:
     src_tgt: "nob-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:4"
+    node_gpu: "5:6"
     enc_sharing_group: ["nob"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -786,11 +1534,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nob_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_nob-fra:
+    src_tgt: "nob-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "5:7"
+    enc_sharing_group: ["nob"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.nob.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nob_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_pol-eng:
     src_tgt: "pol-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:5"
+    node_gpu: "6:0"
     enc_sharing_group: ["pol"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -799,11 +1560,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/pol_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_pol-fra:
+    src_tgt: "pol-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:1"
+    enc_sharing_group: ["pol"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.pol.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/pol_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_por-eng:
     src_tgt: "por-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:6"
+    node_gpu: "6:2"
     enc_sharing_group: ["por"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -812,11 +1586,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/por_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_por-fra:
+    src_tgt: "por-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:3"
+    enc_sharing_group: ["por"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.por.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/por_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_ron-eng:
     src_tgt: "ron-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "2:7"
+    node_gpu: "6:4"
     enc_sharing_group: ["ron"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -825,11 +1612,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ron_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_ron-fra:
+    src_tgt: "ron-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:5"
+    enc_sharing_group: ["ron"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ron.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ron_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_slk-eng:
     src_tgt: "slk-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:0"
+    node_gpu: "6:6"
     enc_sharing_group: ["slk"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -838,11 +1638,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slk_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_slk-fra:
+    src_tgt: "slk-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "6:7"
+    enc_sharing_group: ["slk"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.slk.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slk_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_slv-eng:
     src_tgt: "slv-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:1"
+    node_gpu: "7:0"
     enc_sharing_group: ["slv"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -851,11 +1664,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slv_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_slv-fra:
+    src_tgt: "slv-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:1"
+    enc_sharing_group: ["slv"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.slv.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/slv_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_spa-eng:
     src_tgt: "spa-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:2"
+    node_gpu: "7:2"
     enc_sharing_group: ["spa"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -864,22 +1690,46 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/spa_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_spa-fra:
+    src_tgt: "spa-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:3"
+    enc_sharing_group: ["spa"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.spa.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/spa_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_sqi-eng:
     src_tgt: "sqi-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:3"
+    node_gpu: "7:4"
     enc_sharing_group: ["sqi"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
     path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.sqi.gz
     path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.eng.gz
 
+  mt_sqi-fra:
+    src_tgt: "sqi-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:5"
+    enc_sharing_group: ["sqi"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.sqi.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+
   mt_srp_Cyrl-eng:
     src_tgt: "srp_Cyrl-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:4"
+    node_gpu: "7:6"
     enc_sharing_group: ["srp_Cyrl"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -888,11 +1738,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/srp_Cyrl.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_srp_Cyrl-fra:
+    src_tgt: "srp_Cyrl-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "7:7"
+    enc_sharing_group: ["srp_Cyrl"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.srp_Cyrl.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/srp_Cyrl.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_swe-eng:
     src_tgt: "swe-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:5"
+    node_gpu: "8:0"
     enc_sharing_group: ["swe"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -901,11 +1764,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/swe_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_swe-fra:
+    src_tgt: "swe-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:1"
+    enc_sharing_group: ["swe"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.swe.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/swe_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_tur-eng:
     src_tgt: "tur-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:6"
+    node_gpu: "8:2"
     enc_sharing_group: ["tur"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -914,11 +1790,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/tur_Latn.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_tur-fra:
+    src_tgt: "tur-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:3"
+    enc_sharing_group: ["tur"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.tur.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/tur_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   mt_ukr-eng:
     src_tgt: "ukr-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "3:7"
+    node_gpu: "8:4"
     enc_sharing_group: ["ukr"]
     dec_sharing_group: ["eng"]
     transforms: [filtertoolong]
@@ -927,11 +1816,24 @@ tasks:
     path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ukr_Cyrl.dev
     path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
 
+  mt_ukr-fra:
+    src_tgt: "ukr-fra"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "8:5"
+    enc_sharing_group: ["ukr"]
+    dec_sharing_group: ["fra"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.ukr.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fra.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/ukr_Cyrl.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fra_Latn.dev
+
   denoise_bos-bos:
     src_tgt: "bos-bos"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:0"
+    node_gpu: "9:0"
     enc_sharing_group: ["bos"]
     dec_sharing_group: ["bos"]
     transforms: [denoising,filtertoolong]
@@ -944,7 +1846,7 @@ tasks:
     src_tgt: "bul-bul"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:1"
+    node_gpu: "9:1"
     enc_sharing_group: ["bul"]
     dec_sharing_group: ["bul"]
     transforms: [denoising,filtertoolong]
@@ -957,7 +1859,7 @@ tasks:
     src_tgt: "cat-cat"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:2"
+    node_gpu: "9:2"
     enc_sharing_group: ["cat"]
     dec_sharing_group: ["cat"]
     transforms: [denoising,filtertoolong]
@@ -970,7 +1872,7 @@ tasks:
     src_tgt: "ces-ces"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:3"
+    node_gpu: "9:3"
     enc_sharing_group: ["ces"]
     dec_sharing_group: ["ces"]
     transforms: [denoising,filtertoolong]
@@ -983,7 +1885,7 @@ tasks:
     src_tgt: "dan-dan"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:4"
+    node_gpu: "9:4"
     enc_sharing_group: ["dan"]
     dec_sharing_group: ["dan"]
     transforms: [denoising,filtertoolong]
@@ -996,7 +1898,7 @@ tasks:
     src_tgt: "deu-deu"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:5"
+    node_gpu: "9:5"
     enc_sharing_group: ["deu"]
     dec_sharing_group: ["deu"]
     transforms: [denoising,filtertoolong]
@@ -1009,7 +1911,7 @@ tasks:
     src_tgt: "ell-ell"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:6"
+    node_gpu: "9:6"
     enc_sharing_group: ["ell"]
     dec_sharing_group: ["ell"]
     transforms: [denoising,filtertoolong]
@@ -1022,7 +1924,7 @@ tasks:
     src_tgt: "eng-eng"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:7"
+    node_gpu: "9:7"
     enc_sharing_group: ["eng"]
     dec_sharing_group: ["eng"]
     transforms: [denoising,filtertoolong]
@@ -1035,7 +1937,7 @@ tasks:
     src_tgt: "est-est"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:0"
+    node_gpu: "9:0"
     enc_sharing_group: ["est"]
     dec_sharing_group: ["est"]
     transforms: [denoising,filtertoolong]
@@ -1048,7 +1950,7 @@ tasks:
     src_tgt: "eus-eus"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:1"
+    node_gpu: "9:1"
     enc_sharing_group: ["eus"]
     dec_sharing_group: ["eus"]
     transforms: [denoising,filtertoolong]
@@ -1061,7 +1963,7 @@ tasks:
     src_tgt: "fin-fin"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:2"
+    node_gpu: "9:2"
     enc_sharing_group: ["fin"]
     dec_sharing_group: ["fin"]
     transforms: [denoising,filtertoolong]
@@ -1074,7 +1976,7 @@ tasks:
     src_tgt: "fra-fra"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:3"
+    node_gpu: "9:3"
     enc_sharing_group: ["fra"]
     dec_sharing_group: ["fra"]
     transforms: [denoising,filtertoolong]
@@ -1087,7 +1989,7 @@ tasks:
     src_tgt: "gle-gle"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:4"
+    node_gpu: "9:4"
     enc_sharing_group: ["gle"]
     dec_sharing_group: ["gle"]
     transforms: [denoising,filtertoolong]
@@ -1100,7 +2002,7 @@ tasks:
     src_tgt: "glg-glg"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:5"
+    node_gpu: "9:5"
     enc_sharing_group: ["glg"]
     dec_sharing_group: ["glg"]
     transforms: [denoising,filtertoolong]
@@ -1113,7 +2015,7 @@ tasks:
     src_tgt: "hrv-hrv"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:6"
+    node_gpu: "9:6"
     enc_sharing_group: ["hrv"]
     dec_sharing_group: ["hrv"]
     transforms: [denoising,filtertoolong]
@@ -1126,7 +2028,7 @@ tasks:
     src_tgt: "hun-hun"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:7"
+    node_gpu: "9:7"
     enc_sharing_group: ["hun"]
     dec_sharing_group: ["hun"]
     transforms: [denoising,filtertoolong]
@@ -1139,7 +2041,7 @@ tasks:
     src_tgt: "isl-isl"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:0"
+    node_gpu: "9:0"
     enc_sharing_group: ["isl"]
     dec_sharing_group: ["isl"]
     transforms: [denoising,filtertoolong]
@@ -1152,7 +2054,7 @@ tasks:
     src_tgt: "ita-ita"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:1"
+    node_gpu: "9:1"
     enc_sharing_group: ["ita"]
     dec_sharing_group: ["ita"]
     transforms: [denoising,filtertoolong]
@@ -1165,7 +2067,7 @@ tasks:
     src_tgt: "kat-kat"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:2"
+    node_gpu: "9:2"
     enc_sharing_group: ["kat"]
     dec_sharing_group: ["kat"]
     transforms: [denoising,filtertoolong]
@@ -1178,7 +2080,7 @@ tasks:
     src_tgt: "lav-lav"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:3"
+    node_gpu: "9:3"
     enc_sharing_group: ["lav"]
     dec_sharing_group: ["lav"]
     transforms: [denoising,filtertoolong]
@@ -1189,7 +2091,7 @@ tasks:
     src_tgt: "lit-lit"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:4"
+    node_gpu: "9:4"
     enc_sharing_group: ["lit"]
     dec_sharing_group: ["lit"]
     transforms: [denoising,filtertoolong]
@@ -1202,7 +2104,7 @@ tasks:
     src_tgt: "mkd-mkd"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:5"
+    node_gpu: "9:5"
     enc_sharing_group: ["mkd"]
     dec_sharing_group: ["mkd"]
     transforms: [denoising,filtertoolong]
@@ -1215,7 +2117,7 @@ tasks:
     src_tgt: "mlt-mlt"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:6"
+    node_gpu: "9:6"
     enc_sharing_group: ["mlt"]
     dec_sharing_group: ["mlt"]
     transforms: [denoising,filtertoolong]
@@ -1228,7 +2130,7 @@ tasks:
     src_tgt: "nld-nld"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:7"
+    node_gpu: "9:7"
     enc_sharing_group: ["nld"]
     dec_sharing_group: ["nld"]
     transforms: [denoising,filtertoolong]
@@ -1241,7 +2143,7 @@ tasks:
     src_tgt: "nno-nno"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:0"
+    node_gpu: "9:0"
     enc_sharing_group: ["nno"]
     dec_sharing_group: ["nno"]
     transforms: [denoising,filtertoolong]
@@ -1254,7 +2156,7 @@ tasks:
     src_tgt: "nob-nob"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:1"
+    node_gpu: "9:1"
     enc_sharing_group: ["nob"]
     dec_sharing_group: ["nob"]
     transforms: [denoising,filtertoolong]
@@ -1267,7 +2169,7 @@ tasks:
     src_tgt: "pol-pol"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:2"
+    node_gpu: "9:2"
     enc_sharing_group: ["pol"]
     dec_sharing_group: ["pol"]
     transforms: [denoising,filtertoolong]
@@ -1280,7 +2182,7 @@ tasks:
     src_tgt: "por-por"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:3"
+    node_gpu: "9:3"
     enc_sharing_group: ["por"]
     dec_sharing_group: ["por"]
     transforms: [denoising,filtertoolong]
@@ -1293,7 +2195,7 @@ tasks:
     src_tgt: "ron-ron"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:4"
+    node_gpu: "9:4"
     enc_sharing_group: ["ron"]
     dec_sharing_group: ["ron"]
     transforms: [denoising,filtertoolong]
@@ -1306,7 +2208,7 @@ tasks:
     src_tgt: "slk-slk"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:5"
+    node_gpu: "9:5"
     enc_sharing_group: ["slk"]
     dec_sharing_group: ["slk"]
     transforms: [denoising,filtertoolong]
@@ -1319,7 +2221,7 @@ tasks:
     src_tgt: "slv-slv"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:6"
+    node_gpu: "9:6"
     enc_sharing_group: ["slv"]
     dec_sharing_group: ["slv"]
     transforms: [denoising,filtertoolong]
@@ -1332,7 +2234,7 @@ tasks:
     src_tgt: "spa-spa"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:7"
+    node_gpu: "9:7"
     enc_sharing_group: ["spa"]
     dec_sharing_group: ["spa"]
     transforms: [denoising,filtertoolong]
@@ -1345,7 +2247,7 @@ tasks:
     src_tgt: "sqi-sqi"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:0"
+    node_gpu: "9:0"
     enc_sharing_group: ["sqi"]
     dec_sharing_group: ["sqi"]
     transforms: [denoising,filtertoolong]
@@ -1356,7 +2258,7 @@ tasks:
     src_tgt: "srp_Cyrl-srp_Cyrl"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:1"
+    node_gpu: "9:1"
     enc_sharing_group: ["srp_Cyrl"]
     dec_sharing_group: ["srp_Cyrl"]
     transforms: [denoising,filtertoolong]
@@ -1369,7 +2271,7 @@ tasks:
     src_tgt: "swe-swe"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:2"
+    node_gpu: "9:2"
     enc_sharing_group: ["swe"]
     dec_sharing_group: ["swe"]
     transforms: [denoising,filtertoolong]
@@ -1382,7 +2284,7 @@ tasks:
     src_tgt: "tur-tur"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:3"
+    node_gpu: "9:3"
     enc_sharing_group: ["tur"]
     dec_sharing_group: ["tur"]
     transforms: [denoising,filtertoolong]
@@ -1395,7 +2297,7 @@ tasks:
     src_tgt: "ukr-ukr"
     weight: 1
     introduce_at_training_step: 0
-    node_gpu: "5:4"
+    node_gpu: "9:4"
     enc_sharing_group: ["ukr"]
     dec_sharing_group: ["ukr"]
     transforms: [denoising,filtertoolong]
@@ -1532,9 +2434,9 @@ learning_rate_decay: 0.5
 start_decay_steps: 10000
 average_decay: 0
 
-world_size: 48
+world_size: 80
 gpu_ranks: [0,1,2,3,4,5,6,7]
-n_nodes: 6
+n_nodes: 10
 task_distribution_strategy: weighted_sampling
 seed: 42
 
@@ -1554,7 +2456,7 @@ keep_checkpoint: 1
 
 log_model_structure: false
 tensorboard: true
-tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-1p+d-Lenc-Ldec-640k/tb_logs
+tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-2p+d-Lenc-Ldec-640k/tb_logs
 report_tflops: true
 report_every: 500
 report_training_accuracy: false
@@ -1567,6 +2469,6 @@ replace_length: 1            # -1: keep N tokens, 0: remove all, 1: single mask 
 
 
 # Model saving
-save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-1p+d-Lenc-Ldec-640k/mammoth/model
+save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/base-2p+d-Lenc-Ldec-640k/mammoth/model
 save_strategy: best_and_last
 reset_optim: none
