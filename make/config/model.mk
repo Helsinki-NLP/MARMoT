@@ -24,6 +24,21 @@ else ifeq (${MODEL_ARCHITECTURE},transformer-base)
   DECODER_LAYERS  ?= 6
   MODEL_DIMENSION ?= 512
   TRF_HEADS       ?= 8
+else ifeq (${MODEL_ARCHITECTURE},transformer-deepenc)
+  ENCODER_LAYERS  ?= 12
+  DECODER_LAYERS  ?= 6
+  MODEL_DIMENSION ?= 512
+  TRF_HEADS       ?= 8
+else ifeq (${MODEL_ARCHITECTURE},transformer-deepdec)
+  ENCODER_LAYERS  ?= 6
+  DECODER_LAYERS  ?= 12
+  MODEL_DIMENSION ?= 512
+  TRF_HEADS       ?= 8
+else ifeq (${MODEL_ARCHITECTURE},transformer-deep)
+  ENCODER_LAYERS  ?= 12
+  DECODER_LAYERS  ?= 12
+  MODEL_DIMENSION ?= 512
+  TRF_HEADS       ?= 8
 else ifeq (${MODEL_ARCHITECTURE},transformer-big)
   ENCODER_LAYERS  ?= 6
   DECODER_LAYERS  ?= 6
