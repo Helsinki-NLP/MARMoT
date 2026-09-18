@@ -6,7 +6,7 @@
 
 * all model names follow this name structure: <model>-<tasks>-<enc>-<dec>-<batch>
 * `model`: small, base, big, xl
-* `task`: 1p = English-centric, 2p = English/French-centric, 3p = English/French/Spanish-centric, 4p = English/French/Spanish/German-centric, d = denoising
+* `task`: 1p = English-centric, 2p = English/French-centric or English/Spanish-centric, 3p = English/French/Spanish-centric, 4p = English/French/Spanish/German-centric, d = denoising
 * `enc`: encoder components, L = language-specific, G = shared across language groups, A = shared across all
 * `dec`: decoder components, L = language-specific, G = shared across language groups, A = shared across all
 * `batch`: approximate size of batches for graident updates (multiplying batch size and batch accumulation)
@@ -57,10 +57,12 @@ Bigger transformer models with language-specific encoders and decoders:
 
 
 
-## English/French-centric models
+## English/Spanish-centric models
 
 Note that here we replace French with Spanish as the second pivot language!
 
+* base-2p-GAenc-Ldec-320k
+* base-2p-GAenc-LALdec-320k
 * big-2p+d-GAenc-Ldec-320k
 * big-2p-GAenc-Ldec-320k (continuation of big-2p+d-GAenc-Ldec-320k but no denoising tasks!)
 
