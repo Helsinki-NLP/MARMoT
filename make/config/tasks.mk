@@ -14,7 +14,7 @@ TASKS          ?= fin-eng
 TASK_NRS       := $(shell seq $(words ${TASKS}))
 TASK_IDS       ?= $(foreach t,${TASK_NRS},task$t_$(word $t,${TASKS}))
 # TASK_IDS     ?= $(patsubst %,task_%,${TASKS})
-TASK_TYPES     ?= $(notdir $(subst _,/,$(TASK_IDS)))
+TASK_TYPES     ?= $(patsubst %/,%,$(dir $(subst _,/,$(TASK_IDS))))
 TASK_LANGPAIRS ?= ${TASKS}
 
 
@@ -128,7 +128,7 @@ TRANSFORM  ?= ${DEFAULT_TRANSFORM}
 # current task specifications - selected with TASK_NR or default value
 
 TASK_ID        := $(firstword $(word ${TASK_NR},$(TASK_IDS))             task${TASK_NR}_${TASK})
-TASK_TYPE      := $(firstword $(word ${TASK_NR},$(TASK_TYPES))           $(notdir $(subst _,/,$(TASK_ID))))
+TASK_TYPE      := $(firstword $(word ${TASK_NR},$(TASK_TYPES))           $(patsubst %/,%,$(dir $(subst _,/,$(TASK_ID)))))
 TASK_GPU       := $(firstword $(word ${TASK_NR},$(TASK_GPU_ASSIGNMENTS)) $(DEFAULT_GPU))
 TASK_TRAINSTEP := $(firstword $(word ${TASK_NR},$(TASK_TRAINSTEPS))      $(DEFAULT_TRAINSTEP))
 TASK_SRCPREFIX := $(firstword $(word ${TASK_NR},$(TASK_SRCPREFIXES))     $(DEFAULT_SRCPREFIX))
@@ -138,7 +138,7 @@ TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(ENCOD
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DECODER))
 
 
-## replace variables for {lang} and {langgroup}
+## replace variables for {lang}, {langgroup} and {task}
 
 ifeq ($(findstring {lang,${TASK_ENCODER}),{lang)
   TASK_ENCODER := $(subst {langgroup},$(call langgroup,${SRCLANG}),$(subst {lang},${SRCLANG},${TASK_ENCODER}))
@@ -146,6 +146,15 @@ endif
 ifeq ($(findstring {lang,${TASK_DECODER}),{lang)
   TASK_DECODER := $(subst {langgroup},$(call langgroup,${TRGLANG}),$(subst {lang},${TRGLANG},${TASK_DECODER}))
 endif
+
+ifeq ($(findstring {task},${TASK_ENCODER}),{task})
+  TASK_ENCODER := $(subst {task},${TASK_TYPE},${TASK_ENCODER})
+endif
+ifeq ($(findstring {task},${TASK_DECODER}),{task})
+  TASK_DECODER := $(subst {task},${TASK_TYPE},${TASK_DECODER})
+endif
+
+
 
 
 ## add language tokens and prefix transform if necessary
