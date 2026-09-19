@@ -30,10 +30,10 @@ if (isset($_POST['submit'])){
 # $MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/lumi';
 # $model_dir = $MarmotGitRaw.'/models';
 $MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main';
-$model_dir = $MarmotGitRaw.'/models/pytorch';
+$model_dir = $MarmotGitRaw.'/models/hpo';
 
 # $available_models = file($MarmotGitRaw.'/models/models.txt');
-$available_models = file($MarmotGitRaw.'/models/pytorch/models.txt');
+$available_models = file($MarmotGitRaw.'/models/hpo/models.txt');
 
 $models    = get_param('models', array());
 $reqfeats  = get_param('reqfeats', array());
@@ -280,7 +280,7 @@ function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models'
                 }
                 $seconds += $restart_time;
                 $diffsec = $seconds - $lasttime;
-                $tokcount += $diffsec*$srctoks + $diffsec*$trgtoks;
+                $tokcount += $diffsec*(int)$srctoks + $diffsec*(int)$trgtoks;
                 $lasttime = $seconds;
                 
                 $traintoks[$model][$task][$step] = $tokcount;
@@ -409,8 +409,15 @@ function score_per_trainbudget(&$scores,&$trainbudget){
     foreach ($scores as $model => $tasks){
         foreach ($tasks as $task => $checkpoints){
             foreach ($checkpoints as $checkpoint => $score){
-                $budget = $trainbudget[$model][$task][$checkpoint];
-                $ScoresPerBudget[$model][$task][$budget] = $scores[$model][$task][$checkpoint];
+                if (array_key_exists($model,$trainbudget)){
+                    if (array_key_exists($task,$trainbudget[$model])){
+                        if (array_key_exists($checkpoint,$trainbudget[$model][$task])){
+                            $budget = $trainbudget[$model][$task][$checkpoint];
+                            // $ScoresPerBudget[$model][$task][$budget] = $scores[$model][$task][$checkpoint];
+                            $ScoresPerBudget[$model][$task][$budget] = $score;
+                        }
+                    }
+                }
             }
         }
     }
