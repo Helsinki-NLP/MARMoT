@@ -35,12 +35,13 @@ $SHOW_TARGETLANG_SELECTION = false;
 $SHOW_LANGPAIR_SELECTION = true;
 
 
-$MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main';
-# $model_dir = $MarmotGitRaw.'/models';
-$model_dir = $MarmotGitRaw.'/models/hpo';
 
-# $available_models = file($MarmotGitRaw.'/models/models.txt');
-$available_models = file($MarmotGitRaw.'/models/hpo/models.txt');
+$expdir            = get_param('expdir', 'hpo');
+$MarmotGitRaw      = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main';
+$model_dir         = $MarmotGitRaw.'/models/'.$expdir;
+$available_expdirs = file($MarmotGitRaw.'/models/experiments.txt');
+$available_models  = file($MarmotGitRaw.'/models/'.$expdir.'/models.txt');
+
 
 $models    = get_param('models', array());
 $reqfeats  = get_param('reqfeats', array());  # not in use anymore
@@ -73,7 +74,10 @@ else $metric = 'perplexity';
 
 
 echo('<form method="post">');
-echo('<small><table class="modelselect"><tr><th>filter models and tasks</th><th>selected models</th></tr><tr><td><table>');
+echo('<small>');
+experiments_form($available_expdirs,$expdir);
+echo('<hr><table class="modelselect"><tr><th>filter models and tasks</th><th>selected models</th></tr><tr><td><table>');
+
 // select_models($available_models, $models);
 // select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeats);
 select_model_components($available_models, $models, $model_components);
@@ -118,9 +122,12 @@ echo('<tr><td><input type="submit" name="submit" value="select" />');
 echo('<button type="button" onclick="resetSelected();">reset</button></td><td></td></tr>');
 
 echo("</table><td valign='top'>");
+$count = 0;
 foreach ($models as $model){
+    $count++;
     list($modelname,$modeldir) = explode('/',$model);
     echo($modelname.'<br/>');
+    if (($count % 15) == 0) echo "</td><td valign='top'>";
 }
 echo('</td></tr></table></small><hr/>');
 
@@ -862,6 +869,15 @@ function task_selection_form(&$available_tasks, &$selected_tasks){
     echo('</tr></table>');
 }
 
+
+function experiments_form(&$available_expdirs,$selected_expdir){
+    foreach ($available_expdirs as $expdir){
+        $exp = rtrim($expdir);
+        echo("<input type='radio' id='$exp' name='expdir' value='$exp'");
+        if ($selected_expdir == $exp) echo(' checked="checked"');
+        echo("><label for='$exp'>$exp</label></input> ");
+    }
+}
 
 function plot_graph_form($file, $xaxis){
     
