@@ -52,7 +52,7 @@ GRADIENT_ACCUM := 10
 BATCH_SIZE     := 54828
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})

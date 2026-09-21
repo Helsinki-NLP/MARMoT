@@ -55,7 +55,7 @@ SAMPLING_TEMP               := 2
 
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})

@@ -1,7 +1,7 @@
 # - English-centric doc-level MT tasks from MultiSynt
 # - monolingual denoising tasks (using MultiSynth)
 
-include ../../make/env.mk
+include ../../../make/env.mk
 
 LANGUAGES := 	bos bul cat ces dan deu ell eng \
 		est eus fin fra gle glg hrv hun \
@@ -56,7 +56,7 @@ ENCODER_LAYERS  := 3,3
 
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 
 

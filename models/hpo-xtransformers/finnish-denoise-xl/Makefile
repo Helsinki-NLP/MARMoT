@@ -1,5 +1,5 @@
 
-include ../../make/env.mk
+include ../../../make/env.mk
 
 ## tasks: fin-swe and fin-eng in both directions
 
@@ -98,7 +98,7 @@ SAMPLING_TEMP               := 2
 
 ## include this at the end to set all variables and
 ## to include all makefile targets for marmot experiments
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 
 info:

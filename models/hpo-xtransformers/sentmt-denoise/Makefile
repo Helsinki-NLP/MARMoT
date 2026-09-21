@@ -1,7 +1,7 @@
 # - English-centric doc-level MT tasks from MultiSynt
 # - monolingual denoising tasks (using MultiSynth)
 
-include ../../make/env.mk
+include ../../../make/env.mk
 
 LANGUAGES := 	bos bul cat ces dan deu ell eng \
 		est eus fin fra gle glg hrv hun \
@@ -41,7 +41,7 @@ TASK_GPUS           := ${MT_GPUS} ${DENOISE_GPUS}
 VOCAB := tatoeba_hplt_multisynt
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 
 

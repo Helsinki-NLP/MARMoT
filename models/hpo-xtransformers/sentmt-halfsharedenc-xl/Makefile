@@ -41,7 +41,7 @@ SAMPLING_TEMP               := 2
 PRETRAINED_MODEL := $(shell realpath ../docmt-4pivots-denoise-halfsharedenc-xl/mammoth)/
 RESET_OPTIMIZER  := keep_states
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})

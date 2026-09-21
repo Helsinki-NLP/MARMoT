@@ -52,7 +52,7 @@ PRETRAINED_MODEL := ../predict-halfshared-xl/mammoth
 
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})

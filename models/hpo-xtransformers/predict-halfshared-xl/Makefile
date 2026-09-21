@@ -34,7 +34,7 @@ ENCODER_LAYERS  := 6,6
 PRETRAINED_MODEL := $(shell realpath ../docmt-4pivots-denoise-halfsharedenc-xl/mammoth/)
 
 
-include ../../make/marmot.mk
+include ../../../make/marmot.mk
 
 info:
 	@echo $(words ${TASK_IDS})
