@@ -38,24 +38,43 @@ ALIGN_TYPES = np.array([
 ], dtype=float)
 
 
+## parameters for aligning paragraphs to lines
 ## does not add to 1 at the moment (who cares?)
 PAR_ALIGN_TYPES = np.array([
-    (1, 0, 0.0001),
-    (0, 1, 0.0001),
-    (1, 1, 0.01),
+    (1, 0, 0.00001),
+    (0, 1, 0.00001),
+    (1, 1, 0.8),
     (2, 1, 0.01),
     (1, 2, 0.01),
-    (3, 1, 0.01),
-    (1, 3, 0.01),
-    (1, 4, 0.01),
-    (4, 1, 0.01),
-    (1, 5, 0.01),
-    (5, 1, 0.01),
-    (1, 6, 0.01),
-    (6, 1, 0.01),
+    (3, 1, 0.005),
+    (1, 3, 0.005),
+    (1, 4, 0.001),
+    (4, 1, 0.001),
+    (1, 5, 0.0005),
+    (5, 1, 0.0005),
+    (1, 6, 0.0001),
+    (6, 1, 0.0001),
 ], dtype=float)
 
 
+## parameters for aligning paragraphs to paragraphs
+## (focusing heavily on one-to-one alignments)
+## does not add to 1 at the moment (who cares?)
+STRONG_ONE2ONE_ALIGN_TYPES = np.array([
+    (1, 1, 0.9),
+    (2, 1, 0.000001),
+    (1, 2, 0.000001),
+    (3, 1, 0.00000001),
+    (1, 3, 0.00000001),
+    (0, 1, 0.0000000001),
+    (1, 0, 0.0000000001)
+], dtype=float)
+
+
+## aligning paragraphs to lines/sentences
+## we want to keep paragraph segmentation in the source
+## --> only 1:x alignments are allowed
+## --> 1:0 alignments are not preferred
 ONE_TO_X_ALIGN_TYPES = np.array([
     (1, 0, 0.001),
     (1, 1, 0.1),
@@ -72,6 +91,10 @@ ONE_TO_X_ALIGN_TYPES = np.array([
 
 VARIANCE = 6.8
 
+## this additional factor increases varians with length (source + target string)
+## motivation: variance get's bigger with larger segments making it less costly
+##             to align longer segments that do not match that well in terms of length
+LENGTH_VAR_FACTOR = 0.01
 
 def sentence_lengths(sentences):
     return np.array([len(s) for s in sentences], dtype=np.float64)
@@ -89,7 +112,9 @@ def estimate_mean_ratio(len_a, len_b):
 def alignment_cost(sum_a, sum_b, mean_ratio):
     expected_b = sum_a * mean_ratio
     delta = sum_b - expected_b
-    return (delta ** 2) / (2 * VARIANCE)
+    var = VARIANCE + LENGTH_VAR_FACTOR * (sum_a + sum_b)
+    return (delta ** 2) / (2 * var)
+    # return (delta ** 2) / (2 * VARIANCE)
 
 def align(a, b, aligntypes=ALIGN_TYPES):
     n, m = len(a), len(b)
@@ -207,10 +232,12 @@ def align_paragraphs(srcseg, trgseg, trglines, segmenter):
 
     ## if nr of target segments < nr of source segments: align target lines instead of target segments
     ## (only if nr of target lines is not more than double the nr of source segments)
+    #if srcseglen/trgseglen > 0.9 and srcseglen/trgseglen < 1.1:
+    #    segaligned = align(srcseg, trglines, STRONG_ONE2ONE_ALIGN_TYPES)
     if trgseglen < srcseglen and trglinelen > trgseglen and trglinelen < srcseglen*2:
         segaligned = align(srcseg, trglines, PAR_ALIGN_TYPES)
     else:                
-        segaligned = align(srcseg, trgseg, PAR_ALIGN_TYPES)
+        segaligned = align(srcseg, trgseg, STRONG_ONE2ONE_ALIGN_TYPES)
 
     ## run through all alignments
     ## if there are more than one source segment in an alignment: try to align lines or even sentences
@@ -245,8 +272,8 @@ def align_paragraphs(srcseg, trgseg, trglines, segmenter):
 
                 ## still fewer segments in target language than source language?
                 ## print a warning and try the best with aligning segments
-                if len(trgsent) < srclen:
-                    print(f"Warning: cannot properly split {trgstr} into segments to align to {srclen} source segments", file=sys.stderr)
+                # if len(trgsent) < srclen:
+                #    print(f"Warning: cannot properly split {trgstr} into segments to align to {srclen} source segments", file=sys.stderr)
 
             ## align target language segments to each single source language segment
             ## we only allow 1:x alignments because we want to keep the same number of lines

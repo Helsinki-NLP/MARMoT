@@ -14,6 +14,7 @@ MULTISYNT_PARALLEL := /appl/local/openeurollm/training/catalogue/nemotron-cc-tow
 
 
 TOWER_MODEL := tower72b
+TOWER_LANGS := deu_Latn fin_Latn ita_Latn spa_Latn swe_Latn
 TRGLANG     := fin_Latn
 TRG         := $(firstword $(subst _, ,${TRGLANG}))
 TRG2        := $(shell iso639 -2 -n ${TRG})
@@ -23,6 +24,74 @@ SRCDIR  := ${MULTISYNT_PARALLEL}/eng_Latn
 TRGDIR  := ${MULTISYNT_PARALLEL}/${TOWER_MODEL}/${TRGLANG}
 JSONL   := $(notdir $(wildcard ${TRGDIR}/*.jsonl.zst))
 TRGTXTS := $(patsubst %.jsonl.zst,${TOWER_MODEL}/${TRG}/%.txt.gz,${JSONL})
+
+
+## convert data for all languages
+
+.PHONY: all
+all:
+	for l in ${TOWER_LANGS}; do \
+	  ${MAKE} TRGLANG=$$l bitexts; \
+	done
+
+## submit all jobs for all languages
+## still need to run merge after all jobs are done!
+
+.PHONY: all-jobs
+all-jobs:
+	for l in ${TOWER_LANGS}; do \
+	  ${MAKE} TRGLANG=$$l bitext-jobs; \
+	done
+
+## merge all converted bitexts (make merge)
+## or run individual merge jobs (make merge-jobs)
+
+.PHONY: merge
+merge:
+	for l in ${TOWER_LANGS}; do \
+	  ${MAKE} TRGLANG=$$l merge-translations; \
+	done
+	${MAKE} TRGLANG=$$l merge-original
+
+.PHONY: merge-jobs
+merge-jobs:
+	for l in ${TOWER_LANGS}; do \
+	  ${MAKE} SLURM_CPUS=4 SLURM_MEM=8g SLURM_TIME=12:00:00 TRGLANG=$$l merge-translations.slurmjob; \
+	done
+	${MAKE} SLURM_CPUS=4 SLURM_MEM=8g SLURM_TIME=12:00:00 merge-original.slurmjob
+
+
+## jobs for extracting bitexts (one per shard)
+
+TRGTXT_JOBS := $(patsubst %,%.job,${TRGTXTS})
+
+PHONY: bitext-jobs
+bitext-jobs: ${TRGTXT_JOBS}
+
+${TRGTXT_JOBS}:
+	${MAKE} SLURM_CPUS=2 SLURM_MEM=8g SLURM_TIME=48:00:00 $(@:.job=).slurmjob
+
+
+.PHONY: finnish
+finnish:
+	${MAKE} TRGLANG=fin_Latn bitext-jobs
+
+.PHONY: swedish
+swedish:
+	${MAKE} TRGLANG=swe_Latn bitext-jobs
+
+.PHONY: german
+german:
+	${MAKE} TRGLANG=deu_Latn bitext-jobs
+
+.PHONY: spanish
+spanish:
+	${MAKE} TRGLANG=spa_Latn bitext-jobs
+
+.PHONY: italian
+italian:
+	${MAKE} TRGLANG=ita_Latn bitext-jobs
+
 
 
 ## extract all bitexts (aligned paragraphs)
@@ -48,7 +117,7 @@ merge-translations:
 
 .PHONY: merge-original
 merge-original:
-	${MAKE} parallel/${TOWER_MODEL}/nemotron-cc.eng2.gz
+	${MAKE} parallel/${TOWER_MODEL}/nemotron-cc.eng.gz
 
 
 
@@ -110,7 +179,6 @@ parallel/${TOWER_MODEL}/nemotron-cc.eng2.gz: ${ENGLISH_FILES}
 
 ## bilingual data sets instead of multiparallel data (avoid empty lines!)
 
-
 .PHONY: eng-fin
 eng-fin:
 	${MAKE} SRC=eng TRG=fin bilingual
@@ -133,28 +201,5 @@ bilingual/${TOWER_MODEL}/nemotron-cc.${SRC}-${TRG}.${TRG}.gz:
 
 
 
-
-
-## jobs for extracting bitexts (one per shard)
-
-TRGTXT_JOBS := $(patsubst %,%.job,${TRGTXTS})
-bitext-jobs: ${TRGTXT_JOBS}
-
-${TRGTXT_JOBS}:
-	${MAKE} SLURM_CPUS=2 SLURM_MEM=8g SLURM_TIME=48:00:00 $(@:.job=).slurmjob
-
-
-# submit jobs to extract finnish translations
-
-.PHONY: finnish
-finnish:
-	${MAKE} TRGLANG=fin_Latn bitext-jobs
-
-
-# submit jobs to extract swedish translations
-
-.PHONY: swedish
-swedish:
-	${MAKE} TRGLANG=swe_Latn bitext-jobs
 
 

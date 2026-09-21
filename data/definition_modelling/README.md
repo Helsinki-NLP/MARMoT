@@ -1,0 +1,6 @@
+
+# Definition modelling datasets
+
+* https://github.com/F-Almeman/3D-EX
+* https://codwoe.atilf.fr
+* https://huggingface.co/datasets/multidefmod/dore
