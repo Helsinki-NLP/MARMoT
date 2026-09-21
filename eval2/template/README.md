@@ -47,7 +47,7 @@ Frequently used variables include:
 | `ACCOUNT` | SLURM project/account |
 | `DISKPROJECT` | project used for filesystem bindings |
 | `SELFDIR` | directory containing the evaluation Makefiles and helper scripts |
-| `OUTDIR` | output directory for the current model/job |
+| `TSKDIR` | tasks directory for the current model/job |
 | `MODELDIR` | model directory; also used as the SLURM working directory |
 | `LOGDIR` | directory for SLURM stdout/stderr logs |
 | `JOB_NAME` | SLURM job name |

@@ -1,22 +1,13 @@
-TRAINCONFIG := $(MODELDIR)/train.yaml
-
-ZEROSHOTPAIRSINPUT    := $(MODELDIR)/inf_zeroshot.txt.input
-ZEROSHOTPAIRS         := $(MODELDIR)/inf_zeroshot.txt
-SUPERVISEDPAIRSINPUT  := $(MODELDIR)/inf_supervised.txt.input
-SUPERVISEDPAIRS       := $(MODELDIR)/inf_supervised.txt
-
-PAIR_INPUTS_DONE      := $(MODELDIR)/pairs_input.done
-
 .PHONY: pass-pairs require-pairs 
 
 $(SELFDIR)/bin/inf_pairs.py:
 > @[[ -f "$(SELFDIR)/bin/inf_pairs.py" ]] || { echo "mk-pairs.mk: ❌ Missing $(SELFDIR)/bin/inf_pairs.py" >&2; exit 1; }
 
-$(PAIR_INPUTS_DONE): $(TRAINCONFIG) $(VIEWPYTHON) $(SELFDIR)/bin/inf_pairs.py | $(BAS_DONE) 
+$(PAIR_INPUTS_DONE): $(TRAINCONFIG) $(VIEW_PYTHON) $(SELFDIR)/bin/inf_pairs.py | $(BAS_DONE) 
 > @set -euo pipefail; \
 > echo "mk-pairs.mk: 🛠️ Building $(ZEROSHOTPAIRSINPUT) and $(SUPERVISEDPAIRSINPUT)..."; \
 > module load cray-python; \
-> $(VIEWPYTHON) "$(SELFDIR)/bin/inf_pairs.py" "$(TRAINCONFIG)" \
+> $(VIEW_PYTHON) "$(SELFDIR)/bin/inf_pairs.py" "$(TRAINCONFIG)" \
 >   --zs-out "$(ZEROSHOTPAIRSINPUT)" \
 >   --supervised-pairs-and-quit "$(SUPERVISEDPAIRSINPUT)" >&2; \
 > touch "$@"

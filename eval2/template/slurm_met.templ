@@ -19,7 +19,7 @@ set -euo pipefail
 export ACCOUNT=__ACCOUNT__
 export DISKPROJECT=__DISKPROJECT__
 export SELFDIR=__SELFDIR__
-export OUTDIR=__OUTDIR__
+export TSKDIR=__TSKDIR__
 export ACTIVATE=__ACTIVATE__
 export MAKESCRIPT=__MAKESCRIPT__
 export LOGDIR=__LOGDIR__
@@ -30,7 +30,7 @@ export DONE=__DONE__
 export SBATCH_LINE=__SBATCH_LINE__
 export PARTITION=__PARTITION__
 
-for var in ACCOUNT DISKPROJECT SELFDIR OUTDIR ACTIVATE MAKESCRIPT LOGDIR JOB_NAME MODELDIR FLAG DONE SBATCH_LINE PARTITION; do
+for var in ACCOUNT DISKPROJECT SELFDIR TSKDIR ACTIVATE MAKESCRIPT LOGDIR JOB_NAME MODELDIR FLAG DONE SBATCH_LINE PARTITION; do
   eval "value=\${$var}"
   case "$value" in
     __*__)
@@ -42,7 +42,7 @@ done
 
 export SLURM_DISTR="${SELFDIR}/slurm_distr.sh"
 export SLURM_WRAPPER="${SELFDIR}/bin/slurm_wrapper.sh"
-export CALLS_FILE="${OUTDIR}/calls.sacre.out"
+export CALLS_FILE="${TSKDIR}/calls.sacre.out"
 
 [[ -f "${SLURM_WRAPPER}" ]] || { echo "Error: The wrapper not found in ${SLURM_WRAPPER}" >&2; exit 1; }
 [[ -f "${SLURM_DISTR}"   ]] || { echo "Error: The distributor not found in ${SLURM_DISTR}" >&2; exit 1; }

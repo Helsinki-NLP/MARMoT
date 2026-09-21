@@ -1,106 +1,71 @@
 #!/usr/bin/env python3
 # inf_plan.py
 #
-# Purpose
-# -------
-# Plan evaluation tasks, generate per-task inference YAML files, and prepare
-# command lists for inference and scoring in the eval2 workflow.
-#
-# This script is the main planning stage of eval2. It reads the training
-# configuration and the selected supervised / zero-shot pair lists, expands
-# localized evaluation tasks, derives the task-specific inference settings,
-# writes one inference YAML per original training task, and prepares the shell
-# command files used later for translation and scoring.
-#
-# Current behavior
-# ----------------
-# The script:
-#   1) reads required environment variables describing the model, training
-#      config, output directories, benchmark data, and selected pair lists,
-#   2) builds an internal language inventory from the hard-coded TRIPLES table,
-#   3) loads the training configuration and extracts the original supervised
-#      tasks from its top-level `tasks` mapping,
-#   4) expands task language specifications into localized xcodes such as
-#      `CA.fra` or `XX.eng`,
-#   5) filters the supervised task set against the externally selected
-#      supervised pairs,
-#   6) validates that the selected tasks are covered by the available benchmark
-#      data,
-#   7) augments the task set with localized zero-shot tasks derived from the
-#      selected zero-shot pairs,
-#   8) resolves the sharing groups, vocab codes, transforms, and template tasks
-#      needed to build inference configs,
-#   9) writes one per-task inference YAML file,
-#  10) writes:
-#        - calls.out
-#        - calls.sacre.out
-#        - calls.comet.out
-#      for later execution.
-#
-# Inputs
-# ------
-# Required environment variables:
-#   DATADIR
-#       Root directory of benchmark data.
-#   OUTDIR
-#       Output directory for generated YAML files and call lists.
-#   MODEL
-#       Model path; later passed to translate.py.
-#   TRAINCONFIG
-#       Path to the Mammoth training YAML.
-#   SUPERVISEDPAIRS
-#       File listing supervised evaluation pairs.
-#   ZEROSHOTPAIRS
-#       File listing zero-shot evaluation pairs.
-#   MAMMOTH
-#       Mammoth source directory containing translate.py.
-#   LOGDIR
-#       Directory for inference stderr logs.
-#   SCRDIR
-#       Directory for score outputs.
-#
-# Internal inputs:
-#   TRIPLES
-#       Hard-coded mapping from language codes to benchmark file stems and
-#       locale variants.
-#   zeroshot_base
-#       Hard-coded default zero-shot pairs to merge into the selected set.
+# Plan Mammoth evaluation: write inference YAMLs and command lists.
+# Normally invoked by the eval2 Makefile.
 #
 # Reads
 # -----
-#   - the training YAML from TRAINCONFIG
-#   - supervised pair list from SUPERVISEDPAIRS
-#   - zero-shot pair list from ZEROSHOTPAIRS
-#   - benchmark files under DATADIR
+# TRAINCONFIG       Mammoth training YAML.
+# SUPERVISEDPAIRS   Selected supervised pairs, one src-tgt per line.
+# ZEROSHOTPAIRS     Selected zero-shot pairs, one src-tgt per line.
+# DATADIR          Benchmark root: Flores+, Bouquet, Bouquet-par, WMT24++.
+#
+# Required environment
+# --------------------
+# MODEL            Model path passed to translate.py.
+# MAMMOTH          Mammoth source directory containing translate.py.
+# TSKDIR           Directory for the plan and command lists.
+# CFGDIR           Directory for generated inference YAMLs.
+# HYPDIR           Directory for translation hypotheses.
+# LOGDIR           Directory for inference stderr logs.
+# SCRDIR           Directory for scoring results.
+#
+# All output directories must already exist.
+# The Makefile selects the directory layout and supplies these paths.
+# For the legacy layout, TSKDIR, CFGDIR, and HYPDIR share inf_out.
 #
 # Writes
 # ------
-# Under OUTDIR:
-#   - one per-task inference YAML file, named <orig_task>.yaml
-#   - calls.out
-#   - calls.sacre.out
-#   - calls.comet.out
+# CFGDIR/<orig_task>.yaml         Supervised inference configuration.
+# CFGDIR/<orig_task>.0shot.yaml   Zero-shot inference configuration.
+# TSKDIR/plan.out                 Inventory of planned evaluation runs.
+# TSKDIR/calls.out                Commands for missing/incomplete hypotheses.
+# TSKDIR/calls.sacre.out          Commands for pending SacreBLEU scoring.
+# TSKDIR/calls.comet.out          Commands for COMET scoring.
 #
-# Output
-# ------
-# The script writes progress and diagnostics to stderr, including:
-#   - environment validation,
-#   - task extraction and filtering,
-#   - zero-shot task creation,
-#   - inference YAML generation,
-#   - planned translation / scoring actions.
+# Generated YAMLs and command lists are overwritten when planning runs.
+# Diagnostics go to stderr; the Makefile captures the planning log.
+#
+# Workflow
+# --------
+# Expand training tasks into localized evaluation tasks, filter supervised
+# pairs, and add selected zero-shot pairs plus the internal zeroshot_base.
+# Resolve task-specific sharing groups, vocabularies, and YAML templates.
+# Generate commands for benchmarks whose source/reference files exist.
+#
+# Existing hypotheses are considered complete when their line count matches
+# the source. Scoring commands are generated only for complete hypotheses,
+# so rerun planning after inference to prepare scoring.
+#
+# SacreBLEU results larger than 500 bytes are treated as already scored.
+# COMET commands are generated for every complete hypothesis.
+#
+# This script only plans work. The generated commands later write hypotheses
+# to HYPDIR, inference logs to LOGDIR, and metric results to SCRDIR.
 #
 # Notes
 # -----
-# - The per-task inference YAMLs are built by copying a subset of the original
-#   training config, removing training-only keys, narrowing `tasks`,
-#   `src_vocab`, and `tgt_vocab`, and inserting inference-time parameters such
-#   as beam size and batch size.
-# - Supervised tasks are keyed by the original training task name.
-# - Zero-shot tasks are expanded localized tasks but still inherit their YAML
-#   template from a real supervised training task.
-# - The script is intended to be run from the surrounding Makefile workflow,
-#   not manually.
+# - Inference YAMLs are derived from the training configuration: training-only
+#   keys are removed, tasks and source/target vocabularies are narrowed to the
+#   selected task, and inference settings such as beam and batch size are added.
+# - Supervised inference YAMLs retain the original training task name as their
+#   task key.
+# - Zero-shot tasks are expanded into localized evaluation tasks and inherit
+#   a YAML template from a real supervised training task, with source/target
+#   sharing groups and vocabulary codes resolved for the new pair.
+# - Run through the surrounding Makefile workflow, which supplies the required
+#   environment variables and creates the output directories.
 
 import sys
 sys.stderr.write("inf_plan.sh:    running...\n")
@@ -402,7 +367,9 @@ def load_trainconfig(path: str) -> dict:
 
 def get_env_vars():    
     datadir = require_env("DATADIR", "to the location of training data")
-    outdir = require_env("OUTDIR", "to a subdirectory of the model directory")
+    cfgdir = require_env("CFGDIR", "to a subdirectory of the model directory")
+    tskdir = require_env("TSKDIR", "to a subdirectory of the model directory")
+    hypdir = require_env("HYPDIR", "to a subdirectory of the model directory")
     model = require_env("MODEL", "to the model directory; it must end with slash")
     trainconfig = require_env("TRAINCONFIG", "to the training config file")
     supervisedpairs = require_env("SUPERVISEDPAIRS", "to the file listing supervised evaluation pairs")
@@ -414,8 +381,12 @@ def get_env_vars():
         die(f"Error: MODEL must be an existing file or directory: {model}")
     if not os.path.isfile(trainconfig):
         die(f"Error: TRAINCONFIG must be an existing file: {trainconfig}")
-    if not os.path.isdir(outdir):
-        die(f"Error: OUTDIR must be an existing directory: {outdir}")
+    if not os.path.isdir(tskdir):
+        die(f"Error: TSKDIR must be an existing directory: {tskdir}")
+    if not os.path.isdir(cfgdir):
+        die(f"Error: CFGDIR must be an existing directory: {cfgdir}")
+    if not os.path.isdir(hypdir):
+        die(f"Error: HYPDIR must be an existing directory: {hypdir}")
     if not os.path.isdir(datadir):
         die(f"Error: DATADIR must be an existing directory: {datadir}")
     if not os.path.isfile(supervisedpairs):
@@ -436,16 +407,16 @@ def get_env_vars():
     cfg = load_trainconfig(trainconfig)
     log(f"✅ Loaded the training config file {trainconfig}")
     log(f"✨ Environment validated")           
-    return (datadir, outdir, model, trainconfig,
+    return (datadir, tskdir, cfgdir, hypdir, model, trainconfig,
             supervisedpairs, zeroshotpairs,
             mammoth, logdir, scrdir, cfg, inventory, )
 
 class CallWriters:
-    def __init__(self, outdir: str):
-        self.plan_path  = os.path.join(outdir, "plan.out") # file
-        self.calls_path = os.path.join(outdir, "calls.out") # file
-        self.sacre_path = os.path.join(outdir, "calls.sacre.out") # file
-        self.comet_path = os.path.join(outdir, "calls.comet.out") # file
+    def __init__(self, tskdir: str):
+        self.plan_path  = os.path.join(tskdir, "plan.out") # file
+        self.calls_path = os.path.join(tskdir, "calls.out") # file
+        self.sacre_path = os.path.join(tskdir, "calls.sacre.out") # file
+        self.comet_path = os.path.join(tskdir, "calls.comet.out") # file
 
         self.plan  = open(self.plan_path,  "w", encoding="utf-8")
         self.calls = open(self.calls_path, "w", encoding="utf-8")
@@ -458,8 +429,8 @@ class CallWriters:
         self.sacre.close()
         self.comet.close()
 
-def validate_calls_out(outdir: str):
-    calls_path = os.path.join(outdir, "calls.out") # file
+def validate_calls_out(tskdir: str):
+    calls_path = os.path.join(tskdir, "calls.out") # file
     if not os.path.exists(calls_path):
         return
     bad = []
@@ -475,25 +446,6 @@ def validate_calls_out(outdir: str):
         raise ValueError("calls.out contains non-python lines")
     log("✅ Every line in calls.out starts with 'python'")
     
-def files_available(dataset, input_path, refer_path):
-    log(f"##    {dataset}")
-    if not os.path.exists(input_path):
-        log(f"##      FAIL  - Source file    missed: {input_path}")
-        return False
-    else:
-        log(f"##      HAVE  - Source file     found: {input_path}")
-    if not os.path.exists(refer_path):
-        log(f"##      FAIL  - Reference file missed: {refer_path}")
-        return False
-    else:
-        log(f"##      HAVE  - Reference file  found: {refer_path}")
-    if not os.path.exists(config_path):
-        log(f"##      FAIL  - Config file    missed: {config_path}")
-        return False
-    else:
-        log(f"##      HAVE  - Config file     found: {config_path}")
-    return True 
-
 def files_available(dataset, input_path, refer_path, config_file):
     log(f"##    {dataset}")
     if not os.path.exists(input_path):
@@ -524,7 +476,7 @@ def plan_translation_and_scoring(
     mammoth_dir: str,
     logdir: str,
     scrdir: str,
-    outdir: str,
+    hypdir: str,
     xtask: str,
     orig_task: str,
     data_tag: str,
@@ -538,13 +490,13 @@ def plan_translation_and_scoring(
         shortoutput = f"{xtask}.{data_tag}.hyp"
         sacre_path = os.path.join(scrdir, f"{xtask}.{data_tag}.sacre")
         comet_path = os.path.join(scrdir, f"{xtask}.{data_tag}.comet")
-    output_path = os.path.join(outdir, shortoutput)
+    output_path = os.path.join(hypdir, shortoutput)
     if not files_available(dataset, input_path, refer_path, config_path):
          return False
 
     writers.plan.write(
         f'--task_id "{orig_task}" --src "{input_path}" --output "{output_path}" --refer "{refer_path}" '
-        f'--log {logdir}/job${{SLURM_JOB_ID}}.{xtask}.{data_tag}.err"\n'
+        f'--log "{logdir}/job${{SLURM_JOB_ID}}.{xtask}.{data_tag}.err"\n'
     )
     if os.path.exists(output_path):
         with open(input_path, "r", encoding="utf-8") as f:
@@ -568,7 +520,7 @@ def plan_translation_and_scoring(
                 writers.sacre.write(
                     f'    echo {data_tag} {xtask} Contrasting {refer_path} VS {output_path} | tee -a "{sacre_path}"; ')
                 writers.sacre.write(
-                    f'    sacrebleu {refer_path} -i {output_path} -m bleu chrf | tee -a "{sacre_path}"; ')
+                    f'    sacrebleu "{refer_path}" -i "{output_path}" -m bleu chrf | tee -a "{sacre_path}"; ')
                 writers.sacre.write("fi\n")
 
             writers.comet.write(
@@ -664,7 +616,7 @@ def collect_task_support(cfg, inventory):
         task_cfg = train_tasks.get(orig_task)
         src_tgt = task_cfg.get("src_tgt")
         if not src_tgt or "-" not in src_tgt:
-            log(f"❌ Missing or malformed src_tgt in TRAINCONFIG task: {yaml_task}")
+            log(f"❌ Missing or malformed src_tgt in TRAINCONFIG task: {orig_task}")
             continue
         train_src_vocab, train_tgt_vocab = src_tgt.split("-", 1)
         enc_group = task_cfg.get("enc_sharing_group", [])
@@ -785,17 +737,17 @@ def filter_supervised_tasks(support: TaskSupport, supervised_pair_set, inventory
     log(f"✅ Filtered the supervised tasks selection")
     return support, rejected
 
-def produce_infyamls_and_calls(inventory, support, datadir, outdir, trainconfig, cfg, writers,
+def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers,
                                model, mammoth, logdir, scrdir,):
     log(f"producing the testing tasks (stdout) ...", end="")
     for xtask in sorted(support.task_set):
         emit_tasks(xtask=xtask, inventory=inventory, support=support, 
-                   datadir=datadir, outdir=outdir, cfg_path=trainconfig, cfg=cfg,
+                   datadir=datadir, cfgdir=cfgdir, hypdir=hypdir, cfg_path=trainconfig, cfg=cfg,
                    writers=writers,  model=model, mammoth=mammoth, logdir=logdir, scrdir=scrdir,)
     log(f'✨ Completed producing inference config files')
 
 def emit_tasks(*, xtask: str, support: TaskSupport, 
-               inventory: LanguageInventory, datadir: str, outdir: str, 
+               inventory: LanguageInventory, datadir: str, cfgdir: str, hypdir: str, 
                cfg_path: str,cfg: dict, writers: CallWriters,
                model: str, mammoth: str, logdir: str, scrdir: str,) -> bool:
     pair_type = support.task_to_type.get(xtask, "unknown")
@@ -829,16 +781,16 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     src_wmt = inventory.xcode_to_wmt_locale.get(src_xcode, "")
     tgt_wmt = inventory.xcode_to_wmt_locale.get(tgt_xcode, "")
     if pair_type == "supervised":
-        inf_yaml_path_file = f"{outdir}/{orig_task}.yaml"
-        inf_yaml_path = f"{outdir}/{orig_task}.yaml"
+        inf_yaml_path_file = f"{cfgdir}/{orig_task}.yaml"
+        inf_yaml_path = f"{cfgdir}/{orig_task}.yaml"
     else:
-        inf_yaml_path_file = f"{outdir}/{orig_task}.0shot.yaml"
-        inf_yaml_path = f"{outdir}/{orig_task}.0shot.yaml"
+        inf_yaml_path_file = f"{cfgdir}/{orig_task}.0shot.yaml"
+        inf_yaml_path = f"{cfgdir}/{orig_task}.0shot.yaml"
         
     write_inference_yaml(
         src_code=src, tgt_code=tgt, pair_type=pair_type,
         xtask=xtask, orig_task=orig_task, cfg=cfg,
-        train_cfg=cfg_path, inf_yaml_path=inf_yaml_path_file, outdir=outdir, support=support)
+        train_cfg=cfg_path, inf_yaml_path=inf_yaml_path_file, support=support)
 
     flo_input = os.path.join(datadir, "flores_plus", "devtest", f"{flo_src_ref}.txt")
     flo_refer = os.path.join(datadir, "flores_plus", "devtest", f"{flo_tgt_ref}.txt")
@@ -846,7 +798,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     plan_translation_and_scoring(
         writers=writers, dataset="Flores+", data_tag="flo", input_path=flo_input, refer_path=flo_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, outdir=outdir,
+        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
     
     bqt_input = os.path.join(datadir, "bouquet", "test", f"{bqt_src_ref}.txt")
@@ -854,7 +806,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     plan_translation_and_scoring(
         writers=writers, dataset="BOUQuET", data_tag="bqt", input_path=bqt_input, refer_path=bqt_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, outdir=outdir,
+        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
 
     bqtpar_input = os.path.join(datadir, "bouquet_par", "test", f"{bqtpar_src_ref}.txt")
@@ -862,7 +814,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     plan_translation_and_scoring(
         writers=writers, dataset="BOUQuETpar", data_tag="bqtpar", input_path=bqtpar_input, refer_path=bqtpar_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, outdir=outdir,
+        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
     
     if src == "eng":
@@ -878,7 +830,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     plan_translation_and_scoring(
         writers=writers, dataset="WMT24++", data_tag="wmt", input_path=wmt_input, refer_path=wmt_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, outdir=outdir,
+        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
     
     return True
@@ -996,7 +948,7 @@ def build_inference_config_from_template(
 
 def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str, 
                          xtask: str, orig_task: str, cfg: dict,
-                         train_cfg: str, inf_yaml_path: str, outdir: str, support: TaskSupport) -> bool:
+                         train_cfg: str, inf_yaml_path: str, support: TaskSupport) -> bool:
     enc_group      = support.task_to_enc_group[xtask]
     dec_group      = support.task_to_dec_group[xtask]
     src_vocab_code = support.task_to_src_vocab_code[xtask]
@@ -1253,9 +1205,9 @@ def add_zeroshot_task(support, cfg, prefix, xsrc, xtgt, inventory):
     return xtask
 
 def main() -> int:
-    (datadir, outdir, model, trainconfig, supervisedpairs, zeroshotpairs,
+    (datadir, tskdir, cfgdir, hypdir, model, trainconfig, supervisedpairs, zeroshotpairs,
      mammoth, logdir, scrdir, cfg, lang_inventory) = get_env_vars()
-    writers = CallWriters(outdir)
+    writers = CallWriters(tskdir) 
     try:
         support = collect_task_support(cfg, lang_inventory)
         (supervised_pair_set, zeroshot_pair_set) = read_pairs(supervisedpairs, zeroshotpairs)
@@ -1263,11 +1215,11 @@ def main() -> int:
         support, rejected = filter_supervised_tasks(support, supervised_pair_set, lang_inventory,)
         check_data_coverage(support.task_set, lang_inventory.valid_xcodes)
         added_zeroshot = add_zeroshot_tasks( cfg, zeroshot_pair_set=zeroshot_pair_set, support=support, inventory=lang_inventory)
-        produce_infyamls_and_calls(lang_inventory, support, datadir, outdir, trainconfig, cfg,
+        produce_infyamls_and_calls(lang_inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg,
                                    writers, model, mammoth, logdir, scrdir,)
     finally:
         writers.close()
-    validate_calls_out(outdir)
+    validate_calls_out(tskdir)
     log(f'✨ All stages of planning completed')
     return 0
 

@@ -35,7 +35,7 @@
 #       Must be set; otherwise the wrapper aborts.
 #
 # Expected from surrounding workflow:
-#   OUTDIR
+#   TSKDIR
 #       Used indirectly by `inf_distr.sh` when locating `calls.out`.
 #
 # Reads
