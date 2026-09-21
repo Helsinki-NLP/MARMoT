@@ -5,6 +5,10 @@
   <title>MAMMOTH Training Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+       td.dense {padding: 0px;}
+       table.modelselect {width: 100%;}
+  </style>
 </head>
 <body>
 <script>
@@ -26,21 +30,33 @@ if (isset($_POST['submit'])){
 }
 // session_start();
 
+$SHOW_SOURCELANG_SELECTION = false;
+$SHOW_TARGETLANG_SELECTION = false;
+$SHOW_LANGPAIR_SELECTION = true;
 
-# $MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/lumi';
-# $model_dir = $MarmotGitRaw.'/models';
+
 $MarmotGitRaw = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main';
+# $model_dir = $MarmotGitRaw.'/models';
 $model_dir = $MarmotGitRaw.'/models/hpo';
 
 # $available_models = file($MarmotGitRaw.'/models/models.txt');
 $available_models = file($MarmotGitRaw.'/models/hpo/models.txt');
 
 $models    = get_param('models', array());
-$reqfeats  = get_param('reqfeats', array());
-$selfeats  = get_param('selfeats', array());
-$remfeats  = get_param('remfeats', array());
+$reqfeats  = get_param('reqfeats', array());  # not in use anymore
+$selfeats  = get_param('selfeats', array());  # not in use anymore
+$remfeats  = get_param('remfeats', array());  # not in use anymore
+
+$model_components = array();
+$model_components[0]  = get_param('mcomp0', array());
+$model_components[1]  = get_param('mcomp1', array());
+$model_components[2]  = get_param('mcomp2', array());
+$model_components[3]  = get_param('mcomp3', array());
+$model_components[4]  = get_param('mcomp4', array());
+
 $file      = get_param('file', 'valid-scores-bleu.txt');
 $tasks     = get_param('tasks', array());
+$mtasks    = get_param('mtasks', array());
 $types     = get_param('tasktypes', array());
 $langs     = get_param('langs', array());
 $srclangs  = get_param('srclangs', array());
@@ -48,7 +64,8 @@ $trglangs  = get_param('trglangs', array());
 $langpairs = get_param('langpairs', array());
 $xaxis     = get_param('xaxis', 'training-steps');
 
-// var_dump($srclangs);
+
+// var_dump($tasks);
 
 if ($file == 'valid-scores-bleu.txt') $metric = 'BLEU';
 elseif ($file == 'valid-scores-chrf.txt') $metric = 'ChrF';
@@ -56,16 +73,18 @@ else $metric = 'perplexity';
 
 
 echo('<form method="post">');
-echo('<small><table>');
+echo('<small><table class="modelselect"><tr><th>filter models and tasks</th><th>selected models</th></tr><tr><td><table>');
 // select_models($available_models, $models);
-select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeats);
+// select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeats);
+select_model_components($available_models, $models, $model_components);
 
 $scores = array();
 $traintoks = array();
 $traintime = array();
 $modelgpus = array();
 
-$available_tasks = array('average-filtered' => 1, 'average-selected' => 1);
+$nr_of_models = count($models);
+$available_tasks = array('average-filtered' => $nr_of_models, 'average-selected' => $nr_of_models);
 $available_tasktypes = array();
 $available_srclangs = array();
 $available_trglangs = array();
@@ -82,19 +101,28 @@ foreach ($models as $m){
                                            $model, $file, $model_dir);
 }
 
-$tasks = filter_tasks($available_tasks,
-                      $available_srclangs,
-                      $available_trglangs,
-                      $available_langpairs,
-                      $available_tasktypes,
-                      $tasks,
-                      $langs,$srclangs,$trglangs,
-                      $langpairs,
-                      $types);
+
+$mtasks = filter_tasks($available_tasks,
+                       $available_srclangs,
+                       $available_trglangs,
+                       $available_langpairs,
+                       $available_tasktypes,
+                       $models,
+                       $tasks,
+                       $mtasks,
+                       $langs,$srclangs,$trglangs,
+                       $langpairs,
+                       $types);
 
 echo('<tr><td><input type="submit" name="submit" value="select" />');
 echo('<button type="button" onclick="resetSelected();">reset</button></td><td></td></tr>');
-echo('</table></small><hr/>');
+
+echo("</table><td valign='top'>");
+foreach ($models as $model){
+    list($modelname,$modeldir) = explode('/',$model);
+    echo($modelname.'<br/>');
+}
+echo('</td></tr></table></small><hr/>');
 
 
 
@@ -102,7 +130,7 @@ echo("<h1>MAMMOTH Training Dashboard</h1>");
 
 
 
-$selected_tasks = select_tasks($scores, $tasks, $types, $langpairs);
+$selected_tasks = select_tasks($scores, $mtasks, $tasks, $types, $langpairs);
 $selected_models = get_selected_models($selected_tasks);
 
 add_averages($scores, $selected_tasks, $available_tasks, $metric);
@@ -121,7 +149,13 @@ if ($xaxis != "training-steps"){
 if (count($selected_tasks))
     scores_plotly($scores, $selected_tasks, $xaxis, $metric);
 
-model_tasks($available_models, $available_tasks, $available_langpairs, $scores, $models, $tasks, $types, $langpairs, $file);
+plot_graph_form($file, $xaxis);
+task_selection_form($available_tasks, $tasks);
+
+// OLD FORM with all tasks for all selected models
+//
+// model_tasks($available_models, $available_tasks, $available_langpairs, $scores, $models, $mtasks, $types, $langpairs, $file);
+
 echo('</form></body></html>');
     
 
@@ -143,16 +177,27 @@ function get_models($dir='models'){
 }
 
 
-function select_tasks(&$scores, &$selected_tasks, &$selected_types, &$selected_langpairs){
-    $selected = $selected_tasks;
+function select_tasks(&$scores, &$selected_mtasks, &$selected_tasks, &$selected_types, &$selected_langpairs){
+    $selected = $selected_mtasks;
 
     foreach ($scores as $model => $tasks){
+        if (in_array('average-filtered', $selected_tasks)){
+            array_push($selected,$model.':average-filtered');
+        }
+        if (in_array('average-selected', $selected_tasks)){
+            array_push($selected,$model.':average-selected');
+        }
         foreach ($tasks as $task => $score){
-            if (! in_array($model.':'.$task, $selected_tasks)){
-                list($type,$srclang,$trglang) = split_task_name($task);
-                $langpair = implode('-',array($srclang,$trglang));
-                if (in_array($langpair, $selected_langpairs)){
+            if (! in_array($model.':'.$task, $selected_mtasks)){
+                if (in_array($task, $selected_tasks)){
                     array_push($selected,$model.':'.$task);
+                }
+                else{
+                    list($type,$srclang,$trglang) = split_task_name($task);
+                    $langpair = implode('-',array($srclang,$trglang));
+                    if (in_array($langpair, $selected_langpairs)){
+                        array_push($selected,$model.':'.$task);
+                    }
                 }
             }
         }
@@ -216,7 +261,7 @@ function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
             foreach ($selected_tasks as $selected_task){
                 $taskparts = explode(':',$selected_task);
                 $task = array_pop($taskparts);
-                echo("$selected_task");
+                // echo("$selected_task");
                 if (substr($task,0,7) == 'average') continue;
                 foreach ($tasks[$task] as $step => $score){
                     if (! array_key_exists($step,$avgscores)){
@@ -379,7 +424,7 @@ function read_valid_scores(&$scores, &$tasks, &$srclangs, &$trglangs, &$langpair
             
             array_push($gpus,$gpu);
             // array_push($tasks,$task);
-            $tasks[$task] = 1;
+            $tasks[$task] = array_key_exists($task,$tasks) ? $tasks[$task]+1 : 1;
             
             $scores[$model][$task] = array();
 
@@ -463,55 +508,79 @@ function filter_tasks(&$available_tasks,
                       &$available_trglangs,
                       &$available_langpairs,
                       &$available_tasktypes,
+                      &$available_models,
                       &$selected_tasks,
+                      &$selected_mtasks,
                       &$selected_langs,
                       &$selected_srclangs,
                       &$selected_trglangs,
                       &$selected_langpairs,
                       &$selected_tasktypes){
 
-    echo "<tr><td>source languages: </td><td>";
-    ksort($available_srclangs);
-    $count = 0;
-    foreach ($available_srclangs as $lang => $nr){
-        $count++;
-        if (in_array($lang,$selected_srclangs)){
-            echo("<input checked='1' type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
+
+    global $SHOW_SOURCELANG_SELECTION, $SHOW_TARGETLANG_SELECTION, $SHOW_LANGPAIR_SELECTION;
+
+    $nr_of_models = count($available_models);
+    foreach ($available_tasks as $task => $count){
+        if ($count < $nr_of_models){
+            // echo("remove $task<br/>");
+            unset($available_tasks[$task]);
         }
-        else{
-            echo("<input type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
-        }
-        if (($count % 20) == 0) echo "<br/>";
     }
-    echo "</td></tr><tr><td>target languages: </td><td>";
-    ksort($available_trglangs);
-    $count = 0;
-    foreach ($available_trglangs as $lang => $nr){
-        $count++;
-        if (in_array($lang,$selected_trglangs)){
-            echo("<input checked='1' type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
+    // var_dump($available_tasks);
+
+
+    if ($SHOW_SOURCELANG_SELECTION){
+        echo "<tr><td>source languages: </td><td>";
+        ksort($available_srclangs);
+        $count = 0;
+        foreach ($available_srclangs as $lang => $nr){
+            $count++;
+            if (in_array($lang,$selected_srclangs)){
+                echo("<input checked='1' type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
+            }
+            else{
+                echo("<input type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
+            }
+            if (($count % 10) == 0) echo "<br/>";
         }
-        else{
-            echo("<input type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
-        }
-        if (($count % 20) == 0) echo "<br/>";
+        echo "</td></tr><tr>";
     }
-    $available_langs = array_merge($available_srclangs, $available_trglangs);
-    echo "</td></tr><tr><td>either source or target: </td><td>";
-    ksort($available_langs);
-    $count = 0;
-    foreach ($available_langs as $lang => $nr){
-        $count++;
-        if (in_array($lang,$selected_langs)){
-            echo("<input checked='1' type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
+    if ($SHOW_TARGETLANG_SELECTION){
+        echo "<tr><td>target languages: </td><td>";
+        ksort($available_trglangs);
+        $count = 0;
+        foreach ($available_trglangs as $lang => $nr){
+            $count++;
+            if (in_array($lang,$selected_trglangs)){
+                echo("<input checked='1' type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
+            }
+            else{
+                echo("<input type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
+            }
+            if (($count % 10) == 0) echo "<br/>";
         }
-        else{
-            echo("<input type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang ");
+        echo "</td></tr><tr>";
+    }
+    if ($SHOW_LANGPAIR_SELECTION){
+        $available_langs = array_merge($available_srclangs, $available_trglangs);
+        echo "<tr><td>language:<br/>(source or target) </td><td><table><tr>";
+        ksort($available_langs);
+        $count = 0;
+        foreach ($available_langs as $lang => $nr){
+            $count++;
+            if (in_array($lang,$selected_langs)){
+                echo("<td class='dense'><input checked='1' type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang </td>");
+            }
+            else{
+                echo("<td class='dense'><input type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang </td>");
+            }
+            if (($count % 10) == 0) echo "</tr><tr>";
         }
-        if (($count % 20) == 0) echo "<br/>";
+        echo "</tr></table></td></tr><tr>";
     }
     
-    echo "</td></tr><tr><td>task types: </td><td>";
+    echo "<tr><td>task types: </td><td>";
     foreach ($available_tasktypes as $tasktype => $nr){
         if (in_array($tasktype,$selected_tasktypes)){
             echo("<input checked='1' type='checkbox' name='tasktypes[]' value='$tasktype'>&nbsp;$tasktype ");
@@ -553,9 +622,9 @@ function filter_tasks(&$available_tasks,
         }
         if ($srclang && $trglang){
             $langpair = implode('-',array($srclang,$trglang));
-            $filtered_langpairs[$langpair] = 1;
+            $filtered_langpairs[$langpair] = $nr;
         }
-        $filtered_tasks[$task] = 1;
+        $filtered_tasks[$task] = $nr;
     }
 
 
@@ -564,7 +633,7 @@ function filter_tasks(&$available_tasks,
     $selected_langpairs = array_intersect($selected_langpairs,array_keys($available_langpairs));
 
     $tasks = array();
-    foreach ($selected_tasks as $task){
+    foreach ($selected_mtasks as $task){
         list($model,$taskname) = explode(':',$task);
         if (array_key_exists($taskname,$available_tasks)){
             array_push($tasks,$task);
@@ -573,6 +642,11 @@ function filter_tasks(&$available_tasks,
             array_push($tasks,$task);
         }
     }
+    foreach ($selected_tasks as $task){
+        if (array_key_exists($task,$available_tasks)){
+            array_push($tasks,$task);
+        }
+    }    
     return $tasks;
 }
 
@@ -603,6 +677,57 @@ function select_models(&$models, &$selected_models){
 }
 
 
+
+function select_model_components(&$models, &$selected_models, &$selected_model_components){
+
+    $model_components = array();
+    foreach ($models as $m){
+        $m = rtrim($m);
+        list($name,$dir) = explode('/',$m);
+        $components = explode('-',$name);
+        for ($i = 0; $i < count($components); $i++) {
+            $model_components[$i][$components[$i]] = 1;
+        }
+    }
+    
+    for ($i = 0; $i < count($model_components); $i++) {
+        echo("<tr><td>component $i:</td><td>");
+        $count = 0;
+        foreach ($model_components[$i] as $comp => $nr){
+            $count++;
+            $param = 'mcomp'.$i.'[]';
+            if (in_array($comp, $selected_model_components[$i])){
+                echo("<input checked='1' type='checkbox' name='$param' value='$comp'>&nbsp;$comp ");
+            }
+            else {
+                echo("<input type='checkbox' name='$param' value='$comp'>&nbsp;$comp ");
+            }
+            if (($count % 10) == 0) echo "<br/>";
+        }
+        echo('</td></tr>');
+    }
+    foreach ($models as $m){
+        $m = rtrim($m);
+        list($name,$dir) = explode('/',$m);
+        $components = explode('-',$name);
+        $model_ok = true;
+        for ($i = 0; $i < count($selected_model_components); $i++) {
+            if (count($selected_model_components[$i])){
+                if (! in_array($components[$i],$selected_model_components[$i])){
+                    $model_ok = false;
+                    break;
+                }
+            }
+        }
+        if ($model_ok)
+            array_push($selected_models,$m);
+    }
+    $selected_models = array_unique($selected_models);
+    
+
+}
+
+    
 
 /*
 model selection filters:
@@ -720,18 +845,26 @@ function select_model_features(&$models, &$selected_models, &$required_model_fea
 }
 
 
-/*
-display model tasks that can be selected
-display language pairs that can be selected
-*/
+function task_selection_form(&$available_tasks, &$selected_tasks){
+    echo('<table><tr>');
+    ksort($available_tasks);
+    $nr=0;
+    foreach ($available_tasks as $task => $count){
+        $nr++;
+        if (in_array($task, $selected_tasks)){
+            echo("<td class='dense'><input checked='1' type='checkbox' name='tasks[]' value='$task'> $task</td>");
+        }
+        else {
+            echo("<td class='dense'><input type='checkbox' name='tasks[]' value='$task'> $task</td>");
+        }
+        if (($nr % 10) == 0) echo "</tr><tr>";
+    }
+    echo('</tr></table>');
+}
 
-function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
-                     &$selected_models,
-                     &$selected_tasks,
-                     &$selected_types, &$selected_langpairs,
-                     $file='valid-scores-bleu.txt'){
 
-    global $xaxis;
+function plot_graph_form($file, $xaxis){
+    
     echo('<p><input type="submit" name="submit" value="plot graph" />');
     echo('<button type="button" onclick="resetSelected();">reset</button> ');
     
@@ -757,6 +890,49 @@ function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
     if ($xaxis == 'consumed-tokens') echo(' checked="checked"');
     echo('><label for="xaxis-consumed-tokens">token budget</label></input></p>');
 
+}
+
+
+/*
+display model tasks that can be selected
+display language pairs that can be selected
+*/
+
+function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
+                     &$selected_models,
+                     &$selected_tasks,
+                     &$selected_types, &$selected_langpairs,
+                     $file='valid-scores-bleu.txt'){
+
+    global $xaxis;
+    plot_graph_form($file, $xaxis);
+
+    /*
+    echo('<p><input type="submit" name="submit" value="plot graph" />');
+    echo('<button type="button" onclick="resetSelected();">reset</button> ');
+    
+    echo("<input type=\"hidden\" name=\"file\" value=\"$file\" />");
+    echo('<input type="radio" id="valid-scores-bleu" name="file" value="valid-scores-bleu.txt"');
+    if ($file == 'valid-scores-bleu.txt') echo(' checked="checked"');
+    echo('><label for="valid-scores-bleu">BLEU</label></input> ');
+    echo('<input type="radio" id="valid-scores-chrf" name="file" value="valid-scores-chrf.txt"');
+    if ($file == 'valid-scores-chrf.txt') echo(' checked="checked"');
+    echo('><label for="valid-scores-chrf">ChrF</label></input> ');
+    echo('<input type="radio" id="valid-scores-ppl" name="file" value="valid-scores-ppl.txt"');
+    if ($file == 'valid-scores-ppl.txt') echo(' checked="checked"');
+    echo('><label for="valid-scores-bleu">perplexity</label></input> ');
+
+    
+    echo('<input type="radio" id="xaxis-training-steps" name="xaxis" value="training-steps"');
+    if ($xaxis == 'training-steps') echo(' checked="checked"');
+    echo('><label for="xaxis-training-steps">iterations</label></input> ');
+    echo('<input type="radio" id="xaxis-training-time" name="xaxis" value="training-time"');
+    if ($xaxis == 'training-time') echo(' checked="checked"');
+    echo('><label for="xaxis-training-time">time</label></input> ');
+    echo('<input type="radio" id="xaxis-consumed-tokens" name="xaxis" value="consumed-tokens"');
+    if ($xaxis == 'consumed-tokens') echo(' checked="checked"');
+    echo('><label for="xaxis-consumed-tokens">token budget</label></input></p>');
+    */
     
     echo('<table><tr>');
     echo("<th>languages</th>");
@@ -788,10 +964,10 @@ function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
         foreach ($tasks as $task => $score){
             if (array_key_exists($task, $available_tasks)){
                 if (in_array($model.':'.$task, $selected_tasks)){
-                    echo("<input checked='1' type='checkbox' name='tasks[]' value='$model:$task'> $task<br/>");
+                    echo("<input checked='1' type='checkbox' name='mtasks[]' value='$model:$task'> $task<br/>");
                 }
                 else {
-                    echo("<input type='checkbox' name='tasks[]' value='$model:$task'> $task<br/>");
+                    echo("<input type='checkbox' name='mtasks[]' value='$model:$task'> $task<br/>");
                 }
             }
         }
