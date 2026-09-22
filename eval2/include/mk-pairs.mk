@@ -15,8 +15,6 @@ $(PAIR_INPUTS_DONE): $(TRAINCONFIG) $(VIEW_PYTHON) $(SELFDIR)/bin/inf_pairs.py |
 $(ZEROSHOTPAIRSINPUT) $(SUPERVISEDPAIRSINPUT): $(PAIR_INPUTS_DONE)
 > @test -f "$@"
 
-.SECONDARY: $(ZEROSHOTPAIRS) $(SUPERVISEDPAIRS)
-
 $(ZEROSHOTPAIRS): $(ZEROSHOTPAIRSINPUT) | $(BAS_DONE)
 > @if [ "$(FORCE_PAIRS)" = 1 ]; then \
 >   if [ ! -e "$@" ] || ! cmp -s "$<" "$@"; then \

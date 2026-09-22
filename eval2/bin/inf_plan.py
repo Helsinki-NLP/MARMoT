@@ -931,19 +931,69 @@ def build_inference_config_from_template(
     infer_cfg["tasks"] = {orig_task: template_cfg}
 
     # Copy the inference-time parameters from the old extractor.
-    infer_cfg["beam_size"] = DEFAULT_BEAM_SIZE
-    infer_cfg["batch_size"] = DEFAULT_BATCH_SIZE
-    infer_cfg["batch_type"] = DEFAULT_BATCH_TYPE
-    infer_cfg["gpu"] = DEFAULT_GPU
-    infer_cfg["world_size"] = DEFAULT_WORLD_SIZE
-    infer_cfg["gpu_ranks"] = DEFAULT_GPU_RANKS
+    infer_cfg["beam_size"]  = DEFAULT_BEAM_SIZE   # 5
+    infer_cfg["batch_size"] = DEFAULT_BATCH_SIZE  # 32
+    infer_cfg["batch_type"] = DEFAULT_BATCH_TYPE  # sents
+    infer_cfg["gpu"]        = DEFAULT_GPU         # 0
+    infer_cfg["world_size"] = DEFAULT_WORLD_SIZE  # 1
+    infer_cfg["gpu_ranks"]  = DEFAULT_GPU_RANKS   # [0]
+    infer_cfg["seed"]       = 42
 
     # Keep these if useful for debugging / traceability.
-    infer_cfg["task_id"] = xtask
+    infer_cfg["task_id"]        = xtask
     infer_cfg["_expanded_task"] = xtask
-    infer_cfg["_train_config"] = train_cfg_path
+    infer_cfg["_train_config"]  = train_cfg_path
 
     return infer_cfg
+
+# Task Configuration
+#  task_id: eng-spa
+# tasks:
+  eng-spa:
+    src_tgt: "eng-spa"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["eng"]
+    dec_sharing_group: ["spa"]
+
+# ============================================================================
+# Vocabulary Configuration - HuggingFace Tokenizer
+# ============================================================================
+use_hf_tokenizer: true
+
+src_vocab:
+   eng: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/eng/32000/tokenizer.json
+   
+tgt_vocab:
+   spa: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/spa/32000/tokenizer.json
+
+max_length: 512
+
+# ============================================================================
+# Model Architecture
+# ============================================================================
+model_dtype: bf16
+
+# ============================================================================
+# Inference Configuration
+# ============================================================================
+# Model checkpoint to load
+model: 
+
+# Input/output files
+src: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
+output: 
+
+# beam_size: 5
+# batch_size: 32
+# batch_type: sents
+# gpu: 0
+# world_size: 1
+# gpu_ranks: [0]
+report_time: true
+# verbose: true # currently not supported in inference, need to modify code to enable it
+# seed: 42
 
 
 def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str, 

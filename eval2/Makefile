@@ -21,23 +21,40 @@ include $(SELFDIR)/include/mk-targs.mk  # parse commandline args
 MODELDIR_CLEAN := $(patsubst %/,%,$(MODELDIR))
 MODEL := $(MODELDIR_CLEAN)/
 
+.PHONY: list-eval-files migrate-eval-dry-run migrate-eval
 include $(SELFDIR)/include/mk-paths.mk  # parse commandline args
 
 # -----------------------------------------------------------------------------
 # Mammoth and Eval Configuration
 # -----------------------------------------------------------------------------
 
-JOBPROJECT     := project_462001059
+# project_462001059
+JOBPROJECT     := project_462001509
 DISKPROJECT    := project_462001087
 
-MAMMOTHDEF     := /scratch/$(DISKPROJECT)/shared/mammoth-shared/mammoth-dev/mammoth
-MAMMOTH64      := /scratch/$(DISKPROJECT)/shared/mammoth-shared/mammoth-64/mammoth
 TESTINGDIR     := /scratch/$(DISKPROJECT)/shared/testing-shared
-# /scratch/project_462001087/shared/testing-shared
-
 DATADIR        := $(TESTINGDIR)/data
 
-VENV           := /scratch/$(DISKPROJECT)/shared/mammoth-shared/.venv
+MAMMOTH_XT_64   := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-64
+MAMMOTH_XT_DEF  := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-dev
+MAMMOTH_PYTORCH := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth_pytorch
+
+# MAMMOTH_TYPE
+# ├── pytorch
+# │   └── MAMMOTH_PYTORCH/mammoth => MAMMOTH_PYTHONPATH
+# └── xtransformers
+#     └── MAMMOTH_XT_DEF/mammoth => MAMMOTH_PYTHONPATH
+
+ifeq ($(MAMMOTH_TYPE),xtransformers)
+  MAMMOTH_ROOT       := $(MAMMOTH_XT_DEF)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_XT_DEF)/mammoth
+endif
+ifeq ($(MAMMOTH_TYPE),pytorch)
+  MAMMOTH_ROOT       := $(MAMMOTH_PYTORCH)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_PYTORCH)/mammoth
+endif
+
+VENV           := /scratch/$(JOBPROJECT)/shared/mammoth-shared/.venv
 INF_ACTIVATE   := $(VENV)/bin/activate
 
 SACRE_VENV     := $(TESTINGDIR)/venvs/sacre
@@ -110,10 +127,11 @@ $(MODEL_ALIASES):
 >   $(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODEL_$@)" inspect-model-summary; \
 > fi
 
-.PHONY: mk-basic inspect-model-summary which-mammoth
-.PHONY: clean-mammoth clean-basic venvs lang2vec
-.PHONY: test-sif find-sif
-include $(SELFDIR)/include/mk-basic.mk # venvs, model inspection, mammoth ver, dirs, (non)slurm detection
+.PHONY: venvs lang2vec test-sif find-sif
+include $(SELFDIR)/include/mk-confs.mk # venvs, (non)slurm detection, python, sif
+
+.PHONY: mk-basic inspect-model-summary which-mammoth clean-mammoth clean-basic
+include $(SELFDIR)/include/mk-basic.mk # model inspection, mammoth ver, dirs
 
 .PHONY: mk-pairs mk-pairs-force
 include $(SELFDIR)/include/mk-pairs.mk # determine the desired language pairs
@@ -142,7 +160,27 @@ include $(SELFDIR)/include/mk-saved.mk # saved scores
 # VISUALIZATION AND QUERY TARGETS
 ##################################
 
+# It would be good if evaluation can be done also for selected tasks
+# only. Automation is good but it would also be good if we can do
+# something like make TASKS="mt_eng-fin mt_fin-eng" evaluation to only
+# run evaluation over different benchmarks for the selected
+# tasks. Some kind of flexibility is good  to have.  That could maybe
+# also apply to analysis and visualization. Would be quite nice if one
+# could make a selection of tasks to print score overviews and
+# visualizations. Sometimes it can be good to zoom in into specific
+# tasks instead of having the whole overview of the entire system with
+# all tasks.
 .PHONY: mt-bleu mt-chrf mt-bleu-chrf
+mt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind mt $(MODELDIR)/inf_scores/
+sentmt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind sentmt $(MODELDIR)/inf_scores/
+docmt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind docmt $(MODELDIR)/inf_scores/
+mt-chrf:
+> @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric chrF2 --kind mt $(MODELDIR)/inf_scores/
+mt-bleu-chrf:
+> @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --kind mt $(MODELDIR)/inf_scores/
 
 plot-docmt:
 > $(PLOT_PYTHON) compare.py \

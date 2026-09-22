@@ -82,31 +82,31 @@ import torch
 
 # Optional safe-loading allowlist for Mammoth / HF tokenizer objects.
 # If these imports fail, frame files may still need --unsafe.
-try:
-    import argparse as _argparse
-    from torch.serialization import add_safe_globals
-    from mammoth.inputters.vocab import HFTokenizerVocab
-    from tokenizers import Tokenizer
-    from tokenizers.models import Model
-    from tokenizers.normalizers import Normalizer
-    from tokenizers.pre_tokenizers import PreTokenizer
-    from tokenizers.decoders import Decoder
-    from tokenizers.processors import PostProcessor
-    from tokenizers.trainers import Trainer
-
-    add_safe_globals([
-        _argparse.Namespace,
-        HFTokenizerVocab,
-        Tokenizer,
-        Model,
-        Normalizer,
-        PreTokenizer,
-        Decoder,
-        PostProcessor,
-        Trainer,
-    ])
-except Exception:
-    pass
+#try:
+#    import argparse as _argparse
+#    from torch.serialization import add_safe_globals
+#    from mammoth.inputters.vocab import HFTokenizerVocab
+#    from tokenizers import Tokenizer
+#    from tokenizers.models import Model
+#    from tokenizers.normalizers import Normalizer
+#    from tokenizers.pre_tokenizers import PreTokenizer
+#    from tokenizers.decoders import Decoder
+#    from tokenizers.processors import PostProcessor
+#    from tokenizers.trainers import Trainer
+#
+#    add_safe_globals([
+#        _argparse.Namespace,
+#        HFTokenizerVocab,
+#        Tokenizer,
+#        Model,
+#        Normalizer,
+#        PreTokenizer,
+#        Decoder,
+#        PostProcessor,
+#        Trainer,
+#    ])
+#except Exception:
+#    pass
 
 
 def bytes_per_elem(dtype: torch.dtype) -> int:
@@ -274,9 +274,15 @@ def inspect_layer_patterns(sd: dict[str, torch.Tensor], top_keys_per_layer: int 
             print("...")
 
 def load_checkpoint(path: str, unsafe: bool):
-    if unsafe:
-        return torch.load(path, map_location="cpu", weights_only=False)
-    return torch.load(path, map_location="cpu")
+    return torch.load(
+        path,
+        map_location="cpu",
+        weights_only=not unsafe,
+    )
+#def load_checkpoint(path: str, unsafe: bool):
+#    if unsafe:
+#        return torch.load(path, map_location="cpu", weights_only=False)
+#    return torch.load(path, map_location="cpu")
 
 
 def print_config_summary(path: str, cfg: dict[str, Any]):
@@ -463,7 +469,8 @@ def extract_head_hints_from_object(obj):
 
     return hits
 
-def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any]) -> dict[str, Any]:
+def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any],
+                      backend: str = "unknown",) -> dict[str, Any]:
     out = dict(cfg)
     model_dim = out.get("model_dim")
     q_proj_out_dim = out.get("q_proj_out_dim")
@@ -479,14 +486,34 @@ def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any]) -> dict[s
         "x_transformers_opts.head_dim",
         "x_transformers_opts.dim_head",
     ]
-    preferred_heads_keys = [
-        "opts.x_transformers_opts.heads",
-        "x_transformers_opts.heads",
-        "opts.decoder_heads",
-        "opts.encoder_heads",
-        "opts.attn_heads",
-        "opts.ab_heads",
-    ]
+    if backend == "xtransformers":
+        # This is the authoritative old x-transformers setting.
+        preferred_heads_keys = [
+            "opts.x_transformers_opts.heads",
+            "x_transformers_opts.heads",
+            "opts.decoder_heads",
+            "opts.encoder_heads",
+            "opts.attn_heads",
+            "opts.ab_heads",
+        ]
+    elif backend == "pytorch":
+        # opts.heads is retained in some PyTorch frames but is not the
+        # attention-head setting used by these checkpoints.
+        preferred_heads_keys = [
+            "opts.ab_heads",
+            "opts.decoder_heads",
+            "opts.encoder_heads",
+            "opts.attn_heads",
+        ]
+    else:
+        preferred_heads_keys = [
+            "opts.x_transformers_opts.heads",
+            "x_transformers_opts.heads",
+            "opts.ab_heads",
+            "opts.decoder_heads",
+            "opts.encoder_heads",
+            "opts.attn_heads",
+        ]
 
     for k in preferred_head_dim_keys:
         if k in head_hints:
@@ -514,6 +541,8 @@ def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any]) -> dict[s
 
     if explicit_heads is None:
         for k, v in head_hints.items():
+            if backend == "pytorch" and k == "opts.heads":
+                continue
             lk = k.lower()
             if (
                 lk.endswith("encoder_heads")
@@ -524,7 +553,7 @@ def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any]) -> dict[s
                 explicit_heads = v
                 explicit_heads_source = k
                 break
-
+            
     # Explicit saved head_dim from options
     if explicit_head_dim is not None:
         out["configured_head_dim"] = explicit_head_dim
@@ -855,6 +884,7 @@ def print_model_summary(summary: dict[str, Any], yaml_like: bool = False):
 
     if yaml_like:
         print("model_summary:")
+        print(f"  backend: {summary.get('backend', 'unknown')}")
         for section in order:
             print(f"  {section}:")
             if not summary.get(section):
@@ -862,6 +892,11 @@ def print_model_summary(summary: dict[str, Any], yaml_like: bool = False):
             else:
                 for k in sorted(summary[section]):
                     v = summary[section][k]
+                    print(f"    {k}: {v}")
+        if summary.get("head_analysis"):
+            print("  head_analysis:")
+            for k, v in summary["head_analysis"].items():
+                if v is not None:
                     print(f"    {k}: {v}")
         if summary.get("head_hints"):
             print("  head_hints:")
@@ -1002,7 +1037,9 @@ def summarize_model(files: list[str], args):
     #    present in encoder/decoder sections
     for section in ["encoder", "decoder", "encoder_wrapper", "decoder_wrapper"]:
         if section in summary and isinstance(summary[section], dict):
-            summary[section] = resolve_head_info(summary[section], model_head_hints)
+            summary[section] = resolve_head_info(summary[section],
+                                                 model_head_hints,
+                                                 backend=args.backend,)
 
     # 3. Compress after resolution so shared resolved values get hoisted
     summary = compress_model_summary(summary)
@@ -1010,6 +1047,31 @@ def summarize_model(files: list[str], args):
     if model_head_hints:
         summary["head_hints"] = model_head_hints
     summary = add_head_dim_warnings(summary)
+
+    summary["backend"] = args.backend
+
+    global_cfg = summary.get("global", {})
+    if isinstance(global_cfg, dict):
+        candidate_heads = [
+            f"{key}={value}"
+            for key, value in sorted(model_head_hints.items())
+            if key.lower().endswith((
+                    "heads", "attn_heads", "encoder_heads",
+                    "decoder_heads", )) ]
+        summary["head_analysis"] = {
+            "backend": args.backend,
+            "candidates": candidate_heads,
+            "selected_num_heads": global_cfg.get("configured_num_heads"),
+            "selected_num_heads_source": global_cfg.get(
+                "configured_num_heads_source"),
+            "calculated_head_dim": global_cfg.get("calculated_head_dim"),
+            "trained_head_dim": global_cfg.get("trained_head_dim"),
+            "head_dim_consistent": (
+                global_cfg.get("calculated_head_dim")
+                == global_cfg.get("trained_head_dim")
+                if global_cfg.get("calculated_head_dim") is not None
+                and global_cfg.get("trained_head_dim") is not None
+                else None), }
     
     print_model_summary(summary, yaml_like=args.yaml_like)
 
@@ -1277,6 +1339,9 @@ def main():
                     help="Inspect _base_layers.<i> key patterns to understand saved layer structure.",)
     ap.add_argument("--pattern-top-keys", type=int, default=12,
                     help="How many example keys to print per saved layer in --inspect-patterns mode.",)
+    ap.add_argument("--backend",choices=["xtransformers", "pytorch", "unknown"],
+                    default="unknown",
+                    help="Known checkpoint backend; controls attention-head interpretation.",)
     ap.add_argument("--quiet", action="store_true")
     ap.add_argument("--unsafe", action="store_true",
         help="Use torch.load(..., weights_only=False). Only for trusted files.",)

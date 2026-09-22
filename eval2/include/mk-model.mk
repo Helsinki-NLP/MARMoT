@@ -3,9 +3,11 @@
 # -----------------------------------------------------------------------------
 # Shared base directory for model aliases.
 XMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-xtransformers
+PMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo
 
 # Add model aliases here.
-#MODEL_docmt4densmall      := $(XMODELS)/docmt-4pivots-denoise-small/mammoth
+MODEL_big-2p-GAenc-Ldec-320k := $(PMODELS)/big-2p-GAenc-Ldec-320k/mammoth
+
 MODEL_docmt4denhalfbig    := $(XMODELS)/docmt-4pivots-denoise-halfsharedenc-big/mammoth
 MODEL_docmt4denhalfbase   := $(XMODELS)/docmt-4pivots-denoise-halfsharedenc-base/mammoth
 MODEL_docmt4denhalfsmall  := $(XMODELS)/docmt-4pivots-denoise-halfsharedenc-small/mammoth
@@ -26,7 +28,8 @@ MODEL_sentmthalfxl        := $(XMODELS)/sentmt-halfsharedenc-xl/mammoth
 MODEL_ALIASES := docmt4denhalfbase docmt4denhalfsmall docmt4denhalfxl \
   docmt10denhalf docmt4 finnish finnish_denoise_xl denoise d_fincentric \
   d_halfsharedenc d_sharedenc LGAenc LGAenc_fincentric sentmtdenoise sentmthalfsmall \
-  sentmthalfxl
+  sentmthalfxl \
+  big-2p-GAenc-Ldec-320k
 
 # Naming conventions for tasks:
 # * sentmt: sentence-level MT with OPUS data (Tatoeba TC, HPLT, OpenSubtitles2024)
