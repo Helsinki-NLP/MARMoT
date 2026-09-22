@@ -19,7 +19,7 @@ HPC_PROJECT  ?= project_462001509
 # MAMMOTH_VERSION ?= joerg
 
 ifeq (${TRANSFORMER_BACKEND},x-transformers)
-  MAMMOTH_VERSION ?= mammoth_x_transformer
+  MAMMOTH_VERSION ?= mammoth-xt
 else
   MAMMOTH_VERSION ?= mammoth_pytorch
   TRANSFORMER_BACKEND ?= pytorch
