@@ -1,16 +1,21 @@
-.PHONY: pass-pairs require-pairs 
+
+.PHONY: pass-pairs require-pairs clear-pairs
 
 $(SELFDIR)/bin/inf_pairs.py:
 > @[[ -f "$(SELFDIR)/bin/inf_pairs.py" ]] || { echo "mk-pairs.mk: ❌ Missing $(SELFDIR)/bin/inf_pairs.py" >&2; exit 1; }
 
 $(PAIR_INPUTS_DONE): $(TRAINCONFIG) $(VIEW_PYTHON) $(SELFDIR)/bin/inf_pairs.py | $(BAS_DONE) 
-> @set -euo pipefail; \
-> echo "mk-pairs.mk: 🛠️ Building $(ZEROSHOTPAIRSINPUT) and $(SUPERVISEDPAIRSINPUT)..."; \
+> set -euo pipefail; \
+> echo "mk-pairs.mk: 🛠️ Building $(SUPERVISEDPAIRSINPUT)..."; \
+> echo "mk-pairs.mk: 🛠️ Building $(ZEROSHOTPAIRSINPUT)..."; \
 > module load cray-python; \
 > $(VIEW_PYTHON) "$(SELFDIR)/bin/inf_pairs.py" "$(TRAINCONFIG)" \
 >   --zs-out "$(ZEROSHOTPAIRSINPUT)" \
->   --supervised-pairs-and-quit "$(SUPERVISEDPAIRSINPUT)" >&2; \
+>   --supervised-out "$(SUPERVISEDPAIRSINPUT)" >&2; \
 > touch "$@"
+
+pairs-clear:
+> rm -f $(ZEROSHOTPAIRSINPUT) $(SUPERVISEDPAIRSINPUT) $(PAIR_INPUTS_DONE)
 
 $(ZEROSHOTPAIRSINPUT) $(SUPERVISEDPAIRSINPUT): $(PAIR_INPUTS_DONE)
 > @test -f "$@"

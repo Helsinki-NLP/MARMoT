@@ -63,7 +63,7 @@ SACREPYTHON    := $(SACRE_VENV)/bin/python
 
 VIEW_VENV      := $(TESTINGDIR)/venvs/view
 VIEW_ACTIVATE  := $(VIEW_VENV)/bin/activate
-VIEWPYTHON     := $(VIEW_VENV)/bin/python
+VIEW_PYTHON    := $(VIEW_VENV)/bin/python
 LANG2VEC_REPO  := $(TESTINGDIR)/pkgs/lang2vec
 
 PLOT_ACTIVATE  := $(TESTINGDIR)/venvs/plot/bin/activate

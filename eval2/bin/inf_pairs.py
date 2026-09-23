@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 #this does not work, use $(VIEW_PYTHON)
 # inf_pairs.py
 #
 # Purpose
@@ -53,9 +53,8 @@
 #   --rank-list-only
 #       Suppress most diagnostic output and print only the grouped zero-shot
 #       rank list.
-#   --supervised-pairs-and-quit
-#       Output file for writing all supervised `src-tgt` pairs and exiting
-#       without zero-shot ranking.
+#   --supervised-out
+#       Output file for writing all supervised `src-tgt` pairs 
 #
 # Reads
 # -----
@@ -65,7 +64,7 @@
 # Writes
 # ------
 #   - optional output file given by `--zs-out`
-#   - optional output file given by `--supervised-pairs-and-quit`
+#   - optional output file given by `--supervised-out`
 #
 # Output
 # ------
@@ -176,7 +175,7 @@ def parse_args():
     parser.add_argument("--top-n",type=int,default=20,help="Number of top zero-shot pairs to write")
     parser.add_argument("--zs-out",type=str,default=None,help="Write top-N zero-shot pairs to file as src-tgt")
     parser.add_argument("--rank-list-only",action="store_true",help="Print only the grouped zero-shot rank list and suppress other console output")
-    parser.add_argument("--supervised-pairs-and-quit",metavar="FILE",type=str,default=None,help="Write all supervised src-tgt pairs to FILE and exit")
+    parser.add_argument("--supervised-out",metavar="FILE",type=str,default=None,help="Write all supervised src-tgt pairs to FILE")
     return parser.parse_args()
 
 
@@ -184,9 +183,7 @@ def is_denoising_autoencoder_task(task_name, task, src, tgt):
     # Most common easy signal
     if src and tgt and src == tgt:
         return True
-
     name_l = (task_name or "").lower()
-
     # Conservative name-based filters
     suspicious = [
         "dae",
@@ -198,7 +195,6 @@ def is_denoising_autoencoder_task(task_name, task, src, tgt):
     ]
     if any(x in name_l for x in suspicious):
         return True
-
     # Check a few common config fields if present
     for key in ["type", "task_type", "objective", "corpus", "src_tgt"]:
         val = task.get(key)
@@ -206,21 +202,16 @@ def is_denoising_autoencoder_task(task_name, task, src, tgt):
             val_l = val.lower()
             if any(x in val_l for x in suspicious):
                 return True
-
     return False
 
-
-def write_supervised_pairs_and_quit(cfg, outfile):
+def write_supervised_pairs(cfg, outfile):
     if not isinstance(cfg, dict) or "tasks" not in cfg or not isinstance(cfg["tasks"], dict):
         raise ValueError("No top-level 'tasks' mapping found")
-
     pairs = set()
-
     for task_name in sorted(cfg["tasks"]):
         task = cfg["tasks"][task_name]
         if not isinstance(task, dict):
             continue
-
         # NOTE: This does not make any distinction between docmt, mt, sentmt or even
         # non-mt tasks.  The assumption is that theis languages are equally good as pivot languages
         # and tasks when considering centrality or zero-shot pairs.
@@ -228,12 +219,9 @@ def write_supervised_pairs_and_quit(cfg, outfile):
         src, tgt = split_src_tgt(src_tgt)
         if not (src and tgt):
             continue
-
         if is_denoising_autoencoder_task(task_name, task, src, tgt):
             continue
-
         pairs.add(f"{src}-{tgt}")
-
     with open(outfile, "w", encoding="utf-8") as f:
         for pair in sorted(pairs):
             f.write(pair + "\n")
@@ -247,18 +235,15 @@ def safe_float(x, default=0.0):
         return default
     return x
 
-
 def mean(xs):
     xs = list(xs)
     return sum(xs) / len(xs) if xs else 0.0
-
 
 def harmonic_mean(xs, eps=1e-12):
     xs = [x for x in xs if x > eps]
     if not xs:
         return 0.0
     return len(xs) / sum(1.0 / x for x in xs)
-
 
 def compute_dense_ranks(items, key_names):
     """
@@ -281,10 +266,8 @@ def compute_dense_ranks(items, key_names):
                 last_val = val
             item[f"{key}_rank"] = current_rank
 
-
 def get_language_list_from_graph(graph):
     return sorted(graph.nodes())
-
 
 def retrieve_uriel_distance_matrices(langs):
     """
@@ -774,7 +757,7 @@ def main() -> int:
     top_n = args.top_n
     zs_out = args.zs_out
     rank_list_only = args.rank_list_only
-    supervised_pairs_out = args.supervised_pairs_and_quit
+    supervised_out = args.supervised_out
     
     if not rank_list_only:
         print("importing yaml...")
@@ -788,19 +771,19 @@ def main() -> int:
     try:
         with open(filename, "r", encoding="utf-8") as f:
             cfg = yaml.safe_load(f)
-        if supervised_pairs_out:
+        if supervised_out:
             try:
-                write_supervised_pairs_and_quit(cfg, supervised_pairs_out)
+                write_supervised_pairs(cfg, supervised_out)
             except ValueError as e:
                 sys.stderr.write(str(e) + "\n")
                 return 1
-            return 0
     except FileNotFoundError:
         sys.stderr.write(f"File not found: {filename}\n")
         return 1
     except yaml.YAMLError as e:
         sys.stderr.write(f"YAML parse error in {filename}: {e}\n")
         return 1
+    
     if not isinstance(cfg, dict) or "tasks" not in cfg or not isinstance(cfg["tasks"], dict):
         sys.stderr.write(f"No top-level 'tasks' mapping found in {filename}\n")
         return 1
@@ -931,30 +914,17 @@ def main() -> int:
     #     "wals_typological": wals_typological,
     # }
     optional_dmats = {}
-
     zero_shot = build_zero_shot_candidates(
         graph,
         centrality,
         max_path_len=3,
         uriel_dmats=uriel_dmats,
         optional_dmats=optional_dmats,
-    )
-    
+    )  
     # zero_shot = build_zero_shot_candidates(graph, centrality, max_path_len=3)
-
-    zs_headers = [
-        "rank",
-        "pair",
-        "zs_score",
-        "compat_mix",
-        "avail",
-        "hub",
-        "alt",
-        "hops",
-        "n_paths",
-        "n_pivots",
-        "pivots",
-    ]
+    zs_headers = ["rank", "pair", "zs_score", "compat_mix",
+                  "avail", "hub", "alt", "hops", "n_paths",
+                  "n_pivots", "pivots", ]
     zs_rows = []
     for item in zero_shot:
         zs_rows.append([
@@ -970,8 +940,6 @@ def main() -> int:
             str(item["n_pivots"]),
             ",".join(item["pivots"]),
         ])
-
-
     if not rank_list_only:
         print("Proposed zero-shot pairs")
         if zs_rows:
@@ -982,7 +950,6 @@ def main() -> int:
             else:
                 print("  (none)")
             print()
-
     if zero_shot:
         print(f"Recommended zero-shot evaluation pairs from {filename}:")
         by_rank = {}
@@ -991,8 +958,7 @@ def main() -> int:
             by_rank.setdefault(r, []).append(item["pair"])
         for r in sorted(by_rank)[:8]:
             pairs = ", ".join(sorted(by_rank[r]))
-            print(f"  rank {r}: {pairs}")
-            
+            print(f"  rank {r}: {pairs}")           
     # --- write top-N zero-shot pairs ---
     # usage:  python cfg_view4.py --top-n 50 --zs-out top_pairs.txt
     if zs_out:

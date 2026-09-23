@@ -34,6 +34,10 @@ export DONE=__DONE__
 export SBATCH_LINE=__SBATCH_LINE__
 export PARTITION=__PARTITION__
 
+export SLURM_DISTR="${SELFDIR}/bin/slurm_distr.sh"
+export SLURM_WRAPPER="${SELFDIR}/bin/slurm_wrapper.sh"
+export CALLS_FILE="${TSKDIR}/calls.out"
+
 for var in SIF ACCOUNT DISKPROJECT SELFDIR TSKDIR ACTIVATE MAKESCRIPT LOGDIR JOB_NAME MODELDIR FLAG DONE SBATCH_LINE PARTITION; do
   eval "value=\${$var}"
   case "$value" in
@@ -43,10 +47,6 @@ for var in SIF ACCOUNT DISKPROJECT SELFDIR TSKDIR ACTIVATE MAKESCRIPT LOGDIR JOB
       ;;
   esac
 done
-
-export SLURM_DISTR="${SELFDIR}/slurm_distr.sh"
-export SLURM_WRAPPER="${SELFDIR}/bin/slurm_wrapper.sh"
-export CALLS_FILE="${TSKDIR}/calls.out"
 
 [[ -f "${SLURM_WRAPPER}" ]] || { echo "Error: The wrapper not found in ${SLURM_WRAPPER}" >&2; exit 1; }
 [[ -f "${SLURM_DISTR}"   ]] || { echo "Error: The distributor not found in ${SLURM_DISTR}" >&2; exit 1; }

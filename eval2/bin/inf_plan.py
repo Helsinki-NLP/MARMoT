@@ -20,6 +20,7 @@
 # HYPDIR           Directory for translation hypotheses.
 # LOGDIR           Directory for inference stderr logs.
 # SCRDIR           Directory for scoring results.
+# MAMMOTH_TYPE
 #
 # All output directories must already exist.
 # The Makefile selects the directory layout and supplies these paths.
@@ -144,7 +145,8 @@ DROP_TASK_KEYS = [
     "path_valid_tgt",
 ]
 
-DEFAULT_BEAM_SIZE = 4
+DEFAULT_XT_BEAM_SIZE = 4
+DEFAULT_PT_BEAM_SIZE = 5
 DEFAULT_BATCH_SIZE = 32
 DEFAULT_BATCH_TYPE = "sents"
 DEFAULT_GPU = 0
@@ -377,6 +379,7 @@ def get_env_vars():
     mammoth = require_env("MAMMOTH", "to the Mammoth source directory")
     logdir = require_env("LOGDIR", "to the log directory")
     scrdir = require_env("SCRDIR", "to the scoring output directory")
+    mammoth_type = require_env("MAMMOTH_TYPE", "using xtransformers or pytorch")
     if not os.path.exists(model):
         die(f"Error: MODEL must be an existing file or directory: {model}")
     if not os.path.isfile(trainconfig):
@@ -399,6 +402,8 @@ def get_env_vars():
         die(f"Error: LOGDIR must be an existing directory: {logdir}")
     if not os.path.isdir(scrdir):
         die(f"Error: SCRDIR must be an existing directory: {scrdir}")
+    if not mammoth_type in ["xtransformers", "pytorch"]:
+        die(f"Error: MAMMOTH_TYPE must be 'xtransformers' or 'pytorch'")
         
     inventory = build_language_inventory()
     log(f"✅ Loaded internal language codes")
@@ -409,7 +414,7 @@ def get_env_vars():
     log(f"✨ Environment validated")           
     return (datadir, tskdir, cfgdir, hypdir, model, trainconfig,
             supervisedpairs, zeroshotpairs,
-            mammoth, logdir, scrdir, cfg, inventory, )
+            mammoth, logdir, scrdir, cfg, inventory, mammoth_type)
 
 class CallWriters:
     def __init__(self, tskdir: str):
@@ -738,18 +743,20 @@ def filter_supervised_tasks(support: TaskSupport, supervised_pair_set, inventory
     return support, rejected
 
 def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers,
-                               model, mammoth, logdir, scrdir,):
+                               model, mammoth, logdir, scrdir, mammoth_type):
     log(f"producing the testing tasks (stdout) ...", end="")
     for xtask in sorted(support.task_set):
         emit_tasks(xtask=xtask, inventory=inventory, support=support, 
                    datadir=datadir, cfgdir=cfgdir, hypdir=hypdir, cfg_path=trainconfig, cfg=cfg,
-                   writers=writers,  model=model, mammoth=mammoth, logdir=logdir, scrdir=scrdir,)
+                   writers=writers,  model=model, mammoth=mammoth, logdir=logdir, scrdir=scrdir,
+                   mammoth_type=mammoth_type)
     log(f'✨ Completed producing inference config files')
 
 def emit_tasks(*, xtask: str, support: TaskSupport, 
                inventory: LanguageInventory, datadir: str, cfgdir: str, hypdir: str, 
                cfg_path: str,cfg: dict, writers: CallWriters,
-               model: str, mammoth: str, logdir: str, scrdir: str,) -> bool:
+               model: str, mammoth: str, logdir: str, scrdir: str,
+               mammoth_type: str) -> bool:
     pair_type = support.task_to_type.get(xtask, "unknown")
     orig_task = support.task_to_orig.get(xtask, xtask)
     if pair_type == "supervised":
@@ -790,7 +797,8 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     write_inference_yaml(
         src_code=src, tgt_code=tgt, pair_type=pair_type,
         xtask=xtask, orig_task=orig_task, cfg=cfg,
-        train_cfg=cfg_path, inf_yaml_path=inf_yaml_path_file, support=support)
+        train_cfg=cfg_path, inf_yaml_path=inf_yaml_path_file, support=support,
+        mammoth_type=mammoth_type)
 
     flo_input = os.path.join(datadir, "flores_plus", "devtest", f"{flo_src_ref}.txt")
     flo_refer = os.path.join(datadir, "flores_plus", "devtest", f"{flo_tgt_ref}.txt")
@@ -872,6 +880,7 @@ def build_inference_config_from_template(
     tgt_code: str,
     pair_type: str,
     train_cfg_path: str,
+    mammoth_type: str,
 ) -> dict:
     train_tasks    = cfg.get("tasks", {})
     template_task  = choose_template_task(cfg, support, xtask, orig_task)
@@ -888,17 +897,23 @@ def build_inference_config_from_template(
         infer_cfg.pop(key, None)
     for key in DROP_TASK_KEYS:
         template_cfg.pop(key, None)
+
+    if mammoth_type == "pytorch":
+        template_cfg["weight"]                     = "1"
+        template_cfg["introduce_at_training_step"] = "0"
+
     # Overwrite task-specific fields with the values resolved by inf_plan.py
     template_cfg["src_tgt"] = f"{src_vocab_code}-{tgt_vocab_code}"
     template_cfg["enc_sharing_group"] = enc_group
     template_cfg["dec_sharing_group"] = dec_group
+    
     # Old extractor behavior: remove filtertoolong and then clear transforms.
     # template_cfg["transforms"] = [
     #     t for t in template_cfg.get("transforms", [])
-    #     if t != "filtertoolong"
-    # ]
+    #     if t != "filtertoolong" ]
     template_cfg["transforms"] = []
-    template_cfg["node_gpu"] = "0:0"
+    
+    template_cfg["node_gpu"] = "0:0"       
     template_cfg["_template_task"] = template_task
     template_cfg["_pair_type"] = pair_type
     template_cfg["_src_task_candidates"] = src_candidates
@@ -931,74 +946,37 @@ def build_inference_config_from_template(
     infer_cfg["tasks"] = {orig_task: template_cfg}
 
     # Copy the inference-time parameters from the old extractor.
-    infer_cfg["beam_size"]  = DEFAULT_BEAM_SIZE   # 5
+    if mammoth_type == "pytorch":
+        infer_cfg["beam_size"]   = DEFAULT_XT_BEAM_SIZE
+    else:
+        infer_cfg["beam_size"]   = DEFAULT_PT_BEAM_SIZE
+        infer_cfg["max_length"]  = 512
+        infer_cfg["model_dtype"] = "bf16"
+        infer_cfg["use_hf_tokenizer"] = "true"
+        infer_cfg["report_time"] = "true"
+        
+    # since pytorch_backbone; should have been effective earlier
+    infer_cfg["seed"]       = 42
+        
     infer_cfg["batch_size"] = DEFAULT_BATCH_SIZE  # 32
     infer_cfg["batch_type"] = DEFAULT_BATCH_TYPE  # sents
     infer_cfg["gpu"]        = DEFAULT_GPU         # 0
     infer_cfg["world_size"] = DEFAULT_WORLD_SIZE  # 1
     infer_cfg["gpu_ranks"]  = DEFAULT_GPU_RANKS   # [0]
-    infer_cfg["seed"]       = 42
 
     # Keep these if useful for debugging / traceability.
     infer_cfg["task_id"]        = xtask
     infer_cfg["_expanded_task"] = xtask
     infer_cfg["_train_config"]  = train_cfg_path
 
+    # src: and output: not set due to many testsets
+    # verbose: true # currently not supported in inference, need to modify code to enable it
     return infer_cfg
-
-# Task Configuration
-#  task_id: eng-spa
-# tasks:
-  eng-spa:
-    src_tgt: "eng-spa"
-    weight: 1
-    introduce_at_training_step: 0
-    node_gpu: "0:0"
-    enc_sharing_group: ["eng"]
-    dec_sharing_group: ["spa"]
-
-# ============================================================================
-# Vocabulary Configuration - HuggingFace Tokenizer
-# ============================================================================
-use_hf_tokenizer: true
-
-src_vocab:
-   eng: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/eng/32000/tokenizer.json
-   
-tgt_vocab:
-   spa: /scratch/project_2017852/MARMoT/tokenizer/tatoeba_hplt_multisynt/spa/32000/tokenizer.json
-
-max_length: 512
-
-# ============================================================================
-# Model Architecture
-# ============================================================================
-model_dtype: bf16
-
-# ============================================================================
-# Inference Configuration
-# ============================================================================
-# Model checkpoint to load
-model: 
-
-# Input/output files
-src: /scratch/project_2017852/MARMoT/data/flores200/dev/eng_Latn.dev
-output: 
-
-# beam_size: 5
-# batch_size: 32
-# batch_type: sents
-# gpu: 0
-# world_size: 1
-# gpu_ranks: [0]
-report_time: true
-# verbose: true # currently not supported in inference, need to modify code to enable it
-# seed: 42
-
 
 def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str, 
                          xtask: str, orig_task: str, cfg: dict,
-                         train_cfg: str, inf_yaml_path: str, support: TaskSupport) -> bool:
+                         train_cfg: str, inf_yaml_path: str, support: TaskSupport,
+                         mammoth_type: str) -> bool:
     enc_group      = support.task_to_enc_group[xtask]
     dec_group      = support.task_to_dec_group[xtask]
     src_vocab_code = support.task_to_src_vocab_code[xtask]
@@ -1021,6 +999,7 @@ def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
         tgt_code=tgt_code,
         pair_type=pair_type,
         train_cfg_path=train_cfg,
+        mammoth_type=mammoth_type,
     )
     with open(inf_yaml_path, "w", encoding="utf-8") as f:
          yaml.safe_dump(infer_cfg, f, sort_keys=False, allow_unicode=True, default_flow_style=False,)
@@ -1256,7 +1235,7 @@ def add_zeroshot_task(support, cfg, prefix, xsrc, xtgt, inventory):
 
 def main() -> int:
     (datadir, tskdir, cfgdir, hypdir, model, trainconfig, supervisedpairs, zeroshotpairs,
-     mammoth, logdir, scrdir, cfg, lang_inventory) = get_env_vars()
+     mammoth, logdir, scrdir, cfg, lang_inventory, mammoth_type) = get_env_vars()
     writers = CallWriters(tskdir) 
     try:
         support = collect_task_support(cfg, lang_inventory)
@@ -1266,7 +1245,7 @@ def main() -> int:
         check_data_coverage(support.task_set, lang_inventory.valid_xcodes)
         added_zeroshot = add_zeroshot_tasks( cfg, zeroshot_pair_set=zeroshot_pair_set, support=support, inventory=lang_inventory)
         produce_infyamls_and_calls(lang_inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg,
-                                   writers, model, mammoth, logdir, scrdir,)
+                                   writers, model, mammoth, logdir, scrdir, mammoth_type=mammoth_type)
     finally:
         writers.close()
     validate_calls_out(tskdir)

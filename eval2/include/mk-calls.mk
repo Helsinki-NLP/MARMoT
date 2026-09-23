@@ -43,6 +43,7 @@ $(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) | $(EVAL_DIRS)
 > export DATADIR="$(DATADIR)"; \
 > export ZEROSHOTPAIRS="$(ZEROSHOTPAIRS)"; \
 > export SUPERVISEDPAIRS="$(SUPERVISEDPAIRS)"; \
+> export MAMMOTH_TYPE="$(MAMMOTH_TYPE)"; \
 > module load cray-python; \
 > if "$(VIEW_PYTHON)" "$(SELFDIR)/bin/inf_plan.py" \
 >      >"$(PLAN_ERR)" 2>&1 \
