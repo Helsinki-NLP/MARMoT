@@ -37,7 +37,7 @@ The workflow is designed for the CSC/LUMI environment and assumes:
 - SLURM commands such as `sbatch`, `squeue`, and `srun`;
 - environment modules, including `cray-python`;
 - Singularity and a readable `.sif` image;
-- the Mammoth source/installations configured by `MAMMOTHDEF` and `MAMMOTH64`;
+- the Mammoth source/installations configured by `MAMMOTH_XT_DEF` and `MAMMOTH_XT_64`;
 - helper programs under `$(SELFDIR)/bin`, notably `inf_pairs.py`, `inf_plan.py`, `slurm_wrapper.sh`, and `inspect-model-files.py`; and
 - the SLURM templates and distributor in `../template` and `../slurm_distr.sh`.
 

@@ -35,7 +35,7 @@ mk-slurm: $(INF_SCRIPT) $(CNT_SCRIPT) $(MET_SCRIPT) $(INF_CALLS) $(SACRE_CALLS) 
 > @echo "mk-slurm.mk: ✅ Slurm planning complete."; \
 > echo "mk-slurm.mk:     - bin dir: $(SELFDIR)"; \
 > echo "mk-slurm.mk:     - account: $(JOBPROJECT)"; \
-> echo "mk-slurm.mk:     - outdir: $(OUTDIR)"; \
+> echo "mk-slurm.mk:     - outdir: $(TSKDIR)"; \
 > echo "mk-slurm.mk:     - Inferences:"; \
 > echo "mk-slurm.mk:         calls: $(INF_CALLS)"; \
 > echo "mk-slurm.mk:         template: $(INF_TEMPLATE)"; \
@@ -58,7 +58,7 @@ mk-slurm: $(INF_SCRIPT) $(CNT_SCRIPT) $(MET_SCRIPT) $(INF_CALLS) $(SACRE_CALLS) 
 
 # creates the model specific slurm script for inferences
 $(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean-inf-lock $(SELFDIR)/include/mk-slurm.mk
-> @ncalls="$$(wc -l < $(OUTDIR)/calls.out)"; \
+> @ncalls="$$(wc -l < $(TSKDIR)/calls.out)"; \
 > echo "mk-slurm.mk: ✅ Inference slurm template found $<"; \
 > echo "mk-slurm.mk:    Creating a script for job $(FIRST_GOAL)_inf_$${ncalls}_tasks..."; \
 > m4 \
@@ -66,7 +66,7 @@ $(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean
 >   -D__ACCOUNT__="$(JOBPROJECT)" \
 >   -D__DISKPROJECT__="$(DISKPROJECT)" \
 >   -D__SELFDIR__="$(SELFDIR)" \
->   -D__OUTDIR__="$(OUTDIR)" \
+>   -D__TSKDIR__="$(TSKDIR)" \
 >   -D__ACTIVATE__="$(INF_ACTIVATE)" \
 >   -D__MAKESCRIPT__="$(INF_SCRIPT)" \
 >   -D__LOGDIR__="$(LOGDIR)" \
@@ -90,7 +90,7 @@ $(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk clean-cnt-lock $(S
 >   -D__ACCOUNT__="$(JOBPROJECT)" \
 >   -D__DISKPROJECT__="$(DISKPROJECT)" \
 >   -D__SELFDIR__="$(SELFDIR)" \
->   -D__OUTDIR__="$(OUTDIR)" \
+>   -D__TSKDIR__="$(TSKDIR)" \
 >   -D__MAKESCRIPT__="$(INF_SBATCH)" \
 >   -D__LOGDIR__="$(LOGDIR)" \
 >   -D__JOB_NAME__="$(FIRST_GOAL)_cnt" \
@@ -107,14 +107,14 @@ $(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk clean-cnt-lock $(S
 # creates the model specific slurm script for scoring
 $(MET_SCRIPT): $(MET_TEMPLATE) $(SELFDIR)/include/mk-score.mk $(SACRE_CALLS) clean-met-lock $(SELFDIR)/include/mk-slurm.mk
 > @set -euo pipefail; \
-> ncalls="$$(wc -l < $(OUTDIR)/calls.sacre.out)"; \
+> ncalls="$$(wc -l < $(TSKDIR)/calls.sacre.out)"; \
 > echo "mk-slurm.mk: ✅ Scoring slurm template found $<"; \
 > echo "mk-slurm.mk:    Creating a script for job $(FIRST_GOAL)_met_$${ncalls}_tasks..."; \
 > m4 \
 >   -D__ACCOUNT__="$(JOBPROJECT)" \
 >   -D__DISKPROJECT__="$(DISKPROJECT)" \
 >   -D__SELFDIR__="$(SELFDIR)" \
->   -D__OUTDIR__="$(OUTDIR)" \
+>   -D__TSKDIR__="$(TSKDIR)" \
 >   -D__MAKESCRIPT__="$(MET_SCRIPT)" \
 >   -D__LOGDIR__="$(LOGDIR)" \
 >   -D__JOB_NAME__="$(FIRST_GOAL)_met_$${ncalls}_tasks" \

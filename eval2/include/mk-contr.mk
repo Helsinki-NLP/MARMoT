@@ -14,8 +14,9 @@
 continue-eval: clean-inf-lock clean-cnt-lock clean-met-lock
 > @set -euo pipefail; \
 > echo "mk-contr.mk: 🛠️ Replanning evaluation state for $(MODELDIR)"; \
-> echo "mk-contr.mk:    Remove $(TESTCONFIG).{out,err}"; \
-> rm -f $(TESTCONFIG).out $(TESTCONFIG).err; \
+> echo "mk-contr.mk:    Remove $(PLAN_ERR)"; \
+> echo "mk-contr.mk:    Remove $(PLAN_LOG)"; \
+> rm -f $(PLAN_ERR) $(PLAN_LOG); \
 > $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-calls; \
 > inf_calls=0; sacre_calls=0; comet_calls=0; \
 > [ -f "$(INF_CALLS)" ]   && inf_calls="$$(grep -c . "$(INF_CALLS)" || true)"; \
@@ -43,8 +44,9 @@ continue-eval: clean-inf-lock clean-cnt-lock clean-met-lock
 continue-eval-force: clean-inf-lock clean-cnt-lock clean-met-lock
 > @set -euo pipefail; \
 > echo "mk-contr.mk: 🛠️ Replanning evaluation state for $(MODELDIR)"; \
-> echo "mk-contr.mk:    Remove $(TESTCONFIG).{out,err}"; \
-> rm -f $(TESTCONFIG).out $(TESTCONFIG).err; \
+> echo "mk-contr.mk:    Remove $(PLAN_ERR)"; \
+> echo "mk-contr.mk:    Remove $(PLAN_LOG)"; \
+> rm -f $(PLAN_ERR) $(PLAN_LOG); \
 > $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-calls-force; \
 > inf_calls=0; sacre_calls=0; comet_calls=0; \
 > [ -f "$(INF_CALLS)" ]   && inf_calls="$$(grep -c . "$(INF_CALLS)" || true)"; \

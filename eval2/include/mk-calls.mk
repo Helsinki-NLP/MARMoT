@@ -1,22 +1,22 @@
 .PHONY: refresh-calls calls clean-calls mk-calls mk-calls-force clean-calls clean
 
-calls: $(INF_CALLS) $(TESTCONFIG).out
-> @echo   "mk-calls.mk:    Logged to $(TESTCONFIG).out"; \
-> echo    "mk-calls.mk:    Created   $(OUTDIR)/*.yaml"; \
+calls: $(INF_CALLS) $(PLAN_LOG)
+> @echo   "mk-calls.mk:    Logged to $(PLAN_LOG)"; \
+> echo    "mk-calls.mk:    Created   $(CFGDIR)/*.yaml"; \
 > echo -n "mk-calls.mk:    The number of yaml files is "; \
-> find "$(OUTDIR)" -maxdepth 1 -type f -name '*.yaml' | wc -l; \
-> echo "mk-calls.mk: ✅ Lines in prepared out files:";\
-> wc -l $(OUTDIR)/*.out 2>/dev/null | sed 's/^/mk-calls.mk:    /'
+> find "$(CFGDIR)" -maxdepth 1 -type f -name '*.yaml' | wc -l; \
+> echo "mk-calls.mk: ✅ Lines in prepared task files:";\
+> wc -l $(TSKDIR)/*.out 2>/dev/null | sed 's/^/mk-calls.mk:    /'
 > @echo "mk-calls.mk: ✨ I am happy with the yaml files and the planned inference calls."; \
 > echo
 
 clean-calls:
-> rm -f $(INF_CALLS) $(SACRE_CALLS) $(COMET_CALLS) $(TESTCONFIG).out $(TESTCONFIG).err
+> rm -f $(INF_CALLS) $(SACRE_CALLS) $(COMET_CALLS) $(PLAN_LOG) $(PLAN_ERR)
 > @echo "mk-calls.mk: ✨ Cleaning of calls done."; \
 > echo
 
 clean: clean-calls 
-> rm -f $(OUTDIR)/*.yaml 
+> rm -f $(CFGDIR)/*.yaml 
 > @echo "mk-calls.mk: ✨ Cleaning of inference yaml files done."; \
 > echo
 
@@ -26,33 +26,37 @@ mk-calls: calls
 mk-calls-force: 
 > @$(MAKE) --no-print-directory -C "$(SELFDIR)" FORCE_PAIRS=1 $(FIRST_GOAL) calls
 
-$(INF_CALLS): $(TESTCONFIG).out
+$(INF_CALLS): $(PLAN_LOG)
 > @test -f "$(INF_CALLS)"
 
-$(TESTCONFIG).out: $(TRAINCONFIG) $(MODELDIR)/mammoth.selected $(PRS_DONE)
-> @set -euo pipefail
-> @echo "mk-calls.mk: 🛠️ Creating tentative testing tasks..."
-> @export MAMMOTH="$$(cat "$(MODELDIR)/mammoth.selected")"; \
->   export LOGDIR="$(LOGDIR)"; \
->   export SCRDIR="$(SCRDIR)"; \
->   export MODEL="$(MODEL)"; \
->   export TRAINCONFIG="$(TRAINCONFIG)"; \
->   export OUTDIR="$(OUTDIR)"; \
->   export DATADIR="$(DATADIR)"; \
->   export ZEROSHOTPAIRS="$(ZEROSHOTPAIRS)"; \
->   export SUPERVISEDPAIRS="$(SUPERVISEDPAIRS)"; \
+$(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) | $(EVAL_DIRS)
+> @set -euo pipefail; \
+> echo "mk-calls.mk: 🛠️ Creating tentative testing tasks..."; \
+> export MAMMOTH="$$(cat "$(MAMMOTH_SELECTED)")"; \
+> export LOGDIR="$(LOGDIR)"; \
+> export SCRDIR="$(SCRDIR)"; \
+> export MODEL="$(MODEL)"; \
+> export TRAINCONFIG="$(TRAINCONFIG)"; \
+> export TSKDIR="$(TSKDIR)"; \
+> export CFGDIR="$(CFGDIR)"; \
+> export HYPDIR="$(HYPDIR)"; \
+> export DATADIR="$(DATADIR)"; \
+> export ZEROSHOTPAIRS="$(ZEROSHOTPAIRS)"; \
+> export SUPERVISEDPAIRS="$(SUPERVISEDPAIRS)"; \
+> export MAMMOTH_TYPE="$(MAMMOTH_TYPE)"; \
 > module load cray-python; \
-> $(VIEWPYTHON) "$(SELFDIR)/bin/inf_plan.py" >"$(TESTCONFIG).err" 2>&1 || true; \
-> if [ -f "$(TESTCONFIG).err" ] && grep -Fq 'All stages of planning completed' "$(TESTCONFIG).err"; then \
->    mv "$(TESTCONFIG).err" "$(TESTCONFIG).out"; \
+> if "$(VIEW_PYTHON)" "$(SELFDIR)/bin/inf_plan.py" \
+>      >"$(PLAN_ERR)" 2>&1 \
+>    && grep -Fq 'All stages of planning completed' "$(PLAN_ERR)"; then \
+>   mv "$(PLAN_ERR)" "$(PLAN_LOG)"; \
 > else \
->    rm -f "$(TESTCONFIG).out"; \
->    echo "mk-calls.mk: ❌ Planning failed."; \
->    echo "mk-calls.mk:    The last 20 lines from $(TESTCONFIG).err:"; \
->    echo -----------------------------------; \
->    tail -20 "$(TESTCONFIG).err"; \
->    echo -----------------------------------; \
->    exit 1 ; \
+>   rm -f "$(PLAN_LOG)"; \
+>   echo "mk-calls.mk: ❌ Planning failed."; \
+>   echo "mk-calls.mk:    The last 20 lines from $(PLAN_ERR):"; \
+>   echo -----------------------------------; \
+>   tail -20 "$(PLAN_ERR)"; \
+>   echo -----------------------------------; \
+>   exit 1; \
 > fi
 
 

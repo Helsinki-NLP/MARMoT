@@ -1,118 +1,79 @@
 .DEFAULT_GOAL := help
+
+STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif \
+                plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition \
+                compare help list-groups 
+
+SELFDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 .RECIPEPREFIX := >
 .SHELLFLAGS := -lc
 SHELL := /bin/bash
 
 # -----------------------------------------------------------------------------
-# Configuration
+# Model Selection
 # -----------------------------------------------------------------------------
 
-JOBPROJECT  := project_462001087
-
-# SIF := /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260225_144743/lumi-multitorch-full-u24r64f21m43t29-20260225_144743.sif
-SIF := /appl/local/laifs/containers/lumi-multitorch-u24r70f21m50t210-20260513_121430/lumi-multitorch-full-u24r70f21m50t210-20260513_121430.sif
-
-DISKPROJECT := project_462001087
-SELFDIR     := /scratch/$(DISKPROJECT)/members/aylijyra/dev/mammoth/eval2
-MAMMOTHDEF  := /scratch/$(DISKPROJECT)/shared/mammoth-shared/mammoth-dev/mammoth
-MAMMOTH64   := /scratch/$(DISKPROJECT)/shared/mammoth-shared/mammoth-64/mammoth
-VENV        := /scratch/$(DISKPROJECT)/shared/mammoth-shared/.venv
-TESTINGDIR  := /scratch/$(DISKPROJECT)/shared/testing-shared
-
-DATADIR    := $(TESTINGDIR)/data
-
-include $(SELFDIR)/include/mk-model.mk
-
+include $(SELFDIR)/include/mk-model.mk  # model names and paths
 export $(addprefix MODEL_,$(MODEL_ALIASES))
 STATUS_MODELS := $(foreach a,$(MODEL_ALIASES),--model "$(a)=$(MODEL_$(a))")
 
-# Resolve alias used as the first goal, if any.
-FIRST_GOAL := $(firstword $(MAKECMDGOALS))
-ifneq ($(filter $(FIRST_GOAL),$(MODEL_ALIASES)),)
-  MODELDIR := $(MODEL_$(FIRST_GOAL))
-  MODEL_ALIAS_USED := 1
-else
-  MODEL_ALIAS_USED := 0
-endif
-# If any alias appears later in the goal list, reject it.
-LATE_MODEL_GOALS := $(filter $(MODEL_ALIASES),$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS)))
-ifneq ($(strip $(LATE_MODEL_GOALS)),)
-  $(error Put the model alias first, e.g. 'make $(firstword $(LATE_MODEL_GOALS)) mk-yamls')
-endif
-# If more than one alias appears anywhere, reject it.
-ALL_MODEL_GOALS := $(filter $(MODEL_ALIASES),$(MAKECMDGOALS))
-ifneq ($(words $(ALL_MODEL_GOALS)),0)
-  ifneq ($(words $(ALL_MODEL_GOALS)),1)
-    $(error Please specify exactly one model alias. Run 'make list' to see choices.)
-  endif
-endif
-# Prevent workflow targets from running without a model, but allow help/list.
-NON_MODEL_GOALS := $(filter-out help venvs list status continue-all continue-all-force test-sif find-sif plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition compare help list-groups $(MODEL_ALIASES),$(MAKECMDGOALS))
-ifneq ($(strip $(NON_MODEL_GOALS)),)
-  ifndef MODELDIR
-    $(error MODELDIR is unset. Use 'make list' or 'make <alias> <target>' or 'make MODELDIR=/path/to/model <target>')
-  endif
-endif
+include $(SELFDIR)/include/mk-targs.mk  # parse commandline args
 MODELDIR_CLEAN := $(patsubst %/,%,$(MODELDIR))
 MODEL := $(MODELDIR_CLEAN)/
 
+.PHONY: list-eval-files migrate-eval-dry-run migrate-eval
+include $(SELFDIR)/include/mk-paths.mk  # parse commandline args
 
+# -----------------------------------------------------------------------------
+# Mammoth and Eval Configuration
+# -----------------------------------------------------------------------------
 
-OUTDIR     := $(MODELDIR)/inf_out
-LOGDIR     := $(MODELDIR)/inf_logs
-SCRDIR     := $(MODELDIR)/inf_scores
+# project_462001059
+JOBPROJECT     := project_462001509
+DISKPROJECT    := project_462001087
 
-TESTCONFIG  := $(MODELDIR)/testing.yaml
-MAKESCRIPT  := $(MODELDIR)/inf_make.sh
+TESTINGDIR     := /scratch/$(DISKPROJECT)/shared/testing-shared
+DATADIR        := $(TESTINGDIR)/data
 
-MET_FLAG   := $(MODELDIR)/metrics.submitted
-PLAN_FLAG  := $(MODELDIR)/inference-planning.lock
-SACRE_FLAG := $(MODELDIR)/metrics-planning.lock
+MAMMOTH_XT_64   := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-64
+MAMMOTH_XT_DEF  := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-dev
+MAMMOTH_PYTORCH := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth_pytorch
 
-SACRE_VENV := $(TESTINGDIR)/venvs/sacre
-PLOT_VENV := $(TESTINGDIR)/venvs/plot
-TORCH_VENV := $(TESTINGDIR)/venvs/torch
+# MAMMOTH_TYPE
+# ├── pytorch
+# │   └── MAMMOTH_PYTORCH/mammoth => MAMMOTH_PYTHONPATH
+# └── xtransformers
+#     └── MAMMOTH_XT_DEF/mammoth => MAMMOTH_PYTHONPATH
 
-INF_ACTIVATE    := $(VENV)/bin/activate
-SACRE_ACTIVATE  := $(TESTINGDIR)/venvs/sacre/bin/activate
+ifeq ($(MAMMOTH_TYPE),xtransformers)
+  MAMMOTH_ROOT       := $(MAMMOTH_XT_DEF)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_XT_DEF)/mammoth
+endif
+ifeq ($(MAMMOTH_TYPE),pytorch)
+  MAMMOTH_ROOT       := $(MAMMOTH_PYTORCH)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_PYTORCH)/mammoth
+endif
+
+VENV           := /scratch/$(JOBPROJECT)/shared/mammoth-shared/.venv
+INF_ACTIVATE   := $(VENV)/bin/activate
+
+SACRE_VENV     := $(TESTINGDIR)/venvs/sacre
+SACRE_ACTIVATE := $(SACRE_VENV)/bin/activate
+SACREPYTHON    := $(SACRE_VENV)/bin/python
+
+VIEW_VENV      := $(TESTINGDIR)/venvs/view
+VIEW_ACTIVATE  := $(VIEW_VENV)/bin/activate
+VIEW_PYTHON    := $(VIEW_VENV)/bin/python
+LANG2VEC_REPO  := $(TESTINGDIR)/pkgs/lang2vec
+
 PLOT_ACTIVATE  := $(TESTINGDIR)/venvs/plot/bin/activate
-VIEW_ACTIVATE   := $(TESTINGDIR)/venvs/view/bin/activate
+PLOT_PYTHON    := $(TESTINGDIR)/venvs/plot/bin/python
+PLOT_VENV      := $(TESTINGDIR)/venvs/plot
 
-PLOTPYTHON  := $(TESTINGDIR)/venvs/plot/bin/python
-SACREPYTHON  := $(TESTINGDIR)/venvs/sacre/bin/python
-VIEWPYTHON   := $(TESTINGDIR)/venvs/view/bin/python
-TORCHPYTHON  := $(TESTINGDIR)/venvs/torch/bin/python
-INFPYTHON    := $(VENV)/bin/python
-
-BAS_DONE     := $(MODELDIR)/preps.done
-PRS_DONE     := $(MODELDIR)/pairs.done
-INF_DONE     := $(MODELDIR)/inference.done
-CNT_DONE     := $(MODELDIR)/cnt.done
-MET_DONE     := $(MODELDIR)/metrics.done
-CMT_DONE     := $(MODELDIR)/comet.done
-VIZ_DONE     := $(MODELDIR)/viz.done
-
-INF_FLAG     := $(MODELDIR)/inference.submitted
-CNT_FLAG     := $(MODELDIR)/cnt.submitted
-MET_FLAG     := $(MODELDIR)/metrics.submitted
-CMT_FLAG     := $(MODELDIR)/comet.submitted
-VIZ_FLAG     := $(MODELDIR)/viz.submitted
-
-INF_CALLS    := $(OUTDIR)/calls.out
-SACRE_CALLS  := $(OUTDIR)/calls.sacre.out
-COMET_CALLS  := $(OUTDIR)/calls.comet.out
 
 INF_TEMPLATE := $(SELFDIR)/template/slurm_inf.templ
 CNT_TEMPLATE := $(SELFDIR)/template/slurm_cnt.templ
 MET_TEMPLATE := $(SELFDIR)/template/slurm_met.templ
-
-INF_SCRIPT   := $(OUTDIR)/inf.slurm
-CNT_SCRIPT   := $(OUTDIR)/cnt.slurm
-MET_SCRIPT   := $(OUTDIR)/met.slurm
-
-INF_SBATCH   := $(OUTDIR)/inf.sbatch
-CMT_SBATCH   := $(OUTDIR)/cmt.sbatch
-MET_SBATCH   := $(OUTDIR)/met.sbatch
 
 INSPECT_MODEL_FILES := $(SELFDIR)/bin/inspect-model-files.py
 
@@ -120,11 +81,12 @@ INSPECT_MODEL_FILES := $(SELFDIR)/bin/inspect-model-files.py
 # Top-level workflow
 # -----------------------------------------------------------------------------
 
-.DEFAULT_GOAL := list
-
-# Make alias goals no-op targets so `make docmt4 mk-yamls` works.
-.PHONY: all mk-basic mk-yamls mk-infer metrics status $(MODEL_ALIASES) help list 
-
+.PHONY: list status help
+list: 
+> @$(foreach a,$(MODEL_ALIASES),printf "  %-10s -> %s\n" "$(a)" "$(MODEL_$(a))";)
+> @echo Remember to mount the project directories in slurm_*.templ files when using containers
+status:
+> @module load cray-python; python3 "$(SELFDIR)/bin/status.py" $(STATUS_MODELS)
 help: 
 > @printf "\n\
 Usage:\n\
@@ -158,54 +120,70 @@ General goals:\n\
   make status                           # shows the scoring status of declared models\n\
 "
 
-list: 
-> @$(foreach a,$(MODEL_ALIASES),printf "  %-10s -> %s\n" "$(a)" "$(MODEL_$(a))";)
-> @echo Remember to mount the project directories in slurm_*.templ files when using containers
-
 # This is used to inpect the model properties - helps to choose the correct MAMMOTH version
+.PHONY: $(MODEL_ALIASES)
 $(MODEL_ALIASES):
 > @if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then \
 >   $(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODEL_$@)" inspect-model-summary; \
 > fi
 
-include $(SELFDIR)/include/mk-basic.mk # venvs, model inspection, mammoth ver, dirs, (non)slurm detection
+.PHONY: venvs lang2vec test-sif find-sif
+include $(SELFDIR)/include/mk-confs.mk # venvs, (non)slurm detection, python, sif
+
+.PHONY: mk-basic inspect-model-summary which-mammoth clean-mammoth clean-basic
+include $(SELFDIR)/include/mk-basic.mk # model inspection, mammoth ver, dirs
+
+.PHONY: mk-pairs mk-pairs-force
 include $(SELFDIR)/include/mk-pairs.mk # determine the desired language pairs
+
+.PHONY: calls clean-calls mk-calls mk-calls-force 
 include $(SELFDIR)/include/mk-calls.mk # calls.*.out and yaml files
+
+.PHONY: mk-slurm slurm clean-slurm
+.PHONY: clean-inf-lock clean-cnt-lock clean-met-lock
 include $(SELFDIR)/include/mk-slurm.mk # slurm scripts and sbatch lines
+
+.PHONY: status-infer infer infer-score
+.PHONY: mk-infer mk-infer-force mk-infer-score mk-infer-score-force
 include $(SELFDIR)/include/mk-infer.mk # run inference calls
+
+.PHONY: status-score score mk-score mk-score-force mk-comet
 include $(SELFDIR)/include/mk-score.mk # run scoring calls
+
+.PHONY: continue-eval continue-eval-force continue-all continue-all-force
 include $(SELFDIR)/include/mk-contr.mk # loop runs until done
 
-.PHONY: status mt-bleu mt-chrf mt-bleu-chrf test-sif find-sif
+.PHONY: list-sacre-all sacre-tsv-all list-tsv-all
+include $(SELFDIR)/include/mk-saved.mk # saved scores
 
-status:
-> @module load cray-python; python3 "$(SELFDIR)/bin/status.py" $(STATUS_MODELS)
+##################################
+# VISUALIZATION AND QUERY TARGETS
+##################################
 
+# It would be good if evaluation can be done also for selected tasks
+# only. Automation is good but it would also be good if we can do
+# something like make TASKS="mt_eng-fin mt_fin-eng" evaluation to only
+# run evaluation over different benchmarks for the selected
+# tasks. Some kind of flexibility is good  to have.  That could maybe
+# also apply to analysis and visualization. Would be quite nice if one
+# could make a selection of tasks to print score overviews and
+# visualizations. Sometimes it can be good to zoom in into specific
+# tasks instead of having the whole overview of the entire system with
+# all tasks.
+.PHONY: mt-bleu mt-chrf mt-bleu-chrf
 mt-bleu:
 > module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind mt $(MODELDIR)/inf_scores/
 sentmt-bleu:
 > module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind sentmt $(MODELDIR)/inf_scores/
 docmt-bleu:
 > module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind docmt $(MODELDIR)/inf_scores/
-
 mt-chrf:
 > @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric chrF2 --kind mt $(MODELDIR)/inf_scores/
-
 mt-bleu-chrf:
 > @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --kind mt $(MODELDIR)/inf_scores/
 
-test-sif:
-> srun --partition=dev-g --account=$(JOBPROJECT) --time=00:10:00 \
->  --nodes=1 --ntasks=1 --gpus-per-node=1 \
->  --pty bash -lc "set -euxo pipefail; /usr/bin/singularity inspect '$(SIF)'; /usr/bin/singularity exec '$(SIF)' python --version"
-
-find-sif:
-> srun --partition=dev-g --account=$(JOBPROJECT) --time=00:05:00 \
->  --nodes=1 --ntasks=1 --gpus-per-node=1 \
->  --pty bash -lc 'set -euo pipefail; find -L /appl/local/laifs/containers -maxdepth 3 -type f \( -name "*multitorch*.sif" -o -name "*torch*.sif" \) -print'
-
 plot-docmt:
-> $(PLOTPYTHON) compare.py \
+> $(PLOT_PYTHON) compare.py \
 >  --mk-models include/mk-model.mk \
 >  --kind mt \
 >  --dataset bqtpar \
@@ -217,65 +195,9 @@ plot-docmt:
 > cat cmp_docmt/condorcet.txt
 
 plot-sentmt:
-> $(PLOTPYTHON) compare.py   --mk-models include/mk-model.mk   --kind sentmt   \
+> $(PLOT_PYTHON) compare.py   --mk-models include/mk-model.mk   --kind sentmt   \
 >   --dataset bqtpar   --models sentmtdenoise sentmthalfsmall sentmthalfxl  \
 >   --delta sentmthalfsmall sentmthalfxl   --outdir cmp_sentmt
-
-.PHONY: list-sacre-all
-
-list-sacre-all:
->	@set -u; \
->	for a in $(MODEL_ALIASES); do \
->	  eval "model_dir=\$${MODEL_$$a}"; \
->	  score_dir="$$model_dir/inf_scores"; \
->	  echo "===== $$a ====="; \
->	  if [ -d "$$score_dir" ]; then \
->	    find "$$score_dir" -maxdepth 1 -type f \
->	      \( -name '*.sacre' -o -name '*.0ssacre' \) \
->	      -printf '%f\n' | sort; \
->	  else \
->	    echo "(no inf_scores directory)"; \
->	  fi; \
->	  echo; \
->	done
-
-.PHONY: sacre-tsv-all
-
-sacre-tsv-all:
->	@set -eu; \
->	for a in $(MODEL_ALIASES); do \
->	  eval "model_dir=\$${MODEL_$$a}"; \
->	  score_dir="$$model_dir/inf_scores"; \
->	  eval3_dir="$$model_dir/eval3"; \
->	  tsv_file="$$eval3_dir/sacre.tsv"; \
->	  if [ ! -d "$$score_dir" ]; then \
->	    echo "WARNING: no inf_scores for $$a: $$score_dir" >&2; \
->	    continue; \
->	  fi; \
->	  mkdir -p "$$eval3_dir"; \
->	  echo "Writing $$tsv_file"; \
->	  python3 "$(SELFDIR)/bin/summarize_sacre.py" \
->	    "$$score_dir" \
->	    --kind mt \
->	    --tsv \
->	    --model "$$a" \
->	    > "$$tsv_file"; \
->	  echo "Completed writing $$tsv_file"; \
->	done
-
-.PHONY: list-tsv-all
-
-list-tsv-all:
-> @set -eu; \
-> for a in $(MODEL_ALIASES); do \
->   eval "model_dir=\$${MODEL_$$a}"; \
->   tsv_file="$$model_dir/eval3/sacre.tsv"; \
->   if [ -f "$$tsv_file" ]; then \
->     printf '%-24s %s\n' "$$a" "$$tsv_file"; \
->   else \
->     printf '%-24s %s\n' "$$a" "(missing: $$tsv_file)"; \
->   fi; \
-> done
 
 PARTITION_MODELS ?= $(MODEL_ALIASES)
 PARTITION_VIEW   ?= summary
@@ -283,13 +205,16 @@ PARTITION_METRIC ?= BLEU
 PARTITION_DATASET ?=
 
 .PHONY: coverage-partition
-
 coverage-partition:
 > @set -eu; \
 > args=""; \
 > for a in $(PARTITION_MODELS); do \
 >   eval "model_dir=\$${MODEL_$$a}"; \
->   tsv_file="$$model_dir/eval3/sacre.tsv"; \
+>   if [ -d "$$model_dir/evaluation" ]; then \
+>     tsv_file="$$model_dir/evaluation/reports/sacre.tsv"; \
+>   else \
+>     tsv_file="$$model_dir/eval3/sacre.tsv"; \
+>   fi; \
 >   if [ ! -f "$$tsv_file" ]; then \
 >     echo "ERROR: missing sacre.tsv for $$a: $$tsv_file" >&2; \
 >     exit 1; \

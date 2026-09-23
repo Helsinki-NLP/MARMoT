@@ -53,7 +53,7 @@
 #
 # Reads
 # -----
-#   - CALLS_FILE (default: $OUTDIR/calls.out)
+#   - CALLS_FILE (default: $TSKDIR/calls.out)
 #
 # Writes / effects
 # ----------------
