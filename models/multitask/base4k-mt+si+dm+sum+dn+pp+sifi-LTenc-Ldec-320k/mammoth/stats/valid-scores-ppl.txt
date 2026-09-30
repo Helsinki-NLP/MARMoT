@@ -1,27 +1,27 @@
-gpu	task-ids	 1000	
-0:0	denoise_eng-eng	209.612
-0:1	denoise_fra-fra	148.126
-0:2	denoise_deu-deu	271.572
-0:3	simpl_deu-deu	591.650
-0:4	simpl_eng-eng	123.048
-0:5	simpl_ita-ita	506.836
-0:6	simpl_fra-fra	151.543
-0:7	simpl_slv-slv	1235.977
-1:0	sum_eng-eng	304.109
-1:1	sum_fra-fra	218.991
-1:2	sum_deu-deu	228.530
-1:3	para_eng-eng	92.595
-1:4	para_fra-fra	88.022
-1:5	para_deu-deu	76.444
-1:6	simpl_fin-fin	323.494
-1:7	def_eng-eng	146.548
-2:0	def_fra-fra	112.733
-2:1	mt_deu-eng	276.734
-2:2	mt_eng-deu	449.080
-2:3	mt_fra-eng	268.435
-2:4	mt_eng-fra	250.931
-2:5	mt_ita-eng	294.820
-2:6	mt_eng-ita	458.788
-2:7	mt_slv-eng	298.095
-0:0	mt_eng-slv	209.612
-all	average-score	293.453
+gpu	task-ids	 1000	 2000	 3000	 4000	
+0:0	denoise_eng-eng	209.612	51.317	33.630	27.687
+0:1	denoise_fra-fra	148.126	10.826	9.857	9.466
+0:2	denoise_deu-deu	271.572	12.047	10.576	10.228
+0:3	simpl_deu-deu	591.650	100.456	60.795	56.396
+0:4	simpl_eng-eng	123.048	19.238	18.475	0.000
+0:5	simpl_ita-ita	506.836	20.223	17.358	16.328
+0:6	simpl_fra-fra	151.543	20.558	17.639	0.000
+0:7	simpl_slv-slv	1235.977	1291.246	1202.642	1229.237
+1:0	sum_eng-eng	304.109	152.076	137.944	0.000
+1:1	sum_fra-fra	218.991	131.269	97.596	0.000
+1:2	sum_deu-deu	228.530	91.833	68.887	0.000
+1:3	para_eng-eng	92.595	64.335	53.107	49.536
+1:4	para_fra-fra	88.022	51.397	44.093	42.699
+1:5	para_deu-deu	76.444	48.455	40.375	37.247
+1:6	simpl_fin-fin	323.494	70.191	23.687	0.000
+1:7	def_eng-eng	146.548	131.169	165.937	232.620
+2:0	def_fra-fra	112.733	72.649	62.359	62.081
+2:1	mt_deu-eng	276.734	50.894	32.786	27.023
+2:2	mt_eng-deu	449.080	79.188	45.166	35.910
+2:3	mt_fra-eng	268.435	41.212	27.311	22.964
+2:4	mt_eng-fra	250.931	44.531	28.203	24.134
+2:5	mt_ita-eng	294.820	85.127	56.024	46.468
+2:6	mt_eng-ita	458.788	121.680	78.618	66.250
+2:7	mt_slv-eng	298.095	74.106	47.181	37.306
+0:0	mt_eng-slv	209.612	51.317	33.630	27.687
+all	average-score	293.453	115.494	96.555	82.451
