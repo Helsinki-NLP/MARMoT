@@ -225,14 +225,14 @@ def main() -> None:
         alias, model_dir = item.split("=", 1)
         models.append((alias, model_dir))
 
-    fmt = "{:<22} {:<5} {:<12} {:<11} {:<10} {:<5} {:<9} {:<9} {:<9}"
+    fmt = "{:<37} {:<5} {:<12} {:<11} {:<10} {:<5} {:<9} {:<9} {:<9}"
     print(fmt.format("model", "yamls", "0s+spv tasks", "i/s/c calls", "HH:MMxGPUs", "elaps", "hyp", "sacre", "comet"))
-    print(fmt.format("-" * 22, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
+    print(fmt.format("-" * 37, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
 
     for alias, model_dir in models:
         print(fmt.format(*row(alias, model_dir)))
 
-    print(fmt.format("-" * 22, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
+    print(fmt.format("-" * 37, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
 
 if __name__ == "__main__":
     main()

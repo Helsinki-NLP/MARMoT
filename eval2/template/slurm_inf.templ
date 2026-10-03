@@ -33,12 +33,14 @@ export FLAG=__FLAG__
 export DONE=__DONE__
 export SBATCH_LINE=__SBATCH_LINE__
 export PARTITION=__PARTITION__
+export EVAL_SLURM_PROFILE=__EVAL_SLURM_PROFILE__
+export DEVG_REQUEST_TIME=__DEVG_REQUEST_TIME__
 
 export SLURM_DISTR="${SELFDIR}/bin/slurm_distr.sh"
 export SLURM_WRAPPER="${SELFDIR}/bin/slurm_wrapper.sh"
 export CALLS_FILE="${TSKDIR}/calls.out"
 
-for var in SIF ACCOUNT DISKPROJECT SELFDIR TSKDIR ACTIVATE MAKESCRIPT LOGDIR JOB_NAME MODELDIR FLAG DONE SBATCH_LINE PARTITION; do
+for var in SIF ACCOUNT DISKPROJECT SELFDIR TSKDIR ACTIVATE MAKESCRIPT LOGDIR JOB_NAME MODELDIR FLAG DONE SBATCH_LINE PARTITION EVAL_SLURM_PROFILE DEVG_REQUEST_TIME ; do
   eval "value=\${$var}"
   case "$value" in
     __*__)
@@ -62,7 +64,18 @@ done
 #       slurm script $MAKESCRIPT. This script sruns the $INF_WRAPPER
 #       where $INF_DISTR distributes the inference calls.
 
-trap 'rm -f "${FLAG}"; touch "${DONE}"' EXIT
+on_exit() {
+    rc=$?
+    rm -f "${FLAG}"
+    if [ "$rc" -eq 0 ]; then
+        touch "${DONE}"
+    else
+        rm -f "${DONE}"
+    fi
+    exit "$rc"
+}
+trap on_exit EXIT
+
 if [ -n "${SLURM_JOBID:-}" ]; then
     export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3
     export NCCL_NET_GDR_LEVEL=PHB
@@ -72,7 +85,9 @@ if [ -n "${SLURM_JOBID:-}" ]; then
 	echo "ERROR: SIF image not readable on compute node: ${SIF}" >&2
 	echo "Try: find -L /appl/local/laifs/containers -maxdepth 3 -type f -name '*.sif'" >&2
 	exit 1
-    }    
+    }   
+    echo "Memory-related Slurm environment before srun:" >&2
+    env | LC_ALL=C sort | grep '^SLURM_MEM_' >&2 || true
     echo "Launching srun..."
     srun /usr/bin/singularity exec \
 	 --env NCCL_SOCKET_IFNAME="${NCCL_SOCKET_IFNAME}" \
@@ -80,6 +95,7 @@ if [ -n "${SLURM_JOBID:-}" ]; then
 	 --env NCCL_DEBUG="${NCCL_DEBUG}" \
          -B  "/scratch/${DISKPROJECT}:/scratch/${DISKPROJECT}:rw" \
          -B  "/scratch/${ACCOUNT}:/scratch/${ACCOUNT}:rw" \
+	 -B "${SELFDIR}:${SELFDIR}:ro" \
 	 "${SIF}" "${SLURM_WRAPPER}"
 else
     # creates "${MAKESCRIPT}"

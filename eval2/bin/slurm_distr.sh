@@ -81,10 +81,64 @@ set -euo pipefail
 : "${SBATCH_LINE:?SBATCH_LINE must be set}"
 : "${PARTITION:?PARTITION must be set}"
 
+# `auto` is the normal production planner.  `dev-g` is deliberately a
+# smoke-test profile: it must remain within LUMI dev-g's 30 minute limit.
+EVAL_SLURM_PROFILE="${EVAL_SLURM_PROFILE:-auto}"
+DEVG_REQUEST_TIME="${DEVG_REQUEST_TIME:-}"
+
+# One-GPU production policy.  These are deliberately here: this script both
+# creates sbatch commands and executes calls inside the Slurm allocation.
+INF_MIN_MINUTES=15
+INF_MAX_MINUTES=120
+INF_STARTUP_MINUTES=3
+INF_EST_CALL_MINUTES=4
+INF_STOP_RESERVE_MINUTES=12
+INF_TIMINGS_FILE="${TSKDIR}/inference-times.tsv"
+
 die() {
     echo "ERROR: $*" >&2
     exit 1
 }
+time_to_seconds() {
+    local value="$1" hh mm ss
+    [[ "$value" =~ ^[0-9]{2}:[0-9]{2}:[0-9]{2}$ ]] ||
+        die "Expected HH:MM:SS, got: $value"
+    IFS=: read -r hh mm ss <<< "$value"
+    echo $((10#$hh * 3600 + 10#$mm * 60 + 10#$ss))
+}
+
+choose_one_gpu_plan() {
+    local requested
+
+    requested=$(( INF_STARTUP_MINUTES + NCALLS * INF_EST_CALL_MINUTES ))
+    (( requested < INF_MIN_MINUTES )) && requested="$INF_MIN_MINUTES"
+    (( requested > INF_MAX_MINUTES )) && requested="$INF_MAX_MINUTES"
+
+    CHOSEN_NODES=1
+    CHOSEN_GPUS_PER_NODE=1
+    CHOSEN_WORLD=1
+    CHOSEN_BATCHES="$NCALLS"
+    CHOSEN_WASTE=0
+    CHOSEN_PARTITION="$PARTITION"
+
+    if [[ "$EVAL_SLURM_PROFILE" == "dev-g" && -n "$DEVG_REQUEST_TIME" ]]; then
+	CHOSEN_TIME="$DEVG_REQUEST_TIME"
+	CHOSEN_RUNTIME_MIN=$(( ($(time_to_seconds "$CHOSEN_TIME") + 59) / 60 ))
+	if (( CHOSEN_RUNTIME_MIN > 30 )); then
+            die "dev-g job would exceed 30 minutes: ${CHOSEN_RUNTIME_MIN} min"
+	fi
+    else
+        CHOSEN_RUNTIME_MIN="$requested"
+        if [[ "$EVAL_SLURM_PROFILE" == "dev-g" ]] &&
+           (( CHOSEN_RUNTIME_MIN > 30 )); then
+            die "dev-g job would exceed 30 minutes: ${CHOSEN_RUNTIME_MIN} min"
+        fi
+        printf -v CHOSEN_TIME '%02d:%02d:00' \
+            $(( CHOSEN_RUNTIME_MIN / 60 )) \
+            $(( CHOSEN_RUNTIME_MIN % 60 ))
+    fi
+}
+
 have_slurm() {
     [[ -n "${SLURM_JOB_ID:-}" ]]
 }
@@ -96,11 +150,15 @@ load_calls() {
     echo -n "Zeroshot pair   inferences: "
     grep -F ".0shyp" "$CALLS_FILE" | wc -l || true
     echo "---"
-    mapfile -t CALLS < <(egrep '^(python|if)' "$CALLS_FILE" | shuf)
+    mapfile -t CALLS < <(grep -E '^(python|if)' "$CALLS_FILE" || true)
     NCALLS="${#CALLS[@]}"
     (( NCALLS > 0 )) || die "No calls found in $CALLS_FILE"
 }
 
+if [[ -n "$DEVG_REQUEST_TIME" ]] &&
+   ! [[ "$DEVG_REQUEST_TIME" =~ ^[0-9]{2}:[0-9]{2}:[0-9]{2}$ ]]; then
+    die "DEVG_REQUEST_TIME must be HH:MM:SS, got: $DEVG_REQUEST_TIME"
+fi
 
 # min max nodes gpus_per_node
 DEVG_PLAN_TABLE=(
@@ -137,12 +195,22 @@ choose_devg_plan_from_table_devg() {
             CHOSEN_COST=$(( CHOSEN_WORLD * CHOSEN_BATCHES ))
             CHOSEN_WASTE=$(( CHOSEN_COST - NCALLS ))
             CHOSEN_PARTITION="dev-g"
-	    if (( CHOSEN_RUNTIME_MIN < 60 )); then
-		CHOSEN_RUNTIME_MIN=$(( CHOSEN_RUNTIME_MIN + 60 ))
+	    if [[ -n "$DEVG_REQUEST_TIME" ]]; then
+		# Explicit short probe: the user has chosen its Slurm walltime.
+		CHOSEN_TIME="$DEVG_REQUEST_TIME"
+		CHOSEN_RUNTIME_MIN=$(( ($(time_to_seconds "$CHOSEN_TIME") + 59) / 60 ))
+		if (( CHOSEN_RUNTIME_MIN > 30 )); then
+		    die "dev-g job would exceed 30 minutes: ${CHOSEN_RUNTIME_MIN} min"
+		fi
+	    else
+		if (( CHOSEN_RUNTIME_MIN > 30 )); then
+		    echo "dev-g plan exceeds its 30-minute limit for NCALLS=$NCALLS" >&2
+		    return 1
+		fi
+		printf -v CHOSEN_TIME '%02d:%02d:00' \
+		       $(( CHOSEN_RUNTIME_MIN / 60 )) \
+		       $(( CHOSEN_RUNTIME_MIN % 60 ))
 	    fi
-            printf -v CHOSEN_TIME '%02d:%02d:00' \
-                $(( CHOSEN_RUNTIME_MIN / 60 )) \
-                $(( CHOSEN_RUNTIME_MIN % 60 ))
             return 0
         fi
     done
@@ -186,9 +254,6 @@ choose_smallg_plan_from_table() {
                 echo "small-g plan would exceed 3-day walltime for NCALLS=$NCALLS" >&2
                 return 1
             fi
-	    if (( CHOSEN_RUNTIME_MIN < 60 && CHOSEN_WORLD == 1)); then
-		CHOSEN_RUNTIME_MIN=$(( CHOSEN_RUNTIME_MIN + 480 ))
-	    fi
             printf -v CHOSEN_TIME '%02d:%02d:00' \
                 $(( CHOSEN_RUNTIME_MIN / 60 )) \
                 $(( CHOSEN_RUNTIME_MIN % 60 ))
@@ -252,17 +317,54 @@ choose_small_plan_from_table() {
 }
 
 plan_outside_slurm() {
-    if [ "$PARTITION" = "small-g" ]; then
-	choose_smallg_plan_from_table
-    else
-	choose_small_plan_from_table
-    fi
-    
+    case "$PARTITION" in
+        small-g|dev-g) ;;
+        *) die "One-GPU inference expects small-g or dev-g, got: $PARTITION" ;;
+    esac
+    choose_one_gpu_plan
     echo "Outside Slurm."
     echo "Suggested LUMI allocation:"
+    echo "  planning profile  : $EVAL_SLURM_PROFILE"
+    echo "  planned calls     : $NCALLS"
+    echo "  nodes             : 1"
+    echo "  GPUs per node     : 1"
+    echo "  world size        : 1"
+    echo "  requested runtime : $CHOSEN_TIME"
+    echo "  stop reserve      : ${INF_STOP_RESERVE_MINUTES} min"
+    echo "  partition         : $CHOSEN_PARTITION"
+    echo
+
+    sbatch_cmd=$(
+        printf 'sbatch --parsable --partition=%s --time=%s --nodes=1 --ntasks=1 --gpus-per-node=1 %s' \
+            "$CHOSEN_PARTITION" "$CHOSEN_TIME" "$MAKESCRIPT"
+    )
+    printf '%s\n' "$sbatch_cmd"
+    printf '%s\n' "$sbatch_cmd" > "${SBATCH_LINE}"
+}
+
+old_plan_outside_slurm() {
+    case "$EVAL_SLURM_PROFILE" in
+	dev-g)
+            choose_devg_plan_from_table_devg
+            ;;
+	auto)
+            if [ "$PARTITION" = "small-g" ]; then
+		choose_smallg_plan_from_table
+            else
+		choose_small_plan_from_table
+            fi
+            ;;
+	*)
+            die "Unknown EVAL_SLURM_PROFILE=$EVAL_SLURM_PROFILE (expected auto or dev-g)"
+            ;;
+    esac
+   
+    echo "Outside Slurm."
+    echo "Suggested LUMI allocation:"
+    echo "  planning profile  : $EVAL_SLURM_PROFILE"
     echo "  calls             : $NCALLS"
     echo "  nodes             : $CHOSEN_NODES"
-    if [ "$CHOSEN_PARTITION" = "small-g" ]; then
+    if [[ "$CHOSEN_PARTITION" == *-g ]]; then
         echo "  GPUs per node     : $CHOSEN_GPUS_PER_NODE"
     fi
     echo "  world size        : $CHOSEN_WORLD"
@@ -271,7 +373,7 @@ plan_outside_slurm() {
     echo "  wasted slots      : $CHOSEN_WASTE"
     echo "  partition         : $CHOSEN_PARTITION"
     echo
-    if [ "$CHOSEN_PARTITION" = "small-g" ]; then
+    if [[ "$CHOSEN_PARTITION" == *-g ]]; then
         sbatch_cmd=$(
             printf 'sbatch --parsable --partition=%s --time=%s --nodes=%s --ntasks=%s --gpus-per-node=%s %s' \
                 "$CHOSEN_PARTITION" "$CHOSEN_TIME" "$CHOSEN_NODES" "$CHOSEN_WORLD" "$CHOSEN_GPUS_PER_NODE" \
@@ -306,22 +408,56 @@ assign_rank_calls() {
     done
     # feed only this rank’s assigned commands into the while loop
 }
+
 run_inside_slurm() {
     local rank="${SLURM_PROCID:-0}"
     local world="${SLURM_NTASKS:-1}"
     local local_rank="${SLURM_LOCALID:-0}"
-    echo "Inside Slurm: rank=$rank world=$world (local_rank=$local_rank) calls=$NCALLS"    
-    echo "This rank will process:"
-    assign_rank_calls_for_show "$rank" "$world" 
+    local job_start stop_epoch now start end rc
 
-    # the following implements the calls
+    choose_one_gpu_plan
+
+    job_start="${SLURM_JOB_START_TIME:-$(date +%s)}"
+    stop_epoch=$(( job_start + CHOSEN_RUNTIME_MIN * 60 \
+                   - INF_STOP_RESERVE_MINUTES * 60 ))
+
+    mkdir -p "$(dirname "$INF_TIMINGS_FILE")"
+    if [[ ! -s "$INF_TIMINGS_FILE" ]]; then
+        printf 'jobid\trank\tstart_epoch\tend_epoch\telapsed_s\texit_code\tcommand\n' \
+            > "$INF_TIMINGS_FILE"
+    fi
+
+    echo "Inside Slurm: rank=$rank world=$world (local_rank=$local_rank) calls=$NCALLS"
+    echo "This rank will process calls until $(date -d "@$stop_epoch")"
+    assign_rank_calls_for_show "$rank" "$world"
+
     while IFS= read -r cmd; do
-        [[ -n "$cmd" ]] || continue    # skip empty lines
-	date
-        echo "[rank $rank] $cmd"       # print the command before running it
-        eval "$cmd"                    # executes the call
+        [[ -n "$cmd" ]] || continue
+
+        now=$(date +%s)
+        if (( now >= stop_epoch )); then
+            echo "[rank $rank] Time budget reached; continuation will handle remaining calls."
+            break
+        fi
+
+        start=$(date +%s)
+        echo "[rank $rank] $cmd"
+
+        if eval "$cmd"; then
+            rc=0
+        else
+            rc=$?
+        fi
+
+        end=$(date +%s)
+        printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+            "${SLURM_JOB_ID:-unknown}" "$rank" "$start" "$end" \
+            "$((end - start))" "$rc" "$cmd" >> "$INF_TIMINGS_FILE"
+
+        (( rc == 0 )) || exit "$rc"
     done < <(assign_rank_calls "$rank" "$world")
 }
+
 main() {
     load_calls
     if have_slurm; then

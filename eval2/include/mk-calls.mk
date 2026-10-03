@@ -27,7 +27,13 @@ mk-calls-force:
 > @$(MAKE) --no-print-directory -C "$(SELFDIR)" FORCE_PAIRS=1 $(FIRST_GOAL) calls
 
 $(INF_CALLS): $(PLAN_LOG)
+ifeq ($(SKIP_CALL_PLANNING),1)
+$(INF_CALLS):
+> @test -s "$(INF_CALLS)"
+else
+$(INF_CALLS): $(PLAN_LOG)
 > @test -f "$(INF_CALLS)"
+endif
 
 $(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) | $(EVAL_DIRS)
 > @set -euo pipefail; \

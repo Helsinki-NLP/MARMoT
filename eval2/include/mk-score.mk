@@ -50,12 +50,12 @@ score: $(SACRE_CALLS) $(MET_SCRIPT) $(MET_SBATCH) $(CNT_SCRIPT) | status-score
 > @set -euo pipefail; \
 > rm -f "$(MET_DONE)"; \
 > cat "$(MET_SBATCH)"; \
-> score_out="$$(bash "$(MET_SBATCH)")"; \
+> score_out="$$(bash -c 'unset "$${!SLURM_@}"; exec bash "$$1"' _ "$(MET_SBATCH)")"; \
 > echo "$$score_out"; \
 > score_job="$$(printf '%s\n' "$$score_out" | awk '{print $$NF}')"; \
 > echo "$$score_job" > "$(MET_FLAG)"; \
 > echo "mk-score.mk: ✅ Submitted scoring job $$score_job"; \
-> cnt_job="$$(sbatch --parsable --dependency=afterany:$$score_job "$(CNT_SCRIPT)")"; \
+> cnt_job="$$(bash -c 'unset "$${!SLURM_@}"; exec sbatch --parsable --dependency=afterany:"$$1" "$$2"' _ "$$score_job" "$(CNT_SCRIPT)")"; \
 > echo "mk-score.mk: ✅ Submitted continuation job $$cnt_job after scoring"
 
 mk-score-force: 

@@ -74,6 +74,10 @@ MET_SCRIPT  := $(TSKDIR)/met.slurm
 INF_SBATCH  := $(TSKDIR)/inf.sbatch
 MET_SBATCH  := $(TSKDIR)/met.sbatch
 
+
+# INF_BATCH_DIR   := $(TSKDIR)/inference-batches
+# INF_BATCH_READY := $(TSKDIR)/inference-batches.ready
+
 .PHONY: list-eval-files
 list-eval-files:
 > @set -euo pipefail; \

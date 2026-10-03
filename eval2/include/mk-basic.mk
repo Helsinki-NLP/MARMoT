@@ -73,7 +73,52 @@ which-mammoth: $(MAMMOTH_SELECTED)
 #     └── otherwise
 #         └── MAMMOTH_XT_DEF/mammoth => $(MAMMOTH_SELECTED)
 #
-$(MAMMOTH_SELECTED): $(MODEL_SUMMARY) | $(EVAL_DIRS_TO_CREATE)
+ifneq ($(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),)
+
+# PyTorch backend is known from the model collection path.
+# Legacy x-transformers models still need checkpoint inspection to choose
+# between the normal and trained_head_dim=64-compatible Mammoth versions.
+ifeq ($(MAMMOTH_TYPE),pytorch)
+  MAMMOTH_SELECTION_INPUTS :=
+else ifeq ($(MAMMOTH_TYPE),xtransformers)
+  MAMMOTH_SELECTION_INPUTS := $(MODEL_SUMMARY)
+else
+  $(error Unknown MAMMOTH_TYPE=$(MAMMOTH_TYPE))
+endif
+else
+  # Static goals such as help and squeue need no Mammoth selection.
+  MAMMOTH_SELECTION_INPUTS :=
+endif
+
+$(MAMMOTH_SELECTED): $(MAMMOTH_SELECTION_INPUTS) | $(EVAL_DIRS_TO_CREATE)
+> @set -euo pipefail; \
+> echo "mk-basic.mk:    Selecting Mammoth backend from type $(MAMMOTH_TYPE)"; \
+> case "$(MAMMOTH_TYPE)" in \
+>   pytorch) \
+>     selected="$(MAMMOTH_PYTORCH)/mammoth"; \
+>     variant="PyTorch backend"; \
+>     ;; \
+>   xtransformers) \
+>     if grep -Fq \
+>          'use older Mammoth compatible with trained_head_dim=64' \
+>          "$(MODEL_SUMMARY)"; then \
+>       selected="$(MAMMOTH_XT_64)/mammoth"; \
+>       variant="x-transformers, legacy hard-coded head_dim=64"; \
+>     else \
+>       selected="$(MAMMOTH_XT_DEF)/mammoth"; \
+>       variant="x-transformers, computed head_dim"; \
+>     fi; \
+>     ;; \
+>   *) \
+>     echo "mk-basic.mk: ❌ Unknown Mammoth type: $(MAMMOTH_TYPE)" >&2; \
+>     exit 1; \
+>     ;; \
+> esac; \
+> echo "mk-basic.mk:    Selected $$variant"; \
+> printf '%s\n' "$$selected" > "$@"; \
+> echo "mk-basic.mk: ✅ Written file $@"
+
+$(MAMMOTH_SELECTED).old: $(MODEL_SUMMARY) | $(EVAL_DIRS_TO_CREATE)
 > @set -euo pipefail; \
 > echo "mk-basic.mk:    Reading $(MODEL_SUMMARY)"; \
 > case "$(MAMMOTH_TYPE)" in \

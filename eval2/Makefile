@@ -2,7 +2,8 @@
 
 STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif \
                 plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition \
-                compare help list-groups 
+                compare help list-groups models-ready squeue
+STATIC_ONLY := $(if $(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),,yes)
 
 SELFDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 .RECIPEPREFIX := >
@@ -120,11 +121,12 @@ General goals:\n\
   make status                           # shows the scoring status of declared models\n\
 "
 
-# This is used to inpect the model properties - helps to choose the correct MAMMOTH version
+# A bare model alias only selects its backend.  Full checkpoint inspection is
+# available explicitly through `make <MODEL> inspect-model-summary`.
 .PHONY: $(MODEL_ALIASES)
 $(MODEL_ALIASES):
 > @if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then \
->   $(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODEL_$@)" inspect-model-summary; \
+>   $(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODEL_$@)" which-mammoth; \
 > fi
 
 .PHONY: venvs lang2vec test-sif find-sif
@@ -268,6 +270,10 @@ compare:
 >     exit 1; \
 >     ;; \
 > esac
+
+.PHONY: squeue
+squeue:
+> @squeue -u $$USER -o "%.4Q %.18i %.9P %.47j %.8T %.10M %.9l %.6D %R"
 
 list-groups:
 > @:
