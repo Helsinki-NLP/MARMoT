@@ -76,7 +76,7 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 
 TRAIN_STAGE           ?= train
 TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
-INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.yaml
+INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.${TESTDATA_NAME}.yaml
 CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
 
 

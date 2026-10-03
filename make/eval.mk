@@ -54,7 +54,7 @@ ${EVAL_TASK_JOBS}:
 
 .PHONY: eval-wmt24pp
 eval-wmt24pp:
-	@${MAKE} -s TESTDATA=wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
+	@${MAKE} -s TESTDATA=wmt24pp/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
 
 
 
@@ -79,6 +79,9 @@ EVAL_PARALLEL_JOBS  ?= 1
 .PHONY: eval-tasks
 eval-tasks: eval-slurmjob
 
+
+EVAL_TASKS_TARGET := ${EVAL_DIR}/eval-tasks-${TESTDATA_NAME}
+
 .PHONY: eval-slurm eval-slurmjob
 eval-slurm eval-slurmjob:
 	@mkdir -p ${EVAL_DIR}
@@ -89,7 +92,7 @@ eval-slurm eval-slurmjob:
 		SLURM_TASKS=${EVAL_SLURM_TASKS} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
 		SLURM_PARALLEL_JOBS=${EVAL_PARALLEL_JOBS} \
-	${EVAL_DIR}/eval-tasks.$(patsubst eval-%,%,$@)
+	${EVAL_TASKS_TARGET}.$(patsubst eval-%,%,$@)
 
 
 
@@ -139,23 +142,29 @@ eval-task-slurm eval-task-slurmjob:
 MT_METRICS = bleu chrf
 
 
-## eval targets for all tasks
+## eval results for the current task and testdata will be stored in this file
 
-EVAL_TASK_TARGETS = $(patsubst %,${EVAL_DIR}/eval-task/%,${EVAL_TASK_NRS})
+EVAL_TASK_RESULT  := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
 
-.PHONY: ${EVAL_DIR}/eval-tasks
-${EVAL_DIR}/eval-tasks: ${EVAL_TASK_TARGETS}
+
+## PHONY eval targets for all tasks
+
+EVAL_TASK_TARGET  := ${EVAL_DIR}/eval-task
+EVAL_TASK_TARGETS := $(patsubst %,${EVAL_DIR}/eval-task/%,${EVAL_TASK_NRS})
+
+.PHONY: ${EVAL_TASKS_TARGET}
+${EVAL_TASKS_TARGET}: ${EVAL_TASK_TARGETS}
 
 .PHONY: ${EVAL_TASK_TARGETS}
 ${EVAL_TASK_TARGETS}:
-	${MAKE} TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_DIR}/eval-task
+	${MAKE} TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_TASK_TARGET}
 
 
 
 ## eval currently selected task
 
-.PHONY: ${EVAL_DIR}/eval-task
-${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
+.PHONY: ${EVAL_TASK_TARGET}
+${EVAL_TASK_TARGET}: ${EVAL_TASK_RESULT}
 
 
 
@@ -165,7 +174,7 @@ ${EVAL_DIR}/eval-task: ${EVAL_DIR}/eval_${TASK_ID}
 
 .PRECIOUS: ${TESTDATA_OUTPUT}
 
-${EVAL_DIR}/eval_${TASK_ID}:
+${EVAL_TASK_RESULT}:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
@@ -218,9 +227,9 @@ ${PRINT_EVAL_SCORE_ALIASES}:
 	    else \
 	      taskid=$${taskids[$$i]}; \
 	    fi; \
-	    if [ -s ${EVAL_DIR}/eval_$${taskid} ]; then \
+	    if [ -s ${EVAL_DIR}/eval_$${taskid}_${TESTDATA_NAME} ]; then \
 	      langpair=`echo $${taskid} | cut -f2- -d_`; \
-	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid} \
+	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid}_${TESTDATA_NAME} \
 	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
 	      echo "$${taskid}	$${tasks[$$i]}	$${score}"; \
 	    fi \
@@ -238,9 +247,9 @@ print-eval-score-comparison:
 	    else \
 	      taskid=$${taskids[$$i]}; \
 	    fi; \
-	    if [ -s ${EVAL_DIR}/eval_$${taskid} ]; then \
+	    if [ -s ${EVAL_DIR}/eval_$${taskid}_${TESTDATA_NAME} ]; then \
 	      langpair=`echo $${taskid} | cut -f2- -d_`; \
-	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid} \
+	      score=$$( grep -i -A1 ${PRINT_METRIC} ${EVAL_DIR}/eval_$${taskid}_${TESTDATA_NAME} \
 	      | grep '"score":' | cut -f2 -d: | tr ',' "\t" ); \
 	      best=$$( curl -s "${DASHBOARD_API}&scoreslang=$${langpair}" \
 	      | grep -A1 '"scores":' | tail -1 | cut -f2 -d: | tr ',}' "\t0" ); \
