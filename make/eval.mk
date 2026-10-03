@@ -1,6 +1,18 @@
 #-*-makefile-*-
 
 
+## eval metrics to be used (sacrebleu)
+
+# MT_METRICS = bleu chrf ter
+MT_METRICS = bleu chrf
+
+
+## eval results for the current task and testdata will be stored in this file
+
+EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
+
+
+
 # EVAL_DEFAULT_TRANSFORM ?=
 VALID_MAX_LENGTH ?= 32768
 
@@ -51,10 +63,11 @@ ${EVAL_TASK_JOBS}:
 
 
 
+## run evaluation with wmt24pp data
 
-.PHONY: eval-wmt24pp
-eval-wmt24pp:
-	@${MAKE} -s TESTDATA=wmt24pp/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* eval
+.PHONY: eval-wmt24pp eval-jobs-wmt24pp
+eval-wmt24pp eval-jobs-wmt24pp:
+	@${MAKE} -s TESTDATA=wmt24pp/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* ${@:-wmt24pp=}
 
 
 
@@ -80,7 +93,16 @@ EVAL_PARALLEL_JOBS  ?= 1
 eval-tasks: eval-slurmjob
 
 
+## PHONY eval targets for all tasks
+
+EVAL_TASK_TARGET  := ${EVAL_DIR}/eval-task-${TESTDATA_NAME}
 EVAL_TASKS_TARGET := ${EVAL_DIR}/eval-tasks-${TESTDATA_NAME}
+EVAL_TASKS_TARGETS := $(patsubst %,${EVAL_DIR}/eval-task/%,${EVAL_TASK_NRS})
+
+
+
+
+
 
 .PHONY: eval-slurm eval-slurmjob
 eval-slurm eval-slurmjob:
@@ -138,25 +160,12 @@ eval-task-slurm eval-task-slurmjob:
 ## translate and evaluate
 ##-------------------------------------------------------------------------------
 
-# MT_METRICS = bleu chrf ter
-MT_METRICS = bleu chrf
-
-
-## eval results for the current task and testdata will be stored in this file
-
-EVAL_TASK_RESULT  := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
-
-
-## PHONY eval targets for all tasks
-
-EVAL_TASK_TARGET  := ${EVAL_DIR}/eval-task
-EVAL_TASK_TARGETS := $(patsubst %,${EVAL_DIR}/eval-task/%,${EVAL_TASK_NRS})
 
 .PHONY: ${EVAL_TASKS_TARGET}
-${EVAL_TASKS_TARGET}: ${EVAL_TASK_TARGETS}
+${EVAL_TASKS_TARGET}: ${EVAL_TASKS_TARGETS}
 
-.PHONY: ${EVAL_TASK_TARGETS}
-${EVAL_TASK_TARGETS}:
+.PHONY: ${EVAL_TASKS_TARGETS}
+${EVAL_TASKS_TARGETS}:
 	${MAKE} TASK_NR=$(notdir $@) FIND_TESTDATA=1 ${EVAL_TASK_TARGET}
 
 
