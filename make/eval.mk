@@ -12,9 +12,11 @@ MT_METRICS = bleu chrf
 EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
 
 
+## increase max length to something big to avoid filtering test data
+## setting default-transform to nothing does not seem to work
 
 EVAL_DEFAULT_TRANSFORM ?=
-EVAL_MAX_LENGTH ?= 32768
+EVAL_MAX_LENGTH ?= 65536
 
 
 
@@ -59,7 +61,7 @@ eval-jobs: ${EVAL_TASK_JOBS}
 
 .PHONY: ${EVAL_TASK_JOBS}
 ${EVAL_TASK_JOBS}:
-	@${MAKE} -s TASK_NR=$(notdir $@) FIND_TESTDATA=1 eval-task
+	@${MAKE} -s TASK_NR=$(notdir $@) eval-task
 
 
 
@@ -124,8 +126,13 @@ eval-slurm eval-slurmjob:
 ## skip evaluation jobs for tasks with the same source and target language
 ##                      (unless the skip-variable is not 1)
 
+
 .PHONY: eval-task
 eval-task:
+	@${MAKE} -s FIND_TESTDATA=1 eval-task-target
+
+.PHONY: eval-task-target
+eval-task-target:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
@@ -187,8 +194,6 @@ ${EVAL_TASK_RESULT}:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
-	@echo ".... DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} ...."
-	@echo ".... MAX_SEQ_LENGTH=${EVAL_MAX_LENGTH} ....."
 	-${MAKE} ${TESTDATA_OUTPUT} \
 		DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} \
 		MAX_SEQ_LENGTH=${EVAL_MAX_LENGTH} \
