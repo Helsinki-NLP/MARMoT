@@ -20,7 +20,14 @@ TASK_LANGPAIRS ?= ${TASKS}
 
 ## select a task as the current one
 
-TASK_NR       ?= $(words $(TASKS))
+ifdef TASK_ID
+  TASK_NR ?= $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})
+else ifdef TASK
+  TASK_NR ?= $(call lookup,${TASK},${TASKS},${TASK_NRS})
+else
+  TASK_NR ?= $(words $(TASKS))
+endif
+
 TASK          := $(word ${TASK_NR},$(TASKS))
 TASK_LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
 
