@@ -145,7 +145,7 @@ add_averages($scores, $selected_tasks, $available_tasks, $metric);
 // read token statistics if we want to plot scores per consumed tokens
 if ($xaxis != "training-steps"){
     foreach ($selected_models as $model){
-        read_train_stats($traintoks,$traintime,$model,'train-progress.txt', $model_dir, $selected_tasks, $available_tasks);
+        read_train_stats($traintoks,$traintime,$model,'train-progress.txt', $selected_tasks, $available_tasks, $model_dir);
     }
     if ($xaxis == "consumed-tokens")
         $scores = score_per_trainbudget($scores,$traintoks);
@@ -215,8 +215,12 @@ function select_tasks(&$scores, &$selected_mtasks, &$selected_tasks, &$selected_
 function get_selected_models(&$selected_tasks){
     $models = array();
     foreach ($selected_tasks as $task){
-        list($model,$task) = explode(':',$task);
-        $models[$model] = 1;
+        $parts = explode(':',$task);
+        if (count($parts) > 1){
+            $models[$parts[0]] = 1;
+        }
+        // list($model,$task) = explode(':',$task);
+        // $models[$model] = 1;
     }
     return array_keys($models);
 }
@@ -291,7 +295,7 @@ function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
     }
 }
 
-function read_train_stats(&$traintoks, &$traintime, $model, $file, $dir='models', &$selected_tasks, &$available_tasks){
+function read_train_stats(&$traintoks, &$traintime, $model, &$selected_tasks, &$available_tasks, $file, $dir='models'){
     $traintoks[$model] = array();
     $traintoks[$model]['average-score'] = array();
     $traintoks[$model]['average-selected'] = array();
@@ -1001,23 +1005,27 @@ plot scores for each selected model
 
 function scores_plotly(&$scores,&$selected,$xlabel,$ylabel='BLEU'){
 
-    echo('<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>');
+    echo('</pre><script src="https://cdn.plot.ly/plotly-latest.min.js"></script>');
     echo('<div id="myPlot" style="width:200%;max-width:960px;max-height:400px"></div><script>');
 
     echo("\nconst data = [\n");
     $nr = 0;
     foreach ($selected as $sel){
-        list($model,$task) = explode(':',$sel);
-        list($name,$dir) = explode('/',$model);
-        if ($model and $task){
-            if (array_key_exists($model,$scores)){
-                if (array_key_exists($task,$scores[$model])){
-                    $nr++;
-                    echo("{ x: [");
-                    echo(implode(', ',array_keys($scores[$model][$task])));
-                    echo("], y: [");
-                    echo(implode(', ',array_values($scores[$model][$task])));
-                    echo("], mode: 'lines+markers', name: '$task/$name' },\n");
+        $parts = explode(':',$sel);
+        if (count($parts) > 1){
+            $model = $parts[0];
+            $task = $parts[1];
+            list($name,$dir) = explode('/',$model);
+            if ($model and $task){
+                if (array_key_exists($model,$scores)){
+                    if (array_key_exists($task,$scores[$model])){
+                        $nr++;
+                        echo("{ x: [");
+                        echo(implode(', ',array_keys($scores[$model][$task])));
+                        echo("], y: [");
+                        echo(implode(', ',array_values($scores[$model][$task])));
+                        echo("], mode: 'lines+markers', name: '$task/$name' },\n");
+                    }
                 }
             }
         }
@@ -1038,7 +1046,6 @@ margin: {
 };\n");
     echo('Plotly.newPlot("myPlot", data, layout);');
     echo('</script>');
-
 }
 
 
@@ -1119,12 +1126,14 @@ function get_param($key, $default){
         return $_SESSION['params'][$key];
     }
 
+/*
     if (! is_array($_SESSION)) $_SESSION=array();
     if (array_key_exists('params', $_SESSION)){
         if (isset($_SESSION['params'][$key])){
             return $_SESSION['params'][$key];
         }
     }
+*/
     
     return $default;
 }
