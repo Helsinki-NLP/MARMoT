@@ -13,8 +13,8 @@ EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
 
 
 
-# EVAL_DEFAULT_TRANSFORM ?=
-VALID_MAX_LENGTH ?= 32768
+EVAL_DEFAULT_TRANSFORM ?=
+EVAL_MAX_LENGTH ?= 32768
 
 
 
@@ -152,7 +152,7 @@ eval-task-slurm eval-task-slurmjob:
 		SLURM_TASKS=${EVAL_SLURM_TASKS} \
 		SLURM_CPUS_PER_TASK=${EVAL_CPUS_PER_TASK} \
 		SLURM_PARALLEL_JOBS=${EVAL_PARALLEL_JOBS} \
-	${EVAL_DIR}/eval_${TASK_ID}.$(patsubst eval-task-%,%,$@)
+	${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}.$(patsubst eval-task-%,%,$@)
 
 
 
@@ -187,11 +187,13 @@ ${EVAL_TASK_RESULT}:
 ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
+	@echo ".... DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} ...."
+	@echo ".... MAX_SEQ_LENGTH=${EVAL_MAX_LENGTH} ....."
 	-${MAKE} ${TESTDATA_OUTPUT} \
 		DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} \
-		MAX_SEQ_LENGTH=${VALID_MAX_LENGTH} \
-		MAX_SRCSEQ_LENGTH=${VALID_MAX_LENGTH} \
-		MAX_TRGSEQ_LENGTH=${VALID_MAX_LENGTH}
+		MAX_SEQ_LENGTH=${EVAL_MAX_LENGTH} \
+		MAX_SRCSEQ_LENGTH=${EVAL_MAX_LENGTH} \
+		MAX_TRGSEQ_LENGTH=${EVAL_MAX_LENGTH}
 	-sacrebleu ${TESTDATA_TRG} --metrics ${MT_METRICS} < ${TESTDATA_OUTPUT} > $@
     else
 	@echo "skip task ${TASK_ID} (same source and target language)"
