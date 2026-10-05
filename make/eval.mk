@@ -1,4 +1,32 @@
 #-*-makefile-*-
+#
+#----------------------------------------------------------------------------
+#   make eval ....... submit evaluation job on default test set for all tasks
+#   make eval-jobs .. submit indvidual evaluation jobs, one per task
+#   make eval-task .. submit an evaluation job for one task
+#                     (select by setting any of the variables TASK_NR, TASK, TASK_ID)
+#
+#----------------------------------------------------------------------------
+# reporting:
+#
+#   make print-eval-scores ............ print evaluation score table
+#   make print-eval-score-comparison .. print the table with a comparison to the OPUS dashboard
+#   make print-eval-stats ............. print the score tables to files (BLEU and chrF)
+#
+# set the evaluation metrics using the variable RPINT_METRIC (bleu, chrf - see MT_METRICS)
+#
+#
+#----------------------------------------------------------------------------
+# for running with other data sets (see list of test sets below):
+# - append the name of the data set as a sub-directory to the evaluation make target
+# - the list of possible evaluation targets is given in EVAL_TARGETS below
+# some examples:
+#
+#   make eval/newstest2012
+#   make eval-jobs/newstest2020
+#   make print-eval-scores/newstest2012
+#
+#----------------------------------------------------------------------------
 
 
 ## eval metrics to be used (sacrebleu)
@@ -7,69 +35,11 @@
 MT_METRICS = bleu chrf
 
 
-## eval results for the current task and testdata will be stored in this file
-
-EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
-
-
-## increase max length to something big to avoid filtering test data
-## remove length filter
-
-EVAL_MAX_LENGTH      ?= 1024
-SINGLE_COMMA         := ,
-DOUBLE_COMMA         := ,,
-EVAL_TRANSFORM       ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TRANSFORM}})
-EVAL_TASK_TRANSFORMS ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TASK_TRANSFORMS}})
-
-
-
-## selected tasks to be evaluated
-## default: select all
-
-ifdef EVAL_TASKS
-  EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
-else
-  EVAL_TASKS     := ${TASK_IDS}
-  EVAL_TASK_NRS  := ${TASK_NRS}
-endif
-
-
-## skip evaluation of denoising tasks
-## and monolingual tasks (typically denosiing tasks)
-## set to 0 to enable them
-
-SKIP_SAME_LANGUAGE_EVAL_TASKS ?= 1
-SKIP_DENOISING_EVAL_TASKS     ?= 1
-
-#--------------------------------------------------------------
-# evaluation
-#--------------------------------------------------------------
-
-
-## one job to evaluate all tasks
-
-.PHONY: eval
-eval: eval-slurmjob
-
-.PHONY: print-eval-stats
-print-eval-stats: ${MODEL_DIR}/stats/eval-scores-bleu.txt ${MODEL_DIR}/stats/eval-scores-chrf.txt
-
-
-## submit SLURM jobs to evaluate all tasks (one job per task)
-
-EVAL_TASK_JOBS = $(patsubst %,eval-task/%,${EVAL_TASK_NRS})
-
-.PHONY: eval-jobs
-eval-jobs: ${EVAL_TASK_JOBS}
-
-.PHONY: ${EVAL_TASK_JOBS}
-${EVAL_TASK_JOBS}:
-	@${MAKE} -s TASK_NR=$(notdir $@) eval-task
-
-
+EVAL_TARGETS := eval eval-task eval-tasks eval-jobs \
+		print-eval-scores print-eval-score-comparison print-eval-stats
 
 ##----------------------------------------------------------------------------------
-## run evaluation with other testsets
+## define evaluation test sets
 ## - define testsets (need to be found in those data locations)
 ## - assuption: test set name is the name of the last sub-directory
 ##----------------------------------------------------------------------------------
@@ -106,7 +76,67 @@ WMT_TESTSETS := testsets/wmt/florestest2021 \
 
 TESTSETS      := ${WMT_TESTSETS}
 TESTSET_NAMES := $(notdir ${TESTSETS})
-EVAL_TARGETS  := eval eval-task eval-tasks eval-jobs print-eval-scores print-eval-score-comparison print-eval-stats
+
+
+## multi-parallal data sets are treated separately
+## because the file naming conventions are different
+
+MULTI_TESTSETS      := testsets/wmt24pp
+MULTI_TESTSET_NAMES := $(notdir ${MULTI_TESTSETS})
+
+
+
+
+
+## eval results for the current task and testdata will be stored in this file
+
+EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
+
+
+## selected tasks to be evaluated
+## default: select all
+
+ifdef EVAL_TASKS
+  EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
+else
+  EVAL_TASKS     := ${TASK_IDS}
+  EVAL_TASK_NRS  := ${TASK_NRS}
+endif
+
+
+## skip evaluation of denoising tasks
+## and monolingual tasks (typically denosiing tasks)
+## set to 0 to enable them
+
+SKIP_SAME_LANGUAGE_EVAL_TASKS ?= 1
+SKIP_DENOISING_EVAL_TASKS     ?= 1
+
+#--------------------------------------------------------------
+# evaluation
+#--------------------------------------------------------------
+
+
+## submit one SLURM job for evaluating all tasks of the model
+## (see ${EVAL_DIR}/eval_tasks target)
+
+.PHONY: eval eval-tasks
+eval eval-tasks: eval-slurmjob
+
+
+## submit SLURM jobs to evaluate all tasks (one job per task)
+
+EVAL_TASK_JOBS = $(patsubst %,eval-task/%,${EVAL_TASK_NRS})
+
+.PHONY: eval-jobs
+eval-jobs: ${EVAL_TASK_JOBS}
+
+.PHONY: ${EVAL_TASK_JOBS}
+${EVAL_TASK_JOBS}:
+	@${MAKE} -s TASK_NR=$(notdir $@) eval-task
+
+
+
+
 
 
 ## create all evaluation targets with the testsetname as an extra string, e.g
@@ -129,17 +159,16 @@ ${EVAL_TESTSET_TARGETS}:
 ## --> need to change the TESTDATA_BASENAME pattern!
 ##----------------------------------------------------------------------------------
 
-MULTI_TESTSETS      := testsets/wmt24pp/wmt24pp
-MULTI_TESTSET_NAMES := $(notdir ${MULTI_TESTSETS})
-
 EVAL_MULTI_TESTSET_TARGETS := $(foreach t,${EVAL_TARGETS},$(patsubst %,$t/%,${MULTI_TESTSET_NAMES}))
 
 .PHONY: ${EVAL_MULTI_TESTSET_TARGETS}
 ${EVAL_MULTI_TESTSET_TARGETS}:
-	${MAKE} 	TESTDATA=$(call lookup,$(notdir $@),${MULTI_TESTSET_NAMES},${MULTI_TESTSETS}) \
+	@${MAKE} -s 	TESTDATA=$(call lookup,$(notdir $@),${MULTI_TESTSET_NAMES},${MULTI_TESTSETS}) \
 			TESTDATA_NAME=$(notdir $@) \
 			TESTDATA_BASENAME=* \
 	$(patsubst %/,%,$(dir $@))
+
+
 
 
 
@@ -158,12 +187,6 @@ EVAL_SLURM_TASKS    ?= 1
 EVAL_PARALLEL_JOBS  ?= 1
 
 
-## submit one SLURM job for evaluating all tasks of the model
-## this runs a sequential loop over all tasks
-## (see ${EVAL_DIR}/eval_tasks target)
-
-.PHONY: eval-tasks
-eval-tasks: eval-slurmjob
 
 
 ## PHONY eval targets for all tasks
@@ -237,6 +260,16 @@ eval-task-slurm eval-task-slurmjob:
 ##-------------------------------------------------------------------------------
 ## translate and evaluate
 ##-------------------------------------------------------------------------------
+
+## increase max length to something big to avoid filtering test data
+## remove length filter
+
+EVAL_MAX_LENGTH      ?= 1024
+SINGLE_COMMA         := ,
+DOUBLE_COMMA         := ,,
+EVAL_TRANSFORM       ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TRANSFORM}})
+EVAL_TASK_TRANSFORMS ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TASK_TRANSFORMS}})
+
 
 
 .PHONY: ${EVAL_TASKS_TARGET}
@@ -345,6 +378,11 @@ print-eval-score-comparison:
 	      echo "$${taskid}	$${tasks[$$i]}	$${score}$${best}$${diff}"; \
 	    fi \
 	   done )
+
+
+
+.PHONY: print-eval-stats
+print-eval-stats: ${MODEL_DIR}/stats/eval-scores-bleu.txt ${MODEL_DIR}/stats/eval-scores-chrf.txt
 
 
 
