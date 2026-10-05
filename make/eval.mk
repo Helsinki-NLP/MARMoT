@@ -68,15 +68,78 @@ ${EVAL_TASK_JOBS}:
 
 
 
-## run evaluation with wmt24pp data
+##----------------------------------------------------------------------------------
+## run evaluation with other testsets
+## - define testsets (need to be found in those data locations)
+## - assuption: test set name is the name of the last sub-directory
+##----------------------------------------------------------------------------------
 
-# .PHONY: eval-wmt24pp eval-jobs-wmt24pp
-# eval-wmt24pp eval-jobs-wmt24pp:
-%-wmt24pp:
-	@${MAKE} -s TESTDATA=testsets/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* ${@:-wmt24pp=}
+WMT_TESTSETS := testsets/wmt/florestest2021 \
+		testsets/wmt/newsdev2014 \
+		testsets/wmt/newsdev2015 \
+		testsets/wmt/newsdev2016 \
+		testsets/wmt/newsdev2017 \
+		testsets/wmt/newsdev2018 \
+		testsets/wmt/newsdev2019 \
+		testsets/wmt/newsdev2020 \
+		testsets/wmt/newsdev2021 \
+		testsets/wmt/newsdiscussdev2015 \
+		testsets/wmt/newsdiscusstest2015 \
+		testsets/wmt/newstest2008 \
+		testsets/wmt/newstest2009 \
+		testsets/wmt/newstest2010 \
+		testsets/wmt/newstest2011 \
+		testsets/wmt/newstest2012 \
+		testsets/wmt/newstest2013 \
+		testsets/wmt/newstest2014 \
+		testsets/wmt/newstest2015 \
+		testsets/wmt/newstest2016 \
+		testsets/wmt/newstest2017 \
+		testsets/wmt/newstest2018 \
+		testsets/wmt/newstest2019 \
+		testsets/wmt/newstest2020 \
+		testsets/wmt/newstest2021 \
+		testsets/wmt/newstestB2017 \
+		testsets/wmt/wmttest2022 \
+		testsets/wmt/wmttest2023 \
+		testsets/wmt/wmttest2024
 
-%-newstest2014:
-	@${MAKE} -s TESTDATA=testsets/wmt/newstest2014 TESTDATA_NAME=newstest2014 ${@:-newstest2014=}
+TESTSETS      := ${WMT_TESTSETS}
+TESTSET_NAMES := $(notdir ${TESTSETS})
+EVAL_TARGETS  := eval eval-task eval-tasks eval-jobs print-eval-scores print-eval-score-comparison print-eval-stats
+
+
+## create all evaluation targets with the testsetname as an extra string, e.g
+##     eval/newstest2013
+##     print-eval-scores/newstest2013
+##     ....
+
+EVAL_TESTSET_TARGETS := $(foreach t,${EVAL_TARGETS},$(patsubst %,$t/%,${TESTSET_NAMES}))
+
+.PHONY: ${EVAL_TESTSET_TARGETS}
+${EVAL_TESTSET_TARGETS}:
+	@${MAKE} -s 	TESTDATA=$(call lookup,$(notdir $@),${TESTSET_NAMES},${TESTSETS}) \
+			TESTDATA_NAME=$(notdir $@) \
+	$(patsubst %/,%,$(dir $@))
+
+
+
+##----------------------------------------------------------------------------------
+## multi-test sets are different: there are no language pairs in the file name!
+## --> need to change the TESTDATA_BASENAME pattern!
+##----------------------------------------------------------------------------------
+
+MULTI_TESTSETS      := testsets/wmt24pp/wmt24pp
+MULTI_TESTSET_NAMES := $(notdir ${MULTI_TESTSETS})
+
+EVAL_MULTI_TESTSET_TARGETS := $(foreach t,${EVAL_TARGETS},$(patsubst %,$t/%,${MULTI_TESTSET_NAMES}))
+
+.PHONY: ${EVAL_MULTI_TESTSET_TARGETS}
+${EVAL_MULTI_TESTSET_TARGETS}:
+	${MAKE} 	TESTDATA=$(call lookup,$(notdir $@),${MULTI_TESTSET_NAMES},${MULTI_TESTSETS}) \
+			TESTDATA_NAME=$(notdir $@) \
+			TESTDATA_BASENAME=* \
+	$(patsubst %/,%,$(dir $@))
 
 
 
