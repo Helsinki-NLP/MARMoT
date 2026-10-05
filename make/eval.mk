@@ -13,10 +13,13 @@ EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
 
 
 ## increase max length to something big to avoid filtering test data
-## setting default-transform to nothing does not seem to work
+## remove length filter
 
-EVAL_DEFAULT_TRANSFORM ?=
-EVAL_MAX_LENGTH ?= 65536
+EVAL_MAX_LENGTH      ?= 1024
+SINGLE_COMMA         := ,
+DOUBLE_COMMA         := ,,
+EVAL_TRANSFORM       ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TRANSFORM}})
+EVAL_TASK_TRANSFORMS ?= $(subst ${DOUBLE_COMMA},${SINGLE_COMMA},${subst filtertoolong,,${TASK_TRANSFORMS}})
 
 
 
@@ -67,9 +70,14 @@ ${EVAL_TASK_JOBS}:
 
 ## run evaluation with wmt24pp data
 
-.PHONY: eval-wmt24pp eval-jobs-wmt24pp
-eval-wmt24pp eval-jobs-wmt24pp:
-	@${MAKE} -s TESTDATA=wmt24pp/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* ${@:-wmt24pp=}
+# .PHONY: eval-wmt24pp eval-jobs-wmt24pp
+# eval-wmt24pp eval-jobs-wmt24pp:
+%-wmt24pp:
+	@${MAKE} -s TESTDATA=testsets/wmt24pp TESTDATA_NAME=wmt24pp TESTDATA_BASENAME=* ${@:-wmt24pp=}
+
+%-newstest2014:
+	@${MAKE} -s TESTDATA=testsets/wmt/newstest2014 TESTDATA_NAME=newstest2014 ${@:-newstest2014=}
+
 
 
 
@@ -195,7 +203,8 @@ ifneq ($(wildcard ${TESTDATA_SRC}),)
   ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_EVAL_TASKS},denoising-1)
     ifneq ($(SRCLANG)-${SKIP_SAME_LANGUAGE_EVAL_TASKS},$(TRGLANG)-1)
 	-${MAKE} ${TESTDATA_OUTPUT} \
-		DEFAULT_TRANSFORM=${EVAL_DEFAULT_TRANSFORM} \
+		TRANSFORM=${EVAL_TRANSFORM} \
+		TASK_TRANSFORMS="${EVAL_TASK_TRANSFORMS}" \
 		MAX_SEQ_LENGTH=${EVAL_MAX_LENGTH} \
 		MAX_SRCSEQ_LENGTH=${EVAL_MAX_LENGTH} \
 		MAX_TRGSEQ_LENGTH=${EVAL_MAX_LENGTH}

@@ -104,6 +104,7 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'batch_size: ${DECODING_BATCH_SIZE}'                    >> $@
 	@echo 'batch_type: ${DECODING_BATCH_TYPE}'                    >> $@
 	@echo 'max_length: ${MAX_SEQ_LENGTH}'                         >> $@
+	@echo 'src_seq_length_max: ${MAX_SRCSEQ_LENGTH}'              >> $@
 	@echo ''                                                      >> $@
 	@echo '# GPU settings'                                        >> $@
 	@echo 'gpu: 0'                                                >> $@
