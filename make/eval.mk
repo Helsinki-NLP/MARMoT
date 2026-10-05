@@ -81,7 +81,8 @@ TESTSET_NAMES := $(notdir ${TESTSETS})
 ## multi-parallal data sets are treated separately
 ## because the file naming conventions are different
 
-MULTI_TESTSETS      := testsets/wmt24pp
+MULTI_TESTSETS      := 	testsets/wmt24pp \
+			testsets/ntrex
 MULTI_TESTSET_NAMES := $(notdir ${MULTI_TESTSETS})
 
 
