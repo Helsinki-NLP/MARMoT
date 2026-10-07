@@ -30,6 +30,16 @@ if (isset($_REQUEST['barchartdata']) && $_REQUEST['barchartdata'] !== ''){
     exit;
 }
 
+/*
+    The button in the filter block asks for the two selection lists alone,
+    after the filters have changed: such a request is answered with json
+    further down, where the lists are worked out. The page would print its
+    head before that point, so everything printed until then is held back
+    and dropped again when the answer goes out.
+*/
+$update_lists = isset($_REQUEST['updatelists']);
+if ($update_lists) ob_start();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
@@ -175,6 +185,46 @@ $selected_models = get_selected_models($selected_tasks);
 
 add_averages($scores, $selected_tasks, $available_tasks);
 
+// ----------------------------------------------- the hints and the list button
+
+/*
+    The hints in the headers of the two selection blocks describe the lists
+    below, so they are worked out here together with the lists. The button in
+    the filter block refreshes those lists after a filter has changed and
+    wants nothing else: such a request is answered with the two lists as json
+    and the script stops, so the checkpoint, the x axis and the plots are
+    never worked out for it.
+*/
+
+// number of filter groups that currently narrow the model list
+$active_filters = count(array_filter(array_merge($model_components, $types, $langs, $langpairs)));
+$filter_hint = count($filtered_models).' model'.(count($filtered_models) == 1 ? '' : 's')
+              .($active_filters ? ', '.$active_filters.' filter'.($active_filters == 1 ? '' : 's') : '');
+$selmodels_hint = count($models).' of '.count($filtered_models)
+                 .' model'.(count($filtered_models) == 1 ? '' : 's');
+
+if ($update_lists){
+    ob_end_clean(); // the page head and body above, and any error printed with them
+
+    // the two lists are captured as html, exactly as the page prints them
+    ob_start();
+    model_selection_form($filtered_models, $selmodels, $selmodels_set);
+    $modellist = ob_get_clean();
+
+    ob_start();
+    task_selection_form($available_tasks, $tasks);
+    $tasklist = ob_get_clean();
+
+    header('Content-Type: application/json');
+    echo json_encode(array(
+        'modellist'  => $modellist,
+        'tasklist'   => $tasklist,
+        'filterhint' => '('.$filter_hint.')',
+        'selhint'    => '('.$selmodels_hint.')',
+    ), JSON_UNESCAPED_SLASHES), "\n";
+    exit;
+}
+
 // a checkpoint of the bar chart is a training step, so keep these scores before
 // the x axis below re-keys them to seconds or to consumed tokens
 $barchart_scores = $scores;
@@ -198,14 +248,9 @@ $barchartckpt = selected_checkpoint($barchart_scores, $barchart, $barchartidx, $
 
 // ------------------------------------------ filtering and model selection form
 
-// number of filter groups that currently narrow the model list
-$active_filters = count(array_filter(array_merge($model_components, $types, $langs, $langpairs)));
-$filter_hint = count($filtered_models).' model'.(count($filtered_models) == 1 ? '' : 's')
-              .($active_filters ? ', '.$active_filters.' filter'.($active_filters == 1 ? '' : 's') : '');
-$selmodels_hint = count($models).' of '.count($filtered_models)
-                 .' model'.(count($filtered_models) == 1 ? '' : 's');
+// the hints of the two block headers are worked out with the lists above
 
-echo('<form method="post">');
+echo('<form method="post" id="pageform">');
 echo('<input type="hidden" id="showmodels" name="showmodels" value="'.$showmodels.'"/>');
 echo('<input type="hidden" id="showselmodels" name="showselmodels" value="'.$showselmodels.'"/>');
 echo('<input type="hidden" id="showtasks" name="showtasks" value="'.$showtasks.'"/>');
@@ -218,7 +263,7 @@ echo('</small><hr>');
 // page, so all three are collapsible and each of them remembers its state
 // across a reload
 echo('<details class="modelselect" id="modelselect"'.($showmodels ? ' open' : '').'>');
-echo('<summary>filtering models and tasks <span class="hint">('.$filter_hint.')</span></summary>');
+echo('<summary>filtering models and tasks <span class="hint" id="filterhint">('.$filter_hint.')</span></summary>');
 echo('<table class="modelselect">');
 model_components_form($available_models, $model_components);
 if ($SHOW_SOURCELANG_SELECTION){
@@ -232,18 +277,27 @@ if ($SHOW_LANGPAIR_SELECTION){
 }
 task_form($available_tasktypes, $types);
 echo('</table>');
+// refreshing the two lists below after a filter has changed, without
+// touching the plots: the form goes to the script as it stands and only
+// the lists come back
+echo('<p><button type="button" id="updatelists">update model and task lists</button> ');
+echo('<span class="hint" id="updatestatus"></span></p>');
 echo('</details><hr/>');
 
 // which of the filtered models go into the plots
 echo('<details class="modelselect" id="modelsel"'.($showselmodels ? ' open' : '').'>');
-echo('<summary>model selection <span class="hint">('.$selmodels_hint.')</span></summary>');
+echo('<summary>model selection <span class="hint" id="selhint">('.$selmodels_hint.')</span></summary>');
+echo('<div id="modellist">');
 model_selection_form($filtered_models, $selmodels, $selmodels_set);
+echo('</div>');
 echo('</details><hr/>');
 
 // which of the filtered tasks go into the plots
 echo('<details class="modelselect" id="taskselect"'.($showtasks ? ' open' : '').'>');
 echo('<summary>task selection</summary>');
+echo('<div id="tasklist">');
 task_selection_form($available_tasks, $tasks);
+echo('</div>');
 echo('</details><hr/>');
 
 // the plot options follow the selection made in the blocks above, so they stay
