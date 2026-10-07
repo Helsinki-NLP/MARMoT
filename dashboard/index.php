@@ -1,1175 +1,266 @@
+<?php
+
+/*
+    MAMMOTH training dashboard - entry point of the page.
+
+    The implementation is split by language: this file holds the flow of the
+    page (parameters, reading the data, html assembly), functions.php all the
+    functions, style.css the styles and script.js the behaviour in the
+    browser. What php has to hand to the browser for one request - the scores
+    and the tasks of the bar chart - stays inline in the html, because it is
+    data and differs with every request.
+
+    Choosing another model in the bar chart drop-down asks this script for
+    "barchartdata", and wants the scores of that one model as json and nothing
+    else. The answer has to go out before a single byte of the page is written,
+    otherwise the status line and content type arrive too late; that is why the
+    request is dealt with here, above the html.
+*/
+
+require __DIR__.'/functions.php';
+
+// where the scores live, and which score files may be read from it
+define('MARMOT_GIT_RAW', 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main');
+define('SCORE_FILES', array('valid-scores-bleu.txt', 'valid-scores-chrf.txt', 'valid-scores-ppl.txt'));
+// drop-down value that charts every selected model of the page at once
+define('BARCHART_ALL', '(all)');
+
+if (isset($_REQUEST['barchartdata']) && $_REQUEST['barchartdata'] !== ''){
+    barchart_json_response();
+    exit;
+}
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <html>
 <head>
   <title>MAMMOTH Training Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-       td.dense {padding: 0px;}
-       table.modelselect {width: 100%;}
-  </style>
+  <link rel="stylesheet" href="style.css?v=<?php echo filemtime(__DIR__.'/style.css'); ?>"/>
+  <script src="script.js?v=<?php echo filemtime(__DIR__.'/script.js'); ?>"></script>
 </head>
 <body>
-<script>
-function resetSelected() {
-  var inputs=document.getElementsByTagName("input");
-  for (var i in inputs)
-      if (inputs[i].type=="checkbox") inputs[i].checked=false;
-}
-</script>
 <?php
 
-if (isset($_POST['submit'])){
-    if ($_POST['submit']=='reset'){
-        // session_destroy();
-        $_POST = array();
-        $_REQUEST = array();
-        $_SESSION = array();
-    }
-}
-// session_start();
+/*
+    MAMMOTH training dashboard
+    -------------------------
+    Reads validation scores and training statistics from the MARMoT repository
+    on GitHub, lets you select models/tasks, and plots the scores with plotly.
+*/
 
+// number of "-"-separated components a model name may consist of
+define('MODEL_COMPONENTS', 5);
+
+if (isset($_POST['submit']) && $_POST['submit'] == 'reset'){
+    $_POST = $_REQUEST = $_SESSION = array();
+}
+
+// which language filters to show
 $SHOW_SOURCELANG_SELECTION = false;
 $SHOW_TARGETLANG_SELECTION = false;
-$SHOW_LANGPAIR_SELECTION = true;
+$SHOW_LANGPAIR_SELECTION   = true;
 
+// ------------------------------------------------------------- parameters
 
-
-$expdir            = get_param('expdir', 'hpo');
 $MarmotGitRaw      = 'https://raw.githubusercontent.com/Helsinki-NLP/MARMoT/refs/heads/main';
+$expdir            = get_param('expdir', 'hpo');
 $model_dir         = $MarmotGitRaw.'/models/'.$expdir;
-$available_expdirs = file($MarmotGitRaw.'/models/experiments.txt');
-$available_models  = file($MarmotGitRaw.'/models/'.$expdir.'/models.txt');
 
+// an unknown experiment directory is a user error, not a server error: the
+// warning of the failing request is suppressed and reported in the page
+$available_expdirs = @file($MarmotGitRaw.'/models/experiments.txt');
+if ($available_expdirs === false) $available_expdirs = array();
 
-$models    = get_param('models', array());
-$reqfeats  = get_param('reqfeats', array());  # not in use anymore
-$selfeats  = get_param('selfeats', array());  # not in use anymore
-$remfeats  = get_param('remfeats', array());  # not in use anymore
+$available_models = @file($model_dir.'/models.txt');
+if ($available_models === false){
+    $available_models = array();
+    echo('<p><b>Error:</b> there is no experiment directory named <tt>'
+        .htmlspecialchars($expdir).'</tt>. Known directories: <tt>'
+        .htmlspecialchars(implode(', ', array_map('trim', $available_expdirs)))
+        .'</tt>. Choose one of them in the form below.</p>');
+}
+
+$file  = get_param('file', 'valid-scores-bleu.txt');
+$xaxis = get_param('xaxis', 'training-steps');
+$barchart = get_param('barchart', ''); // model to show as bars, or BARCHART_ALL
+$barchartidx = get_param('barchartidx', ''); // slider position, 0 = last
+$barchartckpt = get_param('barchartckpt', 'last'); // or a checkpoint, for old links
+$diff = get_param('diff', '') ? true : false; // bars as diff, not as score
+$showmodels = get_param('showmodels', '1') ? '1' : '0'; // is the filter block expanded?
+$showselmodels = get_param('showselmodels', '1') ? '1' : '0'; // is model selection expanded?
+$showtasks = get_param('showtasks', '1') ? '1' : '0'; // is task selection expanded?
+
+$models    = get_array_param('models');
+$selmodels = get_array_param('selmodels'); // the checked models of the model selection
+
+// the marker of the model selection block: it is on every page, so it is only
+// missing when the block has never been submitted (or was reset away)
+$selmodels_set = isset($_REQUEST['selmodels_set']);
 
 $model_components = array();
-$model_components[0]  = get_param('mcomp0', array());
-$model_components[1]  = get_param('mcomp1', array());
-$model_components[2]  = get_param('mcomp2', array());
-$model_components[3]  = get_param('mcomp3', array());
-$model_components[4]  = get_param('mcomp4', array());
+for ($i = 0; $i < MODEL_COMPONENTS; $i++){
+    $model_components[$i] = get_array_param('mcomp'.$i);
+}
 
-$file      = get_param('file', 'valid-scores-bleu.txt');
-$tasks     = get_param('tasks', array());
-$mtasks    = get_param('mtasks', array());
-$types     = get_param('tasktypes', array());
-$langs     = get_param('langs', array());
-$srclangs  = get_param('srclangs', array());
-$trglangs  = get_param('trglangs', array());
-$langpairs = get_param('langpairs', array());
-$xaxis     = get_param('xaxis', 'training-steps');
+$tasks     = get_array_param('tasks');
+$mtasks    = get_array_param('mtasks');
+$types     = get_array_param('tasktypes');
+$langs     = get_array_param('langs');
+$srclangs  = get_array_param('srclangs');
+$trglangs  = get_array_param('trglangs');
+$langpairs = get_array_param('langpairs');
 
+// $file ends up in the path of a file to read, so it is held to the three
+// known score files rather than whatever the query string asks for
+if (! in_array($file, SCORE_FILES)) $file = SCORE_FILES[0];
+$metric = metric_label($file);
 
-// var_dump($tasks);
+/*
+    The bar chart of one model, as json on its own. This block is never reached
+    for such a request: those are answered by barchart_json_response() at the
+    top of the file, before any page output.
+*/
 
-if ($file == 'valid-scores-bleu.txt') $metric = 'BLEU';
-elseif ($file == 'valid-scores-chrf.txt') $metric = 'ChrF';
-else $metric = 'perplexity';
+// ---------------------------------------------- read scores for the models
 
-
-echo('<form method="post">');
-echo('<small>');
-experiments_form($available_expdirs,$expdir);
-echo('<hr><table class="modelselect"><tr><th>filter models and tasks</th><th>selected models</th></tr><tr><td><table>');
-
-// select_models($available_models, $models);
-// select_model_features($available_models, $models, $reqfeats, $selfeats, $remfeats);
-select_model_components($available_models, $models, $model_components);
-
-$scores = array();
+$scores    = array();
 $traintoks = array();
 $traintime = array();
-$modelgpus = array();
 
-$nr_of_models = count($models);
-$available_tasks = array('average-filtered' => $nr_of_models, 'average-selected' => $nr_of_models);
+select_models($available_models, $models, $model_components);
+
+/*
+    The checkboxes of the model selection block narrow the filtered list down
+    further. As long as that block has never been submitted, every filtered
+    model counts as selected. A selection whose models are all gone from the
+    filtered list was left behind by a changed filter, so it starts over with
+    every model the filters let through.
+*/
+
+$filtered_models = $models;
+if ($selmodels_set){
+    if (count($selmodels) && ! array_intersect($selmodels, $filtered_models)){
+        $selmodels = $filtered_models;
+    }
+    $models = array_values(array_intersect($filtered_models, $selmodels));
+}
+
+$nr_of_models        = count($models);
+$available_tasks     = array('average-filtered' => $nr_of_models, 'average-selected' => $nr_of_models);
 $available_tasktypes = array();
-$available_srclangs = array();
-$available_trglangs = array();
-$available_langpairs = array();
+$available_srclangs  = array();
+$available_trglangs  = array();
 
 foreach ($models as $m){
     $model = rtrim($m);
-    $modelgpus[$model] = read_valid_scores($scores,
-                                           $available_tasks,
-                                           $available_srclangs,
-                                           $available_trglangs,
-                                           $available_langpairs,
-                                           $available_tasktypes,
-                                           $model, $file, $model_dir);
+    read_valid_scores($scores, $available_tasks, $available_srclangs, $available_trglangs,
+                      $available_tasktypes, $model, $file, $model_dir);
 }
 
+// ------------------------------------------ filter, average and checkpoint
 
-$mtasks = filter_tasks($available_tasks,
-                       $available_srclangs,
-                       $available_trglangs,
-                       $available_langpairs,
-                       $available_tasktypes,
-                       $models,
-                       $tasks,
-                       $mtasks,
-                       $langs,$srclangs,$trglangs,
-                       $langpairs,
-                       $types);
+/*
+    The tasks the filters leave, the model/task combinations that go into the
+    plots and the wanted averages are needed by the task selection block and by
+    the plots, so all of this is worked out before any of the html.
+*/
 
-echo('<tr><td><input type="submit" name="submit" value="select" />');
-echo('<button type="button" onclick="resetSelected();">reset</button></td><td></td></tr>');
+$mtasks = filter_tasks($available_tasks, $models, $tasks, $mtasks, $types,
+                       $langs, $srclangs, $trglangs);
 
-echo("</table><td valign='top'>");
-$count = 0;
-foreach ($models as $model){
-    $count++;
-    list($modelname,$modeldir) = explode('/',$model);
-    echo($modelname.'<br/>');
-    if (($count % 15) == 0) echo "</td><td valign='top'>";
-}
-echo('</td></tr></table></small><hr/>');
-
-
-
-echo("<h1>MAMMOTH Training Dashboard</h1>");
-
-
-
-$selected_tasks = select_tasks($scores, $mtasks, $tasks, $types, $langpairs);
+$selected_tasks  = select_tasks($scores, $mtasks, $tasks, $langpairs);
 $selected_models = get_selected_models($selected_tasks);
 
-add_averages($scores, $selected_tasks, $available_tasks, $metric);
+add_averages($scores, $selected_tasks, $available_tasks);
+
+// a checkpoint of the bar chart is a training step, so keep these scores before
+// the x axis below re-keys them to seconds or to consumed tokens
+$barchart_scores = $scores;
 
 // read token statistics if we want to plot scores per consumed tokens
-if ($xaxis != "training-steps"){
+if ($xaxis != 'training-steps'){
     foreach ($selected_models as $model){
-        read_train_stats($traintoks,$traintime,$model,'train-progress.txt', $selected_tasks, $available_tasks, $model_dir);
+        read_train_stats($traintoks, $traintime, $model, $selected_tasks, $available_tasks,
+                         'train-progress.txt', $model_dir);
     }
-    if ($xaxis == "consumed-tokens")
-        $scores = score_per_trainbudget($scores,$traintoks);
-    elseif ($xaxis == "training-time")
-        $scores = score_per_trainbudget($scores,$traintime);
+    if ($xaxis == 'consumed-tokens'){
+        $scores = score_per_trainbudget($scores, $traintoks);
+    }
+    elseif ($xaxis == 'training-time'){
+        $scores = score_per_trainbudget($scores, $traintime);
+    }
 }
 
-if (count($selected_tasks))
-    scores_plotly($scores, $selected_tasks, $xaxis, $metric);
+// the checkpoint list depends on the model, so drop it if it no longer fits
+$barchartckpt = selected_checkpoint($barchart_scores, $barchart, $barchartidx, $barchartckpt);
 
-plot_graph_form($file, $xaxis);
+// ------------------------------------------ filtering and model selection form
+
+// number of filter groups that currently narrow the model list
+$active_filters = count(array_filter(array_merge($model_components, $types, $langs, $langpairs)));
+$filter_hint = count($filtered_models).' model'.(count($filtered_models) == 1 ? '' : 's')
+              .($active_filters ? ', '.$active_filters.' filter'.($active_filters == 1 ? '' : 's') : '');
+$selmodels_hint = count($models).' of '.count($filtered_models)
+                 .' model'.(count($filtered_models) == 1 ? '' : 's');
+
+echo('<form method="post">');
+echo('<input type="hidden" id="showmodels" name="showmodels" value="'.$showmodels.'"/>');
+echo('<input type="hidden" id="showselmodels" name="showselmodels" value="'.$showselmodels.'"/>');
+echo('<input type="hidden" id="showtasks" name="showtasks" value="'.$showtasks.'"/>');
+echo('<input type="hidden" name="selmodels_set" value="1"/>');
+echo('<small>experiment directory: ');
+experiments_form($available_expdirs, $expdir);
+echo('</small><hr>');
+
+// the filters, the model list and the task list are the tallest parts of the
+// page, so all three are collapsible and each of them remembers its state
+// across a reload
+echo('<details class="modelselect" id="modelselect"'.($showmodels ? ' open' : '').'>');
+echo('<summary>filtering models and tasks <span class="hint">('.$filter_hint.')</span></summary>');
+echo('<table class="modelselect">');
+model_components_form($available_models, $model_components);
+if ($SHOW_SOURCELANG_SELECTION){
+    language_checkbox_form('source languages', 'srclangs[]', $available_srclangs, $srclangs);
+}
+if ($SHOW_TARGETLANG_SELECTION){
+    language_checkbox_form('target languages', 'trglangs[]', $available_trglangs, $trglangs);
+}
+if ($SHOW_LANGPAIR_SELECTION){
+    language_form($available_srclangs, $available_trglangs, $langs);
+}
+task_form($available_tasktypes, $types);
+echo('</table>');
+echo('</details><hr/>');
+
+// which of the filtered models go into the plots
+echo('<details class="modelselect" id="modelsel"'.($showselmodels ? ' open' : '').'>');
+echo('<summary>model selection <span class="hint">('.$selmodels_hint.')</span></summary>');
+model_selection_form($filtered_models, $selmodels, $selmodels_set);
+echo('</details><hr/>');
+
+// which of the filtered tasks go into the plots
+echo('<details class="modelselect" id="taskselect"'.($showtasks ? ' open' : '').'>');
+echo('<summary>task selection</summary>');
 task_selection_form($available_tasks, $tasks);
+echo('</details><hr/>');
 
-// OLD FORM with all tasks for all selected models
-//
-// model_tasks($available_models, $available_tasks, $available_langpairs, $scores, $models, $mtasks, $types, $langpairs, $file);
+// the plot options follow the selection made in the blocks above, so they stay
+// pinned to the top of the window while scrolling down through the plots; the
+// page title is pinned with them, so it is always visible
+echo('<div class="plotcontrols">');
+echo('<h1>MAMMOTH Training Dashboard</h1>');
+plot_graph_form($file, $xaxis);
+barchart_form($barchart_scores, $barchart, $diff);
+echo('</div>');
+
+if (count($selected_tasks)){
+    scores_plotly($scores, $selected_tasks, $xaxis, $metric);
+}
+
+// always called: whether the heading, the slider and the chart come out
+// depends on whether there is anything to chart
+scores_barchart($barchart_scores, $barchart, $metric, $barchartckpt, $file, $available_tasks, $diff);
 
 echo('</form></body></html>');
-    
-
-
-function get_models($dir='models'){
-    $models = array();
-    if ($handle = opendir($dir)) {
-        while (false !== ($entry = readdir($handle))) {
-            if ($entry != "." && $entry != "..") {
-                if (is_dir("models/$entry")){
-                    array_push($models,$entry);
-                }
-            }
-        }
-        closedir($handle);
-    }
-    rsort($models);
-    return $models;
-}
-
-
-function select_tasks(&$scores, &$selected_mtasks, &$selected_tasks, &$selected_types, &$selected_langpairs){
-    $selected = $selected_mtasks;
-
-    foreach ($scores as $model => $tasks){
-        if (in_array('average-filtered', $selected_tasks)){
-            array_push($selected,$model.':average-filtered');
-        }
-        if (in_array('average-selected', $selected_tasks)){
-            array_push($selected,$model.':average-selected');
-        }
-        foreach ($tasks as $task => $score){
-            if (! in_array($model.':'.$task, $selected_mtasks)){
-                if (in_array($task, $selected_tasks)){
-                    array_push($selected,$model.':'.$task);
-                }
-                else{
-                    list($type,$srclang,$trglang) = split_task_name($task);
-                    $langpair = implode('-',array($srclang,$trglang));
-                    if (in_array($langpair, $selected_langpairs)){
-                        array_push($selected,$model.':'.$task);
-                    }
-                }
-            }
-        }
-    }
-    return $selected;
-}
-
-function get_selected_models(&$selected_tasks){
-    $models = array();
-    foreach ($selected_tasks as $task){
-        $parts = explode(':',$task);
-        if (count($parts) > 1){
-            $models[$parts[0]] = 1;
-        }
-        // list($model,$task) = explode(':',$task);
-        // $models[$model] = 1;
-    }
-    return array_keys($models);
-}
-
-
-
-
-/*
-add average scores if necessary:
-- average over all available tasks (after filtering with languages and types)
-- average over all selected tasks
-*/
-
-function add_averages(&$scores,&$selected_tasks,&$available_tasks,$metric){
-    foreach ($scores as $model => $tasks){
-        $modeltask = $model.':average-filtered';
-        if (in_array('average-filtered',$selected_tasks) or
-            in_array($model.':average-filtered',$selected_tasks) or
-            array_key_exists($model.':average-filtered',$available_tasks)){
-            $avgscores = array();
-            $counts = array();
-            foreach ($available_tasks as $available_task => $idx){
-                if (substr($available_task,0,7) == 'average') continue;
-                if (array_key_exists($available_task,$tasks)){
-                    foreach ($tasks[$available_task] as $step => $score){
-                        if (! array_key_exists($step,$avgscores)){
-                            $avgscores[$step] = $score;
-                            $counts[$step] = 1;
-                        }
-                        else{
-                            $avgscores[$step] += $score;
-                            $counts[$step]++;
-                        }
-                    }
-                }
-            }
-            foreach ($avgscores as $step => $score){
-                if ($counts[$step]){
-                    $avgscores[$step] /= $counts[$step];
-                }
-            }
-            $scores[$model]['average-filtered'] = $avgscores;
-        }
-        if (in_array('average-selected',$selected_tasks) or
-            in_array($model.':average-selected',$selected_tasks) or
-            array_key_exists($model.':average-selected',$available_tasks)){
-            $avgscores = array();
-            $counts = array();
-            foreach ($selected_tasks as $selected_task){
-                $taskparts = explode(':',$selected_task);
-                $task = array_pop($taskparts);
-                // echo("$selected_task");
-                if (substr($task,0,7) == 'average') continue;
-                foreach ($tasks[$task] as $step => $score){
-                    if (! array_key_exists($step,$avgscores)){
-                        $avgscores[$step] = $score;
-                        $counts[$step] = 1;
-                    }
-                    else{
-                        $avgscores[$step] += $score;
-                        $counts[$step]++;
-                    }
-                }
-            }
-            foreach ($avgscores as $step => $score){
-                if ($counts[$step]){
-                    $avgscores[$step] /= $counts[$step];
-                }
-            }
-            $scores[$model]['average-selected'] = $avgscores;
-        }
-    }
-}
-
-function read_train_stats(&$traintoks, &$traintime, $model, &$selected_tasks, &$available_tasks, $file, $dir='models'){
-    $traintoks[$model] = array();
-    $traintoks[$model]['average-score'] = array();
-    $traintoks[$model]['average-selected'] = array();
-    $traintoks[$model]['average-filtered'] = array();
-            
-    $lines = file(implode('/',[$dir,$model,'stats',$file]));
-    $tokcount = 0;
-    $taskcount = 0;
-    $selected_taskcount = 0;
-    $available_taskcount = 0;
-    $restart_time = 0;
-    $lasttime = 0;
-    foreach ($lines as $line) {
-        if ($line){
-            if (substr($line,0,4) == 'make') continue;
-            $line = rtrim($line);
-            $parts = explode("\t",$line);
-            $taskparts = explode(': ',$parts[0]);
-            if (count($taskparts) == 2){
-                $task = $taskparts[0];
-                // if (!in_array($model.':'.$task,$selected_tasks)) continue;
-                $step = $taskparts[1];
-                $seconds = (int) str_replace(' sec','',$parts[7]);
-                list($toks,$rest) = explode(' ',trim($parts[5]));
-                list($srctoks,$trgtoks) = explode('/',$toks);
-                if (! array_key_exists($task,$traintoks[$model])){
-                    // echo("$model ... $task");
-                    $tokcount = 0;
-                    $lasttime = 0;
-                    $restart_time = 0;
-                    $taskcount++;
-                    if (in_array($model.':'.$task,$selected_tasks)) $selected_taskcount++;
-                    if (array_key_exists($task,$available_tasks)) $available_taskcount++;
-                }
-                if ($seconds+$restart_time < $lasttime){
-                    $restart_time = $lasttime;
-                    // echo "$seconds+$restart_time < $lasttime</br>";
-                }
-                $seconds += $restart_time;
-                $diffsec = $seconds - $lasttime;
-                $tokcount += $diffsec*(int)$srctoks + $diffsec*(int)$trgtoks;
-                $lasttime = $seconds;
-                
-                $traintoks[$model][$task][$step] = $tokcount;
-                $traintime[$model][$task][$step] = $seconds;
-
-                // average token budget over all tasks
-                if (array_key_exists($step,$traintoks[$model]['average-score'])){
-                    $traintoks[$model]['average-score'][$step] += $tokcount;
-                    $traintime[$model]['average-score'][$step] += $seconds;
-                }
-                else{
-                    $traintoks[$model]['average-score'][$step] = $tokcount;
-                    $traintime[$model]['average-score'][$step] = $seconds;
-                }
-
-                // average token budget over all selected tasks
-                if (in_array($model.':'.$task,$selected_tasks)){
-                    if (array_key_exists($step,$traintoks[$model]['average-selected'])){
-                        $traintoks[$model]['average-selected'][$step] += $tokcount;
-                        $traintime[$model]['average-selected'][$step] += $seconds;
-                    }
-                    else{
-                        $traintoks[$model]['average-selected'][$step] = $tokcount;
-                        $traintime[$model]['average-selected'][$step] = $seconds;
-                    }
-                }
-                
-                // average token budget over all available tasks
-                if (array_key_exists($task,$available_tasks)){
-                    if (array_key_exists($step,$traintoks[$model]['average-filtered'])){
-                        $traintoks[$model]['average-filtered'][$step] += $tokcount;
-                        $traintime[$model]['average-filtered'][$step] += $seconds;
-                    }
-                    else{
-                        $traintoks[$model]['average-filtered'][$step] = $tokcount;
-                        $traintime[$model]['average-filtered'][$step] = $seconds;
-                    }
-                }
-            }
-        }
-    }
-
-    if ($taskcount){
-        foreach ($traintoks[$model]['average-score'] as $step => $count){
-            $traintoks[$model]['average-score'][$step] = $count/$taskcount;
-            $traintime[$model]['average-score'][$step] /= $taskcount;
-        }
-    }
-    if ($selected_taskcount){ 
-        foreach ($traintoks[$model]['average-selected'] as $step => $count){
-            $traintoks[$model]['average-selected'][$step] = $count/$selected_taskcount;
-            $traintime[$model]['average-selected'][$step] /= $selected_taskcount;
-        }
-    }
-    if ($available_taskcount){ 
-        foreach ($traintoks[$model]['average-filtered'] as $step => $count){
-            $traintoks[$model]['average-filtered'][$step] = $count/$available_taskcount;
-            $traintime[$model]['average-filtered'][$step] /= $available_taskcount;
-        }
-    }
-}
-
-
-/*
-read scores from csv files in GitHub repo
-*/
-
-function read_valid_scores(&$scores, &$tasks, &$srclangs, &$trglangs, &$langpairs, &$types, $model, $file, $dir='models'){
-    $lines = file(implode('/',[$dir,$model,'stats',$file]));
-
-    $gpus = array();
-    $checkpoints = array();
-
-    $header = array_shift($lines);
-    while (substr($header,0,4) == 'make') $header = array_shift($lines);
-    if (strpos($header,'make') === 0) $header = array_shift($lines);
-    $header = rtrim($header);
-    $parts = explode("\t",$header);
-    array_shift($parts);
-    array_shift($parts);
-    foreach ($parts as $checkpoint){
-        $checkpoint = trim($checkpoint);
-        array_push($checkpoints,$checkpoint);
-    }
-    
-    $key = '';
-    $scores[$model] = array();
-    foreach ($lines as $line) {
-        if ($line){
-            // if (strpos($line,'make') === 0) continue;
-            if (substr($line,0,4) == 'make') continue;
-            $line = rtrim($line);
-            $parts = explode("\t",$line);
-            $gpu=array_shift($parts);
-            $task=array_shift($parts);
-            
-            array_push($gpus,$gpu);
-            // array_push($tasks,$task);
-            $tasks[$task] = array_key_exists($task,$tasks) ? $tasks[$task]+1 : 1;
-            
-            $scores[$model][$task] = array();
-
-            if (substr($task,0,7) != 'average'){
-                list($type,$srclang,$trglang) = split_task_name($task);
-                if ($type) $types[$type] = 1;
-                if ($srclang && $trglang){
-                    $srclangs[$srclang] = 1;
-                    $trglangs[$trglang] = 1;
-                    $langpair = implode('-',array($srclang,$trglang));
-                    $langpairs[$langpair] = 1;
-                }
-            }
-            
-            foreach ($checkpoints as $checkpoint){
-                $score = array_shift($parts);
-                $scores[$model][$task][$checkpoint] = $score;
-            }
-        }
-    }
-    ksort($scores);
-    return $gpus;
-}
-
-function score_per_trainbudget(&$scores,&$trainbudget){
-    $ScoresPerBudget = array();
-    foreach ($scores as $model => $tasks){
-        foreach ($tasks as $task => $checkpoints){
-            foreach ($checkpoints as $checkpoint => $score){
-                if (array_key_exists($model,$trainbudget)){
-                    if (array_key_exists($task,$trainbudget[$model])){
-                        if (array_key_exists($checkpoint,$trainbudget[$model][$task])){
-                            $budget = $trainbudget[$model][$task][$checkpoint];
-                            // $ScoresPerBudget[$model][$task][$budget] = $scores[$model][$task][$checkpoint];
-                            $ScoresPerBudget[$model][$task][$budget] = $score;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return $ScoresPerBudget;
-}
-
-/*
-split task names into components
-- assumes that we have a format like type_srclang-trglang
-- skip splitting entries that start with 'average' (those are not actual tasks but average scores)
-*/
-
-function split_task_name($task){
-    $srclang = null;
-    $trglang = null;
-    $type = null;
-    if (substr($task,0,7) != 'average'){
-        $langs = explode('-',$task);
-        $lang1parts = explode('_',$langs[0]);
-        if (count($langs) == 2){
-            $srclang = count($lang1parts)>1 ? $lang1parts[1] : $langs[0];
-            $trglang = $langs[1];
-            $srclangs[$srclang] = 1;
-            $trglangs[$trglang] = 1;
-            $langpair = implode('-',array($srclang,$trglang));
-            $langpairs[$langpair] = 1;
-        }
-        $type = $lang1parts[0];
-    }
-    return array($type,$srclang,$trglang);
-}
-
-
-/*
-filter tasks according to various criteria and display selection checkboxes
-- filter by source language (select all tasks of either of the selected source languages)
-- filter by target language (select all tasks of either of the selected target languages)
-- filter by task type (select all tasks of either of the selected task types)
-*/
-
-function filter_tasks(&$available_tasks,
-                      &$available_srclangs,
-                      &$available_trglangs,
-                      &$available_langpairs,
-                      &$available_tasktypes,
-                      &$available_models,
-                      &$selected_tasks,
-                      &$selected_mtasks,
-                      &$selected_langs,
-                      &$selected_srclangs,
-                      &$selected_trglangs,
-                      &$selected_langpairs,
-                      &$selected_tasktypes){
-
-
-    global $SHOW_SOURCELANG_SELECTION, $SHOW_TARGETLANG_SELECTION, $SHOW_LANGPAIR_SELECTION;
-
-    $nr_of_models = count($available_models);
-    foreach ($available_tasks as $task => $count){
-        if ($count < $nr_of_models){
-            // echo("remove $task<br/>");
-            unset($available_tasks[$task]);
-        }
-    }
-    // var_dump($available_tasks);
-
-
-    if ($SHOW_SOURCELANG_SELECTION){
-        echo "<tr><td>source languages: </td><td>";
-        ksort($available_srclangs);
-        $count = 0;
-        foreach ($available_srclangs as $lang => $nr){
-            $count++;
-            if (in_array($lang,$selected_srclangs)){
-                echo("<input checked='1' type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
-            }
-            else{
-                echo("<input type='checkbox' name='srclangs[]' value='$lang'>&nbsp;$lang ");
-            }
-            if (($count % 10) == 0) echo "<br/>";
-        }
-        echo "</td></tr><tr>";
-    }
-    if ($SHOW_TARGETLANG_SELECTION){
-        echo "<tr><td>target languages: </td><td>";
-        ksort($available_trglangs);
-        $count = 0;
-        foreach ($available_trglangs as $lang => $nr){
-            $count++;
-            if (in_array($lang,$selected_trglangs)){
-                echo("<input checked='1' type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
-            }
-            else{
-                echo("<input type='checkbox' name='trglangs[]' value='$lang'>&nbsp;$lang ");
-            }
-            if (($count % 10) == 0) echo "<br/>";
-        }
-        echo "</td></tr><tr>";
-    }
-    if ($SHOW_LANGPAIR_SELECTION){
-        $available_langs = array_merge($available_srclangs, $available_trglangs);
-        echo "<tr><td>language:<br/>(source or target) </td><td><table><tr>";
-        ksort($available_langs);
-        $count = 0;
-        foreach ($available_langs as $lang => $nr){
-            $count++;
-            if (in_array($lang,$selected_langs)){
-                echo("<td class='dense'><input checked='1' type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang </td>");
-            }
-            else{
-                echo("<td class='dense'><input type='checkbox' name='langs[]' value='$lang'>&nbsp;$lang </td>");
-            }
-            if (($count % 10) == 0) echo "</tr><tr>";
-        }
-        echo "</tr></table></td></tr><tr>";
-    }
-    
-    echo "<tr><td>task types: </td><td>";
-    foreach ($available_tasktypes as $tasktype => $nr){
-        if (in_array($tasktype,$selected_tasktypes)){
-            echo("<input checked='1' type='checkbox' name='tasktypes[]' value='$tasktype'>&nbsp;$tasktype ");
-        }
-        else{
-            echo("<input type='checkbox' name='tasktypes[]' value='$tasktype'>&nbsp;$tasktype ");
-        }
-    }
-
-    echo('</td></tr>');
-
-    
-    $filtered_tasks = array();
-    $filtered_langpairs = array();
-    
-    foreach ($available_tasks as $task => $nr){
-        list($type,$srclang,$trglang) = split_task_name($task);
-
-        if ($type && $selected_tasktypes){
-            if (! in_array($type, $selected_tasktypes)){
-                continue;
-            }
-        }
-
-        if ($srclang && $trglang && $selected_langs){
-            if ((! in_array($srclang, $selected_langs)) and (! in_array($trglang, $selected_langs))){
-                continue;
-            }
-        }
-        if ($srclang && $selected_srclangs){
-            if (! in_array($srclang, $selected_srclangs)){
-                continue;
-            }
-        }
-        if ($trglang && $selected_trglangs){
-            if (! in_array($trglang, $selected_trglangs)){
-                continue;
-            }
-        }
-        if ($srclang && $trglang){
-            $langpair = implode('-',array($srclang,$trglang));
-            $filtered_langpairs[$langpair] = $nr;
-        }
-        $filtered_tasks[$task] = $nr;
-    }
-
-
-    $available_tasks = $filtered_tasks;
-    $available_langpairs = $filtered_langpairs;
-    $selected_langpairs = array_intersect($selected_langpairs,array_keys($available_langpairs));
-
-    $tasks = array();
-    foreach ($selected_mtasks as $task){
-        list($model,$taskname) = explode(':',$task);
-        if (array_key_exists($taskname,$available_tasks)){
-            array_push($tasks,$task);
-        }
-        elseif (substr($taskname,0,7) == 'average'){
-            array_push($tasks,$task);
-        }
-    }
-    foreach ($selected_tasks as $task){
-        if (array_key_exists($task,$available_tasks)){
-            array_push($tasks,$task);
-        }
-    }    
-    return $tasks;
-}
-
-
-/*
-model selection form
-(not used anymore)
-*/
-
-
-function select_models(&$models, &$selected_models){
-    if (count($selected_models) == 0){
-        foreach ($models as $m){
-            $m = rtrim($m);
-            array_push($selected_models,$m);
-        }
-    }
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        if (in_array($m, $selected_models)){
-            echo("<input checked='1' type='checkbox' name='models[]' value='$m'>&nbsp;$name ");
-        }
-        else {
-            echo("<input type='checkbox' name='models[]' value='$m'>&nbsp;$name ");
-        }
-    }
-}
-
-
-
-function select_model_components(&$models, &$selected_models, &$selected_model_components){
-
-    $model_components = array();
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        $components = explode('-',$name);
-        for ($i = 0; $i < count($components); $i++) {
-            $model_components[$i][$components[$i]] = 1;
-        }
-    }
-    
-    for ($i = 0; $i < count($model_components); $i++) {
-        echo("<tr><td>component $i:</td><td>");
-        $count = 0;
-        foreach ($model_components[$i] as $comp => $nr){
-            $count++;
-            $param = 'mcomp'.$i.'[]';
-            if (in_array($comp, $selected_model_components[$i])){
-                echo("<input checked='1' type='checkbox' name='$param' value='$comp'>&nbsp;$comp ");
-            }
-            else {
-                echo("<input type='checkbox' name='$param' value='$comp'>&nbsp;$comp ");
-            }
-            if (($count % 10) == 0) echo "<br/>";
-        }
-        echo('</td></tr>');
-    }
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        $components = explode('-',$name);
-        $model_ok = true;
-        for ($i = 0; $i < count($selected_model_components); $i++) {
-            if (count($selected_model_components[$i])){
-                if (! in_array($components[$i],$selected_model_components[$i])){
-                    $model_ok = false;
-                    break;
-                }
-            }
-        }
-        if ($model_ok)
-            array_push($selected_models,$m);
-    }
-    $selected_models = array_unique($selected_models);
-    
-
-}
-
-    
-
-/*
-model selection filters:
-- display checkboxes for selecting required model name components
-- model name components are separated by '-'
-- select models that have ALL selected components in their name
-*/
-
-
-function select_model_features(&$models, &$selected_models, &$required_model_features, &$selected_model_features, &$removed_model_features){
-
-    // all model name components (separated by '-') are used as features
-    // only use components that are not present in all model names
-    $model_components = array();
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        $feats = explode('-',$name);
-        foreach ($feats as $feat)
-            $model_components[$feat] = array_key_exists($feat,$model_components) ? $model_components[$feat] + 1 : 1;
-    }
-    $features = array();
-    $modelcount = count($models);
-    foreach ($model_components as $comp => $count){
-        if ($count < $modelcount){
-            array_push($features,$comp);
-        }   
-    }
-    asort($features);
-        
-    /*
-    $features = array();
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        $feats = explode('-',$name);
-        foreach ($feats as $feat)
-            array_push($features,$feat);
-    }
-    $features = array_unique($features);
-    asort($features);
-    */
-
-    echo('<tr><td>require:</td><td>');
-    $count=0;
-    foreach ($features as $feature){
-        $count++;
-        if (in_array($feature, $required_model_features)){
-            echo("<input checked='1' type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        else {
-            echo("<input type='checkbox' name='reqfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        if (($count % 10) == 0) echo "<br/>";
-    }
-    echo('</td></tr>');
-    echo('<tr><td>select:</td><td>');
-    $count=0;
-    foreach ($features as $feature){
-        $count++;
-        if (in_array($feature, $selected_model_features)){
-            echo("<input checked='1' type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        else {
-            echo("<input type='checkbox' name='selfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        if (($count % 10) == 0) echo "<br/>";
-    }
-    echo('</td></tr>');
-    echo('<tr><td>remove:</td><td>');
-    $count=0;
-    foreach ($features as $feature){
-        $count++;
-        if (in_array($feature, $removed_model_features)){
-            echo("<input checked='1' type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        else {
-            echo("<input type='checkbox' name='remfeats[]' value='$feature'>&nbsp;$feature ");
-        }
-        if (($count % 10) == 0) echo "<br/>";
-    }
-    echo('</td></tr>');
-
-
-    foreach ($models as $m){
-        $m = rtrim($m);
-        list($name,$dir) = explode('/',$m);
-        $feats = explode('-',$name);
-        $model_ok = $selected_model_features ? false : true;
-        foreach ($selected_model_features as $f){
-            if (in_array($f,$feats)){
-                $model_ok = true;
-                break;
-            }
-        }
-        if ($model_ok){
-            foreach ($removed_model_features as $f){
-                if (in_array($f,$feats)){
-                    $model_ok = false;
-                    break;
-                }
-            }
-        }
-        if ($model_ok){
-            foreach ($required_model_features as $f){
-                if (! in_array($f,$feats)){
-                    $model_ok = false;
-                }
-            }
-        }
-        if ($model_ok)
-            array_push($selected_models,$m);
-    }
-    $selected_models = array_unique($selected_models);
-}
-
-
-function task_selection_form(&$available_tasks, &$selected_tasks){
-    echo('<table><tr>');
-    ksort($available_tasks);
-    $nr=0;
-    foreach ($available_tasks as $task => $count){
-        $nr++;
-        if (in_array($task, $selected_tasks)){
-            echo("<td class='dense'><input checked='1' type='checkbox' name='tasks[]' value='$task'> $task</td>");
-        }
-        else {
-            echo("<td class='dense'><input type='checkbox' name='tasks[]' value='$task'> $task</td>");
-        }
-        if (($nr % 10) == 0) echo "</tr><tr>";
-    }
-    echo('</tr></table>');
-}
-
-
-function experiments_form(&$available_expdirs,$selected_expdir){
-    foreach ($available_expdirs as $expdir){
-        $exp = rtrim($expdir);
-        echo("<input type='radio' id='$exp' name='expdir' value='$exp'");
-        if ($selected_expdir == $exp) echo(' checked="checked"');
-        echo("><label for='$exp'>$exp</label></input> ");
-    }
-}
-
-function plot_graph_form($file, $xaxis){
-    
-    echo('<p><input type="submit" name="submit" value="plot graph" />');
-    echo('<button type="button" onclick="resetSelected();">reset</button> ');
-    
-    echo("<input type=\"hidden\" name=\"file\" value=\"$file\" />");
-    echo('<input type="radio" id="valid-scores-bleu" name="file" value="valid-scores-bleu.txt"');
-    if ($file == 'valid-scores-bleu.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-bleu">BLEU</label></input> ');
-    echo('<input type="radio" id="valid-scores-chrf" name="file" value="valid-scores-chrf.txt"');
-    if ($file == 'valid-scores-chrf.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-chrf">ChrF</label></input> ');
-    echo('<input type="radio" id="valid-scores-ppl" name="file" value="valid-scores-ppl.txt"');
-    if ($file == 'valid-scores-ppl.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-bleu">perplexity</label></input> ');
-
-    
-    echo('<input type="radio" id="xaxis-training-steps" name="xaxis" value="training-steps"');
-    if ($xaxis == 'training-steps') echo(' checked="checked"');
-    echo('><label for="xaxis-training-steps">iterations</label></input> ');
-    echo('<input type="radio" id="xaxis-training-time" name="xaxis" value="training-time"');
-    if ($xaxis == 'training-time') echo(' checked="checked"');
-    echo('><label for="xaxis-training-time">time</label></input> ');
-    echo('<input type="radio" id="xaxis-consumed-tokens" name="xaxis" value="consumed-tokens"');
-    if ($xaxis == 'consumed-tokens') echo(' checked="checked"');
-    echo('><label for="xaxis-consumed-tokens">token budget</label></input></p>');
-
-}
-
-
-/*
-display model tasks that can be selected
-display language pairs that can be selected
-*/
-
-function model_tasks(&$models, &$available_tasks, &$langpairs, &$scores,
-                     &$selected_models,
-                     &$selected_tasks,
-                     &$selected_types, &$selected_langpairs,
-                     $file='valid-scores-bleu.txt'){
-
-    global $xaxis;
-    plot_graph_form($file, $xaxis);
-
-    /*
-    echo('<p><input type="submit" name="submit" value="plot graph" />');
-    echo('<button type="button" onclick="resetSelected();">reset</button> ');
-    
-    echo("<input type=\"hidden\" name=\"file\" value=\"$file\" />");
-    echo('<input type="radio" id="valid-scores-bleu" name="file" value="valid-scores-bleu.txt"');
-    if ($file == 'valid-scores-bleu.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-bleu">BLEU</label></input> ');
-    echo('<input type="radio" id="valid-scores-chrf" name="file" value="valid-scores-chrf.txt"');
-    if ($file == 'valid-scores-chrf.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-chrf">ChrF</label></input> ');
-    echo('<input type="radio" id="valid-scores-ppl" name="file" value="valid-scores-ppl.txt"');
-    if ($file == 'valid-scores-ppl.txt') echo(' checked="checked"');
-    echo('><label for="valid-scores-bleu">perplexity</label></input> ');
-
-    
-    echo('<input type="radio" id="xaxis-training-steps" name="xaxis" value="training-steps"');
-    if ($xaxis == 'training-steps') echo(' checked="checked"');
-    echo('><label for="xaxis-training-steps">iterations</label></input> ');
-    echo('<input type="radio" id="xaxis-training-time" name="xaxis" value="training-time"');
-    if ($xaxis == 'training-time') echo(' checked="checked"');
-    echo('><label for="xaxis-training-time">time</label></input> ');
-    echo('<input type="radio" id="xaxis-consumed-tokens" name="xaxis" value="consumed-tokens"');
-    if ($xaxis == 'consumed-tokens') echo(' checked="checked"');
-    echo('><label for="xaxis-consumed-tokens">token budget</label></input></p>');
-    */
-    
-    echo('<table><tr>');
-    echo("<th>languages</th>");
-    foreach ($scores as $model => $tasks){
-        list($name,$dir) = explode('/',$model);
-        echo("<th>$name</th>");
-        // $name = str_replace('/','<br/>',$model);
-        // echo("<th>$name</th>");
-    }
-    echo('</tr><tr>');
-
-    echo('<td valign="top">');
-    ksort($langpairs);
-    foreach ($langpairs as $langpair => $count){
-        if (in_array($langpair, $selected_langpairs)){
-            echo("<input checked='1' type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
-        }
-        else {
-            echo("<input type='checkbox' name='langpairs[]' value='$langpair'> $langpair<br/>");
-        }
-    }
-    echo('</td>');
-    
-    foreach ($scores as $model => $tasks){
-        echo('<td valign="top">');
-        $tasks['average-filtered'] = null;
-        $tasks['average-selected'] = null;
-        ksort($tasks);
-        foreach ($tasks as $task => $score){
-            if (array_key_exists($task, $available_tasks)){
-                if (in_array($model.':'.$task, $selected_tasks)){
-                    echo("<input checked='1' type='checkbox' name='mtasks[]' value='$model:$task'> $task<br/>");
-                }
-                else {
-                    echo("<input type='checkbox' name='mtasks[]' value='$model:$task'> $task<br/>");
-                }
-            }
-        }
-        echo('</td>');
-    }
-    echo('</tr></table>');
-}
-
-
-
-/*
-plot scores for each selected model
-*/
-
-
-function scores_plotly(&$scores,&$selected,$xlabel,$ylabel='BLEU'){
-
-    echo('</pre><script src="https://cdn.plot.ly/plotly-latest.min.js"></script>');
-    echo('<div id="myPlot" style="width:200%;max-width:960px;max-height:400px"></div><script>');
-
-    echo("\nconst data = [\n");
-    $nr = 0;
-    foreach ($selected as $sel){
-        $parts = explode(':',$sel);
-        if (count($parts) > 1){
-            $model = $parts[0];
-            $task = $parts[1];
-            list($name,$dir) = explode('/',$model);
-            if ($model and $task){
-                if (array_key_exists($model,$scores)){
-                    if (array_key_exists($task,$scores[$model])){
-                        $nr++;
-                        echo("{ x: [");
-                        echo(implode(', ',array_keys($scores[$model][$task])));
-                        echo("], y: [");
-                        echo(implode(', ',array_values($scores[$model][$task])));
-                        echo("], mode: 'lines+markers', name: '$task/$name' },\n");
-                    }
-                }
-            }
-        }
-    }
-    echo("];\n");
-    if ($ylabel == 'perplexity') $yaxis = "title: '$ylabel', type: 'log'";
-    else $yaxis = "title: '$ylabel'";
-    echo("const layout = {
-showlegend: true,
-xaxis:{ title: '$xlabel' },
-yaxis:{ $yaxis },
-margin: {
-    l: 50,
-    r: 150,
-    b: 100,
-    t: 10,
-    pad: 4 }
-};\n");
-    echo('Plotly.newPlot("myPlot", data, layout);');
-    echo('</script>');
-}
-
-
-
-/*
-barchart plotting function is not used
-*/
-
-
-function barchart_plotly(&$data){
-
-    /*
-    echo('<pre>');
-    echo var_dump($data);
-    echo('</pre>');
-    return;
-    */
-
-    echo('<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>');
-    echo('<div id="myPlot" style="width:200%;max-width:680px;max-height:400px"></div><script>');
-
-    echo("\n".'const xArray = ["');
-    echo(implode('","',array_keys($data)));
-    echo('"];');
-
-    echo('const yArray = ["');
-    echo(implode('","',array_values($data)));
-    echo('"];');
-
-    echo("\n".'const text = ["');
-    echo(implode('","',array_keys($data)));
-    echo('"];');
-
-    /*
-    echo('const colors = ["');
-    echo(implode('","',array_values($rgba)));
-    echo('"];');
-    */
-    
-    echo("const data = [{");
-    echo("x:xArray,");
-    echo("y:yArray,");
-    echo("text:text,");
-    echo('type:"bar",');
-    echo('textposition: "auto",');
-    // echo('orientation:"v",');
-    // echo('marker: {color: colors}');
-    echo("}];\n");
-
-    echo("const layout = {
-xaxis:{title: '$label'},
-margin: {
-    l: 50,
-    r: 150,
-    b: 100,
-    t: 10,
-    pad: 4 }
-};");
-    echo('Plotly.newPlot("myPlot", data, layout);');
-    //xaxis: { tickangle: -45 },
-    //xaxis: { nticks: 50, tickmode: 'auto' },
-    echo('</script>');
-}
-
-
-
-/*
-some helper function to handle CGI arguments
-*/
-
-
-function get_param($key, $default){
-
-    // check the query string first and overwrite session variable
-    if (isset($_REQUEST[$key])){
-        $_SESSION['params'][$key] = test_input($_REQUEST[$key]);
-        // echo("return session variable for $key (--".var_dump($_SESSION['params'][$key])."--)</br>");
-        return $_SESSION['params'][$key];
-    }
-
-/*
-    if (! is_array($_SESSION)) $_SESSION=array();
-    if (array_key_exists('params', $_SESSION)){
-        if (isset($_SESSION['params'][$key])){
-            return $_SESSION['params'][$key];
-        }
-    }
-*/
-    
-    return $default;
-}
-
-function set_param($key, $value){
-    $_SESSION['params'][$key] = $value;
-}
-
-function test_input($data) {
-    if (! is_array($data)){
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-    }
-    return $data;
-}
-
-
-function make_query($data){
-    if ( isset( $_COOKIE['PHPSESSID'] ) ) {
-        return http_build_query($data);
-    }
-    if (array_key_exists('params', $_SESSION)){
-        $params = $_SESSION['params'];
-    }
-    else{
-        $params = array();
-    }
-    foreach ($data as $key => $value){
-        $params[$key] = $value;
-    }
-    return http_build_query($params);
-}
-
-
-
-?>
-</body>
-</html>
