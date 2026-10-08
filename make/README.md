@@ -23,7 +23,7 @@ A collection of makefile targets and configurations that support the setup and e
 * [Data configuration](doc/data.md)
 * [SLURM configuration](doc/slurm.md)
 * [Configuration reference](doc/config.md) (all variables and defaults)
-* tutorial and examples (TODO)
+* [Tutorial: multilingual experiments like `models/hpo`](doc/tutorial.md)
 
 ## Quickstart
 
