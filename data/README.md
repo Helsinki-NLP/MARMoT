@@ -40,7 +40,7 @@ multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fin.gz
 | `gzip`/`zcat`, `pigz` | everywhere | (de)compressing streams |
 | `tail`/`head`/`cut`/`paste`/`tr` | everywhere | slicing and reshaping text streams |
 | `terashuf` | `sentmt`, `instruct` | shuffling large corpora on disk |
-| `iso639` | `opus`, `synthetic`, `OpenSubtitles2024-multiset`, `wmt`, `wmt24pp`, ... | converting ISO 639-2/-3 codes and language names |
+| `iso639` | `opus`, `synthetic`, `testsets`, ... | converting ISO 639-2/-3 codes and language names |
 | `langgroup` | `instruct`, tokenizer | resolving language-group memberships (e.g. `ine`, `zls`) |
 | `opus_get` | `opus` | retrieving corpora from OPUS |
 | `python3` scripts in [`tools/`](../tools) | various | format conversions (`multisynt_to_docbitext.py`, `jsonl_to_textpredict.py`, `wmt24_to_tsv.py`, `wmt24_to_predict.py`, ...) |
@@ -65,7 +65,6 @@ The generated script is placed next to the target (`<target>.slurm`, renamed to 
 |---|---|---|
 | [tatoeba](tatoeba/README.md) | Tatoeba Translation Challenge bitexts (train/dev/test, macro-language pairs, dev5K) | `make oellm`, `oellm-eng`, `oellm-pivot`, `all`, `dev5K` |
 | [opus](opus/README.md) | OPUS corpora via `opus_get` (OpenSubtitles, HPLT, ...) | `make opensubs`, `hplt`, `hplt2`, `all` |
-| [OpenSubtitles2024-multiset](OpenSubtitles2024-multiset/README.md) | per-language files from the OpenSubtitles2024 multilingual movie linksets | `make all` |
 | [flores200](flores200/README.md) | FLORES-200 dev/test sets (default test data) | `make devtest` |
 | [synthetic](synthetic/README.md) | OPUS synthetic corpora for any language pair | `make all`, `fin-eng`, `eng-fin` |
 | [sentmt](sentmt/README.md) | shuffled sentence-level MT data for all OELLM pairs | `make all` |
@@ -76,7 +75,7 @@ The generated script is placed next to the target (`<target>.slurm`, renamed to 
 | [transweb-edu_50-99](transweb-edu_50-99/README.md) | FineWeb-edu (350BT) doc-level MT data, shards 00050–00099 | same |
 | [transweb-edu_100-471](transweb-edu_100-471/README.md) | FineWeb-edu (350BT) doc-level MT data, shards 00100–00471 (training only) | `make all-mt` |
 | [textpredict](textpredict/README.md) | next-sentence-prediction data from translated JSONL shards | `make all` |
-| [testsets](testsets/README.md) | NTREX-128, WMT24 devsets, WMT24++ test and prediction data | `make -C testsets/ntrex all`, ... |
+| [testsets](testsets/README.md) | NTREX-128, WMT24 devsets, WMT24++ test and prediction data, OpenSubtitles2024 multilingual corpus | `make -C testsets/<set> all`, ... |
 | [definition_modelling](definition_modelling/README.md) | 3D-EX and CoDWoE definition-modelling data | `make 3d-ex-data`, `make -C CoDWoE all` |
 | [instruct](instruct/README.md) | FLAN instruction-tuning data, split into train/dev and language-group sets | `make all`, `merge-langgroups` |
 | [paraphrasing](paraphrasing/README.md) | Opusparcus, ParaBank2, ParaNMT, PAWS-X, TaPaCo paraphrase data | `make all` per sub-dataset |

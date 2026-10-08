@@ -1,6 +1,6 @@
-# Test sets (NTREX, WMT)
+# Test sets (NTREX, WMT, OpenSubtitles2024-multiset)
 
-Test data used for evaluating the trained models. Three independent sub-directories:
+Test and evaluation data used for evaluating the trained models. Four independent sub-directories:
 
 ## [`ntrex/`](ntrex/README.md) — NTREX-128
 
@@ -29,3 +29,14 @@ make -C wmt24pp all          # extract all 56 language pairs
 make -C wmt24pp LANGPAIR=en-fi_FI all
 make -C wmt24pp predict      # text prediction (next sentence) data
 ```
+
+## [`OpenSubtitles2024-multiset/`](OpenSubtitles2024-multiset/README.md) — OpenSubtitles2024 multiset
+
+Per-language files built from the OpenSubtitles2024 *multiset* movie "linksets" (35 languages, ISO 639-3 file names — one line per aligned subtitle sentence):
+
+```bash
+make -C OpenSubtitles2024-multiset all
+# -> opensubs2024-multiset.<lang3> for each of the 35 languages
+```
+
+Note: it needs the `linkset/` source directory (see the [sub-directory README](OpenSubtitles2024-multiset/README.md)).

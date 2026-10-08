@@ -1,6 +1,6 @@
 # OpenSubtitles2024 multilingual multiset
 
-Builds one file per language from the OpenSubtitles2024 *multiset* "linksets": for every movie, the aligned subtitle sentences of the 35 supported languages are stored under `linkset/<movie>.<lang2>`. This makefile concatenates all movies per language and emits
+Builds one file per language from the OpenSubtitles2024 *multiset* "linksets": for every movie, the aligned subtitle sentences of the 35 supported languages are stored under `linkset/<movie>.<lang2>`. The data can be downloaded from https://github.com/Helsinki-NLP/OpenSubtitles-devtest. This makefile concatenates all movies per language and emits
 
 ```text
 opensubs2024-multiset.<lang3>     # for each of the 35 languages (ISO 639-3)
