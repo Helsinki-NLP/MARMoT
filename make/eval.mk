@@ -82,7 +82,8 @@ TESTSET_NAMES := $(notdir ${TESTSETS})
 ## because the file naming conventions are different
 
 MULTI_TESTSETS      := 	testsets/wmt24pp \
-			testsets/ntrex
+			testsets/ntrex \
+			testsets/OpenSubtitles2024-multiset
 MULTI_TESTSET_NAMES := $(notdir ${MULTI_TESTSETS})
 
 
