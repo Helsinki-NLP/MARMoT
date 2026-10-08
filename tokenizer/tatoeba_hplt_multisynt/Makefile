@@ -6,8 +6,10 @@ MAX_LINES_HPLT  ?= 20000000
 MAX_LINES_SYNT  ?= 20000000
 MAX_LINE_LENGTH ?= 2048
 
-VOCAB_SIZE ?= 32000
+VOCAB_SIZE ?= 16000
+# VOCAB_SIZE ?= 32000
 # VOCAB_SIZE ?= 64000
+# VOCAB_SIZE ?= 65000
 
 ## 64K - 64 for some reserved tokens
 # VOCAB_SIZE ?= 65472
@@ -23,7 +25,8 @@ LANGUAGES ?= $(sort $(subst -, ,$(basename $(basename $(notdir $(wildcard ${DATA
 LANGUAGE  ?= $(firstword ${LANGUAGES})
 
 
-MAMMOTH_HOME       ?= ../../mammoth
+# MAMMOTH_HOME       ?= ../../mammoth
+MAMMOTH_HOME       ?= /scratch/project_462001509/shared/mammoth-shared/mammoth_pytorch/mammoth
 TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/examples/hf_tokenizers/train.py
 
 
@@ -222,7 +225,8 @@ SLURM_MAX_NR_JOBS := 200
 
 # HPC_PROJECT = project_462000964
 # HPC_PROJECT = project_2001194
-HPC_PROJECT = project_462001087
+# HPC_PROJECT = project_462001087
+HPC_PROJECT = project_462001509
 HPC_MEM = 256G
 
 %.submit:
