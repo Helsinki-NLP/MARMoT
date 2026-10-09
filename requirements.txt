@@ -1,0 +1,32 @@
+# Python dependencies for the MARMoT repository.
+#
+# Covers the data-preparation scripts (data/), the conversion helpers (tools/)
+# and the evaluation pipeline (eval2/). Model training/inference is provided by
+# the MAMMOTH installation and its own environment and is not listed here.
+
+# --- data preparation and conversion (data/, tools/) ---
+datasets
+huggingface-hub
+pandas
+numpy
+requests
+langcodes
+loomchild-segment   # `loomchild.segmenter`, used by the conversion tools
+sacremoses          # Moses tokenizer/detokenizer wrappers
+zstandard           # `zstd` compression in data/multisynt_tower
+
+# --- language codes and OPUS tools (called from the makefiles) ---
+opustools           # provides the `opus_get` command
+iso-langcodes       # provides the `iso639` command
+
+# --- evaluation pipeline (eval2/) ---
+sacrebleu           # BLEU / chrF / TER scoring
+PyYAML              # planning and model configs
+networkx            # zero-shot pair selection
+scipy
+matplotlib          # plotting venv
+torch               # checkpoint inspection (mammoth model files)
+
+# --- optional ---
+# lang2vec          # linguistic-distance ranking in eval2; the pip release has
+#                   # known problems, see eval2/bin/inf_pairs.py for a git install
