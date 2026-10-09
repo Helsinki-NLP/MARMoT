@@ -21,6 +21,9 @@ zero_deu-tur: 10000	 acc: --	 ppl:  9.11	 xent: 2.21	  11.27 TFLOP/s	 38248/3637
 zero_deu-tur: 10500	 acc: --	 ppl:  8.99	 xent: 2.20	   9.71 TFLOP/s	 32948/31351 tok/s	 4983401 sents	  27810 sec	
 zero_deu-tur: 11000	 acc: --	 ppl:  9.49	 xent: 2.25	  11.42 TFLOP/s	 38864/36760 tok/s	 5220200 sents	  29097 sec	
 zero_deu-tur: 11500	 acc: --	 ppl:  9.13	 xent: 2.21	  11.51 TFLOP/s	 39110/37081 tok/s	 5458418 sents	  30382 sec	
+zero_deu-tur: 12000	 acc: --	 ppl:  9.42	 xent: 2.24	  11.62 TFLOP/s	 39490/37462 tok/s	 5699302 sents	  31667 sec	
+zero_deu-tur: 12500	 acc: --	 ppl:  9.07	 xent: 2.21	  11.47 TFLOP/s	 39005/36974 tok/s	 5938275 sents	  32960 sec	
+zero_deu-tur: 13000	 acc: --	 ppl:  7.69	 xent: 2.04	   9.61 TFLOP/s	 32626/31025 tok/s	 6176068 sents	  34492 sec	
 
 zero_deu-ukr: 500	 acc: --	 ppl: 245.41	 xent: 5.50	  11.56 TFLOP/s	 38739/37899 tok/s	 236770 sents	   1287 sec	
 zero_deu-ukr: 1000	 acc: --	 ppl: 265.53	 xent: 5.58	  11.45 TFLOP/s	 38374/37522 tok/s	 470585 sents	   2569 sec	
@@ -45,6 +48,9 @@ zero_deu-ukr: 10000	 acc: --	 ppl: 11.33	 xent: 2.43	  11.57 TFLOP/s	 38738/3798
 zero_deu-ukr: 10500	 acc: --	 ppl:  8.41	 xent: 2.13	   9.57 TFLOP/s	 32072/31371 tok/s	 4970858 sents	  27810 sec	
 zero_deu-ukr: 11000	 acc: --	 ppl:  8.50	 xent: 2.14	  11.63 TFLOP/s	 38999/38078 tok/s	 5208781 sents	  29097 sec	
 zero_deu-ukr: 11500	 acc: --	 ppl:  9.33	 xent: 2.23	  11.67 TFLOP/s	 39159/38187 tok/s	 5446906 sents	  30382 sec	
+zero_deu-ukr: 12000	 acc: --	 ppl:  9.09	 xent: 2.21	  11.68 TFLOP/s	 39163/38258 tok/s	 5685572 sents	  31667 sec	
+zero_deu-ukr: 12500	 acc: --	 ppl:  9.38	 xent: 2.24	  11.53 TFLOP/s	 38574/37882 tok/s	 5923142 sents	  32960 sec	
+zero_deu-ukr: 13000	 acc: --	 ppl:  7.62	 xent: 2.03	   9.76 TFLOP/s	 32669/32027 tok/s	 6161248 sents	  34492 sec	
 
 zero_fra-nld: 500	 acc: --	 ppl: 724.88	 xent: 6.59	  12.14 TFLOP/s	 46741/31667 tok/s	 204352 sents	   1287 sec	
 zero_fra-nld: 1000	 acc: --	 ppl: 171.49	 xent: 5.14	  12.15 TFLOP/s	 46799/31646 tok/s	 408345 sents	   2569 sec	
@@ -69,6 +75,9 @@ zero_fra-nld: 10000	 acc: --	 ppl:  5.54	 xent: 1.71	  12.10 TFLOP/s	 46710/3145
 zero_fra-nld: 10500	 acc: --	 ppl:  5.60	 xent: 1.72	  10.29 TFLOP/s	 39596/26924 tok/s	 4312177 sents	  27810 sec	
 zero_fra-nld: 11000	 acc: --	 ppl:  5.41	 xent: 1.69	  12.16 TFLOP/s	 46584/32083 tok/s	 4519429 sents	  29097 sec	
 zero_fra-nld: 11500	 acc: --	 ppl:  5.41	 xent: 1.69	  12.10 TFLOP/s	 46541/31664 tok/s	 4723873 sents	  30382 sec	
+zero_fra-nld: 12000	 acc: --	 ppl:  5.33	 xent: 1.67	  12.04 TFLOP/s	 46308/31450 tok/s	 4927005 sents	  31667 sec	
+zero_fra-nld: 12500	 acc: --	 ppl:  5.14	 xent: 1.64	  12.32 TFLOP/s	 47395/32233 tok/s	 5135925 sents	  32960 sec	
+zero_fra-nld: 13000	 acc: --	 ppl:  5.48	 xent: 1.70	  10.18 TFLOP/s	 39187/26564 tok/s	 5340175 sents	  34492 sec	
 
 zero_swe-fin: 500	 acc: --	 ppl: 624.52	 xent: 6.44	  12.32 TFLOP/s	 47150/32400 tok/s	 202960 sents	   1287 sec	
 zero_swe-fin: 1000	 acc: --	 ppl: 83.01	 xent: 4.42	  12.25 TFLOP/s	 46625/32584 tok/s	 406589 sents	   2569 sec	
@@ -93,6 +102,9 @@ zero_swe-fin: 10000	 acc: --	 ppl:  5.44	 xent: 1.69	  12.27 TFLOP/s	 46772/3252
 zero_swe-fin: 10500	 acc: --	 ppl:  5.27	 xent: 1.66	  10.48 TFLOP/s	 39710/28098 tok/s	 4311871 sents	  27810 sec	
 zero_swe-fin: 11000	 acc: --	 ppl:  5.04	 xent: 1.62	  12.25 TFLOP/s	 46489/32767 tok/s	 4517266 sents	  29097 sec	
 zero_swe-fin: 11500	 acc: --	 ppl:  5.18	 xent: 1.64	  12.11 TFLOP/s	 45888/32496 tok/s	 4720627 sents	  30382 sec	
+zero_swe-fin: 12000	 acc: --	 ppl:  5.01	 xent: 1.61	  12.25 TFLOP/s	 46378/32886 tok/s	 4926686 sents	  31667 sec	
+zero_swe-fin: 12500	 acc: --	 ppl:  4.99	 xent: 1.61	  12.33 TFLOP/s	 46939/32794 tok/s	 5132900 sents	  32960 sec	
+zero_swe-fin: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.29 TFLOP/s	 39159/27384 tok/s	 5337230 sents	  34492 sec	
 
 zero_ces-slk: 500	 acc: --	 ppl: 1386.91	 xent: 7.23	  12.83 TFLOP/s	 52579/28827 tok/s	 186739 sents	   1287 sec	
 zero_ces-slk: 1000	 acc: --	 ppl: 74.08	 xent: 4.31	  12.81 TFLOP/s	 52418/28885 tok/s	 373677 sents	   2569 sec	
@@ -117,6 +129,9 @@ zero_ces-slk: 10000	 acc: --	 ppl:  6.30	 xent: 1.84	  12.74 TFLOP/s	 52358/2838
 zero_ces-slk: 10500	 acc: --	 ppl:  6.31	 xent: 1.84	  10.85 TFLOP/s	 44688/24047 tok/s	 3897003 sents	  27810 sec	
 zero_ces-slk: 11000	 acc: --	 ppl:  6.13	 xent: 1.81	  12.77 TFLOP/s	 52320/28760 tok/s	 4083785 sents	  29097 sec	
 zero_ces-slk: 11500	 acc: --	 ppl:  6.08	 xent: 1.81	  12.84 TFLOP/s	 52555/28924 tok/s	 4271094 sents	  30382 sec	
+zero_ces-slk: 12000	 acc: --	 ppl:  6.27	 xent: 1.84	  12.76 TFLOP/s	 52467/28433 tok/s	 4455586 sents	  31667 sec	
+zero_ces-slk: 12500	 acc: --	 ppl:  6.15	 xent: 1.82	  12.77 TFLOP/s	 52434/28575 tok/s	 4642064 sents	  32960 sec	
+zero_ces-slk: 13000	 acc: --	 ppl:  6.19	 xent: 1.82	  10.68 TFLOP/s	 43738/24018 tok/s	 4827556 sents	  34492 sec	
 
 zero_bos-hrv: 500	 acc: --	 ppl: 1105.74	 xent: 7.01	  12.96 TFLOP/s	 52531/29759 tok/s	 187027 sents	   1287 sec	
 zero_bos-hrv: 1000	 acc: --	 ppl: 46.53	 xent: 3.84	  12.91 TFLOP/s	 52244/29826 tok/s	 374118 sents	   2569 sec	
@@ -141,6 +156,9 @@ zero_bos-hrv: 10000	 acc: --	 ppl:  5.84	 xent: 1.76	  12.85 TFLOP/s	 52036/2958
 zero_bos-hrv: 10500	 acc: --	 ppl:  5.91	 xent: 1.78	  10.88 TFLOP/s	 44172/24931 tok/s	 3905489 sents	  27810 sec	
 zero_bos-hrv: 11000	 acc: --	 ppl:  5.87	 xent: 1.77	  12.95 TFLOP/s	 52695/29466 tok/s	 4091397 sents	  29097 sec	
 zero_bos-hrv: 11500	 acc: --	 ppl:  5.77	 xent: 1.75	  12.97 TFLOP/s	 52586/29788 tok/s	 4278459 sents	  30382 sec	
+zero_bos-hrv: 12000	 acc: --	 ppl:  5.83	 xent: 1.76	  12.97 TFLOP/s	 52733/29597 tok/s	 4464416 sents	  31667 sec	
+zero_bos-hrv: 12500	 acc: --	 ppl:  5.87	 xent: 1.77	  12.77 TFLOP/s	 51763/29347 tok/s	 4649803 sents	  32960 sec	
+zero_bos-hrv: 13000	 acc: --	 ppl:  5.80	 xent: 1.76	  10.82 TFLOP/s	 43850/24917 tok/s	 4836618 sents	  34492 sec	
 
 zero_bos-srp_Cyrl: 500	 acc: --	 ppl: 450.37	 xent: 6.11	  11.88 TFLOP/s	 43473/34133 tok/s	 219869 sents	   1287 sec	
 zero_bos-srp_Cyrl: 1000	 acc: --	 ppl: 439.88	 xent: 6.09	  11.74 TFLOP/s	 42984/33738 tok/s	 437204 sents	   2569 sec	
@@ -165,6 +183,9 @@ zero_bos-srp_Cyrl: 10000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.78 TFLOP/s	 43143
 zero_bos-srp_Cyrl: 10500	 acc: --	 ppl:  4.83	 xent: 1.57	  10.10 TFLOP/s	 36962/29006 tok/s	 4600213 sents	  27810 sec	
 zero_bos-srp_Cyrl: 11000	 acc: --	 ppl:  5.09	 xent: 1.63	  11.93 TFLOP/s	 43639/34302 tok/s	 4821766 sents	  29097 sec	
 zero_bos-srp_Cyrl: 11500	 acc: --	 ppl:  4.90	 xent: 1.59	  11.79 TFLOP/s	 43130/33883 tok/s	 5040178 sents	  30382 sec	
+zero_bos-srp_Cyrl: 12000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.73 TFLOP/s	 42945/33707 tok/s	 5257083 sents	  31667 sec	
+zero_bos-srp_Cyrl: 12500	 acc: --	 ppl:  4.87	 xent: 1.58	  11.86 TFLOP/s	 43439/34074 tok/s	 5477555 sents	  32960 sec	
+zero_bos-srp_Cyrl: 13000	 acc: --	 ppl:  5.05	 xent: 1.62	  10.08 TFLOP/s	 36888/28940 tok/s	 5699490 sents	  34492 sec	
 
 zero_hrv-srp_Cyrl: 500	 acc: --	 ppl: 384.77	 xent: 5.95	  11.98 TFLOP/s	 43295/35036 tok/s	 218924 sents	   1287 sec	
 zero_hrv-srp_Cyrl: 1000	 acc: --	 ppl: 197.13	 xent: 5.28	  11.91 TFLOP/s	 43046/34837 tok/s	 436581 sents	   2569 sec	
@@ -189,6 +210,9 @@ zero_hrv-srp_Cyrl: 10000	 acc: --	 ppl:  5.65	 xent: 1.73	  12.00 TFLOP/s	 43389
 zero_hrv-srp_Cyrl: 10500	 acc: --	 ppl:  5.47	 xent: 1.70	  10.23 TFLOP/s	 36981/29922 tok/s	 4602923 sents	  27810 sec	
 zero_hrv-srp_Cyrl: 11000	 acc: --	 ppl:  4.88	 xent: 1.59	  12.13 TFLOP/s	 43854/35464 tok/s	 4825049 sents	  29097 sec	
 zero_hrv-srp_Cyrl: 11500	 acc: --	 ppl:  5.00	 xent: 1.61	  11.88 TFLOP/s	 42934/34745 tok/s	 5042039 sents	  30382 sec	
+zero_hrv-srp_Cyrl: 12000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.97 TFLOP/s	 43274/35003 tok/s	 5260780 sents	  31667 sec	
+zero_hrv-srp_Cyrl: 12500	 acc: --	 ppl:  5.34	 xent: 1.68	  11.91 TFLOP/s	 43049/34855 tok/s	 5479565 sents	  32960 sec	
+zero_hrv-srp_Cyrl: 13000	 acc: --	 ppl:  4.88	 xent: 1.58	  10.19 TFLOP/s	 36849/29795 tok/s	 5701235 sents	  34492 sec	
 
 zero_slv-bos: 500	 acc: --	 ppl: 461.65	 xent: 6.13	  11.92 TFLOP/s	 43839/33995 tok/s	 219109 sents	   1287 sec	
 zero_slv-bos: 1000	 acc: --	 ppl: 246.96	 xent: 5.51	  11.82 TFLOP/s	 43658/33414 tok/s	 434000 sents	   2569 sec	
@@ -213,6 +237,9 @@ zero_slv-bos: 10000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.82 TFLOP/s	 43711/3331
 zero_slv-bos: 10500	 acc: --	 ppl:  4.73	 xent: 1.55	  10.08 TFLOP/s	 37258/28506 tok/s	 4539759 sents	  27810 sec	
 zero_slv-bos: 11000	 acc: --	 ppl:  4.76	 xent: 1.56	  11.82 TFLOP/s	 43648/33426 tok/s	 4755792 sents	  29097 sec	
 zero_slv-bos: 11500	 acc: --	 ppl:  4.73	 xent: 1.55	  11.93 TFLOP/s	 43985/33872 tok/s	 4973958 sents	  30382 sec	
+zero_slv-bos: 12000	 acc: --	 ppl:  4.73	 xent: 1.55	  11.89 TFLOP/s	 43895/33613 tok/s	 5190677 sents	  31667 sec	
+zero_slv-bos: 12500	 acc: --	 ppl:  4.69	 xent: 1.55	  11.85 TFLOP/s	 43689/33600 tok/s	 5408042 sents	  32960 sec	
+zero_slv-bos: 13000	 acc: --	 ppl:  4.68	 xent: 1.54	  10.04 TFLOP/s	 37085/28368 tok/s	 5626024 sents	  34492 sec	
 
 zero_bul-tur: 500	 acc: --	 ppl: 400.79	 xent: 5.99	  12.08 TFLOP/s	 44039/34797 tok/s	 217660 sents	   1287 sec	
 zero_bul-tur: 1000	 acc: --	 ppl: 151.45	 xent: 5.02	  12.00 TFLOP/s	 43741/34548 tok/s	 433237 sents	   2569 sec	
@@ -237,6 +264,9 @@ zero_bul-tur: 10000	 acc: --	 ppl:  4.76	 xent: 1.56	  12.01 TFLOP/s	 43697/3476
 zero_bul-tur: 10500	 acc: --	 ppl:  4.62	 xent: 1.53	  10.24 TFLOP/s	 37405/29400 tok/s	 4547599 sents	  27810 sec	
 zero_bul-tur: 11000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.95 TFLOP/s	 43659/34330 tok/s	 4762846 sents	  29097 sec	
 zero_bul-tur: 11500	 acc: --	 ppl:  4.67	 xent: 1.54	  12.11 TFLOP/s	 44125/34951 tok/s	 4981187 sents	  30382 sec	
+zero_bul-tur: 12000	 acc: --	 ppl:  4.72	 xent: 1.55	  12.03 TFLOP/s	 43845/34693 tok/s	 5198136 sents	  31667 sec	
+zero_bul-tur: 12500	 acc: --	 ppl:  4.81	 xent: 1.57	  12.00 TFLOP/s	 43737/34611 tok/s	 5415417 sents	  32960 sec	
+zero_bul-tur: 13000	 acc: --	 ppl:  4.62	 xent: 1.53	  10.08 TFLOP/s	 36719/29058 tok/s	 5631938 sents	  34492 sec	
 
 zero_deu-ron: 500	 acc: --	 ppl: 438.56	 xent: 6.08	  11.84 TFLOP/s	 43136/34282 tok/s	 221036 sents	   1287 sec	
 zero_deu-ron: 1000	 acc: --	 ppl: 409.28	 xent: 6.01	  11.80 TFLOP/s	 43003/34143 tok/s	 440567 sents	   2569 sec	
@@ -261,6 +291,9 @@ zero_deu-ron: 10000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.74 TFLOP/s	 42760/3399
 zero_deu-ron: 10500	 acc: --	 ppl:  5.23	 xent: 1.65	  10.05 TFLOP/s	 36644/29080 tok/s	 4619970 sents	  27810 sec	
 zero_deu-ron: 11000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.68 TFLOP/s	 42660/33718 tok/s	 4837582 sents	  29097 sec	
 zero_deu-ron: 11500	 acc: --	 ppl:  4.92	 xent: 1.59	  11.86 TFLOP/s	 43217/34324 tok/s	 5058800 sents	  30382 sec	
+zero_deu-ron: 12000	 acc: --	 ppl:  5.30	 xent: 1.67	  11.65 TFLOP/s	 42450/33741 tok/s	 5275942 sents	  31667 sec	
+zero_deu-ron: 12500	 acc: --	 ppl:  5.12	 xent: 1.63	  11.76 TFLOP/s	 42883/34039 tok/s	 5496308 sents	  32960 sec	
+zero_deu-ron: 13000	 acc: --	 ppl:  5.19	 xent: 1.65	   9.99 TFLOP/s	 36451/28897 tok/s	 5718055 sents	  34492 sec	
 
 zero_glg-por: 500	 acc: --	 ppl: 369.11	 xent: 5.91	  11.98 TFLOP/s	 43110/35280 tok/s	 220649 sents	   1287 sec	
 zero_glg-por: 1000	 acc: --	 ppl: 237.32	 xent: 5.47	  11.99 TFLOP/s	 43146/35302 tok/s	 440934 sents	   2569 sec	
@@ -285,6 +318,9 @@ zero_glg-por: 10000	 acc: --	 ppl:  5.01	 xent: 1.61	  11.87 TFLOP/s	 42720/3495
 zero_glg-por: 10500	 acc: --	 ppl:  5.32	 xent: 1.67	  10.29 TFLOP/s	 37083/30225 tok/s	 4620675 sents	  27810 sec	
 zero_glg-por: 11000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.85 TFLOP/s	 42654/34911 tok/s	 4839162 sents	  29097 sec	
 zero_glg-por: 11500	 acc: --	 ppl:  4.81	 xent: 1.57	  11.91 TFLOP/s	 42911/35046 tok/s	 5058518 sents	  30382 sec	
+zero_glg-por: 12000	 acc: --	 ppl:  5.08	 xent: 1.62	  11.86 TFLOP/s	 42702/34899 tok/s	 5276267 sents	  31667 sec	
+zero_glg-por: 12500	 acc: --	 ppl:  4.84	 xent: 1.58	  11.96 TFLOP/s	 43032/35236 tok/s	 5497494 sents	  32960 sec	
+zero_glg-por: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.13 TFLOP/s	 36446/29845 tok/s	 5719656 sents	  34492 sec	
 
 zero_eus-fra: 500	 acc: --	 ppl: 694.54	 xent: 6.54	  11.77 TFLOP/s	 44491/31873 tok/s	 205616 sents	   1287 sec	
 zero_eus-fra: 1000	 acc: --	 ppl: 149.52	 xent: 5.01	  11.84 TFLOP/s	 44773/32023 tok/s	 411915 sents	   2569 sec	
@@ -309,6 +345,9 @@ zero_eus-fra: 10000	 acc: --	 ppl:  5.13	 xent: 1.64	  11.79 TFLOP/s	 44566/3192
 zero_eus-fra: 10500	 acc: --	 ppl:  5.12	 xent: 1.63	  10.03 TFLOP/s	 37941/27136 tok/s	 4346811 sents	  27810 sec	
 zero_eus-fra: 11000	 acc: --	 ppl:  5.06	 xent: 1.62	  11.88 TFLOP/s	 44911/32182 tok/s	 4555097 sents	  29097 sec	
 zero_eus-fra: 11500	 acc: --	 ppl:  5.10	 xent: 1.63	  11.83 TFLOP/s	 44739/32036 tok/s	 4761568 sents	  30382 sec	
+zero_eus-fra: 12000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.94 TFLOP/s	 45143/32354 tok/s	 4970588 sents	  31667 sec	
+zero_eus-fra: 12500	 acc: --	 ppl:  5.08	 xent: 1.62	  11.81 TFLOP/s	 44634/31956 tok/s	 5177847 sents	  32960 sec	
+zero_eus-fra: 13000	 acc: --	 ppl:  5.12	 xent: 1.63	   9.90 TFLOP/s	 37397/26818 tok/s	 5383774 sents	  34492 sec	
 
 zero_dan-nob: 500	 acc: --	 ppl: 575.57	 xent: 6.36	  11.88 TFLOP/s	 44332/32815 tok/s	 205313 sents	   1287 sec	
 zero_dan-nob: 1000	 acc: --	 ppl: 65.04	 xent: 4.18	  12.01 TFLOP/s	 44891/33116 tok/s	 412185 sents	   2569 sec	
@@ -333,6 +372,9 @@ zero_dan-nob: 10000	 acc: --	 ppl:  5.03	 xent: 1.62	  11.81 TFLOP/s	 44117/3258
 zero_dan-nob: 10500	 acc: --	 ppl:  4.88	 xent: 1.59	  10.13 TFLOP/s	 37845/27927 tok/s	 4347703 sents	  27810 sec	
 zero_dan-nob: 11000	 acc: --	 ppl:  4.81	 xent: 1.57	  12.02 TFLOP/s	 44867/33194 tok/s	 4556016 sents	  29097 sec	
 zero_dan-nob: 11500	 acc: --	 ppl:  4.86	 xent: 1.58	  11.98 TFLOP/s	 44747/33019 tok/s	 4762549 sents	  30382 sec	
+zero_dan-nob: 12000	 acc: --	 ppl:  4.77	 xent: 1.56	  12.12 TFLOP/s	 45272/33430 tok/s	 4971791 sents	  31667 sec	
+zero_dan-nob: 12500	 acc: --	 ppl:  4.82	 xent: 1.57	  11.96 TFLOP/s	 44645/33005 tok/s	 5179316 sents	  32960 sec	
+zero_dan-nob: 13000	 acc: --	 ppl:  4.85	 xent: 1.58	  10.06 TFLOP/s	 37568/27723 tok/s	 5386060 sents	  34492 sec	
 
 zero_tur-deu: 500	 acc: --	 ppl: 241.37	 xent: 5.49	  15.67 TFLOP/s	 72424/22422 tok/s	 166946 sents	   1287 sec	
 zero_tur-deu: 1000	 acc: --	 ppl: 104.96	 xent: 4.65	  15.73 TFLOP/s	 72736/22503 tok/s	 334136 sents	   2569 sec	
@@ -357,6 +399,9 @@ zero_tur-deu: 10000	 acc: --	 ppl:  9.90	 xent: 2.29	  15.57 TFLOP/s	 71786/2260
 zero_tur-deu: 10500	 acc: --	 ppl:  9.11	 xent: 2.21	  13.44 TFLOP/s	 62406/18793 tok/s	 3514514 sents	  27810 sec	
 zero_tur-deu: 11000	 acc: --	 ppl:  9.96	 xent: 2.30	  15.70 TFLOP/s	 72595/22421 tok/s	 3681611 sents	  29097 sec	
 zero_tur-deu: 11500	 acc: --	 ppl: 10.23	 xent: 2.33	  15.77 TFLOP/s	 72965/22457 tok/s	 3848791 sents	  30382 sec	
+zero_tur-deu: 12000	 acc: --	 ppl: 10.13	 xent: 2.32	  15.80 TFLOP/s	 73036/22549 tok/s	 4016539 sents	  31667 sec	
+zero_tur-deu: 12500	 acc: --	 ppl:  9.64	 xent: 2.27	  15.61 TFLOP/s	 72150/22384 tok/s	 4184067 sents	  32960 sec	
+zero_tur-deu: 13000	 acc: --	 ppl:  8.80	 xent: 2.18	  13.30 TFLOP/s	 61617/18799 tok/s	 4351480 sents	  34492 sec	
 
 zero_ukr-deu: 500	 acc: --	 ppl: 151.06	 xent: 5.02	  16.02 TFLOP/s	 72761/24354 tok/s	 166736 sents	   1287 sec	
 zero_ukr-deu: 1000	 acc: --	 ppl: 71.12	 xent: 4.26	  16.02 TFLOP/s	 72627/24556 tok/s	 334060 sents	   2569 sec	
@@ -381,6 +426,9 @@ zero_ukr-deu: 10000	 acc: --	 ppl:  8.29	 xent: 2.11	  15.74 TFLOP/s	 71062/2469
 zero_ukr-deu: 10500	 acc: --	 ppl:  8.34	 xent: 2.12	  13.52 TFLOP/s	 61271/20804 tok/s	 3514950 sents	  27810 sec	
 zero_ukr-deu: 11000	 acc: --	 ppl:  8.40	 xent: 2.13	  15.95 TFLOP/s	 72261/24511 tok/s	 3682274 sents	  29097 sec	
 zero_ukr-deu: 11500	 acc: --	 ppl:  7.94	 xent: 2.07	  15.93 TFLOP/s	 72069/24705 tok/s	 3850086 sents	  30382 sec	
+zero_ukr-deu: 12000	 acc: --	 ppl:  7.45	 xent: 2.01	  16.20 TFLOP/s	 73682/24368 tok/s	 4017281 sents	  31667 sec	
+zero_ukr-deu: 12500	 acc: --	 ppl:  8.21	 xent: 2.11	  16.00 TFLOP/s	 72686/24278 tok/s	 4184520 sents	  32960 sec	
+zero_ukr-deu: 13000	 acc: --	 ppl:  8.23	 xent: 2.11	  13.53 TFLOP/s	 61441/20537 tok/s	 4351934 sents	  34492 sec	
 
 zero_nld-fra: 500	 acc: --	 ppl: 892.84	 xent: 6.79	  15.68 TFLOP/s	 70114/25899 tok/s	 175781 sents	   1287 sec	
 zero_nld-fra: 1000	 acc: --	 ppl: 84.40	 xent: 4.44	  15.60 TFLOP/s	 69431/26376 tok/s	 353736 sents	   2569 sec	
@@ -405,6 +453,9 @@ zero_nld-fra: 10000	 acc: --	 ppl:  7.39	 xent: 2.00	  15.84 TFLOP/s	 71153/2560
 zero_nld-fra: 10500	 acc: --	 ppl:  7.47	 xent: 2.01	  13.27 TFLOP/s	 59268/22025 tok/s	 3713906 sents	  27810 sec	
 zero_nld-fra: 11000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.57 TFLOP/s	 69515/25920 tok/s	 3889807 sents	  29097 sec	
 zero_nld-fra: 11500	 acc: --	 ppl:  7.17	 xent: 1.97	  15.66 TFLOP/s	 69759/26304 tok/s	 4067850 sents	  30382 sec	
+zero_nld-fra: 12000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.57 TFLOP/s	 69274/26321 tok/s	 4245727 sents	  31667 sec	
+zero_nld-fra: 12500	 acc: --	 ppl:  6.83	 xent: 1.92	  15.77 TFLOP/s	 70695/25661 tok/s	 4420960 sents	  32960 sec	
+zero_nld-fra: 13000	 acc: --	 ppl:  7.10	 xent: 1.96	  13.15 TFLOP/s	 58684/21912 tok/s	 4597718 sents	  34492 sec	
 
 zero_fin-swe: 500	 acc: --	 ppl: 898.33	 xent: 6.80	  15.54 TFLOP/s	 69595/25636 tok/s	 176542 sents	   1287 sec	
 zero_fin-swe: 1000	 acc: --	 ppl: 64.93	 xent: 4.17	  15.41 TFLOP/s	 68664/26072 tok/s	 354522 sents	   2569 sec	
@@ -429,6 +480,9 @@ zero_fin-swe: 10000	 acc: --	 ppl:  7.47	 xent: 2.01	  15.28 TFLOP/s	 67994/2596
 zero_fin-swe: 10500	 acc: --	 ppl:  6.91	 xent: 1.93	  13.09 TFLOP/s	 58528/21748 tok/s	 3721786 sents	  27810 sec	
 zero_fin-swe: 11000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.62 TFLOP/s	 70015/25671 tok/s	 3899014 sents	  29097 sec	
 zero_fin-swe: 11500	 acc: --	 ppl:  6.88	 xent: 1.93	  15.68 TFLOP/s	 70416/25591 tok/s	 4075716 sents	  30382 sec	
+zero_fin-swe: 12000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.42 TFLOP/s	 68800/25852 tok/s	 4252719 sents	  31667 sec	
+zero_fin-swe: 12500	 acc: --	 ppl:  7.38	 xent: 2.00	  15.40 TFLOP/s	 68669/25872 tok/s	 4430857 sents	  32960 sec	
+zero_fin-swe: 13000	 acc: --	 ppl:  6.90	 xent: 1.93	  12.99 TFLOP/s	 57986/21797 tok/s	 4608696 sents	  34492 sec	
 
 zero_slk-ces: 500	 acc: --	 ppl: 265.56	 xent: 5.58	  15.79 TFLOP/s	 71904/23935 tok/s	 167570 sents	   1287 sec	
 zero_slk-ces: 1000	 acc: --	 ppl: 82.72	 xent: 4.42	  16.04 TFLOP/s	 73389/23716 tok/s	 334728 sents	   2569 sec	
@@ -453,6 +507,9 @@ zero_slk-ces: 10000	 acc: --	 ppl:  8.90	 xent: 2.19	  15.77 TFLOP/s	 71805/2388
 zero_slk-ces: 10500	 acc: --	 ppl:  8.83	 xent: 2.18	  13.56 TFLOP/s	 62016/20093 tok/s	 3511880 sents	  27810 sec	
 zero_slk-ces: 11000	 acc: --	 ppl:  8.57	 xent: 2.15	  15.99 TFLOP/s	 73096/23712 tok/s	 3678987 sents	  29097 sec	
 zero_slk-ces: 11500	 acc: --	 ppl:  8.91	 xent: 2.19	  15.96 TFLOP/s	 72824/23881 tok/s	 3846570 sents	  30382 sec	
+zero_slk-ces: 12000	 acc: --	 ppl:  7.70	 xent: 2.04	  16.06 TFLOP/s	 73456/23777 tok/s	 4013962 sents	  31667 sec	
+zero_slk-ces: 12500	 acc: --	 ppl:  8.48	 xent: 2.14	  15.81 TFLOP/s	 72140/23724 tok/s	 4181766 sents	  32960 sec	
+zero_slk-ces: 13000	 acc: --	 ppl:  7.85	 xent: 2.06	  13.49 TFLOP/s	 61740/19846 tok/s	 4348627 sents	  34492 sec	
 
 zero_hrv-bos: 500	 acc: --	 ppl: 217.32	 xent: 5.38	  16.05 TFLOP/s	 72890/24373 tok/s	 166978 sents	   1287 sec	
 zero_hrv-bos: 1000	 acc: --	 ppl: 71.86	 xent: 4.27	  16.09 TFLOP/s	 73035/24497 tok/s	 334304 sents	   2569 sec	
@@ -477,6 +534,9 @@ zero_hrv-bos: 10000	 acc: --	 ppl:  8.12	 xent: 2.09	  16.14 TFLOP/s	 73508/2414
 zero_hrv-bos: 10500	 acc: --	 ppl:  8.27	 xent: 2.11	  13.51 TFLOP/s	 61098/20966 tok/s	 3510298 sents	  27810 sec	
 zero_hrv-bos: 11000	 acc: --	 ppl:  7.64	 xent: 2.03	  16.20 TFLOP/s	 73753/24251 tok/s	 3677070 sents	  29097 sec	
 zero_hrv-bos: 11500	 acc: --	 ppl:  7.68	 xent: 2.04	  16.22 TFLOP/s	 73824/24319 tok/s	 3843862 sents	  30382 sec	
+zero_hrv-bos: 12000	 acc: --	 ppl:  7.55	 xent: 2.02	  16.26 TFLOP/s	 74042/24311 tok/s	 4011005 sents	  31667 sec	
+zero_hrv-bos: 12500	 acc: --	 ppl:  8.33	 xent: 2.12	  15.88 TFLOP/s	 71910/24501 tok/s	 4178915 sents	  32960 sec	
+zero_hrv-bos: 13000	 acc: --	 ppl:  8.17	 xent: 2.10	  13.23 TFLOP/s	 59661/20856 tok/s	 4347496 sents	  34492 sec	
 
 zero_srp_Cyrl-bos: 500	 acc: --	 ppl: 1305.30	 xent: 7.17	  15.27 TFLOP/s	 65977/29070 tok/s	 192829 sents	   1287 sec	
 zero_srp_Cyrl-bos: 1000	 acc: --	 ppl: 235.38	 xent: 5.46	  15.45 TFLOP/s	 67157/28763 tok/s	 383541 sents	   2569 sec	
@@ -501,6 +561,9 @@ zero_srp_Cyrl-bos: 10000	 acc: --	 ppl:  6.37	 xent: 1.85	  15.60 TFLOP/s	 68091
 zero_srp_Cyrl-bos: 10500	 acc: --	 ppl:  6.40	 xent: 1.86	  13.14 TFLOP/s	 57133/24421 tok/s	 4019981 sents	  27810 sec	
 zero_srp_Cyrl-bos: 11000	 acc: --	 ppl:  6.20	 xent: 1.83	  15.51 TFLOP/s	 67495/28797 tok/s	 4211714 sents	  29097 sec	
 zero_srp_Cyrl-bos: 11500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.46 TFLOP/s	 67270/28682 tok/s	 4401879 sents	  30382 sec	
+zero_srp_Cyrl-bos: 12000	 acc: --	 ppl:  6.14	 xent: 1.82	  15.57 TFLOP/s	 67782/28762 tok/s	 4592705 sents	  31667 sec	
+zero_srp_Cyrl-bos: 12500	 acc: --	 ppl:  6.22	 xent: 1.83	  15.41 TFLOP/s	 66861/28852 tok/s	 4784981 sents	  32960 sec	
+zero_srp_Cyrl-bos: 13000	 acc: --	 ppl:  6.08	 xent: 1.80	  13.12 TFLOP/s	 57102/24270 tok/s	 4976725 sents	  34492 sec	
 
 zero_srp_Cyrl-hrv: 500	 acc: --	 ppl: 1482.93	 xent: 7.30	  15.54 TFLOP/s	 69022/26888 tok/s	 188463 sents	   1287 sec	
 zero_srp_Cyrl-hrv: 1000	 acc: --	 ppl: 236.28	 xent: 5.47	  14.80 TFLOP/s	 63913/28593 tok/s	 383235 sents	   2569 sec	
@@ -525,6 +588,9 @@ zero_srp_Cyrl-hrv: 10000	 acc: --	 ppl:  6.67	 xent: 1.90	  15.29 TFLOP/s	 67170
 zero_srp_Cyrl-hrv: 10500	 acc: --	 ppl:  6.61	 xent: 1.89	  12.92 TFLOP/s	 56752/23451 tok/s	 4023908 sents	  27810 sec	
 zero_srp_Cyrl-hrv: 11000	 acc: --	 ppl:  6.53	 xent: 1.88	  15.33 TFLOP/s	 67213/28021 tok/s	 4218000 sents	  29097 sec	
 zero_srp_Cyrl-hrv: 11500	 acc: --	 ppl:  6.70	 xent: 1.90	  14.98 TFLOP/s	 65303/27894 tok/s	 4409498 sents	  30382 sec	
+zero_srp_Cyrl-hrv: 12000	 acc: --	 ppl:  6.37	 xent: 1.85	  14.99 TFLOP/s	 65060/28406 tok/s	 4603935 sents	  31667 sec	
+zero_srp_Cyrl-hrv: 12500	 acc: --	 ppl:  6.41	 xent: 1.86	  15.22 TFLOP/s	 66495/28157 tok/s	 4798557 sents	  32960 sec	
+zero_srp_Cyrl-hrv: 13000	 acc: --	 ppl:  6.65	 xent: 1.89	  12.89 TFLOP/s	 56660/23301 tok/s	 4990869 sents	  34492 sec	
 
 zero_bos-slv: 500	 acc: --	 ppl: 1191.19	 xent: 7.08	  15.25 TFLOP/s	 70207/22774 tok/s	 174113 sents	   1287 sec	
 zero_bos-slv: 1000	 acc: --	 ppl: 128.10	 xent: 4.85	  15.26 TFLOP/s	 70193/22927 tok/s	 348610 sents	   2569 sec	
@@ -549,6 +615,9 @@ zero_bos-slv: 10000	 acc: --	 ppl:  9.79	 xent: 2.28	  15.12 TFLOP/s	 69466/2289
 zero_bos-slv: 10500	 acc: --	 ppl:  9.85	 xent: 2.29	  13.03 TFLOP/s	 60051/19369 tok/s	 3674047 sents	  27810 sec	
 zero_bos-slv: 11000	 acc: --	 ppl:  9.43	 xent: 2.24	  15.07 TFLOP/s	 68921/23241 tok/s	 3849379 sents	  29097 sec	
 zero_bos-slv: 11500	 acc: --	 ppl:  8.82	 xent: 2.18	  14.78 TFLOP/s	 66887/23981 tok/s	 4026738 sents	  30382 sec	
+zero_bos-slv: 12000	 acc: --	 ppl:  9.54	 xent: 2.26	  15.27 TFLOP/s	 70132/23143 tok/s	 4202706 sents	  31667 sec	
+zero_bos-slv: 12500	 acc: --	 ppl:  9.73	 xent: 2.27	  15.03 TFLOP/s	 68967/22827 tok/s	 4376623 sents	  32960 sec	
+zero_bos-slv: 13000	 acc: --	 ppl:  9.75	 xent: 2.28	  12.83 TFLOP/s	 59018/19236 tok/s	 4551697 sents	  34492 sec	
 
 zero_tur-bul: 500	 acc: --	 ppl: 767.74	 xent: 6.64	  15.36 TFLOP/s	 68810/25384 tok/s	 175524 sents	   1287 sec	
 zero_tur-bul: 1000	 acc: --	 ppl: 73.34	 xent: 4.30	  15.48 TFLOP/s	 69642/25142 tok/s	 349984 sents	   2569 sec	
@@ -573,6 +642,9 @@ zero_tur-bul: 10000	 acc: --	 ppl:  8.38	 xent: 2.13	  15.75 TFLOP/s	 71406/2456
 zero_tur-bul: 10500	 acc: --	 ppl:  7.80	 xent: 2.05	  13.09 TFLOP/s	 58676/21561 tok/s	 3675967 sents	  27810 sec	
 zero_tur-bul: 11000	 acc: --	 ppl:  7.93	 xent: 2.07	  15.47 TFLOP/s	 69505/25191 tok/s	 3851029 sents	  29097 sec	
 zero_tur-bul: 11500	 acc: --	 ppl:  7.95	 xent: 2.07	  15.53 TFLOP/s	 69870/25192 tok/s	 4026115 sents	  30382 sec	
+zero_tur-bul: 12000	 acc: --	 ppl:  7.72	 xent: 2.04	  15.52 TFLOP/s	 69581/25542 tok/s	 4202945 sents	  31667 sec	
+zero_tur-bul: 12500	 acc: --	 ppl:  7.91	 xent: 2.07	  15.31 TFLOP/s	 68659/25116 tok/s	 4377540 sents	  32960 sec	
+zero_tur-bul: 13000	 acc: --	 ppl:  7.76	 xent: 2.05	  12.92 TFLOP/s	 57870/21374 tok/s	 4553650 sents	  34492 sec	
 
 zero_ron-deu: 500	 acc: --	 ppl: 2695.92	 xent: 7.90	  14.67 TFLOP/s	 64917/26401 tok/s	 194708 sents	   1287 sec	
 zero_ron-deu: 1000	 acc: --	 ppl: 494.82	 xent: 6.20	  14.97 TFLOP/s	 66700/26109 tok/s	 386673 sents	   2569 sec	
@@ -597,6 +669,9 @@ zero_ron-deu: 10000	 acc: --	 ppl:  7.46	 xent: 2.01	  15.09 TFLOP/s	 67434/2598
 zero_ron-deu: 10500	 acc: --	 ppl:  7.28	 xent: 1.99	  12.37 TFLOP/s	 54638/22481 tok/s	 4052191 sents	  27810 sec	
 zero_ron-deu: 11000	 acc: --	 ppl:  7.39	 xent: 2.00	  14.75 TFLOP/s	 65516/26070 tok/s	 4244459 sents	  29097 sec	
 zero_ron-deu: 11500	 acc: --	 ppl:  7.46	 xent: 2.01	  14.88 TFLOP/s	 66279/25993 tok/s	 4435654 sents	  30382 sec	
+zero_ron-deu: 12000	 acc: --	 ppl:  7.32	 xent: 1.99	  14.82 TFLOP/s	 65702/26424 tok/s	 4629854 sents	  31667 sec	
+zero_ron-deu: 12500	 acc: --	 ppl:  7.55	 xent: 2.02	  14.58 TFLOP/s	 64483/26294 tok/s	 4823973 sents	  32960 sec	
+zero_ron-deu: 13000	 acc: --	 ppl:  7.36	 xent: 2.00	  12.63 TFLOP/s	 56354/21942 tok/s	 5016696 sents	  34492 sec	
 
 zero_por-glg: 500	 acc: --	 ppl: 1338.22	 xent: 7.20	  15.18 TFLOP/s	 65628/28969 tok/s	 194502 sents	   1287 sec	
 zero_por-glg: 1000	 acc: --	 ppl: 556.38	 xent: 6.32	  15.39 TFLOP/s	 67024/28601 tok/s	 387069 sents	   2569 sec	
@@ -621,6 +696,9 @@ zero_por-glg: 10000	 acc: --	 ppl:  6.73	 xent: 1.91	  15.46 TFLOP/s	 67627/2823
 zero_por-glg: 10500	 acc: --	 ppl:  6.49	 xent: 1.87	  13.04 TFLOP/s	 56798/24229 tok/s	 4054748 sents	  27810 sec	
 zero_por-glg: 11000	 acc: --	 ppl:  6.33	 xent: 1.85	  15.07 TFLOP/s	 65043/28927 tok/s	 4248837 sents	  29097 sec	
 zero_por-glg: 11500	 acc: --	 ppl:  6.50	 xent: 1.87	  15.13 TFLOP/s	 65515/28771 tok/s	 4442120 sents	  30382 sec	
+zero_por-glg: 12000	 acc: --	 ppl:  6.40	 xent: 1.86	  15.18 TFLOP/s	 65594/29005 tok/s	 4636269 sents	  31667 sec	
+zero_por-glg: 12500	 acc: --	 ppl:  6.48	 xent: 1.87	  15.44 TFLOP/s	 67369/28445 tok/s	 4829026 sents	  32960 sec	
+zero_por-glg: 13000	 acc: --	 ppl:  6.21	 xent: 1.83	  12.74 TFLOP/s	 54922/24541 tok/s	 5025003 sents	  34492 sec	
 
 zero_fra-eus: 500	 acc: --	 ppl: 1141.11	 xent: 7.04	  15.17 TFLOP/s	 65005/29625 tok/s	 193745 sents	   1287 sec	
 zero_fra-eus: 1000	 acc: --	 ppl: 496.74	 xent: 6.21	  15.22 TFLOP/s	 65393/29519 tok/s	 386798 sents	   2569 sec	
@@ -645,6 +723,9 @@ zero_fra-eus: 10000	 acc: --	 ppl:  6.06	 xent: 1.80	  15.40 TFLOP/s	 66469/2943
 zero_fra-eus: 10500	 acc: --	 ppl:  6.09	 xent: 1.81	  13.19 TFLOP/s	 57335/24521 tok/s	 4054826 sents	  27810 sec	
 zero_fra-eus: 11000	 acc: --	 ppl:  6.01	 xent: 1.79	  15.30 TFLOP/s	 66115/29086 tok/s	 4246326 sents	  29097 sec	
 zero_fra-eus: 11500	 acc: --	 ppl:  5.75	 xent: 1.75	  15.24 TFLOP/s	 65270/29868 tok/s	 4441432 sents	  30382 sec	
+zero_fra-eus: 12000	 acc: --	 ppl:  5.74	 xent: 1.75	  15.26 TFLOP/s	 65048/30340 tok/s	 4638677 sents	  31667 sec	
+zero_fra-eus: 12500	 acc: --	 ppl:  6.28	 xent: 1.84	  15.62 TFLOP/s	 68247/28476 tok/s	 4828446 sents	  32960 sec	
+zero_fra-eus: 13000	 acc: --	 ppl:  6.05	 xent: 1.80	  13.01 TFLOP/s	 56240/24703 tok/s	 5022215 sents	  34492 sec	
 
 zero_nob-dan: 500	 acc: --	 ppl: 1699.58	 xent: 7.44	  15.10 TFLOP/s	 65904/28038 tok/s	 193455 sents	   1287 sec	
 zero_nob-dan: 1000	 acc: --	 ppl: 749.00	 xent: 6.62	  15.11 TFLOP/s	 65936/28058 tok/s	 386588 sents	   2569 sec	
@@ -669,6 +750,9 @@ zero_nob-dan: 10000	 acc: --	 ppl:  6.74	 xent: 1.91	  15.23 TFLOP/s	 66660/2801
 zero_nob-dan: 10500	 acc: --	 ppl:  7.30	 xent: 1.99	  12.85 TFLOP/s	 56097/23852 tok/s	 4063822 sents	  27810 sec	
 zero_nob-dan: 11000	 acc: --	 ppl:  6.98	 xent: 1.94	  15.23 TFLOP/s	 66997/27467 tok/s	 4254251 sents	  29097 sec	
 zero_nob-dan: 11500	 acc: --	 ppl:  7.00	 xent: 1.95	  15.42 TFLOP/s	 67999/27469 tok/s	 4444692 sents	  30382 sec	
+zero_nob-dan: 12000	 acc: --	 ppl:  6.83	 xent: 1.92	  15.35 TFLOP/s	 67279/28029 tok/s	 4638103 sents	  31667 sec	
+zero_nob-dan: 12500	 acc: --	 ppl:  7.12	 xent: 1.96	  15.31 TFLOP/s	 67263/27693 tok/s	 4830345 sents	  32960 sec	
+zero_nob-dan: 13000	 acc: --	 ppl:  6.99	 xent: 1.94	  12.57 TFLOP/s	 54293/24289 tok/s	 5028828 sents	  34492 sec	
 
 mt_bos-eng: 500	 acc: --	 ppl: 295.23	 xent: 5.69	  11.45 TFLOP/s	 38892/36954 tok/s	 238064 sents	   1287 sec	
 mt_bos-eng: 1000	 acc: --	 ppl: 301.90	 xent: 5.71	  11.38 TFLOP/s	 38698/36678 tok/s	 473560 sents	   2569 sec	
@@ -693,6 +777,9 @@ mt_bos-eng: 10000	 acc: --	 ppl:  9.11	 xent: 2.21	  11.27 TFLOP/s	 38248/36379 
 mt_bos-eng: 10500	 acc: --	 ppl:  8.99	 xent: 2.20	   9.71 TFLOP/s	 32948/31351 tok/s	 4983401 sents	  27810 sec	
 mt_bos-eng: 11000	 acc: --	 ppl:  9.49	 xent: 2.25	  11.42 TFLOP/s	 38864/36760 tok/s	 5220200 sents	  29097 sec	
 mt_bos-eng: 11500	 acc: --	 ppl:  9.13	 xent: 2.21	  11.51 TFLOP/s	 39110/37081 tok/s	 5458418 sents	  30382 sec	
+mt_bos-eng: 12000	 acc: --	 ppl:  9.42	 xent: 2.24	  11.62 TFLOP/s	 39490/37462 tok/s	 5699302 sents	  31667 sec	
+mt_bos-eng: 12500	 acc: --	 ppl:  9.07	 xent: 2.21	  11.47 TFLOP/s	 39005/36974 tok/s	 5938275 sents	  32960 sec	
+mt_bos-eng: 13000	 acc: --	 ppl:  7.69	 xent: 2.04	   9.61 TFLOP/s	 32626/31025 tok/s	 6176068 sents	  34492 sec	
 
 mt_bos-spa: 500	 acc: --	 ppl: 245.41	 xent: 5.50	  11.56 TFLOP/s	 38739/37899 tok/s	 236770 sents	   1287 sec	
 mt_bos-spa: 1000	 acc: --	 ppl: 265.53	 xent: 5.58	  11.45 TFLOP/s	 38374/37522 tok/s	 470585 sents	   2569 sec	
@@ -717,6 +804,9 @@ mt_bos-spa: 10000	 acc: --	 ppl: 11.33	 xent: 2.43	  11.57 TFLOP/s	 38738/37980 
 mt_bos-spa: 10500	 acc: --	 ppl:  8.41	 xent: 2.13	   9.57 TFLOP/s	 32072/31371 tok/s	 4970858 sents	  27810 sec	
 mt_bos-spa: 11000	 acc: --	 ppl:  8.50	 xent: 2.14	  11.63 TFLOP/s	 38999/38078 tok/s	 5208781 sents	  29097 sec	
 mt_bos-spa: 11500	 acc: --	 ppl:  9.33	 xent: 2.23	  11.67 TFLOP/s	 39159/38187 tok/s	 5446906 sents	  30382 sec	
+mt_bos-spa: 12000	 acc: --	 ppl:  9.09	 xent: 2.21	  11.68 TFLOP/s	 39163/38258 tok/s	 5685572 sents	  31667 sec	
+mt_bos-spa: 12500	 acc: --	 ppl:  9.38	 xent: 2.24	  11.53 TFLOP/s	 38574/37882 tok/s	 5923142 sents	  32960 sec	
+mt_bos-spa: 13000	 acc: --	 ppl:  7.62	 xent: 2.03	   9.76 TFLOP/s	 32669/32027 tok/s	 6161248 sents	  34492 sec	
 
 mt_bul-eng: 500	 acc: --	 ppl: 724.88	 xent: 6.59	  12.14 TFLOP/s	 46741/31667 tok/s	 204352 sents	   1287 sec	
 mt_bul-eng: 1000	 acc: --	 ppl: 171.49	 xent: 5.14	  12.15 TFLOP/s	 46799/31646 tok/s	 408345 sents	   2569 sec	
@@ -741,6 +831,9 @@ mt_bul-eng: 10000	 acc: --	 ppl:  5.54	 xent: 1.71	  12.10 TFLOP/s	 46710/31451 
 mt_bul-eng: 10500	 acc: --	 ppl:  5.60	 xent: 1.72	  10.29 TFLOP/s	 39596/26924 tok/s	 4312177 sents	  27810 sec	
 mt_bul-eng: 11000	 acc: --	 ppl:  5.41	 xent: 1.69	  12.16 TFLOP/s	 46584/32083 tok/s	 4519429 sents	  29097 sec	
 mt_bul-eng: 11500	 acc: --	 ppl:  5.41	 xent: 1.69	  12.10 TFLOP/s	 46541/31664 tok/s	 4723873 sents	  30382 sec	
+mt_bul-eng: 12000	 acc: --	 ppl:  5.33	 xent: 1.67	  12.04 TFLOP/s	 46308/31450 tok/s	 4927005 sents	  31667 sec	
+mt_bul-eng: 12500	 acc: --	 ppl:  5.14	 xent: 1.64	  12.32 TFLOP/s	 47395/32233 tok/s	 5135925 sents	  32960 sec	
+mt_bul-eng: 13000	 acc: --	 ppl:  5.48	 xent: 1.70	  10.18 TFLOP/s	 39187/26564 tok/s	 5340175 sents	  34492 sec	
 
 mt_bul-spa: 500	 acc: --	 ppl: 624.52	 xent: 6.44	  12.32 TFLOP/s	 47150/32400 tok/s	 202960 sents	   1287 sec	
 mt_bul-spa: 1000	 acc: --	 ppl: 83.01	 xent: 4.42	  12.25 TFLOP/s	 46625/32584 tok/s	 406589 sents	   2569 sec	
@@ -765,6 +858,9 @@ mt_bul-spa: 10000	 acc: --	 ppl:  5.44	 xent: 1.69	  12.27 TFLOP/s	 46772/32527 
 mt_bul-spa: 10500	 acc: --	 ppl:  5.27	 xent: 1.66	  10.48 TFLOP/s	 39710/28098 tok/s	 4311871 sents	  27810 sec	
 mt_bul-spa: 11000	 acc: --	 ppl:  5.04	 xent: 1.62	  12.25 TFLOP/s	 46489/32767 tok/s	 4517266 sents	  29097 sec	
 mt_bul-spa: 11500	 acc: --	 ppl:  5.18	 xent: 1.64	  12.11 TFLOP/s	 45888/32496 tok/s	 4720627 sents	  30382 sec	
+mt_bul-spa: 12000	 acc: --	 ppl:  5.01	 xent: 1.61	  12.25 TFLOP/s	 46378/32886 tok/s	 4926686 sents	  31667 sec	
+mt_bul-spa: 12500	 acc: --	 ppl:  4.99	 xent: 1.61	  12.33 TFLOP/s	 46939/32794 tok/s	 5132900 sents	  32960 sec	
+mt_bul-spa: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.29 TFLOP/s	 39159/27384 tok/s	 5337230 sents	  34492 sec	
 
 mt_cat-eng: 500	 acc: --	 ppl: 1386.91	 xent: 7.23	  12.83 TFLOP/s	 52579/28827 tok/s	 186739 sents	   1287 sec	
 mt_cat-eng: 1000	 acc: --	 ppl: 74.08	 xent: 4.31	  12.81 TFLOP/s	 52418/28885 tok/s	 373677 sents	   2569 sec	
@@ -789,6 +885,9 @@ mt_cat-eng: 10000	 acc: --	 ppl:  6.30	 xent: 1.84	  12.74 TFLOP/s	 52358/28382 
 mt_cat-eng: 10500	 acc: --	 ppl:  6.31	 xent: 1.84	  10.85 TFLOP/s	 44688/24047 tok/s	 3897003 sents	  27810 sec	
 mt_cat-eng: 11000	 acc: --	 ppl:  6.13	 xent: 1.81	  12.77 TFLOP/s	 52320/28760 tok/s	 4083785 sents	  29097 sec	
 mt_cat-eng: 11500	 acc: --	 ppl:  6.08	 xent: 1.81	  12.84 TFLOP/s	 52555/28924 tok/s	 4271094 sents	  30382 sec	
+mt_cat-eng: 12000	 acc: --	 ppl:  6.27	 xent: 1.84	  12.76 TFLOP/s	 52467/28433 tok/s	 4455586 sents	  31667 sec	
+mt_cat-eng: 12500	 acc: --	 ppl:  6.15	 xent: 1.82	  12.77 TFLOP/s	 52434/28575 tok/s	 4642064 sents	  32960 sec	
+mt_cat-eng: 13000	 acc: --	 ppl:  6.19	 xent: 1.82	  10.68 TFLOP/s	 43738/24018 tok/s	 4827556 sents	  34492 sec	
 
 mt_cat-spa: 500	 acc: --	 ppl: 1105.74	 xent: 7.01	  12.96 TFLOP/s	 52531/29759 tok/s	 187027 sents	   1287 sec	
 mt_cat-spa: 1000	 acc: --	 ppl: 46.53	 xent: 3.84	  12.91 TFLOP/s	 52244/29826 tok/s	 374118 sents	   2569 sec	
@@ -813,6 +912,9 @@ mt_cat-spa: 10000	 acc: --	 ppl:  5.84	 xent: 1.76	  12.85 TFLOP/s	 52036/29589 
 mt_cat-spa: 10500	 acc: --	 ppl:  5.91	 xent: 1.78	  10.88 TFLOP/s	 44172/24931 tok/s	 3905489 sents	  27810 sec	
 mt_cat-spa: 11000	 acc: --	 ppl:  5.87	 xent: 1.77	  12.95 TFLOP/s	 52695/29466 tok/s	 4091397 sents	  29097 sec	
 mt_cat-spa: 11500	 acc: --	 ppl:  5.77	 xent: 1.75	  12.97 TFLOP/s	 52586/29788 tok/s	 4278459 sents	  30382 sec	
+mt_cat-spa: 12000	 acc: --	 ppl:  5.83	 xent: 1.76	  12.97 TFLOP/s	 52733/29597 tok/s	 4464416 sents	  31667 sec	
+mt_cat-spa: 12500	 acc: --	 ppl:  5.87	 xent: 1.77	  12.77 TFLOP/s	 51763/29347 tok/s	 4649803 sents	  32960 sec	
+mt_cat-spa: 13000	 acc: --	 ppl:  5.80	 xent: 1.76	  10.82 TFLOP/s	 43850/24917 tok/s	 4836618 sents	  34492 sec	
 
 mt_ces-eng: 500	 acc: --	 ppl: 450.37	 xent: 6.11	  11.88 TFLOP/s	 43473/34133 tok/s	 219869 sents	   1287 sec	
 mt_ces-eng: 1000	 acc: --	 ppl: 439.88	 xent: 6.09	  11.74 TFLOP/s	 42984/33738 tok/s	 437204 sents	   2569 sec	
@@ -837,6 +939,9 @@ mt_ces-eng: 10000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.78 TFLOP/s	 43143/33866 
 mt_ces-eng: 10500	 acc: --	 ppl:  4.83	 xent: 1.57	  10.10 TFLOP/s	 36962/29006 tok/s	 4600213 sents	  27810 sec	
 mt_ces-eng: 11000	 acc: --	 ppl:  5.09	 xent: 1.63	  11.93 TFLOP/s	 43639/34302 tok/s	 4821766 sents	  29097 sec	
 mt_ces-eng: 11500	 acc: --	 ppl:  4.90	 xent: 1.59	  11.79 TFLOP/s	 43130/33883 tok/s	 5040178 sents	  30382 sec	
+mt_ces-eng: 12000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.73 TFLOP/s	 42945/33707 tok/s	 5257083 sents	  31667 sec	
+mt_ces-eng: 12500	 acc: --	 ppl:  4.87	 xent: 1.58	  11.86 TFLOP/s	 43439/34074 tok/s	 5477555 sents	  32960 sec	
+mt_ces-eng: 13000	 acc: --	 ppl:  5.05	 xent: 1.62	  10.08 TFLOP/s	 36888/28940 tok/s	 5699490 sents	  34492 sec	
 
 mt_ces-spa: 500	 acc: --	 ppl: 384.77	 xent: 5.95	  11.98 TFLOP/s	 43295/35036 tok/s	 218924 sents	   1287 sec	
 mt_ces-spa: 1000	 acc: --	 ppl: 197.13	 xent: 5.28	  11.91 TFLOP/s	 43046/34837 tok/s	 436581 sents	   2569 sec	
@@ -861,6 +966,9 @@ mt_ces-spa: 10000	 acc: --	 ppl:  5.65	 xent: 1.73	  12.00 TFLOP/s	 43389/35085 
 mt_ces-spa: 10500	 acc: --	 ppl:  5.47	 xent: 1.70	  10.23 TFLOP/s	 36981/29922 tok/s	 4602923 sents	  27810 sec	
 mt_ces-spa: 11000	 acc: --	 ppl:  4.88	 xent: 1.59	  12.13 TFLOP/s	 43854/35464 tok/s	 4825049 sents	  29097 sec	
 mt_ces-spa: 11500	 acc: --	 ppl:  5.00	 xent: 1.61	  11.88 TFLOP/s	 42934/34745 tok/s	 5042039 sents	  30382 sec	
+mt_ces-spa: 12000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.97 TFLOP/s	 43274/35003 tok/s	 5260780 sents	  31667 sec	
+mt_ces-spa: 12500	 acc: --	 ppl:  5.34	 xent: 1.68	  11.91 TFLOP/s	 43049/34855 tok/s	 5479565 sents	  32960 sec	
+mt_ces-spa: 13000	 acc: --	 ppl:  4.88	 xent: 1.58	  10.19 TFLOP/s	 36849/29795 tok/s	 5701235 sents	  34492 sec	
 
 mt_dan-eng: 500	 acc: --	 ppl: 461.65	 xent: 6.13	  11.92 TFLOP/s	 43839/33995 tok/s	 219109 sents	   1287 sec	
 mt_dan-eng: 1000	 acc: --	 ppl: 246.96	 xent: 5.51	  11.82 TFLOP/s	 43658/33414 tok/s	 434000 sents	   2569 sec	
@@ -885,6 +993,9 @@ mt_dan-eng: 10000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.82 TFLOP/s	 43711/33315 
 mt_dan-eng: 10500	 acc: --	 ppl:  4.73	 xent: 1.55	  10.08 TFLOP/s	 37258/28506 tok/s	 4539759 sents	  27810 sec	
 mt_dan-eng: 11000	 acc: --	 ppl:  4.76	 xent: 1.56	  11.82 TFLOP/s	 43648/33426 tok/s	 4755792 sents	  29097 sec	
 mt_dan-eng: 11500	 acc: --	 ppl:  4.73	 xent: 1.55	  11.93 TFLOP/s	 43985/33872 tok/s	 4973958 sents	  30382 sec	
+mt_dan-eng: 12000	 acc: --	 ppl:  4.73	 xent: 1.55	  11.89 TFLOP/s	 43895/33613 tok/s	 5190677 sents	  31667 sec	
+mt_dan-eng: 12500	 acc: --	 ppl:  4.69	 xent: 1.55	  11.85 TFLOP/s	 43689/33600 tok/s	 5408042 sents	  32960 sec	
+mt_dan-eng: 13000	 acc: --	 ppl:  4.68	 xent: 1.54	  10.04 TFLOP/s	 37085/28368 tok/s	 5626024 sents	  34492 sec	
 
 mt_dan-spa: 500	 acc: --	 ppl: 400.79	 xent: 5.99	  12.08 TFLOP/s	 44039/34797 tok/s	 217660 sents	   1287 sec	
 mt_dan-spa: 1000	 acc: --	 ppl: 151.45	 xent: 5.02	  12.00 TFLOP/s	 43741/34548 tok/s	 433237 sents	   2569 sec	
@@ -909,6 +1020,9 @@ mt_dan-spa: 10000	 acc: --	 ppl:  4.76	 xent: 1.56	  12.01 TFLOP/s	 43697/34763 
 mt_dan-spa: 10500	 acc: --	 ppl:  4.62	 xent: 1.53	  10.24 TFLOP/s	 37405/29400 tok/s	 4547599 sents	  27810 sec	
 mt_dan-spa: 11000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.95 TFLOP/s	 43659/34330 tok/s	 4762846 sents	  29097 sec	
 mt_dan-spa: 11500	 acc: --	 ppl:  4.67	 xent: 1.54	  12.11 TFLOP/s	 44125/34951 tok/s	 4981187 sents	  30382 sec	
+mt_dan-spa: 12000	 acc: --	 ppl:  4.72	 xent: 1.55	  12.03 TFLOP/s	 43845/34693 tok/s	 5198136 sents	  31667 sec	
+mt_dan-spa: 12500	 acc: --	 ppl:  4.81	 xent: 1.57	  12.00 TFLOP/s	 43737/34611 tok/s	 5415417 sents	  32960 sec	
+mt_dan-spa: 13000	 acc: --	 ppl:  4.62	 xent: 1.53	  10.08 TFLOP/s	 36719/29058 tok/s	 5631938 sents	  34492 sec	
 
 mt_deu-eng: 500	 acc: --	 ppl: 438.56	 xent: 6.08	  11.84 TFLOP/s	 43136/34282 tok/s	 221036 sents	   1287 sec	
 mt_deu-eng: 1000	 acc: --	 ppl: 409.28	 xent: 6.01	  11.80 TFLOP/s	 43003/34143 tok/s	 440567 sents	   2569 sec	
@@ -933,6 +1047,9 @@ mt_deu-eng: 10000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.74 TFLOP/s	 42760/33992 
 mt_deu-eng: 10500	 acc: --	 ppl:  5.23	 xent: 1.65	  10.05 TFLOP/s	 36644/29080 tok/s	 4619970 sents	  27810 sec	
 mt_deu-eng: 11000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.68 TFLOP/s	 42660/33718 tok/s	 4837582 sents	  29097 sec	
 mt_deu-eng: 11500	 acc: --	 ppl:  4.92	 xent: 1.59	  11.86 TFLOP/s	 43217/34324 tok/s	 5058800 sents	  30382 sec	
+mt_deu-eng: 12000	 acc: --	 ppl:  5.30	 xent: 1.67	  11.65 TFLOP/s	 42450/33741 tok/s	 5275942 sents	  31667 sec	
+mt_deu-eng: 12500	 acc: --	 ppl:  5.12	 xent: 1.63	  11.76 TFLOP/s	 42883/34039 tok/s	 5496308 sents	  32960 sec	
+mt_deu-eng: 13000	 acc: --	 ppl:  5.19	 xent: 1.65	   9.99 TFLOP/s	 36451/28897 tok/s	 5718055 sents	  34492 sec	
 
 mt_deu-spa: 500	 acc: --	 ppl: 369.11	 xent: 5.91	  11.98 TFLOP/s	 43110/35280 tok/s	 220649 sents	   1287 sec	
 mt_deu-spa: 1000	 acc: --	 ppl: 237.32	 xent: 5.47	  11.99 TFLOP/s	 43146/35302 tok/s	 440934 sents	   2569 sec	
@@ -957,6 +1074,9 @@ mt_deu-spa: 10000	 acc: --	 ppl:  5.01	 xent: 1.61	  11.87 TFLOP/s	 42720/34956 
 mt_deu-spa: 10500	 acc: --	 ppl:  5.32	 xent: 1.67	  10.29 TFLOP/s	 37083/30225 tok/s	 4620675 sents	  27810 sec	
 mt_deu-spa: 11000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.85 TFLOP/s	 42654/34911 tok/s	 4839162 sents	  29097 sec	
 mt_deu-spa: 11500	 acc: --	 ppl:  4.81	 xent: 1.57	  11.91 TFLOP/s	 42911/35046 tok/s	 5058518 sents	  30382 sec	
+mt_deu-spa: 12000	 acc: --	 ppl:  5.08	 xent: 1.62	  11.86 TFLOP/s	 42702/34899 tok/s	 5276267 sents	  31667 sec	
+mt_deu-spa: 12500	 acc: --	 ppl:  4.84	 xent: 1.58	  11.96 TFLOP/s	 43032/35236 tok/s	 5497494 sents	  32960 sec	
+mt_deu-spa: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.13 TFLOP/s	 36446/29845 tok/s	 5719656 sents	  34492 sec	
 
 mt_ell-eng: 500	 acc: --	 ppl: 694.54	 xent: 6.54	  11.77 TFLOP/s	 44491/31873 tok/s	 205616 sents	   1287 sec	
 mt_ell-eng: 1000	 acc: --	 ppl: 149.52	 xent: 5.01	  11.84 TFLOP/s	 44773/32023 tok/s	 411915 sents	   2569 sec	
@@ -981,6 +1101,9 @@ mt_ell-eng: 10000	 acc: --	 ppl:  5.13	 xent: 1.64	  11.79 TFLOP/s	 44566/31922 
 mt_ell-eng: 10500	 acc: --	 ppl:  5.12	 xent: 1.63	  10.03 TFLOP/s	 37941/27136 tok/s	 4346811 sents	  27810 sec	
 mt_ell-eng: 11000	 acc: --	 ppl:  5.06	 xent: 1.62	  11.88 TFLOP/s	 44911/32182 tok/s	 4555097 sents	  29097 sec	
 mt_ell-eng: 11500	 acc: --	 ppl:  5.10	 xent: 1.63	  11.83 TFLOP/s	 44739/32036 tok/s	 4761568 sents	  30382 sec	
+mt_ell-eng: 12000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.94 TFLOP/s	 45143/32354 tok/s	 4970588 sents	  31667 sec	
+mt_ell-eng: 12500	 acc: --	 ppl:  5.08	 xent: 1.62	  11.81 TFLOP/s	 44634/31956 tok/s	 5177847 sents	  32960 sec	
+mt_ell-eng: 13000	 acc: --	 ppl:  5.12	 xent: 1.63	   9.90 TFLOP/s	 37397/26818 tok/s	 5383774 sents	  34492 sec	
 
 mt_ell-spa: 500	 acc: --	 ppl: 575.57	 xent: 6.36	  11.88 TFLOP/s	 44332/32815 tok/s	 205313 sents	   1287 sec	
 mt_ell-spa: 1000	 acc: --	 ppl: 65.04	 xent: 4.18	  12.01 TFLOP/s	 44891/33116 tok/s	 412185 sents	   2569 sec	
@@ -1005,6 +1128,9 @@ mt_ell-spa: 10000	 acc: --	 ppl:  5.03	 xent: 1.62	  11.81 TFLOP/s	 44117/32583 
 mt_ell-spa: 10500	 acc: --	 ppl:  4.88	 xent: 1.59	  10.13 TFLOP/s	 37845/27927 tok/s	 4347703 sents	  27810 sec	
 mt_ell-spa: 11000	 acc: --	 ppl:  4.81	 xent: 1.57	  12.02 TFLOP/s	 44867/33194 tok/s	 4556016 sents	  29097 sec	
 mt_ell-spa: 11500	 acc: --	 ppl:  4.86	 xent: 1.58	  11.98 TFLOP/s	 44747/33019 tok/s	 4762549 sents	  30382 sec	
+mt_ell-spa: 12000	 acc: --	 ppl:  4.77	 xent: 1.56	  12.12 TFLOP/s	 45272/33430 tok/s	 4971791 sents	  31667 sec	
+mt_ell-spa: 12500	 acc: --	 ppl:  4.82	 xent: 1.57	  11.96 TFLOP/s	 44645/33005 tok/s	 5179316 sents	  32960 sec	
+mt_ell-spa: 13000	 acc: --	 ppl:  4.85	 xent: 1.58	  10.06 TFLOP/s	 37568/27723 tok/s	 5386060 sents	  34492 sec	
 
 mt_eng-bos: 500	 acc: --	 ppl: 241.37	 xent: 5.49	  15.67 TFLOP/s	 72424/22422 tok/s	 166946 sents	   1287 sec	
 mt_eng-bos: 1000	 acc: --	 ppl: 104.96	 xent: 4.65	  15.73 TFLOP/s	 72736/22503 tok/s	 334136 sents	   2569 sec	
@@ -1029,6 +1155,9 @@ mt_eng-bos: 10000	 acc: --	 ppl:  9.90	 xent: 2.29	  15.57 TFLOP/s	 71786/22603 
 mt_eng-bos: 10500	 acc: --	 ppl:  9.11	 xent: 2.21	  13.44 TFLOP/s	 62406/18793 tok/s	 3514514 sents	  27810 sec	
 mt_eng-bos: 11000	 acc: --	 ppl:  9.96	 xent: 2.30	  15.70 TFLOP/s	 72595/22421 tok/s	 3681611 sents	  29097 sec	
 mt_eng-bos: 11500	 acc: --	 ppl: 10.23	 xent: 2.33	  15.77 TFLOP/s	 72965/22457 tok/s	 3848791 sents	  30382 sec	
+mt_eng-bos: 12000	 acc: --	 ppl: 10.13	 xent: 2.32	  15.80 TFLOP/s	 73036/22549 tok/s	 4016539 sents	  31667 sec	
+mt_eng-bos: 12500	 acc: --	 ppl:  9.64	 xent: 2.27	  15.61 TFLOP/s	 72150/22384 tok/s	 4184067 sents	  32960 sec	
+mt_eng-bos: 13000	 acc: --	 ppl:  8.80	 xent: 2.18	  13.30 TFLOP/s	 61617/18799 tok/s	 4351480 sents	  34492 sec	
 
 mt_eng-bul: 500	 acc: --	 ppl: 151.06	 xent: 5.02	  16.02 TFLOP/s	 72761/24354 tok/s	 166736 sents	   1287 sec	
 mt_eng-bul: 1000	 acc: --	 ppl: 71.12	 xent: 4.26	  16.02 TFLOP/s	 72627/24556 tok/s	 334060 sents	   2569 sec	
@@ -1053,6 +1182,9 @@ mt_eng-bul: 10000	 acc: --	 ppl:  8.29	 xent: 2.11	  15.74 TFLOP/s	 71062/24691 
 mt_eng-bul: 10500	 acc: --	 ppl:  8.34	 xent: 2.12	  13.52 TFLOP/s	 61271/20804 tok/s	 3514950 sents	  27810 sec	
 mt_eng-bul: 11000	 acc: --	 ppl:  8.40	 xent: 2.13	  15.95 TFLOP/s	 72261/24511 tok/s	 3682274 sents	  29097 sec	
 mt_eng-bul: 11500	 acc: --	 ppl:  7.94	 xent: 2.07	  15.93 TFLOP/s	 72069/24705 tok/s	 3850086 sents	  30382 sec	
+mt_eng-bul: 12000	 acc: --	 ppl:  7.45	 xent: 2.01	  16.20 TFLOP/s	 73682/24368 tok/s	 4017281 sents	  31667 sec	
+mt_eng-bul: 12500	 acc: --	 ppl:  8.21	 xent: 2.11	  16.00 TFLOP/s	 72686/24278 tok/s	 4184520 sents	  32960 sec	
+mt_eng-bul: 13000	 acc: --	 ppl:  8.23	 xent: 2.11	  13.53 TFLOP/s	 61441/20537 tok/s	 4351934 sents	  34492 sec	
 
 mt_eng-cat: 500	 acc: --	 ppl: 892.84	 xent: 6.79	  15.68 TFLOP/s	 70114/25899 tok/s	 175781 sents	   1287 sec	
 mt_eng-cat: 1000	 acc: --	 ppl: 84.40	 xent: 4.44	  15.60 TFLOP/s	 69431/26376 tok/s	 353736 sents	   2569 sec	
@@ -1077,6 +1209,9 @@ mt_eng-cat: 10000	 acc: --	 ppl:  7.39	 xent: 2.00	  15.84 TFLOP/s	 71153/25603 
 mt_eng-cat: 10500	 acc: --	 ppl:  7.47	 xent: 2.01	  13.27 TFLOP/s	 59268/22025 tok/s	 3713906 sents	  27810 sec	
 mt_eng-cat: 11000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.57 TFLOP/s	 69515/25920 tok/s	 3889807 sents	  29097 sec	
 mt_eng-cat: 11500	 acc: --	 ppl:  7.17	 xent: 1.97	  15.66 TFLOP/s	 69759/26304 tok/s	 4067850 sents	  30382 sec	
+mt_eng-cat: 12000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.57 TFLOP/s	 69274/26321 tok/s	 4245727 sents	  31667 sec	
+mt_eng-cat: 12500	 acc: --	 ppl:  6.83	 xent: 1.92	  15.77 TFLOP/s	 70695/25661 tok/s	 4420960 sents	  32960 sec	
+mt_eng-cat: 13000	 acc: --	 ppl:  7.10	 xent: 1.96	  13.15 TFLOP/s	 58684/21912 tok/s	 4597718 sents	  34492 sec	
 
 mt_eng-ces: 500	 acc: --	 ppl: 898.33	 xent: 6.80	  15.54 TFLOP/s	 69595/25636 tok/s	 176542 sents	   1287 sec	
 mt_eng-ces: 1000	 acc: --	 ppl: 64.93	 xent: 4.17	  15.41 TFLOP/s	 68664/26072 tok/s	 354522 sents	   2569 sec	
@@ -1101,6 +1236,9 @@ mt_eng-ces: 10000	 acc: --	 ppl:  7.47	 xent: 2.01	  15.28 TFLOP/s	 67994/25969 
 mt_eng-ces: 10500	 acc: --	 ppl:  6.91	 xent: 1.93	  13.09 TFLOP/s	 58528/21748 tok/s	 3721786 sents	  27810 sec	
 mt_eng-ces: 11000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.62 TFLOP/s	 70015/25671 tok/s	 3899014 sents	  29097 sec	
 mt_eng-ces: 11500	 acc: --	 ppl:  6.88	 xent: 1.93	  15.68 TFLOP/s	 70416/25591 tok/s	 4075716 sents	  30382 sec	
+mt_eng-ces: 12000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.42 TFLOP/s	 68800/25852 tok/s	 4252719 sents	  31667 sec	
+mt_eng-ces: 12500	 acc: --	 ppl:  7.38	 xent: 2.00	  15.40 TFLOP/s	 68669/25872 tok/s	 4430857 sents	  32960 sec	
+mt_eng-ces: 13000	 acc: --	 ppl:  6.90	 xent: 1.93	  12.99 TFLOP/s	 57986/21797 tok/s	 4608696 sents	  34492 sec	
 
 mt_eng-dan: 500	 acc: --	 ppl: 265.56	 xent: 5.58	  15.79 TFLOP/s	 71904/23935 tok/s	 167570 sents	   1287 sec	
 mt_eng-dan: 1000	 acc: --	 ppl: 82.72	 xent: 4.42	  16.04 TFLOP/s	 73389/23716 tok/s	 334728 sents	   2569 sec	
@@ -1125,6 +1263,9 @@ mt_eng-dan: 10000	 acc: --	 ppl:  8.90	 xent: 2.19	  15.77 TFLOP/s	 71805/23882 
 mt_eng-dan: 10500	 acc: --	 ppl:  8.83	 xent: 2.18	  13.56 TFLOP/s	 62016/20093 tok/s	 3511880 sents	  27810 sec	
 mt_eng-dan: 11000	 acc: --	 ppl:  8.57	 xent: 2.15	  15.99 TFLOP/s	 73096/23712 tok/s	 3678987 sents	  29097 sec	
 mt_eng-dan: 11500	 acc: --	 ppl:  8.91	 xent: 2.19	  15.96 TFLOP/s	 72824/23881 tok/s	 3846570 sents	  30382 sec	
+mt_eng-dan: 12000	 acc: --	 ppl:  7.70	 xent: 2.04	  16.06 TFLOP/s	 73456/23777 tok/s	 4013962 sents	  31667 sec	
+mt_eng-dan: 12500	 acc: --	 ppl:  8.48	 xent: 2.14	  15.81 TFLOP/s	 72140/23724 tok/s	 4181766 sents	  32960 sec	
+mt_eng-dan: 13000	 acc: --	 ppl:  7.85	 xent: 2.06	  13.49 TFLOP/s	 61740/19846 tok/s	 4348627 sents	  34492 sec	
 
 mt_eng-deu: 500	 acc: --	 ppl: 217.32	 xent: 5.38	  16.05 TFLOP/s	 72890/24373 tok/s	 166978 sents	   1287 sec	
 mt_eng-deu: 1000	 acc: --	 ppl: 71.86	 xent: 4.27	  16.09 TFLOP/s	 73035/24497 tok/s	 334304 sents	   2569 sec	
@@ -1149,6 +1290,9 @@ mt_eng-deu: 10000	 acc: --	 ppl:  8.12	 xent: 2.09	  16.14 TFLOP/s	 73508/24149 
 mt_eng-deu: 10500	 acc: --	 ppl:  8.27	 xent: 2.11	  13.51 TFLOP/s	 61098/20966 tok/s	 3510298 sents	  27810 sec	
 mt_eng-deu: 11000	 acc: --	 ppl:  7.64	 xent: 2.03	  16.20 TFLOP/s	 73753/24251 tok/s	 3677070 sents	  29097 sec	
 mt_eng-deu: 11500	 acc: --	 ppl:  7.68	 xent: 2.04	  16.22 TFLOP/s	 73824/24319 tok/s	 3843862 sents	  30382 sec	
+mt_eng-deu: 12000	 acc: --	 ppl:  7.55	 xent: 2.02	  16.26 TFLOP/s	 74042/24311 tok/s	 4011005 sents	  31667 sec	
+mt_eng-deu: 12500	 acc: --	 ppl:  8.33	 xent: 2.12	  15.88 TFLOP/s	 71910/24501 tok/s	 4178915 sents	  32960 sec	
+mt_eng-deu: 13000	 acc: --	 ppl:  8.17	 xent: 2.10	  13.23 TFLOP/s	 59661/20856 tok/s	 4347496 sents	  34492 sec	
 
 mt_eng-ell: 500	 acc: --	 ppl: 1305.30	 xent: 7.17	  15.27 TFLOP/s	 65977/29070 tok/s	 192829 sents	   1287 sec	
 mt_eng-ell: 1000	 acc: --	 ppl: 235.38	 xent: 5.46	  15.45 TFLOP/s	 67157/28763 tok/s	 383541 sents	   2569 sec	
@@ -1173,6 +1317,9 @@ mt_eng-ell: 10000	 acc: --	 ppl:  6.37	 xent: 1.85	  15.60 TFLOP/s	 68091/28631 
 mt_eng-ell: 10500	 acc: --	 ppl:  6.40	 xent: 1.86	  13.14 TFLOP/s	 57133/24421 tok/s	 4019981 sents	  27810 sec	
 mt_eng-ell: 11000	 acc: --	 ppl:  6.20	 xent: 1.83	  15.51 TFLOP/s	 67495/28797 tok/s	 4211714 sents	  29097 sec	
 mt_eng-ell: 11500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.46 TFLOP/s	 67270/28682 tok/s	 4401879 sents	  30382 sec	
+mt_eng-ell: 12000	 acc: --	 ppl:  6.14	 xent: 1.82	  15.57 TFLOP/s	 67782/28762 tok/s	 4592705 sents	  31667 sec	
+mt_eng-ell: 12500	 acc: --	 ppl:  6.22	 xent: 1.83	  15.41 TFLOP/s	 66861/28852 tok/s	 4784981 sents	  32960 sec	
+mt_eng-ell: 13000	 acc: --	 ppl:  6.08	 xent: 1.80	  13.12 TFLOP/s	 57102/24270 tok/s	 4976725 sents	  34492 sec	
 
 mt_eng-est: 500	 acc: --	 ppl: 1482.93	 xent: 7.30	  15.54 TFLOP/s	 69022/26888 tok/s	 188463 sents	   1287 sec	
 mt_eng-est: 1000	 acc: --	 ppl: 236.28	 xent: 5.47	  14.80 TFLOP/s	 63913/28593 tok/s	 383235 sents	   2569 sec	
@@ -1197,6 +1344,9 @@ mt_eng-est: 10000	 acc: --	 ppl:  6.67	 xent: 1.90	  15.29 TFLOP/s	 67170/27726 
 mt_eng-est: 10500	 acc: --	 ppl:  6.61	 xent: 1.89	  12.92 TFLOP/s	 56752/23451 tok/s	 4023908 sents	  27810 sec	
 mt_eng-est: 11000	 acc: --	 ppl:  6.53	 xent: 1.88	  15.33 TFLOP/s	 67213/28021 tok/s	 4218000 sents	  29097 sec	
 mt_eng-est: 11500	 acc: --	 ppl:  6.70	 xent: 1.90	  14.98 TFLOP/s	 65303/27894 tok/s	 4409498 sents	  30382 sec	
+mt_eng-est: 12000	 acc: --	 ppl:  6.37	 xent: 1.85	  14.99 TFLOP/s	 65060/28406 tok/s	 4603935 sents	  31667 sec	
+mt_eng-est: 12500	 acc: --	 ppl:  6.41	 xent: 1.86	  15.22 TFLOP/s	 66495/28157 tok/s	 4798557 sents	  32960 sec	
+mt_eng-est: 13000	 acc: --	 ppl:  6.65	 xent: 1.89	  12.89 TFLOP/s	 56660/23301 tok/s	 4990869 sents	  34492 sec	
 
 mt_eng-eus: 500	 acc: --	 ppl: 1191.19	 xent: 7.08	  15.25 TFLOP/s	 70207/22774 tok/s	 174113 sents	   1287 sec	
 mt_eng-eus: 1000	 acc: --	 ppl: 128.10	 xent: 4.85	  15.26 TFLOP/s	 70193/22927 tok/s	 348610 sents	   2569 sec	
@@ -1221,6 +1371,9 @@ mt_eng-eus: 10000	 acc: --	 ppl:  9.79	 xent: 2.28	  15.12 TFLOP/s	 69466/22890 
 mt_eng-eus: 10500	 acc: --	 ppl:  9.85	 xent: 2.29	  13.03 TFLOP/s	 60051/19369 tok/s	 3674047 sents	  27810 sec	
 mt_eng-eus: 11000	 acc: --	 ppl:  9.43	 xent: 2.24	  15.07 TFLOP/s	 68921/23241 tok/s	 3849379 sents	  29097 sec	
 mt_eng-eus: 11500	 acc: --	 ppl:  8.82	 xent: 2.18	  14.78 TFLOP/s	 66887/23981 tok/s	 4026738 sents	  30382 sec	
+mt_eng-eus: 12000	 acc: --	 ppl:  9.54	 xent: 2.26	  15.27 TFLOP/s	 70132/23143 tok/s	 4202706 sents	  31667 sec	
+mt_eng-eus: 12500	 acc: --	 ppl:  9.73	 xent: 2.27	  15.03 TFLOP/s	 68967/22827 tok/s	 4376623 sents	  32960 sec	
+mt_eng-eus: 13000	 acc: --	 ppl:  9.75	 xent: 2.28	  12.83 TFLOP/s	 59018/19236 tok/s	 4551697 sents	  34492 sec	
 
 mt_eng-fin: 500	 acc: --	 ppl: 767.74	 xent: 6.64	  15.36 TFLOP/s	 68810/25384 tok/s	 175524 sents	   1287 sec	
 mt_eng-fin: 1000	 acc: --	 ppl: 73.34	 xent: 4.30	  15.48 TFLOP/s	 69642/25142 tok/s	 349984 sents	   2569 sec	
@@ -1245,6 +1398,9 @@ mt_eng-fin: 10000	 acc: --	 ppl:  8.38	 xent: 2.13	  15.75 TFLOP/s	 71406/24567 
 mt_eng-fin: 10500	 acc: --	 ppl:  7.80	 xent: 2.05	  13.09 TFLOP/s	 58676/21561 tok/s	 3675967 sents	  27810 sec	
 mt_eng-fin: 11000	 acc: --	 ppl:  7.93	 xent: 2.07	  15.47 TFLOP/s	 69505/25191 tok/s	 3851029 sents	  29097 sec	
 mt_eng-fin: 11500	 acc: --	 ppl:  7.95	 xent: 2.07	  15.53 TFLOP/s	 69870/25192 tok/s	 4026115 sents	  30382 sec	
+mt_eng-fin: 12000	 acc: --	 ppl:  7.72	 xent: 2.04	  15.52 TFLOP/s	 69581/25542 tok/s	 4202945 sents	  31667 sec	
+mt_eng-fin: 12500	 acc: --	 ppl:  7.91	 xent: 2.07	  15.31 TFLOP/s	 68659/25116 tok/s	 4377540 sents	  32960 sec	
+mt_eng-fin: 13000	 acc: --	 ppl:  7.76	 xent: 2.05	  12.92 TFLOP/s	 57870/21374 tok/s	 4553650 sents	  34492 sec	
 
 mt_eng-fra: 500	 acc: --	 ppl: 2695.92	 xent: 7.90	  14.67 TFLOP/s	 64917/26401 tok/s	 194708 sents	   1287 sec	
 mt_eng-fra: 1000	 acc: --	 ppl: 494.82	 xent: 6.20	  14.97 TFLOP/s	 66700/26109 tok/s	 386673 sents	   2569 sec	
@@ -1269,6 +1425,9 @@ mt_eng-fra: 10000	 acc: --	 ppl:  7.46	 xent: 2.01	  15.09 TFLOP/s	 67434/25983 
 mt_eng-fra: 10500	 acc: --	 ppl:  7.28	 xent: 1.99	  12.37 TFLOP/s	 54638/22481 tok/s	 4052191 sents	  27810 sec	
 mt_eng-fra: 11000	 acc: --	 ppl:  7.39	 xent: 2.00	  14.75 TFLOP/s	 65516/26070 tok/s	 4244459 sents	  29097 sec	
 mt_eng-fra: 11500	 acc: --	 ppl:  7.46	 xent: 2.01	  14.88 TFLOP/s	 66279/25993 tok/s	 4435654 sents	  30382 sec	
+mt_eng-fra: 12000	 acc: --	 ppl:  7.32	 xent: 1.99	  14.82 TFLOP/s	 65702/26424 tok/s	 4629854 sents	  31667 sec	
+mt_eng-fra: 12500	 acc: --	 ppl:  7.55	 xent: 2.02	  14.58 TFLOP/s	 64483/26294 tok/s	 4823973 sents	  32960 sec	
+mt_eng-fra: 13000	 acc: --	 ppl:  7.36	 xent: 2.00	  12.63 TFLOP/s	 56354/21942 tok/s	 5016696 sents	  34492 sec	
 
 mt_eng-gle: 500	 acc: --	 ppl: 1338.22	 xent: 7.20	  15.18 TFLOP/s	 65628/28969 tok/s	 194502 sents	   1287 sec	
 mt_eng-gle: 1000	 acc: --	 ppl: 556.38	 xent: 6.32	  15.39 TFLOP/s	 67024/28601 tok/s	 387069 sents	   2569 sec	
@@ -1293,6 +1452,9 @@ mt_eng-gle: 10000	 acc: --	 ppl:  6.73	 xent: 1.91	  15.46 TFLOP/s	 67627/28233 
 mt_eng-gle: 10500	 acc: --	 ppl:  6.49	 xent: 1.87	  13.04 TFLOP/s	 56798/24229 tok/s	 4054748 sents	  27810 sec	
 mt_eng-gle: 11000	 acc: --	 ppl:  6.33	 xent: 1.85	  15.07 TFLOP/s	 65043/28927 tok/s	 4248837 sents	  29097 sec	
 mt_eng-gle: 11500	 acc: --	 ppl:  6.50	 xent: 1.87	  15.13 TFLOP/s	 65515/28771 tok/s	 4442120 sents	  30382 sec	
+mt_eng-gle: 12000	 acc: --	 ppl:  6.40	 xent: 1.86	  15.18 TFLOP/s	 65594/29005 tok/s	 4636269 sents	  31667 sec	
+mt_eng-gle: 12500	 acc: --	 ppl:  6.48	 xent: 1.87	  15.44 TFLOP/s	 67369/28445 tok/s	 4829026 sents	  32960 sec	
+mt_eng-gle: 13000	 acc: --	 ppl:  6.21	 xent: 1.83	  12.74 TFLOP/s	 54922/24541 tok/s	 5025003 sents	  34492 sec	
 
 mt_eng-glg: 500	 acc: --	 ppl: 1141.11	 xent: 7.04	  15.17 TFLOP/s	 65005/29625 tok/s	 193745 sents	   1287 sec	
 mt_eng-glg: 1000	 acc: --	 ppl: 496.74	 xent: 6.21	  15.22 TFLOP/s	 65393/29519 tok/s	 386798 sents	   2569 sec	
@@ -1317,6 +1479,9 @@ mt_eng-glg: 10000	 acc: --	 ppl:  6.06	 xent: 1.80	  15.40 TFLOP/s	 66469/29438 
 mt_eng-glg: 10500	 acc: --	 ppl:  6.09	 xent: 1.81	  13.19 TFLOP/s	 57335/24521 tok/s	 4054826 sents	  27810 sec	
 mt_eng-glg: 11000	 acc: --	 ppl:  6.01	 xent: 1.79	  15.30 TFLOP/s	 66115/29086 tok/s	 4246326 sents	  29097 sec	
 mt_eng-glg: 11500	 acc: --	 ppl:  5.75	 xent: 1.75	  15.24 TFLOP/s	 65270/29868 tok/s	 4441432 sents	  30382 sec	
+mt_eng-glg: 12000	 acc: --	 ppl:  5.74	 xent: 1.75	  15.26 TFLOP/s	 65048/30340 tok/s	 4638677 sents	  31667 sec	
+mt_eng-glg: 12500	 acc: --	 ppl:  6.28	 xent: 1.84	  15.62 TFLOP/s	 68247/28476 tok/s	 4828446 sents	  32960 sec	
+mt_eng-glg: 13000	 acc: --	 ppl:  6.05	 xent: 1.80	  13.01 TFLOP/s	 56240/24703 tok/s	 5022215 sents	  34492 sec	
 
 mt_eng-hrv: 500	 acc: --	 ppl: 1699.58	 xent: 7.44	  15.10 TFLOP/s	 65904/28038 tok/s	 193455 sents	   1287 sec	
 mt_eng-hrv: 1000	 acc: --	 ppl: 749.00	 xent: 6.62	  15.11 TFLOP/s	 65936/28058 tok/s	 386588 sents	   2569 sec	
@@ -1341,6 +1506,9 @@ mt_eng-hrv: 10000	 acc: --	 ppl:  6.74	 xent: 1.91	  15.23 TFLOP/s	 66660/28018 
 mt_eng-hrv: 10500	 acc: --	 ppl:  7.30	 xent: 1.99	  12.85 TFLOP/s	 56097/23852 tok/s	 4063822 sents	  27810 sec	
 mt_eng-hrv: 11000	 acc: --	 ppl:  6.98	 xent: 1.94	  15.23 TFLOP/s	 66997/27467 tok/s	 4254251 sents	  29097 sec	
 mt_eng-hrv: 11500	 acc: --	 ppl:  7.00	 xent: 1.95	  15.42 TFLOP/s	 67999/27469 tok/s	 4444692 sents	  30382 sec	
+mt_eng-hrv: 12000	 acc: --	 ppl:  6.83	 xent: 1.92	  15.35 TFLOP/s	 67279/28029 tok/s	 4638103 sents	  31667 sec	
+mt_eng-hrv: 12500	 acc: --	 ppl:  7.12	 xent: 1.96	  15.31 TFLOP/s	 67263/27693 tok/s	 4830345 sents	  32960 sec	
+mt_eng-hrv: 13000	 acc: --	 ppl:  6.99	 xent: 1.94	  12.57 TFLOP/s	 54293/24289 tok/s	 5028828 sents	  34492 sec	
 
 mt_eng-hun: 500	 acc: --	 ppl: 1764.92	 xent: 7.48	  15.05 TFLOP/s	 65752/27897 tok/s	 193900 sents	   1287 sec	
 mt_eng-hun: 1000	 acc: --	 ppl: 591.34	 xent: 6.38	  15.03 TFLOP/s	 65565/28072 tok/s	 388426 sents	   2569 sec	
@@ -1365,6 +1533,9 @@ mt_eng-hun: 10000	 acc: --	 ppl:  6.88	 xent: 1.93	  14.99 TFLOP/s	 65172/28345 
 mt_eng-hun: 10500	 acc: --	 ppl:  6.69	 xent: 1.90	  12.76 TFLOP/s	 55518/24034 tok/s	 4079449 sents	  27810 sec	
 mt_eng-hun: 11000	 acc: --	 ppl:  6.91	 xent: 1.93	  15.16 TFLOP/s	 66805/27185 tok/s	 4269681 sents	  29097 sec	
 mt_eng-hun: 11500	 acc: --	 ppl:  6.84	 xent: 1.92	  15.31 TFLOP/s	 67378/27577 tok/s	 4462176 sents	  30382 sec	
+mt_eng-hun: 12000	 acc: --	 ppl:  6.61	 xent: 1.89	  15.12 TFLOP/s	 65780/28503 tok/s	 4659238 sents	  31667 sec	
+mt_eng-hun: 12500	 acc: --	 ppl:  6.66	 xent: 1.90	  15.11 TFLOP/s	 66297/27594 tok/s	 4852251 sents	  32960 sec	
+mt_eng-hun: 13000	 acc: --	 ppl:  6.91	 xent: 1.93	  12.93 TFLOP/s	 57105/23016 tok/s	 5043980 sents	  34492 sec	
 
 mt_eng-isl: 500	 acc: --	 ppl: 1563.25	 xent: 7.35	  15.04 TFLOP/s	 65377/28357 tok/s	 194482 sents	   1287 sec	
 mt_eng-isl: 1000	 acc: --	 ppl: 833.20	 xent: 6.73	  15.08 TFLOP/s	 65628/28344 tok/s	 388757 sents	   2569 sec	
@@ -1389,6 +1560,9 @@ mt_eng-isl: 10000	 acc: --	 ppl:  7.10	 xent: 1.96	  15.20 TFLOP/s	 66395/28104 
 mt_eng-isl: 10500	 acc: --	 ppl:  6.98	 xent: 1.94	  12.99 TFLOP/s	 56965/23687 tok/s	 4058489 sents	  27810 sec	
 mt_eng-isl: 11000	 acc: --	 ppl:  6.92	 xent: 1.93	  15.26 TFLOP/s	 67054/27593 tok/s	 4249437 sents	  29097 sec	
 mt_eng-isl: 11500	 acc: --	 ppl:  6.66	 xent: 1.90	  14.93 TFLOP/s	 64596/28609 tok/s	 4445016 sents	  30382 sec	
+mt_eng-isl: 12000	 acc: --	 ppl:  6.78	 xent: 1.91	  15.38 TFLOP/s	 67508/27919 tok/s	 4637474 sents	  31667 sec	
+mt_eng-isl: 12500	 acc: --	 ppl:  6.74	 xent: 1.91	  14.98 TFLOP/s	 64956/28492 tok/s	 4833242 sents	  32960 sec	
+mt_eng-isl: 13000	 acc: --	 ppl:  7.02	 xent: 1.95	  12.76 TFLOP/s	 55556/23878 tok/s	 5028755 sents	  34492 sec	
 
 mt_eng-ita: 500	 acc: --	 ppl: 1075.83	 xent: 6.98	  15.50 TFLOP/s	 66515/29875 tok/s	 190238 sents	   1287 sec	
 mt_eng-ita: 1000	 acc: --	 ppl: 525.59	 xent: 6.26	  15.59 TFLOP/s	 66903/30037 tok/s	 381207 sents	   2569 sec	
@@ -1413,6 +1587,9 @@ mt_eng-ita: 10000	 acc: --	 ppl:  6.48	 xent: 1.87	  15.49 TFLOP/s	 66032/30552 
 mt_eng-ita: 10500	 acc: --	 ppl:  6.25	 xent: 1.83	  13.13 TFLOP/s	 55966/25878 tok/s	 4041316 sents	  27810 sec	
 mt_eng-ita: 11000	 acc: --	 ppl:  6.01	 xent: 1.79	  15.41 TFLOP/s	 65810/30210 tok/s	 4233139 sents	  29097 sec	
 mt_eng-ita: 11500	 acc: --	 ppl:  5.85	 xent: 1.77	  15.25 TFLOP/s	 64452/30950 tok/s	 4427833 sents	  30382 sec	
+mt_eng-ita: 12000	 acc: --	 ppl:  5.83	 xent: 1.76	  15.46 TFLOP/s	 65844/30541 tok/s	 4620657 sents	  31667 sec	
+mt_eng-ita: 12500	 acc: --	 ppl:  5.76	 xent: 1.75	  15.47 TFLOP/s	 65909/30586 tok/s	 4815139 sents	  32960 sec	
+mt_eng-ita: 13000	 acc: --	 ppl:  5.78	 xent: 1.76	  13.22 TFLOP/s	 56780/25345 tok/s	 5007541 sents	  34492 sec	
 
 mt_eng-kat: 500	 acc: --	 ppl: 2070.69	 xent: 7.64	  14.64 TFLOP/s	 64058/27313 tok/s	 196199 sents	   1287 sec	
 mt_eng-kat: 1000	 acc: --	 ppl: 422.40	 xent: 6.05	  15.12 TFLOP/s	 67315/26387 tok/s	 388708 sents	   2569 sec	
@@ -1437,6 +1614,9 @@ mt_eng-kat: 10000	 acc: --	 ppl:  7.31	 xent: 1.99	  14.90 TFLOP/s	 66110/26464 
 mt_eng-kat: 10500	 acc: --	 ppl:  7.03	 xent: 1.95	  12.62 TFLOP/s	 55775/22714 tok/s	 4043367 sents	  27810 sec	
 mt_eng-kat: 11000	 acc: --	 ppl:  6.78	 xent: 1.91	  14.72 TFLOP/s	 64529/27242 tok/s	 4239572 sents	  29097 sec	
 mt_eng-kat: 11500	 acc: --	 ppl:  7.34	 xent: 1.99	  15.06 TFLOP/s	 67138/26193 tok/s	 4430959 sents	  30382 sec	
+mt_eng-kat: 12000	 acc: --	 ppl:  7.55	 xent: 2.02	  15.12 TFLOP/s	 67559/26029 tok/s	 4621518 sents	  31667 sec	
+mt_eng-kat: 12500	 acc: --	 ppl:  7.02	 xent: 1.95	  15.15 TFLOP/s	 67335/26642 tok/s	 4816622 sents	  32960 sec	
+mt_eng-kat: 13000	 acc: --	 ppl:  7.15	 xent: 1.97	  12.56 TFLOP/s	 55710/22265 tok/s	 5009332 sents	  34492 sec	
 
 mt_eng-lav: 500	 acc: --	 ppl: 2902.52	 xent: 7.97	  14.93 TFLOP/s	 66439/26156 tok/s	 192468 sents	   1287 sec	
 mt_eng-lav: 1000	 acc: --	 ppl: 681.19	 xent: 6.52	  15.06 TFLOP/s	 67227/26084 tok/s	 384528 sents	   2569 sec	
@@ -1461,6 +1641,9 @@ mt_eng-lav: 10000	 acc: --	 ppl:  8.01	 xent: 2.08	  14.67 TFLOP/s	 64958/26279 
 mt_eng-lav: 10500	 acc: --	 ppl:  7.56	 xent: 2.02	  12.53 TFLOP/s	 55419/22578 tok/s	 4051357 sents	  27810 sec	
 mt_eng-lav: 11000	 acc: --	 ppl:  7.80	 xent: 2.05	  14.89 TFLOP/s	 66483/25791 tok/s	 4241614 sents	  29097 sec	
 mt_eng-lav: 11500	 acc: --	 ppl:  7.57	 xent: 2.02	  14.91 TFLOP/s	 66422/25994 tok/s	 4432944 sents	  30382 sec	
+mt_eng-lav: 12000	 acc: --	 ppl:  7.48	 xent: 2.01	  15.03 TFLOP/s	 67032/26140 tok/s	 4624976 sents	  31667 sec	
+mt_eng-lav: 12500	 acc: --	 ppl:  7.44	 xent: 2.01	  15.06 TFLOP/s	 67245/26075 tok/s	 4817860 sents	  32960 sec	
+mt_eng-lav: 13000	 acc: --	 ppl:  7.64	 xent: 2.03	  12.49 TFLOP/s	 55387/22216 tok/s	 5012065 sents	  34492 sec	
 
 mt_eng-lit: 500	 acc: --	 ppl: 3262.00	 xent: 8.09	  15.02 TFLOP/s	 68761/23765 tok/s	 189218 sents	   1287 sec	
 mt_eng-lit: 1000	 acc: --	 ppl: 309.77	 xent: 5.74	  14.41 TFLOP/s	 65201/24248 tok/s	 382158 sents	   2569 sec	
@@ -1485,6 +1668,9 @@ mt_eng-lit: 10000	 acc: --	 ppl:  9.36	 xent: 2.24	  14.36 TFLOP/s	 64882/24262 
 mt_eng-lit: 10500	 acc: --	 ppl:  9.87	 xent: 2.29	  12.18 TFLOP/s	 54992/20706 tok/s	 4045544 sents	  27810 sec	
 mt_eng-lit: 11000	 acc: --	 ppl:  9.82	 xent: 2.28	  14.09 TFLOP/s	 63411/24258 tok/s	 4239195 sents	  29097 sec	
 mt_eng-lit: 11500	 acc: --	 ppl:  9.71	 xent: 2.27	  14.63 TFLOP/s	 66482/24051 tok/s	 4430608 sents	  30382 sec	
+mt_eng-lit: 12000	 acc: --	 ppl:  9.15	 xent: 2.21	  14.49 TFLOP/s	 65559/24325 tok/s	 4624089 sents	  31667 sec	
+mt_eng-lit: 12500	 acc: --	 ppl:  9.27	 xent: 2.23	  14.58 TFLOP/s	 66186/24044 tok/s	 4816209 sents	  32960 sec	
+mt_eng-lit: 13000	 acc: --	 ppl:  9.46	 xent: 2.25	  12.25 TFLOP/s	 55519/20405 tok/s	 5010152 sents	  34492 sec	
 
 mt_eng-mkd: 500	 acc: --	 ppl: 1604.77	 xent: 7.38	  14.74 TFLOP/s	 63868/28256 tok/s	 196529 sents	   1287 sec	
 mt_eng-mkd: 1000	 acc: --	 ppl: 979.10	 xent: 6.89	  15.03 TFLOP/s	 65893/27561 tok/s	 388720 sents	   2569 sec	
@@ -1509,6 +1695,9 @@ mt_eng-mkd: 10000	 acc: --	 ppl:  7.83	 xent: 2.06	  14.99 TFLOP/s	 65416/27952 
 mt_eng-mkd: 10500	 acc: --	 ppl:  7.40	 xent: 2.00	  12.84 TFLOP/s	 56277/23521 tok/s	 4057575 sents	  27810 sec	
 mt_eng-mkd: 11000	 acc: --	 ppl:  7.31	 xent: 1.99	  15.00 TFLOP/s	 65663/27644 tok/s	 4250669 sents	  29097 sec	
 mt_eng-mkd: 11500	 acc: --	 ppl:  8.17	 xent: 2.10	  14.82 TFLOP/s	 64260/28349 tok/s	 4447516 sents	  30382 sec	
+mt_eng-mkd: 12000	 acc: --	 ppl:  7.38	 xent: 2.00	  15.44 TFLOP/s	 68273/27340 tok/s	 4638790 sents	  31667 sec	
+mt_eng-mkd: 12500	 acc: --	 ppl:  7.21	 xent: 1.98	  15.30 TFLOP/s	 67530/27310 tok/s	 4830871 sents	  32960 sec	
+mt_eng-mkd: 13000	 acc: --	 ppl:  7.14	 xent: 1.97	  12.75 TFLOP/s	 55916/23333 tok/s	 5025130 sents	  34492 sec	
 
 mt_eng-mlt: 500	 acc: --	 ppl: 1700.09	 xent: 7.44	  15.39 TFLOP/s	 67404/28037 tok/s	 191826 sents	   1287 sec	
 mt_eng-mlt: 1000	 acc: --	 ppl: 595.09	 xent: 6.39	  15.18 TFLOP/s	 65783/28813 tok/s	 386633 sents	   2569 sec	
@@ -1533,6 +1722,9 @@ mt_eng-mlt: 10000	 acc: --	 ppl:  6.58	 xent: 1.88	  15.24 TFLOP/s	 66402/28357 
 mt_eng-mlt: 10500	 acc: --	 ppl:  6.47	 xent: 1.87	  13.10 TFLOP/s	 57486/23722 tok/s	 4057238 sents	  27810 sec	
 mt_eng-mlt: 11000	 acc: --	 ppl:  6.36	 xent: 1.85	  15.24 TFLOP/s	 66515/28198 tok/s	 4249475 sents	  29097 sec	
 mt_eng-mlt: 11500	 acc: --	 ppl:  6.33	 xent: 1.85	  15.12 TFLOP/s	 65511/28735 tok/s	 4443924 sents	  30382 sec	
+mt_eng-mlt: 12000	 acc: --	 ppl:  6.31	 xent: 1.84	  15.23 TFLOP/s	 66038/28793 tok/s	 4638568 sents	  31667 sec	
+mt_eng-mlt: 12500	 acc: --	 ppl:  6.13	 xent: 1.81	  15.06 TFLOP/s	 65065/28871 tok/s	 4834115 sents	  32960 sec	
+mt_eng-mlt: 13000	 acc: --	 ppl:  6.17	 xent: 1.82	  12.78 TFLOP/s	 55403/24255 tok/s	 5029895 sents	  34492 sec	
 
 mt_eng-nld: 500	 acc: --	 ppl: 1290.46	 xent: 7.16	  15.21 TFLOP/s	 65659/29116 tok/s	 193395 sents	   1287 sec	
 mt_eng-nld: 1000	 acc: --	 ppl: 393.25	 xent: 5.97	  15.50 TFLOP/s	 67582/28619 tok/s	 384217 sents	   2569 sec	
@@ -1557,6 +1749,9 @@ mt_eng-nld: 10000	 acc: --	 ppl:  7.84	 xent: 2.06	  15.25 TFLOP/s	 65723/29327 
 mt_eng-nld: 10500	 acc: --	 ppl:  7.97	 xent: 2.08	  13.02 TFLOP/s	 56317/24680 tok/s	 4045891 sents	  27810 sec	
 mt_eng-nld: 11000	 acc: --	 ppl:  6.79	 xent: 1.92	  15.34 TFLOP/s	 66604/28707 tok/s	 4237400 sents	  29097 sec	
 mt_eng-nld: 11500	 acc: --	 ppl:  6.95	 xent: 1.94	  15.28 TFLOP/s	 66101/29033 tok/s	 4430235 sents	  30382 sec	
+mt_eng-nld: 12000	 acc: --	 ppl:  7.50	 xent: 2.02	  15.35 TFLOP/s	 66610/28736 tok/s	 4621344 sents	  31667 sec	
+mt_eng-nld: 12500	 acc: --	 ppl:  6.88	 xent: 1.93	  15.33 TFLOP/s	 66189/29232 tok/s	 4816061 sents	  32960 sec	
+mt_eng-nld: 13000	 acc: --	 ppl:  7.06	 xent: 1.95	  12.94 TFLOP/s	 56103/24338 tok/s	 5009076 sents	  34492 sec	
 
 mt_eng-nno: 500	 acc: --	 ppl: 1595.85	 xent: 7.38	  15.18 TFLOP/s	 66156/28278 tok/s	 193519 sents	   1287 sec	
 mt_eng-nno: 1000	 acc: --	 ppl: 562.93	 xent: 6.33	  15.05 TFLOP/s	 65196/28678 tok/s	 388630 sents	   2569 sec	
@@ -1581,6 +1776,9 @@ mt_eng-nno: 10000	 acc: --	 ppl:  6.15	 xent: 1.82	  14.96 TFLOP/s	 64687/28739 
 mt_eng-nno: 10500	 acc: --	 ppl:  6.41	 xent: 1.86	  12.87 TFLOP/s	 56063/24027 tok/s	 4053765 sents	  27810 sec	
 mt_eng-nno: 11000	 acc: --	 ppl:  6.45	 xent: 1.86	  15.20 TFLOP/s	 66452/27978 tok/s	 4245619 sents	  29097 sec	
 mt_eng-nno: 11500	 acc: --	 ppl:  6.25	 xent: 1.83	  15.09 TFLOP/s	 65512/28499 tok/s	 4440184 sents	  30382 sec	
+mt_eng-nno: 12000	 acc: --	 ppl:  6.45	 xent: 1.86	  15.40 TFLOP/s	 67514/28001 tok/s	 4632110 sents	  31667 sec	
+mt_eng-nno: 12500	 acc: --	 ppl:  6.10	 xent: 1.81	  14.92 TFLOP/s	 64266/28941 tok/s	 4829370 sents	  32960 sec	
+mt_eng-nno: 13000	 acc: --	 ppl:  6.18	 xent: 1.82	  12.67 TFLOP/s	 54930/24053 tok/s	 5024865 sents	  34492 sec	
 
 mt_eng-nob: 500	 acc: --	 ppl: 1264.31	 xent: 7.14	  14.88 TFLOP/s	 63868/29200 tok/s	 197157 sents	   1287 sec	
 mt_eng-nob: 1000	 acc: --	 ppl: 821.61	 xent: 6.71	  15.02 TFLOP/s	 65108/28525 tok/s	 390499 sents	   2569 sec	
@@ -1605,6 +1803,9 @@ mt_eng-nob: 10000	 acc: --	 ppl:  6.72	 xent: 1.91	  15.16 TFLOP/s	 66056/28257 
 mt_eng-nob: 10500	 acc: --	 ppl:  6.43	 xent: 1.86	  12.78 TFLOP/s	 55436/24174 tok/s	 4047301 sents	  27810 sec	
 mt_eng-nob: 11000	 acc: --	 ppl:  6.59	 xent: 1.89	  14.94 TFLOP/s	 64803/28307 tok/s	 4239748 sents	  29097 sec	
 mt_eng-nob: 11500	 acc: --	 ppl:  6.60	 xent: 1.89	  15.28 TFLOP/s	 66775/28102 tok/s	 4431624 sents	  30382 sec	
+mt_eng-nob: 12000	 acc: --	 ppl:  6.53	 xent: 1.88	  14.82 TFLOP/s	 63607/29127 tok/s	 4627741 sents	  31667 sec	
+mt_eng-nob: 12500	 acc: --	 ppl:  6.65	 xent: 1.89	  15.52 TFLOP/s	 68372/27622 tok/s	 4818154 sents	  32960 sec	
+mt_eng-nob: 13000	 acc: --	 ppl:  6.36	 xent: 1.85	  12.75 TFLOP/s	 55344/24038 tok/s	 5012850 sents	  34492 sec	
 
 mt_eng-pol: 500	 acc: --	 ppl: 1504.87	 xent: 7.32	  15.11 TFLOP/s	 65625/28505 tok/s	 195169 sents	   1287 sec	
 mt_eng-pol: 1000	 acc: --	 ppl: 897.47	 xent: 6.80	  15.05 TFLOP/s	 65341/28515 tok/s	 389900 sents	   2569 sec	
@@ -1629,6 +1830,9 @@ mt_eng-pol: 10000	 acc: --	 ppl:  7.33	 xent: 1.99	  15.29 TFLOP/s	 66899/28059 
 mt_eng-pol: 10500	 acc: --	 ppl:  7.00	 xent: 1.95	  12.93 TFLOP/s	 56556/23829 tok/s	 4065885 sents	  27810 sec	
 mt_eng-pol: 11000	 acc: --	 ppl:  7.46	 xent: 2.01	  15.25 TFLOP/s	 66878/27777 tok/s	 4256993 sents	  29097 sec	
 mt_eng-pol: 11500	 acc: --	 ppl:  7.13	 xent: 1.96	  15.21 TFLOP/s	 66370/28255 tok/s	 4450615 sents	  30382 sec	
+mt_eng-pol: 12000	 acc: --	 ppl:  7.49	 xent: 2.01	  15.29 TFLOP/s	 66809/28159 tok/s	 4643336 sents	  31667 sec	
+mt_eng-pol: 12500	 acc: --	 ppl:  6.86	 xent: 1.93	  14.85 TFLOP/s	 64105/28656 tok/s	 4839681 sents	  32960 sec	
+mt_eng-pol: 13000	 acc: --	 ppl:  6.98	 xent: 1.94	  12.83 TFLOP/s	 56013/23774 tok/s	 5033793 sents	  34492 sec	
 
 mt_eng-por: 500	 acc: --	 ppl: 1839.63	 xent: 7.52	  15.00 TFLOP/s	 65552/27744 tok/s	 191504 sents	   1287 sec	
 mt_eng-por: 1000	 acc: --	 ppl: 403.84	 xent: 6.00	  15.10 TFLOP/s	 66053/27811 tok/s	 383418 sents	   2569 sec	
@@ -1653,6 +1857,9 @@ mt_eng-por: 10000	 acc: --	 ppl:  7.95	 xent: 2.07	  14.84 TFLOP/s	 64336/28337 
 mt_eng-por: 10500	 acc: --	 ppl:  7.83	 xent: 2.06	  12.77 TFLOP/s	 55644/23885 tok/s	 4031501 sents	  27810 sec	
 mt_eng-por: 11000	 acc: --	 ppl:  6.99	 xent: 1.94	  15.02 TFLOP/s	 65682/27668 tok/s	 4222958 sents	  29097 sec	
 mt_eng-por: 11500	 acc: --	 ppl:  6.91	 xent: 1.93	  15.03 TFLOP/s	 65622/27856 tok/s	 4415148 sents	  30382 sec	
+mt_eng-por: 12000	 acc: --	 ppl:  7.54	 xent: 2.02	  15.29 TFLOP/s	 67322/27451 tok/s	 4604870 sents	  31667 sec	
+mt_eng-por: 12500	 acc: --	 ppl:  6.81	 xent: 1.92	  14.98 TFLOP/s	 65336/27906 tok/s	 4798041 sents	  32960 sec	
+mt_eng-por: 13000	 acc: --	 ppl:  6.92	 xent: 1.93	  12.88 TFLOP/s	 56769/22992 tok/s	 4987591 sents	  34492 sec	
 
 mt_eng-ron: 500	 acc: --	 ppl: 1064.43	 xent: 6.97	  15.31 TFLOP/s	 65557/29922 tok/s	 194100 sents	   1287 sec	
 mt_eng-ron: 1000	 acc: --	 ppl: 505.35	 xent: 6.23	  15.51 TFLOP/s	 67067/29306 tok/s	 384885 sents	   2569 sec	
@@ -1677,6 +1884,9 @@ mt_eng-ron: 10000	 acc: --	 ppl:  5.87	 xent: 1.77	  15.43 TFLOP/s	 66373/29724 
 mt_eng-ron: 10500	 acc: --	 ppl:  5.76	 xent: 1.75	  12.90 TFLOP/s	 54914/25701 tok/s	 4042430 sents	  27810 sec	
 mt_eng-ron: 11000	 acc: --	 ppl:  5.83	 xent: 1.76	  15.41 TFLOP/s	 66188/29799 tok/s	 4236188 sents	  29097 sec	
 mt_eng-ron: 11500	 acc: --	 ppl:  5.77	 xent: 1.75	  15.34 TFLOP/s	 65821/29788 tok/s	 4429432 sents	  30382 sec	
+mt_eng-ron: 12000	 acc: --	 ppl:  5.89	 xent: 1.77	  15.34 TFLOP/s	 65883/29675 tok/s	 4621778 sents	  31667 sec	
+mt_eng-ron: 12500	 acc: --	 ppl:  5.67	 xent: 1.74	  15.37 TFLOP/s	 65908/29913 tok/s	 4816490 sents	  32960 sec	
+mt_eng-ron: 13000	 acc: --	 ppl:  5.84	 xent: 1.76	  12.90 TFLOP/s	 55265/25213 tok/s	 5011404 sents	  34492 sec	
 
 mt_eng-slk: 500	 acc: --	 ppl: 3034.27	 xent: 8.02	  15.03 TFLOP/s	 68005/24793 tok/s	 189134 sents	   1287 sec	
 mt_eng-slk: 1000	 acc: --	 ppl: 520.38	 xent: 6.25	  14.91 TFLOP/s	 67097/25245 tok/s	 381021 sents	   2569 sec	
@@ -1701,6 +1911,9 @@ mt_eng-slk: 10000	 acc: --	 ppl:  9.30	 xent: 2.23	  14.76 TFLOP/s	 66275/25248 
 mt_eng-slk: 10500	 acc: --	 ppl:  9.06	 xent: 2.20	  12.28 TFLOP/s	 54762/21671 tok/s	 4042198 sents	  27810 sec	
 mt_eng-slk: 11000	 acc: --	 ppl:  8.65	 xent: 2.16	  14.61 TFLOP/s	 65276/25498 tok/s	 4236311 sents	  29097 sec	
 mt_eng-slk: 11500	 acc: --	 ppl:  8.09	 xent: 2.09	  14.76 TFLOP/s	 66328/25177 tok/s	 4427995 sents	  30382 sec	
+mt_eng-slk: 12000	 acc: --	 ppl:  8.28	 xent: 2.11	  14.56 TFLOP/s	 65034/25470 tok/s	 4621015 sents	  31667 sec	
+mt_eng-slk: 12500	 acc: --	 ppl:  8.19	 xent: 2.10	  14.88 TFLOP/s	 66912/25277 tok/s	 4814192 sents	  32960 sec	
+mt_eng-slk: 13000	 acc: --	 ppl:  8.45	 xent: 2.13	  12.36 TFLOP/s	 55260/21488 tok/s	 5008870 sents	  34492 sec	
 
 mt_eng-slv: 500	 acc: --	 ppl: 2524.68	 xent: 7.83	  15.06 TFLOP/s	 66816/26623 tok/s	 193202 sents	   1287 sec	
 mt_eng-slv: 1000	 acc: --	 ppl: 599.71	 xent: 6.40	  15.11 TFLOP/s	 67108/26603 tok/s	 385891 sents	   2569 sec	
@@ -1725,6 +1938,9 @@ mt_eng-slv: 10000	 acc: --	 ppl:  7.62	 xent: 2.03	  15.10 TFLOP/s	 67094/26524 
 mt_eng-slv: 10500	 acc: --	 ppl:  7.32	 xent: 1.99	  12.65 TFLOP/s	 55902/22781 tok/s	 4043153 sents	  27810 sec	
 mt_eng-slv: 11000	 acc: --	 ppl:  7.38	 xent: 2.00	  14.94 TFLOP/s	 66016/26907 tok/s	 4238157 sents	  29097 sec	
 mt_eng-slv: 11500	 acc: --	 ppl:  7.58	 xent: 2.03	  15.05 TFLOP/s	 67010/26186 tok/s	 4427994 sents	  30382 sec	
+mt_eng-slv: 12000	 acc: --	 ppl:  7.35	 xent: 1.99	  14.66 TFLOP/s	 64411/26991 tok/s	 4622632 sents	  31667 sec	
+mt_eng-slv: 12500	 acc: --	 ppl:  7.37	 xent: 2.00	  15.34 TFLOP/s	 68459/26407 tok/s	 4815330 sents	  32960 sec	
+mt_eng-slv: 13000	 acc: --	 ppl:  7.30	 xent: 1.99	  12.47 TFLOP/s	 55031/22549 tok/s	 5009450 sents	  34492 sec	
 
 mt_eng-spa: 500	 acc: --	 ppl: 1886.53	 xent: 7.54	  15.22 TFLOP/s	 66776/27651 tok/s	 190998 sents	   1287 sec	
 mt_eng-spa: 1000	 acc: --	 ppl: 603.44	 xent: 6.40	  15.05 TFLOP/s	 65599/28111 tok/s	 384242 sents	   2569 sec	
@@ -1749,6 +1965,9 @@ mt_eng-spa: 10000	 acc: --	 ppl:  6.89	 xent: 1.93	  15.37 TFLOP/s	 67621/27691 
 mt_eng-spa: 10500	 acc: --	 ppl:  7.19	 xent: 1.97	  12.83 TFLOP/s	 56057/23690 tok/s	 4038646 sents	  27810 sec	
 mt_eng-spa: 11000	 acc: --	 ppl:  6.65	 xent: 1.89	  15.15 TFLOP/s	 66361/27740 tok/s	 4230227 sents	  29097 sec	
 mt_eng-spa: 11500	 acc: --	 ppl:  6.65	 xent: 1.89	  14.98 TFLOP/s	 65293/27990 tok/s	 4422707 sents	  30382 sec	
+mt_eng-spa: 12000	 acc: --	 ppl:  6.74	 xent: 1.91	  15.26 TFLOP/s	 67180/27349 tok/s	 4611517 sents	  31667 sec	
+mt_eng-spa: 12500	 acc: --	 ppl:  6.36	 xent: 1.85	  15.34 TFLOP/s	 67167/28059 tok/s	 4805690 sents	  32960 sec	
+mt_eng-spa: 13000	 acc: --	 ppl:  6.56	 xent: 1.88	  12.53 TFLOP/s	 54224/24021 tok/s	 5001814 sents	  34492 sec	
 
 mt_eng-sqi: 500	 acc: --	 ppl: 1138.28	 xent: 7.04	  15.27 TFLOP/s	 65556/29637 tok/s	 194098 sents	   1287 sec	
 mt_eng-sqi: 1000	 acc: --	 ppl: 619.17	 xent: 6.43	  15.36 TFLOP/s	 66082/29653 tok/s	 388127 sents	   2569 sec	
@@ -1773,6 +1992,9 @@ mt_eng-sqi: 10000	 acc: --	 ppl:  6.02	 xent: 1.79	  15.37 TFLOP/s	 66210/29548 
 mt_eng-sqi: 10500	 acc: --	 ppl:  5.85	 xent: 1.77	  12.97 TFLOP/s	 55744/25088 tok/s	 4046852 sents	  27810 sec	
 mt_eng-sqi: 11000	 acc: --	 ppl:  6.05	 xent: 1.80	  15.44 TFLOP/s	 66939/28968 tok/s	 4237537 sents	  29097 sec	
 mt_eng-sqi: 11500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.49 TFLOP/s	 67096/29127 tok/s	 4428872 sents	  30382 sec	
+mt_eng-sqi: 12000	 acc: --	 ppl:  6.17	 xent: 1.82	  15.14 TFLOP/s	 64904/29586 tok/s	 4622196 sents	  31667 sec	
+mt_eng-sqi: 12500	 acc: --	 ppl:  5.74	 xent: 1.75	  15.06 TFLOP/s	 64089/30190 tok/s	 4819874 sents	  32960 sec	
+mt_eng-sqi: 13000	 acc: --	 ppl:  6.01	 xent: 1.79	  12.74 TFLOP/s	 54419/25178 tok/s	 5015871 sents	  34492 sec	
 
 mt_eng-srp_Cyrl: 500	 acc: --	 ppl: 2085.38	 xent: 7.64	  14.85 TFLOP/s	 65166/27289 tok/s	 194629 sents	   1287 sec	
 mt_eng-srp_Cyrl: 1000	 acc: --	 ppl: 628.93	 xent: 6.44	  15.22 TFLOP/s	 67587/26661 tok/s	 385611 sents	   2569 sec	
@@ -1797,6 +2019,9 @@ mt_eng-srp_Cyrl: 10000	 acc: --	 ppl:  7.71	 xent: 2.04	  14.99 TFLOP/s	 66158/2
 mt_eng-srp_Cyrl: 10500	 acc: --	 ppl:  8.15	 xent: 2.10	  12.83 TFLOP/s	 56812/22766 tok/s	 4047501 sents	  27810 sec	
 mt_eng-srp_Cyrl: 11000	 acc: --	 ppl:  7.44	 xent: 2.01	  14.98 TFLOP/s	 66075/27003 tok/s	 4240645 sents	  29097 sec	
 mt_eng-srp_Cyrl: 11500	 acc: --	 ppl:  7.55	 xent: 2.02	  15.03 TFLOP/s	 66459/26846 tok/s	 4432565 sents	  30382 sec	
+mt_eng-srp_Cyrl: 12000	 acc: --	 ppl:  8.55	 xent: 2.15	  15.03 TFLOP/s	 66352/26987 tok/s	 4624993 sents	  31667 sec	
+mt_eng-srp_Cyrl: 12500	 acc: --	 ppl:  7.35	 xent: 1.99	  15.10 TFLOP/s	 66675/27050 tok/s	 4818993 sents	  32960 sec	
+mt_eng-srp_Cyrl: 13000	 acc: --	 ppl:  7.15	 xent: 1.97	  12.90 TFLOP/s	 57499/22275 tok/s	 5009524 sents	  34492 sec	
 
 mt_eng-swe: 500	 acc: --	 ppl: 1559.76	 xent: 7.35	  15.17 TFLOP/s	 65991/28367 tok/s	 191981 sents	   1287 sec	
 mt_eng-swe: 1000	 acc: --	 ppl: 597.22	 xent: 6.39	  15.48 TFLOP/s	 67973/27901 tok/s	 382081 sents	   2569 sec	
@@ -1821,6 +2046,9 @@ mt_eng-swe: 10000	 acc: --	 ppl:  6.96	 xent: 1.94	  15.11 TFLOP/s	 65232/29023 
 mt_eng-swe: 10500	 acc: --	 ppl:  6.25	 xent: 1.83	  12.87 TFLOP/s	 55915/24162 tok/s	 4034133 sents	  27810 sec	
 mt_eng-swe: 11000	 acc: --	 ppl:  6.35	 xent: 1.85	  15.14 TFLOP/s	 65501/28877 tok/s	 4228662 sents	  29097 sec	
 mt_eng-swe: 11500	 acc: --	 ppl:  6.40	 xent: 1.86	  15.20 TFLOP/s	 66296/28131 tok/s	 4419310 sents	  30382 sec	
+mt_eng-swe: 12000	 acc: --	 ppl:  6.44	 xent: 1.86	  15.10 TFLOP/s	 65664/28249 tok/s	 4609935 sents	  31667 sec	
+mt_eng-swe: 12500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.27 TFLOP/s	 66303/28733 tok/s	 4804644 sents	  32960 sec	
+mt_eng-swe: 13000	 acc: --	 ppl:  6.23	 xent: 1.83	  12.65 TFLOP/s	 54479/24514 tok/s	 5000516 sents	  34492 sec	
 
 mt_eng-tur: 500	 acc: --	 ppl: 2596.38	 xent: 7.86	  15.20 TFLOP/s	 67591/26527 tok/s	 190852 sents	   1287 sec	
 mt_eng-tur: 1000	 acc: --	 ppl: 693.12	 xent: 6.54	  14.92 TFLOP/s	 65663/27140 tok/s	 383665 sents	   2569 sec	
@@ -1845,6 +2073,9 @@ mt_eng-tur: 10000	 acc: --	 ppl:  7.47	 xent: 2.01	  14.89 TFLOP/s	 65460/27179 
 mt_eng-tur: 10500	 acc: --	 ppl:  7.30	 xent: 1.99	  12.62 TFLOP/s	 55500/22972 tok/s	 4039362 sents	  27810 sec	
 mt_eng-tur: 11000	 acc: --	 ppl:  7.41	 xent: 2.00	  14.80 TFLOP/s	 64875/27265 tok/s	 4232978 sents	  29097 sec	
 mt_eng-tur: 11500	 acc: --	 ppl:  7.15	 xent: 1.97	  14.96 TFLOP/s	 66135/26746 tok/s	 4424105 sents	  30382 sec	
+mt_eng-tur: 12000	 acc: --	 ppl:  7.13	 xent: 1.96	  14.90 TFLOP/s	 65478/27202 tok/s	 4617022 sents	  31667 sec	
+mt_eng-tur: 12500	 acc: --	 ppl:  7.23	 xent: 1.98	  14.93 TFLOP/s	 65753/27067 tok/s	 4810450 sents	  32960 sec	
+mt_eng-tur: 13000	 acc: --	 ppl:  7.40	 xent: 2.00	  12.80 TFLOP/s	 56845/22403 tok/s	 5002217 sents	  34492 sec	
 
 mt_eng-ukr: 500	 acc: --	 ppl: 1548.19	 xent: 7.34	  15.07 TFLOP/s	 65457/28395 tok/s	 193577 sents	   1287 sec	
 mt_eng-ukr: 1000	 acc: --	 ppl: 852.03	 xent: 6.75	  14.86 TFLOP/s	 64114/28735 tok/s	 388397 sents	   2569 sec	
@@ -1869,6 +2100,9 @@ mt_eng-ukr: 10000	 acc: --	 ppl:  6.61	 xent: 1.89	  15.13 TFLOP/s	 65866/28303 
 mt_eng-ukr: 10500	 acc: --	 ppl:  6.72	 xent: 1.90	  13.01 TFLOP/s	 56968/23800 tok/s	 4054734 sents	  27810 sec	
 mt_eng-ukr: 11000	 acc: --	 ppl:  6.52	 xent: 1.87	  15.04 TFLOP/s	 65507/28038 tok/s	 4246330 sents	  29097 sec	
 mt_eng-ukr: 11500	 acc: --	 ppl:  6.71	 xent: 1.90	  15.28 TFLOP/s	 66801/28065 tok/s	 4438255 sents	  30382 sec	
+mt_eng-ukr: 12000	 acc: --	 ppl:  6.41	 xent: 1.86	  15.00 TFLOP/s	 64996/28537 tok/s	 4632097 sents	  31667 sec	
+mt_eng-ukr: 12500	 acc: --	 ppl:  6.43	 xent: 1.86	  15.38 TFLOP/s	 67457/27899 tok/s	 4824016 sents	  32960 sec	
+mt_eng-ukr: 13000	 acc: --	 ppl:  6.46	 xent: 1.87	  12.70 TFLOP/s	 55093/24026 tok/s	 5019009 sents	  34492 sec	
 
 mt_est-eng: 500	 acc: --	 ppl: 658.68	 xent: 6.49	  11.97 TFLOP/s	 44116/33891 tok/s	 213350 sents	   1287 sec	
 mt_est-eng: 1000	 acc: --	 ppl: 466.77	 xent: 6.15	  11.95 TFLOP/s	 43874/34078 tok/s	 427293 sents	   2569 sec	
@@ -1893,6 +2127,9 @@ mt_est-eng: 10000	 acc: --	 ppl:  6.43	 xent: 1.86	  12.04 TFLOP/s	 44296/34208 
 mt_est-eng: 10500	 acc: --	 ppl:  6.24	 xent: 1.83	  10.23 TFLOP/s	 37446/29305 tok/s	 4506418 sents	  27810 sec	
 mt_est-eng: 11000	 acc: --	 ppl:  5.59	 xent: 1.72	  11.98 TFLOP/s	 44026/34083 tok/s	 4721223 sents	  29097 sec	
 mt_est-eng: 11500	 acc: --	 ppl:  5.89	 xent: 1.77	  12.01 TFLOP/s	 44238/34047 tok/s	 4935651 sents	  30382 sec	
+mt_est-eng: 12000	 acc: --	 ppl:  5.94	 xent: 1.78	  12.03 TFLOP/s	 44315/34093 tok/s	 5150323 sents	  31667 sec	
+mt_est-eng: 12500	 acc: --	 ppl:  5.52	 xent: 1.71	  12.02 TFLOP/s	 44151/34179 tok/s	 5366159 sents	  32960 sec	
+mt_est-eng: 13000	 acc: --	 ppl:  5.97	 xent: 1.79	  10.22 TFLOP/s	 37701/28916 tok/s	 5583357 sents	  34492 sec	
 
 mt_est-spa: 500	 acc: --	 ppl: 423.94	 xent: 6.05	  12.18 TFLOP/s	 44435/35013 tok/s	 216384 sents	   1287 sec	
 mt_est-spa: 1000	 acc: --	 ppl: 298.70	 xent: 5.70	  12.08 TFLOP/s	 44238/34450 tok/s	 429140 sents	   2569 sec	
@@ -1917,6 +2154,9 @@ mt_est-spa: 10000	 acc: --	 ppl:  4.62	 xent: 1.53	  12.10 TFLOP/s	 44038/34922 
 mt_est-spa: 10500	 acc: --	 ppl:  4.53	 xent: 1.51	  10.29 TFLOP/s	 37533/29568 tok/s	 4512086 sents	  27810 sec	
 mt_est-spa: 11000	 acc: --	 ppl:  4.64	 xent: 1.54	  12.11 TFLOP/s	 44227/34762 tok/s	 4727724 sents	  29097 sec	
 mt_est-spa: 11500	 acc: --	 ppl:  4.59	 xent: 1.52	  12.12 TFLOP/s	 44236/34807 tok/s	 4942713 sents	  30382 sec	
+mt_est-spa: 12000	 acc: --	 ppl:  4.64	 xent: 1.54	  12.05 TFLOP/s	 43839/34792 tok/s	 5157397 sents	  31667 sec	
+mt_est-spa: 12500	 acc: --	 ppl:  4.57	 xent: 1.52	  12.14 TFLOP/s	 44388/34722 tok/s	 5372997 sents	  32960 sec	
+mt_est-spa: 13000	 acc: --	 ppl:  4.61	 xent: 1.53	  10.32 TFLOP/s	 37739/29559 tok/s	 5590676 sents	  34492 sec	
 
 mt_eus-eng: 500	 acc: --	 ppl: 479.44	 xent: 6.17	  12.09 TFLOP/s	 43831/35107 tok/s	 215644 sents	   1287 sec	
 mt_eus-eng: 1000	 acc: --	 ppl: 388.07	 xent: 5.96	  12.12 TFLOP/s	 43970/35133 tok/s	 431363 sents	   2569 sec	
@@ -1941,6 +2181,9 @@ mt_eus-eng: 10000	 acc: --	 ppl: 12.65	 xent: 2.54	  12.00 TFLOP/s	 43593/34723 
 mt_eus-eng: 10500	 acc: --	 ppl:  9.68	 xent: 2.27	  10.20 TFLOP/s	 36782/29873 tok/s	 4532654 sents	  27810 sec	
 mt_eus-eng: 11000	 acc: --	 ppl: 11.28	 xent: 2.42	  12.13 TFLOP/s	 44026/35144 tok/s	 4749452 sents	  29097 sec	
 mt_eus-eng: 11500	 acc: --	 ppl: 11.18	 xent: 2.41	  12.08 TFLOP/s	 43714/35155 tok/s	 4965105 sents	  30382 sec	
+mt_eus-eng: 12000	 acc: --	 ppl: 10.55	 xent: 2.36	  12.17 TFLOP/s	 44148/35313 tok/s	 5182115 sents	  31667 sec	
+mt_eus-eng: 12500	 acc: --	 ppl: 11.02	 xent: 2.40	  12.02 TFLOP/s	 43587/34820 tok/s	 5396981 sents	  32960 sec	
+mt_eus-eng: 13000	 acc: --	 ppl: 11.29	 xent: 2.42	  10.25 TFLOP/s	 37127/29786 tok/s	 5614964 sents	  34492 sec	
 
 mt_eus-spa: 500	 acc: --	 ppl: 588.14	 xent: 6.38	  11.88 TFLOP/s	 43727/33726 tok/s	 215420 sents	   1287 sec	
 mt_eus-spa: 1000	 acc: --	 ppl: 488.31	 xent: 6.19	  11.89 TFLOP/s	 43752/33829 tok/s	 431265 sents	   2569 sec	
@@ -1965,6 +2208,9 @@ mt_eus-spa: 10000	 acc: --	 ppl: 14.42	 xent: 2.67	  11.90 TFLOP/s	 43812/33786 
 mt_eus-spa: 10500	 acc: --	 ppl: 12.28	 xent: 2.51	  10.08 TFLOP/s	 37047/28701 tok/s	 4535961 sents	  27810 sec	
 mt_eus-spa: 11000	 acc: --	 ppl: 12.35	 xent: 2.51	  11.85 TFLOP/s	 43708/33557 tok/s	 4750580 sents	  29097 sec	
 mt_eus-spa: 11500	 acc: --	 ppl: 12.19	 xent: 2.50	  11.97 TFLOP/s	 44101/33931 tok/s	 4967105 sents	  30382 sec	
+mt_eus-spa: 12000	 acc: --	 ppl: 11.75	 xent: 2.46	  11.97 TFLOP/s	 44089/33938 tok/s	 5183772 sents	  31667 sec	
+mt_eus-spa: 12500	 acc: --	 ppl: 10.28	 xent: 2.33	  11.88 TFLOP/s	 43710/33775 tok/s	 5400350 sents	  32960 sec	
+mt_eus-spa: 13000	 acc: --	 ppl: 11.39	 xent: 2.43	  10.05 TFLOP/s	 37097/28412 tok/s	 5616201 sents	  34492 sec	
 
 mt_fin-eng: 500	 acc: --	 ppl: 417.42	 xent: 6.03	  11.76 TFLOP/s	 41686/35643 tok/s	 228754 sents	   1287 sec	
 mt_fin-eng: 1000	 acc: --	 ppl: 360.48	 xent: 5.89	  11.74 TFLOP/s	 41597/35573 tok/s	 456605 sents	   2569 sec	
@@ -1989,6 +2235,9 @@ mt_fin-eng: 10000	 acc: --	 ppl:  7.18	 xent: 1.97	  11.75 TFLOP/s	 41638/35586 
 mt_fin-eng: 10500	 acc: --	 ppl:  6.37	 xent: 1.85	   9.99 TFLOP/s	 35416/30282 tok/s	 4795690 sents	  27810 sec	
 mt_fin-eng: 11000	 acc: --	 ppl:  6.40	 xent: 1.86	  11.74 TFLOP/s	 41582/35573 tok/s	 5024231 sents	  29097 sec	
 mt_fin-eng: 11500	 acc: --	 ppl:  6.64	 xent: 1.89	  11.73 TFLOP/s	 41563/35571 tok/s	 5252221 sents	  30382 sec	
+mt_fin-eng: 12000	 acc: --	 ppl:  5.85	 xent: 1.77	  11.81 TFLOP/s	 41851/35777 tok/s	 5481462 sents	  31667 sec	
+mt_fin-eng: 12500	 acc: --	 ppl:  6.43	 xent: 1.86	  11.87 TFLOP/s	 42068/35970 tok/s	 5713176 sents	  32960 sec	
+mt_fin-eng: 13000	 acc: --	 ppl:  5.89	 xent: 1.77	   9.94 TFLOP/s	 35222/30119 tok/s	 5943202 sents	  34492 sec	
 
 mt_fin-spa: 500	 acc: --	 ppl: 294.06	 xent: 5.68	  12.08 TFLOP/s	 41685/37839 tok/s	 228699 sents	   1287 sec	
 mt_fin-spa: 1000	 acc: --	 ppl: 257.90	 xent: 5.55	  12.05 TFLOP/s	 41623/37719 tok/s	 456957 sents	   2569 sec	
@@ -2013,6 +2262,9 @@ mt_fin-spa: 10000	 acc: --	 ppl:  7.78	 xent: 2.05	  12.00 TFLOP/s	 41424/37592 
 mt_fin-spa: 10500	 acc: --	 ppl:  7.78	 xent: 2.05	  10.29 TFLOP/s	 35505/32212 tok/s	 4794158 sents	  27810 sec	
 mt_fin-spa: 11000	 acc: --	 ppl:  6.63	 xent: 1.89	  11.98 TFLOP/s	 41360/37493 tok/s	 5021364 sents	  29097 sec	
 mt_fin-spa: 11500	 acc: --	 ppl:  7.65	 xent: 2.03	  12.11 TFLOP/s	 41783/37905 tok/s	 5250450 sents	  30382 sec	
+mt_fin-spa: 12000	 acc: --	 ppl:  6.59	 xent: 1.89	  12.09 TFLOP/s	 41729/37838 tok/s	 5479041 sents	  31667 sec	
+mt_fin-spa: 12500	 acc: --	 ppl:  6.94	 xent: 1.94	  12.18 TFLOP/s	 42055/38102 tok/s	 5710886 sents	  32960 sec	
+mt_fin-spa: 13000	 acc: --	 ppl:  6.52	 xent: 1.87	  10.20 TFLOP/s	 35232/31945 tok/s	 5941653 sents	  34492 sec	
 
 mt_fra-eng: 500	 acc: --	 ppl: 444.71	 xent: 6.10	  11.77 TFLOP/s	 42187/35005 tok/s	 225400 sents	   1287 sec	
 mt_fra-eng: 1000	 acc: --	 ppl: 396.79	 xent: 5.98	  11.76 TFLOP/s	 42145/35003 tok/s	 450429 sents	   2569 sec	
@@ -2037,6 +2289,9 @@ mt_fra-eng: 10000	 acc: --	 ppl:  5.67	 xent: 1.74	  11.84 TFLOP/s	 42462/35255 
 mt_fra-eng: 10500	 acc: --	 ppl:  5.24	 xent: 1.66	  10.04 TFLOP/s	 36015/29882 tok/s	 4749634 sents	  27810 sec	
 mt_fra-eng: 11000	 acc: --	 ppl:  5.42	 xent: 1.69	  11.90 TFLOP/s	 42674/35425 tok/s	 4978159 sents	  29097 sec	
 mt_fra-eng: 11500	 acc: --	 ppl:  5.79	 xent: 1.76	  11.79 TFLOP/s	 42280/35072 tok/s	 5203986 sents	  30382 sec	
+mt_fra-eng: 12000	 acc: --	 ppl:  5.35	 xent: 1.68	  11.76 TFLOP/s	 42131/35029 tok/s	 5429020 sents	  31667 sec	
+mt_fra-eng: 12500	 acc: --	 ppl:  4.85	 xent: 1.58	  11.99 TFLOP/s	 42995/35695 tok/s	 5659739 sents	  32960 sec	
+mt_fra-eng: 13000	 acc: --	 ppl:  5.42	 xent: 1.69	  10.00 TFLOP/s	 35867/29765 tok/s	 5887910 sents	  34492 sec	
 
 mt_fra-spa: 500	 acc: --	 ppl: 372.63	 xent: 5.92	  11.83 TFLOP/s	 42389/35225 tok/s	 226602 sents	   1287 sec	
 mt_fra-spa: 1000	 acc: --	 ppl: 375.37	 xent: 5.93	  11.85 TFLOP/s	 42441/35331 tok/s	 452959 sents	   2569 sec	
@@ -2061,6 +2316,9 @@ mt_fra-spa: 10000	 acc: --	 ppl:  5.16	 xent: 1.64	  11.87 TFLOP/s	 42536/35320 
 mt_fra-spa: 10500	 acc: --	 ppl:  4.70	 xent: 1.55	  10.13 TFLOP/s	 36262/30177 tok/s	 4764970 sents	  27810 sec	
 mt_fra-spa: 11000	 acc: --	 ppl:  4.86	 xent: 1.58	  11.86 TFLOP/s	 42509/35328 tok/s	 4992659 sents	  29097 sec	
 mt_fra-spa: 11500	 acc: --	 ppl:  5.05	 xent: 1.62	  11.84 TFLOP/s	 42408/35270 tok/s	 5219149 sents	  30382 sec	
+mt_fra-spa: 12000	 acc: --	 ppl:  4.76	 xent: 1.56	  11.86 TFLOP/s	 42499/35293 tok/s	 5446171 sents	  31667 sec	
+mt_fra-spa: 12500	 acc: --	 ppl:  4.64	 xent: 1.53	  11.98 TFLOP/s	 42923/35687 tok/s	 5676488 sents	  32960 sec	
+mt_fra-spa: 13000	 acc: --	 ppl:  4.98	 xent: 1.60	  10.02 TFLOP/s	 35915/29852 tok/s	 5905030 sents	  34492 sec	
 
 mt_gle-eng: 500	 acc: --	 ppl: 606.59	 xent: 6.41	  11.58 TFLOP/s	 43122/32547 tok/s	 221971 sents	   1287 sec	
 mt_gle-eng: 1000	 acc: --	 ppl: 630.15	 xent: 6.45	  11.56 TFLOP/s	 43050/32491 tok/s	 442794 sents	   2569 sec	
@@ -2085,6 +2343,9 @@ mt_gle-eng: 10000	 acc: --	 ppl:  7.03	 xent: 1.95	  11.54 TFLOP/s	 42951/32419 
 mt_gle-eng: 10500	 acc: --	 ppl:  7.65	 xent: 2.03	   9.81 TFLOP/s	 36523/27555 tok/s	 4656651 sents	  27810 sec	
 mt_gle-eng: 11000	 acc: --	 ppl:  7.22	 xent: 1.98	  11.59 TFLOP/s	 43169/32565 tok/s	 4878893 sents	  29097 sec	
 mt_gle-eng: 11500	 acc: --	 ppl:  6.92	 xent: 1.93	  11.63 TFLOP/s	 43286/32685 tok/s	 5100850 sents	  30382 sec	
+mt_gle-eng: 12000	 acc: --	 ppl:  6.97	 xent: 1.94	  11.66 TFLOP/s	 43410/32767 tok/s	 5323337 sents	  31667 sec	
+mt_gle-eng: 12500	 acc: --	 ppl:  6.53	 xent: 1.88	  11.62 TFLOP/s	 43247/32654 tok/s	 5546939 sents	  32960 sec	
+mt_gle-eng: 13000	 acc: --	 ppl:  6.32	 xent: 1.84	   9.84 TFLOP/s	 36611/27656 tok/s	 5770158 sents	  34492 sec	
 
 mt_gle-spa: 500	 acc: --	 ppl: 490.69	 xent: 6.20	  11.99 TFLOP/s	 43225/35238 tok/s	 221865 sents	   1287 sec	
 mt_gle-spa: 1000	 acc: --	 ppl: 387.94	 xent: 5.96	  11.93 TFLOP/s	 42980/35136 tok/s	 442889 sents	   2569 sec	
@@ -2109,6 +2370,9 @@ mt_gle-spa: 10000	 acc: --	 ppl:  7.81	 xent: 2.06	  11.95 TFLOP/s	 43092/35124 
 mt_gle-spa: 10500	 acc: --	 ppl:  7.61	 xent: 2.03	  10.22 TFLOP/s	 36884/30004 tok/s	 4654327 sents	  27810 sec	
 mt_gle-spa: 11000	 acc: --	 ppl:  7.00	 xent: 1.95	  11.99 TFLOP/s	 43277/35182 tok/s	 4875996 sents	  29097 sec	
 mt_gle-spa: 11500	 acc: --	 ppl:  6.53	 xent: 1.88	  11.97 TFLOP/s	 43135/35209 tok/s	 5097776 sents	  30382 sec	
+mt_gle-spa: 12000	 acc: --	 ppl:  6.56	 xent: 1.88	  11.90 TFLOP/s	 42927/34912 tok/s	 5317361 sents	  31667 sec	
+mt_gle-spa: 12500	 acc: --	 ppl:  6.96	 xent: 1.94	  12.13 TFLOP/s	 43778/35539 tok/s	 5541851 sents	  32960 sec	
+mt_gle-spa: 13000	 acc: --	 ppl:  6.61	 xent: 1.89	  10.09 TFLOP/s	 36333/29724 tok/s	 5764585 sents	  34492 sec	
 
 mt_glg-eng: 500	 acc: --	 ppl: 303.32	 xent: 5.71	  15.44 TFLOP/s	 71006/22666 tok/s	 167349 sents	   1287 sec	
 mt_glg-eng: 1000	 acc: --	 ppl: 94.37	 xent: 4.55	  15.35 TFLOP/s	 70333/23029 tok/s	 335143 sents	   2569 sec	
@@ -2133,6 +2397,9 @@ mt_glg-eng: 10000	 acc: --	 ppl:  9.42	 xent: 2.24	  15.29 TFLOP/s	 69830/23276 
 mt_glg-eng: 10500	 acc: --	 ppl:  9.69	 xent: 2.27	  13.10 TFLOP/s	 60127/19502 tok/s	 3523666 sents	  27810 sec	
 mt_glg-eng: 11000	 acc: --	 ppl:  9.67	 xent: 2.27	  15.28 TFLOP/s	 70052/22805 tok/s	 3690753 sents	  29097 sec	
 mt_glg-eng: 11500	 acc: --	 ppl:  9.61	 xent: 2.26	  15.41 TFLOP/s	 70708/22895 tok/s	 3858276 sents	  30382 sec	
+mt_glg-eng: 12000	 acc: --	 ppl:  9.46	 xent: 2.25	  15.29 TFLOP/s	 69875/23232 tok/s	 4027453 sents	  31667 sec	
+mt_glg-eng: 12500	 acc: --	 ppl:  9.02	 xent: 2.20	  15.35 TFLOP/s	 70539/22689 tok/s	 4195133 sents	  32960 sec	
+mt_glg-eng: 13000	 acc: --	 ppl:  9.44	 xent: 2.25	  12.74 TFLOP/s	 58166/19508 tok/s	 4364029 sents	  34492 sec	
 
 mt_glg-spa: 500	 acc: --	 ppl: 285.11	 xent: 5.65	  15.42 TFLOP/s	 70304/23491 tok/s	 167727 sents	   1287 sec	
 mt_glg-spa: 1000	 acc: --	 ppl: 82.13	 xent: 4.41	  15.41 TFLOP/s	 70077/23755 tok/s	 335677 sents	   2569 sec	
@@ -2157,6 +2424,9 @@ mt_glg-spa: 10000	 acc: --	 ppl:  8.60	 xent: 2.15	  15.41 TFLOP/s	 70034/23787 
 mt_glg-spa: 10500	 acc: --	 ppl:  8.95	 xent: 2.19	  12.97 TFLOP/s	 58859/20213 tok/s	 3526605 sents	  27810 sec	
 mt_glg-spa: 11000	 acc: --	 ppl:  8.31	 xent: 2.12	  15.33 TFLOP/s	 69694/23666 tok/s	 3694273 sents	  29097 sec	
 mt_glg-spa: 11500	 acc: --	 ppl:  8.44	 xent: 2.13	  15.30 TFLOP/s	 69305/24002 tok/s	 3863068 sents	  30382 sec	
+mt_glg-spa: 12000	 acc: --	 ppl:  8.28	 xent: 2.11	  15.45 TFLOP/s	 70324/23726 tok/s	 4031728 sents	  31667 sec	
+mt_glg-spa: 12500	 acc: --	 ppl:  7.82	 xent: 2.06	  15.37 TFLOP/s	 70026/23471 tok/s	 4199962 sents	  32960 sec	
+mt_glg-spa: 13000	 acc: --	 ppl:  8.88	 xent: 2.18	  12.84 TFLOP/s	 58225/20058 tok/s	 4368303 sents	  34492 sec	
 
 mt_hrv-eng: 500	 acc: --	 ppl: 1173.47	 xent: 7.07	  13.58 TFLOP/s	 57471/27664 tok/s	 180280 sents	   1287 sec	
 mt_hrv-eng: 1000	 acc: --	 ppl: 75.60	 xent: 4.33	  13.59 TFLOP/s	 57599/27614 tok/s	 360032 sents	   2569 sec	
@@ -2181,6 +2451,9 @@ mt_hrv-eng: 10000	 acc: --	 ppl:  6.73	 xent: 1.91	  13.65 TFLOP/s	 58074/27394 
 mt_hrv-eng: 10500	 acc: --	 ppl:  6.43	 xent: 1.86	  11.40 TFLOP/s	 47881/23809 tok/s	 3789508 sents	  27810 sec	
 mt_hrv-eng: 11000	 acc: --	 ppl:  6.67	 xent: 1.90	  13.58 TFLOP/s	 57620/27494 tok/s	 3969232 sents	  29097 sec	
 mt_hrv-eng: 11500	 acc: --	 ppl:  6.61	 xent: 1.89	  13.55 TFLOP/s	 57361/27641 tok/s	 4149873 sents	  30382 sec	
+mt_hrv-eng: 12000	 acc: --	 ppl:  6.65	 xent: 1.90	  13.63 TFLOP/s	 57843/27548 tok/s	 4329528 sents	  31667 sec	
+mt_hrv-eng: 12500	 acc: --	 ppl:  6.53	 xent: 1.88	  13.61 TFLOP/s	 57685/27670 tok/s	 4510731 sents	  32960 sec	
+mt_hrv-eng: 13000	 acc: --	 ppl:  6.62	 xent: 1.89	  11.36 TFLOP/s	 48077/23172 tok/s	 4690985 sents	  34492 sec	
 
 mt_hrv-spa: 500	 acc: --	 ppl: 1046.17	 xent: 6.95	  13.61 TFLOP/s	 56828/28707 tok/s	 181296 sents	   1287 sec	
 mt_hrv-spa: 1000	 acc: --	 ppl: 48.89	 xent: 3.89	  13.64 TFLOP/s	 57068/28605 tok/s	 361853 sents	   2569 sec	
@@ -2205,6 +2478,9 @@ mt_hrv-spa: 10000	 acc: --	 ppl:  6.35	 xent: 1.85	  13.68 TFLOP/s	 57550/28250 
 mt_hrv-spa: 10500	 acc: --	 ppl:  6.28	 xent: 1.84	  11.62 TFLOP/s	 48808/24105 tok/s	 3782056 sents	  27810 sec	
 mt_hrv-spa: 11000	 acc: --	 ppl:  6.31	 xent: 1.84	  13.62 TFLOP/s	 57176/28314 tok/s	 3961625 sents	  29097 sec	
 mt_hrv-spa: 11500	 acc: --	 ppl:  6.29	 xent: 1.84	  13.78 TFLOP/s	 57996/28401 tok/s	 4141544 sents	  30382 sec	
+mt_hrv-spa: 12000	 acc: --	 ppl:  6.11	 xent: 1.81	  13.70 TFLOP/s	 57281/28831 tok/s	 4323535 sents	  31667 sec	
+mt_hrv-spa: 12500	 acc: --	 ppl:  6.20	 xent: 1.82	  13.54 TFLOP/s	 56619/28468 tok/s	 4504645 sents	  32960 sec	
+mt_hrv-spa: 13000	 acc: --	 ppl:  6.28	 xent: 1.84	  11.54 TFLOP/s	 48556/23839 tok/s	 4684356 sents	  34492 sec	
 
 mt_hun-eng: 500	 acc: --	 ppl: 322.15	 xent: 5.78	  11.78 TFLOP/s	 41255/36395 tok/s	 234490 sents	   1287 sec	
 mt_hun-eng: 1000	 acc: --	 ppl: 335.29	 xent: 5.82	  11.65 TFLOP/s	 40788/36017 tok/s	 465842 sents	   2569 sec	
@@ -2229,6 +2505,9 @@ mt_hun-eng: 10000	 acc: --	 ppl:  5.94	 xent: 1.78	  11.58 TFLOP/s	 40591/35727 
 mt_hun-eng: 10500	 acc: --	 ppl:  5.74	 xent: 1.75	  10.02 TFLOP/s	 35109/30902 tok/s	 4899669 sents	  27810 sec	
 mt_hun-eng: 11000	 acc: --	 ppl:  5.98	 xent: 1.79	  11.66 TFLOP/s	 40831/36004 tok/s	 5131504 sents	  29097 sec	
 mt_hun-eng: 11500	 acc: --	 ppl:  5.83	 xent: 1.76	  11.76 TFLOP/s	 41166/36335 tok/s	 5365191 sents	  30382 sec	
+mt_hun-eng: 12000	 acc: --	 ppl:  5.60	 xent: 1.72	  11.96 TFLOP/s	 41880/36941 tok/s	 5602610 sents	  31667 sec	
+mt_hun-eng: 12500	 acc: --	 ppl:  5.50	 xent: 1.71	  11.85 TFLOP/s	 41478/36637 tok/s	 5839460 sents	  32960 sec	
+mt_hun-eng: 13000	 acc: --	 ppl:  5.48	 xent: 1.70	   9.96 TFLOP/s	 34887/30771 tok/s	 6075379 sents	  34492 sec	
 
 mt_hun-spa: 500	 acc: --	 ppl: 251.53	 xent: 5.53	  11.99 TFLOP/s	 41361/37730 tok/s	 235782 sents	   1287 sec	
 mt_hun-spa: 1000	 acc: --	 ppl: 272.82	 xent: 5.61	  11.71 TFLOP/s	 40445/36757 tok/s	 464894 sents	   2569 sec	
@@ -2253,6 +2532,9 @@ mt_hun-spa: 10000	 acc: --	 ppl:  5.84	 xent: 1.77	  11.91 TFLOP/s	 41114/37436 
 mt_hun-spa: 10500	 acc: --	 ppl:  6.01	 xent: 1.79	  10.08 TFLOP/s	 34818/31641 tok/s	 4907524 sents	  27810 sec	
 mt_hun-spa: 11000	 acc: --	 ppl:  5.20	 xent: 1.65	  11.87 TFLOP/s	 40980/37306 tok/s	 5140759 sents	  29097 sec	
 mt_hun-spa: 11500	 acc: --	 ppl:  5.87	 xent: 1.77	  11.95 TFLOP/s	 41248/37570 tok/s	 5375199 sents	  30382 sec	
+mt_hun-spa: 12000	 acc: --	 ppl:  5.16	 xent: 1.64	  12.09 TFLOP/s	 41722/38043 tok/s	 5612555 sents	  31667 sec	
+mt_hun-spa: 12500	 acc: --	 ppl:  5.51	 xent: 1.71	  11.97 TFLOP/s	 41387/37543 tok/s	 5848173 sents	  32960 sec	
+mt_hun-spa: 13000	 acc: --	 ppl:  5.69	 xent: 1.74	  10.21 TFLOP/s	 35256/32091 tok/s	 6086641 sents	  34492 sec	
 
 mt_isl-eng: 500	 acc: --	 ppl: 545.21	 xent: 6.30	  12.00 TFLOP/s	 44928/33098 tok/s	 213593 sents	   1287 sec	
 mt_isl-eng: 1000	 acc: --	 ppl: 238.32	 xent: 5.47	  11.95 TFLOP/s	 44472/33331 tok/s	 428042 sents	   2569 sec	
@@ -2277,6 +2559,9 @@ mt_isl-eng: 10000	 acc: --	 ppl:  7.20	 xent: 1.97	  11.84 TFLOP/s	 44301/32657 
 mt_isl-eng: 10500	 acc: --	 ppl:  7.44	 xent: 2.01	  10.15 TFLOP/s	 37940/28107 tok/s	 4487674 sents	  27810 sec	
 mt_isl-eng: 11000	 acc: --	 ppl:  7.69	 xent: 2.04	  11.89 TFLOP/s	 44558/32749 tok/s	 4699296 sents	  29097 sec	
 mt_isl-eng: 11500	 acc: --	 ppl:  6.41	 xent: 1.86	  11.97 TFLOP/s	 44895/32941 tok/s	 4911820 sents	  30382 sec	
+mt_isl-eng: 12000	 acc: --	 ppl:  6.46	 xent: 1.87	  12.17 TFLOP/s	 45312/33890 tok/s	 5130304 sents	  31667 sec	
+mt_isl-eng: 12500	 acc: --	 ppl:  6.40	 xent: 1.86	  11.98 TFLOP/s	 44697/33228 tok/s	 5345718 sents	  32960 sec	
+mt_isl-eng: 13000	 acc: --	 ppl:  7.23	 xent: 1.98	  10.05 TFLOP/s	 37647/27678 tok/s	 5558313 sents	  34492 sec	
 
 mt_isl-spa: 500	 acc: --	 ppl: 446.34	 xent: 6.10	  12.17 TFLOP/s	 45023/34183 tok/s	 213958 sents	   1287 sec	
 mt_isl-spa: 1000	 acc: --	 ppl: 119.86	 xent: 4.79	  12.08 TFLOP/s	 44617/34014 tok/s	 426210 sents	   2569 sec	
@@ -2301,6 +2586,9 @@ mt_isl-spa: 10000	 acc: --	 ppl:  6.95	 xent: 1.94	  12.10 TFLOP/s	 44973/33673 
 mt_isl-spa: 10500	 acc: --	 ppl:  6.88	 xent: 1.93	  10.22 TFLOP/s	 37542/29060 tok/s	 4478343 sents	  27810 sec	
 mt_isl-spa: 11000	 acc: --	 ppl:  7.10	 xent: 1.96	  12.03 TFLOP/s	 44388/33893 tok/s	 4690590 sents	  29097 sec	
 mt_isl-spa: 11500	 acc: --	 ppl:  6.74	 xent: 1.91	  12.23 TFLOP/s	 45189/34425 tok/s	 4906301 sents	  30382 sec	
+mt_isl-spa: 12000	 acc: --	 ppl:  6.51	 xent: 1.87	  12.26 TFLOP/s	 45194/34615 tok/s	 5122646 sents	  31667 sec	
+mt_isl-spa: 12500	 acc: --	 ppl:  6.98	 xent: 1.94	  12.04 TFLOP/s	 44378/34041 tok/s	 5336646 sents	  32960 sec	
+mt_isl-spa: 13000	 acc: --	 ppl:  6.41	 xent: 1.86	  10.11 TFLOP/s	 37293/28540 tok/s	 5549130 sents	  34492 sec	
 
 mt_ita-eng: 500	 acc: --	 ppl: 646.72	 xent: 6.47	  12.07 TFLOP/s	 45933/32224 tok/s	 207810 sents	   1287 sec	
 mt_ita-eng: 1000	 acc: --	 ppl: 183.40	 xent: 5.21	  11.93 TFLOP/s	 45323/32023 tok/s	 414061 sents	   2569 sec	
@@ -2325,6 +2613,9 @@ mt_ita-eng: 10000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.02 TFLOP/s	 45692/32217 
 mt_ita-eng: 10500	 acc: --	 ppl:  5.24	 xent: 1.66	  10.20 TFLOP/s	 38733/27377 tok/s	 4357782 sents	  27810 sec	
 mt_ita-eng: 11000	 acc: --	 ppl:  5.09	 xent: 1.63	  12.09 TFLOP/s	 46020/32282 tok/s	 4566355 sents	  29097 sec	
 mt_ita-eng: 11500	 acc: --	 ppl:  5.16	 xent: 1.64	  12.05 TFLOP/s	 45781/32329 tok/s	 4775274 sents	  30382 sec	
+mt_ita-eng: 12000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.05 TFLOP/s	 45872/32208 tok/s	 4982974 sents	  31667 sec	
+mt_ita-eng: 12500	 acc: --	 ppl:  5.15	 xent: 1.64	  11.94 TFLOP/s	 45413/31925 tok/s	 5189939 sents	  32960 sec	
+mt_ita-eng: 13000	 acc: --	 ppl:  5.20	 xent: 1.65	  10.20 TFLOP/s	 38731/27408 tok/s	 5400379 sents	  34492 sec	
 
 mt_ita-spa: 500	 acc: --	 ppl: 545.30	 xent: 6.30	  12.18 TFLOP/s	 45832/33097 tok/s	 207138 sents	   1287 sec	
 mt_ita-spa: 1000	 acc: --	 ppl: 93.92	 xent: 4.54	  12.04 TFLOP/s	 45160/32959 tok/s	 412995 sents	   2569 sec	
@@ -2349,6 +2640,9 @@ mt_ita-spa: 10000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.16 TFLOP/s	 45824/32960 
 mt_ita-spa: 10500	 acc: --	 ppl:  4.95	 xent: 1.60	  10.28 TFLOP/s	 38588/28122 tok/s	 4359456 sents	  27810 sec	
 mt_ita-spa: 11000	 acc: --	 ppl:  4.81	 xent: 1.57	  12.27 TFLOP/s	 46129/33466 tok/s	 4569300 sents	  29097 sec	
 mt_ita-spa: 11500	 acc: --	 ppl:  5.09	 xent: 1.63	  12.16 TFLOP/s	 45742/33100 tok/s	 4776585 sents	  30382 sec	
+mt_ita-spa: 12000	 acc: --	 ppl:  5.01	 xent: 1.61	  12.17 TFLOP/s	 45761/33136 tok/s	 4983899 sents	  31667 sec	
+mt_ita-spa: 12500	 acc: --	 ppl:  4.93	 xent: 1.59	  12.10 TFLOP/s	 45417/33071 tok/s	 5191976 sents	  32960 sec	
+mt_ita-spa: 13000	 acc: --	 ppl:  4.99	 xent: 1.61	  10.26 TFLOP/s	 38584/27889 tok/s	 5399629 sents	  34492 sec	
 
 mt_kat-eng: 500	 acc: --	 ppl: 410.91	 xent: 6.02	  11.46 TFLOP/s	 40691/34653 tok/s	 223519 sents	   1287 sec	
 mt_kat-eng: 1000	 acc: --	 ppl: 369.72	 xent: 5.91	  11.71 TFLOP/s	 41565/35421 tok/s	 450761 sents	   2569 sec	
@@ -2373,6 +2667,9 @@ mt_kat-eng: 10000	 acc: --	 ppl: 15.27	 xent: 2.73	  11.63 TFLOP/s	 41301/35169 
 mt_kat-eng: 10500	 acc: --	 ppl: 14.13	 xent: 2.65	   9.72 TFLOP/s	 34509/29403 tok/s	 4735517 sents	  27810 sec	
 mt_kat-eng: 11000	 acc: --	 ppl: 15.22	 xent: 2.72	  11.73 TFLOP/s	 41628/35465 tok/s	 4964012 sents	  29097 sec	
 mt_kat-eng: 11500	 acc: --	 ppl: 12.32	 xent: 2.51	  11.40 TFLOP/s	 40449/34447 tok/s	 5185998 sents	  30382 sec	
+mt_kat-eng: 12000	 acc: --	 ppl: 15.06	 xent: 2.71	  11.74 TFLOP/s	 41701/35489 tok/s	 5415194 sents	  31667 sec	
+mt_kat-eng: 12500	 acc: --	 ppl: 11.87	 xent: 2.47	  11.55 TFLOP/s	 40999/34924 tok/s	 5641475 sents	  32960 sec	
+mt_kat-eng: 13000	 acc: --	 ppl: 13.91	 xent: 2.63	   9.76 TFLOP/s	 34652/29508 tok/s	 5867738 sents	  34492 sec	
 
 mt_kat-spa: 500	 acc: --	 ppl: 334.77	 xent: 5.81	  11.67 TFLOP/s	 40866/35874 tok/s	 224494 sents	   1287 sec	
 mt_kat-spa: 1000	 acc: --	 ppl: 310.73	 xent: 5.74	  11.86 TFLOP/s	 41535/36494 tok/s	 451589 sents	   2569 sec	
@@ -2397,6 +2694,9 @@ mt_kat-spa: 10000	 acc: --	 ppl: 17.74	 xent: 2.88	  11.81 TFLOP/s	 41357/36312 
 mt_kat-spa: 10500	 acc: --	 ppl: 15.21	 xent: 2.72	   9.88 TFLOP/s	 34584/30387 tok/s	 4740145 sents	  27810 sec	
 mt_kat-spa: 11000	 acc: --	 ppl: 17.09	 xent: 2.84	  11.90 TFLOP/s	 41672/36604 tok/s	 4968873 sents	  29097 sec	
 mt_kat-spa: 11500	 acc: --	 ppl: 13.47	 xent: 2.60	  11.58 TFLOP/s	 40563/35615 tok/s	 5191441 sents	  30382 sec	
+mt_kat-spa: 12000	 acc: --	 ppl: 15.35	 xent: 2.73	  11.90 TFLOP/s	 41676/36584 tok/s	 5420440 sents	  31667 sec	
+mt_kat-spa: 12500	 acc: --	 ppl: 12.99	 xent: 2.56	  11.73 TFLOP/s	 41074/36073 tok/s	 5647179 sents	  32960 sec	
+mt_kat-spa: 13000	 acc: --	 ppl: 14.72	 xent: 2.69	   9.85 TFLOP/s	 34529/30286 tok/s	 5872657 sents	  34492 sec	
 
 mt_lav-eng: 500	 acc: --	 ppl: 295.23	 xent: 5.69	  11.45 TFLOP/s	 38892/36954 tok/s	 238064 sents	   1287 sec	
 mt_lav-eng: 1000	 acc: --	 ppl: 301.90	 xent: 5.71	  11.38 TFLOP/s	 38698/36678 tok/s	 473560 sents	   2569 sec	
@@ -2421,6 +2721,9 @@ mt_lav-eng: 10000	 acc: --	 ppl:  9.11	 xent: 2.21	  11.27 TFLOP/s	 38248/36379 
 mt_lav-eng: 10500	 acc: --	 ppl:  8.99	 xent: 2.20	   9.71 TFLOP/s	 32948/31351 tok/s	 4983401 sents	  27810 sec	
 mt_lav-eng: 11000	 acc: --	 ppl:  9.49	 xent: 2.25	  11.42 TFLOP/s	 38864/36760 tok/s	 5220200 sents	  29097 sec	
 mt_lav-eng: 11500	 acc: --	 ppl:  9.13	 xent: 2.21	  11.51 TFLOP/s	 39110/37081 tok/s	 5458418 sents	  30382 sec	
+mt_lav-eng: 12000	 acc: --	 ppl:  9.42	 xent: 2.24	  11.62 TFLOP/s	 39490/37462 tok/s	 5699302 sents	  31667 sec	
+mt_lav-eng: 12500	 acc: --	 ppl:  9.07	 xent: 2.21	  11.47 TFLOP/s	 39005/36974 tok/s	 5938275 sents	  32960 sec	
+mt_lav-eng: 13000	 acc: --	 ppl:  7.69	 xent: 2.04	   9.61 TFLOP/s	 32626/31025 tok/s	 6176068 sents	  34492 sec	
 
 mt_lav-spa: 500	 acc: --	 ppl: 245.41	 xent: 5.50	  11.56 TFLOP/s	 38739/37899 tok/s	 236770 sents	   1287 sec	
 mt_lav-spa: 1000	 acc: --	 ppl: 265.53	 xent: 5.58	  11.45 TFLOP/s	 38374/37522 tok/s	 470585 sents	   2569 sec	
@@ -2445,6 +2748,9 @@ mt_lav-spa: 10000	 acc: --	 ppl: 11.33	 xent: 2.43	  11.57 TFLOP/s	 38738/37980 
 mt_lav-spa: 10500	 acc: --	 ppl:  8.41	 xent: 2.13	   9.57 TFLOP/s	 32072/31371 tok/s	 4970858 sents	  27810 sec	
 mt_lav-spa: 11000	 acc: --	 ppl:  8.50	 xent: 2.14	  11.63 TFLOP/s	 38999/38078 tok/s	 5208781 sents	  29097 sec	
 mt_lav-spa: 11500	 acc: --	 ppl:  9.33	 xent: 2.23	  11.67 TFLOP/s	 39159/38187 tok/s	 5446906 sents	  30382 sec	
+mt_lav-spa: 12000	 acc: --	 ppl:  9.09	 xent: 2.21	  11.68 TFLOP/s	 39163/38258 tok/s	 5685572 sents	  31667 sec	
+mt_lav-spa: 12500	 acc: --	 ppl:  9.38	 xent: 2.24	  11.53 TFLOP/s	 38574/37882 tok/s	 5923142 sents	  32960 sec	
+mt_lav-spa: 13000	 acc: --	 ppl:  7.62	 xent: 2.03	   9.76 TFLOP/s	 32669/32027 tok/s	 6161248 sents	  34492 sec	
 
 mt_lit-eng: 500	 acc: --	 ppl: 724.88	 xent: 6.59	  12.14 TFLOP/s	 46741/31667 tok/s	 204352 sents	   1287 sec	
 mt_lit-eng: 1000	 acc: --	 ppl: 171.49	 xent: 5.14	  12.15 TFLOP/s	 46799/31646 tok/s	 408345 sents	   2569 sec	
@@ -2469,6 +2775,9 @@ mt_lit-eng: 10000	 acc: --	 ppl:  5.54	 xent: 1.71	  12.10 TFLOP/s	 46710/31451 
 mt_lit-eng: 10500	 acc: --	 ppl:  5.60	 xent: 1.72	  10.29 TFLOP/s	 39596/26924 tok/s	 4312177 sents	  27810 sec	
 mt_lit-eng: 11000	 acc: --	 ppl:  5.41	 xent: 1.69	  12.16 TFLOP/s	 46584/32083 tok/s	 4519429 sents	  29097 sec	
 mt_lit-eng: 11500	 acc: --	 ppl:  5.41	 xent: 1.69	  12.10 TFLOP/s	 46541/31664 tok/s	 4723873 sents	  30382 sec	
+mt_lit-eng: 12000	 acc: --	 ppl:  5.33	 xent: 1.67	  12.04 TFLOP/s	 46308/31450 tok/s	 4927005 sents	  31667 sec	
+mt_lit-eng: 12500	 acc: --	 ppl:  5.14	 xent: 1.64	  12.32 TFLOP/s	 47395/32233 tok/s	 5135925 sents	  32960 sec	
+mt_lit-eng: 13000	 acc: --	 ppl:  5.48	 xent: 1.70	  10.18 TFLOP/s	 39187/26564 tok/s	 5340175 sents	  34492 sec	
 
 mt_lit-spa: 500	 acc: --	 ppl: 624.52	 xent: 6.44	  12.32 TFLOP/s	 47150/32400 tok/s	 202960 sents	   1287 sec	
 mt_lit-spa: 1000	 acc: --	 ppl: 83.01	 xent: 4.42	  12.25 TFLOP/s	 46625/32584 tok/s	 406589 sents	   2569 sec	
@@ -2493,6 +2802,9 @@ mt_lit-spa: 10000	 acc: --	 ppl:  5.44	 xent: 1.69	  12.27 TFLOP/s	 46772/32527 
 mt_lit-spa: 10500	 acc: --	 ppl:  5.27	 xent: 1.66	  10.48 TFLOP/s	 39710/28098 tok/s	 4311871 sents	  27810 sec	
 mt_lit-spa: 11000	 acc: --	 ppl:  5.04	 xent: 1.62	  12.25 TFLOP/s	 46489/32767 tok/s	 4517266 sents	  29097 sec	
 mt_lit-spa: 11500	 acc: --	 ppl:  5.18	 xent: 1.64	  12.11 TFLOP/s	 45888/32496 tok/s	 4720627 sents	  30382 sec	
+mt_lit-spa: 12000	 acc: --	 ppl:  5.01	 xent: 1.61	  12.25 TFLOP/s	 46378/32886 tok/s	 4926686 sents	  31667 sec	
+mt_lit-spa: 12500	 acc: --	 ppl:  4.99	 xent: 1.61	  12.33 TFLOP/s	 46939/32794 tok/s	 5132900 sents	  32960 sec	
+mt_lit-spa: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.29 TFLOP/s	 39159/27384 tok/s	 5337230 sents	  34492 sec	
 
 mt_mkd-eng: 500	 acc: --	 ppl: 1386.91	 xent: 7.23	  12.83 TFLOP/s	 52579/28827 tok/s	 186739 sents	   1287 sec	
 mt_mkd-eng: 1000	 acc: --	 ppl: 74.08	 xent: 4.31	  12.81 TFLOP/s	 52418/28885 tok/s	 373677 sents	   2569 sec	
@@ -2517,6 +2829,9 @@ mt_mkd-eng: 10000	 acc: --	 ppl:  6.30	 xent: 1.84	  12.74 TFLOP/s	 52358/28382 
 mt_mkd-eng: 10500	 acc: --	 ppl:  6.31	 xent: 1.84	  10.85 TFLOP/s	 44688/24047 tok/s	 3897003 sents	  27810 sec	
 mt_mkd-eng: 11000	 acc: --	 ppl:  6.13	 xent: 1.81	  12.77 TFLOP/s	 52320/28760 tok/s	 4083785 sents	  29097 sec	
 mt_mkd-eng: 11500	 acc: --	 ppl:  6.08	 xent: 1.81	  12.84 TFLOP/s	 52555/28924 tok/s	 4271094 sents	  30382 sec	
+mt_mkd-eng: 12000	 acc: --	 ppl:  6.27	 xent: 1.84	  12.76 TFLOP/s	 52467/28433 tok/s	 4455586 sents	  31667 sec	
+mt_mkd-eng: 12500	 acc: --	 ppl:  6.15	 xent: 1.82	  12.77 TFLOP/s	 52434/28575 tok/s	 4642064 sents	  32960 sec	
+mt_mkd-eng: 13000	 acc: --	 ppl:  6.19	 xent: 1.82	  10.68 TFLOP/s	 43738/24018 tok/s	 4827556 sents	  34492 sec	
 
 mt_mkd-spa: 500	 acc: --	 ppl: 1105.74	 xent: 7.01	  12.96 TFLOP/s	 52531/29759 tok/s	 187027 sents	   1287 sec	
 mt_mkd-spa: 1000	 acc: --	 ppl: 46.53	 xent: 3.84	  12.91 TFLOP/s	 52244/29826 tok/s	 374118 sents	   2569 sec	
@@ -2541,6 +2856,9 @@ mt_mkd-spa: 10000	 acc: --	 ppl:  5.84	 xent: 1.76	  12.85 TFLOP/s	 52036/29589 
 mt_mkd-spa: 10500	 acc: --	 ppl:  5.91	 xent: 1.78	  10.88 TFLOP/s	 44172/24931 tok/s	 3905489 sents	  27810 sec	
 mt_mkd-spa: 11000	 acc: --	 ppl:  5.87	 xent: 1.77	  12.95 TFLOP/s	 52695/29466 tok/s	 4091397 sents	  29097 sec	
 mt_mkd-spa: 11500	 acc: --	 ppl:  5.77	 xent: 1.75	  12.97 TFLOP/s	 52586/29788 tok/s	 4278459 sents	  30382 sec	
+mt_mkd-spa: 12000	 acc: --	 ppl:  5.83	 xent: 1.76	  12.97 TFLOP/s	 52733/29597 tok/s	 4464416 sents	  31667 sec	
+mt_mkd-spa: 12500	 acc: --	 ppl:  5.87	 xent: 1.77	  12.77 TFLOP/s	 51763/29347 tok/s	 4649803 sents	  32960 sec	
+mt_mkd-spa: 13000	 acc: --	 ppl:  5.80	 xent: 1.76	  10.82 TFLOP/s	 43850/24917 tok/s	 4836618 sents	  34492 sec	
 
 mt_mlt-eng: 500	 acc: --	 ppl: 450.37	 xent: 6.11	  11.88 TFLOP/s	 43473/34133 tok/s	 219869 sents	   1287 sec	
 mt_mlt-eng: 1000	 acc: --	 ppl: 439.88	 xent: 6.09	  11.74 TFLOP/s	 42984/33738 tok/s	 437204 sents	   2569 sec	
@@ -2565,6 +2883,9 @@ mt_mlt-eng: 10000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.78 TFLOP/s	 43143/33866 
 mt_mlt-eng: 10500	 acc: --	 ppl:  4.83	 xent: 1.57	  10.10 TFLOP/s	 36962/29006 tok/s	 4600213 sents	  27810 sec	
 mt_mlt-eng: 11000	 acc: --	 ppl:  5.09	 xent: 1.63	  11.93 TFLOP/s	 43639/34302 tok/s	 4821766 sents	  29097 sec	
 mt_mlt-eng: 11500	 acc: --	 ppl:  4.90	 xent: 1.59	  11.79 TFLOP/s	 43130/33883 tok/s	 5040178 sents	  30382 sec	
+mt_mlt-eng: 12000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.73 TFLOP/s	 42945/33707 tok/s	 5257083 sents	  31667 sec	
+mt_mlt-eng: 12500	 acc: --	 ppl:  4.87	 xent: 1.58	  11.86 TFLOP/s	 43439/34074 tok/s	 5477555 sents	  32960 sec	
+mt_mlt-eng: 13000	 acc: --	 ppl:  5.05	 xent: 1.62	  10.08 TFLOP/s	 36888/28940 tok/s	 5699490 sents	  34492 sec	
 
 mt_mlt-spa: 500	 acc: --	 ppl: 384.77	 xent: 5.95	  11.98 TFLOP/s	 43295/35036 tok/s	 218924 sents	   1287 sec	
 mt_mlt-spa: 1000	 acc: --	 ppl: 197.13	 xent: 5.28	  11.91 TFLOP/s	 43046/34837 tok/s	 436581 sents	   2569 sec	
@@ -2589,6 +2910,9 @@ mt_mlt-spa: 10000	 acc: --	 ppl:  5.65	 xent: 1.73	  12.00 TFLOP/s	 43389/35085 
 mt_mlt-spa: 10500	 acc: --	 ppl:  5.47	 xent: 1.70	  10.23 TFLOP/s	 36981/29922 tok/s	 4602923 sents	  27810 sec	
 mt_mlt-spa: 11000	 acc: --	 ppl:  4.88	 xent: 1.59	  12.13 TFLOP/s	 43854/35464 tok/s	 4825049 sents	  29097 sec	
 mt_mlt-spa: 11500	 acc: --	 ppl:  5.00	 xent: 1.61	  11.88 TFLOP/s	 42934/34745 tok/s	 5042039 sents	  30382 sec	
+mt_mlt-spa: 12000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.97 TFLOP/s	 43274/35003 tok/s	 5260780 sents	  31667 sec	
+mt_mlt-spa: 12500	 acc: --	 ppl:  5.34	 xent: 1.68	  11.91 TFLOP/s	 43049/34855 tok/s	 5479565 sents	  32960 sec	
+mt_mlt-spa: 13000	 acc: --	 ppl:  4.88	 xent: 1.58	  10.19 TFLOP/s	 36849/29795 tok/s	 5701235 sents	  34492 sec	
 
 mt_nld-eng: 500	 acc: --	 ppl: 461.65	 xent: 6.13	  11.92 TFLOP/s	 43839/33995 tok/s	 219109 sents	   1287 sec	
 mt_nld-eng: 1000	 acc: --	 ppl: 246.96	 xent: 5.51	  11.82 TFLOP/s	 43658/33414 tok/s	 434000 sents	   2569 sec	
@@ -2613,6 +2937,9 @@ mt_nld-eng: 10000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.82 TFLOP/s	 43711/33315 
 mt_nld-eng: 10500	 acc: --	 ppl:  4.73	 xent: 1.55	  10.08 TFLOP/s	 37258/28506 tok/s	 4539759 sents	  27810 sec	
 mt_nld-eng: 11000	 acc: --	 ppl:  4.76	 xent: 1.56	  11.82 TFLOP/s	 43648/33426 tok/s	 4755792 sents	  29097 sec	
 mt_nld-eng: 11500	 acc: --	 ppl:  4.73	 xent: 1.55	  11.93 TFLOP/s	 43985/33872 tok/s	 4973958 sents	  30382 sec	
+mt_nld-eng: 12000	 acc: --	 ppl:  4.73	 xent: 1.55	  11.89 TFLOP/s	 43895/33613 tok/s	 5190677 sents	  31667 sec	
+mt_nld-eng: 12500	 acc: --	 ppl:  4.69	 xent: 1.55	  11.85 TFLOP/s	 43689/33600 tok/s	 5408042 sents	  32960 sec	
+mt_nld-eng: 13000	 acc: --	 ppl:  4.68	 xent: 1.54	  10.04 TFLOP/s	 37085/28368 tok/s	 5626024 sents	  34492 sec	
 
 mt_nld-spa: 500	 acc: --	 ppl: 400.79	 xent: 5.99	  12.08 TFLOP/s	 44039/34797 tok/s	 217660 sents	   1287 sec	
 mt_nld-spa: 1000	 acc: --	 ppl: 151.45	 xent: 5.02	  12.00 TFLOP/s	 43741/34548 tok/s	 433237 sents	   2569 sec	
@@ -2637,6 +2964,9 @@ mt_nld-spa: 10000	 acc: --	 ppl:  4.76	 xent: 1.56	  12.01 TFLOP/s	 43697/34763 
 mt_nld-spa: 10500	 acc: --	 ppl:  4.62	 xent: 1.53	  10.24 TFLOP/s	 37405/29400 tok/s	 4547599 sents	  27810 sec	
 mt_nld-spa: 11000	 acc: --	 ppl:  4.85	 xent: 1.58	  11.95 TFLOP/s	 43659/34330 tok/s	 4762846 sents	  29097 sec	
 mt_nld-spa: 11500	 acc: --	 ppl:  4.67	 xent: 1.54	  12.11 TFLOP/s	 44125/34951 tok/s	 4981187 sents	  30382 sec	
+mt_nld-spa: 12000	 acc: --	 ppl:  4.72	 xent: 1.55	  12.03 TFLOP/s	 43845/34693 tok/s	 5198136 sents	  31667 sec	
+mt_nld-spa: 12500	 acc: --	 ppl:  4.81	 xent: 1.57	  12.00 TFLOP/s	 43737/34611 tok/s	 5415417 sents	  32960 sec	
+mt_nld-spa: 13000	 acc: --	 ppl:  4.62	 xent: 1.53	  10.08 TFLOP/s	 36719/29058 tok/s	 5631938 sents	  34492 sec	
 
 mt_nno-eng: 500	 acc: --	 ppl: 438.56	 xent: 6.08	  11.84 TFLOP/s	 43136/34282 tok/s	 221036 sents	   1287 sec	
 mt_nno-eng: 1000	 acc: --	 ppl: 409.28	 xent: 6.01	  11.80 TFLOP/s	 43003/34143 tok/s	 440567 sents	   2569 sec	
@@ -2661,6 +2991,9 @@ mt_nno-eng: 10000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.74 TFLOP/s	 42760/33992 
 mt_nno-eng: 10500	 acc: --	 ppl:  5.23	 xent: 1.65	  10.05 TFLOP/s	 36644/29080 tok/s	 4619970 sents	  27810 sec	
 mt_nno-eng: 11000	 acc: --	 ppl:  5.11	 xent: 1.63	  11.68 TFLOP/s	 42660/33718 tok/s	 4837582 sents	  29097 sec	
 mt_nno-eng: 11500	 acc: --	 ppl:  4.92	 xent: 1.59	  11.86 TFLOP/s	 43217/34324 tok/s	 5058800 sents	  30382 sec	
+mt_nno-eng: 12000	 acc: --	 ppl:  5.30	 xent: 1.67	  11.65 TFLOP/s	 42450/33741 tok/s	 5275942 sents	  31667 sec	
+mt_nno-eng: 12500	 acc: --	 ppl:  5.12	 xent: 1.63	  11.76 TFLOP/s	 42883/34039 tok/s	 5496308 sents	  32960 sec	
+mt_nno-eng: 13000	 acc: --	 ppl:  5.19	 xent: 1.65	   9.99 TFLOP/s	 36451/28897 tok/s	 5718055 sents	  34492 sec	
 
 mt_nno-spa: 500	 acc: --	 ppl: 369.11	 xent: 5.91	  11.98 TFLOP/s	 43110/35280 tok/s	 220649 sents	   1287 sec	
 mt_nno-spa: 1000	 acc: --	 ppl: 237.32	 xent: 5.47	  11.99 TFLOP/s	 43146/35302 tok/s	 440934 sents	   2569 sec	
@@ -2685,6 +3018,9 @@ mt_nno-spa: 10000	 acc: --	 ppl:  5.01	 xent: 1.61	  11.87 TFLOP/s	 42720/34956 
 mt_nno-spa: 10500	 acc: --	 ppl:  5.32	 xent: 1.67	  10.29 TFLOP/s	 37083/30225 tok/s	 4620675 sents	  27810 sec	
 mt_nno-spa: 11000	 acc: --	 ppl:  5.25	 xent: 1.66	  11.85 TFLOP/s	 42654/34911 tok/s	 4839162 sents	  29097 sec	
 mt_nno-spa: 11500	 acc: --	 ppl:  4.81	 xent: 1.57	  11.91 TFLOP/s	 42911/35046 tok/s	 5058518 sents	  30382 sec	
+mt_nno-spa: 12000	 acc: --	 ppl:  5.08	 xent: 1.62	  11.86 TFLOP/s	 42702/34899 tok/s	 5276267 sents	  31667 sec	
+mt_nno-spa: 12500	 acc: --	 ppl:  4.84	 xent: 1.58	  11.96 TFLOP/s	 43032/35236 tok/s	 5497494 sents	  32960 sec	
+mt_nno-spa: 13000	 acc: --	 ppl:  5.27	 xent: 1.66	  10.13 TFLOP/s	 36446/29845 tok/s	 5719656 sents	  34492 sec	
 
 mt_nob-eng: 500	 acc: --	 ppl: 694.54	 xent: 6.54	  11.77 TFLOP/s	 44491/31873 tok/s	 205616 sents	   1287 sec	
 mt_nob-eng: 1000	 acc: --	 ppl: 149.52	 xent: 5.01	  11.84 TFLOP/s	 44773/32023 tok/s	 411915 sents	   2569 sec	
@@ -2709,6 +3045,9 @@ mt_nob-eng: 10000	 acc: --	 ppl:  5.13	 xent: 1.64	  11.79 TFLOP/s	 44566/31922 
 mt_nob-eng: 10500	 acc: --	 ppl:  5.12	 xent: 1.63	  10.03 TFLOP/s	 37941/27136 tok/s	 4346811 sents	  27810 sec	
 mt_nob-eng: 11000	 acc: --	 ppl:  5.06	 xent: 1.62	  11.88 TFLOP/s	 44911/32182 tok/s	 4555097 sents	  29097 sec	
 mt_nob-eng: 11500	 acc: --	 ppl:  5.10	 xent: 1.63	  11.83 TFLOP/s	 44739/32036 tok/s	 4761568 sents	  30382 sec	
+mt_nob-eng: 12000	 acc: --	 ppl:  5.02	 xent: 1.61	  11.94 TFLOP/s	 45143/32354 tok/s	 4970588 sents	  31667 sec	
+mt_nob-eng: 12500	 acc: --	 ppl:  5.08	 xent: 1.62	  11.81 TFLOP/s	 44634/31956 tok/s	 5177847 sents	  32960 sec	
+mt_nob-eng: 13000	 acc: --	 ppl:  5.12	 xent: 1.63	   9.90 TFLOP/s	 37397/26818 tok/s	 5383774 sents	  34492 sec	
 
 mt_nob-spa: 500	 acc: --	 ppl: 575.57	 xent: 6.36	  11.88 TFLOP/s	 44332/32815 tok/s	 205313 sents	   1287 sec	
 mt_nob-spa: 1000	 acc: --	 ppl: 65.04	 xent: 4.18	  12.01 TFLOP/s	 44891/33116 tok/s	 412185 sents	   2569 sec	
@@ -2733,6 +3072,9 @@ mt_nob-spa: 10000	 acc: --	 ppl:  5.03	 xent: 1.62	  11.81 TFLOP/s	 44117/32583 
 mt_nob-spa: 10500	 acc: --	 ppl:  4.88	 xent: 1.59	  10.13 TFLOP/s	 37845/27927 tok/s	 4347703 sents	  27810 sec	
 mt_nob-spa: 11000	 acc: --	 ppl:  4.81	 xent: 1.57	  12.02 TFLOP/s	 44867/33194 tok/s	 4556016 sents	  29097 sec	
 mt_nob-spa: 11500	 acc: --	 ppl:  4.86	 xent: 1.58	  11.98 TFLOP/s	 44747/33019 tok/s	 4762549 sents	  30382 sec	
+mt_nob-spa: 12000	 acc: --	 ppl:  4.77	 xent: 1.56	  12.12 TFLOP/s	 45272/33430 tok/s	 4971791 sents	  31667 sec	
+mt_nob-spa: 12500	 acc: --	 ppl:  4.82	 xent: 1.57	  11.96 TFLOP/s	 44645/33005 tok/s	 5179316 sents	  32960 sec	
+mt_nob-spa: 13000	 acc: --	 ppl:  4.85	 xent: 1.58	  10.06 TFLOP/s	 37568/27723 tok/s	 5386060 sents	  34492 sec	
 
 mt_pol-eng: 500	 acc: --	 ppl: 241.37	 xent: 5.49	  15.67 TFLOP/s	 72424/22422 tok/s	 166946 sents	   1287 sec	
 mt_pol-eng: 1000	 acc: --	 ppl: 104.96	 xent: 4.65	  15.73 TFLOP/s	 72736/22503 tok/s	 334136 sents	   2569 sec	
@@ -2757,6 +3099,9 @@ mt_pol-eng: 10000	 acc: --	 ppl:  9.90	 xent: 2.29	  15.57 TFLOP/s	 71786/22603 
 mt_pol-eng: 10500	 acc: --	 ppl:  9.11	 xent: 2.21	  13.44 TFLOP/s	 62406/18793 tok/s	 3514514 sents	  27810 sec	
 mt_pol-eng: 11000	 acc: --	 ppl:  9.96	 xent: 2.30	  15.70 TFLOP/s	 72595/22421 tok/s	 3681611 sents	  29097 sec	
 mt_pol-eng: 11500	 acc: --	 ppl: 10.23	 xent: 2.33	  15.77 TFLOP/s	 72965/22457 tok/s	 3848791 sents	  30382 sec	
+mt_pol-eng: 12000	 acc: --	 ppl: 10.13	 xent: 2.32	  15.80 TFLOP/s	 73036/22549 tok/s	 4016539 sents	  31667 sec	
+mt_pol-eng: 12500	 acc: --	 ppl:  9.64	 xent: 2.27	  15.61 TFLOP/s	 72150/22384 tok/s	 4184067 sents	  32960 sec	
+mt_pol-eng: 13000	 acc: --	 ppl:  8.80	 xent: 2.18	  13.30 TFLOP/s	 61617/18799 tok/s	 4351480 sents	  34492 sec	
 
 mt_pol-spa: 500	 acc: --	 ppl: 151.06	 xent: 5.02	  16.02 TFLOP/s	 72761/24354 tok/s	 166736 sents	   1287 sec	
 mt_pol-spa: 1000	 acc: --	 ppl: 71.12	 xent: 4.26	  16.02 TFLOP/s	 72627/24556 tok/s	 334060 sents	   2569 sec	
@@ -2781,6 +3126,9 @@ mt_pol-spa: 10000	 acc: --	 ppl:  8.29	 xent: 2.11	  15.74 TFLOP/s	 71062/24691 
 mt_pol-spa: 10500	 acc: --	 ppl:  8.34	 xent: 2.12	  13.52 TFLOP/s	 61271/20804 tok/s	 3514950 sents	  27810 sec	
 mt_pol-spa: 11000	 acc: --	 ppl:  8.40	 xent: 2.13	  15.95 TFLOP/s	 72261/24511 tok/s	 3682274 sents	  29097 sec	
 mt_pol-spa: 11500	 acc: --	 ppl:  7.94	 xent: 2.07	  15.93 TFLOP/s	 72069/24705 tok/s	 3850086 sents	  30382 sec	
+mt_pol-spa: 12000	 acc: --	 ppl:  7.45	 xent: 2.01	  16.20 TFLOP/s	 73682/24368 tok/s	 4017281 sents	  31667 sec	
+mt_pol-spa: 12500	 acc: --	 ppl:  8.21	 xent: 2.11	  16.00 TFLOP/s	 72686/24278 tok/s	 4184520 sents	  32960 sec	
+mt_pol-spa: 13000	 acc: --	 ppl:  8.23	 xent: 2.11	  13.53 TFLOP/s	 61441/20537 tok/s	 4351934 sents	  34492 sec	
 
 mt_por-eng: 500	 acc: --	 ppl: 892.84	 xent: 6.79	  15.68 TFLOP/s	 70114/25899 tok/s	 175781 sents	   1287 sec	
 mt_por-eng: 1000	 acc: --	 ppl: 84.40	 xent: 4.44	  15.60 TFLOP/s	 69431/26376 tok/s	 353736 sents	   2569 sec	
@@ -2805,6 +3153,9 @@ mt_por-eng: 10000	 acc: --	 ppl:  7.39	 xent: 2.00	  15.84 TFLOP/s	 71153/25603 
 mt_por-eng: 10500	 acc: --	 ppl:  7.47	 xent: 2.01	  13.27 TFLOP/s	 59268/22025 tok/s	 3713906 sents	  27810 sec	
 mt_por-eng: 11000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.57 TFLOP/s	 69515/25920 tok/s	 3889807 sents	  29097 sec	
 mt_por-eng: 11500	 acc: --	 ppl:  7.17	 xent: 1.97	  15.66 TFLOP/s	 69759/26304 tok/s	 4067850 sents	  30382 sec	
+mt_por-eng: 12000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.57 TFLOP/s	 69274/26321 tok/s	 4245727 sents	  31667 sec	
+mt_por-eng: 12500	 acc: --	 ppl:  6.83	 xent: 1.92	  15.77 TFLOP/s	 70695/25661 tok/s	 4420960 sents	  32960 sec	
+mt_por-eng: 13000	 acc: --	 ppl:  7.10	 xent: 1.96	  13.15 TFLOP/s	 58684/21912 tok/s	 4597718 sents	  34492 sec	
 
 mt_por-spa: 500	 acc: --	 ppl: 898.33	 xent: 6.80	  15.54 TFLOP/s	 69595/25636 tok/s	 176542 sents	   1287 sec	
 mt_por-spa: 1000	 acc: --	 ppl: 64.93	 xent: 4.17	  15.41 TFLOP/s	 68664/26072 tok/s	 354522 sents	   2569 sec	
@@ -2829,6 +3180,9 @@ mt_por-spa: 10000	 acc: --	 ppl:  7.47	 xent: 2.01	  15.28 TFLOP/s	 67994/25969 
 mt_por-spa: 10500	 acc: --	 ppl:  6.91	 xent: 1.93	  13.09 TFLOP/s	 58528/21748 tok/s	 3721786 sents	  27810 sec	
 mt_por-spa: 11000	 acc: --	 ppl:  7.16	 xent: 1.97	  15.62 TFLOP/s	 70015/25671 tok/s	 3899014 sents	  29097 sec	
 mt_por-spa: 11500	 acc: --	 ppl:  6.88	 xent: 1.93	  15.68 TFLOP/s	 70416/25591 tok/s	 4075716 sents	  30382 sec	
+mt_por-spa: 12000	 acc: --	 ppl:  7.19	 xent: 1.97	  15.42 TFLOP/s	 68800/25852 tok/s	 4252719 sents	  31667 sec	
+mt_por-spa: 12500	 acc: --	 ppl:  7.38	 xent: 2.00	  15.40 TFLOP/s	 68669/25872 tok/s	 4430857 sents	  32960 sec	
+mt_por-spa: 13000	 acc: --	 ppl:  6.90	 xent: 1.93	  12.99 TFLOP/s	 57986/21797 tok/s	 4608696 sents	  34492 sec	
 
 mt_ron-eng: 500	 acc: --	 ppl: 265.56	 xent: 5.58	  15.79 TFLOP/s	 71904/23935 tok/s	 167570 sents	   1287 sec	
 mt_ron-eng: 1000	 acc: --	 ppl: 82.72	 xent: 4.42	  16.04 TFLOP/s	 73389/23716 tok/s	 334728 sents	   2569 sec	
@@ -2853,6 +3207,9 @@ mt_ron-eng: 10000	 acc: --	 ppl:  8.90	 xent: 2.19	  15.77 TFLOP/s	 71805/23882 
 mt_ron-eng: 10500	 acc: --	 ppl:  8.83	 xent: 2.18	  13.56 TFLOP/s	 62016/20093 tok/s	 3511880 sents	  27810 sec	
 mt_ron-eng: 11000	 acc: --	 ppl:  8.57	 xent: 2.15	  15.99 TFLOP/s	 73096/23712 tok/s	 3678987 sents	  29097 sec	
 mt_ron-eng: 11500	 acc: --	 ppl:  8.91	 xent: 2.19	  15.96 TFLOP/s	 72824/23881 tok/s	 3846570 sents	  30382 sec	
+mt_ron-eng: 12000	 acc: --	 ppl:  7.70	 xent: 2.04	  16.06 TFLOP/s	 73456/23777 tok/s	 4013962 sents	  31667 sec	
+mt_ron-eng: 12500	 acc: --	 ppl:  8.48	 xent: 2.14	  15.81 TFLOP/s	 72140/23724 tok/s	 4181766 sents	  32960 sec	
+mt_ron-eng: 13000	 acc: --	 ppl:  7.85	 xent: 2.06	  13.49 TFLOP/s	 61740/19846 tok/s	 4348627 sents	  34492 sec	
 
 mt_ron-spa: 500	 acc: --	 ppl: 217.32	 xent: 5.38	  16.05 TFLOP/s	 72890/24373 tok/s	 166978 sents	   1287 sec	
 mt_ron-spa: 1000	 acc: --	 ppl: 71.86	 xent: 4.27	  16.09 TFLOP/s	 73035/24497 tok/s	 334304 sents	   2569 sec	
@@ -2877,6 +3234,9 @@ mt_ron-spa: 10000	 acc: --	 ppl:  8.12	 xent: 2.09	  16.14 TFLOP/s	 73508/24149 
 mt_ron-spa: 10500	 acc: --	 ppl:  8.27	 xent: 2.11	  13.51 TFLOP/s	 61098/20966 tok/s	 3510298 sents	  27810 sec	
 mt_ron-spa: 11000	 acc: --	 ppl:  7.64	 xent: 2.03	  16.20 TFLOP/s	 73753/24251 tok/s	 3677070 sents	  29097 sec	
 mt_ron-spa: 11500	 acc: --	 ppl:  7.68	 xent: 2.04	  16.22 TFLOP/s	 73824/24319 tok/s	 3843862 sents	  30382 sec	
+mt_ron-spa: 12000	 acc: --	 ppl:  7.55	 xent: 2.02	  16.26 TFLOP/s	 74042/24311 tok/s	 4011005 sents	  31667 sec	
+mt_ron-spa: 12500	 acc: --	 ppl:  8.33	 xent: 2.12	  15.88 TFLOP/s	 71910/24501 tok/s	 4178915 sents	  32960 sec	
+mt_ron-spa: 13000	 acc: --	 ppl:  8.17	 xent: 2.10	  13.23 TFLOP/s	 59661/20856 tok/s	 4347496 sents	  34492 sec	
 
 mt_slk-eng: 500	 acc: --	 ppl: 1305.30	 xent: 7.17	  15.27 TFLOP/s	 65977/29070 tok/s	 192829 sents	   1287 sec	
 mt_slk-eng: 1000	 acc: --	 ppl: 235.38	 xent: 5.46	  15.45 TFLOP/s	 67157/28763 tok/s	 383541 sents	   2569 sec	
@@ -2901,6 +3261,9 @@ mt_slk-eng: 10000	 acc: --	 ppl:  6.37	 xent: 1.85	  15.60 TFLOP/s	 68091/28631 
 mt_slk-eng: 10500	 acc: --	 ppl:  6.40	 xent: 1.86	  13.14 TFLOP/s	 57133/24421 tok/s	 4019981 sents	  27810 sec	
 mt_slk-eng: 11000	 acc: --	 ppl:  6.20	 xent: 1.83	  15.51 TFLOP/s	 67495/28797 tok/s	 4211714 sents	  29097 sec	
 mt_slk-eng: 11500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.46 TFLOP/s	 67270/28682 tok/s	 4401879 sents	  30382 sec	
+mt_slk-eng: 12000	 acc: --	 ppl:  6.14	 xent: 1.82	  15.57 TFLOP/s	 67782/28762 tok/s	 4592705 sents	  31667 sec	
+mt_slk-eng: 12500	 acc: --	 ppl:  6.22	 xent: 1.83	  15.41 TFLOP/s	 66861/28852 tok/s	 4784981 sents	  32960 sec	
+mt_slk-eng: 13000	 acc: --	 ppl:  6.08	 xent: 1.80	  13.12 TFLOP/s	 57102/24270 tok/s	 4976725 sents	  34492 sec	
 
 mt_slk-spa: 500	 acc: --	 ppl: 1482.93	 xent: 7.30	  15.54 TFLOP/s	 69022/26888 tok/s	 188463 sents	   1287 sec	
 mt_slk-spa: 1000	 acc: --	 ppl: 236.28	 xent: 5.47	  14.80 TFLOP/s	 63913/28593 tok/s	 383235 sents	   2569 sec	
@@ -2925,6 +3288,9 @@ mt_slk-spa: 10000	 acc: --	 ppl:  6.67	 xent: 1.90	  15.29 TFLOP/s	 67170/27726 
 mt_slk-spa: 10500	 acc: --	 ppl:  6.61	 xent: 1.89	  12.92 TFLOP/s	 56752/23451 tok/s	 4023908 sents	  27810 sec	
 mt_slk-spa: 11000	 acc: --	 ppl:  6.53	 xent: 1.88	  15.33 TFLOP/s	 67213/28021 tok/s	 4218000 sents	  29097 sec	
 mt_slk-spa: 11500	 acc: --	 ppl:  6.70	 xent: 1.90	  14.98 TFLOP/s	 65303/27894 tok/s	 4409498 sents	  30382 sec	
+mt_slk-spa: 12000	 acc: --	 ppl:  6.37	 xent: 1.85	  14.99 TFLOP/s	 65060/28406 tok/s	 4603935 sents	  31667 sec	
+mt_slk-spa: 12500	 acc: --	 ppl:  6.41	 xent: 1.86	  15.22 TFLOP/s	 66495/28157 tok/s	 4798557 sents	  32960 sec	
+mt_slk-spa: 13000	 acc: --	 ppl:  6.65	 xent: 1.89	  12.89 TFLOP/s	 56660/23301 tok/s	 4990869 sents	  34492 sec	
 
 mt_slv-eng: 500	 acc: --	 ppl: 1191.19	 xent: 7.08	  15.25 TFLOP/s	 70207/22774 tok/s	 174113 sents	   1287 sec	
 mt_slv-eng: 1000	 acc: --	 ppl: 128.10	 xent: 4.85	  15.26 TFLOP/s	 70193/22927 tok/s	 348610 sents	   2569 sec	
@@ -2949,6 +3315,9 @@ mt_slv-eng: 10000	 acc: --	 ppl:  9.79	 xent: 2.28	  15.12 TFLOP/s	 69466/22890 
 mt_slv-eng: 10500	 acc: --	 ppl:  9.85	 xent: 2.29	  13.03 TFLOP/s	 60051/19369 tok/s	 3674047 sents	  27810 sec	
 mt_slv-eng: 11000	 acc: --	 ppl:  9.43	 xent: 2.24	  15.07 TFLOP/s	 68921/23241 tok/s	 3849379 sents	  29097 sec	
 mt_slv-eng: 11500	 acc: --	 ppl:  8.82	 xent: 2.18	  14.78 TFLOP/s	 66887/23981 tok/s	 4026738 sents	  30382 sec	
+mt_slv-eng: 12000	 acc: --	 ppl:  9.54	 xent: 2.26	  15.27 TFLOP/s	 70132/23143 tok/s	 4202706 sents	  31667 sec	
+mt_slv-eng: 12500	 acc: --	 ppl:  9.73	 xent: 2.27	  15.03 TFLOP/s	 68967/22827 tok/s	 4376623 sents	  32960 sec	
+mt_slv-eng: 13000	 acc: --	 ppl:  9.75	 xent: 2.28	  12.83 TFLOP/s	 59018/19236 tok/s	 4551697 sents	  34492 sec	
 
 mt_slv-spa: 500	 acc: --	 ppl: 767.74	 xent: 6.64	  15.36 TFLOP/s	 68810/25384 tok/s	 175524 sents	   1287 sec	
 mt_slv-spa: 1000	 acc: --	 ppl: 73.34	 xent: 4.30	  15.48 TFLOP/s	 69642/25142 tok/s	 349984 sents	   2569 sec	
@@ -2973,6 +3342,9 @@ mt_slv-spa: 10000	 acc: --	 ppl:  8.38	 xent: 2.13	  15.75 TFLOP/s	 71406/24567 
 mt_slv-spa: 10500	 acc: --	 ppl:  7.80	 xent: 2.05	  13.09 TFLOP/s	 58676/21561 tok/s	 3675967 sents	  27810 sec	
 mt_slv-spa: 11000	 acc: --	 ppl:  7.93	 xent: 2.07	  15.47 TFLOP/s	 69505/25191 tok/s	 3851029 sents	  29097 sec	
 mt_slv-spa: 11500	 acc: --	 ppl:  7.95	 xent: 2.07	  15.53 TFLOP/s	 69870/25192 tok/s	 4026115 sents	  30382 sec	
+mt_slv-spa: 12000	 acc: --	 ppl:  7.72	 xent: 2.04	  15.52 TFLOP/s	 69581/25542 tok/s	 4202945 sents	  31667 sec	
+mt_slv-spa: 12500	 acc: --	 ppl:  7.91	 xent: 2.07	  15.31 TFLOP/s	 68659/25116 tok/s	 4377540 sents	  32960 sec	
+mt_slv-spa: 13000	 acc: --	 ppl:  7.76	 xent: 2.05	  12.92 TFLOP/s	 57870/21374 tok/s	 4553650 sents	  34492 sec	
 
 mt_spa-bos: 500	 acc: --	 ppl: 2695.92	 xent: 7.90	  14.67 TFLOP/s	 64917/26401 tok/s	 194708 sents	   1287 sec	
 mt_spa-bos: 1000	 acc: --	 ppl: 494.82	 xent: 6.20	  14.97 TFLOP/s	 66700/26109 tok/s	 386673 sents	   2569 sec	
@@ -2997,6 +3369,9 @@ mt_spa-bos: 10000	 acc: --	 ppl:  7.46	 xent: 2.01	  15.09 TFLOP/s	 67434/25983 
 mt_spa-bos: 10500	 acc: --	 ppl:  7.28	 xent: 1.99	  12.37 TFLOP/s	 54638/22481 tok/s	 4052191 sents	  27810 sec	
 mt_spa-bos: 11000	 acc: --	 ppl:  7.39	 xent: 2.00	  14.75 TFLOP/s	 65516/26070 tok/s	 4244459 sents	  29097 sec	
 mt_spa-bos: 11500	 acc: --	 ppl:  7.46	 xent: 2.01	  14.88 TFLOP/s	 66279/25993 tok/s	 4435654 sents	  30382 sec	
+mt_spa-bos: 12000	 acc: --	 ppl:  7.32	 xent: 1.99	  14.82 TFLOP/s	 65702/26424 tok/s	 4629854 sents	  31667 sec	
+mt_spa-bos: 12500	 acc: --	 ppl:  7.55	 xent: 2.02	  14.58 TFLOP/s	 64483/26294 tok/s	 4823973 sents	  32960 sec	
+mt_spa-bos: 13000	 acc: --	 ppl:  7.36	 xent: 2.00	  12.63 TFLOP/s	 56354/21942 tok/s	 5016696 sents	  34492 sec	
 
 mt_spa-bul: 500	 acc: --	 ppl: 1338.22	 xent: 7.20	  15.18 TFLOP/s	 65628/28969 tok/s	 194502 sents	   1287 sec	
 mt_spa-bul: 1000	 acc: --	 ppl: 556.38	 xent: 6.32	  15.39 TFLOP/s	 67024/28601 tok/s	 387069 sents	   2569 sec	
@@ -3021,6 +3396,9 @@ mt_spa-bul: 10000	 acc: --	 ppl:  6.73	 xent: 1.91	  15.46 TFLOP/s	 67627/28233 
 mt_spa-bul: 10500	 acc: --	 ppl:  6.49	 xent: 1.87	  13.04 TFLOP/s	 56798/24229 tok/s	 4054748 sents	  27810 sec	
 mt_spa-bul: 11000	 acc: --	 ppl:  6.33	 xent: 1.85	  15.07 TFLOP/s	 65043/28927 tok/s	 4248837 sents	  29097 sec	
 mt_spa-bul: 11500	 acc: --	 ppl:  6.50	 xent: 1.87	  15.13 TFLOP/s	 65515/28771 tok/s	 4442120 sents	  30382 sec	
+mt_spa-bul: 12000	 acc: --	 ppl:  6.40	 xent: 1.86	  15.18 TFLOP/s	 65594/29005 tok/s	 4636269 sents	  31667 sec	
+mt_spa-bul: 12500	 acc: --	 ppl:  6.48	 xent: 1.87	  15.44 TFLOP/s	 67369/28445 tok/s	 4829026 sents	  32960 sec	
+mt_spa-bul: 13000	 acc: --	 ppl:  6.21	 xent: 1.83	  12.74 TFLOP/s	 54922/24541 tok/s	 5025003 sents	  34492 sec	
 
 mt_spa-cat: 500	 acc: --	 ppl: 1141.11	 xent: 7.04	  15.17 TFLOP/s	 65005/29625 tok/s	 193745 sents	   1287 sec	
 mt_spa-cat: 1000	 acc: --	 ppl: 496.74	 xent: 6.21	  15.22 TFLOP/s	 65393/29519 tok/s	 386798 sents	   2569 sec	
@@ -3045,6 +3423,9 @@ mt_spa-cat: 10000	 acc: --	 ppl:  6.06	 xent: 1.80	  15.40 TFLOP/s	 66469/29438 
 mt_spa-cat: 10500	 acc: --	 ppl:  6.09	 xent: 1.81	  13.19 TFLOP/s	 57335/24521 tok/s	 4054826 sents	  27810 sec	
 mt_spa-cat: 11000	 acc: --	 ppl:  6.01	 xent: 1.79	  15.30 TFLOP/s	 66115/29086 tok/s	 4246326 sents	  29097 sec	
 mt_spa-cat: 11500	 acc: --	 ppl:  5.75	 xent: 1.75	  15.24 TFLOP/s	 65270/29868 tok/s	 4441432 sents	  30382 sec	
+mt_spa-cat: 12000	 acc: --	 ppl:  5.74	 xent: 1.75	  15.26 TFLOP/s	 65048/30340 tok/s	 4638677 sents	  31667 sec	
+mt_spa-cat: 12500	 acc: --	 ppl:  6.28	 xent: 1.84	  15.62 TFLOP/s	 68247/28476 tok/s	 4828446 sents	  32960 sec	
+mt_spa-cat: 13000	 acc: --	 ppl:  6.05	 xent: 1.80	  13.01 TFLOP/s	 56240/24703 tok/s	 5022215 sents	  34492 sec	
 
 mt_spa-ces: 500	 acc: --	 ppl: 1699.58	 xent: 7.44	  15.10 TFLOP/s	 65904/28038 tok/s	 193455 sents	   1287 sec	
 mt_spa-ces: 1000	 acc: --	 ppl: 749.00	 xent: 6.62	  15.11 TFLOP/s	 65936/28058 tok/s	 386588 sents	   2569 sec	
@@ -3069,6 +3450,9 @@ mt_spa-ces: 10000	 acc: --	 ppl:  6.74	 xent: 1.91	  15.23 TFLOP/s	 66660/28018 
 mt_spa-ces: 10500	 acc: --	 ppl:  7.30	 xent: 1.99	  12.85 TFLOP/s	 56097/23852 tok/s	 4063822 sents	  27810 sec	
 mt_spa-ces: 11000	 acc: --	 ppl:  6.98	 xent: 1.94	  15.23 TFLOP/s	 66997/27467 tok/s	 4254251 sents	  29097 sec	
 mt_spa-ces: 11500	 acc: --	 ppl:  7.00	 xent: 1.95	  15.42 TFLOP/s	 67999/27469 tok/s	 4444692 sents	  30382 sec	
+mt_spa-ces: 12000	 acc: --	 ppl:  6.83	 xent: 1.92	  15.35 TFLOP/s	 67279/28029 tok/s	 4638103 sents	  31667 sec	
+mt_spa-ces: 12500	 acc: --	 ppl:  7.12	 xent: 1.96	  15.31 TFLOP/s	 67263/27693 tok/s	 4830345 sents	  32960 sec	
+mt_spa-ces: 13000	 acc: --	 ppl:  6.99	 xent: 1.94	  12.57 TFLOP/s	 54293/24289 tok/s	 5028828 sents	  34492 sec	
 
 mt_spa-dan: 500	 acc: --	 ppl: 1764.92	 xent: 7.48	  15.05 TFLOP/s	 65752/27897 tok/s	 193900 sents	   1287 sec	
 mt_spa-dan: 1000	 acc: --	 ppl: 591.34	 xent: 6.38	  15.03 TFLOP/s	 65565/28072 tok/s	 388426 sents	   2569 sec	
@@ -3093,6 +3477,9 @@ mt_spa-dan: 10000	 acc: --	 ppl:  6.88	 xent: 1.93	  14.99 TFLOP/s	 65172/28345 
 mt_spa-dan: 10500	 acc: --	 ppl:  6.69	 xent: 1.90	  12.76 TFLOP/s	 55518/24034 tok/s	 4079449 sents	  27810 sec	
 mt_spa-dan: 11000	 acc: --	 ppl:  6.91	 xent: 1.93	  15.16 TFLOP/s	 66805/27185 tok/s	 4269681 sents	  29097 sec	
 mt_spa-dan: 11500	 acc: --	 ppl:  6.84	 xent: 1.92	  15.31 TFLOP/s	 67378/27577 tok/s	 4462176 sents	  30382 sec	
+mt_spa-dan: 12000	 acc: --	 ppl:  6.61	 xent: 1.89	  15.12 TFLOP/s	 65780/28503 tok/s	 4659238 sents	  31667 sec	
+mt_spa-dan: 12500	 acc: --	 ppl:  6.66	 xent: 1.90	  15.11 TFLOP/s	 66297/27594 tok/s	 4852251 sents	  32960 sec	
+mt_spa-dan: 13000	 acc: --	 ppl:  6.91	 xent: 1.93	  12.93 TFLOP/s	 57105/23016 tok/s	 5043980 sents	  34492 sec	
 
 mt_spa-deu: 500	 acc: --	 ppl: 1563.25	 xent: 7.35	  15.04 TFLOP/s	 65377/28357 tok/s	 194482 sents	   1287 sec	
 mt_spa-deu: 1000	 acc: --	 ppl: 833.20	 xent: 6.73	  15.08 TFLOP/s	 65628/28344 tok/s	 388757 sents	   2569 sec	
@@ -3117,6 +3504,9 @@ mt_spa-deu: 10000	 acc: --	 ppl:  7.10	 xent: 1.96	  15.20 TFLOP/s	 66395/28104 
 mt_spa-deu: 10500	 acc: --	 ppl:  6.98	 xent: 1.94	  12.99 TFLOP/s	 56965/23687 tok/s	 4058489 sents	  27810 sec	
 mt_spa-deu: 11000	 acc: --	 ppl:  6.92	 xent: 1.93	  15.26 TFLOP/s	 67054/27593 tok/s	 4249437 sents	  29097 sec	
 mt_spa-deu: 11500	 acc: --	 ppl:  6.66	 xent: 1.90	  14.93 TFLOP/s	 64596/28609 tok/s	 4445016 sents	  30382 sec	
+mt_spa-deu: 12000	 acc: --	 ppl:  6.78	 xent: 1.91	  15.38 TFLOP/s	 67508/27919 tok/s	 4637474 sents	  31667 sec	
+mt_spa-deu: 12500	 acc: --	 ppl:  6.74	 xent: 1.91	  14.98 TFLOP/s	 64956/28492 tok/s	 4833242 sents	  32960 sec	
+mt_spa-deu: 13000	 acc: --	 ppl:  7.02	 xent: 1.95	  12.76 TFLOP/s	 55556/23878 tok/s	 5028755 sents	  34492 sec	
 
 mt_spa-ell: 500	 acc: --	 ppl: 1075.83	 xent: 6.98	  15.50 TFLOP/s	 66515/29875 tok/s	 190238 sents	   1287 sec	
 mt_spa-ell: 1000	 acc: --	 ppl: 525.59	 xent: 6.26	  15.59 TFLOP/s	 66903/30037 tok/s	 381207 sents	   2569 sec	
@@ -3141,6 +3531,9 @@ mt_spa-ell: 10000	 acc: --	 ppl:  6.48	 xent: 1.87	  15.49 TFLOP/s	 66032/30552 
 mt_spa-ell: 10500	 acc: --	 ppl:  6.25	 xent: 1.83	  13.13 TFLOP/s	 55966/25878 tok/s	 4041316 sents	  27810 sec	
 mt_spa-ell: 11000	 acc: --	 ppl:  6.01	 xent: 1.79	  15.41 TFLOP/s	 65810/30210 tok/s	 4233139 sents	  29097 sec	
 mt_spa-ell: 11500	 acc: --	 ppl:  5.85	 xent: 1.77	  15.25 TFLOP/s	 64452/30950 tok/s	 4427833 sents	  30382 sec	
+mt_spa-ell: 12000	 acc: --	 ppl:  5.83	 xent: 1.76	  15.46 TFLOP/s	 65844/30541 tok/s	 4620657 sents	  31667 sec	
+mt_spa-ell: 12500	 acc: --	 ppl:  5.76	 xent: 1.75	  15.47 TFLOP/s	 65909/30586 tok/s	 4815139 sents	  32960 sec	
+mt_spa-ell: 13000	 acc: --	 ppl:  5.78	 xent: 1.76	  13.22 TFLOP/s	 56780/25345 tok/s	 5007541 sents	  34492 sec	
 
 mt_spa-eng: 500	 acc: --	 ppl: 2070.69	 xent: 7.64	  14.64 TFLOP/s	 64058/27313 tok/s	 196199 sents	   1287 sec	
 mt_spa-eng: 1000	 acc: --	 ppl: 422.40	 xent: 6.05	  15.12 TFLOP/s	 67315/26387 tok/s	 388708 sents	   2569 sec	
@@ -3165,6 +3558,9 @@ mt_spa-eng: 10000	 acc: --	 ppl:  7.31	 xent: 1.99	  14.90 TFLOP/s	 66110/26464 
 mt_spa-eng: 10500	 acc: --	 ppl:  7.03	 xent: 1.95	  12.62 TFLOP/s	 55775/22714 tok/s	 4043367 sents	  27810 sec	
 mt_spa-eng: 11000	 acc: --	 ppl:  6.78	 xent: 1.91	  14.72 TFLOP/s	 64529/27242 tok/s	 4239572 sents	  29097 sec	
 mt_spa-eng: 11500	 acc: --	 ppl:  7.34	 xent: 1.99	  15.06 TFLOP/s	 67138/26193 tok/s	 4430959 sents	  30382 sec	
+mt_spa-eng: 12000	 acc: --	 ppl:  7.55	 xent: 2.02	  15.12 TFLOP/s	 67559/26029 tok/s	 4621518 sents	  31667 sec	
+mt_spa-eng: 12500	 acc: --	 ppl:  7.02	 xent: 1.95	  15.15 TFLOP/s	 67335/26642 tok/s	 4816622 sents	  32960 sec	
+mt_spa-eng: 13000	 acc: --	 ppl:  7.15	 xent: 1.97	  12.56 TFLOP/s	 55710/22265 tok/s	 5009332 sents	  34492 sec	
 
 mt_spa-est: 500	 acc: --	 ppl: 2902.52	 xent: 7.97	  14.93 TFLOP/s	 66439/26156 tok/s	 192468 sents	   1287 sec	
 mt_spa-est: 1000	 acc: --	 ppl: 681.19	 xent: 6.52	  15.06 TFLOP/s	 67227/26084 tok/s	 384528 sents	   2569 sec	
@@ -3189,6 +3585,9 @@ mt_spa-est: 10000	 acc: --	 ppl:  8.01	 xent: 2.08	  14.67 TFLOP/s	 64958/26279 
 mt_spa-est: 10500	 acc: --	 ppl:  7.56	 xent: 2.02	  12.53 TFLOP/s	 55419/22578 tok/s	 4051357 sents	  27810 sec	
 mt_spa-est: 11000	 acc: --	 ppl:  7.80	 xent: 2.05	  14.89 TFLOP/s	 66483/25791 tok/s	 4241614 sents	  29097 sec	
 mt_spa-est: 11500	 acc: --	 ppl:  7.57	 xent: 2.02	  14.91 TFLOP/s	 66422/25994 tok/s	 4432944 sents	  30382 sec	
+mt_spa-est: 12000	 acc: --	 ppl:  7.48	 xent: 2.01	  15.03 TFLOP/s	 67032/26140 tok/s	 4624976 sents	  31667 sec	
+mt_spa-est: 12500	 acc: --	 ppl:  7.44	 xent: 2.01	  15.06 TFLOP/s	 67245/26075 tok/s	 4817860 sents	  32960 sec	
+mt_spa-est: 13000	 acc: --	 ppl:  7.64	 xent: 2.03	  12.49 TFLOP/s	 55387/22216 tok/s	 5012065 sents	  34492 sec	
 
 mt_spa-eus: 500	 acc: --	 ppl: 3262.00	 xent: 8.09	  15.02 TFLOP/s	 68761/23765 tok/s	 189218 sents	   1287 sec	
 mt_spa-eus: 1000	 acc: --	 ppl: 309.77	 xent: 5.74	  14.41 TFLOP/s	 65201/24248 tok/s	 382158 sents	   2569 sec	
@@ -3213,6 +3612,9 @@ mt_spa-eus: 10000	 acc: --	 ppl:  9.36	 xent: 2.24	  14.36 TFLOP/s	 64882/24262 
 mt_spa-eus: 10500	 acc: --	 ppl:  9.87	 xent: 2.29	  12.18 TFLOP/s	 54992/20706 tok/s	 4045544 sents	  27810 sec	
 mt_spa-eus: 11000	 acc: --	 ppl:  9.82	 xent: 2.28	  14.09 TFLOP/s	 63411/24258 tok/s	 4239195 sents	  29097 sec	
 mt_spa-eus: 11500	 acc: --	 ppl:  9.71	 xent: 2.27	  14.63 TFLOP/s	 66482/24051 tok/s	 4430608 sents	  30382 sec	
+mt_spa-eus: 12000	 acc: --	 ppl:  9.15	 xent: 2.21	  14.49 TFLOP/s	 65559/24325 tok/s	 4624089 sents	  31667 sec	
+mt_spa-eus: 12500	 acc: --	 ppl:  9.27	 xent: 2.23	  14.58 TFLOP/s	 66186/24044 tok/s	 4816209 sents	  32960 sec	
+mt_spa-eus: 13000	 acc: --	 ppl:  9.46	 xent: 2.25	  12.25 TFLOP/s	 55519/20405 tok/s	 5010152 sents	  34492 sec	
 
 mt_spa-fin: 500	 acc: --	 ppl: 1604.77	 xent: 7.38	  14.74 TFLOP/s	 63868/28256 tok/s	 196529 sents	   1287 sec	
 mt_spa-fin: 1000	 acc: --	 ppl: 979.10	 xent: 6.89	  15.03 TFLOP/s	 65893/27561 tok/s	 388720 sents	   2569 sec	
@@ -3237,6 +3639,9 @@ mt_spa-fin: 10000	 acc: --	 ppl:  7.83	 xent: 2.06	  14.99 TFLOP/s	 65416/27952 
 mt_spa-fin: 10500	 acc: --	 ppl:  7.40	 xent: 2.00	  12.84 TFLOP/s	 56277/23521 tok/s	 4057575 sents	  27810 sec	
 mt_spa-fin: 11000	 acc: --	 ppl:  7.31	 xent: 1.99	  15.00 TFLOP/s	 65663/27644 tok/s	 4250669 sents	  29097 sec	
 mt_spa-fin: 11500	 acc: --	 ppl:  8.17	 xent: 2.10	  14.82 TFLOP/s	 64260/28349 tok/s	 4447516 sents	  30382 sec	
+mt_spa-fin: 12000	 acc: --	 ppl:  7.38	 xent: 2.00	  15.44 TFLOP/s	 68273/27340 tok/s	 4638790 sents	  31667 sec	
+mt_spa-fin: 12500	 acc: --	 ppl:  7.21	 xent: 1.98	  15.30 TFLOP/s	 67530/27310 tok/s	 4830871 sents	  32960 sec	
+mt_spa-fin: 13000	 acc: --	 ppl:  7.14	 xent: 1.97	  12.75 TFLOP/s	 55916/23333 tok/s	 5025130 sents	  34492 sec	
 
 mt_spa-fra: 500	 acc: --	 ppl: 1700.09	 xent: 7.44	  15.39 TFLOP/s	 67404/28037 tok/s	 191826 sents	   1287 sec	
 mt_spa-fra: 1000	 acc: --	 ppl: 595.09	 xent: 6.39	  15.18 TFLOP/s	 65783/28813 tok/s	 386633 sents	   2569 sec	
@@ -3261,6 +3666,9 @@ mt_spa-fra: 10000	 acc: --	 ppl:  6.58	 xent: 1.88	  15.24 TFLOP/s	 66402/28357 
 mt_spa-fra: 10500	 acc: --	 ppl:  6.47	 xent: 1.87	  13.10 TFLOP/s	 57486/23722 tok/s	 4057238 sents	  27810 sec	
 mt_spa-fra: 11000	 acc: --	 ppl:  6.36	 xent: 1.85	  15.24 TFLOP/s	 66515/28198 tok/s	 4249475 sents	  29097 sec	
 mt_spa-fra: 11500	 acc: --	 ppl:  6.33	 xent: 1.85	  15.12 TFLOP/s	 65511/28735 tok/s	 4443924 sents	  30382 sec	
+mt_spa-fra: 12000	 acc: --	 ppl:  6.31	 xent: 1.84	  15.23 TFLOP/s	 66038/28793 tok/s	 4638568 sents	  31667 sec	
+mt_spa-fra: 12500	 acc: --	 ppl:  6.13	 xent: 1.81	  15.06 TFLOP/s	 65065/28871 tok/s	 4834115 sents	  32960 sec	
+mt_spa-fra: 13000	 acc: --	 ppl:  6.17	 xent: 1.82	  12.78 TFLOP/s	 55403/24255 tok/s	 5029895 sents	  34492 sec	
 
 mt_spa-gle: 500	 acc: --	 ppl: 1290.46	 xent: 7.16	  15.21 TFLOP/s	 65659/29116 tok/s	 193395 sents	   1287 sec	
 mt_spa-gle: 1000	 acc: --	 ppl: 393.25	 xent: 5.97	  15.50 TFLOP/s	 67582/28619 tok/s	 384217 sents	   2569 sec	
@@ -3285,6 +3693,9 @@ mt_spa-gle: 10000	 acc: --	 ppl:  7.84	 xent: 2.06	  15.25 TFLOP/s	 65723/29327 
 mt_spa-gle: 10500	 acc: --	 ppl:  7.97	 xent: 2.08	  13.02 TFLOP/s	 56317/24680 tok/s	 4045891 sents	  27810 sec	
 mt_spa-gle: 11000	 acc: --	 ppl:  6.79	 xent: 1.92	  15.34 TFLOP/s	 66604/28707 tok/s	 4237400 sents	  29097 sec	
 mt_spa-gle: 11500	 acc: --	 ppl:  6.95	 xent: 1.94	  15.28 TFLOP/s	 66101/29033 tok/s	 4430235 sents	  30382 sec	
+mt_spa-gle: 12000	 acc: --	 ppl:  7.50	 xent: 2.02	  15.35 TFLOP/s	 66610/28736 tok/s	 4621344 sents	  31667 sec	
+mt_spa-gle: 12500	 acc: --	 ppl:  6.88	 xent: 1.93	  15.33 TFLOP/s	 66189/29232 tok/s	 4816061 sents	  32960 sec	
+mt_spa-gle: 13000	 acc: --	 ppl:  7.06	 xent: 1.95	  12.94 TFLOP/s	 56103/24338 tok/s	 5009076 sents	  34492 sec	
 
 mt_spa-glg: 500	 acc: --	 ppl: 1595.85	 xent: 7.38	  15.18 TFLOP/s	 66156/28278 tok/s	 193519 sents	   1287 sec	
 mt_spa-glg: 1000	 acc: --	 ppl: 562.93	 xent: 6.33	  15.05 TFLOP/s	 65196/28678 tok/s	 388630 sents	   2569 sec	
@@ -3309,6 +3720,9 @@ mt_spa-glg: 10000	 acc: --	 ppl:  6.15	 xent: 1.82	  14.96 TFLOP/s	 64687/28739 
 mt_spa-glg: 10500	 acc: --	 ppl:  6.41	 xent: 1.86	  12.87 TFLOP/s	 56063/24027 tok/s	 4053765 sents	  27810 sec	
 mt_spa-glg: 11000	 acc: --	 ppl:  6.45	 xent: 1.86	  15.20 TFLOP/s	 66452/27978 tok/s	 4245619 sents	  29097 sec	
 mt_spa-glg: 11500	 acc: --	 ppl:  6.25	 xent: 1.83	  15.09 TFLOP/s	 65512/28499 tok/s	 4440184 sents	  30382 sec	
+mt_spa-glg: 12000	 acc: --	 ppl:  6.45	 xent: 1.86	  15.40 TFLOP/s	 67514/28001 tok/s	 4632110 sents	  31667 sec	
+mt_spa-glg: 12500	 acc: --	 ppl:  6.10	 xent: 1.81	  14.92 TFLOP/s	 64266/28941 tok/s	 4829370 sents	  32960 sec	
+mt_spa-glg: 13000	 acc: --	 ppl:  6.18	 xent: 1.82	  12.67 TFLOP/s	 54930/24053 tok/s	 5024865 sents	  34492 sec	
 
 mt_spa-hrv: 500	 acc: --	 ppl: 1264.31	 xent: 7.14	  14.88 TFLOP/s	 63868/29200 tok/s	 197157 sents	   1287 sec	
 mt_spa-hrv: 1000	 acc: --	 ppl: 821.61	 xent: 6.71	  15.02 TFLOP/s	 65108/28525 tok/s	 390499 sents	   2569 sec	
@@ -3333,6 +3747,9 @@ mt_spa-hrv: 10000	 acc: --	 ppl:  6.72	 xent: 1.91	  15.16 TFLOP/s	 66056/28257 
 mt_spa-hrv: 10500	 acc: --	 ppl:  6.43	 xent: 1.86	  12.78 TFLOP/s	 55436/24174 tok/s	 4047301 sents	  27810 sec	
 mt_spa-hrv: 11000	 acc: --	 ppl:  6.59	 xent: 1.89	  14.94 TFLOP/s	 64803/28307 tok/s	 4239748 sents	  29097 sec	
 mt_spa-hrv: 11500	 acc: --	 ppl:  6.60	 xent: 1.89	  15.28 TFLOP/s	 66775/28102 tok/s	 4431624 sents	  30382 sec	
+mt_spa-hrv: 12000	 acc: --	 ppl:  6.53	 xent: 1.88	  14.82 TFLOP/s	 63607/29127 tok/s	 4627741 sents	  31667 sec	
+mt_spa-hrv: 12500	 acc: --	 ppl:  6.65	 xent: 1.89	  15.52 TFLOP/s	 68372/27622 tok/s	 4818154 sents	  32960 sec	
+mt_spa-hrv: 13000	 acc: --	 ppl:  6.36	 xent: 1.85	  12.75 TFLOP/s	 55344/24038 tok/s	 5012850 sents	  34492 sec	
 
 mt_spa-hun: 500	 acc: --	 ppl: 1504.87	 xent: 7.32	  15.11 TFLOP/s	 65625/28505 tok/s	 195169 sents	   1287 sec	
 mt_spa-hun: 1000	 acc: --	 ppl: 897.47	 xent: 6.80	  15.05 TFLOP/s	 65341/28515 tok/s	 389900 sents	   2569 sec	
@@ -3357,6 +3774,9 @@ mt_spa-hun: 10000	 acc: --	 ppl:  7.33	 xent: 1.99	  15.29 TFLOP/s	 66899/28059 
 mt_spa-hun: 10500	 acc: --	 ppl:  7.00	 xent: 1.95	  12.93 TFLOP/s	 56556/23829 tok/s	 4065885 sents	  27810 sec	
 mt_spa-hun: 11000	 acc: --	 ppl:  7.46	 xent: 2.01	  15.25 TFLOP/s	 66878/27777 tok/s	 4256993 sents	  29097 sec	
 mt_spa-hun: 11500	 acc: --	 ppl:  7.13	 xent: 1.96	  15.21 TFLOP/s	 66370/28255 tok/s	 4450615 sents	  30382 sec	
+mt_spa-hun: 12000	 acc: --	 ppl:  7.49	 xent: 2.01	  15.29 TFLOP/s	 66809/28159 tok/s	 4643336 sents	  31667 sec	
+mt_spa-hun: 12500	 acc: --	 ppl:  6.86	 xent: 1.93	  14.85 TFLOP/s	 64105/28656 tok/s	 4839681 sents	  32960 sec	
+mt_spa-hun: 13000	 acc: --	 ppl:  6.98	 xent: 1.94	  12.83 TFLOP/s	 56013/23774 tok/s	 5033793 sents	  34492 sec	
 
 mt_spa-isl: 500	 acc: --	 ppl: 1839.63	 xent: 7.52	  15.00 TFLOP/s	 65552/27744 tok/s	 191504 sents	   1287 sec	
 mt_spa-isl: 1000	 acc: --	 ppl: 403.84	 xent: 6.00	  15.10 TFLOP/s	 66053/27811 tok/s	 383418 sents	   2569 sec	
@@ -3381,6 +3801,9 @@ mt_spa-isl: 10000	 acc: --	 ppl:  7.95	 xent: 2.07	  14.84 TFLOP/s	 64336/28337 
 mt_spa-isl: 10500	 acc: --	 ppl:  7.83	 xent: 2.06	  12.77 TFLOP/s	 55644/23885 tok/s	 4031501 sents	  27810 sec	
 mt_spa-isl: 11000	 acc: --	 ppl:  6.99	 xent: 1.94	  15.02 TFLOP/s	 65682/27668 tok/s	 4222958 sents	  29097 sec	
 mt_spa-isl: 11500	 acc: --	 ppl:  6.91	 xent: 1.93	  15.03 TFLOP/s	 65622/27856 tok/s	 4415148 sents	  30382 sec	
+mt_spa-isl: 12000	 acc: --	 ppl:  7.54	 xent: 2.02	  15.29 TFLOP/s	 67322/27451 tok/s	 4604870 sents	  31667 sec	
+mt_spa-isl: 12500	 acc: --	 ppl:  6.81	 xent: 1.92	  14.98 TFLOP/s	 65336/27906 tok/s	 4798041 sents	  32960 sec	
+mt_spa-isl: 13000	 acc: --	 ppl:  6.92	 xent: 1.93	  12.88 TFLOP/s	 56769/22992 tok/s	 4987591 sents	  34492 sec	
 
 mt_spa-ita: 500	 acc: --	 ppl: 1064.43	 xent: 6.97	  15.31 TFLOP/s	 65557/29922 tok/s	 194100 sents	   1287 sec	
 mt_spa-ita: 1000	 acc: --	 ppl: 505.35	 xent: 6.23	  15.51 TFLOP/s	 67067/29306 tok/s	 384885 sents	   2569 sec	
@@ -3405,6 +3828,9 @@ mt_spa-ita: 10000	 acc: --	 ppl:  5.87	 xent: 1.77	  15.43 TFLOP/s	 66373/29724 
 mt_spa-ita: 10500	 acc: --	 ppl:  5.76	 xent: 1.75	  12.90 TFLOP/s	 54914/25701 tok/s	 4042430 sents	  27810 sec	
 mt_spa-ita: 11000	 acc: --	 ppl:  5.83	 xent: 1.76	  15.41 TFLOP/s	 66188/29799 tok/s	 4236188 sents	  29097 sec	
 mt_spa-ita: 11500	 acc: --	 ppl:  5.77	 xent: 1.75	  15.34 TFLOP/s	 65821/29788 tok/s	 4429432 sents	  30382 sec	
+mt_spa-ita: 12000	 acc: --	 ppl:  5.89	 xent: 1.77	  15.34 TFLOP/s	 65883/29675 tok/s	 4621778 sents	  31667 sec	
+mt_spa-ita: 12500	 acc: --	 ppl:  5.67	 xent: 1.74	  15.37 TFLOP/s	 65908/29913 tok/s	 4816490 sents	  32960 sec	
+mt_spa-ita: 13000	 acc: --	 ppl:  5.84	 xent: 1.76	  12.90 TFLOP/s	 55265/25213 tok/s	 5011404 sents	  34492 sec	
 
 mt_spa-kat: 500	 acc: --	 ppl: 3034.27	 xent: 8.02	  15.03 TFLOP/s	 68005/24793 tok/s	 189134 sents	   1287 sec	
 mt_spa-kat: 1000	 acc: --	 ppl: 520.38	 xent: 6.25	  14.91 TFLOP/s	 67097/25245 tok/s	 381021 sents	   2569 sec	
@@ -3429,6 +3855,9 @@ mt_spa-kat: 10000	 acc: --	 ppl:  9.30	 xent: 2.23	  14.76 TFLOP/s	 66275/25248 
 mt_spa-kat: 10500	 acc: --	 ppl:  9.06	 xent: 2.20	  12.28 TFLOP/s	 54762/21671 tok/s	 4042198 sents	  27810 sec	
 mt_spa-kat: 11000	 acc: --	 ppl:  8.65	 xent: 2.16	  14.61 TFLOP/s	 65276/25498 tok/s	 4236311 sents	  29097 sec	
 mt_spa-kat: 11500	 acc: --	 ppl:  8.09	 xent: 2.09	  14.76 TFLOP/s	 66328/25177 tok/s	 4427995 sents	  30382 sec	
+mt_spa-kat: 12000	 acc: --	 ppl:  8.28	 xent: 2.11	  14.56 TFLOP/s	 65034/25470 tok/s	 4621015 sents	  31667 sec	
+mt_spa-kat: 12500	 acc: --	 ppl:  8.19	 xent: 2.10	  14.88 TFLOP/s	 66912/25277 tok/s	 4814192 sents	  32960 sec	
+mt_spa-kat: 13000	 acc: --	 ppl:  8.45	 xent: 2.13	  12.36 TFLOP/s	 55260/21488 tok/s	 5008870 sents	  34492 sec	
 
 mt_spa-lav: 500	 acc: --	 ppl: 2524.68	 xent: 7.83	  15.06 TFLOP/s	 66816/26623 tok/s	 193202 sents	   1287 sec	
 mt_spa-lav: 1000	 acc: --	 ppl: 599.71	 xent: 6.40	  15.11 TFLOP/s	 67108/26603 tok/s	 385891 sents	   2569 sec	
@@ -3453,6 +3882,9 @@ mt_spa-lav: 10000	 acc: --	 ppl:  7.62	 xent: 2.03	  15.10 TFLOP/s	 67094/26524 
 mt_spa-lav: 10500	 acc: --	 ppl:  7.32	 xent: 1.99	  12.65 TFLOP/s	 55902/22781 tok/s	 4043153 sents	  27810 sec	
 mt_spa-lav: 11000	 acc: --	 ppl:  7.38	 xent: 2.00	  14.94 TFLOP/s	 66016/26907 tok/s	 4238157 sents	  29097 sec	
 mt_spa-lav: 11500	 acc: --	 ppl:  7.58	 xent: 2.03	  15.05 TFLOP/s	 67010/26186 tok/s	 4427994 sents	  30382 sec	
+mt_spa-lav: 12000	 acc: --	 ppl:  7.35	 xent: 1.99	  14.66 TFLOP/s	 64411/26991 tok/s	 4622632 sents	  31667 sec	
+mt_spa-lav: 12500	 acc: --	 ppl:  7.37	 xent: 2.00	  15.34 TFLOP/s	 68459/26407 tok/s	 4815330 sents	  32960 sec	
+mt_spa-lav: 13000	 acc: --	 ppl:  7.30	 xent: 1.99	  12.47 TFLOP/s	 55031/22549 tok/s	 5009450 sents	  34492 sec	
 
 mt_spa-lit: 500	 acc: --	 ppl: 1886.53	 xent: 7.54	  15.22 TFLOP/s	 66776/27651 tok/s	 190998 sents	   1287 sec	
 mt_spa-lit: 1000	 acc: --	 ppl: 603.44	 xent: 6.40	  15.05 TFLOP/s	 65599/28111 tok/s	 384242 sents	   2569 sec	
@@ -3477,6 +3909,9 @@ mt_spa-lit: 10000	 acc: --	 ppl:  6.89	 xent: 1.93	  15.37 TFLOP/s	 67621/27691 
 mt_spa-lit: 10500	 acc: --	 ppl:  7.19	 xent: 1.97	  12.83 TFLOP/s	 56057/23690 tok/s	 4038646 sents	  27810 sec	
 mt_spa-lit: 11000	 acc: --	 ppl:  6.65	 xent: 1.89	  15.15 TFLOP/s	 66361/27740 tok/s	 4230227 sents	  29097 sec	
 mt_spa-lit: 11500	 acc: --	 ppl:  6.65	 xent: 1.89	  14.98 TFLOP/s	 65293/27990 tok/s	 4422707 sents	  30382 sec	
+mt_spa-lit: 12000	 acc: --	 ppl:  6.74	 xent: 1.91	  15.26 TFLOP/s	 67180/27349 tok/s	 4611517 sents	  31667 sec	
+mt_spa-lit: 12500	 acc: --	 ppl:  6.36	 xent: 1.85	  15.34 TFLOP/s	 67167/28059 tok/s	 4805690 sents	  32960 sec	
+mt_spa-lit: 13000	 acc: --	 ppl:  6.56	 xent: 1.88	  12.53 TFLOP/s	 54224/24021 tok/s	 5001814 sents	  34492 sec	
 
 mt_spa-mkd: 500	 acc: --	 ppl: 1138.28	 xent: 7.04	  15.27 TFLOP/s	 65556/29637 tok/s	 194098 sents	   1287 sec	
 mt_spa-mkd: 1000	 acc: --	 ppl: 619.17	 xent: 6.43	  15.36 TFLOP/s	 66082/29653 tok/s	 388127 sents	   2569 sec	
@@ -3501,6 +3936,9 @@ mt_spa-mkd: 10000	 acc: --	 ppl:  6.02	 xent: 1.79	  15.37 TFLOP/s	 66210/29548 
 mt_spa-mkd: 10500	 acc: --	 ppl:  5.85	 xent: 1.77	  12.97 TFLOP/s	 55744/25088 tok/s	 4046852 sents	  27810 sec	
 mt_spa-mkd: 11000	 acc: --	 ppl:  6.05	 xent: 1.80	  15.44 TFLOP/s	 66939/28968 tok/s	 4237537 sents	  29097 sec	
 mt_spa-mkd: 11500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.49 TFLOP/s	 67096/29127 tok/s	 4428872 sents	  30382 sec	
+mt_spa-mkd: 12000	 acc: --	 ppl:  6.17	 xent: 1.82	  15.14 TFLOP/s	 64904/29586 tok/s	 4622196 sents	  31667 sec	
+mt_spa-mkd: 12500	 acc: --	 ppl:  5.74	 xent: 1.75	  15.06 TFLOP/s	 64089/30190 tok/s	 4819874 sents	  32960 sec	
+mt_spa-mkd: 13000	 acc: --	 ppl:  6.01	 xent: 1.79	  12.74 TFLOP/s	 54419/25178 tok/s	 5015871 sents	  34492 sec	
 
 mt_spa-mlt: 500	 acc: --	 ppl: 2085.38	 xent: 7.64	  14.85 TFLOP/s	 65166/27289 tok/s	 194629 sents	   1287 sec	
 mt_spa-mlt: 1000	 acc: --	 ppl: 628.93	 xent: 6.44	  15.22 TFLOP/s	 67587/26661 tok/s	 385611 sents	   2569 sec	
@@ -3525,6 +3963,9 @@ mt_spa-mlt: 10000	 acc: --	 ppl:  7.71	 xent: 2.04	  14.99 TFLOP/s	 66158/26960 
 mt_spa-mlt: 10500	 acc: --	 ppl:  8.15	 xent: 2.10	  12.83 TFLOP/s	 56812/22766 tok/s	 4047501 sents	  27810 sec	
 mt_spa-mlt: 11000	 acc: --	 ppl:  7.44	 xent: 2.01	  14.98 TFLOP/s	 66075/27003 tok/s	 4240645 sents	  29097 sec	
 mt_spa-mlt: 11500	 acc: --	 ppl:  7.55	 xent: 2.02	  15.03 TFLOP/s	 66459/26846 tok/s	 4432565 sents	  30382 sec	
+mt_spa-mlt: 12000	 acc: --	 ppl:  8.55	 xent: 2.15	  15.03 TFLOP/s	 66352/26987 tok/s	 4624993 sents	  31667 sec	
+mt_spa-mlt: 12500	 acc: --	 ppl:  7.35	 xent: 1.99	  15.10 TFLOP/s	 66675/27050 tok/s	 4818993 sents	  32960 sec	
+mt_spa-mlt: 13000	 acc: --	 ppl:  7.15	 xent: 1.97	  12.90 TFLOP/s	 57499/22275 tok/s	 5009524 sents	  34492 sec	
 
 mt_spa-nld: 500	 acc: --	 ppl: 1559.76	 xent: 7.35	  15.17 TFLOP/s	 65991/28367 tok/s	 191981 sents	   1287 sec	
 mt_spa-nld: 1000	 acc: --	 ppl: 597.22	 xent: 6.39	  15.48 TFLOP/s	 67973/27901 tok/s	 382081 sents	   2569 sec	
@@ -3549,6 +3990,9 @@ mt_spa-nld: 10000	 acc: --	 ppl:  6.96	 xent: 1.94	  15.11 TFLOP/s	 65232/29023 
 mt_spa-nld: 10500	 acc: --	 ppl:  6.25	 xent: 1.83	  12.87 TFLOP/s	 55915/24162 tok/s	 4034133 sents	  27810 sec	
 mt_spa-nld: 11000	 acc: --	 ppl:  6.35	 xent: 1.85	  15.14 TFLOP/s	 65501/28877 tok/s	 4228662 sents	  29097 sec	
 mt_spa-nld: 11500	 acc: --	 ppl:  6.40	 xent: 1.86	  15.20 TFLOP/s	 66296/28131 tok/s	 4419310 sents	  30382 sec	
+mt_spa-nld: 12000	 acc: --	 ppl:  6.44	 xent: 1.86	  15.10 TFLOP/s	 65664/28249 tok/s	 4609935 sents	  31667 sec	
+mt_spa-nld: 12500	 acc: --	 ppl:  6.18	 xent: 1.82	  15.27 TFLOP/s	 66303/28733 tok/s	 4804644 sents	  32960 sec	
+mt_spa-nld: 13000	 acc: --	 ppl:  6.23	 xent: 1.83	  12.65 TFLOP/s	 54479/24514 tok/s	 5000516 sents	  34492 sec	
 
 mt_spa-nno: 500	 acc: --	 ppl: 2596.38	 xent: 7.86	  15.20 TFLOP/s	 67591/26527 tok/s	 190852 sents	   1287 sec	
 mt_spa-nno: 1000	 acc: --	 ppl: 693.12	 xent: 6.54	  14.92 TFLOP/s	 65663/27140 tok/s	 383665 sents	   2569 sec	
@@ -3573,6 +4017,9 @@ mt_spa-nno: 10000	 acc: --	 ppl:  7.47	 xent: 2.01	  14.89 TFLOP/s	 65460/27179 
 mt_spa-nno: 10500	 acc: --	 ppl:  7.30	 xent: 1.99	  12.62 TFLOP/s	 55500/22972 tok/s	 4039362 sents	  27810 sec	
 mt_spa-nno: 11000	 acc: --	 ppl:  7.41	 xent: 2.00	  14.80 TFLOP/s	 64875/27265 tok/s	 4232978 sents	  29097 sec	
 mt_spa-nno: 11500	 acc: --	 ppl:  7.15	 xent: 1.97	  14.96 TFLOP/s	 66135/26746 tok/s	 4424105 sents	  30382 sec	
+mt_spa-nno: 12000	 acc: --	 ppl:  7.13	 xent: 1.96	  14.90 TFLOP/s	 65478/27202 tok/s	 4617022 sents	  31667 sec	
+mt_spa-nno: 12500	 acc: --	 ppl:  7.23	 xent: 1.98	  14.93 TFLOP/s	 65753/27067 tok/s	 4810450 sents	  32960 sec	
+mt_spa-nno: 13000	 acc: --	 ppl:  7.40	 xent: 2.00	  12.80 TFLOP/s	 56845/22403 tok/s	 5002217 sents	  34492 sec	
 
 mt_spa-nob: 500	 acc: --	 ppl: 1548.19	 xent: 7.34	  15.07 TFLOP/s	 65457/28395 tok/s	 193577 sents	   1287 sec	
 mt_spa-nob: 1000	 acc: --	 ppl: 852.03	 xent: 6.75	  14.86 TFLOP/s	 64114/28735 tok/s	 388397 sents	   2569 sec	
@@ -3597,6 +4044,9 @@ mt_spa-nob: 10000	 acc: --	 ppl:  6.61	 xent: 1.89	  15.13 TFLOP/s	 65866/28303 
 mt_spa-nob: 10500	 acc: --	 ppl:  6.72	 xent: 1.90	  13.01 TFLOP/s	 56968/23800 tok/s	 4054734 sents	  27810 sec	
 mt_spa-nob: 11000	 acc: --	 ppl:  6.52	 xent: 1.87	  15.04 TFLOP/s	 65507/28038 tok/s	 4246330 sents	  29097 sec	
 mt_spa-nob: 11500	 acc: --	 ppl:  6.71	 xent: 1.90	  15.28 TFLOP/s	 66801/28065 tok/s	 4438255 sents	  30382 sec	
+mt_spa-nob: 12000	 acc: --	 ppl:  6.41	 xent: 1.86	  15.00 TFLOP/s	 64996/28537 tok/s	 4632097 sents	  31667 sec	
+mt_spa-nob: 12500	 acc: --	 ppl:  6.43	 xent: 1.86	  15.38 TFLOP/s	 67457/27899 tok/s	 4824016 sents	  32960 sec	
+mt_spa-nob: 13000	 acc: --	 ppl:  6.46	 xent: 1.87	  12.70 TFLOP/s	 55093/24026 tok/s	 5019009 sents	  34492 sec	
 
 mt_spa-pol: 500	 acc: --	 ppl: 658.68	 xent: 6.49	  11.97 TFLOP/s	 44116/33891 tok/s	 213350 sents	   1287 sec	
 mt_spa-pol: 1000	 acc: --	 ppl: 466.77	 xent: 6.15	  11.95 TFLOP/s	 43874/34078 tok/s	 427293 sents	   2569 sec	
@@ -3621,6 +4071,9 @@ mt_spa-pol: 10000	 acc: --	 ppl:  6.43	 xent: 1.86	  12.04 TFLOP/s	 44296/34208 
 mt_spa-pol: 10500	 acc: --	 ppl:  6.24	 xent: 1.83	  10.23 TFLOP/s	 37446/29305 tok/s	 4506418 sents	  27810 sec	
 mt_spa-pol: 11000	 acc: --	 ppl:  5.59	 xent: 1.72	  11.98 TFLOP/s	 44026/34083 tok/s	 4721223 sents	  29097 sec	
 mt_spa-pol: 11500	 acc: --	 ppl:  5.89	 xent: 1.77	  12.01 TFLOP/s	 44238/34047 tok/s	 4935651 sents	  30382 sec	
+mt_spa-pol: 12000	 acc: --	 ppl:  5.94	 xent: 1.78	  12.03 TFLOP/s	 44315/34093 tok/s	 5150323 sents	  31667 sec	
+mt_spa-pol: 12500	 acc: --	 ppl:  5.52	 xent: 1.71	  12.02 TFLOP/s	 44151/34179 tok/s	 5366159 sents	  32960 sec	
+mt_spa-pol: 13000	 acc: --	 ppl:  5.97	 xent: 1.79	  10.22 TFLOP/s	 37701/28916 tok/s	 5583357 sents	  34492 sec	
 
 mt_spa-por: 500	 acc: --	 ppl: 423.94	 xent: 6.05	  12.18 TFLOP/s	 44435/35013 tok/s	 216384 sents	   1287 sec	
 mt_spa-por: 1000	 acc: --	 ppl: 298.70	 xent: 5.70	  12.08 TFLOP/s	 44238/34450 tok/s	 429140 sents	   2569 sec	
@@ -3645,6 +4098,9 @@ mt_spa-por: 10000	 acc: --	 ppl:  4.62	 xent: 1.53	  12.10 TFLOP/s	 44038/34922 
 mt_spa-por: 10500	 acc: --	 ppl:  4.53	 xent: 1.51	  10.29 TFLOP/s	 37533/29568 tok/s	 4512086 sents	  27810 sec	
 mt_spa-por: 11000	 acc: --	 ppl:  4.64	 xent: 1.54	  12.11 TFLOP/s	 44227/34762 tok/s	 4727724 sents	  29097 sec	
 mt_spa-por: 11500	 acc: --	 ppl:  4.59	 xent: 1.52	  12.12 TFLOP/s	 44236/34807 tok/s	 4942713 sents	  30382 sec	
+mt_spa-por: 12000	 acc: --	 ppl:  4.64	 xent: 1.54	  12.05 TFLOP/s	 43839/34792 tok/s	 5157397 sents	  31667 sec	
+mt_spa-por: 12500	 acc: --	 ppl:  4.57	 xent: 1.52	  12.14 TFLOP/s	 44388/34722 tok/s	 5372997 sents	  32960 sec	
+mt_spa-por: 13000	 acc: --	 ppl:  4.61	 xent: 1.53	  10.32 TFLOP/s	 37739/29559 tok/s	 5590676 sents	  34492 sec	
 
 mt_spa-ron: 500	 acc: --	 ppl: 479.44	 xent: 6.17	  12.09 TFLOP/s	 43831/35107 tok/s	 215644 sents	   1287 sec	
 mt_spa-ron: 1000	 acc: --	 ppl: 388.07	 xent: 5.96	  12.12 TFLOP/s	 43970/35133 tok/s	 431363 sents	   2569 sec	
@@ -3669,6 +4125,9 @@ mt_spa-ron: 10000	 acc: --	 ppl: 12.65	 xent: 2.54	  12.00 TFLOP/s	 43593/34723 
 mt_spa-ron: 10500	 acc: --	 ppl:  9.68	 xent: 2.27	  10.20 TFLOP/s	 36782/29873 tok/s	 4532654 sents	  27810 sec	
 mt_spa-ron: 11000	 acc: --	 ppl: 11.28	 xent: 2.42	  12.13 TFLOP/s	 44026/35144 tok/s	 4749452 sents	  29097 sec	
 mt_spa-ron: 11500	 acc: --	 ppl: 11.18	 xent: 2.41	  12.08 TFLOP/s	 43714/35155 tok/s	 4965105 sents	  30382 sec	
+mt_spa-ron: 12000	 acc: --	 ppl: 10.55	 xent: 2.36	  12.17 TFLOP/s	 44148/35313 tok/s	 5182115 sents	  31667 sec	
+mt_spa-ron: 12500	 acc: --	 ppl: 11.02	 xent: 2.40	  12.02 TFLOP/s	 43587/34820 tok/s	 5396981 sents	  32960 sec	
+mt_spa-ron: 13000	 acc: --	 ppl: 11.29	 xent: 2.42	  10.25 TFLOP/s	 37127/29786 tok/s	 5614964 sents	  34492 sec	
 
 mt_spa-slk: 500	 acc: --	 ppl: 588.14	 xent: 6.38	  11.88 TFLOP/s	 43727/33726 tok/s	 215420 sents	   1287 sec	
 mt_spa-slk: 1000	 acc: --	 ppl: 488.31	 xent: 6.19	  11.89 TFLOP/s	 43752/33829 tok/s	 431265 sents	   2569 sec	
@@ -3693,6 +4152,9 @@ mt_spa-slk: 10000	 acc: --	 ppl: 14.42	 xent: 2.67	  11.90 TFLOP/s	 43812/33786 
 mt_spa-slk: 10500	 acc: --	 ppl: 12.28	 xent: 2.51	  10.08 TFLOP/s	 37047/28701 tok/s	 4535961 sents	  27810 sec	
 mt_spa-slk: 11000	 acc: --	 ppl: 12.35	 xent: 2.51	  11.85 TFLOP/s	 43708/33557 tok/s	 4750580 sents	  29097 sec	
 mt_spa-slk: 11500	 acc: --	 ppl: 12.19	 xent: 2.50	  11.97 TFLOP/s	 44101/33931 tok/s	 4967105 sents	  30382 sec	
+mt_spa-slk: 12000	 acc: --	 ppl: 11.75	 xent: 2.46	  11.97 TFLOP/s	 44089/33938 tok/s	 5183772 sents	  31667 sec	
+mt_spa-slk: 12500	 acc: --	 ppl: 10.28	 xent: 2.33	  11.88 TFLOP/s	 43710/33775 tok/s	 5400350 sents	  32960 sec	
+mt_spa-slk: 13000	 acc: --	 ppl: 11.39	 xent: 2.43	  10.05 TFLOP/s	 37097/28412 tok/s	 5616201 sents	  34492 sec	
 
 mt_spa-slv: 500	 acc: --	 ppl: 417.42	 xent: 6.03	  11.76 TFLOP/s	 41686/35643 tok/s	 228754 sents	   1287 sec	
 mt_spa-slv: 1000	 acc: --	 ppl: 360.48	 xent: 5.89	  11.74 TFLOP/s	 41597/35573 tok/s	 456605 sents	   2569 sec	
@@ -3717,6 +4179,9 @@ mt_spa-slv: 10000	 acc: --	 ppl:  7.18	 xent: 1.97	  11.75 TFLOP/s	 41638/35586 
 mt_spa-slv: 10500	 acc: --	 ppl:  6.37	 xent: 1.85	   9.99 TFLOP/s	 35416/30282 tok/s	 4795690 sents	  27810 sec	
 mt_spa-slv: 11000	 acc: --	 ppl:  6.40	 xent: 1.86	  11.74 TFLOP/s	 41582/35573 tok/s	 5024231 sents	  29097 sec	
 mt_spa-slv: 11500	 acc: --	 ppl:  6.64	 xent: 1.89	  11.73 TFLOP/s	 41563/35571 tok/s	 5252221 sents	  30382 sec	
+mt_spa-slv: 12000	 acc: --	 ppl:  5.85	 xent: 1.77	  11.81 TFLOP/s	 41851/35777 tok/s	 5481462 sents	  31667 sec	
+mt_spa-slv: 12500	 acc: --	 ppl:  6.43	 xent: 1.86	  11.87 TFLOP/s	 42068/35970 tok/s	 5713176 sents	  32960 sec	
+mt_spa-slv: 13000	 acc: --	 ppl:  5.89	 xent: 1.77	   9.94 TFLOP/s	 35222/30119 tok/s	 5943202 sents	  34492 sec	
 
 mt_spa-sqi: 500	 acc: --	 ppl: 294.06	 xent: 5.68	  12.08 TFLOP/s	 41685/37839 tok/s	 228699 sents	   1287 sec	
 mt_spa-sqi: 1000	 acc: --	 ppl: 257.90	 xent: 5.55	  12.05 TFLOP/s	 41623/37719 tok/s	 456957 sents	   2569 sec	
@@ -3741,6 +4206,9 @@ mt_spa-sqi: 10000	 acc: --	 ppl:  7.78	 xent: 2.05	  12.00 TFLOP/s	 41424/37592 
 mt_spa-sqi: 10500	 acc: --	 ppl:  7.78	 xent: 2.05	  10.29 TFLOP/s	 35505/32212 tok/s	 4794158 sents	  27810 sec	
 mt_spa-sqi: 11000	 acc: --	 ppl:  6.63	 xent: 1.89	  11.98 TFLOP/s	 41360/37493 tok/s	 5021364 sents	  29097 sec	
 mt_spa-sqi: 11500	 acc: --	 ppl:  7.65	 xent: 2.03	  12.11 TFLOP/s	 41783/37905 tok/s	 5250450 sents	  30382 sec	
+mt_spa-sqi: 12000	 acc: --	 ppl:  6.59	 xent: 1.89	  12.09 TFLOP/s	 41729/37838 tok/s	 5479041 sents	  31667 sec	
+mt_spa-sqi: 12500	 acc: --	 ppl:  6.94	 xent: 1.94	  12.18 TFLOP/s	 42055/38102 tok/s	 5710886 sents	  32960 sec	
+mt_spa-sqi: 13000	 acc: --	 ppl:  6.52	 xent: 1.87	  10.20 TFLOP/s	 35232/31945 tok/s	 5941653 sents	  34492 sec	
 
 mt_spa-srp_Cyrl: 500	 acc: --	 ppl: 444.71	 xent: 6.10	  11.77 TFLOP/s	 42187/35005 tok/s	 225400 sents	   1287 sec	
 mt_spa-srp_Cyrl: 1000	 acc: --	 ppl: 396.79	 xent: 5.98	  11.76 TFLOP/s	 42145/35003 tok/s	 450429 sents	   2569 sec	
@@ -3765,6 +4233,9 @@ mt_spa-srp_Cyrl: 10000	 acc: --	 ppl:  5.67	 xent: 1.74	  11.84 TFLOP/s	 42462/3
 mt_spa-srp_Cyrl: 10500	 acc: --	 ppl:  5.24	 xent: 1.66	  10.04 TFLOP/s	 36015/29882 tok/s	 4749634 sents	  27810 sec	
 mt_spa-srp_Cyrl: 11000	 acc: --	 ppl:  5.42	 xent: 1.69	  11.90 TFLOP/s	 42674/35425 tok/s	 4978159 sents	  29097 sec	
 mt_spa-srp_Cyrl: 11500	 acc: --	 ppl:  5.79	 xent: 1.76	  11.79 TFLOP/s	 42280/35072 tok/s	 5203986 sents	  30382 sec	
+mt_spa-srp_Cyrl: 12000	 acc: --	 ppl:  5.35	 xent: 1.68	  11.76 TFLOP/s	 42131/35029 tok/s	 5429020 sents	  31667 sec	
+mt_spa-srp_Cyrl: 12500	 acc: --	 ppl:  4.85	 xent: 1.58	  11.99 TFLOP/s	 42995/35695 tok/s	 5659739 sents	  32960 sec	
+mt_spa-srp_Cyrl: 13000	 acc: --	 ppl:  5.42	 xent: 1.69	  10.00 TFLOP/s	 35867/29765 tok/s	 5887910 sents	  34492 sec	
 
 mt_spa-swe: 500	 acc: --	 ppl: 372.63	 xent: 5.92	  11.83 TFLOP/s	 42389/35225 tok/s	 226602 sents	   1287 sec	
 mt_spa-swe: 1000	 acc: --	 ppl: 375.37	 xent: 5.93	  11.85 TFLOP/s	 42441/35331 tok/s	 452959 sents	   2569 sec	
@@ -3789,6 +4260,9 @@ mt_spa-swe: 10000	 acc: --	 ppl:  5.16	 xent: 1.64	  11.87 TFLOP/s	 42536/35320 
 mt_spa-swe: 10500	 acc: --	 ppl:  4.70	 xent: 1.55	  10.13 TFLOP/s	 36262/30177 tok/s	 4764970 sents	  27810 sec	
 mt_spa-swe: 11000	 acc: --	 ppl:  4.86	 xent: 1.58	  11.86 TFLOP/s	 42509/35328 tok/s	 4992659 sents	  29097 sec	
 mt_spa-swe: 11500	 acc: --	 ppl:  5.05	 xent: 1.62	  11.84 TFLOP/s	 42408/35270 tok/s	 5219149 sents	  30382 sec	
+mt_spa-swe: 12000	 acc: --	 ppl:  4.76	 xent: 1.56	  11.86 TFLOP/s	 42499/35293 tok/s	 5446171 sents	  31667 sec	
+mt_spa-swe: 12500	 acc: --	 ppl:  4.64	 xent: 1.53	  11.98 TFLOP/s	 42923/35687 tok/s	 5676488 sents	  32960 sec	
+mt_spa-swe: 13000	 acc: --	 ppl:  4.98	 xent: 1.60	  10.02 TFLOP/s	 35915/29852 tok/s	 5905030 sents	  34492 sec	
 
 mt_spa-tur: 500	 acc: --	 ppl: 606.59	 xent: 6.41	  11.58 TFLOP/s	 43122/32547 tok/s	 221971 sents	   1287 sec	
 mt_spa-tur: 1000	 acc: --	 ppl: 630.15	 xent: 6.45	  11.56 TFLOP/s	 43050/32491 tok/s	 442794 sents	   2569 sec	
@@ -3813,6 +4287,9 @@ mt_spa-tur: 10000	 acc: --	 ppl:  7.03	 xent: 1.95	  11.54 TFLOP/s	 42951/32419 
 mt_spa-tur: 10500	 acc: --	 ppl:  7.65	 xent: 2.03	   9.81 TFLOP/s	 36523/27555 tok/s	 4656651 sents	  27810 sec	
 mt_spa-tur: 11000	 acc: --	 ppl:  7.22	 xent: 1.98	  11.59 TFLOP/s	 43169/32565 tok/s	 4878893 sents	  29097 sec	
 mt_spa-tur: 11500	 acc: --	 ppl:  6.92	 xent: 1.93	  11.63 TFLOP/s	 43286/32685 tok/s	 5100850 sents	  30382 sec	
+mt_spa-tur: 12000	 acc: --	 ppl:  6.97	 xent: 1.94	  11.66 TFLOP/s	 43410/32767 tok/s	 5323337 sents	  31667 sec	
+mt_spa-tur: 12500	 acc: --	 ppl:  6.53	 xent: 1.88	  11.62 TFLOP/s	 43247/32654 tok/s	 5546939 sents	  32960 sec	
+mt_spa-tur: 13000	 acc: --	 ppl:  6.32	 xent: 1.84	   9.84 TFLOP/s	 36611/27656 tok/s	 5770158 sents	  34492 sec	
 
 mt_spa-ukr: 500	 acc: --	 ppl: 490.69	 xent: 6.20	  11.99 TFLOP/s	 43225/35238 tok/s	 221865 sents	   1287 sec	
 mt_spa-ukr: 1000	 acc: --	 ppl: 387.94	 xent: 5.96	  11.93 TFLOP/s	 42980/35136 tok/s	 442889 sents	   2569 sec	
@@ -3837,6 +4314,9 @@ mt_spa-ukr: 10000	 acc: --	 ppl:  7.81	 xent: 2.06	  11.95 TFLOP/s	 43092/35124 
 mt_spa-ukr: 10500	 acc: --	 ppl:  7.61	 xent: 2.03	  10.22 TFLOP/s	 36884/30004 tok/s	 4654327 sents	  27810 sec	
 mt_spa-ukr: 11000	 acc: --	 ppl:  7.00	 xent: 1.95	  11.99 TFLOP/s	 43277/35182 tok/s	 4875996 sents	  29097 sec	
 mt_spa-ukr: 11500	 acc: --	 ppl:  6.53	 xent: 1.88	  11.97 TFLOP/s	 43135/35209 tok/s	 5097776 sents	  30382 sec	
+mt_spa-ukr: 12000	 acc: --	 ppl:  6.56	 xent: 1.88	  11.90 TFLOP/s	 42927/34912 tok/s	 5317361 sents	  31667 sec	
+mt_spa-ukr: 12500	 acc: --	 ppl:  6.96	 xent: 1.94	  12.13 TFLOP/s	 43778/35539 tok/s	 5541851 sents	  32960 sec	
+mt_spa-ukr: 13000	 acc: --	 ppl:  6.61	 xent: 1.89	  10.09 TFLOP/s	 36333/29724 tok/s	 5764585 sents	  34492 sec	
 
 mt_sqi-eng: 500	 acc: --	 ppl: 303.32	 xent: 5.71	  15.44 TFLOP/s	 71006/22666 tok/s	 167349 sents	   1287 sec	
 mt_sqi-eng: 1000	 acc: --	 ppl: 94.37	 xent: 4.55	  15.35 TFLOP/s	 70333/23029 tok/s	 335143 sents	   2569 sec	
@@ -3861,6 +4341,9 @@ mt_sqi-eng: 10000	 acc: --	 ppl:  9.42	 xent: 2.24	  15.29 TFLOP/s	 69830/23276 
 mt_sqi-eng: 10500	 acc: --	 ppl:  9.69	 xent: 2.27	  13.10 TFLOP/s	 60127/19502 tok/s	 3523666 sents	  27810 sec	
 mt_sqi-eng: 11000	 acc: --	 ppl:  9.67	 xent: 2.27	  15.28 TFLOP/s	 70052/22805 tok/s	 3690753 sents	  29097 sec	
 mt_sqi-eng: 11500	 acc: --	 ppl:  9.61	 xent: 2.26	  15.41 TFLOP/s	 70708/22895 tok/s	 3858276 sents	  30382 sec	
+mt_sqi-eng: 12000	 acc: --	 ppl:  9.46	 xent: 2.25	  15.29 TFLOP/s	 69875/23232 tok/s	 4027453 sents	  31667 sec	
+mt_sqi-eng: 12500	 acc: --	 ppl:  9.02	 xent: 2.20	  15.35 TFLOP/s	 70539/22689 tok/s	 4195133 sents	  32960 sec	
+mt_sqi-eng: 13000	 acc: --	 ppl:  9.44	 xent: 2.25	  12.74 TFLOP/s	 58166/19508 tok/s	 4364029 sents	  34492 sec	
 
 mt_sqi-spa: 500	 acc: --	 ppl: 285.11	 xent: 5.65	  15.42 TFLOP/s	 70304/23491 tok/s	 167727 sents	   1287 sec	
 mt_sqi-spa: 1000	 acc: --	 ppl: 82.13	 xent: 4.41	  15.41 TFLOP/s	 70077/23755 tok/s	 335677 sents	   2569 sec	
@@ -3885,6 +4368,9 @@ mt_sqi-spa: 10000	 acc: --	 ppl:  8.60	 xent: 2.15	  15.41 TFLOP/s	 70034/23787 
 mt_sqi-spa: 10500	 acc: --	 ppl:  8.95	 xent: 2.19	  12.97 TFLOP/s	 58859/20213 tok/s	 3526605 sents	  27810 sec	
 mt_sqi-spa: 11000	 acc: --	 ppl:  8.31	 xent: 2.12	  15.33 TFLOP/s	 69694/23666 tok/s	 3694273 sents	  29097 sec	
 mt_sqi-spa: 11500	 acc: --	 ppl:  8.44	 xent: 2.13	  15.30 TFLOP/s	 69305/24002 tok/s	 3863068 sents	  30382 sec	
+mt_sqi-spa: 12000	 acc: --	 ppl:  8.28	 xent: 2.11	  15.45 TFLOP/s	 70324/23726 tok/s	 4031728 sents	  31667 sec	
+mt_sqi-spa: 12500	 acc: --	 ppl:  7.82	 xent: 2.06	  15.37 TFLOP/s	 70026/23471 tok/s	 4199962 sents	  32960 sec	
+mt_sqi-spa: 13000	 acc: --	 ppl:  8.88	 xent: 2.18	  12.84 TFLOP/s	 58225/20058 tok/s	 4368303 sents	  34492 sec	
 
 mt_srp_Cyrl-eng: 500	 acc: --	 ppl: 1173.47	 xent: 7.07	  13.58 TFLOP/s	 57471/27664 tok/s	 180280 sents	   1287 sec	
 mt_srp_Cyrl-eng: 1000	 acc: --	 ppl: 75.60	 xent: 4.33	  13.59 TFLOP/s	 57599/27614 tok/s	 360032 sents	   2569 sec	
@@ -3909,6 +4395,9 @@ mt_srp_Cyrl-eng: 10000	 acc: --	 ppl:  6.73	 xent: 1.91	  13.65 TFLOP/s	 58074/2
 mt_srp_Cyrl-eng: 10500	 acc: --	 ppl:  6.43	 xent: 1.86	  11.40 TFLOP/s	 47881/23809 tok/s	 3789508 sents	  27810 sec	
 mt_srp_Cyrl-eng: 11000	 acc: --	 ppl:  6.67	 xent: 1.90	  13.58 TFLOP/s	 57620/27494 tok/s	 3969232 sents	  29097 sec	
 mt_srp_Cyrl-eng: 11500	 acc: --	 ppl:  6.61	 xent: 1.89	  13.55 TFLOP/s	 57361/27641 tok/s	 4149873 sents	  30382 sec	
+mt_srp_Cyrl-eng: 12000	 acc: --	 ppl:  6.65	 xent: 1.90	  13.63 TFLOP/s	 57843/27548 tok/s	 4329528 sents	  31667 sec	
+mt_srp_Cyrl-eng: 12500	 acc: --	 ppl:  6.53	 xent: 1.88	  13.61 TFLOP/s	 57685/27670 tok/s	 4510731 sents	  32960 sec	
+mt_srp_Cyrl-eng: 13000	 acc: --	 ppl:  6.62	 xent: 1.89	  11.36 TFLOP/s	 48077/23172 tok/s	 4690985 sents	  34492 sec	
 
 mt_srp_Cyrl-spa: 500	 acc: --	 ppl: 1046.17	 xent: 6.95	  13.61 TFLOP/s	 56828/28707 tok/s	 181296 sents	   1287 sec	
 mt_srp_Cyrl-spa: 1000	 acc: --	 ppl: 48.89	 xent: 3.89	  13.64 TFLOP/s	 57068/28605 tok/s	 361853 sents	   2569 sec	
@@ -3933,6 +4422,9 @@ mt_srp_Cyrl-spa: 10000	 acc: --	 ppl:  6.35	 xent: 1.85	  13.68 TFLOP/s	 57550/2
 mt_srp_Cyrl-spa: 10500	 acc: --	 ppl:  6.28	 xent: 1.84	  11.62 TFLOP/s	 48808/24105 tok/s	 3782056 sents	  27810 sec	
 mt_srp_Cyrl-spa: 11000	 acc: --	 ppl:  6.31	 xent: 1.84	  13.62 TFLOP/s	 57176/28314 tok/s	 3961625 sents	  29097 sec	
 mt_srp_Cyrl-spa: 11500	 acc: --	 ppl:  6.29	 xent: 1.84	  13.78 TFLOP/s	 57996/28401 tok/s	 4141544 sents	  30382 sec	
+mt_srp_Cyrl-spa: 12000	 acc: --	 ppl:  6.11	 xent: 1.81	  13.70 TFLOP/s	 57281/28831 tok/s	 4323535 sents	  31667 sec	
+mt_srp_Cyrl-spa: 12500	 acc: --	 ppl:  6.20	 xent: 1.82	  13.54 TFLOP/s	 56619/28468 tok/s	 4504645 sents	  32960 sec	
+mt_srp_Cyrl-spa: 13000	 acc: --	 ppl:  6.28	 xent: 1.84	  11.54 TFLOP/s	 48556/23839 tok/s	 4684356 sents	  34492 sec	
 
 mt_swe-eng: 500	 acc: --	 ppl: 322.15	 xent: 5.78	  11.78 TFLOP/s	 41255/36395 tok/s	 234490 sents	   1287 sec	
 mt_swe-eng: 1000	 acc: --	 ppl: 335.29	 xent: 5.82	  11.65 TFLOP/s	 40788/36017 tok/s	 465842 sents	   2569 sec	
@@ -3957,6 +4449,9 @@ mt_swe-eng: 10000	 acc: --	 ppl:  5.94	 xent: 1.78	  11.58 TFLOP/s	 40591/35727 
 mt_swe-eng: 10500	 acc: --	 ppl:  5.74	 xent: 1.75	  10.02 TFLOP/s	 35109/30902 tok/s	 4899669 sents	  27810 sec	
 mt_swe-eng: 11000	 acc: --	 ppl:  5.98	 xent: 1.79	  11.66 TFLOP/s	 40831/36004 tok/s	 5131504 sents	  29097 sec	
 mt_swe-eng: 11500	 acc: --	 ppl:  5.83	 xent: 1.76	  11.76 TFLOP/s	 41166/36335 tok/s	 5365191 sents	  30382 sec	
+mt_swe-eng: 12000	 acc: --	 ppl:  5.60	 xent: 1.72	  11.96 TFLOP/s	 41880/36941 tok/s	 5602610 sents	  31667 sec	
+mt_swe-eng: 12500	 acc: --	 ppl:  5.50	 xent: 1.71	  11.85 TFLOP/s	 41478/36637 tok/s	 5839460 sents	  32960 sec	
+mt_swe-eng: 13000	 acc: --	 ppl:  5.48	 xent: 1.70	   9.96 TFLOP/s	 34887/30771 tok/s	 6075379 sents	  34492 sec	
 
 mt_swe-spa: 500	 acc: --	 ppl: 251.53	 xent: 5.53	  11.99 TFLOP/s	 41361/37730 tok/s	 235782 sents	   1287 sec	
 mt_swe-spa: 1000	 acc: --	 ppl: 272.82	 xent: 5.61	  11.71 TFLOP/s	 40445/36757 tok/s	 464894 sents	   2569 sec	
@@ -3981,6 +4476,9 @@ mt_swe-spa: 10000	 acc: --	 ppl:  5.84	 xent: 1.77	  11.91 TFLOP/s	 41114/37436 
 mt_swe-spa: 10500	 acc: --	 ppl:  6.01	 xent: 1.79	  10.08 TFLOP/s	 34818/31641 tok/s	 4907524 sents	  27810 sec	
 mt_swe-spa: 11000	 acc: --	 ppl:  5.20	 xent: 1.65	  11.87 TFLOP/s	 40980/37306 tok/s	 5140759 sents	  29097 sec	
 mt_swe-spa: 11500	 acc: --	 ppl:  5.87	 xent: 1.77	  11.95 TFLOP/s	 41248/37570 tok/s	 5375199 sents	  30382 sec	
+mt_swe-spa: 12000	 acc: --	 ppl:  5.16	 xent: 1.64	  12.09 TFLOP/s	 41722/38043 tok/s	 5612555 sents	  31667 sec	
+mt_swe-spa: 12500	 acc: --	 ppl:  5.51	 xent: 1.71	  11.97 TFLOP/s	 41387/37543 tok/s	 5848173 sents	  32960 sec	
+mt_swe-spa: 13000	 acc: --	 ppl:  5.69	 xent: 1.74	  10.21 TFLOP/s	 35256/32091 tok/s	 6086641 sents	  34492 sec	
 
 mt_tur-eng: 500	 acc: --	 ppl: 545.21	 xent: 6.30	  12.00 TFLOP/s	 44928/33098 tok/s	 213593 sents	   1287 sec	
 mt_tur-eng: 1000	 acc: --	 ppl: 238.32	 xent: 5.47	  11.95 TFLOP/s	 44472/33331 tok/s	 428042 sents	   2569 sec	
@@ -4005,6 +4503,9 @@ mt_tur-eng: 10000	 acc: --	 ppl:  7.20	 xent: 1.97	  11.84 TFLOP/s	 44301/32657 
 mt_tur-eng: 10500	 acc: --	 ppl:  7.44	 xent: 2.01	  10.15 TFLOP/s	 37940/28107 tok/s	 4487674 sents	  27810 sec	
 mt_tur-eng: 11000	 acc: --	 ppl:  7.69	 xent: 2.04	  11.89 TFLOP/s	 44558/32749 tok/s	 4699296 sents	  29097 sec	
 mt_tur-eng: 11500	 acc: --	 ppl:  6.41	 xent: 1.86	  11.97 TFLOP/s	 44895/32941 tok/s	 4911820 sents	  30382 sec	
+mt_tur-eng: 12000	 acc: --	 ppl:  6.46	 xent: 1.87	  12.17 TFLOP/s	 45312/33890 tok/s	 5130304 sents	  31667 sec	
+mt_tur-eng: 12500	 acc: --	 ppl:  6.40	 xent: 1.86	  11.98 TFLOP/s	 44697/33228 tok/s	 5345718 sents	  32960 sec	
+mt_tur-eng: 13000	 acc: --	 ppl:  7.23	 xent: 1.98	  10.05 TFLOP/s	 37647/27678 tok/s	 5558313 sents	  34492 sec	
 
 mt_tur-spa: 500	 acc: --	 ppl: 446.34	 xent: 6.10	  12.17 TFLOP/s	 45023/34183 tok/s	 213958 sents	   1287 sec	
 mt_tur-spa: 1000	 acc: --	 ppl: 119.86	 xent: 4.79	  12.08 TFLOP/s	 44617/34014 tok/s	 426210 sents	   2569 sec	
@@ -4029,6 +4530,9 @@ mt_tur-spa: 10000	 acc: --	 ppl:  6.95	 xent: 1.94	  12.10 TFLOP/s	 44973/33673 
 mt_tur-spa: 10500	 acc: --	 ppl:  6.88	 xent: 1.93	  10.22 TFLOP/s	 37542/29060 tok/s	 4478343 sents	  27810 sec	
 mt_tur-spa: 11000	 acc: --	 ppl:  7.10	 xent: 1.96	  12.03 TFLOP/s	 44388/33893 tok/s	 4690590 sents	  29097 sec	
 mt_tur-spa: 11500	 acc: --	 ppl:  6.74	 xent: 1.91	  12.23 TFLOP/s	 45189/34425 tok/s	 4906301 sents	  30382 sec	
+mt_tur-spa: 12000	 acc: --	 ppl:  6.51	 xent: 1.87	  12.26 TFLOP/s	 45194/34615 tok/s	 5122646 sents	  31667 sec	
+mt_tur-spa: 12500	 acc: --	 ppl:  6.98	 xent: 1.94	  12.04 TFLOP/s	 44378/34041 tok/s	 5336646 sents	  32960 sec	
+mt_tur-spa: 13000	 acc: --	 ppl:  6.41	 xent: 1.86	  10.11 TFLOP/s	 37293/28540 tok/s	 5549130 sents	  34492 sec	
 
 mt_ukr-eng: 500	 acc: --	 ppl: 646.72	 xent: 6.47	  12.07 TFLOP/s	 45933/32224 tok/s	 207810 sents	   1287 sec	
 mt_ukr-eng: 1000	 acc: --	 ppl: 183.40	 xent: 5.21	  11.93 TFLOP/s	 45323/32023 tok/s	 414061 sents	   2569 sec	
@@ -4053,6 +4557,9 @@ mt_ukr-eng: 10000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.02 TFLOP/s	 45692/32217 
 mt_ukr-eng: 10500	 acc: --	 ppl:  5.24	 xent: 1.66	  10.20 TFLOP/s	 38733/27377 tok/s	 4357782 sents	  27810 sec	
 mt_ukr-eng: 11000	 acc: --	 ppl:  5.09	 xent: 1.63	  12.09 TFLOP/s	 46020/32282 tok/s	 4566355 sents	  29097 sec	
 mt_ukr-eng: 11500	 acc: --	 ppl:  5.16	 xent: 1.64	  12.05 TFLOP/s	 45781/32329 tok/s	 4775274 sents	  30382 sec	
+mt_ukr-eng: 12000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.05 TFLOP/s	 45872/32208 tok/s	 4982974 sents	  31667 sec	
+mt_ukr-eng: 12500	 acc: --	 ppl:  5.15	 xent: 1.64	  11.94 TFLOP/s	 45413/31925 tok/s	 5189939 sents	  32960 sec	
+mt_ukr-eng: 13000	 acc: --	 ppl:  5.20	 xent: 1.65	  10.20 TFLOP/s	 38731/27408 tok/s	 5400379 sents	  34492 sec	
 
 mt_ukr-spa: 500	 acc: --	 ppl: 545.30	 xent: 6.30	  12.18 TFLOP/s	 45832/33097 tok/s	 207138 sents	   1287 sec	
 mt_ukr-spa: 1000	 acc: --	 ppl: 93.92	 xent: 4.54	  12.04 TFLOP/s	 45160/32959 tok/s	 412995 sents	   2569 sec	
@@ -4077,4 +4584,7 @@ mt_ukr-spa: 10000	 acc: --	 ppl:  5.12	 xent: 1.63	  12.16 TFLOP/s	 45824/32960 
 mt_ukr-spa: 10500	 acc: --	 ppl:  4.95	 xent: 1.60	  10.28 TFLOP/s	 38588/28122 tok/s	 4359456 sents	  27810 sec	
 mt_ukr-spa: 11000	 acc: --	 ppl:  4.81	 xent: 1.57	  12.27 TFLOP/s	 46129/33466 tok/s	 4569300 sents	  29097 sec	
 mt_ukr-spa: 11500	 acc: --	 ppl:  5.09	 xent: 1.63	  12.16 TFLOP/s	 45742/33100 tok/s	 4776585 sents	  30382 sec	
+mt_ukr-spa: 12000	 acc: --	 ppl:  5.01	 xent: 1.61	  12.17 TFLOP/s	 45761/33136 tok/s	 4983899 sents	  31667 sec	
+mt_ukr-spa: 12500	 acc: --	 ppl:  4.93	 xent: 1.59	  12.10 TFLOP/s	 45417/33071 tok/s	 5191976 sents	  32960 sec	
+mt_ukr-spa: 13000	 acc: --	 ppl:  4.99	 xent: 1.61	  10.26 TFLOP/s	 38584/27889 tok/s	 5399629 sents	  34492 sec	
 
