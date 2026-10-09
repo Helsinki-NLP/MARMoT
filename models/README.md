@@ -33,7 +33,7 @@ See the [`make/` documentation](../make/README.md) and the
 | Directory | Contents |
 | --- | --- |
 | [`hpo/`](hpo/README.md) | The main hyperparameter search: model sizes (`small`/`base`/`big`/`xl`), numbers of pivot languages (`1p`–`4p`), denoising (`+d`), different parameter sharing schemes (`L`/`G`/`A` encoders and decoders), and batch sizes. See the naming conventions in the README. |
-| [`hpo-xtransformers/`](hpo-xtransformers/README.md) | Extended-transformer variants: sentence-level (`sentmt`) and document-level (`docmt`) MT, denoising, next-sentence prediction (`predict`), and FLAN instruction data, with several encoder-sharing schemes (`sharedenc`, `halfsharedenc`, `LGAenc`). |
+| [`hpo-xtransformers/`](hpo-xtransformers/README.md) | x-transformer variants: sentence-level (`sentmt`) and document-level (`docmt`) MT, denoising, next-sentence prediction (`predict`), and FLAN instruction data, with several encoder-sharing schemes (`sharedenc`, `halfsharedenc`, `LGAenc`). |
 | [`hpo-batchsize/`](hpo-batchsize/README.md) | Ablations of batch size and gradient accumulation for the English-centric base doc-level model. |
 | [`multitask/`](multitask/models.txt) | Multitask models combining several objectives, marked in the name by `+si` (simplification), `+dm` (document-level MT), `+sum` (summarisation), `+dn` (denoising) and `+pp` (text prediction). |
 | [`testruns/`](testruns/README.md) | Small debug and validation runs, e.g. language-token experiments and `docmt-validzeroshot`. |

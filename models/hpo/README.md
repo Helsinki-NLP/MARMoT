@@ -5,11 +5,11 @@
 ## Naming conventions:
 
 * all model names follow this name structure: <model>-<tasks>-<enc>-<dec>-<batch>
-* `model`: small, base, big, xl
+* `model`: small, base, big, xl, custom models with additional specifications
 * `task`: 1p = English-centric, 2p = English/French-centric or English/Spanish-centric, 3p = English/French/Spanish-centric, 4p = English/French/Spanish/German-centric, d = denoising
 * `enc`: encoder components, L = language-specific, G = shared across language groups, A = shared across all
 * `dec`: decoder components, L = language-specific, G = shared across language groups, A = shared across all
-* `batch`: approximate size of batches for graident updates (multiplying batch size and batch accumulation)
+* `batch`: approximate size of batches for gradient updates (multiplying batch size and batch accumulation)
 
 
 

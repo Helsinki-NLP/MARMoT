@@ -54,17 +54,11 @@ All settings need to be specified *before* including the marmot makefiles; other
 If all is set up correctly, you can start a training SLURM job by running:
 
 ```
-make train
+make -j8 train
 ```
 
 This will generate the model configuration file (`mammoth/train.yaml`), create the SLURM script (`mammoth/train.slurm`) and submit it. The model will be created in a sub-directory called `mammoth`; you can change that name using the variable `MODEL_NAME`. Logfiles will be stored in `mammoth/train.*.out` and `mammoth/train.*.err`. The submission is recorded in `mammoth/train.slurmjob` (`.running` while it is being executed, `.done` after it finished).
 
-For some reason, multi-node SLURM jobs submitted with `make train` crash with communication errors on LUMI. In those cases, create the SLURM script first and then submit it from the command-line:
-
-```
-make -j8 train-slurm
-sbatch mammoth/train.slurm
-```
 
 The train targets should be smart enough to set up the SLURM jobs correctly for multi-node or single-node training, based on the GPU assignments done through `TASK_GPUS`. Tasks can also be allocated to the same GPU.
 
@@ -74,6 +68,7 @@ The train targets should be smart enough to set up the SLURM jobs correctly for 
 |---|---|
 | `make train` | generate the training config and SLURM script, then submit the training job |
 | `make train-slurm` | only generate the training config and SLURM script (`mammoth/train.slurm`), do not submit |
+| `make train-config` | only generate the training config file (`mammoth/train.yaml`) |
 | `make stop` / `make trainstop` | cancel the submitted training job (`scancel`) |
 | `make memory-profile` | run the MAMMOTH memory profiler with the current training config |
 | `make eval` | submit *one* SLURM job that evaluates all tasks on the default test set |
@@ -153,5 +148,6 @@ Both targets print the score for the metric given by `PRINT_METRIC` (`bleu` by d
 
 ## Known issues
 
-* Tokenizer settings and vocabulary selections follow a fixed directory layout (`${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json`) and are not very flexible.
-* Multi-node training jobs submitted with `make train` may crash with communication errors on LUMI; use the `make -j8 train-slurm` + `sbatch` workaround described above.
+* GPU allocation is very simplistic and does not optimize the task distribution according to tasks and training data
+* Tokenizer settings and vocabulary selections follow a fixed directory layout (`${VOCAB_DIR}/${LANGID}/${VOCAB_SIZE}/tokenizer.json`) and are not very flexible. It is possible to set individual base directories for the source and target language vocabularies using `VOCAB_SRC_DIR`, `VOCAB_TRG_DIR` and individual size parameters (`VOCAB_SRC_SIZE`, `VOCAB_TRG_SIZE`).
+* job failure may not be caught properly and stale `.slurmjob` file may prevent re-submitting the job
