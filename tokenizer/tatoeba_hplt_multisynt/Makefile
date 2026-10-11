@@ -26,8 +26,11 @@ LANGUAGE  ?= $(firstword ${LANGUAGES})
 
 
 # MAMMOTH_HOME       ?= ../../mammoth
+# TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/examples/hf_tokenizers/train.py
+
 MAMMOTH_HOME       ?= /scratch/project_462001509/shared/mammoth-shared/mammoth_pytorch/mammoth
-TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/examples/hf_tokenizers/train.py
+TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/mammoth/bin/build_vocab.py
+
 
 
 ## OpenEuroLLM languages
@@ -135,16 +138,16 @@ oellm-langgroup-jobs:
 		MAX_LINES_SYNT=2000000 \
 	langgroup-tokenizer-jobs
 
-## submit one job for all lang groups
-.PHONY: oellm-langgroup-job
-oellm-langgroup-job:
-	${MAKE} VOCAB_SIZE=65472 \
+## submit one job per language group for 32k vocabs
+.PHONY: oellm-32k-langgroup-jobs
+oellm-32k-langgroup-jobs:
+	${MAKE} VOCAB_SIZE=32000 \
 		MAX_LINES=20000000 \
 		MAX_LINES_HPLT=2000000 \
 		MAX_LINES_SYNT=2000000 \
-	langgroup-tokenizers-job
+	langgroup-tokenizer-jobs
 
-## submit one job for all lang groups
+## submit one job for all lang groups specified in LANGGROUPS
 .PHONY: ine-mul-job
 ine-mul-job:
 	${MAKE} LANGGROUPS="ine mul" \
