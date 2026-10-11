@@ -9,7 +9,7 @@
 * `task`: 1p = English-centric, 2p = English/French-centric or English/Spanish-centric, 3p = English/French/Spanish-centric, 4p = English/French/Spanish/German-centric, d = denoising
 * `enc`: encoder components, L = language-specific, G = shared across language groups, A = shared across all, M = shared across all + shared vocab
 * `dec`: decoder components, L = language-specific, G = shared across language groups, A = shared across all, M = shared across all + shared vocab
-* `batch`: approximate size of batches for graident updates (multiplying batch size and batch accumulation)
+* `batch`: approximate size of batches for gradient updates (multiplying batch size and batch accumulation)
 
 
 
