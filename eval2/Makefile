@@ -2,12 +2,12 @@
 
 STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif \
                 plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition \
-                compare help list-groups models-ready squeue
+                compare help list-groups models-ready squeue bleu chrf
 STATIC_ONLY := $(if $(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),,yes)
 
 SELFDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 .RECIPEPREFIX := >
-.SHELLFLAGS := -lc
+.SHELLFLAGS := -c
 SHELL := /bin/bash
 
 # -----------------------------------------------------------------------------
@@ -102,9 +102,9 @@ Setup:\n\
   make <MODEL> clean-mammoth            # resets the model's mammoth installation path for the model\n\
   make <MODEL> clean-basic              # resets the mammoth path and the model information\n\
 Planning:\n\
-  make <MODEL> mk-pairs                 # construct suggestions for language pairs\n\
-  make <MODEL> mk-pairs-force           # construct and accept suggestions for language pairs\n\
-  make <MODEL> mk-calls                 # mk-pairs + plan the inference and/or scoring calls\n\
+  make <MODEL> mk-tasks                 # construct suggestions for language pairs\n\
+  make <MODEL> mk-tasks-force           # construct and accept suggestions for language pairs\n\
+  make <MODEL> mk-calls                 # mk-tasks + plan the inference and/or scoring calls\n\
   make <MODEL> mk-calls-force           # accept the suggested language pairs + mk-calls\n\
 Inference & Scoring:\n\
   make <MODEL> mk-infer                 # run planned inferences\n\
@@ -135,8 +135,8 @@ include $(SELFDIR)/include/mk-confs.mk # venvs, (non)slurm detection, python, si
 .PHONY: mk-basic inspect-model-summary which-mammoth clean-mammoth clean-basic
 include $(SELFDIR)/include/mk-basic.mk # model inspection, mammoth ver, dirs
 
-.PHONY: mk-pairs mk-pairs-force
-include $(SELFDIR)/include/mk-pairs.mk # determine the desired language pairs
+.PHONY: mk-tasks mk-pairs-tasks
+include $(SELFDIR)/include/mk-tasks.mk # determine the desired language tasks
 
 .PHONY: calls clean-calls mk-calls mk-calls-force 
 include $(SELFDIR)/include/mk-calls.mk # calls.*.out and yaml files
@@ -278,3 +278,36 @@ squeue:
 list-groups:
 > @:
 
+# -----------------------------------------------------------------------------
+# HPO score tables
+# -----------------------------------------------------------------------------
+
+HPO_SCORE_TABLES := $(SELFDIR)/bin/hpo_score_tables.py
+HPO_DATASET ?= flo
+HPO_DEBUG ?=
+
+.PHONY: bleu chrf
+
+bleu:
+> @test -n "$(strip $(TASKS))" || { \
+>   echo 'Usage: make TASKS="mt_eng-fin [mt_fin-eng ...]" [HPO_DATASET=flo] bleu'; \
+>   exit 2; \
+> }
+> @$(SACREPYTHON) "$(HPO_SCORE_TABLES)" \
+>   --hpo-root "$(PMODELS)" \
+>   --metric BLEU \
+>   --dataset "$(HPO_DATASET)" \
+>   $(foreach t,$(TASKS),--task "$(t)") \
+>   $(if $(HPO_DEBUG),--debug,)
+
+chrf:
+> @test -n "$(strip $(TASKS))" || { \
+>   echo 'Usage: make TASKS="mt_eng-fin [mt_fin-eng ...]" [HPO_DATASET=flo] chrf'; \
+>   exit 2; \
+> }
+> @$(SACREPYTHON) "$(HPO_SCORE_TABLES)" \
+>   --hpo-root "$(PMODELS)" \
+>   --metric chrF2 \
+>   --dataset "$(HPO_DATASET)" \
+>   $(foreach t,$(TASKS),--task "$(t)") \
+>   $(if $(HPO_DEBUG),--debug,)

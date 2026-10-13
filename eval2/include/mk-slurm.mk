@@ -85,7 +85,7 @@ $(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean
 
 
 # creates the model specific slurm script for continuation
-$(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk clean-cnt-lock $(SELFDIR)/include/mk-slurm.mk
+$(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(SELFDIR)/include/mk-slurm.mk
 > @set -euo pipefail; \
 > echo "mk-slurm.mk: ✅ Continuation slurm template found $<"; \
 > echo "mk-slurm.mk:    Creating a script for job $(FIRST_GOAL)_cnt..."; \
@@ -171,20 +171,25 @@ clean-inf-lock:
 > fi; \
 > echo "mk-slurm.mk: ✅ Verified that no other inference job is running"
 
-clean-cnt-lock: 
+clean-cnt-lock:
 > @set -euo pipefail; \
 > if [ -e "$(CNT_FLAG)" ]; then \
->   oldjob="$$(cat "$(CNT_FLAG)")"; \
->   if squeue -h -j "$$oldjob" | grep -q .; then  \
+>   oldjob="$$(cat "$(CNT_FLAG)" 2>/dev/null || true)"; \
+>   selfjob="$${SLURM_JOB_ID:-$${SLURM_JOBID:-}}"; \
+>   if [ -n "$$selfjob" ] && [ "$$oldjob" = "$$selfjob" ]; then \
+>     echo "mk-slurm.mk: ✅ Control job $$oldjob owns this continuation flag"; \
+>   elif [ -n "$$oldjob" ] && squeue -h -j "$$oldjob" 2>/dev/null | grep -q .; then \
 >     echo "mk-slurm.mk: ❌ Control job $$oldjob is still queued/running for model:"; \
 >     echo "mk-slurm.mk:       $(MODELDIR)"; \
 >     echo "mk-slurm.mk:    I need to quit to avoid running a conflicting job."; \
 >     exit 1; \
+>   else \
+>     echo "mk-slurm.mk: Removing stale control flag for job $$oldjob"; \
+>     rm -f "$(CNT_FLAG)"; \
 >   fi; \
->   echo "mk-slurm.mk: Removing stale control flag for job $$oldjob"; \
->   rm -f "$(INF_FLAG)"; \
 > fi; \
-> echo "mk-slurm.mk: ✅ Verified that no other control job is running"
+> echo "mk-slurm.mk: ✅ Verified that no conflicting control job is running"
+
 
 clean-met-lock: 
 > @set -euo pipefail; \

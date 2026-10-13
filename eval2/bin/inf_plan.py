@@ -7,8 +7,7 @@
 # Reads
 # -----
 # TRAINCONFIG       Mammoth training YAML.
-# SUPERVISEDPAIRS   Selected supervised pairs, one src-tgt per line.
-# ZEROSHOTPAIRS     Selected zero-shot pairs, one src-tgt per line.
+# INFTASKS         Selected training task names, one task per line.
 # DATADIR          Benchmark root: Flores+, Bouquet, Bouquet-par, WMT24++.
 #
 # Required environment
@@ -29,7 +28,7 @@
 # Writes
 # ------
 # CFGDIR/<orig_task>.yaml         Supervised inference configuration.
-# CFGDIR/<orig_task>.0shot.yaml   Zero-shot inference configuration.
+# CFGDIR/<orig_task>.yaml         Inference configuration.
 # TSKDIR/plan.out                 Inventory of planned evaluation runs.
 # TSKDIR/calls.out                Commands for missing/incomplete hypotheses.
 # TSKDIR/calls.sacre.out          Commands for pending SacreBLEU scoring.
@@ -40,8 +39,7 @@
 #
 # Workflow
 # --------
-# Expand training tasks into localized evaluation tasks, filter supervised
-# pairs, and add selected zero-shot pairs plus the internal zeroshot_base.
+# Expand selected training tasks into localized evaluation tasks.
 # Resolve task-specific sharing groups, vocabularies, and YAML templates.
 # Generate commands for benchmarks whose source/reference files exist.
 #
@@ -60,11 +58,10 @@
 # - Inference YAMLs are derived from the training configuration: training-only
 #   keys are removed, tasks and source/target vocabularies are narrowed to the
 #   selected task, and inference settings such as beam and batch size are added.
-# - Supervised inference YAMLs retain the original training task name as their
-#   task key.
-# - Zero-shot tasks are expanded into localized evaluation tasks and inherit
-#   a YAML template from a real supervised training task, with source/target
-#   sharing groups and vocabulary codes resolved for the new pair.
+# - Inference YAMLs retain the original training task name as their task key.
+# - Tasks whose names start with zeroshot are treated as zero-shot tasks, but
+#   their task configuration, sharing groups, and vocabularies come directly
+#   from the training configuration like those of other tasks.
 # - Run through the surrounding Makefile workflow, which supplies the required
 #   environment variables and creates the output directories.
 
@@ -154,65 +151,6 @@ DEFAULT_WORLD_SIZE = 1
 DEFAULT_GPU_RANKS = [0]
 
 
-zeroshot_base = [
-    ("spa",      "cat"),  # Spanish - Catalan
-    ("spa",      "eus"),  # Spanish - Basque
-    ("spa",      "glg"),  # Spanish - Galician
-    ("pol",      "ukr"),  # Polish - Ukrainian
-    ("deu",      "tur"),  # German - Turkish
-    ("deu",      "ukr"),  # German - Ukrainian
-    ("fra",      "nld"),  # French - Dutch
-    ("swe",      "fin"),  # Swedish - Finnish
-    ("ces",      "slk"),  # Czech - Slovak
-    ("bos",      "hrv"),  # Bosnian - Croatian
-    ("bos",      "srp_Cyrl"),  # Bosnian - Serbian
-    ("hrv",      "srp_Cyrl"),  # Croatian - Serbian
-    ("slv",      "bos"),  # Slovene - Bosnian
-    ("sqi",      "mkd"),  # Albanian - Macedonian
-    ("bul",      "tur"),  # Bulgarian - Turkish
-    ("spa",      "ron"),  # Spanish - Romanian
-    ("deu",      "ron"),  # German - Romanian
-    ("glg",      "por"),  # Galician - Portuguese
-    ("eus",      "fra"),  # Basque - French
-    ("dan",      "nob"),  # Danish - Norwegian
-]
-def print_default_zeroshot_pairs(zeroshot_base):
-    log(f"   Internal 'zeroshot_base' list has {len(zeroshot_base)} default pairs", end="")
-    if len(zeroshot_base):
-        i = 0
-        for (s,t) in sorted(zeroshot_base):
-            if i % 4 == 0:
-                log("   ", before="\ninf_plan.py: ", end="")
-            p = f"{s}-{t}"
-            log(f"  {p:<12}", before="", end="")
-            i = i + 1
-        log("", before="")
-
-def read_pair_file(path: str) -> list[tuple[str, str]]:
-    pairs = set()
-    with open(path, "r", encoding="utf-8") as f:
-        for lineno, raw in enumerate(f, start=1):
-            line = raw.strip()
-            if not line or line.startswith("#"):
-                continue
-            if "-" not in line:
-                log(f"WARNING: skipping malformed pair line {path}:{lineno}: {line}")
-                continue
-            src_side, tgt_side = line.split("-", 1)
-            src_side = src_side.strip()
-            tgt_side = tgt_side.strip()
-            if not src_side or not tgt_side:
-                log(f"WARNING: skipping malformed pair line {path}:{lineno}: {line}")
-                continue
-            pairs.add((src_side, tgt_side))
-    return pairs
-
-def read_pairs(supervisedpairs, zeroshotpairs):    
-    supervised_pair_set = read_pair_file(supervisedpairs)
-    zeroshot_pair_set = read_pair_file(zeroshotpairs)
-    log(f"   loaded {len(supervised_pair_set)} supervised and {len(zeroshot_pair_set)} 0-shot pairs")
-    log(f"✅ Read the task selection files")
-    return supervised_pair_set, zeroshot_pair_set
 
 TRIPLES = [
     ("bos", "bos_Latn", ["bs_??"]),
@@ -262,7 +200,7 @@ class LanguageInventory:
         Language code -> benchmark file stem
         Example: "fra" -> "fra_Latn"
         Used in emit_tasks
-    code_to_dataset_ref: 
+    code_to_dataset_ref:
         Dict[str, Dict[str, str]] = field(default_factory=dict)
     code_to_xcodes:
         Language code -> all localized task-xcode labels
@@ -272,7 +210,7 @@ class LanguageInventory:
         Example: "CA.fra" -> "fra"
     valid_xcodes:
         Set of all known localized xcode labels
-    xcode_to_wmt_locale: 
+    xcode_to_wmt_locale:
         Localized xcode label -> WMT locale string
         Example: "CA.fra" -> "fr_CA"
         Used in emit_tasks
@@ -352,7 +290,7 @@ def check_data_coverage(task_set, valid_xcodes):
     if pre == "inf_plan.sh:    ":
         log(f"✨ Stopping as I refuse to run before all designated tasks are covered by some _test_ data")
         exit(1)
-    log(f"✅ All designated tasks covered (at least partially) by data")   
+    log(f"✅ All designated tasks covered (at least partially) by data")
 
 def require_env(name: str, extra: str = "") -> str:
     value = os.environ.get(name)
@@ -367,15 +305,14 @@ def load_trainconfig(path: str) -> dict:
         cfg = yaml.safe_load(f)
     return cfg if isinstance(cfg, dict) else {}
 
-def get_env_vars():    
+def get_env_vars():
     datadir = require_env("DATADIR", "to the location of training data")
     cfgdir = require_env("CFGDIR", "to a subdirectory of the model directory")
     tskdir = require_env("TSKDIR", "to a subdirectory of the model directory")
     hypdir = require_env("HYPDIR", "to a subdirectory of the model directory")
     model = require_env("MODEL", "to the model directory; it must end with slash")
     trainconfig = require_env("TRAINCONFIG", "to the training config file")
-    supervisedpairs = require_env("SUPERVISEDPAIRS", "to the file listing supervised evaluation pairs")
-    zeroshotpairs = require_env("ZEROSHOTPAIRS", "to the file listing zero-shot evaluation pairs")
+    inftasks = require_env("INFTASKS","to the file listing selected inference tasks")
     mammoth = require_env("MAMMOTH", "to the Mammoth source directory")
     logdir = require_env("LOGDIR", "to the log directory")
     scrdir = require_env("SCRDIR", "to the scoring output directory")
@@ -392,10 +329,8 @@ def get_env_vars():
         die(f"Error: HYPDIR must be an existing directory: {hypdir}")
     if not os.path.isdir(datadir):
         die(f"Error: DATADIR must be an existing directory: {datadir}")
-    if not os.path.isfile(supervisedpairs):
-        die(f"Error: SUPERVISEDPAIRS must be an existing file: {supervisedpairs}")
-    if not os.path.isfile(zeroshotpairs):
-        die(f"Error: ZEROSHOTPAIRS must be an existing file: {zeroshotpairs}")
+    if not os.path.isfile(inftasks):
+        die(f"Error: INFTASKS must be an existing file: {inftasks}")
     if not os.path.isdir(mammoth):
         die(f"Error: MAMMOTH must be an existing directory: {mammoth}")
     if not os.path.isdir(logdir):
@@ -404,17 +339,26 @@ def get_env_vars():
         die(f"Error: SCRDIR must be an existing directory: {scrdir}")
     if not mammoth_type in ["xtransformers", "pytorch"]:
         die(f"Error: MAMMOTH_TYPE must be 'xtransformers' or 'pytorch'")
-        
+
     inventory = build_language_inventory()
     log(f"✅ Loaded internal language codes")
-    log(f"✅ Loaded internal default zeroshot pairs")   
-    print_default_zeroshot_pairs(zeroshot_base)
     cfg = load_trainconfig(trainconfig)
     log(f"✅ Loaded the training config file {trainconfig}")
-    log(f"✨ Environment validated")           
-    return (datadir, tskdir, cfgdir, hypdir, model, trainconfig,
-            supervisedpairs, zeroshotpairs,
+    log(f"✨ Environment validated")
+    return (datadir, tskdir, cfgdir, hypdir, model, trainconfig, inftasks,
             mammoth, logdir, scrdir, cfg, inventory, mammoth_type)
+
+def read_task_file(path):
+    tasks = set()
+
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            tasks.add(line)
+
+    return tasks
 
 class CallWriters:
     def __init__(self, tskdir: str):
@@ -450,7 +394,7 @@ def validate_calls_out(tskdir: str):
             log(f"  line {i}: {line}")
         raise ValueError("calls.out contains non-python lines")
     log("✅ Every line in calls.out starts with 'python'")
-    
+
 def files_available(dataset, input_path, refer_path, config_file):
     log(f"##    {dataset}")
     if not os.path.exists(input_path):
@@ -463,7 +407,7 @@ def files_available(dataset, input_path, refer_path, config_file):
         return False
     else:
         log(f"##      HAVE  - Reference file  found: {refer_path}")
-    return True 
+    return True
     if not os.path.exists(config_path):
         log(f"##      FAIL - Config file does not exist: {config_path}")
         return False
@@ -487,14 +431,9 @@ def plan_translation_and_scoring(
     data_tag: str,
     pair_type: str,
 ) -> bool:
-    if pair_type == "zeroshot":
-        shortoutput = f"{xtask}.{data_tag}.0shyp"
-        sacre_path = os.path.join(scrdir, f"{xtask}.{data_tag}.0ssacre")
-        comet_path = os.path.join(scrdir, f"{xtask}.{data_tag}.0scomet")
-    else:
-        shortoutput = f"{xtask}.{data_tag}.hyp"
-        sacre_path = os.path.join(scrdir, f"{xtask}.{data_tag}.sacre")
-        comet_path = os.path.join(scrdir, f"{xtask}.{data_tag}.comet")
+    shortoutput = f"{xtask}.{data_tag}.hyp"
+    sacre_path = os.path.join(scrdir, f"{xtask}.{data_tag}.sacre")
+    comet_path = os.path.join(scrdir, f"{xtask}.{data_tag}.comet")
     output_path = os.path.join(hypdir, shortoutput)
     if not files_available(dataset, input_path, refer_path, config_path):
          return False
@@ -550,8 +489,8 @@ def plan_translation_and_scoring(
 @dataclass
 class TaskSupport:
     """
-    orig_task_set:
-        Set of original task names in the training config
+    orig_task_names:
+        Original task names in the training config
     task_set:
         Set of expanded localized tasks such as "mt_CA.fra-XX.eng"
     task_to_type:
@@ -559,44 +498,17 @@ class TaskSupport:
     task_to_orig:
         Expanded localized task -> original yaml task name
         Example: "mt_CA.fra-XX.eng" -> "mt_fra-eng"
-    task_to_surr:
-        Expanded localized task -> real training task used as surrogate
-        Example: "mt_BR.por-XX.cat" -> "mt_por-fra"
-    src_code_to_prefixes:
-        Source language code -> task families seen in TRAINCONFIG
-        Example: "fra" -> {"mt", "docmt"}
-    tgt_code_to_prefixes:
-        Target language code -> task families seen in TRAINCONFIG
-        Example: "eng" -> {"mt", "sentmt", "docmt"}
-    src_vocab_codes:
-        Vocabs in training.config
-    tgt_vocab_codes:
-        Vocabs in training.config
     """
     orig_task_names: List[str] = field(default_factory=list)
     task_set: Set[str] = field(default_factory=set)
     task_to_type: Dict[str, str] = field(default_factory=dict)
     task_to_orig: Dict[str, str] = field(default_factory=dict)
-    task_to_surr: Dict[str, str] = field(default_factory=dict)
-    src_code_to_prefixes: Dict[str, Set[str]] = field(default_factory=dict)
-    tgt_code_to_prefixes: Dict[str, Set[str]] = field(default_factory=dict)
-    src_vocab_codes: Set[str] = field(default_factory=set)
-    tgt_vocab_codes: Set[str] = field(default_factory=set)
-    task_to_src_vocab: Dict[str, str] = field(default_factory=dict)
-    task_to_tgt_vocab: Dict[str, str] = field(default_factory=dict)
-    src_prefix_to_surrogate: Dict[tuple[str, str], str] = field(default_factory=dict)
-    tgt_prefix_to_surrogate: Dict[tuple[str, str], str] = field(default_factory=dict)
-    src_prefix_to_tasks: Dict[tuple[str, str], str] = field(default_factory=dict)
-    tgt_prefix_to_tasks: Dict[tuple[str, str], str] = field(default_factory=dict)
-    task_to_src_candidates: Dict[str, List[str]] = field(default_factory=dict)
-    task_to_tgt_candidates: Dict[str, List[str]] = field(default_factory=dict)
     task_to_enc_group: Dict[str, object] = field(default_factory=dict)
     task_to_dec_group: Dict[str, object] = field(default_factory=dict)
     task_to_src_vocab_code: Dict[str, str] = field(default_factory=dict)
     task_to_tgt_vocab_code: Dict[str, str] = field(default_factory=dict)
     task_to_transforms: Dict[str, object] = field(default_factory=dict)
-    task_to_errors: Dict[str, List[str]] = field(default_factory=dict)
-    
+
 def collect_task_support(cfg, inventory):
     def expand_langspec(spec: str) -> list[str]:
         if "." in spec:
@@ -605,8 +517,6 @@ def collect_task_support(cfg, inventory):
     train_tasks = cfg.get("tasks", {})
     support = TaskSupport()
     support.orig_task_names = list(cfg.get("tasks", {}).keys())
-    support.src_vocab_codes = set(cfg.get("src_vocab", {}).keys())
-    support.tgt_vocab_codes = set(cfg.get("tgt_vocab", {}).keys())
     for orig_task in support.orig_task_names:
         m = TASK_RE.match(orig_task)
         if not m:
@@ -633,127 +543,32 @@ def collect_task_support(cfg, inventory):
             for tgt_xcode in tgt_xcodes:
                 xtask = f"{prefix}_{src_xcode}-{tgt_xcode}"
                 support.task_set.add(xtask)
-                support.task_to_type[xtask] = "supervised"
+                support.task_to_type[xtask] = "zeroshot" if prefix == "zeroshot" else "supervised"
                 support.task_to_orig[xtask] = orig_task
-                src_code = inventory.xcode_to_code[src_xcode]
-                tgt_code = inventory.xcode_to_code[tgt_xcode]
-                support.task_to_src_vocab[xtask] = train_src_vocab
-                support.task_to_tgt_vocab[xtask] = train_tgt_vocab
                 support.task_to_src_vocab_code[xtask] = train_src_vocab
                 support.task_to_tgt_vocab_code[xtask] = train_tgt_vocab
-                support.src_code_to_prefixes.setdefault(src_code, set()).add(prefix)
-                support.tgt_code_to_prefixes.setdefault(tgt_code, set()).add(prefix)
-                support.src_prefix_to_tasks.setdefault((prefix, src_code), set()).add(orig_task)
-                support.tgt_prefix_to_tasks.setdefault((prefix, tgt_code), set()).add(orig_task)
                 support.task_to_enc_group[xtask] = enc_group
                 support.task_to_dec_group[xtask] = dec_group
                 support.task_to_transforms[xtask] = transforms
-                support.task_to_errors[xtask] = []
-                support.task_to_src_candidates[xtask] = [orig_task]
-                support.task_to_tgt_candidates[xtask] = [orig_task]
-   
+
     log(f"✅ Extracting tasks from training config and combining the codes and the tasks")
     return support
 
-def filter_zeroshotpairs(supervised_pair_set, zeroshot_pair_set):
-    added = 0
-    log(f"   Adding manually prescribed zero-shot pairs:", end="")
-    for (src_xcode,tgt_xcode) in zeroshot_base:
-        if (src_xcode,tgt_xcode) not in zeroshot_pair_set:
-            zeroshot_pair_set.add((src_xcode,tgt_xcode))
-            if added % 4 == 0:
-                log("   ", before="\ninf_plan.py: ", end="")
-            p = f"{src_xcode}-{tgt_xcode}"
-            log(f"  {p:<12}", before="", end="")
-            added = added + 1
-    log("", before="")
-    skipped = 0
-    log(f"   The following pairs were already in the fixed set:", end="")
-    for (src_xcode,tgt_xcode) in zeroshot_base:
-        if (src_xcode,tgt_xcode) in zeroshot_pair_set:
-            if skipped % 4 == 0:
-                log("   ", before="\ninf_plan.py: ", end="")
-            p = f"{src_xcode}-{tgt_xcode}"
-            log(f"  {p:<12}", before="", end="")
-            skipped = skipped + 1
-    log("", before="")
-    overlaps = 0
-    overlap_pairs = supervised_pair_set & zeroshot_pair_set
-    if overlap_pairs:
-        log("   The following zero-shot pairs are indeed supervised in this model:", end="")
-        for p in sorted(list(overlap_pairs)):
-            if overlaps % 4 == 0:
-                log("   ", before="\ninf_plan.py: ", end="")
-            p = f"{p[0]}-{p[1]}"
-            log(f"  {p:<12}", before="", end="")
-            overlaps = overlaps + 1
-        zeroshot_pair_set = zeroshot_pair_set - overlap_pairs
-    log("", before="")
-    zeroshot_pair_set = zeroshot_pair_set - overlap_pairs
-    remain = 0
-    log(f"   The final set of zero-shot pairs (* not fixed):", end="")
-    for (s,t) in sorted(list(zeroshot_pair_set)):
-        if remain % 4 == 0:
-            log("   ", before="\ninf_plan.py: ", end="")
-        p = f"{s}-{t}"
-        if (s,t) in zeroshot_base:
-            log(f"  {p:<12}", before="", end="")
-        else:
-            log(f" *{p:<12}", before="", end="")
-        remain = remain + 1
-    log("", before="")
-    log(f"✅ Filtered the zeroshot tasks selection")
-    return zeroshot_pair_set
-
-TASK_RE  = re.compile(r"^(mt|sentmt|docmt)[0-9]?_([^-]+)-([^-]+)$")
-TASK_REX = re.compile(r"^(mt|sentmt|docmt)[0-9]?_[A-Z][A-Z].([^-_]+)[^-_]*-[A-Z][A-Z].([^-_]+)[^-_]*$")
-
-def filter_supervised_tasks(support: TaskSupport, supervised_pair_set, inventory: LanguageInventory,):
-    filtered_task_set = set()
-    filtered_task_to_orig = {}
-    filtered_task_to_surr = {}
-    filtered_task_to_type = {}
-    rejected = 0
-    for task in sorted(support.task_set):
-        m = TASK_RE.match(task)
-        if not m:
-            continue
-        _, src_xcode, tgt_xcode = m.groups()
-        src_code = inventory.xcode_to_code.get(src_xcode)
-        tgt_code = inventory.xcode_to_code.get(tgt_xcode)
-        if src_code is None or tgt_code is None:
-            log(f"❌ Could not normalize task xcodes: {task}")
-            rejected += 1
-            continue
-        if (src_code, tgt_code) in supervised_pair_set:
-            filtered_task_set.add(task)
-            filtered_task_to_orig[task] = support.task_to_orig.get(task, task)
-            filtered_task_to_surr[task] = support.task_to_surr.get(task, support.task_to_orig.get(task, task))
-            filtered_task_to_type[task] = "supervised"
-        else:
-            log(f"❌ Pair {src_code}-{tgt_code} is not among the desirable supervised pairs")
-            rejected += 1
-    log(f"   Dropped {rejected} supervised evaluation tasks by filters")
-    log(f"   Kept {len(filtered_task_set)} supervised evaluation tasks after filtering")
-    support.task_set = filtered_task_set
-    support.task_to_orig = filtered_task_to_orig
-    support.task_to_surr = filtered_task_to_surr
-    support.task_to_type = filtered_task_to_type
-    log(f"✅ Filtered the supervised tasks selection")
-    return support, rejected
+TASK_RE  = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_([^-]+)-([^-]+)$")
+TASK_REX = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_[A-Z][A-Z].([^-_]+)[^-_]*-[A-Z][A-Z].([^-_]+)[^-_]*$")
 
 def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers,
                                model, mammoth, logdir, scrdir, mammoth_type):
     log(f"producing the testing tasks (stdout) ...", end="")
     for xtask in sorted(support.task_set):
-        emit_tasks(xtask=xtask, inventory=inventory, support=support, 
+        emit_tasks(xtask=xtask, inventory=inventory, support=support,
                    datadir=datadir, cfgdir=cfgdir, hypdir=hypdir, cfg_path=trainconfig, cfg=cfg,
                    writers=writers,  model=model, mammoth=mammoth, logdir=logdir, scrdir=scrdir,
                    mammoth_type=mammoth_type)
     log(f'✨ Completed producing inference config files')
 
-def emit_tasks(*, xtask: str, support: TaskSupport, 
-               inventory: LanguageInventory, datadir: str, cfgdir: str, hypdir: str, 
+def emit_tasks(*, xtask: str, support: TaskSupport,
+               inventory: LanguageInventory, datadir: str, cfgdir: str, hypdir: str,
                cfg_path: str,cfg: dict, writers: CallWriters,
                model: str, mammoth: str, logdir: str, scrdir: str,
                mammoth_type: str) -> bool:
@@ -784,16 +599,12 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     bqt_tgt_ref = dataset_ref(inventory, tgt, "bqt")
     bqtpar_src_ref = dataset_ref(inventory, src, "bqtpar")
     bqtpar_tgt_ref = dataset_ref(inventory, tgt, "bqtpar")
-    
+
     src_wmt = inventory.xcode_to_wmt_locale.get(src_xcode, "")
     tgt_wmt = inventory.xcode_to_wmt_locale.get(tgt_xcode, "")
-    if pair_type == "supervised":
-        inf_yaml_path_file = f"{cfgdir}/{orig_task}.yaml"
-        inf_yaml_path = f"{cfgdir}/{orig_task}.yaml"
-    else:
-        inf_yaml_path_file = f"{cfgdir}/{orig_task}.0shot.yaml"
-        inf_yaml_path = f"{cfgdir}/{orig_task}.0shot.yaml"
-        
+    inf_yaml_path_file = f"{cfgdir}/{orig_task}.yaml"
+    inf_yaml_path = f"{cfgdir}/{orig_task}.yaml"
+
     write_inference_yaml(
         src_code=src, tgt_code=tgt, pair_type=pair_type,
         xtask=xtask, orig_task=orig_task, cfg=cfg,
@@ -802,13 +613,13 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
 
     flo_input = os.path.join(datadir, "flores_plus", "devtest", f"{flo_src_ref}.txt")
     flo_refer = os.path.join(datadir, "flores_plus", "devtest", f"{flo_tgt_ref}.txt")
-    
+
     plan_translation_and_scoring(
         writers=writers, dataset="Flores+", data_tag="flo", input_path=flo_input, refer_path=flo_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
-    
+
     bqt_input = os.path.join(datadir, "bouquet", "test", f"{bqt_src_ref}.txt")
     bqt_refer = os.path.join(datadir, "bouquet", "test", f"{bqt_tgt_ref}.txt")
     plan_translation_and_scoring(
@@ -824,7 +635,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
-    
+
     if src == "eng":
         wmt_input = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "source.en.txt")
         wmt_refer = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "reference.target.txt")
@@ -834,13 +645,13 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     else:
         wmt_input = os.path.join(datadir, "wmt24pp", "train", f"en-{src_wmt}", "reference.target.txt")
         wmt_refer = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "reference.target.txt")
-        
+
     plan_translation_and_scoring(
         writers=writers, dataset="WMT24++", data_tag="wmt", input_path=wmt_input, refer_path=wmt_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
         xtask=xtask, orig_task=orig_task, pair_type=pair_type)
-    
+
     return True
 
 def squash_debug_value(v):
@@ -853,21 +664,9 @@ def squash_debug_value(v):
 
 def choose_template_task(cfg: dict, support: TaskSupport, xtask: str, orig_task: str) -> str:
     train_tasks = cfg.get("tasks", {})
-
-    # Supervised case: original task should already exist in TRAINCONFIG.
     if orig_task in train_tasks:
         return orig_task
-
-    # Zeroshot case: use a real training task as template.
-    src_candidates = support.task_to_src_candidates.get(xtask, [])
-    tgt_candidates = support.task_to_tgt_candidates.get(xtask, [])
-
-    if src_candidates:
-        return src_candidates[0]
-    if tgt_candidates:
-        return tgt_candidates[0]
-
-    raise KeyError(f"No template task available for {xtask}")
+    raise KeyError(f"No training task available for {xtask}: {orig_task}")
 
 
 def build_inference_config_from_template(
@@ -890,8 +689,6 @@ def build_inference_config_from_template(
     src_vocab_code = support.task_to_src_vocab_code[xtask]
     tgt_vocab_code = support.task_to_tgt_vocab_code[xtask]
     transforms     = support.task_to_transforms[xtask]
-    src_candidates = support.task_to_src_candidates.get(xtask, [])
-    tgt_candidates = support.task_to_tgt_candidates.get(xtask, [])
     infer_cfg      = copy.deepcopy(cfg)
     for key in DROP_TOP_LEVEL_KEYS:
         infer_cfg.pop(key, None)
@@ -906,28 +703,24 @@ def build_inference_config_from_template(
     template_cfg["src_tgt"] = f"{src_vocab_code}-{tgt_vocab_code}"
     template_cfg["enc_sharing_group"] = enc_group
     template_cfg["dec_sharing_group"] = dec_group
-    
+
     # Old extractor behavior: remove filtertoolong and then clear transforms.
     # template_cfg["transforms"] = [
     #     t for t in template_cfg.get("transforms", [])
     #     if t != "filtertoolong" ]
     template_cfg["transforms"] = []
-    
-    template_cfg["node_gpu"] = "0:0"       
+
+    template_cfg["node_gpu"] = "0:0"
     template_cfg["_template_task"] = template_task
     template_cfg["_pair_type"] = pair_type
-    template_cfg["_src_task_candidates"] = src_candidates
-    template_cfg["_tgt_task_candidates"] = tgt_candidates
     template_cfg["_original_train_task"] = orig_task
     for k in [
             "_template_task",
             "_pair_type",
-            "_src_task_candidates",
-            "_tgt_task_candidates",
             "_original_train_task",]:
         if k in template_cfg:
             template_cfg[k] = squash_debug_value(template_cfg[k])
-        
+
     src_vocab = infer_cfg.get("src_vocab", {})
     tgt_vocab = infer_cfg.get("tgt_vocab", {})
     if src_vocab_code not in src_vocab:
@@ -954,10 +747,10 @@ def build_inference_config_from_template(
         infer_cfg["model_dtype"] = "bf16"
         infer_cfg["use_hf_tokenizer"] = "true"
         infer_cfg["report_time"] = "true"
-        
+
     # since pytorch_backbone; should have been effective earlier
     infer_cfg["seed"]       = 42
-        
+
     infer_cfg["batch_size"] = DEFAULT_BATCH_SIZE  # 32
     infer_cfg["batch_type"] = DEFAULT_BATCH_TYPE  # sents
     infer_cfg["gpu"]        = DEFAULT_GPU         # 0
@@ -973,7 +766,7 @@ def build_inference_config_from_template(
     # verbose: true # currently not supported in inference, need to modify code to enable it
     return infer_cfg
 
-def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str, 
+def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
                          xtask: str, orig_task: str, cfg: dict,
                          train_cfg: str, inf_yaml_path: str, support: TaskSupport,
                          mammoth_type: str) -> bool:
@@ -982,14 +775,9 @@ def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
     src_vocab_code = support.task_to_src_vocab_code[xtask]
     tgt_vocab_code = support.task_to_tgt_vocab_code[xtask]
     transforms     = support.task_to_transforms[xtask]
-    src_candidates = support.task_to_src_candidates.get(xtask, [])
-    tgt_candidates = support.task_to_tgt_candidates.get(xtask, [])
     log(f"##      TASK  - sharing groups: {enc_group} x {dec_group}")
     log(f"##      TASK  - src_tght codes: {src_vocab_code}-{tgt_vocab_code}")
     log(f"##      TASK  - transforms:     {transforms}")
-    if pair_type == "zeroshot":
-        log(f"##      GRND  - src candidates: {src_candidates}")
-        log(f"##      GRND  - tgt candidates: {tgt_candidates}")
     infer_cfg = build_inference_config_from_template(
         cfg=cfg,
         support=support,
@@ -1007,243 +795,32 @@ def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
     log(f"##      WROTE - infer.yaml: {inf_yaml_path}")
     return True
 
-def unique_or_error(values, label, task):
-    vals = list(values)
-    if len(vals) == 0:
-        return None, [f"missing {label}"]
-    if len(vals) == 1:
-        return vals[0], []
-    return f"***ERROR*** ambiguous {label}: {sorted(vals)}", [f"ambiguous {label}: {sorted(vals)}"]
 
-def add_zeroshot_tasks(cfg, zeroshot_pair_set, support: TaskSupport, inventory: LanguageInventory,):
-    
-    def get_zeroshot_prefix(support, src, tgt):
-        prefixes = (support.src_code_to_prefixes.get(src, set()) & support.tgt_code_to_prefixes.get(tgt, set()) )
-        if not prefixes:
-            log(f"  ❌ zero-shot pair {src}-{tgt} not supported by any existing task family in TRAINCONFIG")
-            return None
-        else:
-            log(f"  ✅ zero-shot pair {src}-{tgt} is supported by an existing task family in TRAINCONFIG: {prefixes}")
-        return prefixes
-    
-    def get_lang_xcodes(inventory, lang):
-        return inventory.code_to_xcodes[lang]
+def filter_selected_tasks(support, selected_tasks):
+    keep = {
+        xtask
+        for xtask in support.task_set
+        if support.task_to_orig.get(xtask) in selected_tasks
+    }
+    missing = selected_tasks - set(support.orig_task_names)
+    for task in sorted(missing):
+        log(f"❌ Selected inference task is not in TRAINCONFIG: {task}")
+    if missing:
+        die(f"Selected inference tasks are missing from TRAINCONFIG")
+    support.task_set = keep
+    log(f"   Kept {len(keep)} localized inference tasks")
+    return support
 
-    log(f"🛠️ Adding localized zero-shot evaluation tasks:")
-    added_zeroshot = 0    
-    for src, tgt in sorted(zeroshot_pair_set):
-        task_prefixes = get_zeroshot_prefix(support, src, tgt)
-        if not task_prefixes:
-            continue
-        task_prefixes = sorted(task_prefixes)
-        src_xcodes = get_lang_xcodes(inventory, src)
-        tgt_xcodes = get_lang_xcodes(inventory, tgt)
-        log(f" {src}-{tgt}: {task_prefixes} x {src_xcodes} x {tgt_xcodes}")
-        for prefix in task_prefixes:
-            for xsrc in src_xcodes:
-                for xtgt in tgt_xcodes:
-                    task = f"{prefix}_{xsrc}-{xtgt}"
-                    if task not in support.task_set:
-                        add_zeroshot_task(support, cfg, prefix, xsrc, xtgt, inventory)
-                        added_zeroshot += 1
-    log(f"   Added {added_zeroshot} zero-shot evaluation tasks")
-    log(f'✨ Completed adding the zeroshot tasks')
-    return added_zeroshot
-
-def add_zeroshot_task(support, cfg, prefix, xsrc, xtgt, inventory):
-    xtask = f"{prefix}_{xsrc}-{xtgt}"
-
-    log(f"")
-    log(f"--- add_zeroshot_task: {xtask} ---")
-
-    # Decode source/target codes from the xcodes
-    src_code = inventory.xcode_to_code[xsrc]
-    tgt_code = inventory.xcode_to_code[xtgt]
-
-    # Find candidate training tasks
-    src_candidates = sorted(support.src_prefix_to_tasks.get((prefix, src_code), set()))
-    tgt_candidates = sorted(support.tgt_prefix_to_tasks.get((prefix, tgt_code), set()))
-
-    log(f"adding zero-shot task {xtask}")
-    log(f"  xtask          = {xtask}")
-    log(f"  prefix         = {prefix}")
-    log(f"  xcodes         = ({xsrc}, {xtgt})")
-    log(f"  language codes = ({src_code}, {tgt_code})")
-    log(f"  src_candidates = {src_candidates}")
-    log(f"  tgt_candidates = {tgt_candidates}")
-
-    errors = []
-    if not src_candidates:
-        msg = f"no source-side candidates for ({prefix}, {src_code})"
-        log(f"ERROR: {msg}")
-        errors.append(msg)
-    if not tgt_candidates:
-        msg = f"no target-side candidates for ({prefix}, {tgt_code})"
-        log(f"ERROR: {msg}")
-        errors.append(msg)
-
-    train_tasks = cfg.get("tasks", {})
-
-    # ------------------------------------------------------------
-    # Source-side properties
-    # ------------------------------------------------------------
-    src_enc_groups = set()
-    src_vocab_codes = set()
-
-    log("scanning source-side candidates...")
-    for t in src_candidates:
-        task_cfg = train_tasks[t]
-        enc_group = tuple(task_cfg.get("enc_sharing_group", []))
-        src_enc_groups.add(enc_group)
-
-        src_tgt = task_cfg.get("src_tgt")
-        if src_tgt and "-" in src_tgt:
-            s, _ = src_tgt.split("-", 1)
-            src_vocab_codes.add(s)
-        else:
-            s = None
-
-        log(
-            f"  SRC candidate {t}: "
-            f"src_tgt={src_tgt}, "
-            f"enc_group={list(enc_group)}, "
-            f"src_vocab_code={s}"
-        )
-
-    log(f"src_enc_groups = {[list(x) for x in sorted(src_enc_groups)]}")
-    log(f"src_vocab_codes = {sorted(src_vocab_codes)}")
-
-    # ------------------------------------------------------------
-    # Target-side properties
-    # ------------------------------------------------------------
-    tgt_dec_groups = set()
-    tgt_vocab_codes = set()
-
-    log("scanning target-side candidates...")
-    for t in tgt_candidates:
-        task_cfg = train_tasks[t]
-        dec_group = tuple(task_cfg.get("dec_sharing_group", []))
-        tgt_dec_groups.add(dec_group)
-
-        src_tgt = task_cfg.get("src_tgt")
-        if src_tgt and "-" in src_tgt:
-            _, tcode = src_tgt.split("-", 1)
-            tgt_vocab_codes.add(tcode)
-        else:
-            tcode = None
-
-        log(
-            f"  TGT candidate {t}: "
-            f"src_tgt={src_tgt}, "
-            f"dec_group={list(dec_group)}, "
-            f"tgt_vocab_code={tcode}"
-        )
-
-    log(f"tgt_dec_groups = {[list(x) for x in sorted(tgt_dec_groups)]}")
-    log(f"tgt_vocab_codes = {sorted(tgt_vocab_codes)}")
-
-    # ------------------------------------------------------------
-    # Shared transforms from both sides
-    # ------------------------------------------------------------
-    transform_sets = set()
-
-    log("scanning transforms from all candidates...")
-    for t in src_candidates + tgt_candidates:
-        task_cfg = train_tasks[t]
-        transforms = task_cfg.get("transforms")
-        if transforms is None:
-            transforms = task_cfg.get("train_transforms", [])
-        transform_sets.add(tuple(transforms))
-
-        log(f"  TRANSFORMS candidate {t}: transforms={transforms}")
-
-    log(f"transform_sets = {[list(x) for x in sorted(transform_sets)]}")
-
-    # ------------------------------------------------------------
-    # Resolve uniqueness
-    # ------------------------------------------------------------
-    enc_group, errs = unique_or_error(src_enc_groups, "enc_sharing_group", xtask)
-    if errs:
-        log(f"enc_group resolution errors: {errs}")
-    else:
-        log(f"enc_group resolved to: {enc_group}")
-    errors.extend(errs)
-
-    dec_group, errs = unique_or_error(tgt_dec_groups, "dec_sharing_group", xtask)
-    if errs:
-        log(f"dec_group resolution errors: {errs}")
-    else:
-        log(f"dec_group resolved to: {dec_group}")
-    errors.extend(errs)
-
-    src_vocab_code, errs = unique_or_error(src_vocab_codes, "src_vocab_code", xtask)
-    if errs:
-        log(f"src_vocab_code resolution errors: {errs}")
-    else:
-        log(f"src_vocab_code resolved to: {src_vocab_code}")
-    errors.extend(errs)
-
-    tgt_vocab_code, errs = unique_or_error(tgt_vocab_codes, "tgt_vocab_code", xtask)
-    if errs:
-        log(f"tgt_vocab_code resolution errors: {errs}")
-    else:
-        log(f"tgt_vocab_code resolved to: {tgt_vocab_code}")
-    errors.extend(errs)
-
-    transforms, errs = unique_or_error(transform_sets, "transforms", xtask)
-    if errs:
-        log(f"transforms resolution errors: {errs}")
-    else:
-        log(f"transforms resolved to: {transforms}")
-    errors.extend(errs)
-
-    # ------------------------------------------------------------
-    # Store results
-    # ------------------------------------------------------------
-    support.task_set.add(xtask)
-    support.task_to_type[xtask] = "zeroshot"
-    support.task_to_orig[xtask] = f"{prefix}_{src_code}-{tgt_code}"
-
-    support.task_to_src_candidates[xtask] = src_candidates
-    support.task_to_tgt_candidates[xtask] = tgt_candidates
-
-    support.task_to_enc_group[xtask] = list(enc_group) if isinstance(enc_group, tuple) else enc_group
-    support.task_to_dec_group[xtask] = list(dec_group) if isinstance(dec_group, tuple) else dec_group
-    support.task_to_src_vocab_code[xtask] = src_vocab_code
-    support.task_to_tgt_vocab_code[xtask] = tgt_vocab_code
-    support.task_to_transforms[xtask] = list(transforms) if isinstance(transforms, tuple) else transforms
-    support.task_to_errors[xtask] = errors
-
-    log("stored support values:")
-    log(f"  task_to_type[{xtask}] = {support.task_to_type[xtask]}")
-    log(f"  task_to_orig[{xtask}] = {support.task_to_orig[xtask]}")
-    log(f"  task_to_src_candidates[{xtask}] = {support.task_to_src_candidates[xtask]}")
-    log(f"  task_to_tgt_candidates[{xtask}] = {support.task_to_tgt_candidates[xtask]}")
-    log(f"  task_to_enc_group[{xtask}] = {support.task_to_enc_group[xtask]}")
-    log(f"  task_to_dec_group[{xtask}] = {support.task_to_dec_group[xtask]}")
-    log(f"  task_to_src_vocab_code[{xtask}] = {support.task_to_src_vocab_code[xtask]}")
-    log(f"  task_to_tgt_vocab_code[{xtask}] = {support.task_to_tgt_vocab_code[xtask]}")
-    log(f"  task_to_transforms[{xtask}] = {support.task_to_transforms[xtask]}")
-    log(f"  task_to_errors[{xtask}] = {support.task_to_errors[xtask]}")
-
-    if errors:
-        log(f"❌ zeroshot {xtask}: " + " ; ".join(errors))
-    else:
-        log(f"✅ zeroshot {xtask}: unique source/target support found")
-
-    return xtask
 
 def main() -> int:
-    (datadir, tskdir, cfgdir, hypdir, model, trainconfig, supervisedpairs, zeroshotpairs,
+    (datadir, tskdir, cfgdir, hypdir, model, trainconfig, inftasks,
      mammoth, logdir, scrdir, cfg, lang_inventory, mammoth_type) = get_env_vars()
-    writers = CallWriters(tskdir) 
+    writers = CallWriters(tskdir)
     try:
         support = collect_task_support(cfg, lang_inventory)
-        (supervised_pair_set, zeroshot_pair_set) = read_pairs(supervisedpairs, zeroshotpairs)
-        zeroshot_pair_set = filter_zeroshotpairs(supervised_pair_set, zeroshot_pair_set)
-        support, rejected = filter_supervised_tasks(support, supervised_pair_set, lang_inventory,)
+        selected_tasks = read_task_file(inftasks)
+        support = filter_selected_tasks(support, selected_tasks)
         check_data_coverage(support.task_set, lang_inventory.valid_xcodes)
-        added_zeroshot = add_zeroshot_tasks( cfg, zeroshot_pair_set=zeroshot_pair_set, support=support, inventory=lang_inventory)
         produce_infyamls_and_calls(lang_inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg,
                                    writers, model, mammoth, logdir, scrdir, mammoth_type=mammoth_type)
     finally:
@@ -1254,8 +831,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
-
 
 

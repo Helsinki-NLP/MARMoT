@@ -36,6 +36,32 @@ for var in ACCOUNT DISKPROJECT SELFDIR TSKDIR MAKESCRIPT LOGDIR JOB_NAME MODELDI
   esac
 done
 
-trap 'rm -f "${FLAG}"; touch "${DONE}"' EXIT
+
+on_exit() {
+    rc=$?
+
+    selfjob="${SLURM_JOB_ID:-${SLURM_JOBID:-}}"
+
+    if [ -f "${FLAG}" ]; then
+        owner="$(cat "${FLAG}" 2>/dev/null || true)"
+
+        # Remove only my own marker.  A successor continuation may
+        # already have overwritten FLAG with its own job id.
+        if [ -n "${selfjob}" ] && [ "${owner}" = "${selfjob}" ]; then
+            rm -f "${FLAG}"
+        fi
+    fi
+
+    if [ "$rc" -eq 0 ]; then
+        touch "${DONE}"
+    else
+        rm -f "${DONE}"
+    fi
+
+    exit "$rc"
+}
+trap on_exit EXIT
+
+
 
 make -C "${SELFDIR}" "${FIRST_GOAL}" continue-eval

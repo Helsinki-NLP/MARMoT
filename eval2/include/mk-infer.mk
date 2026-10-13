@@ -120,7 +120,10 @@ infer-score: infer $(INF_FLAG)
 > infer_job="$$(cat "$(INF_FLAG)")"; \
 > test -n "$$infer_job"; \
 > cnt_job="$$(bash -c 'unset "$${!SLURM_@}"; exec sbatch --parsable --dependency=afterany:"$$1" "$$2"' _ "$$infer_job" "$(CNT_SCRIPT)")"; \
-> echo "mk-control.mk: ✅ Submitted continuation job $$cnt_job after inference"
+> test -n "$$cnt_job"; \
+> printf '%s\n' "$$cnt_job" > "$(CNT_FLAG)"; \
+> rm -f "$(CNT_DONE)"; \
+> echo "mk-control.mk: ✅ Submitted continuation job $$cnt_job after inference $$infer_job"
 
 mk-infer-force: 
 > @$(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODELDIR)" \

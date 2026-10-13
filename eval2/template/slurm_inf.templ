@@ -86,8 +86,6 @@ if [ -n "${SLURM_JOBID:-}" ]; then
 	echo "Try: find -L /appl/local/laifs/containers -maxdepth 3 -type f -name '*.sif'" >&2
 	exit 1
     }   
-    echo "Memory-related Slurm environment before srun:" >&2
-    env | LC_ALL=C sort | grep '^SLURM_MEM_' >&2 || true
     echo "Launching srun..."
     srun /usr/bin/singularity exec \
 	 --env NCCL_SOCKET_IFNAME="${NCCL_SOCKET_IFNAME}" \

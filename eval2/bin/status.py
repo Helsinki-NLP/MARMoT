@@ -2,30 +2,21 @@
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import subprocess
 from pathlib import Path
 
 
-def count_files(path: Path, pattern: str) -> int:
-    if not path.is_dir():
-        return 0
-    return sum(1 for _ in path.glob(pattern))
-
-
-def count_lines(path: Path) -> int:
+def count_selected_tasks(path: Path) -> int:
     if not path.is_file():
         return 0
     with path.open("r", errors="replace") as f:
-        return sum(1 for _ in f)
+        return sum(
+            1
+            for line in f
+            if line.strip() and not line.lstrip().startswith("#")
+        )
 
-def count_regex_lines(path: Path, pattern: str) -> int:
-    if not path.is_file():
-        return 0
-    rx = re.compile(pattern)
-    with path.open("r", errors="replace") as f:
-        return sum(1 for line in f if rx.search(line))
 
 def evaluation_paths(model_dir: Path) -> dict[str, Path]:
     """
@@ -38,6 +29,7 @@ def evaluation_paths(model_dir: Path) -> dict[str, Path]:
 
     if new_root.is_dir():
         return {
+            "root": new_root,
             "configs": new_root / "configs",
             "tasks": new_root / "tasks",
             "hypotheses": new_root / "hypotheses",
@@ -47,6 +39,7 @@ def evaluation_paths(model_dir: Path) -> dict[str, Path]:
         }
 
     return {
+        "root": model_dir,
         "configs": model_dir / "inf_out",
         "tasks": model_dir / "inf_out",
         "hypotheses": model_dir / "inf_out",
@@ -55,160 +48,316 @@ def evaluation_paths(model_dir: Path) -> dict[str, Path]:
         "flags": model_dir,
     }
 
-def slurm_time_to_hhmm(value: str) -> str:
-    # Supports: D-HH:MM:SS, HH:MM:SS, MM:SS, HH:MM
-    days = 0
-    if "-" in value:
-        day_s, value = value.split("-", 1)
-        days = int(day_s)
 
-    parts = value.split(":")
-    if len(parts) == 3:
-        hh, mm, _ss = map(int, parts)
-    elif len(parts) == 2:
-        # In squeue elapsed time this is MM:SS.
-        # In sbatch --time it is usually HH:MM.
-        hh, mm = map(int, parts)
-    else:
-        return value
+def read_jobid(path: Path) -> str:
+    if not path.is_file():
+        return ""
 
-    hh += days * 24
-    return f"{hh:02d}:{mm:02d}"
-
-
-def sbatch_time_to_hhmm(value: str) -> str:
-    days = 0
-    if "-" in value:
-        day_s, value = value.split("-", 1)
-        days = int(day_s)
-
-    parts = value.split(":")
-    if len(parts) >= 2:
-        hh = int(parts[0]) + days * 24
-        mm = int(parts[1])
-        return f"{hh:02d}:{mm:02d}"
-
-    return value
-
-
-def extract_option(line: str, name: str) -> str:
-    m = re.search(rf"--{re.escape(name)}=([^ ]+)", line)
+    text = path.read_text(errors="replace").strip()
+    m = re.search(r"(?:Submitted batch job\s+)?([0-9]+)", text)
     return m.group(1) if m else ""
 
 
-def infer_info(tasks_dir: Path) -> str:
-    sbatch = tasks_dir / "inf.sbatch"
-    if not sbatch.is_file() or sbatch.stat().st_size == 0:
-        return ""
-    line = sbatch.read_text(errors="replace").strip()
+def job_files(flags_dir: Path, kind: str) -> tuple[Path, Path]:
+    if kind == "inference":
+        return (
+            flags_dir / "inference.done",
+            flags_dir / "inference.submitted",
+        )
 
-    t = extract_option(line, "time")
-    nodes = extract_option(line, "nodes")
-    gpn = extract_option(line, "gpus-per-node")
-    gpus = extract_option(line, "gpus")
-    ntasks = extract_option(line, "ntasks")
+    if kind == "scoring":
+        return (
+            flags_dir / "metrics.done",
+            flags_dir / "metrics.submitted",
+        )
 
-    if nodes and gpn:
-        total_gpus = str(int(nodes) * int(gpn))
-    elif gpus:
-        total_gpus = gpus
-    elif ntasks:
-        total_gpus = ntasks
-    else:
-        total_gpus = "?"
+    raise ValueError(kind)
 
-    return f"{sbatch_time_to_hhmm(t)}x{total_gpus}" if t else "[x]"
 
-def current_runtime(flags_dir: Path) -> str:
-    done_file = flags_dir / "inference.done"
-    flag = flags_dir / "inference.submitted"
+def collect_jobids(model_paths: list[dict[str, Path]]) -> set[str]:
+    jobids = set()
 
-    if done_file.exists():
-        return "DONE"
+    for paths in model_paths:
+        for kind in ("inference", "scoring"):
+            done_file, flag_file = job_files(paths["flags"], kind)
 
-    if not flag.is_file():
-        return ""
+            if done_file.exists():
+                continue
 
-    jobid = flag.read_text(errors="replace").strip()
-    if not jobid:
-        return ""
+            jobid = read_jobid(flag_file)
+            if jobid:
+                jobids.add(jobid)
+
+    return jobids
+
+
+def query_squeue(jobids: set[str]) -> dict[str, tuple[str, str, str]]:
+    if not jobids:
+        return {}
 
     try:
         result = subprocess.run(
-            ["squeue", "-h", "-j", jobid, "-o", "%M"],
+            [
+                "squeue",
+                "-h",
+                "-j",
+                ",".join(sorted(jobids)),
+                "-o",
+                "%i|%T|%M|%R",
+            ],
             check=False,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
         )
     except FileNotFoundError:
-        return ""
+        return {}
 
-    raw = result.stdout.strip().splitlines()
-    if not raw:
-        try:
-            flag.unlink()
-        except OSError:
-            pass
-        return ""
+    statuses = {}
 
-    runtime_raw = raw[0].strip()
+    for line in result.stdout.splitlines():
+        parts = line.strip().split("|", 3)
 
-    if re.match(r"^\d+-\d+:\d+", runtime_raw):
-        return slurm_time_to_hhmm(runtime_raw)
-    if re.match(r"^\d+:\d+:\d+$", runtime_raw):
-        hh, mm, _ss = map(int, runtime_raw.split(":"))
-        return f"{hh:02d}:{mm:02d}"
-    if re.match(r"^\d+:\d+$", runtime_raw):
-        mm, _ss = map(int, runtime_raw.split(":"))
-        return f"00:{mm:02d}"
+        if len(parts) != 4:
+            continue
 
-    return runtime_raw
+        jobid, state, runtime, reason = parts
+        statuses[jobid] = (state, runtime, reason)
 
-def pair_count_str(zero_count: int, main_count: int) -> str:
-    return f"{zero_count}+{main_count}"
+    return statuses
 
-def row(alias: str, model_dir_s: str) -> tuple:
-    model_dir = Path(model_dir_s)
-    paths = evaluation_paths(model_dir)
 
-    yaml_ok = count_files(paths["configs"], "*.yaml")
-    inf_calls = count_lines(paths["tasks"] / "calls.out")
-    sacre_calls = count_lines(paths["tasks"] / "calls.sacre.out")
-    comet_calls = count_lines(paths["tasks"] / "calls.comet.out")
-    calls = f"{inf_calls}/{sacre_calls}/{comet_calls}"
+def job_status(
+    flags_dir: Path,
+    kind: str,
+    slurm_status: dict[str, tuple[str, str, str]],
+) -> str:
+    done_file, flag_file = job_files(flags_dir, kind)
 
-    plan_file = paths["tasks"] / "plan.out"
-    plan_hyp = count_regex_lines(plan_file, r"\.hyp\b")
-    plan_0shyp = count_regex_lines(plan_file, r"\.0shyp\b")
-    plan = pair_count_str(plan_0shyp, plan_hyp)
+    if done_file.exists():
+        return "DONE"
 
-    zhyp_count = count_files(paths["hypotheses"], "*.0shyp")
-    hyp_count = count_files(paths["hypotheses"], "*.hyp")
-    hyp = pair_count_str(zhyp_count, hyp_count)
+    jobid = read_jobid(flag_file)
 
-    sacre0_count = count_files(paths["scores"], "*.0ssacre")
-    sacre_count = count_files(paths["scores"], "*.sacre")
-    sacre = pair_count_str(sacre0_count, sacre_count)
+    if not jobid:
+        return "-"
 
-    comet0_count = count_files(paths["scores"], "*.0scomet")
-    comet_count = count_files(paths["scores"], "*.comet")
-    comet = pair_count_str(comet0_count, comet_count)
+    status = slurm_status.get(jobid)
+
+    if status is None:
+        return "LEFT"
+
+    state, runtime, reason = status
+
+    if state == "RUNNING":
+        return "RUN"
+
+    if state == "PENDING":
+        return "PEND"
+
+    return state
+
+
+def read_plan_outputs(plan_file: Path) -> list[str]:
+    outputs = []
+
+    if not plan_file.is_file():
+        return outputs
+
+    output_re = re.compile(r'--output\s+"([^"]+)"')
+
+    with plan_file.open("r", errors="replace") as f:
+        for line in f:
+            m = output_re.search(line)
+
+            if m:
+                outputs.append(Path(m.group(1)).name)
+
+    return outputs
+
+
+def directory_names(path: Path, suffix: str) -> set[str]:
+    try:
+        return {
+            entry.name
+            for entry in path.iterdir()
+            if entry.name.endswith(suffix)
+        }
+    except (FileNotFoundError, NotADirectoryError):
+        return set()
+
+
+def row(
+    alias: str,
+    paths: dict[str, Path],
+    slurm_status: dict[str, tuple[str, str, str]],
+) -> tuple:
+    task_count = count_selected_tasks(
+        paths["root"] / "inf_tasks.txt"
+    )
+
+    outputs = read_plan_outputs(
+        paths["tasks"] / "plan.out"
+    )
+
+    test_count = len(outputs)
+
+    hyp_names = directory_names(
+        paths["hypotheses"],
+        ".hyp",
+    )
+
+    inf_completed = sum(
+        1
+        for name in outputs
+        if name in hyp_names
+    )
+
+    sacre_names = directory_names(
+        paths["scores"],
+        ".sacre",
+    )
+
+    score_completed = sum(
+        1
+        for name in outputs
+        if name[:-4] + ".sacre" in sacre_names
+    )
+
+    inf_job = job_status(
+        paths["flags"],
+        "inference",
+        slurm_status,
+    )
+
+    score_job = job_status(
+        paths["flags"],
+        "scoring",
+        slurm_status,
+    )
+
+    # A stale .done flag must not claim that work is complete.
+    if inf_completed < test_count and inf_job == "DONE":
+        inf_job = "-"
+
+    if score_completed < test_count and score_job == "DONE":
+        score_job = "-"
 
     return (
         alias,
-        yaml_ok,
-        plan,
-        calls,
-        infer_info(paths["tasks"]),
-        current_runtime(paths["flags"]),
-        hyp,
-        sacre,
-        comet,
+        task_count,
+        test_count,
+        inf_completed,
+        inf_job,
+        score_completed,
+        score_job,
     )
+
+
+
+def compact_job_status(status: str) -> str:
+    if status.startswith("RUN"):
+        return "RUN"
+
+    if status.startswith("PEND"):
+        return "PEND"
+
+    if status == "LEFT QUEUE":
+        return "LEFT"
+
+    return status
+
+
+def summarize_jobs(statuses: list[str]) -> str:
+    pending = sum(
+        1
+        for status in statuses
+        if compact_job_status(status) == "PEND"
+    )
+    return str(pending) if pending else "-"
+
+
+def print_table(rows):
+    fmt = "{:<37} {:>5} {:>5} {:>14} {:>8} {:>12} {:>8}"
+
+    print(
+        fmt.format(
+            "model",
+            "tasks",
+            "tests",
+            "inference",
+            "pending?",
+            "scoring",
+            "pending?",
+        )
+    )
+
+    print(
+        fmt.format(
+            "-" * 37,
+            "-" * 5,
+            "-" * 5,
+            "-" * 12,
+            "-" * 8,
+            "-" * 12,
+            "-" * 8,
+        )
+    )
+
+    for (
+        alias,
+        task_count,
+        test_count,
+        inf_completed,
+        inf_job,
+        score_completed,
+        score_job,
+    ) in rows:
+        print(
+            fmt.format(
+                alias,
+                task_count,
+                test_count,
+                f"{test_count - inf_completed} > {inf_completed}",
+                compact_job_status(inf_job),
+                f"{test_count - score_completed} > {score_completed}",
+                compact_job_status(score_job),
+            )
+        )
+
+    print(
+        fmt.format(
+            "-" * 37,
+            "-" * 5,
+            "-" * 5,
+            "-" * 12,
+            "-" * 8,
+            "-" * 12,
+            "-" * 8,
+        )
+    )
+
+    total_tasks = sum(r[1] for r in rows)
+    total_tests = sum(r[2] for r in rows)
+    total_inf = sum(r[3] for r in rows)
+    total_scores = sum(r[5] for r in rows)
+
+    print(
+        fmt.format(
+            "TOTAL",
+            total_tasks,
+            total_tests,
+            f"{total_tests - total_inf} > {total_inf}",
+            summarize_jobs([r[4] for r in rows]),
+            f"{total_tests - total_scores} > {total_scores}",
+            summarize_jobs([r[6] for r in rows]),
+        )
+    )
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
         "--model",
         action="append",
@@ -216,25 +365,50 @@ def main() -> None:
         metavar="ALIAS=DIR",
         help="Model alias and model directory. May be repeated.",
     )
+
     args = parser.parse_args()
 
     models: list[tuple[str, str]] = []
+
     for item in args.model:
         if "=" not in item:
-            raise SystemExit(f"Bad --model value: {item!r}; expected ALIAS=DIR")
+            raise SystemExit(
+                f"Bad --model value: {item!r}; expected ALIAS=DIR"
+            )
+
         alias, model_dir = item.split("=", 1)
-        models.append((alias, model_dir))
+        models.append(
+            (alias, model_dir)
+        )
 
-    fmt = "{:<37} {:<5} {:<12} {:<11} {:<10} {:<5} {:<9} {:<9} {:<9}"
-    print(fmt.format("model", "yamls", "0s+spv tasks", "i/s/c calls", "HH:MMxGPUs", "elaps", "hyp", "sacre", "comet"))
-    print(fmt.format("-" * 37, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
+    model_paths = [
+        (
+            alias,
+            evaluation_paths(Path(model_dir)),
+        )
+        for alias, model_dir in models
+    ]
 
-    for alias, model_dir in models:
-        print(fmt.format(*row(alias, model_dir)))
+    slurm_status = query_squeue(
+        collect_jobids(
+            [
+                paths
+                for _alias, paths in model_paths
+            ]
+        )
+    )
 
-    print(fmt.format("-" * 37, "-" * 5, "-" * 12, "-" * 6, "-" * 10, "-" * 5, "-" * 9, "-" * 9, "-" * 9))
+    rows = [
+        row(
+            alias,
+            paths,
+            slurm_status,
+        )
+        for alias, paths in model_paths
+    ]
+
+    print_table(rows)
+
 
 if __name__ == "__main__":
     main()
-
-    

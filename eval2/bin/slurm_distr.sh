@@ -317,6 +317,35 @@ choose_small_plan_from_table() {
 }
 
 plan_outside_slurm() {
+    # CPU scoring uses the small partition and the generic small planner.
+    # Do not apply one-GPU inference policy to metric jobs.
+    if [ "$PARTITION" = "small" ]; then
+        choose_small_plan_from_table
+	
+	echo "Outside Slurm."
+	echo "Suggested LUMI allocation:"
+        echo "  planned calls     : $NCALLS"
+        echo "  nodes             : $CHOSEN_NODES"
+        echo "  world size        : $CHOSEN_WORLD"
+        echo "  waves             : $CHOSEN_BATCHES"
+        echo "  expected runtime  : $CHOSEN_TIME"
+        echo "  wasted slots      : $CHOSEN_WASTE"
+        echo "  partition         : $CHOSEN_PARTITION"
+        echo
+
+        sbatch_cmd=$(
+            printf 'sbatch --parsable --partition=%s --time=%s --nodes=%s --ntasks=%s %s' \
+                   "$CHOSEN_PARTITION" \
+                   "$CHOSEN_TIME" \
+                   "$CHOSEN_NODES" \
+                   "$CHOSEN_WORLD" \
+                   "$MAKESCRIPT"
+		  )
+        printf '%s\n' "$sbatch_cmd"
+        printf '%s\n' "$sbatch_cmd" > "${SBATCH_LINE}"
+        return 0
+    fi
+
     case "$PARTITION" in
         small-g|dev-g) ;;
         *) die "One-GPU inference expects small-g or dev-g, got: $PARTITION" ;;
@@ -333,11 +362,11 @@ plan_outside_slurm() {
     echo "  stop reserve      : ${INF_STOP_RESERVE_MINUTES} min"
     echo "  partition         : $CHOSEN_PARTITION"
     echo
-
+    
     sbatch_cmd=$(
         printf 'sbatch --parsable --partition=%s --time=%s --nodes=1 --ntasks=1 --gpus-per-node=1 %s' \
-            "$CHOSEN_PARTITION" "$CHOSEN_TIME" "$MAKESCRIPT"
-    )
+               "$CHOSEN_PARTITION" "$CHOSEN_TIME" "$MAKESCRIPT"
+	      )
     printf '%s\n' "$sbatch_cmd"
     printf '%s\n' "$sbatch_cmd" > "${SBATCH_LINE}"
 }
