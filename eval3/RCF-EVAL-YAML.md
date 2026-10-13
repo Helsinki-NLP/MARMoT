@@ -7,7 +7,7 @@
 
 Two `evaluation/configs/mt_eng-mlt.yaml` files in `yamls.tgz` document completed HPO evaluations: an XTransformers model (`hpo-xtransformers/docmt-4pivots`) and a PyTorch model (`hpo/small-4p+d-Aenc-Ldec-20k`). The developer's `template/inf.yaml.templ` is a separate example, **not** evidence of how those evaluations were run.
 
-**Decision for this evaluation round:** use the **evaluated PyTorch HPO configuration** as the reference practice. Do not change established inference parameters while migrating to a single model-wide `inference.yaml`. The necessary structural differences are that the shared file contains *all* training tasks and their vocabularies, retains each task's actual training `weight`, and does not select a task or a particular inference run.
+**Decision for this evaluation round:** use the **evaluated PyTorch HPO configuration** as the reference practice for decoding and inference execution settings. Do not change these settings while migrating to a single model-wide `inference.yaml`. The shared file contains *all* training tasks and their vocabularies. It preserves training-only task information under explicitly non-operational names: `weight` becomes `_training_weight`, and `introduce_at_training_step` becomes `_training_introduce_at_training_step`. Both values and YAML scalar types are preserved. Neither original field appears in the generated task mapping, which does not select a task or a particular inference run.
 
 ### Comparison
 
@@ -38,7 +38,7 @@ Two `evaluation/configs/mt_eng-mlt.yaml` files in `yamls.tgz` document completed
 | `model`, `src`, `output` | Absent | Execution fields (two blank) | Absent |
 | `_train_config` | Present | Absent | Present |
 
-The XTransformers model has its own architecture parameters; the RFC does **not** replace them with PyTorch architecture parameters. The PyTorch practice is the baseline for the **common inference settings and transformation rules**, while each model retains its own architecture.
+The `weight` and `introduce_at_training_step` rows report **historical file contents**; their spelling and scalar types are not part of the decoding baseline. The shared eval3 YAML instead carries their original training values as `_training_weight` and `_training_introduce_at_training_step`. The XTransformers model has its own architecture parameters; the RFC does **not** replace them with PyTorch architecture parameters. The PyTorch practice is the baseline for **common inference settings**, while each model retains its own architecture.
 
 ## 2. Training-time parameters omitted from inference
 
@@ -56,6 +56,8 @@ The converter drops the following **46 top-level training-only fields if present
 
 Within each task, remove the training and validation corpus paths: `path_src`, `path_tgt`, `path_valid_src`, `path_valid_tgt`. These must not determine evaluation data selection.
 
+The original per-task controls `weight` and `introduce_at_training_step` are **renamed, not dropped**. Their provenance mapping is defined in §3.
+
 ## 3. Training configuration retained in PyTorch practice
 
 The evaluated PyTorch HPO inference configuration **inherits the following top-level values unchanged** from its `train.yaml`:
@@ -67,7 +69,36 @@ The evaluated PyTorch HPO inference configuration **inherits the following top-l
 
 Other model-specific fields are retained rather than removed by name. For example, the XTransformers HPO inference YAML retains `head_dim` and `x_transformers_opts` from its own training configuration.
 
-**Shared eval3 configuration:** keep *every* training task under its original name, and retain the union of their required `src_vocab` and `tgt_vocab` entries instead of only one pair. Require `weight` in every training task and copy its **value and YAML type unchanged**, including zero weights. This corrects the historical PyTorch HPO conversion, which wrote `weight: '1'` irrespective of the training weight.
+### Training-only task metadata in the shared YAML
+
+| Field in `train.yaml` | Field in `inference.yaml` | Requirement |
+|---|---|---|
+| `weight` | `_training_weight` | Required; preserve exact value and YAML type |
+| `introduce_at_training_step` | `_training_introduce_at_training_step` | Rename when present; otherwise omit |
+
+For example, the task fragment
+
+```yaml
+tasks:
+  mt_eng-mlt:
+    src_tgt: eng-mlt
+    weight: 0
+    introduce_at_training_step: 12000
+```
+
+becomes, as far as these fields are concerned:
+
+```yaml
+tasks:
+  mt_eng-mlt:
+    src_tgt: eng-mlt
+    _training_weight: 0
+    _training_introduce_at_training_step: 12000
+```
+
+These private metadata keys do not request task sampling or training-step scheduling during translation. If the source already contains either destination metadata key, conversion should fail on ambiguity rather than overwrite it silently.
+
+**Shared eval3 configuration:** keep *every* training task under its original name, and retain the union of their required `src_vocab` and `tgt_vocab` entries instead of only one pair. For each task, **rename** the required training `weight` field to `_training_weight`, retaining its original value and YAML scalar type (including zero). If `introduce_at_training_step` exists, **rename** it to `_training_introduce_at_training_step`, likewise retaining its original value and type; do not insert it when absent. The old field names MUST NOT remain in `inference.yaml`. These underscore-prefixed fields preserve provenance; they are **not inputs to the inference task scheduler or decoder**. Historical PyTorch HPO generation instead wrote `weight: '1'` and `introduce_at_training_step: '0'` irrespective of original scalar types.
 
 ## 4. Values introduced or replaced for inference
 
@@ -84,14 +115,15 @@ The following settings implement the evaluated PyTorch HPO practice; they are al
 | `seed` | `42` | Write explicitly (same as both sampled training YAMLs) |
 | Task `node_gpu` | `'0:0'` | Override training placement |
 | Task `transforms` | `[]` | Clear training transforms |
-| Task `introduce_at_training_step` | `'0'` for PyTorch | Retain the observed HPO string representation for compatibility; XTransformers retains its training value |
 | `_train_config` | Original `train.yaml` pathname | Introduce for debugging and provenance |
 
-**Do not introduce** `use_hf_tokenizer` or `report_time` when absent from `train.yaml`. **Do not override** its `max_length` or `model_dtype`. Beam size **4** applies to both model implementations in this round.
+**Do not introduce** `use_hf_tokenizer` or `report_time` when absent from `train.yaml`. **Do not override** its `max_length` or `model_dtype`. Beam size **4** applies to both model implementations in this round. **Do not expose** training-time `weight` or `introduce_at_training_step` under their operational names: rename them to the `_training_...` metadata fields specified in §3. This changes only their representation in the shared YAML, not the established decoding parameters.
 
 The shared `inference.yaml` must contain the `tasks` mapping, **not** a globally selected `task_id`. Remove any global `task_id`, `_expanded_task`, `model`, `src`, or `output`; the latter fields belong to the actual inference execution. Also remove the obsolete per-task helper fields `_template_task`, `_original_train_task`, `_pair_type`, `_src_task_candidates`, and `_tgt_task_candidates` if present.
 
 `plan_eval3_inference.py` selects evaluation cases and defines their source, reference and hypothesis paths. It does not override the above decoding settings or yet execute MAMMOTH. Thus the generated task definition is not by itself evidence of a completed inference run.
+
+**Training metadata rule:** For every task, `train.yaml` MUST contain a non-null `weight`. The converter MUST produce `_training_weight` with the **same value and YAML type**, then omit `weight`. If `introduce_at_training_step` is present, it MUST produce `_training_introduce_at_training_step` with the **same value and YAML type**, then omit `introduce_at_training_step`; if absent, both the source field and its metadata counterpart remain absent. The converter MUST NOT coerce values, fabricate defaults, or silently overwrite an existing `_training_weight` or `_training_introduce_at_training_step` field. In the inspected PyTorch inference path, translation constructs the selected task using fixed operational values (`weight=1.0`, `introduce_at_training_step=0`) independent of these training records. The underscore-prefixed fields document training rather than request those runtime values.
 
 The conversion is invoked with:
 
@@ -109,8 +141,7 @@ The generated shared configuration is `evaluation/configs/inference.yaml`. It do
 - **`max_length`: 1024 versus 512.** Both HPO files inherit `1024`; the developer template uses `512`. It is unclear whether a smaller limit is desirable or whether both implementations interpret the limit identically. Neither question justifies changing completed evaluations retroactively.
 - **`use_hf_tokenizer`: absent versus `true`.** The developer recommends `true`, but neither HPO file specifies the key. Its runtime default and interaction with the stored tokenizer paths should be checked before adding it; *absent* cannot be equated with *false*.
 - **`report_time`: absent versus `true`.** The developer enables timing. The HPO files do not. Enabling it may be useful for future timing and token-throughput studies, but the existing runs' actual logging behavior must be established independently.
-- **`introduce_at_training_step` scalar type.** The PyTorch HPO generator wrote `'0'`, while the developer template and XTransformers HPO use integer `0`. A typed integer would be clearer, but compatibility with the actual inference parser has not been established.
-- **Training `weight` and task activation.** Historical PyTorch inference replaced every weight with `'1'`; the shared converter instead retains the original weight as requested. The runtime must select a single task explicitly rather than infer evaluation selection from its training weight. Whether any MAMMOTH inference path requires an operational weight of one still needs verification.
+- **Training-only task metadata in inference YAML.** The PyTorch HPO YAML contains the strings `weight: '1'` and `introduce_at_training_step: '0'`, although the developer's template and the XTransformers HPO use numeric values. In the inspected MAMMOTH PyTorch translation entry point (`mammoth/bin/translate.py`), `TaskSpecs` is constructed with `weight=1.0` and `introduce_at_training_step=0` independently of the task's YAML values. The shared YAML therefore carries the original training values only as `_training_weight` and `_training_introduce_at_training_step`, without reproducing historical string conversions. This is a metadata-schema change, not a requested inference-behavior change. The local MAMMOTH revision and its handling of unrecognized underscore-prefixed keys should be checked if strict execution equivalence is required.
 - **Cleared `transforms` and omitted data filters.** These match the HPO MT practice, but may be inappropriate for denoising or other tasks whose inference requires preprocessing. The intended semantics of `transforms`, `src_seq_length_*`, and `tgt_seq_length_*` warrant separate inspection for those tasks.
 - **Checkpoint identity.** Neither the historical HPO YAMLs nor the shared `inference.yaml` proves that a particular checkpoint is *final*. The inference runner should eventually record the exact checkpoint and evidence of training completion; a filename alone is insufficient.
 
