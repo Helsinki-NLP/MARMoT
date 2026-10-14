@@ -60,9 +60,9 @@
 #   keys are removed, tasks and source/target vocabularies are narrowed to the
 #   selected task, and inference settings such as beam and batch size are added.
 # - Inference YAMLs retain the original training task name as their task key.
-# - Tasks whose names start with zeroshot are treated as zero-shot tasks, but
-#   their task configuration, sharing groups, and vocabularies come directly
-#   from the training configuration like those of other tasks.
+# - Training task names are opaque identifiers.  Evaluation languages are
+#   obtained from each selected task's structured src_tgt field, never by
+#   parsing prefixes such as mt_, zero_, or denoise_.
 # - Run through the surrounding Makefile workflow, which supplies the required
 #   environment variables and creates the output directories.
 
@@ -84,6 +84,11 @@ except ImportError:
     sys.stderr.write("Missing dependency: pyyaml\n")
     sys.stderr.write("Install with: pip install pyyaml\n")
     sys.exit(1)
+
+# RFC-EVAL-YAML has one authoritative train.yaml -> inference.yaml conversion.
+# Per-task planner YAMLs are narrowed views of that conversion, not a second
+# independently maintained conversion implementation.
+from make_inference_yaml import convert as convert_eval3_inference_yaml
 
 def die(msg: str) -> None:
     log(msg)
@@ -280,22 +285,56 @@ def dataset_ref(inventory: LanguageInventory, code: str, dataset_tag: str) -> st
         return inventory.code_to_ref[code]
     return refs.get(dataset_tag, refs.get("default", inventory.code_to_ref[code]))
 
-def check_data_coverage(task_set, valid_xcodes):
-    pre = "❌ Following designated tasks do not have any _test_ data:\nplan_eval3_inference.py:    "
-    for task in sorted(task_set):
-        m = TASK_RE.match(task)
-        if not m:
-            continue
-        _, src_xcode, tgt_xcode = m.groups()
-        if src_xcode in valid_xcodes and tgt_xcode in valid_xcodes:
-            continue
-        sys.stderr.write(pre)
-        sys.stderr.write(task + "\n")
-        pre = "plan_eval3_inference.py:    "
-    if pre == "plan_eval3_inference.py:    ":
-        log(f"✨ Stopping as I refuse to run before all designated tasks are covered by some _test_ data")
-        exit(1)
-    log(f"✅ All designated tasks covered (at least partially) by data")
+
+TESTSET_NAMES = {
+    "flo": "flores200",
+    "bqt": "bouquet",
+    "bqtpar": "bouquetpar",
+    "wmt": "wmt24pp",
+}
+
+# Explicit dataset-language registry refinements required by RFC-EVAL-ARTIFACTS.
+# Most datasets use the project's canonical language code directly.
+DATASET_LANGUAGE_OVERRIDES = {
+    ("bqtpar", "por"): "por_BR",
+}
+
+def dataset_language_id(inventory: LanguageInventory, code: str, dataset_tag: str,
+                        xcode: str) -> str:
+    """Return the RFC evaluation-language identifier for one dataset side."""
+    override = DATASET_LANGUAGE_OVERRIDES.get((dataset_tag, code))
+    if override:
+        return override
+    if dataset_tag == "wmt":
+        # Preserve a WMT region only when the training-language inventory has
+        # multiple registered WMT locales (currently fra and por).  Otherwise
+        # the canonical project code is sufficient, e.g. srp_Cyrl.
+        if len(inventory.code_to_xcodes.get(code, ())) > 1:
+            locale = inventory.xcode_to_wmt_locale.get(xcode, "")
+            if "_" in locale:
+                region = locale.rsplit("_", 1)[1]
+                if region and region != "??":
+                    return f"{code}_{region}"
+    return code
+
+def artifact_basename(task_name: str, dataset_tag: str, src_lang: str, tgt_lang: str) -> str:
+    """RFC-EVAL-ARTIFACTS basename: task.testset.eval-src.eval-tgt."""
+    return f"{task_name}.{TESTSET_NAMES[dataset_tag]}.{src_lang}.{tgt_lang}"
+
+def check_data_coverage(support, valid_xcodes):
+    """Validate localized evaluation languages without parsing task names."""
+    bad = []
+    for task in sorted(support.task_set):
+        src_xcode = support.task_to_src_xcode[task]
+        tgt_xcode = support.task_to_tgt_xcode[task]
+        if src_xcode not in valid_xcodes or tgt_xcode not in valid_xcodes:
+            bad.append((support.task_to_orig.get(task, task), src_xcode, tgt_xcode))
+    if bad:
+        log("❌ Following designated tasks do not have test-language coverage:")
+        for orig_task, src_xcode, tgt_xcode in bad:
+            log(f"   {orig_task}: {src_xcode} -> {tgt_xcode}")
+        die("Stopping before planning uncovered evaluation tasks")
+    log("✅ All designated tasks covered (at least partially) by data")
 
 def require_env(name: str, extra: str = "") -> str:
     value = os.environ.get(name)
@@ -375,7 +414,11 @@ class InferenceTaskWriter:
     def __init__(self, tskdir: str):
         self.tskdir = os.path.abspath(tskdir)
         self.stage = tempfile.mkdtemp(prefix=".inf-tasks.", dir=self.tskdir)
-        self.paths: set[str] = set()
+        # task filename -> complete producer specification.  Several localized
+        # training-language variants may intentionally collapse to the same RFC
+        # evaluation artifact (for example fra_CA/fra_FR -> Flores fra).  Such
+        # duplicates are harmless only when they describe exactly the same job.
+        self.specs: dict[str, tuple[tuple[str, str], ...]] = {}
         self.committed = False
 
     @staticmethod
@@ -390,9 +433,6 @@ class InferenceTaskWriter:
         if not stem.endswith(".hyp"):
             raise ValueError(f"canonical inference output must end in .hyp: {hyp}")
         task_name = stem[:-len(".hyp")] + ".inf"
-        if task_name in self.paths:
-            raise ValueError(f"duplicate inference task/output stem: {task_name}")
-        self.paths.add(task_name)
         task_path = os.path.join(self.stage, task_name)
         infer_log = os.path.join(logdir, f"job${{SLURM_JOB_ID}}.{stem[:-len('.hyp')]}.err")
         values = (
@@ -406,6 +446,21 @@ class InferenceTaskWriter:
             ("LOGDIR", os.path.abspath(logdir)),
             ("INFER_LOG", infer_log),
         )
+        previous = self.specs.get(task_name)
+        if previous is not None:
+            if previous == values:
+                log(f"##      SAME  - RFC artifact already planned: {task_name}")
+                return ""
+            old = dict(previous)
+            new = dict(values)
+            changed = ", ".join(
+                name for name in old.keys() | new.keys() if old.get(name) != new.get(name)
+            )
+            raise ValueError(
+                f"conflicting producers for inference task/output stem {task_name}; "
+                f"different fields: {changed}"
+            )
+        self.specs[task_name] = values
         with open(task_path, "x", encoding="utf-8", newline="\n") as f:
             f.write("# Generated by plan_eval3_inference.py; one task -> one .hyp\n")
             for name, value in values:
@@ -415,17 +470,17 @@ class InferenceTaskWriter:
         return task_path
 
     def commit(self) -> int:
-        if not self.paths:
+        if not self.specs:
             raise ValueError("planning produced no inference .inf tasks")
         # Semaphore management is Make's responsibility.  Replace only *.inf;
         # calls.out, inf.slurm, and other evaluation/tasks files are untouched.
         for old in Path(self.tskdir).glob("*.inf"):
             old.unlink()
-        for name in sorted(self.paths):
+        for name in sorted(self.specs):
             os.replace(os.path.join(self.stage, name), os.path.join(self.tskdir, name))
         os.rmdir(self.stage)
         self.committed = True
-        return len(self.paths)
+        return len(self.specs)
 
     def close(self) -> None:
         if not self.committed:
@@ -505,24 +560,32 @@ def plan_translation_and_scoring(
     xtask: str,
     orig_task: str,
     data_tag: str,
+    eval_src: str,
+    eval_tgt: str,
     pair_type: str,
 ) -> bool:
-    shortoutput = f"{xtask}.{data_tag}.hyp"
-    sacre_path = os.path.join(scrdir, f"{xtask}.{data_tag}.sacre")
-    comet_path = os.path.join(scrdir, f"{xtask}.{data_tag}.comet")
+    basename = artifact_basename(orig_task, data_tag, eval_src, eval_tgt)
+    shortoutput = f"{basename}.hyp"
+    sacre_path = os.path.join(scrdir, f"{basename}.sacre")
+    comet_path = os.path.join(scrdir, f"{basename}.comet")
     output_path = os.path.join(hypdir, shortoutput)
     if not files_available(dataset, input_path, refer_path, config_path):
          return False
 
-    task_writer.write(
+    task_path = task_writer.write(
         task_id=orig_task, infer_src=input_path, infer_ref=refer_path,
         infer_hyp=output_path, inference_yaml=config_path, model=model_path,
         mammoth=mammoth_dir, logdir=logdir,
     )
+    if not task_path:
+        # Multiple localized training variants can map to one dataset artifact.
+        # The first identical producer owns the .inf and all legacy plan/scoring
+        # entries; do not duplicate those entries either.
+        return True
 
     writers.plan.write(
         f'--task_id "{orig_task}" --src "{input_path}" --output "{output_path}" --refer "{refer_path}" '
-        f'--log "{logdir}/job${{SLURM_JOB_ID}}.{xtask}.{data_tag}.err"\n'
+        f'--log "{logdir}/job${{SLURM_JOB_ID}}.{basename}.err"\n'
     )
     if os.path.exists(output_path):
         with open(input_path, "r", encoding="utf-8") as f:
@@ -544,7 +607,7 @@ def plan_translation_and_scoring(
                 writers.sacre.write("else ")
                 writers.sacre.write(f'    date | tee "{sacre_path}"; ')
                 writers.sacre.write(
-                    f'    echo {data_tag} {xtask} Contrasting {refer_path} VS {output_path} | tee -a "{sacre_path}"; ')
+                    f'    echo {TESTSET_NAMES[data_tag]} {orig_task} Contrasting {refer_path} VS {output_path} | tee -a "{sacre_path}"; ')
                 writers.sacre.write(
                     f'    sacrebleu "{refer_path}" -i "{output_path}" -m bleu chrf | tee -a "{sacre_path}"; ')
                 writers.sacre.write("fi\n")
@@ -563,7 +626,7 @@ def plan_translation_and_scoring(
         f'python -u "{mammoth_dir}/translate.py" '
         f'--config "{config_path}" --model "{model_path}" --task_id "{orig_task}" '
         f'--src "{input_path}" --output "{output_path}" '
-        f'2>"{logdir}/job${{SLURM_JOB_ID}}.{xtask}.{data_tag}.err"\n'
+        f'2>"{logdir}/job${{SLURM_JOB_ID}}.{basename}.err"\n'
     )
     return True
 
@@ -574,12 +637,11 @@ class TaskSupport:
     orig_task_names:
         Original task names in the training config
     task_set:
-        Set of expanded localized tasks such as "mt_CA.fra-XX.eng"
+        Internal localized evaluation identities.  These are not artifact names.
     task_to_type:
-        Expanded localized task -> "supervised" or "zeroshot"
+        Internal selection label; no semantics are inferred from task-name prefixes.
     task_to_orig:
-        Expanded localized task -> original yaml task name
-        Example: "mt_CA.fra-XX.eng" -> "mt_fra-eng"
+        Internal localized identity -> exact original YAML task name.
     """
     orig_task_names: List[str] = field(default_factory=list)
     task_set: Set[str] = field(default_factory=set)
@@ -590,32 +652,48 @@ class TaskSupport:
     task_to_src_vocab_code: Dict[str, str] = field(default_factory=dict)
     task_to_tgt_vocab_code: Dict[str, str] = field(default_factory=dict)
     task_to_transforms: Dict[str, object] = field(default_factory=dict)
+    task_to_src_xcode: Dict[str, str] = field(default_factory=dict)
+    task_to_tgt_xcode: Dict[str, str] = field(default_factory=dict)
 
 def collect_task_support(cfg, inventory):
+    """Expand training tasks using structured src_tgt metadata.
+
+    Task names are opaque RFC artifact identifiers.  In particular, zero_*
+    tasks are not special-cased and mt_/zero_/denoise_ prefixes are never
+    parsed to discover languages or task type.
+    """
     def expand_langspec(spec: str) -> list[str]:
-        if "." in spec:
-            return [spec] if spec in inventory.valid_xcodes else []
+        if spec in inventory.valid_xcodes:
+            return [spec]
         return list(inventory.code_to_xcodes.get(spec, []))
+
     train_tasks = cfg.get("tasks", {})
     support = TaskSupport()
-    support.orig_task_names = list(cfg.get("tasks", {}).keys())
+    support.orig_task_names = list(train_tasks.keys())
     for orig_task in support.orig_task_names:
-        m = TASK_RE.match(orig_task)
-        if not m:
-            log(f"❌ Unrecognized task format in YAML: {orig_task}")
+        task_cfg = train_tasks.get(orig_task)
+        if not isinstance(task_cfg, dict):
+            log(f"❌ Malformed TRAINCONFIG task mapping: {orig_task}")
             continue
-        prefix, src_spec, tgt_spec = m.groups() # We get the language pairs from task name - correct!
+        src_tgt = task_cfg.get("src_tgt")
+        if not isinstance(src_tgt, str) or "-" not in src_tgt:
+            log(f"❌ Missing or malformed src_tgt in TRAINCONFIG task: {orig_task}")
+            continue
+        src_spec, tgt_spec = src_tgt.split("-", 1)
+        if src_spec == tgt_spec:
+            # Same-language training tasks are denoising objectives, not
+            # translation directions.  Keep the YAML task name known so that
+            # selecting it is not reported as a missing task, but do not
+            # create any evaluation identities or inference artifacts for it.
+            log(f"   SKIP  - denoising task {orig_task}: src_tgt={src_tgt}")
+            continue
         src_xcodes = expand_langspec(src_spec)
         tgt_xcodes = expand_langspec(tgt_spec)
         if not src_xcodes or not tgt_xcodes:
-            log(f"❌ Could not expand YAML task '{orig_task}'")
+            log(f"❌ Could not expand src_tgt={src_tgt!r} for YAML task '{orig_task}'")
             continue
-        task_cfg = train_tasks.get(orig_task)
-        src_tgt = task_cfg.get("src_tgt")
-        if not src_tgt or "-" not in src_tgt:
-            log(f"❌ Missing or malformed src_tgt in TRAINCONFIG task: {orig_task}")
-            continue
-        train_src_vocab, train_tgt_vocab = src_tgt.split("-", 1)
+
+        train_src_vocab, train_tgt_vocab = src_spec, tgt_spec
         enc_group = task_cfg.get("enc_sharing_group", [])
         dec_group = task_cfg.get("dec_sharing_group", [])
         transforms = task_cfg.get("transforms")
@@ -623,21 +701,22 @@ def collect_task_support(cfg, inventory):
             transforms = task_cfg.get("train_transforms", [])
         for src_xcode in src_xcodes:
             for tgt_xcode in tgt_xcodes:
-                xtask = f"{prefix}_{src_xcode}-{tgt_xcode}"
+                # Internal expansion identity only; never used as an artifact
+                # task name or Mammoth --task_id.
+                xtask = f"{orig_task}@@{src_xcode}@@{tgt_xcode}"
                 support.task_set.add(xtask)
-                support.task_to_type[xtask] = "zeroshot" if prefix == "zeroshot" else "supervised"
+                support.task_to_type[xtask] = "selected"
                 support.task_to_orig[xtask] = orig_task
+                support.task_to_src_xcode[xtask] = src_xcode
+                support.task_to_tgt_xcode[xtask] = tgt_xcode
                 support.task_to_src_vocab_code[xtask] = train_src_vocab
                 support.task_to_tgt_vocab_code[xtask] = train_tgt_vocab
                 support.task_to_enc_group[xtask] = enc_group
                 support.task_to_dec_group[xtask] = dec_group
                 support.task_to_transforms[xtask] = transforms
 
-    log(f"✅ Extracting tasks from training config and combining the codes and the tasks")
+    log("✅ Extracted training tasks and localized them from structured src_tgt metadata")
     return support
-
-TASK_RE  = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_([^-]+)-([^-]+)$")
-TASK_REX = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_[A-Z][A-Z].([^-_]+)[^-_]*-[A-Z][A-Z].([^-_]+)[^-_]*$")
 
 def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers, task_writer,
                                model, mammoth, logdir, scrdir, mammoth_type):
@@ -654,17 +733,11 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
                cfg_path: str,cfg: dict, writers: CallWriters, task_writer: InferenceTaskWriter,
                model: str, mammoth: str, logdir: str, scrdir: str,
                mammoth_type: str) -> bool:
-    pair_type = support.task_to_type.get(xtask, "unknown")
+    pair_type = support.task_to_type.get(xtask, "selected")
     orig_task = support.task_to_orig.get(xtask, xtask)
-    if pair_type == "supervised":
-        log(f"## {xtask} [{pair_type}]:  ")
-    else:
-        log(f"## {xtask} [{pair_type}]: ********** 0-SHOT **********")
-    m = TASK_RE.match(xtask)
-    if not m:
-        log(f"  Skipping malformed task: {xtask}")
-        return False
-    _, src_xcode, tgt_xcode = m.groups()
+    src_xcode = support.task_to_src_xcode[xtask]
+    tgt_xcode = support.task_to_tgt_xcode[xtask]
+    log(f"## {orig_task} [{src_xcode} -> {tgt_xcode}]:")
     src = inventory.xcode_to_code.get(src_xcode)
     tgt = inventory.xcode_to_code.get(tgt_xcode)
     if src is None or tgt is None:
@@ -681,6 +754,15 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     bqt_tgt_ref = dataset_ref(inventory, tgt, "bqt")
     bqtpar_src_ref = dataset_ref(inventory, src, "bqtpar")
     bqtpar_tgt_ref = dataset_ref(inventory, tgt, "bqtpar")
+
+    flo_src_id = dataset_language_id(inventory, src, "flo", src_xcode)
+    flo_tgt_id = dataset_language_id(inventory, tgt, "flo", tgt_xcode)
+    bqt_src_id = dataset_language_id(inventory, src, "bqt", src_xcode)
+    bqt_tgt_id = dataset_language_id(inventory, tgt, "bqt", tgt_xcode)
+    bqtpar_src_id = dataset_language_id(inventory, src, "bqtpar", src_xcode)
+    bqtpar_tgt_id = dataset_language_id(inventory, tgt, "bqtpar", tgt_xcode)
+    wmt_src_id = dataset_language_id(inventory, src, "wmt", src_xcode)
+    wmt_tgt_id = dataset_language_id(inventory, tgt, "wmt", tgt_xcode)
 
     src_wmt = inventory.xcode_to_wmt_locale.get(src_xcode, "")
     tgt_wmt = inventory.xcode_to_wmt_locale.get(tgt_xcode, "")
@@ -700,7 +782,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         writers=writers, task_writer=task_writer, dataset="Flores+", data_tag="flo", input_path=flo_input, refer_path=flo_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, pair_type=pair_type)
+        xtask=xtask, orig_task=orig_task, eval_src=flo_src_id, eval_tgt=flo_tgt_id, pair_type=pair_type)
 
     bqt_input = os.path.join(datadir, "bouquet", "test", f"{bqt_src_ref}.txt")
     bqt_refer = os.path.join(datadir, "bouquet", "test", f"{bqt_tgt_ref}.txt")
@@ -708,7 +790,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         writers=writers, task_writer=task_writer, dataset="BOUQuET", data_tag="bqt", input_path=bqt_input, refer_path=bqt_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, pair_type=pair_type)
+        xtask=xtask, orig_task=orig_task, eval_src=bqt_src_id, eval_tgt=bqt_tgt_id, pair_type=pair_type)
 
     bqtpar_input = os.path.join(datadir, "bouquet_par", "test", f"{bqtpar_src_ref}.txt")
     bqtpar_refer = os.path.join(datadir, "bouquet_par", "test", f"{bqtpar_tgt_ref}.txt")
@@ -716,7 +798,7 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         writers=writers, task_writer=task_writer, dataset="BOUQuETpar", data_tag="bqtpar", input_path=bqtpar_input, refer_path=bqtpar_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, pair_type=pair_type)
+        xtask=xtask, orig_task=orig_task, eval_src=bqtpar_src_id, eval_tgt=bqtpar_tgt_id, pair_type=pair_type)
 
     if src == "eng":
         wmt_input = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "source.en.txt")
@@ -732,24 +814,9 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         writers=writers, task_writer=task_writer, dataset="WMT24++", data_tag="wmt", input_path=wmt_input, refer_path=wmt_refer,
         config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
         logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, pair_type=pair_type)
+        xtask=xtask, orig_task=orig_task, eval_src=wmt_src_id, eval_tgt=wmt_tgt_id, pair_type=pair_type)
 
     return True
-
-def squash_debug_value(v):
-    if isinstance(v, list):
-        if len(v) == 0:
-            return []
-        if len(v) == 1:
-            return v[0]
-    return v
-
-def choose_template_task(cfg: dict, support: TaskSupport, xtask: str, orig_task: str) -> str:
-    train_tasks = cfg.get("tasks", {})
-    if orig_task in train_tasks:
-        return orig_task
-    raise KeyError(f"No training task available for {xtask}: {orig_task}")
-
 
 def build_inference_config_from_template(
     *,
@@ -763,90 +830,34 @@ def build_inference_config_from_template(
     train_cfg_path: str,
     mammoth_type: str,
 ) -> dict:
-    train_tasks    = cfg.get("tasks", {})
-    template_task  = choose_template_task(cfg, support, xtask, orig_task)
-    template_cfg   = copy.deepcopy(train_tasks[template_task])
-    enc_group      = support.task_to_enc_group[xtask]
-    dec_group      = support.task_to_dec_group[xtask]
+    """Build a one-task view of the RFC-EVAL-YAML conversion.
+
+    make_inference_yaml.convert() is authoritative for field removal, training
+    metadata renaming, inference defaults, and provenance.  The planner only
+    narrows its model-wide result to the selected training task and the two
+    vocabularies required by that task.  It must not reintroduce eval2 helper
+    fields or run-specific selectors.
+    """
+    del src_code, tgt_code, pair_type, mammoth_type  # conversion is task/config driven
+
+    infer_cfg = convert_eval3_inference_yaml(cfg, train_cfg_path)
+    if orig_task not in infer_cfg["tasks"]:
+        raise KeyError(f"training task {orig_task!r} missing after RFC YAML conversion")
+
     src_vocab_code = support.task_to_src_vocab_code[xtask]
     tgt_vocab_code = support.task_to_tgt_vocab_code[xtask]
-    transforms     = support.task_to_transforms[xtask]
-    infer_cfg      = copy.deepcopy(cfg)
-    for key in DROP_TOP_LEVEL_KEYS:
-        infer_cfg.pop(key, None)
-    for key in DROP_TASK_KEYS:
-        template_cfg.pop(key, None)
-
-    if mammoth_type == "pytorch":
-        template_cfg["weight"]                     = "1"
-        template_cfg["introduce_at_training_step"] = "0"
-
-    # Overwrite task-specific fields with the values resolved by plan_eval3_inference.py
-    template_cfg["src_tgt"] = f"{src_vocab_code}-{tgt_vocab_code}"
-    template_cfg["enc_sharing_group"] = enc_group
-    template_cfg["dec_sharing_group"] = dec_group
-
-    # Old extractor behavior: remove filtertoolong and then clear transforms.
-    # template_cfg["transforms"] = [
-    #     t for t in template_cfg.get("transforms", [])
-    #     if t != "filtertoolong" ]
-    template_cfg["transforms"] = []
-
-    template_cfg["node_gpu"] = "0:0"
-    template_cfg["_template_task"] = template_task
-    template_cfg["_pair_type"] = pair_type
-    template_cfg["_original_train_task"] = orig_task
-    for k in [
-            "_template_task",
-            "_pair_type",
-            "_original_train_task",]:
-        if k in template_cfg:
-            template_cfg[k] = squash_debug_value(template_cfg[k])
-
     src_vocab = infer_cfg.get("src_vocab", {})
     tgt_vocab = infer_cfg.get("tgt_vocab", {})
     if src_vocab_code not in src_vocab:
-        raise KeyError(f"source vocab code {src_vocab_code!r} missing from src_vocab")
+        raise KeyError(f"source vocab code {src_vocab_code!r} missing from converted src_vocab")
     if tgt_vocab_code not in tgt_vocab:
-        raise KeyError(f"target vocab code {tgt_vocab_code!r} missing from tgt_vocab")
+        raise KeyError(f"target vocab code {tgt_vocab_code!r} missing from converted tgt_vocab")
 
-    # Narrow vocabularies exactly like the old extractor:
-    # keep only the entries needed by this task.
+    infer_cfg["tasks"] = {orig_task: copy.deepcopy(infer_cfg["tasks"][orig_task])}
     infer_cfg["src_vocab"] = {src_vocab_code: src_vocab[src_vocab_code]}
     infer_cfg["tgt_vocab"] = {tgt_vocab_code: tgt_vocab[tgt_vocab_code]}
-
-    # IMPORTANT:
-    # Use orig_task as the only task key, because translate.py is later called with:
-    #   --task_id "{orig_task}"
-    infer_cfg["tasks"] = {orig_task: template_cfg}
-
-    # Copy the inference-time parameters from the old extractor.
-    if mammoth_type == "pytorch":
-        infer_cfg["beam_size"]   = DEFAULT_XT_BEAM_SIZE
-    else:
-        infer_cfg["beam_size"]   = DEFAULT_PT_BEAM_SIZE
-        infer_cfg["max_length"]  = 512
-        infer_cfg["model_dtype"] = "bf16"
-        infer_cfg["use_hf_tokenizer"] = "true"
-        infer_cfg["report_time"] = "true"
-
-    # since pytorch_backbone; should have been effective earlier
-    infer_cfg["seed"]       = 42
-
-    infer_cfg["batch_size"] = DEFAULT_BATCH_SIZE  # 32
-    infer_cfg["batch_type"] = DEFAULT_BATCH_TYPE  # sents
-    infer_cfg["gpu"]        = DEFAULT_GPU         # 0
-    infer_cfg["world_size"] = DEFAULT_WORLD_SIZE  # 1
-    infer_cfg["gpu_ranks"]  = DEFAULT_GPU_RANKS   # [0]
-
-    # Keep these if useful for debugging / traceability.
-    infer_cfg["task_id"]        = xtask
-    infer_cfg["_expanded_task"] = xtask
-    infer_cfg["_train_config"]  = train_cfg_path
-
-    # src: and output: not set due to many testsets
-    # verbose: true # currently not supported in inference, need to modify code to enable it
     return infer_cfg
+
 
 def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
                          xtask: str, orig_task: str, cfg: dict,
@@ -856,25 +867,17 @@ def write_inference_yaml(*, src_code: str, tgt_code: str, pair_type: str,
     dec_group      = support.task_to_dec_group[xtask]
     src_vocab_code = support.task_to_src_vocab_code[xtask]
     tgt_vocab_code = support.task_to_tgt_vocab_code[xtask]
-    transforms     = support.task_to_transforms[xtask]
     log(f"##      TASK  - sharing groups: {enc_group} x {dec_group}")
-    log(f"##      TASK  - src_tght codes: {src_vocab_code}-{tgt_vocab_code}")
-    log(f"##      TASK  - transforms:     {transforms}")
+    log(f"##      TASK  - src_tgt codes: {src_vocab_code}-{tgt_vocab_code}")
     infer_cfg = build_inference_config_from_template(
-        cfg=cfg,
-        support=support,
-        xtask=xtask,
-        orig_task=orig_task,
-        src_code=src_code,
-        tgt_code=tgt_code,
-        pair_type=pair_type,
-        train_cfg_path=train_cfg,
-        mammoth_type=mammoth_type,
+        cfg=cfg, support=support, xtask=xtask, orig_task=orig_task,
+        src_code=src_code, tgt_code=tgt_code, pair_type=pair_type,
+        train_cfg_path=train_cfg, mammoth_type=mammoth_type,
     )
     with open(inf_yaml_path, "w", encoding="utf-8") as f:
-         yaml.safe_dump(infer_cfg, f, sort_keys=False, allow_unicode=True, default_flow_style=False,)
+        yaml.safe_dump(infer_cfg, f, sort_keys=False, allow_unicode=True, default_flow_style=False)
 
-    log(f"##      WROTE - infer.yaml: {inf_yaml_path}")
+    log(f"##      WROTE - RFC-conformant one-task inference YAML: {inf_yaml_path}")
     return True
 
 
@@ -903,7 +906,7 @@ def main() -> int:
         support = collect_task_support(cfg, lang_inventory)
         selected_tasks = read_task_file(inftasks)
         support = filter_selected_tasks(support, selected_tasks)
-        check_data_coverage(support.task_set, lang_inventory.valid_xcodes)
+        check_data_coverage(support, lang_inventory.valid_xcodes)
         produce_infyamls_and_calls(lang_inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg,
                                    writers, task_writer, model, mammoth, logdir, scrdir, mammoth_type=mammoth_type)
         writers.flush()

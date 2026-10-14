@@ -10,8 +10,10 @@
 # hypothesis is already valid or if that task is already queued/claimed.
 
 EVAL3_WORKER ?= $(SELFDIR)/bin/eval3_worker.py
+EVAL3_WORKER_SLURM ?= $(SELFDIR)/bin/eval3_worker.slurm
+EVAL3_DEVG_TIME ?= 00:30:00
 
-.PHONY: eval3-scheduler-dirs mk-inf-tasks require-inf-tasks mk-queue queue-infer
+.PHONY: eval3-scheduler-dirs mk-inf-tasks require-inf-tasks mk-queue queue-infer submit-inf-worker submit-inf-worker-dev-g test-eval3-worker
 
 eval3-scheduler-dirs:
 > @set -euo pipefail; \
@@ -72,3 +74,26 @@ mk-queue: eval3-scheduler-dirs require-inf-tasks
 
 queue-infer: mk-queue
 > @true
+
+
+# Submit a model-independent production worker.  Queue population is a separate
+# model-specific operation (mk-queue), so this target intentionally has no model
+# prerequisite.
+submit-inf-worker: eval3-scheduler-dirs
+> @set -euo pipefail; \
+> test -r "$(EVAL3_WORKER_SLURM)" || { echo "mk-queue.mk: missing $(EVAL3_WORKER_SLURM)" >&2; exit 1; }; \
+> job="$$(EVAL3_SCHEDULER="$(EVAL3_SCHEDULER)" EVAL3_CODE="$(SELFDIR)/bin" EVAL3_WORKER="$(EVAL3_WORKER)" EVAL3_SLURM_SCRIPT="$(EVAL3_WORKER_SLURM)" EVAL3_SIF="$(SIF)" EVAL3_ACTIVATE="$(INF_ACTIVATE)" EVAL3_ACCOUNT="$(JOBPROJECT)" EVAL3_DISKPROJECT="$(DISKPROJECT)" sbatch --parsable --export=ALL --output="$(EVAL3_LOGS)/infjob%j.out" --error="$(EVAL3_LOGS)/infjob%j.err" "$(EVAL3_WORKER_SLURM)")"; \
+> echo "mk-queue.mk: submitted eval3 inference worker $$job"
+
+# Safe integration smoke test: same worker/container/code path, but dev-g,
+# short walltime, and no self-submitted successor.  Point EVAL3_SCHEDULER at an
+# isolated smoke scheduler when using this target.
+submit-inf-worker-dev-g: eval3-scheduler-dirs
+> @set -euo pipefail; \
+> test -r "$(EVAL3_WORKER_SLURM)" || { echo "mk-queue.mk: missing $(EVAL3_WORKER_SLURM)" >&2; exit 1; }; \
+> if [ "$(EVAL3_SCHEDULER)" = "/scratch/$(JOBPROJECT)/members/tiedeman/MARMoT/models/eval3scheduler" ]; then echo "mk-queue.mk: refusing dev-g smoke test on production scheduler; set EVAL3_SCHEDULER=.../eval3scheduler-smoke-$$USER" >&2; exit 2; fi; \
+> job="$$(EVAL3_DISABLE_SUCCESSOR=1 EVAL3_POLL_SECONDS=0 EVAL3_SCHEDULER="$(EVAL3_SCHEDULER)" EVAL3_CODE="$(SELFDIR)/bin" EVAL3_WORKER="$(EVAL3_WORKER)" EVAL3_SLURM_SCRIPT="$(EVAL3_WORKER_SLURM)" EVAL3_SIF="$(SIF)" EVAL3_ACTIVATE="$(INF_ACTIVATE)" EVAL3_ACCOUNT="$(JOBPROJECT)" EVAL3_DISKPROJECT="$(DISKPROJECT)" sbatch --parsable --partition=dev-g --time="$(EVAL3_DEVG_TIME)" --export=ALL --output="$(EVAL3_LOGS)/infjob%j.out" --error="$(EVAL3_LOGS)/infjob%j.err" "$(EVAL3_WORKER_SLURM)")"; \
+> echo "mk-queue.mk: submitted dev-g eval3 smoke worker $$job"
+
+test-eval3-worker:
+> @module load cray-python; python3 "$(SELFDIR)/bin/test_eval3_worker.py"
