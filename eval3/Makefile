@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := help
 
 STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif \
-                plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition \
-                compare help list-groups models-ready squeue bleu chrf \
+                plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition infer-score-all \
+                compare help list-groups models-ready squeue bleu chrf eval3-migrate-all stale-hypotheses \
                 submit-inf-worker submit-inf-worker-dev-g eval3-scheduler-dirs test-eval3-worker
 STATIC_ONLY := $(if $(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),,yes)
 
@@ -326,3 +326,23 @@ chrf:
 >   --dataset "$(HPO_DATASET)" \
 >   $(foreach t,$(TASKS),--task "$(t)") \
 >   $(if $(HPO_DEBUG),--debug,)
+
+.PHONY: infer-score-all
+infer-score-all:
+> @failed=""; \
+> for model in $(MODEL_ALIASES); do \
+>   echo >&2; \
+>   echo "============================================================" >&2; \
+>   echo "infer-score: $$model" >&2; \
+>   echo "============================================================" >&2; \
+>   if ! $(MAKE) --no-print-directory "$$model" infer-score; then \
+>     echo "infer-score: $$model FAILED or already running; continuing" >&2; \
+>     failed="$$failed $$model"; \
+>   fi; \
+> done; \
+> if [ -n "$$failed" ]; then \
+>   echo >&2; \
+>   echo "infer-score: models returning non-zero:" >&2; \
+>   for model in $$failed; do echo "  $$model" >&2; done; \
+> fi
+

@@ -89,3 +89,67 @@ CONTINUE_MODELS ?= big-2p-GAenc-Ldec-320k
 #   - initialized with MT model with 4 pivot languages in training data
 # * flan-halfshared-xl:
 #   - initialized with MT model with 4 pivot languages in training data
+
+# Models to migrate. Override from the command line if desired:
+#   make eval3-migrate-all MIGRATE_MODELS="model1 model2 model3"
+MIGRATE_MODELS ?= $(MODEL_ALIASES)
+
+.PHONY: eval3-migrate-all
+eval3-migrate-all:
+> @set -euo pipefail; \
+> for model in $(MIGRATE_MODELS); do \
+>   echo >&2; \
+>   echo "============================================================" >&2; \
+>   echo "eval3: migrating $$model" >&2; \
+>   echo "============================================================" >&2; \
+>   $(MAKE) --no-print-directory "$$model" eval3-migrate-dry | bash; \
+> done
+
+.PHONY: stale-hypotheses
+stale-hypotheses:
+> @set -euo pipefail; \
+> printf '%-40s  %-12s  %-19s  %-19s\n' \
+>   "MODEL" "STATUS" "NEWEST MODEL" "OLDEST HYPOTHESIS"; \
+> printf '%-40s  %-12s  %-19s  %-19s\n' \
+>   "----------------------------------------" \
+>   "------------" "-------------------" "-------------------"; \
+> for item in $(foreach a,$(MODEL_ALIASES),'$(a)|$(MODEL_$(a))'); do \
+>   a="$${item%%|*}"; \
+>   model="$${item#*|}"; \
+>   newest=0; \
+>   for f in "$$model"/model_best*; do \
+>     [ -f "$$f" ] || continue; \
+>     t="$$(stat -c %Y "$$f")"; \
+>     if (( t > newest )); then \
+>       newest="$$t"; \
+>     fi; \
+>   done; \
+>   oldest=0; \
+>   for f in "$$model"/evaluation/hypotheses/*.hyp; do \
+>     [ -f "$$f" ] || continue; \
+>     t="$$(stat -c %Y "$$f")"; \
+>     if (( oldest == 0 || t < oldest )); then \
+>       oldest="$$t"; \
+>     fi; \
+>   done; \
+>   if (( newest == 0 )); then \
+>     status="NO MODEL"; \
+>     newest_s="-"; \
+>   else \
+>     newest_s="$$(date -d "@$$newest" '+%Y-%m-%d %H:%M:%S')"; \
+>     if (( oldest == 0 )); then \
+>       status="NO HYP"; \
+>     elif (( newest > oldest )); then \
+>       status="STALE"; \
+>     else \
+>       status="OK"; \
+>     fi; \
+>   fi; \
+>   if (( oldest == 0 )); then \
+>     oldest_s="-"; \
+>   else \
+>     oldest_s="$$(date -d "@$$oldest" '+%Y-%m-%d %H:%M:%S')"; \
+>   fi; \
+>   printf '%-40s  %-12s  %-19s  %-19s\n' \
+>     "$$a" "$$status" "$$newest_s" "$$oldest_s"; \
+> done
