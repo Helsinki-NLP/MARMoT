@@ -1,6 +1,6 @@
 # Text prediction data (from translated JSONL)
 
-Builds *next-sentence prediction* data from a single shard of machine-translated JSONL data (the same `object.pouta.csc.fi` shards used by the doc-level MT pipelines). For every sentence the pair (sentence, next sentence) is extracted with [`tools/jsonl_to_textpredict.py`](../../tools/jsonl_to_textpredict.py) (with `-s` to split into sentences).
+Builds *next-sentence prediction* data from a single shard of machine-translated JSONL data (the same `object.pouta.csc.fi` shards used by the doc-level MT pipelines). For every sentence the pair (sentence, next sentence) is extracted with [`tools/data/jsonl_to_textpredict.py`](../../tools/data/jsonl_to_textpredict.py) (with `-s` to split into sentences).
 
 ## Output
 

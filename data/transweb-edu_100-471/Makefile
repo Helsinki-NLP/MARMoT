@@ -18,7 +18,7 @@ TARGETS  := $(patsubst %,len${LENGTH}/${FILEBASE}%.${TRG}.gz,${FILEIDS})
 
 OELLM_LANGS := fin
 
-CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
+CONVERT_SCRIPT := python3 ../../tools/data/multisynt_to_docbitext.py
 
 .NOTINTERMEDIATE: ${SOURCES} ${TARGETS}
 

@@ -43,7 +43,7 @@ multisynt/train/len1024/nemotron-cc-english-run1-train-00-48.fin.gz
 | `iso639` | `opus`, `synthetic`, `testsets`, ... | converting ISO 639-2/-3 codes and language names |
 | `langgroup` | `instruct`, tokenizer | resolving language-group memberships (e.g. `ine`, `zls`) |
 | `opus_get` | `opus` | retrieving corpora from OPUS |
-| `python3` scripts in [`tools/`](../tools) | various | format conversions (`multisynt_to_docbitext.py`, `jsonl_to_textpredict.py`, `wmt24_to_tsv.py`, `wmt24_to_predict.py`, ...) |
+| `python3` scripts in [`tools/data/`](../tools/data) | various | format conversions (`multisynt_to_docbitext.py`, `jsonl_to_textpredict.py`, `wmt24_to_tsv.py`, `wmt24_to_predict.py`, ...) |
 
 ## SLURM jobs
 

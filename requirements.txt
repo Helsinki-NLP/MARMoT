@@ -1,8 +1,9 @@
 # Python dependencies for the MARMoT repository.
 #
-# Covers the data-preparation scripts (data/), the conversion helpers (tools/)
-# and the evaluation pipeline (eval2/). Model training/inference is provided by
-# the MAMMOTH installation and its own environment and is not listed here.
+# Covers the data-preparation scripts (data/), the conversion helpers (tools/),
+# the GPU assignment optimizer (tools/config/) and the evaluation pipeline
+# (eval2/). Model training/inference is provided by the MAMMOTH installation
+# and its own environment and is not listed here.
 
 # --- data preparation and conversion (data/, tools/) ---
 datasets
@@ -19,11 +20,16 @@ zstandard           # `zstd` compression in data/multisynt_tower
 opustools           # provides the `opus_get` command
 iso-langcodes       # provides the `iso639` command
 
+# --- GPU assignment optimizer (tools/config/) ---
+ortools>=9.10       # CP-SAT solver used by optimize_gpu_assignment.py
+# PyYAML and scipy (listed above) are also used here; scipy is only the
+# optional MILP fallback.
+
 # --- evaluation pipeline (eval2/) ---
 sacrebleu           # BLEU / chrF / TER scoring
-PyYAML              # planning and model configs
+PyYAML>=6.0         # planning and model configs
 networkx            # zero-shot pair selection
-scipy
+scipy>=1.10
 matplotlib          # plotting venv
 torch               # checkpoint inspection (mammoth model files)
 

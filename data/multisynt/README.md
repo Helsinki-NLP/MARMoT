@@ -2,7 +2,7 @@
 
 Builds document-level MT training data from the *MultiSynth* collection: English text sampled from Nemotron-CC (english run 1, `maxidl` distribution) and machine-translated to the OpenEuroLLM languages. This is the canonical example of the doc-level pipelines in this repo (see also [`multisynt_run2`](../multisynt_run2) and [`transweb-edu`](../transweb-edu)).
 
-The translated corpus is fetched from `https://object.pouta.csc.fi/OELLM-synthetic/maxidl/nemotron-cc-english-run1/translated/` (JSONL + plain-text versions per shard), converted to document bitexts with [`tools/multisynt_to_docbitext.py`](../../tools/multisynt_to_docbitext.py), split into `train`/`dev`/`test`, and also converted into next-sentence-prediction ("textpredict") data.
+The translated corpus is fetched from `https://object.pouta.csc.fi/OELLM-synthetic/maxidl/nemotron-cc-english-run1/translated/` (JSONL + plain-text versions per shard), converted to document bitexts with [`tools/data/multisynt_to_docbitext.py`](../../tools/data/multisynt_to_docbitext.py), split into `train`/`dev`/`test`, and also converted into next-sentence-prediction ("textpredict") data.
 
 **Shards** 00–49 are used: shards 00–48 → `train`, shard 49 → `dev` (last 2000 documents) and `test` (first 2000 documents).
 

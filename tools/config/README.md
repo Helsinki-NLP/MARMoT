@@ -10,6 +10,8 @@ Tool to compute optimal `node_gpu` assignments for tasks in a MARMoT training YA
 
 ## Install
 
+Dependencies are listed in the repository-wide [`requirements.txt`](../../requirements.txt):
+
 ```bash
 pip install -r requirements.txt
 ```
