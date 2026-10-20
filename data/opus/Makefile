@@ -1,4 +1,7 @@
-
+#
+# special for OpenSubtitles2024: set ALL_OPENSUBS to retrieve all language pairs
+# otherwise: fetch only the ones available for OpenEuroLLM languages
+#
 
 SHELL := bash
 
@@ -6,6 +9,11 @@ include ../../tools/slurMake/slurm.mk
 
 
 CORPUS ?= OpenSubtitles
+
+
+ifdef LANGPAIR2
+  LANGPAIR := $(shell iso639 -n -3 -p ${LANGPAIR})
+endif
 
 # SRC ?= eng
 # TRG ?= fin
@@ -67,17 +75,37 @@ ifndef OPENSUBS_OELLM_LANGPAIRS
 
   OELLM_LANGS2 := $(shell iso639 -2 -n ${OELLM_LANGS})
   ALL_OELLM_LANGPAIRS2 := $(foreach s,${OELLM_LANGS2},$(foreach t,${OELLM_LANGS2},$s-$t))
-  OPENSUBS_OELLM_LANGPAIRS2 := $(filter $(patsubst %.txt.zip,%,$(notdir $(shell opus_get -l -d OpenSubtitles -r v2024 -p moses | cut -f2 -d:))),${ALL_OELLM_LANGPAIRS2})
+  # OPENSUBS_OELLM_LANGPAIRS2 := $(filter $(patsubst %.txt.zip,%,$(notdir $(shell opus_get -l -d OpenSubtitles -r v2024 -p moses | cut -f2 -d:))),${ALL_OELLM_LANGPAIRS2})
+  OPENSUBS_OELLM_LANGPAIRS2 := $(filter $(shell opus_get -l -d OpenSubtitles -r v2024 -p moses | cut -f1 -d\| | rev | cut -f1 -d/ | rev | cut -f1 -d.),${ALL_OELLM_LANGPAIRS2})
 
   OPENSUBS_OELLM_LANGPAIRS := ${shell iso639 -n -3 -p ${OPENSUBS_OELLM_LANGPAIRS2}}
 
 endif
 
 
-opensubs:
-	for l in ${OPENSUBS_OELLM_LANGPAIRS}; do \
-	    ${MAKE} CORPUS=OpenSubtitles RELEASE=v2024 LANGPAIR=$$l all; \
-	done
+
+ifdef ALL_OPENSUBS
+  OPENSUBS_LANGPAIRS2 := $(shell opus_get -l -d OpenSubtitles -r v2024 -p moses | cut -f1 -d\| | rev | cut -f1 -d/ | rev | cut -f1 -d.)
+  OPENSUBS_DONE := $(addprefix OpenSubtitles/,${OPENSUBS_LANGPAIRS2})
+  .PHONY: ${OPENSUBS_DONE}
+  ${OPENSUBS_DONE}:
+	${MAKE} CORPUS=OpenSubtitles RELEASE=v2024 LANGPAIR2=$(notdir $@) all
+else
+  OPENSUBS_LANGPAIRS := ${OPENSUBS_OELLM_LANGPAIRS}
+  OPENSUBS_DONE := $(addprefix OpenSubtitles/,${OPENSUBS_LANGPAIRS})
+  .PHONY: ${OPENSUBS_DONE}
+  ${OPENSUBS_DONE}:
+	${MAKE} CORPUS=OpenSubtitles RELEASE=v2024 LANGPAIR=$(notdir $@) all
+endif
+
+
+
+.PHONY: opensubs
+opensubs: ${OPENSUBS_DONE}
+
+#	for l in ${OPENSUBS_LANGPAIRS}; do \
+#	    ${MAKE} CORPUS=OpenSubtitles RELEASE=v2024 LANGPAIR=$$l all; \
+#	done
 
 
 

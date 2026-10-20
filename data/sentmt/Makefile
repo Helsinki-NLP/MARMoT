@@ -22,12 +22,26 @@ ALL_LANGPAIRS := $(sort $(basename $(basename $(notdir $(wildcard ../opus/*/*.gz
 
 
 LANGPAIRS := $(filter ${ALL_LANGPAIRS},${ALL_OELLM_LANGPAIRS})
-STATS := $(patsubst %,%.stats,${LANGPAIRS})
+STATS := $(patsubst %,%.stats,${ALL_LANGPAIRS})
+
+OELLM_LANGPAIRS := $(filter ${ALL_LANGPAIRS},${ALL_OELLM_LANGPAIRS})
+OELLM_STATS := $(patsubst %,%.stats,${LANGPAIRS})
+
+
+# all language pairs
 
 all: ${STATS}
-
 info:
-	@echo $(words ${LANGPAIRS})
+	@echo $(words ${ALL_LANGPAIRS})
+
+
+
+# OpenEuroLLM languages only
+
+oellm-all: ${OELLM_STATS}
+
+oellm-info:
+	@echo $(words ${OELLM_LANGPAIRS})
 
 
 
