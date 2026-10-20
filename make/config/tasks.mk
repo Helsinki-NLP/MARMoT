@@ -55,6 +55,7 @@ ifndef NR_OF_NODES
 endif
 
 ifndef TASK_GPU_ASSIGNMENTS
+  OPTIMIZE_GPU_ASSIGNMENT ?= 1
   export TASK_GPU_ASSIGNMENTS := $(shell \
 	n=0; g=0; \
 	tasks=(${TASKS}); \

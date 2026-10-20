@@ -117,15 +117,21 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
-TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.d/%,${TASK_NRS})
+## the raw config file for training comtains all tasks and settings
+## but the GPU assignment to tasks might still be altered using the
+## optimizer script further down
 
-.INTERMEDIATE: ${TASK_CONFIGFILES}
+TRAIN_RAW_CONFIGFILE := $(TRAIN_CONFIGFILE:.yaml=-raw.yaml)
+TASK_CONFIGFILES     := $(patsubst %,${TRAIN_CONFIGFILE}.d/%,${TASK_NRS})
+
+.INTERMEDIATE: ${TRAIN_RAW_CONFIGFILE} ${TASK_CONFIGFILES}
 
 ${TASK_CONFIGFILES}:
 	@mkdir -p $(dir $@)
 	@${MAKE} -s CONFIGFILE=$@ TASK_NR=$(notdir $@) FIND_DATA=1 config-add-traintask
 
-${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
+
+${TRAIN_RAW_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
 	@find $(dir $<) -name '[0-9]*' \
@@ -152,6 +158,44 @@ ifdef PRETRAINED_MODEL
 	@echo 'train_from: $(shell realpath ${PRETRAINED_MODEL})/'   >> $@
 endif
 
+
+
+## if OPTIMIZE_GPU_ASSIGNMENT == 1 then run optimizer script for GPU task assignment
+## if not then just copy the raw config file to the final location
+##
+## TODO: should we also copy the recommended batch size into the config file
+##       (estimated by the memory-profile script?)
+
+TOOLS_DIR                 := ${MAKEFILE_DIR}../tools
+GPU_ASSIGNMENT_SCRIPT     := ${TOOLS_DIR}/config/optimize_gpu_assignment.py
+GPU_ASSIGNMENT_TIME_LIMIT ?= 300
+GPU_ASSIGNMENT_PARAMS     ?= 
+
+${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
+ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
+	@echo "optimize GPU task assignment (this may take some time)"
+	@echo "(time limit is 10 minutes)"
+	@-${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@
+	@-if [ ! -e $@ ]; then \
+	  echo "optimization failed - try again with greedy local search only"; \
+	  ${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--greedy-only \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@; \
+	fi
+	@if [ ! -e $@ ]; then \
+	  echo "optimization failed - just copy the raw config file"; \
+	  cp $< $@; \
+	fi
+else
+	cp $< $@
+endif
 
 
 
