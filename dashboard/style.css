@@ -1,0 +1,29 @@
+/*
+    MAMMOTH training dashboard - the styles of the page.
+*/
+
+     td.dense {padding: 0px;}
+     table.modelselect {width: 100%; font-size: small;}
+     td.modelselect_list {vertical-align: top; width: 250px; }
+     td.modelselect_col1 {vertical-align: top; text-align: right; width: 120px; }
+     table.langselect {font-size: small;}
+
+     /* collapsible filter and model selection blocks */
+     details.modelselect > summary {cursor: pointer; font-weight: bold; margin: 0.5em 0;}
+     .hint {color: #666; font-size: small; font-weight: normal;}
+     .hint.error {color: #a00;}
+
+     /* plot options and bar chart selection stay visible while scrolling */
+     .plotcontrols {position: sticky; top: 0; z-index: 100; background: #fff;
+                    box-sizing: border-box; padding: 0.5em 0;
+                    border-bottom: 1px solid #ccc;}
+     .plotcontrols p {margin: 0.3em 0;}
+     .plotcontrols h1 {font-size: 1.4em; margin: 0.1em 0 0.25em;}
+
+     /* the checkpoint slider sits with the chart it drives */
+     input[type=range]#barchartckpt {width: 16em; vertical-align: middle;}
+     output#barchartckptval {display: inline-block; min-width: 5em;
+                             margin-left: 0.4em; font-family: monospace;
+                             vertical-align: middle;}
+     #barPlot {width: 100%; max-width: 1200px; height: 600px;}
+     #barPlot.empty {display: none;}
