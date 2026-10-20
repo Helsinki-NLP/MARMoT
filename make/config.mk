@@ -166,14 +166,33 @@ endif
 ## TODO: should we also copy the recommended batch size into the config file
 ##       (estimated by the memory-profile script?)
 
-TOOLS_DIR             := ${MAKEFILE_DIR}../tools
-GPU_ASSIGNMENT_SCRIPT := ${TOOLS_DIR}/config/optimize_gpu_assignment.py
+TOOLS_DIR                 := ${MAKEFILE_DIR}../tools
+GPU_ASSIGNMENT_SCRIPT     := ${TOOLS_DIR}/config/optimize_gpu_assignment.py
+GPU_ASSIGNMENT_TIME_LIMIT ?= 300
+GPU_ASSIGNMENT_PARAMS     ?= 
 
 ${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
 ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
 	@echo "optimize GPU task assignment (this may take some time)"
 	@echo "(time limit is 10 minutes)"
-	${GPU_ASSIGNMENT_SCRIPT} $< --nodes ${NR_OF_NODES} --gpus-per-node ${MAX_GPUS_PER_NODE} --output $@
+	@-${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@
+	@-if [ ! -e $@ ]; then \
+	  echo "optimization failed - try again with greedy local search only"; \
+	  ${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--greedy-only \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@; \
+	fi
+	@if [ ! -e $@ ]; then \
+	  echo "optimization failed - just copy the raw config file"; \
+	  cp $< $@; \
+	fi
 else
 	cp $< $@
 endif
