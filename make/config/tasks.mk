@@ -39,6 +39,37 @@ SRCLANG  ?= $(firstword $(subst -, ,${LANGPAIR}))
 TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 
 
+## validation and eval task selection
+## default: select all
+
+ifndef VALID_TASK_NRS
+ ifdef VALID_TASK_IDS
+  export VALID_TASK_NRS := $(foreach t,${VALID_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else
+  export VALID_TASK_NRS := ${TASK_NRS}
+  export VALID_TASK_IDS := ${TASK_IDS}
+ endif
+endif
+
+# skip validation of current task if not listed in validation tasks
+ifneq ($(findstring ${TASK_NR},${VALID_TASK_NRS}),${TASK_NR})
+  SKIP_TASK_VALIDATION := 1
+endif
+
+
+ifndef EVAL_TASK_NRS
+ ifdef EVAL_TASKS
+  export EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
+ else ifdef EVAL_TASK_IDS
+  export TEST_TASK_NRS  := $(foreach t,${TEST_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else
+  export EVAL_TASKS     := ${TASK_IDS}
+  export EVAL_TASK_IDS  := ${TASK_IDS}
+  export EVAL_TASK_NRS  := ${TASK_NRS}
+ endif
+endif
+
+
 
 ##-----------------------------------------------------------------------------
 ## GPU assignments: simply distribute one task per GPU/Node
@@ -146,6 +177,8 @@ TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(ENCOD
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DECODER))
 
 
+
+
 ## replace variables for {lang}, {langgroup} and {task}
 
 ifeq ($(findstring {lang,${TASK_ENCODER}),{lang)
@@ -183,3 +216,7 @@ endif
 .PHONY: find_tasknr
 find_tasknr:
 	@echo "${TASK_ID} = task nr $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})"
+
+
+
+

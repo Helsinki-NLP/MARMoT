@@ -163,13 +163,21 @@ endif
 ## if OPTIMIZE_GPU_ASSIGNMENT == 1 then run optimizer script for GPU task assignment
 ## if not then just copy the raw config file to the final location
 ##
+## if also BALANCE_GPU_TASK_WEIGHTS == 1 then run the weight re-balancing script
+## (this is switched on automatically if we use data-size as weights)
+##
 ## TODO: should we also copy the recommended batch size into the config file
 ##       (estimated by the memory-profile script?)
 
-TOOLS_DIR                 := ${MAKEFILE_DIR}../tools
 GPU_ASSIGNMENT_SCRIPT     := ${TOOLS_DIR}/config/optimize_gpu_assignment.py
 GPU_ASSIGNMENT_TIME_LIMIT ?= 300
-GPU_ASSIGNMENT_PARAMS     ?= 
+GPU_ASSIGNMENT_PARAMS     ?=
+GPU_WEIGHT_BALANCE_SCRIPT := ${TOOLS_DIR}/config/rebalance_gpu_weights.py
+
+
+ifeq (${USE_DATASIZE_AS_TASK_WEIGHT},1)
+  BALANCE_GPU_TASK_WEIGHTS ?= 1
+endif
 
 ${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
 ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
@@ -193,6 +201,14 @@ ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
 	  echo "optimization failed - just copy the raw config file"; \
 	  cp $< $@; \
 	fi
+  ifeq (${BALANCE_GPU_TASK_WEIGHTS},1)
+	@echo "rebalance GPU assignments according to task weights"
+	@${GPU_WEIGHT_BALANCE_SCRIPT} $@
+	@if [ -e $(@:.yaml=_rebalanced.yaml) ]; then \
+	  mv $@ $(@:.yaml=_unbalanced.yaml); \
+	  mv $(@:.yaml=_rebalanced.yaml) $@; \
+	fi
+  endif
 else
 	cp $< $@
 endif
@@ -212,6 +228,7 @@ ifneq ($(wildcard ${TRAINDATA_SRC}),)
 else
 	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK_ID}"
 endif
+
 
 .PHONY: config-add-task
 config-add-task:
@@ -238,7 +255,8 @@ ifneq (${TRAINDATA_SRC},)
     endif
    endif
 endif
-ifneq (${DEVDATA_SRC},)
+ifndef SKIP_TASK_VALIDATION
+ ifneq (${DEVDATA_SRC},)
   ifneq (${DEVDATA_TRG},)
     ifneq ($(wildcard ${DEVDATA_SRC}),)
       ifneq ($(wildcard ${DEVDATA_TRG}),)
@@ -247,8 +265,10 @@ ifneq (${DEVDATA_SRC},)
       endif
     endif
   endif
+ endif
 endif
 	@echo ''                                                  >> ${CONFIGFILE}
+
 
 
 

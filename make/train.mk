@@ -194,7 +194,8 @@ print-valid-scores-table:
 	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
-	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	   for j in ${VALID_TASK_NRS}; do \
+	    i=$$(( $$j-1 )); \
 	    langpair=$${langpairs[$$i]}; \
 	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
@@ -212,6 +213,7 @@ print-valid-scores-table:
 	    fi \
 	   done )
 
+
 else
 
 ## get all validation scores, step by step
@@ -226,7 +228,8 @@ print-valid-scores-table:
 	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
-	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	   for j in ${VALID_TASK_NRS}; do \
+	    i=$$(( $$j-1 )); \
 	    langpair=$${langpairs[$$i]}; \
 	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
@@ -303,7 +306,8 @@ print-valid-diff-table:
 	    | tr ',}' "\n\n" | grep "\"step\":" | cut -f2 -d: \
 	    | uniq ${SELECT_LINES_CMD} | xargs printf "%5d	" ); \
 	   echo "gpu	task-ids	$${steps}"; \
-	   for i in $$(seq 0 $$(( $(words $(TASKS))-1 )) ); do \
+	   for j in ${VALID_TASK_NRS}; do \
+	    i=$$(( $$j-1 )); \
 	    langpair=$${langpairs[$$i]}; \
 	    taskid=$${taskids[$$i]:=$${langpairs[$$i]}}; \
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
