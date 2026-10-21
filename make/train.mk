@@ -201,15 +201,17 @@ print-valid-scores-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
+	      pattern="${PRINT_METRIC}/$${taskid}"; \
+	      pattern2="${PRINT_METRIC}/$${langpair}"; \
 	    fi; \
+	    gpu=`grep -A10 "$${taskid}" ${TRAIN_CONFIGFILE} | grep 'node\_gpu' | cut -f2 -d\"`; \
 	    score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
-	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
+	    | grep "GPU *$${gpu}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | egrep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" ); \
 	    if [ "$${score}" != "0.000	" ]; then \
-	      echo "$${gpus[$$i]}	$${taskid}	$${score}"; \
+	      echo "$${gpu}	$${taskid}	$${score}"; \
 	    fi \
 	   done )
 
@@ -235,13 +237,15 @@ print-valid-scores-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
+	      pattern="${PRINT_METRIC}/$${taskid}"; \
+	      pattern2="${PRINT_METRIC}/$${langpair}"; \
 	    fi; \
-	    echo -n "$${gpus[$$i]}	$${taskid}"; \
+	    gpu=`grep -A10 "$${taskid}" ${TRAIN_CONFIGFILE} | grep 'node\_gpu' | cut -f2 -d\"`; \
+	    echo -n "$${gpu}	$${taskid}"; \
 	    for s in $${steps}; do \
 	      score=$$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
 	      | grep "\"step\": $${s}," \
-	      | grep "GPU *$${gpus[$$i]}" | head -1 \
+	      | grep "GPU *$${gpu}" | head -1 \
 	      | tr ',}' "\n\n" \
 	      | egrep "\"$${pattern}\":" \
 	      | cut -f2 -d: | xargs printf "%.3f" ); \
@@ -313,14 +317,15 @@ print-valid-diff-table:
 	    if [ ${PRINT_METRIC} == 'perplexity' ]; then \
 	      pattern="${PRINT_METRIC}"; \
 	    else \
-	      pattern="${PRINT_METRIC}/($${langpair}|$${taskid})"; \
+	      pattern="${PRINT_METRIC}/$${taskid}"; \
 	    fi; \
+	    gpu=`grep -A10 "$${taskid}" ${TRAIN_CONFIGFILE} | grep 'node\_gpu' | cut -f2 -d\"`; \
 	    score=($$( grep '"type": *"validation"' ${TRAIN_LOGFILES} \
-	    | grep "GPU *$${gpus[$$i]}" ${SELECT_LINES_CMD} \
+	    | grep "GPU *$${gpu}" ${SELECT_LINES_CMD} \
 	    | tr ',}' "\n\n" \
 	    | egrep "\"$${pattern}\":" \
 	    | cut -f2 -d: | xargs printf "%.3f	" )); \
-	    echo -n "$${gpus[$$i]}	$${taskid}	$${score[0]}"; \
+	    echo -n "$${gpu}	$${taskid}	$${score[0]}"; \
 	    last=$${score[0]}; \
 	    for (( j=1; j<$${#score[@]}; j++ )); do \
 	      diff=`echo "$${score[$$j]} $${last}" | awk '{print $$1-$$2}' | sed 's/^/+/;s/+-/-/;'`; \
