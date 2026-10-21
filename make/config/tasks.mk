@@ -29,7 +29,7 @@ else
 endif
 
 TASK          := $(word ${TASK_NR},$(TASKS))
-TASK_LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
+TASK_LANGPAIR ?= $(firstword $(word ${TASK_NR},$(TASK_LANGPAIRS)) $(TASK))
 
 
 ## languages for the task data
@@ -52,7 +52,7 @@ ifndef VALID_TASK_NRS
 endif
 
 # skip validation of current task if not listed in validation tasks
-ifneq ($(findstring ${TASK_NR},${VALID_TASK_NRS}),${TASK_NR})
+ifneq ($(filter ${TASK_NR},${VALID_TASK_NRS}),${TASK_NR})
   SKIP_TASK_VALIDATION := 1
 endif
 
