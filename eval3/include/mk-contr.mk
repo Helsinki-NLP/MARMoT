@@ -77,22 +77,10 @@ continue-all:
 > @set -u; \
 > rc=0; \
 > for a in $(CONTINUE_MODELS); do \
->   eval "model_dir=\$${MODEL_$$a}"; \
->   if [ -f "$(INF_FLAG)" ]; then \
->     jobid="$$(cat "$(INF_FLAG)" 2>/dev/null || true)"; \
->     if [ -n "$$jobid" ] && squeue -h -j "$$jobid" 2>/dev/null | grep -q .; then \
->       echo "mk-contr.mk: ⏭️  Skipping $$a because inference job $$jobid is still running/queued"; \
->       continue; \
->     fi; \
->   fi; \
->   if [ -f "$(MET_FLAG)" ]; then \
->     jobid="$$(cat "$(MET_FLAG)" 2>/dev/null || true)"; \
->     if [ -n "$$jobid" ] && squeue -h -j "$$jobid" 2>/dev/null | grep -q .; then \
->       echo "mk-contr.mk: ⏭️  Skipping $$a because scoring job $$jobid is still running/queued"; \
->       continue; \
->     fi; \
->   fi; \
+>   echo; \
+>   echo "======================================================================"; \
 >   echo "mk-contr.mk: 🛠️ continue-eval for $$a"; \
+>   echo "======================================================================"; \
 >   if ! $(MAKE) --no-print-directory -C "$(SELFDIR)" "$$a" continue-eval; then \
 >     echo "mk-contr.mk: ❌ continue-eval failed for $$a"; \
 >     rc=1; \
@@ -104,25 +92,12 @@ continue-all-force:
 > @set -u; \
 > rc=0; \
 > for a in $(CONTINUE_MODELS); do \
->   eval "model_dir=\$${MODEL_$$a}"; \
->   if [ -f "$(INF_FLAG)" ]; then \
->     jobid="$$(cat "$(INF_FLAG)" 2>/dev/null || true)"; \
->     if [ -n "$$jobid" ] && squeue -h -j "$$jobid" 2>/dev/null | grep -q .; then \
->       echo "mk-contr.mk: ⏭️  Skipping $$a because inference job $$jobid is still running/queued"; \
->       continue; \
->     fi; \
->   fi; \
->   if [ -f "$(MET_FLAG)" ]; then \
->     jobid="$$(cat "$(MET_FLAG)" 2>/dev/null || true)"; \
->     if [ -n "$$jobid" ] && squeue -h -j "$$jobid" 2>/dev/null | grep -q .; then \
->       echo "mk-contr.mk: ⏭️  Skipping $$a because scoring job $$jobid is still running/queued"; \
->       continue; \
->     fi; \
->   fi; \
->   echo "mk-contr.mk: 🛠️ continue-eval for $$a"; \
->   echo $(MAKE) --no-print-directory -C "$(SELFDIR)" "$$a" continue-eval-force; \
+>   echo; \
+>   echo "======================================================================"; \
+>   echo "mk-contr.mk: 🛠️ continue-eval-force for $$a"; \
+>   echo "======================================================================"; \
 >   if ! $(MAKE) --no-print-directory -C "$(SELFDIR)" "$$a" continue-eval-force; then \
->     echo "mk-contr.mk: ❌ continue-eval failed for $$a"; \
+>     echo "mk-contr.mk: ❌ continue-eval-force failed for $$a"; \
 >     rc=1; \
 >   fi; \
 > done; \

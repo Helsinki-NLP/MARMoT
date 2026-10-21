@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif \
+STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif reset-plan-all score-all \
                 plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition infer-score-all \
                 compare help list-groups models-ready squeue bleu chrf eval3-migrate-all stale-hypotheses \
                 submit-inf-worker submit-inf-worker-dev-g eval3-scheduler-dirs test-eval3-worker

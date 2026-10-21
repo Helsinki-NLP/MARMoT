@@ -20,6 +20,75 @@ clean: clean-calls
 > @echo "mk-calls.mk: ✨ Cleaning of inference yaml files done."; \
 > echo
 
+.PHONY: reset-plan
+reset-plan: clean-inf-lock clean-cnt-lock clean-met-lock
+> @set -euo pipefail; \
+> test -f "$(TASKS)" || { \
+>   echo "mk-calls.mk: ❌ Cannot reset planning: missing task selection $(TASKS)" >&2; \
+>   echo "mk-calls.mk:    Resolve task selection first." >&2; \
+>   exit 2; \
+> }; \
+> echo "mk-calls.mk: 🧹 Resetting derived planning state for $(MODELDIR)"; \
+> echo "mk-calls.mk:    planner log:    $(PLAN_LOG)"; \
+> echo "mk-calls.mk:    planner error:  $(PLAN_ERR)"; \
+> echo "mk-calls.mk:    task plan:      $(TSKDIR)/plan.out"; \
+> echo "mk-calls.mk:    inference:      $(INF_CALLS)"; \
+> echo "mk-calls.mk:    sacreBLEU:      $(SACRE_CALLS)"; \
+> echo "mk-calls.mk:    COMET:          $(COMET_CALLS)"; \
+> rm -f \
+>   "$(PLAN_LOG)" \
+>   "$(PLAN_ERR)" \
+>   "$(TSKDIR)/plan.out" \
+>   "$(INF_CALLS)" \
+>   "$(SACRE_CALLS)" \
+>   "$(COMET_CALLS)" \
+>   "$(INF_TASKS_DONE)"; \
+>   "$(INF_SCRIPT)" \
+>   "$(CNT_SCRIPT)" \
+>   "$(MET_SCRIPT)" \
+>   "$(INF_SBATCH)" \
+>   "$(CNT_SBATCH)" \
+>   "$(MET_SBATCH)"; \
+> rm -f "$(TSKDIR)"/*.inf; \
+> rm -f "$(CFGDIR)"/*.yaml; \
+> echo "mk-calls.mk: ✅ Planning state reset."; \
+> echo "mk-calls.mk:    Preserved task selection: $(TASKS)"; \
+> echo "mk-calls.mk:    Preserved hypotheses: $(HYPDIR)"; \
+> echo "mk-calls.mk:    Preserved scores: $(SCRDIR)"
+
+.PHONY: reset-replan
+
+reset-replan: reset-plan
+> @$(MAKE) -C "$(SELFDIR)" --no-print-directory "$(FIRST_GOAL)" mk-calls
+> @touch "$(RESET_PLAN_DONE)"
+> @echo "mk-calls.mk: ✅ Reset and replan completed for $(FIRST_GOAL)"
+
+.PHONY: reset-plan-all
+
+reset-plan-all:
+> @set -u; \
+> failed=""; \
+> for a in $(MODEL_ALIASES); do \
+>   echo; \
+>   echo "======================================================================"; \
+>   echo "Resetting and replanning $$a"; \
+>   echo "======================================================================"; \
+>   if $(MAKE) -C "$(SELFDIR)" --no-print-directory "$$a" reset-plan \
+>      && $(MAKE) -C "$(SELFDIR)" --no-print-directory "$$a" mk-calls; then \
+>     echo "mk-calls.mk: ✅ $$a reset and replanned"; \
+>   else \
+>     echo "mk-calls.mk: ❌ $$a FAILED -- continuing with remaining models"; \
+>     failed="$$failed $$a"; \
+>   fi; \
+> done; \
+> echo; \
+> if [ -n "$$failed" ]; then \
+>   echo "mk-calls.mk: ❌ Reset/replan failures:"; \
+>   for a in $$failed; do echo "mk-calls.mk:    $$a"; done; \
+>   exit 1; \
+> fi; \
+> echo "mk-calls.mk: ✅ All models reset and replanned."
+
 mk-calls: calls 
 > @true
 
@@ -35,7 +104,11 @@ $(INF_CALLS): $(PLAN_LOG)
 > @test -f "$(INF_CALLS)"
 endif
 
-$(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) $(SELFDIR)/bin/plan_eval3_inference.py | $(EVAL_DIRS)
+$(PLAN_LOG): $(TRAINCONFIG) $(TRAINCONFIG_SELECTION) \
+             $(MAMMOTH_SELECTED) $(PRS_DONE) \
+             $(SELFDIR)/bin/plan_eval3_inference.py \
+             $(SELFDIR)/bin/make_inference_yaml.py \
+             | $(EVAL_DIRS)
 > @set -euo pipefail; \
 > echo "mk-calls.mk: 🛠️ Creating tentative testing tasks..."; \
 > rm -f "$(INF_TASKS_DONE)"; \

@@ -51,7 +51,7 @@ EX_MANUAL_MODEL_ALIASES := docmt4denhalfbase docmt4denhalfsmall docmt4denhalfxl 
 MODEL_ALIASES := $(sort $(MANUAL_MODEL_ALIASES) $(READY_MODEL_ALIASES))
 
 # Explicit list only: never submit all registered models accidentally.
-CONTINUE_MODELS ?= big-2p-GAenc-Ldec-320k
+CONTINUE_MODELS ?= $(MODEL_ALIASES)
 
 # Naming conventions for tasks:
 # * sentmt: sentence-level MT with OPUS data (Tatoeba TC, HPLT, OpenSubtitles2024)

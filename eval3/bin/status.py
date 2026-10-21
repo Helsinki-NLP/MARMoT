@@ -4,12 +4,14 @@ from __future__ import annotations
 import argparse
 import re
 import subprocess
+from collections import Counter
 from pathlib import Path
 
 
 def count_selected_tasks(path: Path) -> int:
     if not path.is_file():
         return 0
+
     with path.open("r", errors="replace") as f:
         return sum(
             1
@@ -58,18 +60,12 @@ def read_jobid(path: Path) -> str:
     return m.group(1) if m else ""
 
 
-def job_files(flags_dir: Path, kind: str) -> tuple[Path, Path]:
+def submitted_flag(flags_dir: Path, kind: str) -> Path:
     if kind == "inference":
-        return (
-            flags_dir / "inference.done",
-            flags_dir / "inference.submitted",
-        )
+        return flags_dir / "inference.submitted"
 
     if kind == "scoring":
-        return (
-            flags_dir / "metrics.done",
-            flags_dir / "metrics.submitted",
-        )
+        return flags_dir / "metrics.submitted"
 
     raise ValueError(kind)
 
@@ -79,19 +75,31 @@ def collect_jobids(model_paths: list[dict[str, Path]]) -> set[str]:
 
     for paths in model_paths:
         for kind in ("inference", "scoring"):
-            done_file, flag_file = job_files(paths["flags"], kind)
-
-            if done_file.exists():
-                continue
+            flag_file = submitted_flag(
+                paths["flags"],
+                kind,
+            )
 
             jobid = read_jobid(flag_file)
+
             if jobid:
                 jobids.add(jobid)
 
     return jobids
 
 
-def query_squeue(jobids: set[str]) -> dict[str, tuple[str, str, str]]:
+def query_squeue(
+    jobids: set[str],
+) -> dict[str, tuple[str, str, str]] | None:
+    """
+    Return current Slurm states for the requested job IDs.
+
+    An empty dictionary means that the query succeeded but none of the
+    recorded jobs is currently in squeue.
+
+    None means that Slurm could not be queried reliably.  In that case
+    status.py must not remove any .submitted flags.
+    """
     if not jobids:
         return {}
 
@@ -111,7 +119,10 @@ def query_squeue(jobids: set[str]) -> dict[str, tuple[str, str, str]]:
             stderr=subprocess.DEVNULL,
         )
     except FileNotFoundError:
-        return {}
+        return None
+
+    if result.returncode != 0:
+        return None
 
     statuses = {}
 
@@ -130,24 +141,45 @@ def query_squeue(jobids: set[str]) -> dict[str, tuple[str, str, str]]:
 def job_status(
     flags_dir: Path,
     kind: str,
-    slurm_status: dict[str, tuple[str, str, str]],
+    slurm_status: dict[str, tuple[str, str, str]] | None,
 ) -> str:
-    done_file, flag_file = job_files(flags_dir, kind)
+    """
+    Report only current Slurm state.
 
-    if done_file.exists():
-        return "DONE"
+    If a .submitted flag contains a job ID and a successful squeue query
+    shows that the job is no longer present, the flag is stale and is
+    removed.
+
+    .done flags are deliberately ignored.  Evaluation completeness is
+    determined from the actual hypothesis and score artifacts.
+    """
+    flag_file = submitted_flag(
+        flags_dir,
+        kind,
+    )
 
     jobid = read_jobid(flag_file)
 
     if not jobid:
         return "-"
 
+    # Slurm could not be queried reliably.  Preserve the flag.
+    if slurm_status is None:
+        return "?"
+
     status = slurm_status.get(jobid)
 
     if status is None:
-        return "LEFT"
+        # The squeue query succeeded, but this job is no longer present.
+        # Its .submitted flag is therefore stale.
+        try:
+            flag_file.unlink()
+        except FileNotFoundError:
+            pass
 
-    state, runtime, reason = status
+        return "-"
+
+    state, _runtime, _reason = status
 
     if state == "RUNNING":
         return "RUN"
@@ -159,6 +191,13 @@ def job_status(
 
 
 def read_plan_outputs(plan_file: Path) -> list[str]:
+    """
+    Return the hypothesis basenames named by the current plan.out.
+
+    The plan is the authoritative inventory of evaluation cases.  Files
+    in the hypothesis or score directories that are not represented in
+    this plan are deliberately ignored by status reporting.
+    """
     outputs = []
 
     if not plan_file.is_file():
@@ -171,12 +210,51 @@ def read_plan_outputs(plan_file: Path) -> list[str]:
             m = output_re.search(line)
 
             if m:
-                outputs.append(Path(m.group(1)).name)
+                outputs.append(
+                    Path(m.group(1)).name
+                )
 
     return outputs
 
 
-def directory_names(path: Path, suffix: str) -> set[str]:
+def test_type_counts(outputs: list[str]) -> Counter[str]:
+    """
+    Count planned dataset tests by task prefix.
+
+    Examples:
+
+    - mt_BR.por-XX.eng.flo.hyp       -> mt
+    - mt2_BR.por-XX.eng.flo.hyp      -> mt
+    - zero_FI.fin-XX.eng.flo.hyp     -> zero
+    - sentmt1_...                    -> sentmt
+
+    The counts are over plan.out outputs, so their sum is the value shown
+    in the tests column.
+    """
+    counts: Counter[str] = Counter()
+
+    for name in outputs:
+        task_name = name.split("_", 1)[0]
+        prefix = re.sub(r"[0-9]+$", "", task_name)
+        counts[prefix or task_name] += 1
+
+    return counts
+
+
+def format_test_types(counts: Counter[str]) -> str:
+    if not counts:
+        return "-"
+
+    return ", ".join(
+        f"{prefix} ({count})"
+        for prefix, count in sorted(counts.items())
+    )
+
+
+def directory_names(
+    path: Path,
+    suffix: str,
+) -> set[str]:
     try:
         return {
             entry.name
@@ -190,7 +268,7 @@ def directory_names(path: Path, suffix: str) -> set[str]:
 def row(
     alias: str,
     paths: dict[str, Path],
-    slurm_status: dict[str, tuple[str, str, str]],
+    slurm_status: dict[str, tuple[str, str, str]] | None,
 ) -> tuple:
     task_count = count_selected_tasks(
         paths["root"] / "inf_tasks.txt"
@@ -201,16 +279,11 @@ def row(
     )
 
     test_count = len(outputs)
+    type_counts = test_type_counts(outputs)
 
     hyp_names = directory_names(
         paths["hypotheses"],
         ".hyp",
-    )
-
-    inf_completed = sum(
-        1
-        for name in outputs
-        if name in hyp_names
     )
 
     sacre_names = directory_names(
@@ -218,10 +291,35 @@ def row(
         ".sacre",
     )
 
-    score_completed = sum(
+    # Count only hypotheses belonging to the current plan.
+    hyp_count = sum(
+        1
+        for name in outputs
+        if name in hyp_names
+    )
+
+    # Planned evaluation cases still waiting for inference.
+    inf_left = test_count - hyp_count
+
+    # Count only SacreBLEU files belonging to the current plan.
+    sacre_count = sum(
         1
         for name in outputs
         if name[:-4] + ".sacre" in sacre_names
+    )
+
+    # Scoring work currently possible and still unfinished:
+    # an existing hypothesis without its corresponding SacreBLEU file.
+    #
+    # Calculate this explicitly rather than as hyp_count - sacre_count,
+    # so an unusual orphan score file cannot make the count negative.
+    score_left = sum(
+        1
+        for name in outputs
+        if (
+            name in hyp_names
+            and name[:-4] + ".sacre" not in sacre_names
+        )
     )
 
     inf_job = job_status(
@@ -236,71 +334,94 @@ def row(
         slurm_status,
     )
 
-    # A stale .done flag must not claim that work is complete.
-    if inf_completed < test_count and inf_job == "DONE":
-        inf_job = "-"
-
-    if score_completed < test_count and score_job == "DONE":
-        score_job = "-"
-
     return (
         alias,
         task_count,
         test_count,
-        inf_completed,
+        hyp_count,
+        inf_left,
+        sacre_count,
+        score_left,
         inf_job,
-        score_completed,
         score_job,
+        type_counts,
     )
-
-
-
-def compact_job_status(status: str) -> str:
-    if status.startswith("RUN"):
-        return "RUN"
-
-    if status.startswith("PEND"):
-        return "PEND"
-
-    if status == "LEFT QUEUE":
-        return "LEFT"
-
-    return status
 
 
 def summarize_jobs(statuses: list[str]) -> str:
+    running = sum(
+        1
+        for status in statuses
+        if status == "RUN"
+    )
+
     pending = sum(
         1
         for status in statuses
-        if compact_job_status(status) == "PEND"
+        if status == "PEND"
     )
-    return str(pending) if pending else "-"
+
+    unknown = sum(
+        1
+        for status in statuses
+        if status == "?"
+    )
+
+    parts = []
+
+    if running:
+        parts.append(f"{running}R")
+
+    if pending:
+        parts.append(f"{pending}P")
+
+    if unknown:
+        parts.append(f"{unknown}?")
+
+    return "/".join(parts) if parts else "-"
 
 
 def print_table(rows):
-    fmt = "{:<37} {:>5} {:>5} {:>14} {:>8} {:>12} {:>8}"
+    fmt = (
+        "{:<42} "
+        "{:>5} "
+        "{:>5} "
+        "{:>6} "
+        "{:>8} "
+        "{:>6} "
+        "{:>10} "
+        "{:<8} "
+        "{:<9} "
+        "{}"
+    )
 
     print(
         fmt.format(
             "model",
             "tasks",
             "tests",
-            "inference",
-            "pending?",
-            "scoring",
-            "pending?",
+            "hyp",
+            "inf left",
+            "sacre",
+            "score left",
+            "inf job",
+            "score job",
+            "test types",
         )
     )
 
     print(
         fmt.format(
-            "-" * 37,
+            "-" * 42,
             "-" * 5,
             "-" * 5,
-            "-" * 12,
+            "-" * 6,
             "-" * 8,
-            "-" * 12,
+            "-" * 6,
+            "-" * 10,
             "-" * 8,
+            "-" * 9,
+            "-" * 30,
         )
     )
 
@@ -308,49 +429,95 @@ def print_table(rows):
         alias,
         task_count,
         test_count,
-        inf_completed,
+        hyp_count,
+        inf_left,
+        sacre_count,
+        score_left,
         inf_job,
-        score_completed,
         score_job,
+        type_counts,
     ) in rows:
         print(
             fmt.format(
                 alias,
                 task_count,
                 test_count,
-                f"{test_count - inf_completed} > {inf_completed}",
-                compact_job_status(inf_job),
-                f"{test_count - score_completed} > {score_completed}",
-                compact_job_status(score_job),
+                hyp_count,
+                inf_left,
+                sacre_count,
+                score_left,
+                inf_job,
+                score_job,
+                format_test_types(type_counts),
             )
         )
 
     print(
         fmt.format(
-            "-" * 37,
+            "-" * 42,
             "-" * 5,
             "-" * 5,
-            "-" * 12,
+            "-" * 6,
             "-" * 8,
-            "-" * 12,
+            "-" * 6,
+            "-" * 10,
             "-" * 8,
+            "-" * 9,
+            "-" * 30,
         )
     )
 
-    total_tasks = sum(r[1] for r in rows)
-    total_tests = sum(r[2] for r in rows)
-    total_inf = sum(r[3] for r in rows)
-    total_scores = sum(r[5] for r in rows)
+    total_tasks = sum(
+        r[1]
+        for r in rows
+    )
+
+    total_tests = sum(
+        r[2]
+        for r in rows
+    )
+
+    total_hyp = sum(
+        r[3]
+        for r in rows
+    )
+
+    total_inf_left = sum(
+        r[4]
+        for r in rows
+    )
+
+    total_sacre = sum(
+        r[5]
+        for r in rows
+    )
+
+    total_score_left = sum(
+        r[6]
+        for r in rows
+    )
+
+    total_type_counts: Counter[str] = Counter()
+
+    for r in rows:
+        total_type_counts.update(r[9])
 
     print(
         fmt.format(
             "TOTAL",
             total_tasks,
             total_tests,
-            f"{total_tests - total_inf} > {total_inf}",
-            summarize_jobs([r[4] for r in rows]),
-            f"{total_tests - total_scores} > {total_scores}",
-            summarize_jobs([r[6] for r in rows]),
+            total_hyp,
+            total_inf_left,
+            total_sacre,
+            total_score_left,
+            summarize_jobs(
+                [r[7] for r in rows]
+            ),
+            summarize_jobs(
+                [r[8] for r in rows]
+            ),
+            format_test_types(total_type_counts),
         )
     )
 
@@ -376,15 +543,24 @@ def main() -> None:
                 f"Bad --model value: {item!r}; expected ALIAS=DIR"
             )
 
-        alias, model_dir = item.split("=", 1)
+        alias, model_dir = item.split(
+            "=",
+            1,
+        )
+
         models.append(
-            (alias, model_dir)
+            (
+                alias,
+                model_dir,
+            )
         )
 
     model_paths = [
         (
             alias,
-            evaluation_paths(Path(model_dir)),
+            evaluation_paths(
+                Path(model_dir)
+            ),
         )
         for alias, model_dir in models
     ]
@@ -412,3 +588,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

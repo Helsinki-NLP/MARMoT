@@ -57,7 +57,7 @@ mk-slurm: $(INF_SCRIPT) $(CNT_SCRIPT) $(MET_SCRIPT) $(INF_CALLS) $(SACRE_CALLS) 
 > echo
 
 # creates the model specific slurm script for inferences
-$(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean-inf-lock $(SELFDIR)/include/mk-slurm.mk
+$(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean-inf-lock $(SELFDIR)/include/mk-slurm.mk FORCE_SLURM 
 > @ncalls="$$(wc -l < "$(INF_CALLS)")"; \
 > echo "mk-slurm.mk: ✅ Inference slurm template found $<"; \
 > echo "mk-slurm.mk:    Creating a script for job $(FIRST_GOAL)_inf_$${ncalls}_tasks..."; \
@@ -83,9 +83,11 @@ $(INF_SCRIPT): $(INF_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(INF_CALLS) clean
 > echo "mk-slurm.mk:    $@"; \
 > chmod +x "$@"
 
+.PHONY: FORCE_SLURM
+FORCE_SLURM:
 
 # creates the model specific slurm script for continuation
-$(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(SELFDIR)/include/mk-slurm.mk
+$(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(SELFDIR)/include/mk-slurm.mk FORCE_SLURM  
 > @set -euo pipefail; \
 > echo "mk-slurm.mk: ✅ Continuation slurm template found $<"; \
 > echo "mk-slurm.mk:    Creating a script for job $(FIRST_GOAL)_cnt..."; \
@@ -108,7 +110,7 @@ $(CNT_SCRIPT): $(CNT_TEMPLATE) $(SELFDIR)/include/mk-infer.mk $(SELFDIR)/include
 > chmod +x "$@"
 
 # creates the model specific slurm script for scoring
-$(MET_SCRIPT): $(MET_TEMPLATE) $(SELFDIR)/include/mk-score.mk $(SACRE_CALLS) clean-met-lock $(SELFDIR)/include/mk-slurm.mk
+$(MET_SCRIPT): $(MET_TEMPLATE) $(SELFDIR)/include/mk-score.mk $(SACRE_CALLS) clean-met-lock $(SELFDIR)/include/mk-slurm.mk FORCE_SLURM 
 > @set -euo pipefail; \
 > ncalls="$$(wc -l < $(TSKDIR)/calls.sacre.out)"; \
 > echo "mk-slurm.mk: ✅ Scoring slurm template found $<"; \
@@ -132,7 +134,7 @@ $(MET_SCRIPT): $(MET_TEMPLATE) $(SELFDIR)/include/mk-score.mk $(SACRE_CALLS) cle
 > echo "mk-slurm.mk:    $@"; \
 > chmod +x "$@"
 
-$(INF_SBATCH): $(INF_CALLS) $(INF_SCRIPT) clean-inf-lock $(SELFDIR)/include/mk-slurm.mk $(SELFDIR)/bin/slurm_distr.sh
+$(INF_SBATCH): $(INF_CALLS) $(INF_SCRIPT) clean-inf-lock $(SELFDIR)/include/mk-slurm.mk $(SELFDIR)/bin/slurm_distr.sh FORCE_SLURM 
 > @set -euo pipefail; \
 > rm -f "$(INF_SBATCH)"; \
 > bash -c 'unset "$${!SLURM_@}"; exec bash "$$1"' _ "$(INF_SCRIPT)" \
@@ -140,7 +142,7 @@ $(INF_SBATCH): $(INF_CALLS) $(INF_SCRIPT) clean-inf-lock $(SELFDIR)/include/mk-s
 > echo "mk-slurm.mk: ✅ Created the sbatch command:"; \
 > cat "$(INF_SBATCH)" | sed 's/^/mk-slurm.mk:    /'
 
-$(MET_SBATCH): $(SACRE_CALLS) $(MET_SCRIPT) clean-met-lock $(SELFDIR)/include/mk-slurm.mk $(SELFDIR)/bin/slurm_distr.sh
+$(MET_SBATCH): $(SACRE_CALLS) $(MET_SCRIPT) clean-met-lock $(SELFDIR)/include/mk-slurm.mk $(SELFDIR)/bin/slurm_distr.sh FORCE_SLURM 
 > @set -euo pipefail; \
 > rm -f "$(MET_SBATCH)"; \
 > bash -c 'unset "$${!SLURM_@}"; exec bash "$$1"' _ "$(MET_SCRIPT)" \

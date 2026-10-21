@@ -554,8 +554,8 @@ def collect_task_support(cfg, inventory):
     log(f"✅ Extracting tasks from training config and combining the codes and the tasks")
     return support
 
-TASK_RE  = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_([^-]+)-([^-]+)$")
-TASK_REX = re.compile(r"^(mt|sentmt|docmt|zeroshot)[0-9]?_[A-Z][A-Z].([^-_]+)[^-_]*-[A-Z][A-Z].([^-_]+)[^-_]*$")
+TASK_RE  = re.compile(r"^(mt|sentmt|docmt|zero)[0-9]?_([^-]+)-([^-]+)$")
+TASK_REX = re.compile(r"^(mt|sentmt|docmt|zero)[0-9]?_[A-Z][A-Z].([^-_]+)[^-_]*-[A-Z][A-Z].([^-_]+)[^-_]*$")
 
 def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers,
                                model, mammoth, logdir, scrdir, mammoth_type):

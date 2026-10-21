@@ -299,6 +299,27 @@ DATASET_LANGUAGE_OVERRIDES = {
     ("bqtpar", "por"): "por_BR",
 }
 
+from functools import lru_cache
+
+
+@lru_cache(maxsize=None)
+def testset_line_count(path: str) -> int:
+    with open(path, "r", encoding="utf-8", errors="strict") as f:
+        n = sum(1 for _ in f)
+
+    if n <= 0:
+        raise ValueError(f"empty test set: {path}")
+
+    return n
+
+def hypothesis_line_count(path: str) -> int | None:
+    try:
+        with open(path, "r", encoding="utf-8", errors="strict") as f:
+            return sum(1 for _ in f)
+    except (OSError, UnicodeError):
+        return None
+
+
 def dataset_language_id(inventory: LanguageInventory, code: str, dataset_tag: str,
                         xcode: str) -> str:
     """Return the RFC evaluation-language identifier for one dataset side."""
@@ -587,46 +608,46 @@ def plan_translation_and_scoring(
         f'--task_id "{orig_task}" --src "{input_path}" --output "{output_path}" --refer "{refer_path}" '
         f'--log "{logdir}/job${{SLURM_JOB_ID}}.{basename}.err"\n'
     )
+    expected_lines = testset_line_count(input_path)
+    output_lines = hypothesis_line_count(output_path)
+    if output_lines == expected_lines:
+        if os.path.exists(sacre_path) and os.path.getsize(sacre_path) > 500:
+            log(f"##      GOOD - already scored: {sacre_path}")
+        else:
+            log(f"##      DONE - ({expected_lines} lines) -- ready to measure")
+            log(f"##             Contrasting {refer_path} VS {output_path}")
+            writers.sacre.write(f'if [ -s "{sacre_path}" ] && [ "$(stat -c%s "{sacre_path}")" -gt 500 ]; then ')
+            writers.sacre.write(f'    echo "Skipping {sacre_path} because it already exists and is >500 bytes"; ')
+            writers.sacre.write("else ")
+            writers.sacre.write(f'    date | tee "{sacre_path}"; ')
+            writers.sacre.write(
+                f'    echo {TESTSET_NAMES[data_tag]} {orig_task} '
+                f'Contrasting {refer_path} VS {output_path} | tee -a "{sacre_path}"; ')
+            writers.sacre.write(f'    sacrebleu "{refer_path}" -i "{output_path}" -m bleu chrf | tee -a "{sacre_path}"; ')
+            writers.sacre.write("fi\n")
+        writers.comet.write(f'comet-score -r "{refer_path}" -t "{output_path}" -s "{input_path}" --gpus 1 | tee "{comet_path}"\n')
+        return True
     if os.path.exists(output_path):
-        with open(input_path, "r", encoding="utf-8") as f:
-            input_lines = sum(1 for _ in f)
-        with open(output_path, "r", encoding="utf-8") as f:
-            output_lines = sum(1 for _ in f)
-
-        if input_lines == output_lines:
-            if os.path.exists(sacre_path) and os.path.getsize(sacre_path) > 500:
-                log(f"##      GOOD - already scored: {sacre_path}")
-            else:
-                log(f"##      DONE - ({input_lines} lines on both) -- ready to measure")
-                log(f"##             Contrasting {refer_path} VS {output_path}")
-
-                writers.sacre.write(
-                    f'if [ -s "{sacre_path}" ] && [ "$(stat -c%s "{sacre_path}")" -gt 500 ]; then ')
-                writers.sacre.write(
-                    f'    echo "Skipping {sacre_path} because it already exists and is >500 bytes"; ')
-                writers.sacre.write("else ")
-                writers.sacre.write(f'    date | tee "{sacre_path}"; ')
-                writers.sacre.write(
-                    f'    echo {TESTSET_NAMES[data_tag]} {orig_task} Contrasting {refer_path} VS {output_path} | tee -a "{sacre_path}"; ')
-                writers.sacre.write(
-                    f'    sacrebleu "{refer_path}" -i "{output_path}" -m bleu chrf | tee -a "{sacre_path}"; ')
-                writers.sacre.write("fi\n")
-
-            writers.comet.write(
-                f'comet-score -r "{refer_path}" -t "{output_path}" -s "{input_path}" --gpus 1 | tee "{comet_path}"\n'
-            )
-            return True
-
-        log(f"##      REDO - ({input_lines} vs {output_lines} lines; re-translate) ==> {shortoutput}")
+        if output_lines is None:
+            log(f"##      REDO - unreadable hypothesis; re-translate ==> {shortoutput}")
+        else:
+            log(f"##      REDO - ({output_lines} vs {expected_lines} lines; re-translate) ==> {shortoutput}")
     else:
-        log(f"##      TODO - (translate now) ==> {shortoutput}")
-        log(f"##      TODO  - translate=> {output_path}")
-
+        log(f"##      TODO - ({expected_lines} lines expected; translate now) ==> {shortoutput}")
+        log(f"##      TODO - translate=> {output_path}")
+    runner = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "run_eval3_inference.py",)
     writers.calls.write(
-        f'python -u "{mammoth_dir}/translate.py" '
-        f'--config "{config_path}" --model "{model_path}" --task_id "{orig_task}" '
-        f'--src "{input_path}" --output "{output_path}" '
-        f'2>"{logdir}/job${{SLURM_JOB_ID}}.{basename}.err"\n'
+        f'python -u "{runner}" '
+        f'--mammoth "{mammoth_dir}" '
+        f'--config "{config_path}" '
+        f'--model "{model_path}" '
+        f'--task-id "{orig_task}" '
+        f'--src "{input_path}" '
+        f'--expected-lines {expected_lines} '
+        f'--output "{output_path}" '
+        f'--log "{logdir}/job${{SLURM_JOB_ID}}.{basename}.err"\n'
     )
     return True
 
