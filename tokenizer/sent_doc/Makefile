@@ -8,7 +8,8 @@
 #
 
 MAX_LINES       ?= 100000000
-MAX_LINES_SYNT  ?= 20000000
+MAX_LINES_SENT  ?= 10000000
+MAX_LINES_SYNT  ?= 10000000
 MAX_LINE_LENGTH ?= 2048
 
 ## closer to binary numbers
@@ -101,10 +102,10 @@ langgroup-tokenizer-jobs: ${LANGGROUP_TOKENIZER_JOBS}
 ${TOKENIZERS}:
 	mkdir -p $(dir $@)
 	for d in `find $(DATADIR) -name '*.$(firstword $(subst /, ,$@)).gz'`; do \
-	  zcat $$d | head -${MAX_LINES} > $(dir $@)traindata.tmp; \
+	  zcat $$d | head -${MAX_LINES_SENT} > $(dir $@)traindata.tmp; \
 	done
 	for d in `find $(DATADIR) -name '*.$(firstword $(subst /, ,$@))_[A-Za-z0-9]*.gz'`; do \
-	  zcat $$d | head -${MAX_LINES} > $(dir $@)traindata.tmp; \
+	  zcat $$d | head -${MAX_LINES_SENT} > $(dir $@)traindata.tmp; \
 	done
 	for d in `find ${MULTISYNT_DATADIR} -name '*.$(firstword $(subst /, ,$@)).gz'`; do \
 	  zcat $$d | head -${MAX_LINES_SYNT} > $(dir $@)traindata.tmp; \
@@ -126,11 +127,11 @@ ${LANGGROUP_TOKENIZERS}:
 	for l in `langgroup $(firstword $(subst /, ,$@))`; do \
 	  for d in `find $(DATADIR) -name "*.$$l.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES} >> $(dir $@)traindata.tmp; \
+	    zcat $$d.gz | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	  for d in `find $(DATADIR) -name "*.$${l}_[A-Za-z0-9]*.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES} >> $(dir $@)traindata.tmp; \
+	    zcat $$d.gz | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	  for d in `find $(MULTISYNT_DATADIR) -name "*.$$l.gz"`; do \
 	    echo "get data from $$d"; \
