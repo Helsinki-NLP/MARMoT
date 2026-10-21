@@ -1,0 +1,74 @@
+# -----------------------------------------------------------------------------
+# eval3 migration bridge (does not replace or submit the eval2 workflow)
+# -----------------------------------------------------------------------------
+# Include from the main Makefile AFTER mk-paths.mk, mk-confs.mk and mk-basic.mk.
+# Uses the model selected by the existing alias / MODELDIR mechanism.
+#
+# Public targets:
+#   mk-eval3-yaml     Build one combined evaluation/configs/inference.yaml
+#   eval3-migrate-dry Print a checked, executable Bash rename plan to stdout
+#
+# Suggested workflow:
+#   make <model> mk-eval3-yaml
+#   make <model> eval3-migrate-dry > rename-eval3.sh
+#   sed -n '1,120p' rename-eval3.sh
+#   bash rename-eval3.sh               # only after inspection, with jobs stopped
+#
+# No inference, scoring, or renaming is executed by either make target.
+
+EVAL3_INFERENCE_YAML := $(CFGDIR)/inference.yaml
+EVAL3_YAML_SCRIPT    := $(SELFDIR)/bin/make_inference_yaml.py
+EVAL3_MIGRATE_SCRIPT := $(SELFDIR)/bin/plan_eval3_migration.py
+
+# The existing VIEW_PYTHON venv contains PyYAML. Override if you use another
+# interpreter with PyYAML, e.g. EVAL3_PYTHON=python3.
+EVAL3_PYTHON ?= $(VIEW_PYTHON)
+
+# Default: migrate all task keys from train.yaml. Optionally limit the plan to
+# an explicit file containing training-task IDs (one per line).
+EVAL3_TASKS_FILE ?=
+
+# Legacy eval2 expanded some locale aliases into distinct output filenames.
+# This opt-in mode permits aliases ONLY if their bytes are identical. Redundant
+# old files remain on disk and need a later, separately verified cleanup.
+EVAL3_DEDUPLICATE_IDENTICAL ?= 0
+
+.PHONY: mk-eval3-yaml eval3-migrate-dry
+
+# Only a real changed training config or converter script rebuilds this file.
+# We intentionally do NOT require mk-basic: checkpoint inspection, Slurm, etc.
+# are unnecessary to convert the existing training YAML.
+$(EVAL3_INFERENCE_YAML): $(TRAINCONFIG) $(EVAL3_YAML_SCRIPT) | $(CFGDIR)
+> @set -euo pipefail; \
+> test "$(MAMMOTH_TYPE)" = pytorch -o "$(MAMMOTH_TYPE)" = xtransformers || { \
+>   echo 'mk-eval3.mk: unsupported MAMMOTH_TYPE=$(MAMMOTH_TYPE)' >&2; exit 2; \
+> }; \
+> command -v "$(EVAL3_PYTHON)" >/dev/null 2>&1 || { \
+>   echo 'mk-eval3.mk: EVAL3_PYTHON=$(EVAL3_PYTHON) not found (needs PyYAML)' >&2; exit 2; \
+> }; \
+> "$(EVAL3_PYTHON)" "$(EVAL3_YAML_SCRIPT)" \
+>   "$(TRAINCONFIG)" "$@" --mammoth-type "$(MAMMOTH_TYPE)"
+
+mk-eval3-yaml: $(EVAL3_INFERENCE_YAML)
+
+# PHONY by design: always look at the *current* eval2 output inventory.
+# The planner itself refuses ambiguous mapping and destinations that exist.
+# Its stdout is PURE shell script; diagnostics and integrity reports go to
+# stderr. Nothing is executed, renamed, or written to disk by this recipe.
+eval3-migrate-dry: $(EVAL3_INFERENCE_YAML) $(EVAL3_MIGRATE_SCRIPT)
+> @set -euo pipefail; \
+> command -v "$(EVAL3_PYTHON)" >/dev/null 2>&1 || { \
+>   echo 'mk-eval3.mk: EVAL3_PYTHON=$(EVAL3_PYTHON) not found (needs PyYAML)' >&2; exit 2; \
+> }; \
+> test -d "$(HYPDIR)" || { echo 'mk-eval3.mk: missing hypotheses dir: $(HYPDIR)' >&2; exit 2; }; \
+> test -d "$(SCRDIR)" || { echo 'mk-eval3.mk: missing scores dir: $(SCRDIR)' >&2; exit 2; }; \
+> args=(); \
+> if [[ -n "$(EVAL3_TASKS_FILE)" ]]; then \
+>   args+=(--tasks-file "$(EVAL3_TASKS_FILE)"); \
+> fi; \
+> if [[ "$(EVAL3_DEDUPLICATE_IDENTICAL)" == 1 ]]; then \
+>   args+=(--deduplicate-identical); \
+> fi; \
+> "$(EVAL3_PYTHON)" "$(EVAL3_MIGRATE_SCRIPT)" \
+>   "$(EVAL3_INFERENCE_YAML)" \
+>   --hyp-dir "$(HYPDIR)" --score-dir "$(SCRDIR)" "$${args[@]}"

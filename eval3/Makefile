@@ -1,0 +1,348 @@
+.DEFAULT_GOAL := help
+
+STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif reset-plan-all score-all \
+                plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition infer-score-all \
+                compare help list-groups models-ready squeue bleu chrf eval3-migrate-all stale-hypotheses \
+                submit-inf-worker submit-inf-worker-dev-g eval3-scheduler-dirs test-eval3-worker
+STATIC_ONLY := $(if $(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),,yes)
+
+SELFDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+.RECIPEPREFIX := >
+.SHELLFLAGS := -c
+SHELL := /bin/bash
+
+# -----------------------------------------------------------------------------
+# Model Selection
+# -----------------------------------------------------------------------------
+
+include $(SELFDIR)/include/mk-model.mk  # model names and paths
+export $(addprefix MODEL_,$(MODEL_ALIASES))
+STATUS_MODELS := $(foreach a,$(MODEL_ALIASES),--model "$(a)=$(MODEL_$(a))")
+
+include $(SELFDIR)/include/mk-targs.mk  # parse commandline args
+MODELDIR_CLEAN := $(patsubst %/,%,$(MODELDIR))
+MODEL := $(MODELDIR_CLEAN)/
+
+.PHONY: list-eval-files migrate-eval-dry-run migrate-eval
+include $(SELFDIR)/include/mk-paths.mk  # parse commandline args
+
+# -----------------------------------------------------------------------------
+# Mammoth and Eval Configuration
+# -----------------------------------------------------------------------------
+
+# project_462001059
+JOBPROJECT     := project_462001509
+DISKPROJECT    := project_462001087
+
+TESTINGDIR     := /scratch/$(DISKPROJECT)/shared/testing-shared
+DATADIR        := $(TESTINGDIR)/data
+
+MAMMOTH_XT_64   := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-64
+MAMMOTH_XT_DEF  := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth-dev
+MAMMOTH_PYTORCH := /scratch/$(JOBPROJECT)/shared/mammoth-shared/mammoth_pytorch
+
+# MAMMOTH_TYPE
+# ├── pytorch
+# │   └── MAMMOTH_PYTORCH/mammoth => MAMMOTH_PYTHONPATH
+# └── xtransformers
+#     └── MAMMOTH_XT_DEF/mammoth => MAMMOTH_PYTHONPATH
+
+ifeq ($(MAMMOTH_TYPE),xtransformers)
+  MAMMOTH_ROOT       := $(MAMMOTH_XT_DEF)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_XT_DEF)/mammoth
+endif
+ifeq ($(MAMMOTH_TYPE),pytorch)
+  MAMMOTH_ROOT       := $(MAMMOTH_PYTORCH)
+  MAMMOTH_PYTHONPATH := $(MAMMOTH_PYTORCH)/mammoth
+endif
+
+VENV           := /scratch/$(JOBPROJECT)/shared/mammoth-shared/.venv
+INF_ACTIVATE   := $(VENV)/bin/activate
+
+SACRE_VENV     := $(TESTINGDIR)/venvs/sacre
+SACRE_ACTIVATE := $(SACRE_VENV)/bin/activate
+SACREPYTHON    := $(SACRE_VENV)/bin/python
+
+VIEW_VENV      := $(TESTINGDIR)/venvs/view
+VIEW_ACTIVATE  := $(VIEW_VENV)/bin/activate
+VIEW_PYTHON    := $(VIEW_VENV)/bin/python
+LANG2VEC_REPO  := $(TESTINGDIR)/pkgs/lang2vec
+
+PLOT_ACTIVATE  := $(TESTINGDIR)/venvs/plot/bin/activate
+PLOT_PYTHON    := $(TESTINGDIR)/venvs/plot/bin/python
+PLOT_VENV      := $(TESTINGDIR)/venvs/plot
+
+
+INF_TEMPLATE := $(SELFDIR)/template/slurm_inf.templ
+CNT_TEMPLATE := $(SELFDIR)/template/slurm_cnt.templ
+MET_TEMPLATE := $(SELFDIR)/template/slurm_met.templ
+
+INSPECT_MODEL_FILES := $(SELFDIR)/bin/inspect-model-files.py
+
+EVAL3_SCHEDULER ?= /scratch/$(JOBPROJECT)/members/tiedeman/MARMoT/models/eval3scheduler
+EVAL3_QUEUE     := $(EVAL3_SCHEDULER)/queue
+EVAL3_CLAIMS    := $(EVAL3_SCHEDULER)/claims
+EVAL3_LOGS      := $(EVAL3_SCHEDULER)/logs
+
+# -----------------------------------------------------------------------------
+# Top-level workflow
+# -----------------------------------------------------------------------------
+
+.PHONY: list status help
+list: 
+> @$(foreach a,$(MODEL_ALIASES),printf "  %-10s -> %s\n" "$(a)" "$(MODEL_$(a))";)
+> @echo Remember to mount the project directories in slurm_*.templ files when using containers
+status:
+> @module load cray-python; python3 "$(SELFDIR)/bin/status.py" $(STATUS_MODELS)
+help: 
+> @printf "\n\
+Usage:\n\
+  make help\n\
+  make <MODEL> <target>                 # generic form for known models (include/mk-model.mk)\n\
+  make MODELDIR=/path/to/model <target> # generic form for unknon models\n\
+  make list                             # shows the list of declared MODELs\n\
+Setup:\n\
+  make mk-basic                         # ensures subdirs + mammoth + sacre + testing.yaml (?!!)\n\
+  make <MODEL> inspect-model-summary    # shows information on the model files \n\
+  make <MODEL> which-mammoth            # shows the path of selected mammoth installation\n\
+  make <MODEL> clean-mammoth            # resets the model's mammoth installation path for the model\n\
+  make <MODEL> clean-basic              # resets the mammoth path and the model information\n\
+Planning:\n\
+  make <MODEL> mk-tasks                 # construct suggestions for language pairs\n\
+  make <MODEL> mk-tasks-force           # construct and accept suggestions for language pairs\n\
+  make <MODEL> mk-calls                 # mk-tasks + plan the inference and/or scoring calls\n\
+  make <MODEL> mk-calls-force           # accept the suggested language pairs + mk-calls\n\
+Inference & Scoring:\n\
+  make <MODEL> mk-inf-tasks             # build one durable .inf task per hypothesis\n\
+  make <MODEL> mk-queue                 # add unfinished model tasks to shared queue\n\
+  make submit-inf-worker                # submit a production shared-queue worker\n\
+  make submit-inf-worker-dev-g          # short dev-g worker; successor disabled\n\
+  make <MODEL> mk-infer                 # legacy calls.out inference path\n\
+  make <MODEL> mk-infer-force           # accept the suggested language pairs + mk-inder\n\
+  make <MODEL> mk-infer-score           # run scorings\n\
+  make <MODEL> mk-infer-score-force     # accept the suggested language pairs + mk-score\n\
+  make <MODEL> mk-infer-score           # mk-infer + mk-score\n\
+  make <MODEL> mk-infer-score-force     # accept the suggested language pairs + mk-infer-score\n\
+  make <MODEL> mk-continue-eval         # replan the residual runs and continue them\n\
+  make <MODEL> mk-continue-eval-force   # accept the suggested language pairs + mk-continue-eval\n\
+General goals:\n\
+  make mk-continue-all                  # for all models, mk-continue-eval\n\
+  make mk-continue-all-force            # for all models, mk-continue-eval-force\n\
+  make status                           # shows the scoring status of declared models\n\
+"
+
+# A bare model alias only selects its backend.  Full checkpoint inspection is
+# available explicitly through `make <MODEL> inspect-model-summary`.
+.PHONY: $(MODEL_ALIASES)
+$(MODEL_ALIASES):
+> @if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then \
+>   $(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODEL_$@)" which-mammoth; \
+> fi
+
+.PHONY: venvs lang2vec test-sif find-sif
+include $(SELFDIR)/include/mk-confs.mk # venvs, (non)slurm detection, python, sif
+
+.PHONY: mk-basic inspect-model-summary which-mammoth clean-mammoth clean-basic
+include $(SELFDIR)/include/mk-basic.mk # model inspection, mammoth ver, dirs
+
+include $(SELFDIR)/include/mk-eval3.mk
+
+.PHONY: mk-tasks mk-pairs-tasks
+include $(SELFDIR)/include/mk-tasks.mk # determine the desired language tasks
+
+.PHONY: calls clean-calls mk-calls mk-calls-force 
+include $(SELFDIR)/include/mk-calls.mk # calls.*.out and yaml files
+
+# Fine-grained shared inference queue: one durable *.inf task per hypothesis.
+include $(SELFDIR)/include/mk-queue.mk
+
+.PHONY: mk-slurm slurm clean-slurm
+.PHONY: clean-inf-lock clean-cnt-lock clean-met-lock
+include $(SELFDIR)/include/mk-slurm.mk # slurm scripts and sbatch lines
+
+.PHONY: status-infer infer infer-score
+.PHONY: mk-infer mk-infer-force mk-infer-score mk-infer-score-force
+include $(SELFDIR)/include/mk-infer.mk # run inference calls
+
+.PHONY: status-score score mk-score mk-score-force mk-comet
+include $(SELFDIR)/include/mk-score.mk # run scoring calls
+
+.PHONY: continue-eval continue-eval-force continue-all continue-all-force
+include $(SELFDIR)/include/mk-contr.mk # loop runs until done
+
+.PHONY: list-sacre-all sacre-tsv-all list-tsv-all
+include $(SELFDIR)/include/mk-saved.mk # saved scores
+
+##################################
+# VISUALIZATION AND QUERY TARGETS
+##################################
+
+# It would be good if evaluation can be done also for selected tasks
+# only. Automation is good but it would also be good if we can do
+# something like make TASKS="mt_eng-fin mt_fin-eng" evaluation to only
+# run evaluation over different benchmarks for the selected
+# tasks. Some kind of flexibility is good  to have.  That could maybe
+# also apply to analysis and visualization. Would be quite nice if one
+# could make a selection of tasks to print score overviews and
+# visualizations. Sometimes it can be good to zoom in into specific
+# tasks instead of having the whole overview of the entire system with
+# all tasks.
+.PHONY: mt-bleu mt-chrf mt-bleu-chrf
+mt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind mt $(MODELDIR)/inf_scores/
+sentmt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind sentmt $(MODELDIR)/inf_scores/
+docmt-bleu:
+> module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric BLEU --kind docmt $(MODELDIR)/inf_scores/
+mt-chrf:
+> @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --metric chrF2 --kind mt $(MODELDIR)/inf_scores/
+mt-bleu-chrf:
+> @module load cray-python; python "$(SELFDIR)/bin/summarize_sacre.py" --kind mt $(MODELDIR)/inf_scores/
+
+plot-docmt:
+> $(PLOT_PYTHON) compare.py \
+>  --mk-models include/mk-model.mk \
+>  --kind mt \
+>  --dataset bqtpar \
+>  --models docmt4denhalfbase docmt4denhalfsmall docmt4denhalfxl docmt10denhalf \
+>  --delta docmt10denhalf docmt4denhalfxl \
+>  --outdir cmp_docmt
+> cat cmp_docmt/dominance_pretty.txt
+> cat cmp_docmt/dominance_percent.txt
+> cat cmp_docmt/condorcet.txt
+
+plot-sentmt:
+> $(PLOT_PYTHON) compare.py   --mk-models include/mk-model.mk   --kind sentmt   \
+>   --dataset bqtpar   --models sentmtdenoise sentmthalfsmall sentmthalfxl  \
+>   --delta sentmthalfsmall sentmthalfxl   --outdir cmp_sentmt
+
+PARTITION_MODELS ?= $(MODEL_ALIASES)
+PARTITION_VIEW   ?= summary
+PARTITION_METRIC ?= BLEU
+PARTITION_DATASET ?=
+
+.PHONY: coverage-partition
+coverage-partition:
+> @set -eu; \
+> args=""; \
+> for a in $(PARTITION_MODELS); do \
+>   eval "model_dir=\$${MODEL_$$a}"; \
+>   if [ -d "$$model_dir/evaluation" ]; then \
+>     tsv_file="$$model_dir/evaluation/reports/sacre.tsv"; \
+>   else \
+>     tsv_file="$$model_dir/eval3/sacre.tsv"; \
+>   fi; \
+>   if [ ! -f "$$tsv_file" ]; then \
+>     echo "ERROR: missing sacre.tsv for $$a: $$tsv_file" >&2; \
+>     exit 1; \
+>   fi; \
+>   args="$$args --input $$a=$$tsv_file"; \
+> done; \
+> dataset_arg=""; \
+> if [ -n "$(PARTITION_DATASET)" ]; then \
+>   dataset_arg="--dataset $(PARTITION_DATASET)"; \
+> fi; \
+> module load cray-python; python3 "$(SELFDIR)/bin/partition_coverage.py" \
+>   $$args \
+>   --metric "$(PARTITION_METRIC)" \
+>   $$dataset_arg \
+>   --view "$(PARTITION_VIEW)"
+
+# make compare COMPARE_GROUP=G06
+# make compare COMPARE_MODELS="docmt4denhalfbase docmt4denhalfxl docmt4"
+COMPARE_GROUP   ?=
+COMPARE_METRIC  ?= BLEU
+COMPARE_DATASET ?= bqtpar
+COMPARE_MODE    ?= all
+
+.PHONY: compare help list-groups
+
+compare:
+> @set -eu; \
+> case "$(word 2,$(MAKECMDGOALS))" in \
+>   help) \
+>     module load cray-python; python3 "$(SELFDIR)/bin/compare_scores.py" --help \
+>     ;; \
+>   list-groups) \
+>     module load cray-python; python3 "$(SELFDIR)/bin/compare_scores.py" --list-groups \
+>       --mode "$(COMPARE_MODE)" \
+>       --mk-models "$(SELFDIR)/include/mk-model.mk" ;\
+>     ;; \
+>   "") \
+>     group_arg=""; \
+>     if [ -n "$(COMPARE_GROUP)" ]; then \
+>       group_arg="--group $(COMPARE_GROUP)"; \
+>     fi; \
+>     module load cray-python; python3 "$(SELFDIR)/bin/compare_scores.py" \
+>       --mk-models "$(SELFDIR)/include/mk-model.mk" \
+>       $$group_arg \
+>       --metric "$(COMPARE_METRIC)" \
+>       --mode "$(COMPARE_MODE)" \
+>       --dataset "$(COMPARE_DATASET)"; \
+>     ;; \
+>   *) \
+>     echo "ERROR: unknown compare command: $(word 2,$(MAKECMDGOALS))" >&2; \
+>     exit 1; \
+>     ;; \
+> esac
+
+.PHONY: squeue
+squeue:
+> @squeue -u $$USER -o "%.4Q %.18i %.9P %.47j %.8T %.10M %.9l %.6D %R"
+
+list-groups:
+> @:
+
+# -----------------------------------------------------------------------------
+# HPO score tables
+# -----------------------------------------------------------------------------
+
+HPO_SCORE_TABLES := $(SELFDIR)/bin/hpo_score_tables.py
+HPO_DATASET ?= flo
+HPO_DEBUG ?=
+
+.PHONY: bleu chrf
+
+bleu:
+> @test -n "$(strip $(TASKS))" || { \
+>   echo 'Usage: make TASKS="mt_eng-fin [mt_fin-eng ...]" [HPO_DATASET=flo] bleu'; \
+>   exit 2; \
+> }
+> @$(SACREPYTHON) "$(HPO_SCORE_TABLES)" \
+>   --hpo-root "$(PMODELS)" \
+>   --metric BLEU \
+>   --dataset "$(HPO_DATASET)" \
+>   $(foreach t,$(TASKS),--task "$(t)") \
+>   $(if $(HPO_DEBUG),--debug,)
+
+chrf:
+> @test -n "$(strip $(TASKS))" || { \
+>   echo 'Usage: make TASKS="mt_eng-fin [mt_fin-eng ...]" [HPO_DATASET=flo] chrf'; \
+>   exit 2; \
+> }
+> @$(SACREPYTHON) "$(HPO_SCORE_TABLES)" \
+>   --hpo-root "$(PMODELS)" \
+>   --metric chrF2 \
+>   --dataset "$(HPO_DATASET)" \
+>   $(foreach t,$(TASKS),--task "$(t)") \
+>   $(if $(HPO_DEBUG),--debug,)
+
+.PHONY: infer-score-all
+infer-score-all:
+> @failed=""; \
+> for model in $(MODEL_ALIASES); do \
+>   echo >&2; \
+>   echo "============================================================" >&2; \
+>   echo "infer-score: $$model" >&2; \
+>   echo "============================================================" >&2; \
+>   if ! $(MAKE) --no-print-directory "$$model" infer-score; then \
+>     echo "infer-score: $$model FAILED or already running; continuing" >&2; \
+>     failed="$$failed $$model"; \
+>   fi; \
+> done; \
+> if [ -n "$$failed" ]; then \
+>   echo >&2; \
+>   echo "infer-score: models returning non-zero:" >&2; \
+>   for model in $$failed; do echo "  $$model" >&2; done; \
+> fi
+
