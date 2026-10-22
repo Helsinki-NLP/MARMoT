@@ -27,12 +27,14 @@ reverse = $(lastword $(subst -, ,$(1)))-$(firstword $(subst -, ,$(1)))
 space := $(subst ,, )
 
 
-## some pre-defined subset of languages
+## some pre-defined subset of language IDs
 ## and a mapping from languages to language-groups
 ## (OpenEuroLLM languages only)
 
 
-LANGUAGES ?= 	bos bul cat ces dan deu ell eng \
+ifndef LANGUAGE_IDS
+
+LANGUAGE_IDS ?= bos bul cat ces dan deu ell eng \
 		est eus fin fra gle glg hrv hun \
 		isl ita kat lav lit mkd mlt nld \
 		nno nob pol por ron slk slv spa \
@@ -42,7 +44,9 @@ LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
 		urj euq urj roa cel roa zls urj \
 		gmq roa ccs bat bat zls sem gmw \
 		gmq gmq zlw roa roa zlw zls roa \
-		mul zls gmq trk zle
+		sqj zls gmq trk zle
+
+endif
 
 
 ## look up the language group for a given language ID
@@ -53,9 +57,9 @@ LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
 
 
 ifneq ($(shell which langgroup 2>/dev/null),)
-  langgroup = $(call lookup,$1,$1 $(LANGUAGES),$(shell langgroup -p -n $1 2>/dev/null) $(LANGUAGE2GROUP))
+  langgroup = $(call lookup,$1,$1 $(LANGUAGE_IDS),$(shell langgroup -p -n $1 2>/dev/null) $(LANGUAGE2GROUP))
 else
-  langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGES),$1 $(LANGUAGE2GROUP))
+  langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGE_IDS),$1 $(LANGUAGE2GROUP))
 endif
 
 

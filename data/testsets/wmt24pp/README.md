@@ -13,7 +13,7 @@ make LANGPAIR=en-fi_FI predict      # next-sentence-prediction data
 ## Output
 
 * the raw `jsonl` files are downloaded from Hugging Face (`google/wmt24pp`) — `<src>-<trg>.jsonl`;
-* `extract` converts them with [`tools/wmt24_to_tsv.py`](../../../tools/wmt24_to_tsv.py) into flat text files `<lang>.<iso3>` (e.g. `en.eng`, `fi.fin`, ...); language codes come from `LANGPAIR` with region suffixes stripped for the ISO conversion;
-* `predict` builds adjacent-sentence pairs with [`tools/wmt24_to_predict.py`](../../../tools/wmt24_to_predict.py) under `next_sent_predict/wmt24pp_<iso3>-<iso3>.{in,out}.gz` for both the source and target language.
+* `extract` converts them with [`tools/data/wmt24_to_tsv.py`](../../../tools/data/wmt24_to_tsv.py) into flat text files `<lang>.<iso3>` (e.g. `en.eng`, `fi.fin`, ...); language codes come from `LANGPAIR` with region suffixes stripped for the ISO conversion;
+* `predict` builds adjacent-sentence pairs with [`tools/data/wmt24_to_predict.py`](../../../tools/data/wmt24_to_predict.py) under `next_sent_predict/wmt24pp_<iso3>-<iso3>.{in,out}.gz` for both the source and target language.
 
 Note: the file names use the `SRC`/`TRG` codes from `LANGPAIR` (e.g. `en-fi_FI` → `en.eng` + `fi_FI.fin` after conversion).
