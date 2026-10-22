@@ -84,6 +84,14 @@ memory-profile: ${TRAIN_CONFIGFILE}
 	python ${MEMORY_PROFILER} $< ${GPU_MEM}
 
 
+.PHONY: print-data-balance
+print-data-balance:
+	${TOOLS_DIR}/config/sum_task_weights.py ${TRAIN_CONFIGFILE}
+
+.PHONY: print-task-balance
+print-task-balance:
+	${TOOLS_DIR}/config/sum_components.py ${TRAIN_CONFIGFILE}
+
 
 ##------------------------------------------------------------------
 ## reporting targets:

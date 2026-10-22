@@ -17,6 +17,13 @@ TASK_IDS       ?= $(foreach t,${TASK_NRS},task$t_$(word $t,${TASKS}))
 TASK_TYPES     ?= $(patsubst %/,%,$(dir $(subst _,/,$(TASK_IDS))))
 TASK_LANGPAIRS ?= ${TASKS}
 
+ifneq ($(words ${TASK_LANGPAIRS}),$(words ${TASKS}))
+  MISSING_START_IDX := $(shell echo $$(( $(words ${TASK_LANGPAIRS})+1 )) )
+  MISSING_END_IDX   := $(words $(TASKS))
+  MISSING_LANGPAIRS := $(wordlist $(MISSING_START_IDX),$(MISSING_END_IDX),$(TASKS))
+  TASK_LANGPAIRS += ${MISSING_LANGPAIRS}
+endif
+
 
 ## select a task as the current one
 

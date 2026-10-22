@@ -44,7 +44,7 @@ LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
 		urj euq urj roa cel roa zls urj \
 		gmq roa ccs bat bat zls sem gmw \
 		gmq gmq zlw roa roa zlw zls roa \
-		mul zls gmq trk zle
+		sqj zls gmq trk zle
 
 endif
 
