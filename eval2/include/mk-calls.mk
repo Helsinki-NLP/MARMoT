@@ -27,7 +27,13 @@ mk-calls-force:
 > @$(MAKE) --no-print-directory -C "$(SELFDIR)" FORCE_PAIRS=1 $(FIRST_GOAL) calls
 
 $(INF_CALLS): $(PLAN_LOG)
+ifeq ($(SKIP_CALL_PLANNING),1)
+$(INF_CALLS):
+> @test -s "$(INF_CALLS)"
+else
+$(INF_CALLS): $(PLAN_LOG)
 > @test -f "$(INF_CALLS)"
+endif
 
 $(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) | $(EVAL_DIRS)
 > @set -euo pipefail; \
@@ -41,8 +47,7 @@ $(PLAN_LOG): $(TRAINCONFIG) $(MAMMOTH_SELECTED) $(PRS_DONE) | $(EVAL_DIRS)
 > export CFGDIR="$(CFGDIR)"; \
 > export HYPDIR="$(HYPDIR)"; \
 > export DATADIR="$(DATADIR)"; \
-> export ZEROSHOTPAIRS="$(ZEROSHOTPAIRS)"; \
-> export SUPERVISEDPAIRS="$(SUPERVISEDPAIRS)"; \
+> export INFTASKS="$(TASKS)"; \
 > export MAMMOTH_TYPE="$(MAMMOTH_TYPE)"; \
 > module load cray-python; \
 > if "$(VIEW_PYTHON)" "$(SELFDIR)/bin/inf_plan.py" \

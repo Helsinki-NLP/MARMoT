@@ -45,15 +45,20 @@ EVAL_DIRS := $(sort $(FLGDIR) $(TSKDIR) $(CFGDIR) $(HYPDIR) $(LOGDIR) $(SCRDIR))
 EVAL_DIRS_TO_CREATE := $(sort $(filter-out \
                      $(MODELDIR) $(MODELDIR_CLEAN),$(EVAL_DIRS)))
 
-ZEROSHOTPAIRSINPUT    := $(EVALROOT)/inf_zeroshot.txt.input
-ZEROSHOTPAIRS         := $(EVALROOT)/inf_zeroshot.txt
-SUPERVISEDPAIRSINPUT  := $(EVALROOT)/inf_supervised.txt.input
-SUPERVISEDPAIRS       := $(EVALROOT)/inf_supervised.txt
+TASKSINPUT := $(EVALROOT)/inf_tasks.txt.input
+TASKS      := $(EVALROOT)/inf_tasks.txt
+TASKS_INPUT_DONE := $(FLGDIR)/tasks_input.done
+
+# ZEROSHOTPAIRSINPUT    := $(EVALROOT)/inf_zeroshot.txt.input
+# ZEROSHOTPAIRS         := $(EVALROOT)/inf_zeroshot.txt
+# SUPERVISEDPAIRSINPUT  := $(EVALROOT)/inf_supervised.txt.input
+# SUPERVISEDPAIRS       := $(EVALROOT)/inf_supervised.txt
+# PAIR_INPUTS_DONE      := $(FLGDIR)/pairs_input.done
+
 MODEL_SUMMARY         := $(EVALROOT)/model-summary.yaml
 MAMMOTH_SELECTED      := $(EVALROOT)/mammoth.selected
 
 # Keep all completion markers together.
-PAIR_INPUTS_DONE := $(FLGDIR)/pairs_input.done
 BAS_DONE         := $(FLGDIR)/preps.done
 PRS_DONE         := $(FLGDIR)/pairs.done
 INF_DONE         := $(FLGDIR)/inference.done
@@ -73,6 +78,10 @@ CNT_SCRIPT  := $(TSKDIR)/cnt.slurm
 MET_SCRIPT  := $(TSKDIR)/met.slurm
 INF_SBATCH  := $(TSKDIR)/inf.sbatch
 MET_SBATCH  := $(TSKDIR)/met.sbatch
+
+
+# INF_BATCH_DIR   := $(TSKDIR)/inference-batches
+# INF_BATCH_READY := $(TSKDIR)/inference-batches.ready
 
 .PHONY: list-eval-files
 list-eval-files:
@@ -130,11 +139,9 @@ list-eval-files:
 > show_file "$(MAMMOTH_SELECTED)"       "> selected Mammoth implementation"; \
 > show_file "$(BAS_DONE)"               "  > basic setup completion marker"; \
 > \
-> show_file "$(ZEROSHOTPAIRSINPUT)"     "input zero-shot pair selection"; \
-> show_file "$(SUPERVISEDPAIRSINPUT)"   "input supervised pair selection"; \
-> show_file "$(PAIR_INPUTS_DONE)"       "> pair-input preparation completion marker"; \
-> show_file "$(ZEROSHOTPAIRS)"          "  > selected zero-shot pairs — REQUIRED for re-planning"; \
-> show_file "$(SUPERVISEDPAIRS)"        "  > selected supervised pairs — REQUIRED for re-planning"; \
+> show_file "$(TASKSINPUT)"             "input task selection"; \
+> show_file "$(TASKS)"                  "  > selected tasks — REQUIRED for re-planning"; \
+> show_file "$(TASK_INPUTS_DONE)"       "> pair-input preparation completion marker"; \
 > show_file "$(PRS_DONE)"               "    > pair-selection completion marker"; \
 > \
 > show_lines "$(TSKDIR)/plan.out"       "planned evaluation runs"; \

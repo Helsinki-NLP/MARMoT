@@ -3,7 +3,9 @@
 # specific configuration for lumi@csc
 #
 
-HPC_PROJECT  ?= project_462000964
+# HPC_PROJECT  ?= project_462000964
+HPC_PROJECT  ?= project_462001509
+
 
 MAX_GPUS_PER_NODE   ?= 8
 MAX_MEM_PER_GPU     ?= 16

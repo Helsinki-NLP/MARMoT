@@ -11,11 +11,15 @@
 #   make oellm ............................ fetch OELLM all 561 language pairs
 #   make oellm-eng ........................ fetch English-centric OELLM language pairs
 #   make PIVOT=fin oellm-pivot ............ fetch Finnish-centric OELLM language pairs
+#   make tatoeba-all ...................... fetch all Tatoeba language pairs
 #
-# TODO:
+# other Tatoeba subsets:
 #
-# * create targets for fetching other language pairs than the ones
-#   defined by OELLM (e.g. all supported Tatoeba languages)
+#   make tatoeba-highest .................. fetch the biggest Tatoeba language pairs
+#   make tatoeba-higher ................... fetch large Tatoeba language pairs
+#   make tatoeba-medium ................... fetch medium-sized Tatoeba language pairs
+#   make tatoeba-lower .................... fetch smaller-sized Tatoeba language pairs
+#   make tatoeba-lowest ................... fetch small Tatoeba language pairs
 #----------------------------------------------------------------------
 
 
@@ -40,7 +44,7 @@ LANGPAIRS  ?= ${LANGPAIR}
 #----------------------------------------------------------------------
 
 TATOEBA_RELEASE_URL := https://raw.githubusercontent.com/Helsinki-NLP/Tatoeba-Challenge/refs/heads/master/data/release
-TATOEBA_RELEASE := v2023-09-26
+TATOEBA_RELEASE     := v2023-09-26
 
 HIGHEST_RESOURCE := released-bitexts-highest.txt
 HIGHER_RESOURCE  := released-bitexts-higher.txt
@@ -143,7 +147,23 @@ tatoeba-highest: ${HIGHEST_RESOURCE}
 tatoeba-higher: ${HIGHER_RESOURCE}
 	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
 
+tatoeba-medium: ${MEDIUM_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
+
+tatoeba-lower: ${LOWER_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
+
+tatoeba-lowest: ${LOWEST_RESOURCE}
+	${MAKE} LANGPAIRS='$(shell cut -f1 $<)' all
+
+
 tatoeba-high: tatoeba-highest tatoeba-higher
+tatoeba-low: tatoeba-medium tatoeba-lower tatoeba-lowest
+
+tatoeba tatoeba-all: tatoeba-high tatoeba-low
+	${MAKE} move-regional
+	${MAKE} merge-regional
+
 
 
 
@@ -184,6 +204,20 @@ merge-regional:
 	done
 	find train -maxdepth 1 -type f -name "*-*.*" -not -name '*.gz' | xargs gzip -f
 
+
+#----------------------------------------------------------------------
+# find empty data sets
+#----------------------------------------------------------------------
+
+LINE_COUNTS := $(patsubst %.gz,%.nrlines,$(wildcard train/*.gz))
+
+find-empty: ${LINE_COUNTS}
+	find train -name '*.nrlines' \
+	| xargs grep -H '^0$$' \
+	| cut -f1 -d. | sort -u
+
+${LINE_COUNTS}: %.nrlines: %.gz
+	zcat $< | grep . | wc -l > $@
 
 #----------------------------------------------------------------------
 # fetch a Tatoeba dataset

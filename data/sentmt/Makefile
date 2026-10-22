@@ -18,16 +18,26 @@ OELLM_LANGS := 	bos bul cat ces dan deu ell eng \
 ALL_OELLM_LANGPAIRS := $(foreach s,${OELLM_LANGS},$(foreach t,${OELLM_LANGS},$s-$t))
 
 ALL_LANGPAIRS := $(sort $(basename $(basename $(notdir $(wildcard ../opus/*/*.gz) $(wildcard ../tatoeba/train/*.gz)))))
+STATS := $(patsubst %,%.stats,${ALL_LANGPAIRS})
+
+OELLM_LANGPAIRS := $(filter ${ALL_LANGPAIRS},${ALL_OELLM_LANGPAIRS})
+OELLM_STATS := $(patsubst %,%.stats,${LANGPAIRS})
 
 
-
-LANGPAIRS := $(filter ${ALL_LANGPAIRS},${ALL_OELLM_LANGPAIRS})
-STATS := $(patsubst %,%.stats,${LANGPAIRS})
+# all language pairs
 
 all: ${STATS}
-
 info:
-	@echo $(words ${LANGPAIRS})
+	@echo $(words ${ALL_LANGPAIRS})
+
+
+
+# OpenEuroLLM languages only
+
+oellm-all: ${OELLM_STATS}
+
+oellm-info:
+	@echo $(words ${OELLM_LANGPAIRS})
 
 
 
