@@ -11,28 +11,6 @@ Jörg's request has two distinct use cases:
 
 Never overload the existing `evaluation` target to mean both things. Keep existing default behavior unchanged. Proposed future target names are `evaluation-plan-selected` and `evaluation-run-selected`, with a separately validated `TASKS` filter applied to the task manifest *after planning* but *before scheduling*. For zero-shot tasks, allow an explicit finite selection. Ensure the selected-task run cannot overwrite, delete, or mark unselected results complete. This is a design specification, **not** an implemented eval3 patch.
 
-## Installation on LUMI / local workstation
-
-Copy `eval3_views/` into the eval3 repository (e.g. `tools/eval3_views/`). From the top-level eval3 Makefile add:
-
-```make
-include tools/eval3_views/mk-views.mk
-```
-
-The include should not be placed inside an existing recipe. Set the default `SACRE_TSV` to the path of your actual consolidated score file (either in the Makefile or via command line). The Makefile fragment uses `VIEW_DIR` derived from its own included path.
-
-Python 3 with `pandas`, `numpy`, and `matplotlib` is required. No database server, GUI, scikit-learn, or network access is needed.
-
-```bash
-python3 -m venv .venv-eval-views
-. .venv-eval-views/bin/activate
-python -m pip install -r tools/eval3_views/requirements.txt
-make view-help
-make SACRE_TSV=/path/to/sacre.tsv view-inventory
-```
-
-On LUMI, prefer a suitable existing Python environment rather than installing packages on compute nodes. Plotting uses the noninteractive `Agg` backend and writes PNGs.
-
 ## Query contract
 
 All view targets are **read-only** and independent of eval3 inference rules. Default `MODELS`, `TASKS`, `TESTSETS`, `SRC`, `TGT` are empty, meaning *all available*. `METRIC=BLEU` by default. `KIND=all` includes `mt`, `zero`, `sentmt`, `docmt` and other task kinds; set `KIND=mt` or `KIND=zero` to restrict. Filters are space- or comma-separated glob patterns (`*`, `?`); task names must match the **actual TSV spelling** (for example `mt_eng-fin`). No SQL shell quoting is needed beyond `TASKS="..."`.
