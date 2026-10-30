@@ -34,12 +34,17 @@
 #--------------------------------------------------------------------------
 
 
-EXPERIMENT_DIR ?= ${PWD}
-MODEL_NAME     ?= mammoth
-MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
-MODEL_PATH     ?= ${MODEL_DIR}/model
-MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
-EVAL_DIR       ?= ${MODEL_DIR}/eval
+EXPERIMENT_DIR   ?= ${PWD}
+MODEL_NAME       ?= mammoth
+MODEL_DIR        ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
+MODEL_PATH       ?= ${MODEL_DIR}/model
+MODEL_META       ?= ${MODEL_PATH}_checkpoint_metadata.json
+EVAL_DIR         ?= ${MODEL_DIR}/eval
+
+TRAIN_STAGE      ?= train
+TRAIN_CONFIGFILE ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
+CONFIGFILE       ?= ${TRAIN_CONFIGFILE}
+
 
 
 ## transformer backend (x-transformers or pytorch)
@@ -72,16 +77,12 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 # generate config files
 #--------------------------------------------------------------
 
-## path to config files
-
-TRAIN_STAGE           ?= train
-TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
-INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.${TESTDATA_NAME}.yaml
-CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
-
 
 .PHONY: train-config
 train-config: ${TRAIN_CONFIGFILE}
+
+
+INFERENCE_CONFIGFILE ?= ${EVAL_DIR}/inference_${TASK_ID}.${TESTDATA_NAME}.yaml
 
 .PHONY: inference-config
 inference-config: ${INFERENCE_CONFIGFILE}
