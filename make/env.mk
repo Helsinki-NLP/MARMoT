@@ -69,4 +69,9 @@ GZIP     := ${shell which pigz     2>/dev/null || echo gzip}
 ZCAT     := ${GZIP} -cd
 
 
+## directory of other tools in this repo
+
+TOOLS_DIR := ${MAKEFILE_DIR}../tools
+
+
 include ${MAKEFILE_DIR}utilities.mk

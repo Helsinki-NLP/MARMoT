@@ -5,6 +5,24 @@
 XMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-xtransformers
 PMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo
 
+# PyTorch models accepted for evaluation.  This is only registration:
+# no model is submitted merely by appearing in this file.
+READY_MODELS_FILE ?= $(SELFDIR)/models.ready
+READY_MODEL_ALIASES := $(strip $(shell \
+  test -f "$(READY_MODELS_FILE)" && sed '/^[[:space:]]*$$/d' "$(READY_MODELS_FILE)"))
+
+$(foreach a,$(READY_MODEL_ALIASES),\
+  $(eval MODEL_$(a) := $(PMODELS)/$(a)/mammoth))
+
+.PHONY: models-ready
+models-ready:
+> @set -euo pipefail; \
+> tmp="$(READY_MODELS_FILE).tmp"; \
+> find "$(PMODELS)" -type f -name 'model_best*' -printf '%h\n' | \
+>   sed 's#/mammoth$$##' | sed 's#.*/##' | sort -u > "$$tmp"; \
+> mv "$$tmp" "$(READY_MODELS_FILE)"; \
+> echo "mk-model.mk: Updated $(READY_MODELS_FILE): $$(wc -l < "$(READY_MODELS_FILE)") models"
+
 # Add model aliases here.
 MODEL_big-2p-GAenc-Ldec-320k := $(PMODELS)/big-2p-GAenc-Ldec-320k/mammoth
 
@@ -25,11 +43,15 @@ MODEL_LGAenc_fincentric   := $(XMODELS)/docmt-denoise-LGAenc-fincentric/mammoth
 MODEL_sentmtdenoise       := $(XMODELS)/sentmt-denoise/mammoth
 MODEL_sentmthalfsmall     := $(XMODELS)/sentmt-halfsharedenc-small/mammoth
 MODEL_sentmthalfxl        := $(XMODELS)/sentmt-halfsharedenc-xl/mammoth
-MODEL_ALIASES := docmt4denhalfbase docmt4denhalfsmall docmt4denhalfxl \
+EX_MANUAL_MODEL_ALIASES := docmt4denhalfbase docmt4denhalfsmall docmt4denhalfxl \
   docmt10denhalf docmt4 finnish finnish_denoise_xl denoise d_fincentric \
   d_halfsharedenc d_sharedenc LGAenc LGAenc_fincentric sentmtdenoise sentmthalfsmall \
-  sentmthalfxl \
-  big-2p-GAenc-Ldec-320k
+  sentmthalfxl big-2p-GAenc-Ldec-320k
+
+MODEL_ALIASES := $(sort $(MANUAL_MODEL_ALIASES) $(READY_MODEL_ALIASES))
+
+# Explicit list only: never submit all registered models accidentally.
+CONTINUE_MODELS ?= big-2p-GAenc-Ldec-320k
 
 # Naming conventions for tasks:
 # * sentmt: sentence-level MT with OPUS data (Tatoeba TC, HPLT, OpenSubtitles2024)

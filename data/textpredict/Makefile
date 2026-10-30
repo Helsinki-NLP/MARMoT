@@ -15,7 +15,7 @@ LANGID2 := $(shell iso639 -2 -n ${LANGID})
 ## -m XX ... maximum line length of XX characters (default = 256)
 ## -M XX ... maximum length of a string of XX characters (default = 1024)
 
-CONVERT_SCRIPT := python3 ../../tools/jsonl_to_textpredict.py
+CONVERT_SCRIPT := python3 ../../tools/data/jsonl_to_textpredict.py
 CONVERT_PARAMS := -s
 
 all: ${LANGID}/${FILEBASE}${FILEID}.${LANGID}-${LANGID}.in.gz

@@ -17,6 +17,13 @@ TASK_IDS       ?= $(foreach t,${TASK_NRS},task$t_$(word $t,${TASKS}))
 TASK_TYPES     ?= $(patsubst %/,%,$(dir $(subst _,/,$(TASK_IDS))))
 TASK_LANGPAIRS ?= ${TASKS}
 
+ifneq ($(words ${TASK_LANGPAIRS}),$(words ${TASKS}))
+  MISSING_START_IDX := $(shell echo $$(( $(words ${TASK_LANGPAIRS})+1 )) )
+  MISSING_END_IDX   := $(words $(TASKS))
+  MISSING_LANGPAIRS := $(wordlist $(MISSING_START_IDX),$(MISSING_END_IDX),$(TASKS))
+  TASK_LANGPAIRS += ${MISSING_LANGPAIRS}
+endif
+
 
 ## select a task as the current one
 
@@ -29,7 +36,7 @@ else
 endif
 
 TASK          := $(word ${TASK_NR},$(TASKS))
-TASK_LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
+TASK_LANGPAIR ?= $(firstword $(word ${TASK_NR},$(TASK_LANGPAIRS)) $(TASK))
 
 
 ## languages for the task data
@@ -37,6 +44,37 @@ TASK_LANGPAIR ?= $(word ${TASK_NR},$(TASK_LANGPAIRS))
 LANGPAIR ?= $(word ${TASK_NR},$(TASKS))
 SRCLANG  ?= $(firstword $(subst -, ,${LANGPAIR}))
 TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
+
+
+## validation and eval task selection
+## default: select all
+
+ifndef VALID_TASK_NRS
+ ifdef VALID_TASK_IDS
+  export VALID_TASK_NRS := $(foreach t,${VALID_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else
+  export VALID_TASK_NRS := ${TASK_NRS}
+  export VALID_TASK_IDS := ${TASK_IDS}
+ endif
+endif
+
+# skip validation of current task if not listed in validation tasks
+ifneq ($(filter ${TASK_NR},${VALID_TASK_NRS}),${TASK_NR})
+  SKIP_TASK_VALIDATION := 1
+endif
+
+
+ifndef EVAL_TASK_NRS
+ ifdef EVAL_TASKS
+  export EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
+ else ifdef EVAL_TASK_IDS
+  export TEST_TASK_NRS  := $(foreach t,${TEST_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else
+  export EVAL_TASKS     := ${TASK_IDS}
+  export EVAL_TASK_IDS  := ${TASK_IDS}
+  export EVAL_TASK_NRS  := ${TASK_NRS}
+ endif
+endif
 
 
 
@@ -55,6 +93,7 @@ ifndef NR_OF_NODES
 endif
 
 ifndef TASK_GPU_ASSIGNMENTS
+  OPTIMIZE_GPU_ASSIGNMENT ?= 1
   export TASK_GPU_ASSIGNMENTS := $(shell \
 	n=0; g=0; \
 	tasks=(${TASKS}); \
@@ -145,6 +184,8 @@ TASK_ENCODER   := $(firstword $(word ${TASK_NR},$(TASK_ENCODERS))        $(ENCOD
 TASK_DECODER   := $(firstword $(word ${TASK_NR},$(TASK_DECODERS))        $(DECODER))
 
 
+
+
 ## replace variables for {lang}, {langgroup} and {task}
 
 ifeq ($(findstring {lang,${TASK_ENCODER}),{lang)
@@ -182,3 +223,7 @@ endif
 .PHONY: find_tasknr
 find_tasknr:
 	@echo "${TASK_ID} = task nr $(call lookup,${TASK_ID},${TASK_IDS},${TASK_NRS})"
+
+
+
+

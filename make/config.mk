@@ -117,15 +117,21 @@ ${INFERENCE_CONFIGFILE}: ${MODEL_META}
 	@echo 'model: ${MODEL_PATH}'                                  >> $@
 
 
-TASK_CONFIGFILES := $(patsubst %,${TRAIN_CONFIGFILE}.d/%,${TASK_NRS})
+## the raw config file for training comtains all tasks and settings
+## but the GPU assignment to tasks might still be altered using the
+## optimizer script further down
 
-.INTERMEDIATE: ${TASK_CONFIGFILES}
+TRAIN_RAW_CONFIGFILE := $(TRAIN_CONFIGFILE:.yaml=-raw.yaml)
+TASK_CONFIGFILES     := $(patsubst %,${TRAIN_CONFIGFILE}.d/%,${TASK_NRS})
+
+.INTERMEDIATE: ${TRAIN_RAW_CONFIGFILE} ${TASK_CONFIGFILES}
 
 ${TASK_CONFIGFILES}:
 	@mkdir -p $(dir $@)
 	@${MAKE} -s CONFIGFILE=$@ TASK_NR=$(notdir $@) FIND_DATA=1 config-add-traintask
 
-${TRAIN_CONFIGFILE}: ${TASK_CONFIGFILES}
+
+${TRAIN_RAW_CONFIGFILE}: ${TASK_CONFIGFILES}
 	@mkdir -p $(dir $@)
 	echo "tasks:"                                                 > $@
 	@find $(dir $<) -name '[0-9]*' \
@@ -154,6 +160,60 @@ endif
 
 
 
+## if OPTIMIZE_GPU_ASSIGNMENT == 1 then run optimizer script for GPU task assignment
+## if not then just copy the raw config file to the final location
+##
+## if also BALANCE_GPU_TASK_WEIGHTS == 1 then run the weight re-balancing script
+## (this is switched on automatically if we use data-size as weights)
+##
+## TODO: should we also copy the recommended batch size into the config file
+##       (estimated by the memory-profile script?)
+
+GPU_ASSIGNMENT_SCRIPT     := ${TOOLS_DIR}/config/optimize_gpu_assignment.py
+GPU_ASSIGNMENT_TIME_LIMIT ?= 300
+GPU_ASSIGNMENT_PARAMS     ?=
+GPU_WEIGHT_BALANCE_SCRIPT := ${TOOLS_DIR}/config/rebalance_gpu_weights.py
+
+
+ifeq (${USE_DATASIZE_AS_TASK_WEIGHT},1)
+  BALANCE_GPU_TASK_WEIGHTS ?= 1
+endif
+
+${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
+ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
+	@echo "optimize GPU task assignment (this may take some time)"
+	@echo "(time limit is 10 minutes)"
+	@-${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@
+	@-if [ ! -e $@ ]; then \
+	  echo "optimization failed - try again with greedy local search only"; \
+	  ${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
+		--greedy-only \
+		--nodes ${NR_OF_NODES} \
+		--gpus-per-node ${MAX_GPUS_PER_NODE} \
+		--time-limit ${GPU_ASSIGNMENT_TIME_LIMIT} \
+		--output $@; \
+	fi
+	@if [ ! -e $@ ]; then \
+	  echo "optimization failed - just copy the raw config file"; \
+	  cp $< $@; \
+	fi
+  ifeq (${BALANCE_GPU_TASK_WEIGHTS},1)
+	@echo "rebalance GPU assignments according to task weights"
+	@${GPU_WEIGHT_BALANCE_SCRIPT} $@
+	@if [ -e $(@:.yaml=_rebalanced.yaml) ]; then \
+	  mv $@ $(@:.yaml=_unbalanced.yaml); \
+	  mv $(@:.yaml=_rebalanced.yaml) $@; \
+	fi
+  endif
+else
+	cp $< $@
+endif
+
+
 
 ## add a task section
 
@@ -168,6 +228,7 @@ ifneq ($(wildcard ${TRAINDATA_SRC}),)
 else
 	@echo "WARNING: no source training data ${TRAINDATA_SRC} found skip task ${TASK_ID}"
 endif
+
 
 .PHONY: config-add-task
 config-add-task:
@@ -194,7 +255,8 @@ ifneq (${TRAINDATA_SRC},)
     endif
    endif
 endif
-ifneq (${DEVDATA_SRC},)
+ifndef SKIP_TASK_VALIDATION
+ ifneq (${DEVDATA_SRC},)
   ifneq (${DEVDATA_TRG},)
     ifneq ($(wildcard ${DEVDATA_SRC}),)
       ifneq ($(wildcard ${DEVDATA_TRG}),)
@@ -203,8 +265,10 @@ ifneq (${DEVDATA_SRC},)
       endif
     endif
   endif
+ endif
 endif
 	@echo ''                                                  >> ${CONFIGFILE}
+
 
 
 

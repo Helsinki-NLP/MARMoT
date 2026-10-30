@@ -12,12 +12,14 @@ for generating and submitting SLURM jobs.
 
 ## Python conversion scripts
 
+The data-conversion scripts live in the [`data/`](data) subdirectory:
+
 | Script | Purpose | Used by |
 | --- | --- | --- |
-| [`jsonl_to_textpredict.py`](jsonl_to_textpredict.py) | Build next-sentence-prediction data from a gzipped JSONL corpus: reads the `text` field of each document, optionally splits it into sentences and re-merges them into segments, and writes the `(previous segment, current segment)` pairs to a source/target pair of `.gz` files. | [`data/textpredict`](../data/textpredict/README.md) |
-| [`multisynt_to_docbitext.py`](multisynt_to_docbitext.py) | Merge per-language machine-translated plain-text files back into a document-level bitext. Aligns the translated text with the segmentation of the original JSONL document and emits tab-separated `source<TAB>target`. | [`data/multisynt`](../data/multisynt/README.md), `transweb-edu*`, `multisynt_run2` |
-| [`wmt24_to_tsv.py`](wmt24_to_tsv.py) | Filter: read WMT JSONL on stdin and print `source<TAB>target`, with embedded newlines escaped. | [`data/testsets/wmt24pp`](../data/testsets/wmt24pp/README.md) |
-| [`wmt24_to_predict.py`](wmt24_to_predict.py) | Build adjacent-sentence pairs from one JSON field of a JSONL file using the Loomchild sentence segmenter. | [`data/testsets/wmt24pp`](../data/testsets/wmt24pp/README.md) |
+| [`jsonl_to_textpredict.py`](data/jsonl_to_textpredict.py) | Build next-sentence-prediction data from a gzipped JSONL corpus: reads the `text` field of each document, optionally splits it into sentences and re-merges them into segments, and writes the `(previous segment, current segment)` pairs to a source/target pair of `.gz` files. | [`data/textpredict`](../data/textpredict/README.md) |
+| [`multisynt_to_docbitext.py`](data/multisynt_to_docbitext.py) | Merge per-language machine-translated plain-text files back into a document-level bitext. Aligns the translated text with the segmentation of the original JSONL document and emits tab-separated `source<TAB>target`. | [`data/multisynt`](../data/multisynt/README.md), `transweb-edu*`, `multisynt_run2` |
+| [`wmt24_to_tsv.py`](data/wmt24_to_tsv.py) | Filter: read WMT JSONL on stdin and print `source<TAB>target`, with embedded newlines escaped. | [`data/testsets/wmt24pp`](../data/testsets/wmt24pp/README.md) |
+| [`wmt24_to_predict.py`](data/wmt24_to_predict.py) | Build adjacent-sentence pairs from one JSON field of a JSONL file using the Loomchild sentence segmenter. | [`data/testsets/wmt24pp`](../data/testsets/wmt24pp/README.md) |
 
 The three JSONL-based scripts share the same idea: a document is segmented into
 sentences, and adjacent sentences are emitted as `input<TAB>output` pairs.

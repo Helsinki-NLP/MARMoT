@@ -1,5 +1,4 @@
 
-
 ## data directories (assuming that we have data prepared in the project dir)
 ## - default training data from the Tatoeba translation challenge
 ## - default dev and test data from Flores200 if the exists (Tatoeba otherwise)
@@ -142,12 +141,15 @@ endif
 ## skip monolingual tasks if SKIP_SAME_LANGUAGE_VALID_TASKS=1
 ## overwrite with task-specific development data given in TASK_DEVDATA_SRCS and TASK_DEVDATA_TRGS
 
-ifdef FIND_DATA
+
+ifndef SKIP_TASK_VALIDATION
+ ifdef FIND_DATA
   DEFAULT_DEVDATA_PATTERNS ?= ${DEVDATA_BASENAME_PATTERN} *${SORTED_LANGPAIR}* *${REVERSE_LANGPAIR}* *
   DEFAULT_SRCDEV_PATTERN ?= $(patsubst %,${DEVDATA_DIR}/%.${SRCLANG_EXT},${DEFAULT_DEVDATA_PATTERNS}) ${DEVDATA_DIR}/${SRCLANG}*
   DEFAULT_TRGDEV_PATTERN ?= $(patsubst %,${DEVDATA_DIR}/%.${TRGLANG_EXT},${DEFAULT_DEVDATA_PATTERNS}) ${DEVDATA_DIR}/${TRGLANG}*
   DEFAULT_DEVDATA_SRC    ?= $(firstword $(wildcard ${DEFAULT_SRCDEV_PATTERN}))
   DEFAULT_DEVDATA_TRG    ?= $(firstword $(wildcard ${DEFAULT_TRGDEV_PATTERN}))
+ endif
 endif
 
 ifneq ($(findstring denoising,$(TASK_TRANSFORM))-${SKIP_DENOISING_VALID_TASKS},denoising-1)

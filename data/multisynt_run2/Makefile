@@ -20,7 +20,7 @@ JSONL    := $(patsubst %,jsonl/${SRC}/${FILEBASE}%.jsonl.gz,${FILEIDS})
 OELLM_LANGS := bul ces est fin gle ron swe tur ukr
 
 
-CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
+CONVERT_SCRIPT := python3 ../../tools/data/multisynt_to_docbitext.py
 
 .NOTINTERMEDIATE: ${SOURCES} ${TARGETS}
 

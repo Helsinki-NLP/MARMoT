@@ -1,6 +1,6 @@
 # FineWeb-Edu (350BT) doc-level MT data (shards 00000–00049)
 
-Doc-level MT training data built from the **FineWeb-Edu** sample (350BT, `OELLM-synthetic/fineweb-edu/350BT` on `object.pouta.csc.fi`), machine-translated into the OpenEuroLLM languages. The pipeline is identical to [`multisynt`](../multisynt/README.md): fetch JSONL + plain-text per shard, convert with [`tools/multisynt_to_docbitext.py`](../../tools/multisynt_to_docbitext.py) (`-l len1024`), split into train/dev/test and derive text-prediction pairs.
+Doc-level MT training data built from the **FineWeb-Edu** sample (350BT, `OELLM-synthetic/fineweb-edu/350BT` on `object.pouta.csc.fi`), machine-translated into the OpenEuroLLM languages. The pipeline is identical to [`multisynt`](../multisynt/README.md): fetch JSONL + plain-text per shard, convert with [`tools/data/multisynt_to_docbitext.py`](../../tools/data/multisynt_to_docbitext.py) (`-l len1024`), split into train/dev/test and derive text-prediction pairs.
 
 **Shards** `00000`–`00049`: 00–48 → `train`, 49 → `dev` (tail 2000) + `test` (head 2000).
 

@@ -28,7 +28,7 @@ OELLM_LANGS := 	ces deu nob nno spa mlt ukr \
 OELLM_LANGS100 := ces ukr
 
 
-CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
+CONVERT_SCRIPT := python3 ../../tools/data/multisynt_to_docbitext.py
 
 .NOTINTERMEDIATE: ${SOURCES} ${TARGETS}
 

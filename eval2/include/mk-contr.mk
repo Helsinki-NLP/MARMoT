@@ -76,7 +76,7 @@ continue-eval-force: clean-inf-lock clean-cnt-lock clean-met-lock
 continue-all:
 > @set -u; \
 > rc=0; \
-> for a in $(MODEL_ALIASES); do \
+> for a in $(CONTINUE_MODELS); do \
 >   eval "model_dir=\$${MODEL_$$a}"; \
 >   if [ -f "$(INF_FLAG)" ]; then \
 >     jobid="$$(cat "$(INF_FLAG)" 2>/dev/null || true)"; \
@@ -103,7 +103,7 @@ continue-all:
 continue-all-force:
 > @set -u; \
 > rc=0; \
-> for a in $(MODEL_ALIASES); do \
+> for a in $(CONTINUE_MODELS); do \
 >   eval "model_dir=\$${MODEL_$$a}"; \
 >   if [ -f "$(INF_FLAG)" ]; then \
 >     jobid="$$(cat "$(INF_FLAG)" 2>/dev/null || true)"; \

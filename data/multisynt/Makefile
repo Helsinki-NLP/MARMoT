@@ -23,7 +23,7 @@ OELLM_LANGS := 	deu fin nob nno spa mlt ukr \
 		mkd sqi srp_Cyrl
 
 
-CONVERT_SCRIPT := python3 ../../tools/multisynt_to_docbitext.py
+CONVERT_SCRIPT := python3 ../../tools/data/multisynt_to_docbitext.py
 
 .NOTINTERMEDIATE: ${SOURCES} ${TARGETS}
 

@@ -35,7 +35,7 @@ extract: ${TRG}.${TRG3}
 
 ${TRG}.${TRG3}: ${SRC}-${TRG}.jsonl
 	mkdir -p $(dir $@)
-	python ../../tools/wmt24_to_tsv.py < $< > $@.tsv
+	python ../../../tools/data/wmt24_to_tsv.py < $< > $@.tsv
 	if [ ! -e ${SRC}.${SRC3} ]; then  \
 	  cut -f1 $@.tsv > ${SRC}.${SRC3}; \
 	fi
@@ -49,7 +49,7 @@ ${TRG}.${TRG3}: ${SRC}-${TRG}.jsonl
 
 # wmt24pp/${TRG}.${TRG3}.gz: ${SRC}-${TRG}.jsonl
 # 	mkdir -p $(dir $@)
-# 	python ../../tools/wmt24_to_tsv.py < $< > $@.tsv
+# 	python ../../../tools/data/wmt24_to_tsv.py < $< > $@.tsv
 # 	if [ ! -e wmt24pp/${SRC}.${SRC3}.gz ]; then  \
 # 	  cut -f1 $@.tsv | gzip -c > wmt24pp/${SRC}.${SRC3}.gz; \
 # 	fi
@@ -64,7 +64,7 @@ ${TRG}.${TRG3}: ${SRC}-${TRG}.jsonl
 
 # wmt24pp/${SRC3}-${TRG3}.${SRC3}.gz: ${SRC}-${TRG}.jsonl
 # 	mkdir -p $(dir $@)
-# 	python ../../tools/wmt24_to_tsv.py < $< > $@.tsv
+# 	python ../../../tools/data/wmt24_to_tsv.py < $< > $@.tsv
 # 	cut -f1 $@.tsv | gzip -c > $@
 # 	cut -f1 $@.tsv | gzip -c > $(@:.${SRC3}.gz=.${TRG3}.gz)
 # 	rm -f $@.tsv
@@ -86,14 +86,14 @@ ${SRC}-${TRG}.jsonl:
 
 next_sent_predict/wmt24pp_${SRC3}-${TRG3}.${SRC3}.in.gz: ${SRC}-${TRG}.jsonl
 	mkdir -p $(dir $@)
-	python3 ../../tools/wmt24_to_predict.py -l ${SRC2} -i $< -f source > $@.tsv
+	python3 ../../../tools/data/wmt24_to_predict.py -l ${SRC2} -i $< -f source > $@.tsv
 	cut -f1 $@.tsv | gzip -c > $@
 	cut -f2 $@.tsv | gzip -c > $(@:.in.gz=.out.gz)
 	rm -f $@.tsv
 
 next_sent_predict/wmt24pp_${SRC3}-${TRG3}.${TRG3}.in.gz: ${SRC}-${TRG}.jsonl
 	mkdir -p $(dir $@)
-	python3 ../../tools/wmt24_to_predict.py -l ${TRG2} -i $< -f target > $@.tsv
+	python3 ../../../tools/data/wmt24_to_predict.py -l ${TRG2} -i $< -f target > $@.tsv
 	cut -f1 $@.tsv | gzip -c > $@
 	cut -f2 $@.tsv | gzip -c > $(@:.in.gz=.out.gz)
 	rm -f $@.tsv

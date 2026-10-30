@@ -98,12 +98,18 @@ EVAL_TASK_RESULT := ${EVAL_DIR}/eval_${TASK_ID}_${TESTDATA_NAME}
 ## selected tasks to be evaluated
 ## default: select all
 
-ifdef EVAL_TASKS
+ifndef EVAL_TASK_NRS
+ ifdef EVAL_TASKS
   EVAL_TASK_NRS  := $(foreach t,${EVAL_TASKS},$(call pos,$t,$(TASK_IDS)))
-else
+ else ifdef EVAL_TASK_IDS
+  TEST_TASK_NRS  := $(foreach t,${TEST_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else
   EVAL_TASKS     := ${TASK_IDS}
+  EVAL_TASK_IDS  := ${TASK_IDS}
   EVAL_TASK_NRS  := ${TASK_NRS}
+ endif
 endif
+
 
 
 ## skip evaluation of denoising tasks
