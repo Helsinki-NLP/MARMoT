@@ -2359,13 +2359,13 @@ keep_checkpoint: 10
 
 log_model_structure: false
 tensorboard: true
-tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-architecture/l32g3a3-l32l6-h16d1024/tb_logs
+tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-architecture/G3A3-L6-L32L32-H16D1024/tb_logs
 report_tflops: true
 report_every: 250
 report_training_accuracy: false
 
 # Model saving
-save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-architecture/l32g3a3-l32l6-h16d1024/mammoth/model
+save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-architecture/G3A3-L6-L32L32-H16D1024/mammoth/model
 save_strategy: best_and_last
 reset_optim: none
 train_from: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/hpo/big-2p+d-GAenc-Ldec-320k/mammoth/
