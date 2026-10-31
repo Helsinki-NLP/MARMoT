@@ -19,6 +19,11 @@ monitor:
 	done
 
 
+models.txt: ${MODEL_STATS}
+	find . -name stats -type d | sed 's/^.\///;s/\/stats//' | sort > $@
+
+
+
 .PHONY: ${MODEL_STATS}
 ${MODEL_STATS}:
 	-${MAKE} -s -C $(dir $@) print-train-stats print-valid-stats print-eval-stats

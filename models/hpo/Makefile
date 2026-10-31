@@ -18,6 +18,8 @@ monitor:
 	  sleep 3600; \
 	done
 
+models.txt: ${MODEL_STATS}
+	find . -name stats -type d | sed 's/^.\///;s/\/stats//' | sort > $@
 
 .PHONY: ${MODEL_STATS}
 ${MODEL_STATS}:
