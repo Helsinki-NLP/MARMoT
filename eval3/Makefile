@@ -3,7 +3,9 @@
 STATIC_GOALS := help venvs list status continue-all continue-all-force test-sif find-sif reset-plan-all score-all \
                 plot-docmt list-sacre-all sacre-tsv-all list-tsv-all coverage-partition infer-score-all \
                 compare help list-groups models-ready squeue bleu chrf eval3-migrate-all stale-hypotheses \
-                submit-inf-worker submit-inf-worker-dev-g eval3-scheduler-dirs test-eval3-worker
+                submit-inf-worker submit-inf-worker-dev-g eval3-scheduler-dirs test-eval3-worker \
+                view-help view-inventory view-scores view-raw view-pivot view-compare \
+                view-heatmap view-cactus view-distance view-requirements view-check view-all
 STATIC_ONLY := $(if $(filter-out $(STATIC_GOALS),$(MAKECMDGOALS)),,yes)
 
 SELFDIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
@@ -172,6 +174,9 @@ include $(SELFDIR)/include/mk-contr.mk # loop runs until done
 
 .PHONY: list-sacre-all sacre-tsv-all list-tsv-all
 include $(SELFDIR)/include/mk-saved.mk # saved scores
+
+# Read-only views and completeness audits.
+include $(SELFDIR)/include/mk-views.mk
 
 ##################################
 # VISUALIZATION AND QUERY TARGETS

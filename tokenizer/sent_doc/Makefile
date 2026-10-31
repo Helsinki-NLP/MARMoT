@@ -21,23 +21,23 @@ VOCAB_SIZE ?= 32704
 
 
 
-DATASET           ?= sentmt
-DATADIR           ?= ../../data/${DATASET}
-MULTISYNT_DATADIR ?= ../../data/multisynt/train/len1024
+DATASET            ?= sentmt
+DATADIR            ?= ../../data/${DATASET}
+MULTISYNT_DATADIR  ?= ../../data/multisynt/train/len1024
 
 
 # LANGUAGES ?= $(sort $(subst -, ,$(basename $(basename $(notdir $(wildcard ${DATADIR}/*-*.*.gz))))))
-LANGUAGES ?= $(shell ls ${DATADIR}/*-*.*.gz | grep -v corpora | rev | cut -f2 -d. | rev | cut -f1 -d_ | sort -u | tr "\n" ' ')
-LANGUAGE  ?= $(firstword ${LANGUAGES})
-
+LANGUAGES          ?= $(shell ls ${DATADIR}/*-*.*.gz | grep -v corpora | rev | cut -f2 -d. | rev | cut -f1 -d_ | sort -u | tr "\n" ' ')
+LANGUAGE_VARIETIES ?= $(shell ls ${DATADIR}/*-*.*.gz | grep -v corpora | rev | cut -f2 -d. | rev | grep '_' | sort -u | tr "\n" ' ')
+LANGUAGE           ?= $(firstword ${LANGUAGES})
 
 MAMMOTH_HOME       ?= /scratch/project_462001509/shared/mammoth-shared/mammoth_pytorch/mammoth
 TRAIN_HF_TOKENIZER := python3 ${MAMMOTH_HOME}/mammoth/bin/build_vocab.py
 
 
-TOKENIZER      := ${LANGUAGE}/${VOCAB_SIZE}/tokenizer.json
-TOKENIZERS     := $(patsubst %,%/${VOCAB_SIZE}/tokenizer.json,${LANGUAGES})
-TOKENIZER_JOBS := $(patsubst %,%.submit,${TOKENIZERS})
+TOKENIZER          := ${LANGUAGE}/${VOCAB_SIZE}/tokenizer.json
+TOKENIZERS         := $(patsubst %,%/${VOCAB_SIZE}/tokenizer.json,${LANGUAGES})
+TOKENIZER_JOBS     := $(patsubst %,%.submit,${TOKENIZERS})
 
 
 
@@ -65,6 +65,20 @@ LANGGROUP_TOKENIZER_JOBS := $(patsubst %,%.submit,${LANGGROUP_TOKENIZERS})
 .PHONY: all all-jobs
 all: ${TOKENIZERS}
 all-jobs: ${TOKENIZER_JOBS}
+
+
+.PHONY: all-varieties all-varieties-jobs
+all-varieties:
+	${MAKE} LANGUAGES='${LANGUAGE_VARIETIES}' all
+
+all-varieties-jobs:
+	${MAKE} LANGUAGES='${LANGUAGE_VARIETIES}' all-jobs
+
+
+.PHONY: all-16k-jobs
+all-16k-jobs:
+	${MAKE} VOCAB_SIZE=16320 all-jobs
+	${MAKE} VOCAB_SIZE=16320 all-varieties-jobs
 
 
 # run for a single language (specify with LANGUAGE=...)
@@ -101,19 +115,24 @@ langgroup-tokenizer-jobs: ${LANGGROUP_TOKENIZER_JOBS}
 
 ${TOKENIZERS}:
 	mkdir -p $(dir $@)
+	rm -f $(dir $@)traindata.tmp
 	for d in `find $(DATADIR) -name '*.$(firstword $(subst /, ,$@)).gz'`; do \
-	  zcat $$d | head -${MAX_LINES_SENT} > $(dir $@)traindata.tmp; \
+	  echo "get data from $$d"; \
+	  zcat $$d | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	done
 	for d in `find $(DATADIR) -name '*.$(firstword $(subst /, ,$@))_[A-Za-z0-9]*.gz'`; do \
-	  zcat $$d | head -${MAX_LINES_SENT} > $(dir $@)traindata.tmp; \
+	  echo "get data from $$d"; \
+	  zcat $$d | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	done
 	for d in `find ${MULTISYNT_DATADIR} -name '*.$(firstword $(subst /, ,$@)).gz'`; do \
-	  zcat $$d | head -${MAX_LINES_SYNT} > $(dir $@)traindata.tmp; \
+	  echo "get data from $$d"; \
+	  zcat $$d | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
 	done
 	for d in `find ${MULTISYNT_DATADIR} -name '*.$(firstword $(subst /, ,$@))_[A-Za-z0-9]*.gz'`; do \
-	  zcat $$d | head -${MAX_LINES_SYNT} > $(dir $@)traindata.tmp; \
+	  echo "get data from $$d"; \
+	  zcat $$d | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
 	done
-	cat > $(dir $@)traindata.tmp | terashuf | head -${MAX_LINES} > $(dir $@)traindata.txt
+	cat $(dir $@)traindata.tmp | terashuf | head -${MAX_LINES} > $(dir $@)traindata.txt
 	rm -f $(dir $@)traindata.tmp
 	wc $(dir $@)traindata.txt
 	${TRAIN_HF_TOKENIZER} --input_file $(dir $@)traindata.txt --vocab_size ${VOCAB_SIZE} --output_dir $(dir $@)
@@ -123,7 +142,7 @@ ${TOKENIZERS}:
 
 ${LANGGROUP_TOKENIZERS}:
 	mkdir -p $(dir $@)
-	rm -f $(dir $@)traindata.txt
+	rm -f $(dir $@)traindata.tmp
 	for l in `langgroup $(firstword $(subst /, ,$@))`; do \
 	  for d in `find $(DATADIR) -name "*.$$l.gz"`; do \
 	    echo "get data from $$d"; \
@@ -142,7 +161,7 @@ ${LANGGROUP_TOKENIZERS}:
 	    zcat $$d.gz | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	done
-	cat > $(dir $@)traindata.tmp | terashuf | head -${MAX_LINES} > $(dir $@)traindata.txt
+	cat $(dir $@)traindata.tmp | terashuf | head -${MAX_LINES} > $(dir $@)traindata.txt
 	rm -f $(dir $@)traindata.tmp
 	wc $(dir $@)traindata.txt
 	${TRAIN_HF_TOKENIZER} --input_file $(dir $@)traindata.txt --vocab_size ${VOCAB_SIZE} --output_dir $(dir $@)

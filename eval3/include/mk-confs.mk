@@ -87,7 +87,7 @@ $(VIEW_ACTIVATE):
 > python3 -m venv "$(VIEW_VENV)"; \
 > source "$(VIEW_ACTIVATE)"; \
 > python -m pip install --upgrade pip; \
-> python -m pip install pyyaml networkx numpy scipy; \
+> python -m pip install pyyaml networkx numpy scipy pandas matplotlib scikit-learn; \
 > echo "Built planning venv $(VIEW_VENV)"
 
 # Source checkout, independent of the virtual environment.
