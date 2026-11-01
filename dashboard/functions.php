@@ -91,14 +91,24 @@ function read_train_stats(&$traintoks, &$traintime, $model, $selected_tasks,
         $traintime[$model][$bucket] = array();
     }
 
-    $lines = file(implode('/',array($dir, $model, 'stats', $file)));
-    if ($lines === false) return;
-
     $tokcount = 0;
     $taskcount = $selected_taskcount = $available_taskcount = 0;
     $restart_time = $lasttime = 0;
 
-    foreach ($lines as $line) {
+    // reading the entire file to an array
+    // --> this fails if the file is to big
+    // --> readl line-by-line instead
+    //
+    // $lines = file(implode('/',array($dir, $model, 'stats', $file)));
+    // if ($lines === false) return;
+    // foreach ($lines as $line) {
+
+    // better to read line by line instead of reading all in one go
+    $filename = implode('/',array($dir, $model, 'stats', $file));
+    $handle = fopen($filename, "r");
+    if (! $handle) return;
+
+    while (($line = fgets($handle)) !== false) {
         if (substr($line, 0, 4) == 'make') continue;
         $line = rtrim($line);
         if ($line === '') continue;
