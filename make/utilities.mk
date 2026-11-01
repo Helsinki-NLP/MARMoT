@@ -38,7 +38,7 @@ LANGUAGE_IDS ?= bos bul cat ces dan deu ell eng \
 		est eus fin fra gle glg hrv hun \
 		isl ita kat lav lit mkd mlt nld \
 		nno nob pol por ron slk slv spa \
-		sqi srp_Cyrl swe tur ukr
+		sqi srp swe tur ukr
 
 LANGUAGE2GROUP ?= zls zls roa zlw gmq gmw grk gmw \
 		urj euq urj roa cel roa zls urj \
@@ -55,12 +55,29 @@ endif
 ##       this requires the langgroup tool!
 
 
+## only use the first part of the given language ID (no script nor regional extensions)
+
+langgroup = $(call _langgroup,$(firstword $(subst -, ,$(subst _, ,$1))))
+
+
+## if the langgroup tool is available:
+## - try to find the language group ID from the LANGUAGE2GROUP variable
+## - __langgroup return 'unk' if the langID is not found in LANGUAGE_IDS
+## - _langgroup calls the external langgroup tool if __langgroup returns 'unk'
+## - if langgroup does not return anything then the langID is returned (the call argument $1)
+##
+## if the langgroup tool does not exist:
+## - just lookup the language group ID in LANGUAGE2GROUP variable
+## - and fall back to the language ID given as call parameter if not found
 
 ifneq ($(shell which langgroup 2>/dev/null),)
-  langgroup = $(call lookup,$1,$1 $(LANGUAGE_IDS),$(shell langgroup -p -n $1 2>/dev/null) $(LANGUAGE2GROUP))
+  _langgroup  = $(if $(filter unk,$(call __langgroup,$1)),$(firstword $(shell langgroup -p -n $1 2>/dev/null) $1),$(call __langgroup,$1))
+  __langgroup = $(call lookup,$1,$1 $(LANGUAGE_IDS),unk $(LANGUAGE2GROUP))
 else
-  langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGE_IDS),$1 $(LANGUAGE2GROUP))
+  _langgroup = $(call lookup_with_fallback,$1,$1 $(LANGUAGE_IDS),$1 $(LANGUAGE2GROUP))
 endif
+
+
 
 
 
