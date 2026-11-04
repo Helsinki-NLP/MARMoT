@@ -114,6 +114,9 @@ include ../../../make/marmot.mk
 
 
 
+evaltest:
+	${MAKE} TASK=swe-fin SLURM_GPU_PARTITION=dev-g eval-task
+
 
 info:
 	@echo "number of tasks: $(words ${TASK_IDS})"
