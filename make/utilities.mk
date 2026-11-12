@@ -55,6 +55,10 @@ endif
 ##       this requires the langgroup tool!
 
 
+srclang2group = $(call langgroup,$(firstword $(subst -, ,$1)))-$(lastword $(subst -, ,$1))
+trglang2group = $(firstword $(subst -, ,$1))-$(call langgroup,$(lastword $(subst -, ,$1)))
+
+
 ## only use the first part of the given language ID (no script nor regional extensions)
 
 langgroup = $(call _langgroup,$(firstword $(subst -, ,$(subst _, ,$1))))
