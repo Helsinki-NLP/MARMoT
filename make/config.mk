@@ -77,11 +77,16 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 # print some model/config information
 #--------------------------------------------------------------
 
-MEMORY_PROFILER = ${MAMMOTH_DIR}/mammoth/scripts/memory_profiler.py
+MEMORY_PROFILER := ${MAMMOTH_DIR}/mammoth/scripts/memory_profiler.py
+COUNT_PARAMS    := ${MAMMOTH_DIR}/mammoth/scripts/count_params.py
 
 .PHONY: memory-profile
 memory-profile: ${TRAIN_CONFIGFILE}
 	python ${MEMORY_PROFILER} $< ${GPU_MEM}
+
+.PHONY: print-model-size
+print-model-size:
+	python ${COUNT_PARAMS} --checkpoint-dir ${MODEL_DIR}
 
 .PHONY: print-data-balance
 print-data-balance:
