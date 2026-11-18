@@ -74,6 +74,25 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 
 
 #--------------------------------------------------------------
+# print some model/config information
+#--------------------------------------------------------------
+
+MEMORY_PROFILER = ${MAMMOTH_DIR}/mammoth/scripts/memory_profiler.py
+
+.PHONY: memory-profile
+memory-profile: ${TRAIN_CONFIGFILE}
+	python ${MEMORY_PROFILER} $< ${GPU_MEM}
+
+.PHONY: print-data-balance
+print-data-balance:
+	${TOOLS_DIR}/config/sum_task_weights.py ${TRAIN_CONFIGFILE}
+
+.PHONY: print-task-balance
+print-task-balance:
+	${TOOLS_DIR}/config/sum_components.py ${TRAIN_CONFIGFILE}
+
+
+#--------------------------------------------------------------
 # generate config files
 #--------------------------------------------------------------
 
