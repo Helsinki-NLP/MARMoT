@@ -2,10 +2,11 @@
 
 This directory contains makefiles for training the HuggingFace (HF) tokenizers used by the [MARMoT experiment makefiles](../make/README.md). All tokenizers are sentencepiece-style HF tokenizers trained with MAMMOTH's training script `examples/hf_tokenizers/train.py` (part of the MAMMOTH installation, see `TRAIN_HF_TOKENIZER` below) on (a subset of) the parallel training data described below.
 
-Two tokenizer sets are provided:
+Three tokenizer sets are provided:
 
 * [`tatoeba/`](tatoeba/Makefile) – one tokenizer per language, trained **only on Tatoeba** translation-challenge data.
 * [`tatoeba_hplt_multisynt/`](tatoeba_hplt_multisynt/Makefile) – one tokenizer per language, trained on a **combination of Tatoeba, MultiSynth and HPLT** data, plus tokenizers trained on **language groups** (e.g. `ine` = Indo-European, `mul` = multilingual).
+* [`sent_doc/`](sent_doc/Makefile) – one tokenizer per language, trained on a **combination of Tatoeba, MultiSynth, HPLT and OpenSubtitles2024** data (sentence-level data and document-level data), plus tokenizers trained on **language groups** (e.g. `gmw` = West Germanic languages).
 
 ## Output layout
 
