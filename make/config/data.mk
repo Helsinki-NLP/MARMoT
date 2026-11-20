@@ -67,12 +67,14 @@ TESTDATA_DIR  ?= ${DATA_DIR}/$(firstword $(word ${TASK_NR},$(TASK_TESTDATA)) ${T
 ## basenames of data files (filepattern to be used within the data directories)
 ##
 ## file basenames are either given for each specific task
-## or we use the default pattern, which is *${SORTED_LANGPAIR}
-## (in OPUS/Tatoeba we sort language IDs alphabetically and uses them in the bitext file name)
+## or we use the default pattern, which is *${LANGPAIR}
+## NOTE: in OPUS/Tatoeba we sort language IDs alphabetically and uses them in the bitext file name
+##       for those one would need *${SORTED_LANGPAIR}
 
-TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${SORTED_LANGPAIR})
-DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES))   *${SORTED_LANGPAIR})
-TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES))  *${SORTED_LANGPAIR})
+TRAINDATA_BASENAME ?= $(firstword $(word ${TASK_NR},$(TASK_TRAINDATA_BASENAMES)) *${LANGPAIR})
+DEVDATA_BASENAME   ?= $(firstword $(word ${TASK_NR},$(TASK_DEVDATA_BASENAMES))   *${LANGPAIR})
+TESTDATA_BASENAME  ?= $(firstword $(word ${TASK_NR},$(TASK_TESTDATA_BASENAMES))  *${LANGPAIR})
+
 
 
 # replace variables if they exist
