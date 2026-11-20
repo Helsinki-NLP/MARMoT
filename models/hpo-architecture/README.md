@@ -30,3 +30,7 @@ Other parameters (`PARAM`):
 * `Hx`: number of attention heads = `x`
 * `Dxxx`: dimensionality = `xxx`
 
+
+## NOTES
+
+* some setting with language group vocabularies have a faulty configuration file with duplicated entries for `mt_eng-spa` and `mt_spa-eng`. This may have a negative impact on the training procedure and also causes some trouble in extacting vaidation scores for those translation directions. Use the result with care!
