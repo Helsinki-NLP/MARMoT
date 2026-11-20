@@ -8,8 +8,8 @@ all: ${MODEL_STATS}
 	find . -wholename '*/stats/*.txt' | xargs git add
 	git add models.txt
 	git pull
-	git commit -am 'updated validation statistics'
-	git push
+	-git commit -am 'updated validation statistics'
+	-git push
 
 PHONY: monitor
 monitor:
