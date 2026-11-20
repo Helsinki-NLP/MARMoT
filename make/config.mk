@@ -206,6 +206,7 @@ endif
 
 ${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
 ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
+  ifneq ($(words $(sort ${TASK_GPU_ASSIGNMENTS})),$(words $(sort ${TASK_GPU_ASSIGNMENTS})))
 	@echo "optimize GPU task assignment (this may take some time)"
 	@echo "(time limit is 10 minutes)"
 	@-${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
@@ -226,6 +227,10 @@ ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
 	  echo "optimization failed - just copy the raw config file"; \
 	  cp $< $@; \
 	fi
+  else
+	echo "all tasks on their own GPUs - no optimization needed"
+	cp $< $@
+  endif
   ifeq (${BALANCE_GPU_TASK_WEIGHTS},1)
 	@echo "rebalance GPU assignments according to task weights"
 	@${GPU_WEIGHT_BALANCE_SCRIPT} $@

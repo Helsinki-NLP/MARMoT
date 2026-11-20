@@ -120,7 +120,9 @@ evaltest:
 
 info:
 	@echo "number of tasks: $(words ${TASK_IDS})"
-	@echo "${VALID_TASK_NRS}"
-	@echo "${MISSING_LANGPAIRS}"
-	@echo "$(words ${TASKS}) $(words ${TASK_LANGPAIRS})"
-	@echo "$(sort $(subst -, ,${MISSING_LANGPAIRS}))"
+	@echo $(words ${TASK_GPU_ASSIGNMENTS})
+	@echo $(words $(sort ${TASK_GPU_ASSIGNMENTS}))
+#	@echo "${VALID_TASK_NRS}"
+#	@echo "${MISSING_LANGPAIRS}"
+#	@echo "$(words ${TASKS}) $(words ${TASK_LANGPAIRS})"
+#	@echo "$(sort $(subst -, ,${MISSING_LANGPAIRS}))"
