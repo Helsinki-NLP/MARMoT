@@ -34,12 +34,17 @@
 #--------------------------------------------------------------------------
 
 
-EXPERIMENT_DIR ?= ${PWD}
-MODEL_NAME     ?= mammoth
-MODEL_DIR      ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
-MODEL_PATH     ?= ${MODEL_DIR}/model
-MODEL_META     ?= ${MODEL_PATH}_checkpoint_metadata.json
-EVAL_DIR       ?= ${MODEL_DIR}/eval
+EXPERIMENT_DIR   ?= ${PWD}
+MODEL_NAME       ?= mammoth
+MODEL_DIR        ?= ${EXPERIMENT_DIR}/${MODEL_NAME}
+MODEL_PATH       ?= ${MODEL_DIR}/model
+MODEL_META       ?= ${MODEL_PATH}_checkpoint_metadata.json
+EVAL_DIR         ?= ${MODEL_DIR}/eval
+
+TRAIN_STAGE      ?= train
+TRAIN_CONFIGFILE ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
+CONFIGFILE       ?= ${TRAIN_CONFIGFILE}
+
 
 
 ## transformer backend (x-transformers or pytorch)
@@ -69,19 +74,39 @@ NR_OF_NODES    := $(words $(sort $(dir $(subst :,/,${TASK_GPU_ASSIGNMENTS}))))
 
 
 #--------------------------------------------------------------
-# generate config files
+# print some model/config information
 #--------------------------------------------------------------
 
-## path to config files
+MEMORY_PROFILER := ${MAMMOTH_DIR}/mammoth/scripts/memory_profiler.py
+COUNT_PARAMS    := ${MAMMOTH_DIR}/mammoth/scripts/count_params.py
 
-TRAIN_STAGE           ?= train
-TRAIN_CONFIGFILE      ?= ${MODEL_DIR}/${TRAIN_STAGE}.yaml
-INFERENCE_CONFIGFILE  ?= ${EVAL_DIR}/inference_${TASK_ID}.${TESTDATA_NAME}.yaml
-CONFIGFILE            ?= ${TRAIN_CONFIGFILE}
+.PHONY: memory-profile
+memory-profile: ${TRAIN_CONFIGFILE}
+	python ${MEMORY_PROFILER} $< ${GPU_MEM}
+
+.PHONY: print-model-size
+print-model-size:
+	python ${COUNT_PARAMS} --checkpoint-dir ${MODEL_DIR}
+
+.PHONY: print-data-balance
+print-data-balance:
+	${TOOLS_DIR}/config/sum_task_weights.py ${TRAIN_CONFIGFILE}
+
+.PHONY: print-task-balance
+print-task-balance:
+	${TOOLS_DIR}/config/sum_components.py ${TRAIN_CONFIGFILE}
+
+
+#--------------------------------------------------------------
+# generate config files
+#--------------------------------------------------------------
 
 
 .PHONY: train-config
 train-config: ${TRAIN_CONFIGFILE}
+
+
+INFERENCE_CONFIGFILE ?= ${EVAL_DIR}/inference_${TASK_ID}.${TESTDATA_NAME}.yaml
 
 .PHONY: inference-config
 inference-config: ${INFERENCE_CONFIGFILE}
@@ -181,6 +206,7 @@ endif
 
 ${TRAIN_CONFIGFILE}: ${TRAIN_RAW_CONFIGFILE}
 ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
+  ifneq ($(words $(sort ${TASK_GPU_ASSIGNMENTS})),$(words $(sort ${TASK_GPU_ASSIGNMENTS})))
 	@echo "optimize GPU task assignment (this may take some time)"
 	@echo "(time limit is 10 minutes)"
 	@-${GPU_ASSIGNMENT_SCRIPT} $< ${GPU_ASSIGNMENT_PARAMS} \
@@ -201,6 +227,10 @@ ifeq (${OPTIMIZE_GPU_ASSIGNMENT},1)
 	  echo "optimization failed - just copy the raw config file"; \
 	  cp $< $@; \
 	fi
+  else
+	echo "all tasks on their own GPUs - no optimization needed"
+	cp $< $@
+  endif
   ifeq (${BALANCE_GPU_TASK_WEIGHTS},1)
 	@echo "rebalance GPU assignments according to task weights"
 	@${GPU_WEIGHT_BALANCE_SCRIPT} $@

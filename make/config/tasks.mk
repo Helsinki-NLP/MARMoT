@@ -48,9 +48,17 @@ TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 
 ## validation and eval task selection
 ## default: select all
+## for validation data:
+##   if train config file exists: get tasks that have a validation data path
+
+ifneq ($(wildcard $(TRAIN_CONFIGFILE)),)
+  export AVAILABLE_VALID_TASK_IDS := $(shell sed 's/^$$/^/' < $(TRAIN_CONFIGFILE) | tr "\n^" " \n" | grep path_valid_src | sed 's/ *//' | cut -f1 -d:)
+endif
 
 ifndef VALID_TASK_NRS
- ifdef VALID_TASK_IDS
+ ifdef AVAILABLE_VALID_TASK_IDS
+  export VALID_TASK_NRS := $(foreach t,${AVAILABLE_VALID_TASK_IDS},$(call pos,$t,${TASK_IDS}))
+ else ifdef VALID_TASK_IDS
   export VALID_TASK_NRS := $(foreach t,${VALID_TASK_IDS},$(call pos,$t,${TASK_IDS}))
  else
   export VALID_TASK_NRS := ${TASK_NRS}
