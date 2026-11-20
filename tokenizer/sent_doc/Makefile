@@ -106,6 +106,16 @@ langgroup-tokenizer-job: ${LANGGROUP_TOKENIZER}.submit
 langgroup-tokenizer-jobs: ${LANGGROUP_TOKENIZER_JOBS}
 
 
+langgroup-bigmem:
+	${MAKE} LANGGROUPS="gem sla itc roa" HPC_MEM=512G langgroup-tokenizer-jobs
+
+
+## the language groups we have in OPUS flagship models
+
+# OPUSMODEL_LANGUAGES := afr ara art aze bat bel ben bnt bos bul cat ccs ceb cel ces cym dan deu dra ell eng epo est euq eus fas fin fra gle glg gmq gmw grk hbs heb hin hrv hun hye hyx inc ind ira isl ita jav jpn jpx kat kaz kor lav lit ltz mal mar mkd mkh mlt mon msa mya nld nno nob nor phi pol por poz pqw roa ron rus sem sit slk slv spa sqi sqj srp swa swe tai tam tat tel tgl tha trk tur ukr urd urj uzb vie xgn zho zle zls zlw
+
+
+
 ## concatenate data from all three data sets (max MAX_LINES lines each) if they exist
 ## shuffle the data and extract MAX_LINES from the shufled data
 ## and, finally, train the tokenizer model
@@ -146,19 +156,19 @@ ${LANGGROUP_TOKENIZERS}:
 	for l in `langgroup $(firstword $(subst /, ,$@))`; do \
 	  for d in `find $(DATADIR) -name "*.$$l.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
+	    zcat $$d | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	  for d in `find $(DATADIR) -name "*.$${l}_[A-Za-z0-9]*.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
+	    zcat $$d | head -${MAX_LINES_SENT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	  for d in `find $(MULTISYNT_DATADIR) -name "*.$$l.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
+	    zcat $$d | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	  for d in `find $(MULTISYNT_DATADIR) -name "*.$${l}_[A-Za-z0-9]*.gz"`; do \
 	    echo "get data from $$d"; \
-	    zcat $$d.gz | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
+	    zcat $$d | head -${MAX_LINES_SYNT} >> $(dir $@)traindata.tmp; \
 	  done; \
 	done
 	cat $(dir $@)traindata.tmp | terashuf | head -${MAX_LINES} > $(dir $@)traindata.txt
