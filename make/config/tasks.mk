@@ -52,7 +52,7 @@ TRGLANG  ?= $(lastword  $(subst -, ,${LANGPAIR}))
 ##   if train config file exists: get tasks that have a validation data path
 
 ifneq ($(wildcard $(TRAIN_CONFIGFILE)),)
-  export AVAILABLE_VALID_TASK_IDS := $(shell sed 's/^$$/^/' < $(TRAIN_CONFIGFILE) | tr "\n^" " \n" | grep path_valid_src | sed 's/ *//' | cut -f1 -d:)
+  export AVAILABLE_VALID_TASK_IDS := $(shell grep '^tasks:$$' $(TRAIN_CONFIGFILE) | sed 's/^$$/^/' | tr "\n^" " \n" | grep path_valid_src | sed 's/ *//' | cut -f1 -d:)
 endif
 
 ifndef VALID_TASK_NRS
