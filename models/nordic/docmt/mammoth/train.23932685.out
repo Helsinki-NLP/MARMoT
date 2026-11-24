@@ -1,0 +1,610 @@
+Starting at Mon 23 Nov 2026 00:59:14 EET
+make[2]: Entering directory '/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt'
+( /appl/local/csc/soft/ai/bin/gpu-energy --save;export NCCL_SOCKET_IFNAME=hsn0,hsn1,hsn2,hsn3; export NCCL_NET_GDR_LEVEL=PHB; export TORCH_NCCL_TRACE_BUFFER_SIZE=2000; export TORCH_NCCL_DUMP_ON_TIMEOUT=true; export TORCH_FR_DUMP_TEMP_FILE=/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/log/job${SLURM_JOBID}/node${SLURM_PROCID}/nccl_trace_rank_;trap '/appl/local/csc/soft/ai/bin/gpu-energy --diff > /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/log/job${SLURM_JOBID}/node${SLURM_PROCID}/gpu-energy.txt' SIGHUP SIGINT SIGABRT SIGKILL SIGTERM; \
+  singularity exec --env MASTER_NODE="${MASTER_NODE}" --env MASTER_PORT="${MASTER_PORT}" --env NCCL_SOCKET_IFNAME="hsn0,hsn1,hsn2,hsn3" --env NCCL_NET_GDR_LEVEL="PHB" --env NCCL_DEBUG="INFO" --env TORCH_NCCL_TRACE_BUFFER_SIZE=2000 --env TORCH_NCCL_DUMP_ON_TIMEOUT=true --env TORCH_FR_DUMP_TEMP_FILE=/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/log/job${SLURM_JOBID}/node${SLURM_PROCID}/nccl_trace_rank_ --env MAMMOTH_PLATFORM='lumi' -B /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/mammoth:/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/mammoth:rw -B /scratch/project_462001509/shared/mammoth-shared:/scratch/project_462001509/shared/mammoth-shared:ro -B /scratch/project_462001509/shared/MARMoT:/scratch/project_462001509/shared/MARMoT:ro -B /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/make/:/pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/make/:ro  /appl/local/laifs/containers/lumi-multitorch-u24r64f21m43t29-20260319_153422/lumi-multitorch-full-u24r64f21m43t29-20260319_153422.sif /scratch/project_462001509/shared/mammoth-shared/.venv/bin/python \
+  /scratch/project_462001509/shared/mammoth-shared/mammoth_pytorch/mammoth/train.py   \
+	-save_model /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/mammoth/model \
+	-config /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/mammoth/train.yaml; \
+  /appl/local/csc/soft/ai/bin/gpu-energy --diff > /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/docmt/log/job${SLURM_JOBID}/node${SLURM_PROCID}/gpu-energy.txt; )
+nid007461:5183:5183 [0] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5183:5183 [0] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:5183:5183 [0] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:5183:5183 [0] NCCL INFO ROCr version 1.15
+nid007461:5183:5183 [0] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:5183:5183 [0] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5183:5183 [0] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:5183:5183 [0] NCCL INFO Comm config Blocking set to 1
+nid007461:5183:6660 [0] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:5183:6660 [0] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:5183:6660 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:5183:6660 [0] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:5183:6660 [0] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:5183:6660 [0] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:5183:6660 [0] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:5183:6660 [0] NCCL INFO Using network AWS Libfabric
+nid007461:5183:6660 [0] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:5183:6660 [0] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5183:6660 [0] NCCL INFO ncclCommInitRank comm 0x406bf910 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId c1000 commId 0x8756428f49c7f440 - Init START
+nid007461:5183:6660 [0] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5183:6660 [0] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:5183:6660 [0] NCCL INFO Setting affinity for GPU 0 to fefe0000,00000000
+nid007461:5183:6660 [0] NCCL INFO comm 0x406bf910 rank 0 nRanks 8 nNodes 1 localRanks 8 localRank 0 MNNVL 0
+nid007461:5183:6660 [0] NCCL INFO Channel 00/16 :    0   1   3   2   4   5   7   6
+nid007461:5183:6660 [0] NCCL INFO Channel 01/16 :    0   6   7   5   4   2   3   1
+nid007461:5183:6660 [0] NCCL INFO Channel 02/16 :    0   1   5   4   6   7   3   2
+nid007461:5183:6660 [0] NCCL INFO Channel 03/16 :    0   2   3   7   6   4   5   1
+nid007461:5183:6660 [0] NCCL INFO Channel 04/16 :    0   1   3   2   4   5   7   6
+nid007461:5183:6660 [0] NCCL INFO Channel 05/16 :    0   6   7   5   4   2   3   1
+nid007461:5183:6660 [0] NCCL INFO Channel 06/16 :    0   1   5   4   6   7   3   2
+nid007461:5183:6660 [0] NCCL INFO Channel 07/16 :    0   2   3   7   6   4   5   1
+nid007461:5183:6660 [0] NCCL INFO Channel 08/16 :    0   1   3   2   4   5   7   6
+nid007461:51nid007461:5902:5902 [4] NCCL INFO ROCr version 1.15
+nid007461:5902:5902 [4] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:5902:5902 [4] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5902:5902 [4] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:5902:5902 [4] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:5902:5902 [4] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:5902:5902 [4] NCCL INFO Comm config Blocking set to 1
+nid007461:5902:6666 [4] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:5902:6666 [4] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:5902:6666 [4] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:5902:6666 [4] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:5902:6666 [4] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:5902:6666 [4] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:5902:6666 [4] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:5902:6666 [4] NCCL INFO Using network AWS Libfabric
+nid007461:5902:6666 [4] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:5902:6666 [4] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5902:6666 [4] NCCL INFO ncclCommInitRank comm 0x42bef2e0 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId d1000 commId 0x8756428f49c7f440 - Init START
+nid007461:5902:6666 [4] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5902:6666 [4] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:5902:6666 [4] NCCL INFO Setting affinity for GPU 4 to fefe
+nid007461:5902:6666 [4] NCCL INFO comm 0x42bef2e0 rank 4 nRanks 8 nNodes 1 localRanks 8 localRank 4 MNNVL 0
+nid007461:5902:6666 [4] NCCL INFO Trees [0] 5/-1/-1->4->2 [1] 2/-1/-1->4->5 [2] 6/-1/-1->4->5 [3] 5/-1/-1->4->6 [4] 5/-1/-1->4->2 [5] 2/-1/-1->4->5 [6] 6/-1/-1->4->5 [7] 5/-1/-1->4->6 [8] 5/-1/-1->4->2 [9] 2/-1/-1->4->5 [10] 6/-1/-1->4->5 [11] 5/-1/-1->4->6 [12] 5/-1/-1->4->2 [13] 2/-1/-1->4->5 [14] 6/-1/-1->4->5 [15] 5/-1/-1->4->6 comm 0x42bef2e0 nRanks 08 busId d1000
+nid007461:5902:6666 [4] NCCL INFO P2P Chunksize set to 524288
+nid007461:5902:6666 [4] NCCL INFO Channel 00/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 03/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 04/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 07/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks nid007461:6272:6272 [6] NCCL INFO ROCr version 1.15
+nid007461:6272:6272 [6] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:6272:6272 [6] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:6272:6272 [6] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:6272:6272 [6] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:6272:6272 [6] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:6272:6272 [6] NCCL INFO Comm config Blocking set to 1
+nid007461:6272:6665 [6] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:6272:6665 [6] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:6272:6665 [6] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:6272:6665 [6] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:6272:6665 [6] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:6272:6665 [6] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:6272:6665 [6] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:6272:6665 [6] NCCL INFO Using network AWS Libfabric
+nid007461:6272:6665 [6] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:6272:6665 [6] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6272:6665 [6] NCCL INFO ncclCommInitRank comm 0x41d47da0 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId d9000 commId 0x8756428f49c7f440 - Init START
+nid007461:6272:6665 [6] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6272:6665 [6] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:6272:6665 [6] NCCL INFO Setting affinity for GPU 6 to fefe,00000000
+nid007461:6272:6665 [6] NCCL INFO comm 0x41d47da0 rank 6 nRanks 8 nNodes 1 localRanks 8 localRank 6 MNNVL 0
+nid007461:6272:6665 [6] NCCL INFO Trees [0] -1/-1/-1->6->7 [1] 7/-1/-1->6->-1 [2] 7/-1/-1->6->4 [3] 4/-1/-1->6->7 [4] -1/-1/-1->6->7 [5] 7/-1/-1->6->-1 [6] 7/-1/-1->6->4 [7] 4/-1/-1->6->7 [8] -1/-1/-1->6->7 [9] 7/-1/-1->6->-1 [10] 7/-1/-1->6->4 [11] 4/-1/-1->6->7 [12] -1/-1/-1->6->7 [13] 7/-1/-1->6->-1 [14] 7/-1/-1->6->4 [15] 4/-1/-1->6->7 comm 0x41d47da0 nRanks 08 busId d9000
+nid007461:6272:6665 [6] NCCL INFO P2P Chunksize set to 524288
+nid007461:6272:6665 [6] NCCL INFO Channel 01/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 02/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 05/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 06/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0nid007461:5549:5549 [2] NCCL INFO ROCr version 1.15
+nid007461:5549:5549 [2] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:5549:5549 [2] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5549:5549 [2] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:5549:5549 [2] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:5549:5549 [2] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:5549:5549 [2] NCCL INFO Comm config Blocking set to 1
+nid007461:5549:6664 [2] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:5549:6664 [2] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:5549:6664 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:5549:6664 [2] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:5549:6664 [2] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:5549:6664 [2] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:5549:6664 [2] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:5549:6664 [2] NCCL INFO Using network AWS Libfabric
+nid007461:5549:6664 [2] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:5549:6664 [2] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5549:6664 [2] NCCL INFO ncclCommInitRank comm 0x403fcd70 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId c9000 commId 0x8756428f49c7f440 - Init START
+nid007461:5549:6664 [2] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5549:6664 [2] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:5549:6664 [2] NCCL INFO Setting affinity for GPU 2 to fefe0000
+nid007461:5549:6664 [2] NCCL INFO comm 0x403fcd70 rank 2 nRanks 8 nNodes 1 localRanks 8 localRank 2 MNNVL 0
+nid007461:5549:6664 [2] NCCL INFO Trees [0] 4/-1/-1->2->3 [1] 3/-1/-1->2->4 [2] -1/-1/-1->2->3 [3] 3/-1/-1->2->-1 [4] 4/-1/-1->2->3 [5] 3/-1/-1->2->4 [6] -1/-1/-1->2->3 [7] 3/-1/-1->2->-1 [8] 4/-1/-1->2->3 [9] 3/-1/-1->2->4 [10] -1/-1/-1->2->3 [11] 3/-1/-1->2->-1 [12] 4/-1/-1->2->3 [13] 3/-1/-1->2->4 [14] -1/-1/-1->2->3 [15] 3/-1/-1->2->-1 comm 0x403fcd70 nRanks 08 busId c9000
+nid007461:5549:6664 [2] NCCL INFO P2P Chunksize set to 524288
+nid007461:5549:6664 [2] NCCL INFO Channel 01/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 03/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 05/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 07/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fnid007461:5364:5364 [1] NCCL INFO ROCr version 1.15
+nid007461:5364:5364 [1] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:5364:5364 [1] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5364:5364 [1] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:5364:5364 [1] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:5364:5364 [1] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:5364:5364 [1] NCCL INFO Comm config Blocking set to 1
+nid007461:5364:6662 [1] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:5364:6662 [1] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:5364:6662 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:5364:6662 [1] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:5364:6662 [1] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:5364:6662 [1] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:5364:6662 [1] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:5364:6662 [1] NCCL INFO Using network AWS Libfabric
+nid007461:5364:6662 [1] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:5364:6662 [1] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5364:6662 [1] NCCL INFO ncclCommInitRank comm 0x401d5620 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId c6000 commId 0x8756428f49c7f440 - Init START
+nid007461:5364:6662 [1] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5364:6662 [1] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:5364:6662 [1] NCCL INFO Setting affinity for GPU 1 to fefe0000,00000000
+nid007461:5364:6662 [1] NCCL INFO comm 0x401d5620 rank 1 nRanks 8 nNodes 1 localRanks 8 localRank 1 MNNVL 0
+nid007461:5364:6662 [1] NCCL INFO Trees [0] 3/-1/-1->1->0 [1] 0/-1/-1->1->3 [2] 5/-1/-1->1->0 [3] 0/-1/-1->1->5 [4] 3/-1/-1->1->0 [5] 0/-1/-1->1->3 [6] 5/-1/-1->1->0 [7] 0/-1/-1->1->5 [8] 3/-1/-1->1->0 [9] 0/-1/-1->1->3 [10] 5/-1/-1->1->0 [11] 0/-1/-1->1->5 [12] 3/-1/-1->1->0 [13] 0/-1/-1->1->3 [14] 5/-1/-1->1->0 [15] 0/-1/-1->1->5 comm 0x401d5620 nRanks 08 busId c6000
+nid007461:5364:6662 [1] NCCL INFO P2P Chunksize set to 524288
+nid007461:5364:6662 [1] NCCL INFO Channel 00/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 04/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 08/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 12/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401nid007461:6095:6095 [5] NCCL INFO ROCr version 1.15
+nid007461:6095:6095 [5] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:6095:6095 [5] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:6095:6095 [5] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:6095:6095 [5] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:6095:6095 [5] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:6095:6095 [5] NCCL INFO Comm config Blocking set to 1
+nid007461:6095:6663 [5] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:6095:6663 [5] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:6095:6663 [5] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:6095:6663 [5] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:6095:6663 [5] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:6095:6663 [5] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:6095:6663 [5] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:6095:6663 [5] NCCL INFO Using network AWS Libfabric
+nid007461:6095:6663 [5] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:6095:6663 [5] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6095:6663 [5] NCCL INFO ncclCommInitRank comm 0x41d51450 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId d6000 commId 0x8756428f49c7f440 - Init START
+nid007461:6095:6663 [5] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6095:6663 [5] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:6095:6663 [5] NCCL INFO Setting affinity for GPU 5 to fefe
+nid007461:6095:6663 [5] NCCL INFO comm 0x41d51450 rank 5 nRanks 8 nNodes 1 localRanks 8 localRank 5 MNNVL 0
+nid007461:6095:6663 [5] NCCL INFO Trees [0] 7/-1/-1->5->4 [1] 4/-1/-1->5->7 [2] 4/-1/-1->5->1 [3] 1/-1/-1->5->4 [4] 7/-1/-1->5->4 [5] 4/-1/-1->5->7 [6] 4/-1/-1->5->1 [7] 1/-1/-1->5->4 [8] 7/-1/-1->5->4 [9] 4/-1/-1->5->7 [10] 4/-1/-1->5->1 [11] 1/-1/-1->5->4 [12] 7/-1/-1->5->4 [13] 4/-1/-1->5->7 [14] 4/-1/-1->5->1 [15] 1/-1/-1->5->4 comm 0x41d51450 nRanks 08 busId d6000
+nid007461:6095:6663 [5] NCCL INFO P2P Chunksize set to 524288
+nid007461:6095:6663 [5] NCCL INFO Channel 00/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 04/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 08/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 12/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks nid007461:6462:6462 [7] NCCL INFO ROCr version 1.15
+nid007461:6462:6462 [7] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:6462:6462 [7] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:6462:6462 [7] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:6462:6462 [7] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:6462:6462 [7] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:6462:6462 [7] NCCL INFO Comm config Blocking set to 1
+nid007461:6462:6669 [7] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:6462:6669 [7] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:6462:6669 [7] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:6462:6669 [7] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:6462:6669 [7] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:6462:6669 [7] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:6462:6669 [7] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:6462:6669 [7] NCCL INFO Using network AWS Libfabric
+nid007461:6462:6669 [7] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:6462:6669 [7] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6462:6669 [7] NCCL INFO ncclCommInitRank comm 0x401f56a0 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId de000 commId 0x8756428f49c7f440 - Init START
+nid007461:6462:6669 [7] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:6462:6669 [7] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:6462:6669 [7] NCCL INFO Setting affinity for GPU 7 to fefe,00000000
+nid007461:6462:6669 [7] NCCL INFO comm 0x401f56a0 rank 7 nRanks 8 nNodes 1 localRanks 8 localRank 7 MNNVL 0
+nid007461:6462:6669 [7] NCCL INFO Trees [0] 6/-1/-1->7->5 [1] 5/-1/-1->7->6 [2] 3/-1/-1->7->6 [3] 6/-1/-1->7->3 [4] 6/-1/-1->7->5 [5] 5/-1/-1->7->6 [6] 3/-1/-1->7->6 [7] 6/-1/-1->7->3 [8] 6/-1/-1->7->5 [9] 5/-1/-1->7->6 [10] 3/-1/-1->7->6 [11] 6/-1/-1->7->3 [12] 6/-1/-1->7->5 [13] 5/-1/-1->7->6 [14] 3/-1/-1->7->6 [15] 6/-1/-1->7->3 comm 0x401f56a0 nRanks 08 busId de000
+nid007461:6462:6669 [7] NCCL INFO P2P Chunksize set to 524288
+nid007461:6462:6669 [7] NCCL INFO Channel 02/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 06/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 10/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 14/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56anid007461:5724:5724 [3] NCCL INFO ROCr version 1.15
+nid007461:5724:5724 [3] NCCL INFO Dmabuf feature disabled without NCCL_DMABUF_ENABLE=1
+nid007461:5724:5724 [3] NCCL INFO Kernel version: 6.4.0-150600.23.73_15.0.14-cray_shasta_c
+nid007461:5724:5724 [3] NCCL INFO NCCL_SOCKET_IFNAME set by environment to hsn0,hsn1,hsn2,hsn3
+nid007461:5724:5724 [3] NCCL INFO Bootstrap : Using hsn0:10.253.31.37<0>
+nid007461:5724:5724 [3] NCCL INFO RCCL version : 2.22.3-HEAD:7d8d67c
+HIP version  : 6.4.43484-123eb5128
+ROCm version : 6.4.4.0-129-e7d83f5
+Hostname     : nid007461
+Librccl path : /opt/rocm/lib/librccl.so
+nid007461:5724:5724 [3] NCCL INFO Comm config Blocking set to 1
+nid007461:5724:6661 [3] NCCL INFO NET/Plugin: Failed to find ncclNetPlugin_v8 symbol.
+nid007461:5724:6661 [3] NCCL INFO NET/Plugin: Loaded net plugin AWS Libfabric (v5)
+nid007461:5724:6661 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin_v8 symbol.
+nid007461:5724:6661 [3] NCCL INFO NET/Plugin: Failed to find ncclCollNetPlugin symbol (>= v5). ncclCollNetPlugin symbols v4 and lower are not supported.
+nid007461:5724:6661 [3] NCCL INFO NET/OFI Using aws-ofi-rccl 1.4.0
+nid007461:5724:6661 [3] NCCL INFO NET/OFI Setting FI_EFA_FORK_SAFE environment variable to 1
+nid007461:5724:6661 [3] NCCL INFO NET/OFI Selected Provider is cxi
+nid007461:5724:6661 [3] NCCL INFO Using network AWS Libfabric
+nid007461:5724:6661 [3] NCCL INFO [node_id = 11; gpu_id = 49174; unique_id = 7819800482253682486; location_id = 56832; bdf = 56832; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 4; gpu_id = 63582; unique_id = 8521393432384158128; location_id = 49408; bdf = 49408; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 7; gpu_id = 3099; unique_id = 8937523362409484797; location_id = 52736; bdf = 52736; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 6; gpu_id = 15961; unique_id = 9532111056057132838; location_id = 51456; bdf = 51456; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 5; gpu_id = 51740; unique_id = 11304431272434842555; location_id = 50688; bdf = 50688; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 8; gpu_id = 13395; unique_id = 12932779795454750681; location_id = 53504; bdf = 53504; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 10; gpu_id = 62036; unique_id = 17238134317879769307; location_id = 55552; bdf = 55552; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO [node_id = 9; gpu_id = 1553; unique_id = 17978262076375370196; location_id = 54784; bdf = 54784; domain = 0; partition = 0], 
+nid007461:5724:6661 [3] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5724:6661 [3] NCCL INFO ncclCommInitRank comm 0x401d55e0 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId ce000 commId 0x8756428f49c7f440 - Init START
+nid007461:5724:6661 [3] NCCL INFO initialized internal alternative rsmi functionality
+nid007461:5724:6661 [3] NCCL INFO NCCL_NET_GDR_LEVEL set by environment to PHB
+nid007461:5724:6661 [3] NCCL INFO Setting affinity for GPU 3 to fefe0000
+nid007461:5724:6661 [3] NCCL INFO comm 0x401d55e0 rank 3 nRanks 8 nNodes 1 localRanks 8 localRank 3 MNNVL 0
+nid007461:5724:6661 [3] NCCL INFO Trees [0] 2/-1/-1->3->1 [1] 1/-1/-1->3->2 [2] 2/-1/-1->3->7 [3] 7/-1/-1->3->2 [4] 2/-1/-1->3->1 [5] 1/-1/-1->3->2 [6] 2/-1/-1->3->7 [7] 7/-1/-1->3->2 [8] 2/-1/-1->3->1 [9] 1/-1/-1->3->2 [10] 2/-1/-1->3->7 [11] 7/-1/-1->3->2 [12] 2/-1/-1->3->1 [13] 1/-1/-1->3->2 [14] 2/-1/-1->3->7 [15] 7/-1/-1->3->2 comm 0x401d55e0 nRanks 08 busId ce000
+nid007461:5724:6661 [3] NCCL INFO P2P Chunksize set to 524288
+nid007461:5724:6661 [3] NCCL INFO Channel 03/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 07/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 11/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 15/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRa83:6660 [0] NCCL INFO Channel 09/16 :    0   6   7   5   4   2   3   1
+nid007461:5183:6660 [0] NCCL INFO Channel 10/16 :    0   1   5   4   6   7   3   2
+nid007461:5183:6660 [0] NCCL INFO Channel 11/16 :    0   2   3   7   6   4   5   1
+nid007461:5183:6660 [0] NCCL INFO Channel 12/16 :    0   1   3   2   4   5   7   6
+nid007461:5183:6660 [0] NCCL INFO Channel 13/16 :    0   6   7   5   4   2   3   1
+nid007461:5183:6660 [0] NCCL INFO Channel 14/16 :    0   1   5   4   6   7   3   2
+nid007461:5183:6660 [0] NCCL INFO Channel 15/16 :    0   2   3   7   6   4   5   1
+nid007461:5183:6660 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] -1/-1/-1->0->1 [2] 1/-1/-1->0->-1 [3] -1/-1/-1->0->1 [4] 1/-1/-1->0->-1 [5] -1/-1/-1->0->1 [6] 1/-1/-1->0->-1 [7] -1/-1/-1->0->1 [8] 1/-1/-1->0->-1 [9] -1/-1/-1->0->1 [10] 1/-1/-1->0->-1 [11] -1/-1/-1->0->1 [12] 1/-1/-1->0->-1 [13] -1/-1/-1->0->1 [14] 1/-1/-1->0->-1 [15] -1/-1/-1->0->1 comm 0x406bf910 nRanks 08 busId c1000
+nid007461:5183:6660 [0] NCCL INFO P2P Chunksize set to 524288
+nid007461:5183:6660 [0] NCCL INFO Channel 00/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 02/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 04/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 06/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 08/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 10/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 12/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 14/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 03/0 : 0[c1000] -> 2[c9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 07/0 : 0[c1000] -> 2[c9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 11/0 : 0[c1000] -> 2[c9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 15/0 : 0[c1000] -> 2[c9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 01/0 : 0[c1000] -> 6[d9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 05/0 : 0[c1000] -> 6[d9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 09/0 : 0[c1000] -> 6[d9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 13/0 : 0[c1000] -> 6[d9000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Connected all rings
+nid007461:5183:6660 [0] NCCL INFO Channel 01/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 03/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 05/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 07/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 09/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 11/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 13/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Channel 15/0 : 0[c1000] -> 1[c6000] via P2P/IPC comm 0x406bf910 nRanks 08
+nid007461:5183:6660 [0] NCCL INFO Connected all trees
+nid007461:5183:6660 [0] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:5183:6660 [0] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:5183:6660 [0] NCCL INFO CC Off, Multi-GPU CC Off, workFifoBytes 1048576
+nid007461:5183:6660 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:5183:6660 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:5183:6660 [0] NCCL INFO ncclCommInitRank comm 0x406bf910 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId c1000 commId 0x8756428f49c7f440 localSize 272 used 369804000 bytes on core 49 - Init COMPLETE
+nid007461:5183:6660 [0] NCCL INFO Init timings: rank 0 nranks 8 total 3.26 (kernels 1.32, bootstrap 0.66, allgathers 0.04, topo 0.98, graphs 0.01, connections 0.25, rest 0.00)
+x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 09/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 10/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 13/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 14/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 00/0 : 6[d9000] -> 0[c1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 04/0 : 6[d9000] -> 0[c1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 08/0 : 6[d9000] -> 0[c1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 12/0 : 6[d9000] -> 0[c1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 03/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 07/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 11/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 15/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Connected all rings
+nid007461:6272:6665 [6] NCCL INFO Channel 00/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 03/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 04/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 07/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 08/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 11/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 12/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 15/0 : 6[d9000] -> 7[de000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 02/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 06/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 10/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Channel 14/0 : 6[d9000] -> 4[d1000] via P2P/IPC comm 0x41d47da0 nRanks 08
+nid007461:6272:6665 [6] NCCL INFO Connected all trees
+nid007461:6272:6665 [6] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:6272:6665 [6] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:6272:6665 [6] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:6272:6665 [6] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:6272:6665 [6] NCCL INFO ncclCommInitRank comm 0x41d47da0 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId d9000 commId 0x8756428f49c7f440 localSize 272 used 403358432 bytes on core 34 - Init COMPLETE
+nid007461:6272:6665 [6] NCCL INFO Init timings: rank 6 nranks 8 total 3.26 (kernels 1.32, bootstrap 0.65, allgathers 0.01, topo 1.01, graphs 0.01, connections 0.25, rest 0.00)
+d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 02/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 06/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 10/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 14/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 01/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 03/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 05/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 07/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 09/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 11/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 13/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 15/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Connected all rings
+nid007461:5364:6662 [1] NCCL INFO Channel 01/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 05/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 09/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 13/0 : 1[c6000] -> 3[ce000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 03/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 07/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 11/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 15/0 : 1[c6000] -> 5[d6000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 00/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 02/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 04/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 06/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 08/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 10/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 12/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Channel 14/0 : 1[c6000] -> 0[c1000] via P2P/IPC comm 0x401d5620 nRanks 08
+nid007461:5364:6662 [1] NCCL INFO Connected all trees
+nid007461:5364:6662 [1] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:5364:6662 [1] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:5364:6662 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:5364:6662 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:5364:6662 [1] NCCL INFO ncclCommInitRank comm 0x401d5620 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId c6000 commId 0x8756428f49c7f440 localSize 272 used 436912864 bytes on core 50 - Init COMPLETE
+nid007461:5364:6662 [1] NCCL INFO Init timings: rank 1 nranks 8 total 3.26 (kernels 1.43, bootstrap 0.55, allgathers 0.01, topo 1.01, graphs 0.01, connections 0.25, rest 0.00)
+cd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 09/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 11/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 13/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 15/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 00/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 04/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 08/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 12/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 02/0 : 2[c9000] -> 0[c1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 06/0 : 2[c9000] -> 0[c1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 10/0 : 2[c9000] -> 0[c1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 14/0 : 2[c9000] -> 0[c1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Connected all rings
+nid007461:5549:6664 [2] NCCL INFO Channel 00/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 02/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 04/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 06/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 08/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 10/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 12/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 14/0 : 2[c9000] -> 3[ce000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 01/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 05/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 09/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Channel 13/0 : 2[c9000] -> 4[d1000] via P2P/IPC comm 0x403fcd70 nRanks 08
+nid007461:5549:6664 [2] NCCL INFO Connected all trees
+nid007461:5549:6664 [2] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:5549:6664 [2] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:5549:6664 [2] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:5549:6664 [2] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:5549:6664 [2] NCCL INFO ncclCommInitRank comm 0x403fcd70 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId c9000 commId 0x8756428f49c7f440 localSize 272 used 403358432 bytes on core 27 - Init COMPLETE
+nid007461:5549:6664 [2] NCCL INFO Init timings: rank 2 nranks 8 total 3.26 (kernels 1.38, bootstrap 0.59, allgathers 0.01, topo 1.01, graphs 0.01, connections 0.25, rest 0.00)
+08
+nid007461:5902:6666 [4] NCCL INFO Channel 08/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 11/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 12/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 15/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 02/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 06/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 10/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 14/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 01/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 05/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 09/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 13/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Connected all rings
+nid007461:5902:6666 [4] NCCL INFO Channel 01/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 02/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 05/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 06/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 09/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 10/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 13/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 14/0 : 4[d1000] -> 5[d6000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 03/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 07/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 11/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 15/0 : 4[d1000] -> 6[d9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 00/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 04/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 08/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Channel 12/0 : 4[d1000] -> 2[c9000] via P2P/IPC comm 0x42bef2e0 nRanks 08
+nid007461:5902:6666 [4] NCCL INFO Connected all trees
+nid007461:5902:6666 [4] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:5902:6666 [4] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:5902:6666 [4] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:5902:6666 [4] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:5902:6666 [4] NCCL INFO ncclCommInitRank comm 0x42bef2e0 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId d1000 commId 0x8756428f49c7f440 localSize 272 used 436912864 bytes on core 1 - Init COMPLETE
+nid007461:5902:6666 [4] NCCL INFO Init timings: rank 4 nranks 8 total 3.26 (kernels 1.43, bootstrap 0.55, allgathers 0.06, topo 0.97, graphs 0.01, connections 0.25, rest 0.00)
+nks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 01/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 05/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 09/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 13/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 00/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 02/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 04/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 06/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 08/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 10/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 12/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 14/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Connected all rings
+nid007461:5724:6661 [3] NCCL INFO Channel 02/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 06/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 10/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 14/0 : 3[ce000] -> 7[de000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 00/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 04/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 08/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 12/0 : 3[ce000] -> 1[c6000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 01/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 03/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 05/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 07/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 09/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 11/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 13/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Channel 15/0 : 3[ce000] -> 2[c9000] via P2P/IPC comm 0x401d55e0 nRanks 08
+nid007461:5724:6661 [3] NCCL INFO Connected all trees
+nid007461:5724:6661 [3] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:5724:6661 [3] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:5724:6661 [3] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:5724:6661 [3] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:5724:6661 [3] NCCL INFO ncclCommInitRank comm 0x401d55e0 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId ce000 commId 0x8756428f49c7f440 localSize 272 used 436912864 bytes on core 20 - Init COMPLETE
+nid007461:5724:6661 [3] NCCL INFO Init timings: rank 3 nranks 8 total 3.26 (kernels 1.43, bootstrap 0.55, allgathers 0.01, topo 1.02, graphs 0.01, connections 0.25, rest 0.00)
+08
+nid007461:6095:6663 [5] NCCL INFO Channel 03/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 07/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 11/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 15/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 01/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 02/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 05/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 06/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 09/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 10/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 13/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 14/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Connected all rings
+nid007461:6095:6663 [5] NCCL INFO Channel 01/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 05/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 09/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 13/0 : 5[d6000] -> 7[de000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 02/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 06/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 10/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 14/0 : 5[d6000] -> 1[c6000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 00/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 03/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 04/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 07/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 08/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 11/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 12/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Channel 15/0 : 5[d6000] -> 4[d1000] via P2P/IPC comm 0x41d51450 nRanks 08
+nid007461:6095:6663 [5] NCCL INFO Connected all trees
+nid007461:6095:6663 [5] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:6095:6663 [5] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:6095:6663 [5] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:6095:6663 [5] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:6095:6663 [5] NCCL INFO ncclCommInitRank comm 0x41d51450 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId d6000 commId 0x8756428f49c7f440 localSize 272 used 436912864 bytes on core 2 - Init COMPLETE
+nid007461:6095:6663 [5] NCCL INFO Init timings: rank 5 nranks 8 total 3.26 (kernels 1.43, bootstrap 0.55, allgathers 0.04, topo 0.98, graphs 0.01, connections 0.25, rest 0.00)
+0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 01/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 05/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 09/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 13/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 00/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 03/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 04/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 07/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 08/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 11/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 12/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 15/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Connected all rings
+nid007461:6462:6669 [7] NCCL INFO Channel 03/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 07/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 11/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 15/0 : 7[de000] -> 3[ce000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 00/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 04/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 08/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 12/0 : 7[de000] -> 5[d6000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 01/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 02/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 05/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 06/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 09/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 10/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 13/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Channel 14/0 : 7[de000] -> 6[d9000] via P2P/IPC comm 0x401f56a0 nRanks 08
+nid007461:6462:6669 [7] NCCL INFO Connected all trees
+nid007461:6462:6669 [7] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 256 | 256
+nid007461:6462:6669 [7] NCCL INFO 16 coll channels, 16 collnet channels, 0 nvls channels, 16 p2p channels, 2 p2p channels per peer
+nid007461:6462:6669 [7] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid007461:6462:6669 [7] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid007461:6462:6669 [7] NCCL INFO ncclCommInitRank comm 0x401f56a0 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId de000 commId 0x8756428f49c7f440 localSize 272 used 436912864 bytes on core 33 - Init COMPLETE
+nid007461:6462:6669 [7] NCCL INFO Init timings: rank 7 nranks 8 total 3.05 (kernels 1.09, bootstrap 0.67, allgathers 0.00, topo 1.03, graphs 0.01, connections 0.25, rest 0.00)
