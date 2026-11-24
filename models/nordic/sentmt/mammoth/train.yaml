@@ -1,0 +1,201 @@
+tasks:
+  mt_eng-fin:
+    src_tgt: "eng-fin"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:0"
+    enc_sharing_group: ["gmw","all"]
+    dec_sharing_group: ["fin"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fin_Latn.dev
+
+  mt_fin-eng:
+    src_tgt: "fin-eng"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:1"
+    enc_sharing_group: ["urj","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-fin.fin.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-fin.eng.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/fin_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  mt_dan-eng:
+    src_tgt: "dan-eng"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:2"
+    enc_sharing_group: ["gmq","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/dan-eng.dan.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/dan-eng.eng.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/dan_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  mt_eng-dan:
+    src_tgt: "eng-dan"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:3"
+    enc_sharing_group: ["gmw","all"]
+    dec_sharing_group: ["dan"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/dan-eng.eng.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/dan-eng.dan.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/dan_Latn.dev
+
+  mt_swe-eng:
+    src_tgt: "swe-eng"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:4"
+    enc_sharing_group: ["gmq","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/swe_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  mt_eng-swe:
+    src_tgt: "eng-swe"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:5"
+    enc_sharing_group: ["gmw","all"]
+    dec_sharing_group: ["swe"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-swe.eng.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-swe.swe.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/swe_Latn.dev
+
+  mt_nob-eng:
+    src_tgt: "nob-eng"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:6"
+    enc_sharing_group: ["gmq","all"]
+    dec_sharing_group: ["eng"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-nob.nob.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-nob.eng.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nob_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+
+  mt_eng-nob:
+    src_tgt: "eng-nob"
+    weight: 1
+    introduce_at_training_step: 0
+    node_gpu: "0:7"
+    enc_sharing_group: ["gmw","all"]
+    dec_sharing_group: ["nob"]
+    transforms: [filtertoolong]
+    path_src: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-nob.eng.gz
+    path_tgt: /scratch/project_462001509/shared/MARMoT/data/tatoeba/train/eng-nob.nob.gz
+    path_valid_src: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/eng_Latn.dev
+    path_valid_tgt: /scratch/project_462001509/shared/MARMoT/data/flores200/dev/nob_Latn.dev
+
+
+src_vocab:
+   dan: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/dan/32704/tokenizer.json
+   eng: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/eng/32704/tokenizer.json
+   fin: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/fin/32704/tokenizer.json
+   nob: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/nob/32704/tokenizer.json
+   swe: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/swe/32704/tokenizer.json
+
+tgt_vocab:
+   dan: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/dan/32704/tokenizer.json
+   eng: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/eng/32704/tokenizer.json
+   fin: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/fin/32704/tokenizer.json
+   nob: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/nob/32704/tokenizer.json
+   swe: /scratch/project_462001509/shared/MARMoT/tokenizer/sent_doc/swe/32704/tokenizer.json
+
+# Model Architecture Options
+enc_layers: [2,4]
+dec_layers: [6]
+
+model_dim: 1024
+dropout: 0.1
+model_dtype: bf16
+add_language_tokens: false
+
+heads: 16
+rotary_pos_emb: true
+post_emb_norm: true
+attn_dropout: 0.1
+ff_dropout: 0.1
+ff_activation: swiglu
+
+src_seq_length_min: 1
+tgt_seq_length_min: 1
+src_seq_length_max: 1024
+tgt_seq_length_max: 1024
+max_length: 1024
+
+# Training Configuration
+train_steps: 250000
+early_stopping: 5
+accum_count: [20]
+lookahead_minibatches: 20
+batch_size: 16384
+batch_type: tokens
+normalization: tokens
+queue_size: 120
+
+# Optimizer settings (from create_opts)
+optim: adamw
+
+learning_rate: 0.0003
+adam_beta1: 0.9
+adam_beta2: 0.95
+weight_decay: 0.01
+max_grad_norm: 1.0
+label_smoothing: 0.1
+
+# Learning rate scheduling
+warmup_steps: 1000
+decay_method: linear_warmup
+learning_rate_decay: 0.5
+start_decay_steps: 10000
+average_decay: 0
+
+world_size: 8
+gpu_ranks: [0,1,2,3,4,5,6,7]
+n_nodes: 1
+task_distribution_strategy: weighted_sampling
+node_rank: 0
+seed: 42
+
+# Decoding parameters during validation
+valid_batch_size: 16
+valid_steps: 2500
+valid_timeout: 300
+valid_decode_timeout: 60
+valid_max_length: 1024
+valid_metrics: [bleu,chrf]
+beam_size: 1
+
+save_checkpoint_steps: 2500
+keep_checkpoint: 1
+
+# Logging and Monitoring
+
+log_model_structure: false
+tensorboard: true
+tensorboard_log_dir: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/sentmt/tb_logs
+report_tflops: true
+report_every: 500
+report_training_accuracy: false
+
+# Model saving
+save_model: /pfs/lustrep2/scratch/project_462001509/members/tiedeman/MARMoT/models/nordic/sentmt/mammoth/model
+save_strategy: best_and_last
+reset_optim: none
