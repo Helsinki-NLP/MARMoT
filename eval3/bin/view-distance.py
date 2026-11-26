@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Classical MDS of score profiles on common cases; optional centering
+# changes the interpretation from absolute levels to relative profiles.
+
 import argparse
 import numpy as np
 import pandas as pd

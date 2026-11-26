@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Analysis of existing evaluation scores using explicit comparison groups.
+# Group definitions are analytical choices, not model scheduling rules.
+
 
 import argparse
 import csv

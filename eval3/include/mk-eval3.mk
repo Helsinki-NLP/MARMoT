@@ -1,3 +1,6 @@
+# Migration is a separate compatibility operation: review the generated
+# rename plan and stop relevant jobs before executing it manually.
+
 # -----------------------------------------------------------------------------
 # eval3 migration bridge (does not replace or submit the eval2 workflow)
 # -----------------------------------------------------------------------------

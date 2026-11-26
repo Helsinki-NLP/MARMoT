@@ -1,3 +1,7 @@
+# The hard-link queue requires the scheduler and permanent task definitions
+# to reside on the same filesystem. A queued task is not a completed result;
+# the worker checks and publishes the canonical hypothesis separately.
+
 # Shared eval3 inference queue.
 #
 # Durable task definitions live under each model:

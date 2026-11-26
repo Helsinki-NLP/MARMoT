@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Plot quality/coverage on exact common cases, not unmatched model totals.
+
 import argparse
 import numpy as np
 import matplotlib;matplotlib.use('Agg')

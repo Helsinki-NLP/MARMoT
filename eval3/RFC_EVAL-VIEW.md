@@ -68,13 +68,13 @@ The example `mt_eng-fin` directions may not exist in every local score file. If 
 ### Direct CLI examples (outside Make)
 
 ```bash
-python3 tools/eval3_views/bin/view-scores.py --input sacre.tsv \
+python3 ./bin/view-scores.py --input sacre.tsv \
   --tasks 'mt_eng-fin mt_fin-eng' --group-by modelname,taskname,metric \
   --output selected.tsv
-python3 tools/eval3_views/bin/view-compare.py --input sacre.tsv \
+python3 ./bin/view-compare.py --input sacre.tsv \
   --a base-4p+d-Lenc-Ldec-640k --b base-4p+d-Genc-Ldec-640k \
   --summary --output comparison.tsv
-python3 tools/eval3_views/bin/view-heatmap.py --input sacre.tsv \
+python3 ./bin/view-heatmap.py --input sacre.tsv \
   --models base-4p+d-Lenc-Ldec-640k --output heatmap.png
 ```
 

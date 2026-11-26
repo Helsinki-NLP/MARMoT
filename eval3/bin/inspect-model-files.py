@@ -74,6 +74,9 @@ checkpoint files.
 
 import argparse
 import os
+import math
+import re
+import yaml
 from collections import defaultdict, Counter
 from typing import Any
 
@@ -553,7 +556,7 @@ def resolve_head_info(cfg: dict[str, Any], head_hints: dict[str, Any],
                 explicit_heads = v
                 explicit_heads_source = k
                 break
-            
+
     # Explicit saved head_dim from options
     if explicit_head_dim is not None:
         out["configured_head_dim"] = explicit_head_dim
@@ -893,6 +896,27 @@ def print_model_summary(summary: dict[str, Any], yaml_like: bool = False):
                 for k in sorted(summary[section]):
                     v = summary[section][k]
                     print(f"    {k}: {v}")
+        for section in ("training_config", "parameter_counts", "task_efficiency", "embedding_statistics"):
+            if summary.get(section):
+                print(f"  {section}:")
+                if section in ("parameter_counts", "task_efficiency"):
+                    for key, value in summary[section].items():
+                        if isinstance(value, dict):
+                            print(f"    {key}:")
+                            for field, item in value.items():
+                                print(f"      {field}: {item}")
+                        else:
+                            print(f"    {key}: {value}")
+                elif section == "embedding_statistics":
+                    for filename, tensors in summary[section].items():
+                        print(f"    {filename}:")
+                        for key, stats in tensors.items():
+                            print(f"      {key}:")
+                            for field, value in stats.items():
+                                print(f"        {field}: {value}")
+                else:
+                    for key, value in summary[section].items():
+                        print(f"    {key}: {value}")
         if summary.get("head_analysis"):
             print("  head_analysis:")
             for k, v in summary["head_analysis"].items():
@@ -917,6 +941,11 @@ def print_model_summary(summary: dict[str, Any], yaml_like: bool = False):
             print_table(["field", "value"], rows)
         else:
             print("(none)")
+
+    for section in ("training_config", "parameter_counts", "task_efficiency", "embedding_statistics"):
+        if summary.get(section):
+            print(f"\n### {section}")
+            print(yaml.safe_dump(summary[section], sort_keys=False))
 
     if summary.get("head_hints"):
         print("\n### head_hints")
@@ -1000,9 +1029,193 @@ def compress_model_summary(summary: dict[str, Any]) -> dict[str, Any]:
 
     return summary
 
-def summarize_model(files: list[str], args):
+def read_train_config(files):
+    if not files:
+        return {}, None
+    model_dir = os.path.dirname(os.path.abspath(files[0]))
+    for directory in (model_dir, os.path.dirname(model_dir)):
+        path = os.path.join(directory, "train.yaml")
+        if os.path.isfile(path):
+            with open(path, encoding="utf-8") as f:
+                config = yaml.safe_load(f) or {}
+            return (config if isinstance(config, dict) else {}), path
+    return {}, None
+
+
+def initialization_hint(tensor):
+    if tensor.ndim != 2 or not tensor.is_floating_point() or tensor.numel() < 2:
+        return None
+    fan_out, fan_in = tensor.shape
+    x = tensor.detach().float()
+    mean = x.mean().item()
+    variance = x.var(unbiased=False).item()
+    if not math.isfinite(variance) or variance <= 0:
+        return None
+    candidates = {
+        "normal_std_0.02": 0.02 ** 2,
+        "xavier_normal": 2 / (fan_in + fan_out),
+        "kaiming_normal_relu": 2 / fan_in,
+        "linear_default_uniform": 1 / (3 * fan_in),
+        "embedding_default_normal": 1.0,
+    }
+    name, expected = min(candidates.items(), key=lambda item: abs(math.log(variance / item[1])))
+    return {
+        "shape": list(tensor.shape),
+        "mean": round(mean, 8),
+        "variance": round(variance, 8),
+        "std": round(math.sqrt(variance), 8),
+        "closest_initialization": name,
+        "expected_variance": round(expected, 8),
+        "variance_ratio": round(variance / expected, 4),
+        "interpretation": "trained_weights_only; not proof of initialization",
+    }
+
+
+def embedding_statistics(sd):
+    results = {}
+    for key, value in sd.items():
+        if not torch.is_tensor(value) or value.ndim != 2:
+            continue
+        stats = initialization_hint(value)
+        if stats is not None:
+            results[key] = stats
+    return results
+
+
+def checkpoint_component_key(path):
+    base = os.path.basename(path).lower()
+    if not base.endswith(".pt") or base.endswith("_optim.pt") or "frame" in base:
+        return None
+    name = base[:-3]
+    if name.startswith("model_"):
+        name = name[6:]
+    version = None
+    for pattern in (
+        r"^(best|last|latest)_(.+)$",
+        r"^(?:step|steps|epoch|checkpoint|ckpt)_(\d+)_(.+)$",
+        r"^(\d+)_(.+)$",
+    ):
+        match = re.match(pattern, name)
+        if match:
+            version, name = match.groups()
+            break
+    else:
+        match = re.match(r"^(.+?)_(?:step|steps|epoch|checkpoint|ckpt)_(\d+)$", name)
+        if match:
+            name, version = match.groups()
+    if version is None:
+        return None
+    return (os.path.dirname(os.path.abspath(path)), name), version
+
+
+def checkpoint_parameter_counts(files, unsafe):
+    components = defaultdict(lambda: {"files": 0, "parameters": 0, "size_bytes": 0})
+    errors = []
+    selected = {}
+    candidates = 0
+    unrecognized = 0
+    for path in sorted(set(files)):
+        base = os.path.basename(path).lower()
+        if not base.endswith(".pt") or base.endswith("_optim.pt") or "frame" in base:
+            continue
+        candidates += 1
+        parsed = checkpoint_component_key(path)
+        if parsed is None:
+            unrecognized += 1
+            # Preserve unrecognized files rather than silently merging components.
+            key, version = (os.path.abspath(path),), None
+        else:
+            key, version = parsed
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError as exc:
+            errors.append(f"{path}: {type(exc).__name__}: {exc}")
+            continue
+        # Prefer an explicit training step, otherwise use modification time.
+        rank = (1, int(version), mtime) if version and version.isdigit() else (0, mtime, 0)
+        if key not in selected or (rank, path) > (selected[key][0], selected[key][1]):
+            selected[key] = (rank, path)
+
+    counted = 0
+    for _, path in sorted(selected.values(), key=lambda item: item[1]):
+        base = os.path.basename(path).lower()
+        role = classify_checkpoint_file(path, {})
+        if "src_embeddings" in base:
+            role = "src_embeddings"
+        elif "tgt_embeddings" in base:
+            role = "tgt_embeddings"
+        elif role == "other" and "wrapper" in base:
+            role = "wrapper"
+        try:
+            obj = load_checkpoint(path, unsafe)
+            sd = get_state_dict_like(obj)
+            if sd is None:
+                errors.append(f"no state_dict: {path}")
+                continue
+            count = sum(v.numel() for v in sd.values() if torch.is_tensor(v))
+            components[role]["files"] += 1
+            components[role]["parameters"] += count
+            components[role]["size_bytes"] += os.path.getsize(path)
+            counted += 1
+        except Exception as exc:
+            errors.append(f"{path}: {type(exc).__name__}: {exc}")
+
+    total = sum(c["parameters"] for c in components.values())
+    size = sum(c["size_bytes"] for c in components.values())
+    result = {"components": dict(sorted(components.items())),
+              "total_parameters": total,
+              "checkpoint_size_bytes": size,
+              "checkpoint_size_gib": round(size / (1024 ** 3), 6),
+              "checkpoint_files_supplied": candidates,
+              "checkpoint_files_selected": len(selected),
+              "checkpoint_files_counted": counted,
+              "checkpoint_files_unrecognized": unrecognized,
+              "counting_method": "one version per component; highest explicit step, otherwise newest modification time; excludes optimizer and frame"}
+    if errors:
+        result["incomplete_files"] = len(errors)
+    return result, errors
+
+
+def task_efficiency(config, counts):
+    tasks = config.get("tasks", {})
+    if not isinstance(tasks, dict):
+        return {}
+    names = ("mt", "zero", "denoising")
+    totals = {name: 0 for name in names}
+    active = {name: 0 for name in names}
+    for name, task in tasks.items():
+        kind = next((k for k in names if name.startswith(k + "_")), None)
+        if kind is None and name.startswith("denoise_"):
+            kind = "denoising"
+        if kind is None:
+            continue
+        totals[kind] += 1
+        if isinstance(task, dict) and task.get("weight", 1) != 0:
+            active[kind] += 1
+    params = counts["total_parameters"]
+    gib = counts["checkpoint_size_bytes"] / (1024 ** 3)
+    result = {"task_count_source": "train.yaml:tasks",
+              "size_basis": "deduplicated component checkpoints, excluding optimizer and frame",
+              "parameter_basis": "stored tensor elements; shared/tied weights may be counted more than once"}
+    if counts.get("incomplete_files") or counts.get("checkpoint_files_unrecognized"):
+        result["warning"] = "incomplete or unrecognized checkpoints; efficiency may be inaccurate"
+    for kind in names:
+        n = totals[kind]
+        result[kind] = {
+            "tasks": n,
+            "active_tasks": active[kind],
+            "tasks_per_gib": round(n / gib, 6) if gib else None,
+            "tasks_per_million_parameters": round(n * 1e6 / params, 6) if params else None,
+        }
+    return result
+
+
+def summarize_model(files: list[str], args, all_files=None):
     per_file = []
     model_head_hints = {}
+    train_config, train_config_path = read_train_config(files)
+    embedding_stats = {}
+    parameter_counts, count_errors = checkpoint_parameter_counts(all_files or files, args.unsafe)
 
     for path in files:
         try:
@@ -1021,6 +1234,8 @@ def summarize_model(files: list[str], args):
             continue
 
         cfg = infer_config_from_state_dict(sd)
+        if "embeddings" in os.path.basename(path).lower():
+            embedding_stats[os.path.basename(path)] = embedding_statistics(sd)
         role = classify_checkpoint_file(path, cfg)
         if role in ("encoder", "decoder"):
             cfg.update(infer_logical_layer_count(sd, role))
@@ -1033,6 +1248,17 @@ def summarize_model(files: list[str], args):
     # 1. Merge raw per-role values
     summary = merge_model_configs_raw(per_file)
 
+    # Conflicting PyTorch head settings cannot be resolved from projection shapes.
+    configured_heads = train_config.get("heads")
+    checkpoint_heads = model_head_hints.get("opts.heads")
+    checkpoint_ab_heads = model_head_hints.get("opts.ab_heads")
+    ambiguous_heads = (
+        args.backend == "pytorch"
+        and isinstance(checkpoint_ab_heads, int)
+        and any(isinstance(h, int) and h != checkpoint_ab_heads
+                for h in (configured_heads, checkpoint_heads))
+    )
+
     # 2. Resolve heads/head_dim BEFORE compression, while model_dim is still
     #    present in encoder/decoder sections
     for section in ["encoder", "decoder", "encoder_wrapper", "decoder_wrapper"]:
@@ -1040,6 +1266,14 @@ def summarize_model(files: list[str], args):
             summary[section] = resolve_head_info(summary[section],
                                                  model_head_hints,
                                                  backend=args.backend,)
+
+    if ambiguous_heads:
+        for section in ("encoder", "decoder", "encoder_wrapper", "decoder_wrapper"):
+            cfg = summary.get(section, {})
+            for key in ("configured_num_heads", "configured_num_heads_source",
+                        "calculated_head_dim", "calculated_head_dim_source",
+                        "trained_head_dim", "trained_head_dim_source"):
+                cfg.pop(key, None)
 
     # 3. Compress after resolution so shared resolved values get hoisted
     summary = compress_model_summary(summary)
@@ -1049,6 +1283,22 @@ def summarize_model(files: list[str], args):
     summary = add_head_dim_warnings(summary)
 
     summary["backend"] = args.backend
+    if train_config_path:
+        summary["training_config"] = {"path": train_config_path}
+        for key in ("ff_activation", "ff_mult", "model_dim", "model_dtype",
+                    "post_emb_norm", "emb_init", "embedding_init", "param_init"):
+            if key in train_config:
+                summary["training_config"][key] = train_config[key]
+        if "ff_activation" in train_config:
+            summary["core"]["ff_activation"] = train_config["ff_activation"]
+            summary["core"]["ff_activation_source"] = "train.yaml"
+    summary["parameter_counts"] = parameter_counts
+    if count_errors:
+        summary["warnings"].append(f"parameter count incomplete for {len(count_errors)} checkpoint files")
+    if train_config:
+        summary["task_efficiency"] = task_efficiency(train_config, parameter_counts)
+    if embedding_stats:
+        summary["embedding_statistics"] = embedding_stats
 
     global_cfg = summary.get("global", {})
     if isinstance(global_cfg, dict):
@@ -1072,7 +1322,33 @@ def summarize_model(files: list[str], args):
                 if global_cfg.get("calculated_head_dim") is not None
                 and global_cfg.get("trained_head_dim") is not None
                 else None), }
-    
+        if ambiguous_heads:
+            q_dim = summary.get("core", {}).get("q_proj_out_dim")
+            model_dim = global_cfg.get("model_dim")
+            heads = sorted({h for h in (configured_heads, checkpoint_heads,
+                                        checkpoint_ab_heads)
+                            if isinstance(h, int) and h > 0})
+            summary["head_analysis"].update({
+                "configured_heads": configured_heads,
+                "configured_heads_source": "train.yaml:heads" if configured_heads is not None else None,
+                "checkpoint_heads": checkpoint_heads,
+                "checkpoint_ab_heads": checkpoint_ab_heads,
+                "selected_num_heads": None,
+                "selected_num_heads_source": None,
+                "calculated_head_dim": None,
+                "trained_head_dim": None,
+                "head_dim_consistent": None,
+                "candidate_head_dimensions": [
+                    {"num_heads": h,
+                     "head_dim": q_dim // h if isinstance(q_dim, int) and q_dim % h == 0 else None,
+                     "model_head_dim": model_dim // h if isinstance(model_dim, int) and model_dim % h == 0 else None}
+                    for h in heads],
+                "status": "ambiguous",
+                "reason": "projection dimensions do not determine attention head count",
+            })
+            summary["warnings"].append(
+                "conflicting PyTorch head settings; verify attention constructor in source code")
+
     print_model_summary(summary, yaml_like=args.yaml_like)
 
 def drop_stale_fallback_hints(summary: dict[str, Any]) -> dict[str, Any]:
@@ -1122,6 +1398,8 @@ def summarize(path: str, args):
         raise
 
     sd = get_state_dict_like(obj)
+    base = os.path.basename(path)
+    file_mb = mb(os.path.getsize(path))
 
     if args.inspect_patterns:
         print(f"\n=== {path} ===")
@@ -1140,6 +1418,7 @@ def summarize(path: str, args):
                 print(f"\n=== {path} ===")
                 print("(No tensor state_dict found; likely metadata/config/optimizer file.)")
             return
+
 
         cfg = infer_config_from_state_dict(sd)
         base = os.path.basename(path)
@@ -1180,7 +1459,7 @@ def summarize(path: str, args):
             else:
                 print(f"{base}: no_config_fields")
             return
-        
+
         print_config_summary(path, cfg)
         return
 
@@ -1315,7 +1594,7 @@ def summarize(path: str, args):
         )
 
 
-    
+
 def main():
     ap = argparse.ArgumentParser(
         description="Inspect PyTorch checkpoint/module files."
@@ -1354,7 +1633,7 @@ def main():
             print("Selected representative files:")
             for p in files:
                 print("  ", p)
-        summarize_model(files, args)
+        summarize_model(files, args, all_files=args.files)
         return
 
     for p in args.files:
@@ -1363,4 +1642,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

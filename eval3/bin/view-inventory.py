@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Count available score cases, tasks and directions by model and testset.
+
 import argparse
 from viewlib import common,read,emit
 p=common(argparse.ArgumentParser(description='Inventory: models, task types, testsets and score counts'))

@@ -1,0 +1,333 @@
+# Maintaining the evaluation helpers
+
+This document describes the interfaces and assumptions of the programs in `make/eval2/bin`. It is intended for developers modifying or porting the evaluation workflow. For ordinary usage, see [`README.md`](README.md) and the parent Makefile help.
+
+## Maintenance principles
+
+The helpers form one stateful pipeline. A change to a filename, task identifier, environment variable, or completion message can affect Make prerequisites and later stages.
+
+When changing the code:
+
+1. preserve machine-readable stdout where promised;
+2. send diagnostics to stderr;
+3. preserve exact localized task identity (`src_xcode`, `tgt_xcode`) unless aggregation is explicitly intended;
+4. treat generated call files as executable programs;
+5. test both a clean run and continuation from partially generated output; and
+6. update the Make fragment, template, and helper together when their interface changes.
+
+## Call graph
+
+| Caller | Helper | Contract |
+| --- | --- | --- |
+| `mk-basic.mk` | `inspect-model-files.py` | Writes a YAML-like checkpoint summary whose warnings select the Mammoth implementation. |
+| `mk-pairs.mk` | `inf_pairs.py` | Produces proposed supervised and zero-shot pair files from `train.yaml`. |
+| `mk-calls.mk` | `inf_plan.py` | Produces task YAMLs and `calls.*.out`; emits `All stages of planning completed` on stderr only after successful planning. |
+| generated SLURM templates | `slurm_distr.sh` | Outside SLURM, writes an `sbatch` command; inside SLURM, executes one rank's share of a call file. |
+| generated SLURM templates | `slurm_wrapper.sh` | Validates the allocation, activates an environment, and delegates to `slurm_distr.sh`. |
+| parent Makefile | `status.py` | Prints one progress row per `--model ALIAS=DIR`. |
+| parent Makefile | `summarize_sacre.py` | Converts `.sacre` files to human-readable tables or long-form TSV. |
+| parent Makefile | `partition_coverage.py` | Partitions tasks by model coverage. |
+| parent Makefile | `compare_scores.py` | Resolves comparison groups and compares scores on their common tasks. |
+
+The Makefiles should be considered the public entry point. A helper's command-line interface is still an internal API and should not be changed without updating its caller.
+
+## Shared task and file conventions
+
+### Pair files
+
+Pair-selection files contain one directed pair per line:
+
+```text
+src-tgt
+```
+
+Blank lines and lines beginning with `#` are ignored by `inf_plan.py`. Language values are internal codes such as `fra`, `eng`, or `srp_Cyrl`, not localized xcodes.
+
+### Localized tasks
+
+Evaluation tasks use identifiers such as:
+
+```text
+mt_CA.fra-XX.eng
+docmt_BR.por-XX.eng
+```
+
+The prefix identifies the task family; each side after it is an xcode. An xcode combines a locale tag with an internal language code. `CA.fra` and `FR.fra` are different tasks even though both normalize to `fra`.
+
+### Score filenames
+
+`summarize_sacre.py` expects:
+
+```text
+<kind>_<src_xcode>-<tgt_xcode>.<dataset>.sacre
+<kind>_<src_xcode>-<tgt_xcode>.<dataset>.0ssacre
+```
+
+where `kind` is `mt`, `sentmt`, or `docmt`, and `dataset` is `wmt`, `flo`, `bqt`, or `bqtpar`.
+
+### `sacre.tsv`
+
+The long-form TSV columns are:
+
+| Column | Meaning |
+| --- | --- |
+| `model` | Model alias supplied to the summarizer. |
+| `dataset` | Dataset tag. |
+| `src_xcode`, `tgt_xcode` | Exact localized task identity. |
+| `src`, `tgt` | Coarser display/aggregation codes. |
+| `zeroshot` | `1` for zero-shot, `0` for supervised. |
+| `metric` | `BLEU` or `chrF2` in the current scorer. |
+| `score` | Numeric score. |
+| `filename` | Source score filename. |
+
+The canonical identity for a score row is:
+
+```text
+(model, dataset, src_xcode, tgt_xcode, zeroshot, metric)
+```
+
+Do not replace the xcodes with `src` and `tgt` in comparisons: locale variants would collapse.
+
+## `inf_pairs.py`
+
+### Purpose
+
+The script reads the top-level `tasks` mapping in a Mammoth training YAML, builds a directed language graph, exports supervised pairs, and ranks reachable but untrained directions as zero-shot candidates.
+
+### Command-line interface
+
+```text
+inf_pairs.py TRAIN_YAML
+  [--top-n N]
+  [--zs-out FILE]
+  [--rank-list-only]
+  [--supervised-pairs-and-quit FILE]
+```
+
+It requires PyYAML and NetworkX. Zero-shot ranking optionally uses the lang2vec distance API.
+
+### Ranking
+
+Candidates must not be existing directed edges and must be reachable within three graph hops. The score is:
+
+```text
+0.60 × linguistic compatibility
++ 0.15 × pivot hub strength
++ 0.15 × log(1 + number of pivots)
++ 0.10 × log(1 + number of shortest paths)
+```
+
+Linguistic compatibility blends genetic, syntactic, inventory, phonological, and featural similarity. Hub strength blends PageRank, eigenvector centrality, and normalized degree. These weights are policy, not learned parameters; changes alter proposed evaluation coverage and should be reviewed as experimental-design changes.
+
+### Portability and correctness checks
+
+- `L2V_REPO` is a hard-coded scratch path.
+- Missing lang2vec support does not stop ranking; default distances can make compatibility uninformative.
+- The graph includes all `src_tgt` tasks, while the supervised export filters denoising/autoencoder tasks. Confirm whether graph construction should apply the same filter.
+- The Make recipe supplies `--zs-out` together with `--supervised-pairs-and-quit`. In the supplied implementation, the latter returns before zero-shot ranking, so the zero-shot proposal is not written. Split the calls or change the interface before relying on `mk-pairs`.
+- The source contains duplicated dependency/reference commentary that can be consolidated.
+
+## `inf_plan.py`
+
+### Required environment
+
+| Variable | Meaning |
+| --- | --- |
+| `DATADIR` | Root of benchmark datasets. |
+| `OUTDIR` | Existing model-local inference output directory. |
+| `MODEL` | Model/checkpoint path passed to Mammoth. |
+| `TRAINCONFIG` | Existing training YAML. |
+| `SUPERVISEDPAIRS` | Selected supervised pair file. |
+| `ZEROSHOTPAIRS` | Selected zero-shot pair file. |
+| `MAMMOTH` | Mammoth source directory containing `translate.py`. |
+| `LOGDIR` | Existing inference-log directory. |
+| `SCRDIR` | Existing score directory. |
+
+### Outputs
+
+The script writes `plan.out`, `calls.out`, `calls.sacre.out`, `calls.comet.out`, and task-specific YAML files under `OUTDIR`. It truncates these call files when it starts, including on a later failure.
+
+`calls.out` must contain only non-empty lines beginning with `python`. The Make workflow recognizes success by searching captured stderr for:
+
+```text
+All stages of planning completed
+```
+
+Keep that marker stable or replace it with a more explicit exit-status contract in both caller and callee.
+
+### Embedded policy
+
+`TRIPLES` defines supported languages, localized xcodes, benchmark filenames, and model codes. `zeroshot_base` adds default zero-shot pairs even when they were not selected externally. The script also hard-codes dataset layouts and inference defaults such as beam size and batch size.
+
+These tables should eventually move to versioned configuration if the tool is expected to support multiple sites or benchmark releases.
+
+### Known issues to review
+
+- `files_available` is defined twice; the second definition replaces the first.
+- The active `files_available` returns before checking `config_file`, so a missing generated YAML is not caught there.
+- `plan.out` writes an unmatched quote around its `--log` value.
+- Some diagnostics use the obsolete name `inf_plan.sh`.
+- `collect_task_support` refers to undefined `yaml_task` in one malformed-task error path.
+- Human-readable ASCII/task logging is extensive; avoid sending it to stdout if a future machine-readable mode is added.
+- Multiple localized variants may share and overwrite the same code-level inference YAML. Verify that this remains valid whenever locale-specific model configuration is introduced.
+
+## `inspect-model-files.py`
+
+### Loading policy
+
+Safe loading is the default. `--unsafe` uses `torch.load(..., weights_only=False)` and may execute code embedded in a malicious checkpoint. Only the Make workflow or an operator who trusts the checkpoint should enable it.
+
+The script attempts to allowlist selected Mammoth and tokenizer classes for safe metadata loading. Failure to import those classes is tolerated, but some frame files may then require trusted unsafe loading.
+
+### Output contract used by Make
+
+`mk-basic.mk` requests representative-file selection, model-summary mode, and YAML-like output. It searches the resulting summary for the warning:
+
+```text
+use older Mammoth compatible with trained_head_dim=64
+```
+
+Changing this prose currently changes Mammoth selection. Prefer adding a stable structured field and teaching the Makefile to parse that field.
+
+### Inference limits and known issue
+
+Architecture values are inferred from tensor keys and shapes and are therefore heuristic. Filename classification and representative sampling also depend on naming conventions.
+
+The generic summary path in the supplied source references `base` and `file_mb` without defining them in that path. Exercise the default inspection mode in tests; model-summary mode may not expose this failure.
+
+## SLURM distribution
+
+### `slurm_distr.sh`
+
+Required variables are `MAKESCRIPT`, `CALLS_FILE`, `SBATCH_LINE`, and `PARTITION`.
+
+Outside SLURM, it counts eligible lines, chooses a resource row, prints an `sbatch --parsable` command, and writes the same command to `SBATCH_LINE`. Inside SLURM, it shuffles eligible commands and assigns array elements cyclically:
+
+```text
+rank r receives r, r + world, r + 2 × world, ...
+```
+
+Each rank executes its assigned commands sequentially.
+
+Maintenance cautions:
+
+- resource tables, partitions, GPU topology, and wall-time limits are LUMI-specific;
+- only lines beginning with `python` or `if` are loaded;
+- `shuf` makes assignment nondeterministic;
+- each line is executed with `eval`, so call files must be trusted and correctly quoted;
+- the `dev-g` selection function is present but is not selected by `plan_outside_slurm`; and
+- the special one-GPU `small-g` adjustment adds 480 minutes to short estimates, which should be confirmed as intentional.
+
+### `slurm_wrapper.sh`
+
+The wrapper requires `SLURM_JOBID`, `SELFDIR`, `SLURM_DISTR`, `CALLS_FILE`, and `ACTIVATE`. It sources the activation script and invokes the distributor.
+
+Its comments still refer to historical `BINDIR`, `inf_wrapper.sh`, and `inf_distr.sh` names. Keep documentation and validation messages aligned with the current names.
+
+The repository currently disagrees about whether the distributor lives at `$(SELFDIR)/slurm_distr.sh` or `$(SELFDIR)/bin/slurm_distr.sh`. Resolve this in the templates, Make prerequisites, and installation layout together.
+
+## Score summarization and comparison
+
+### `summarize_sacre.py`
+
+This script extracts the JSON array embedded in each score file and recognizes BLEU and chrF2. In `--tsv` mode, stdout must contain TSV only; discovery messages and warnings belong on stderr.
+
+The human-readable matrix intentionally collapses localized tasks to display-level language codes. If multiple localized tasks map to the same cell, later input overwrites earlier input. Use TSV for reproducible analysis.
+
+### `partition_coverage.py`
+
+The script currently identifies a task as:
+
+```text
+(dataset, src, tgt, zeroshot)
+```
+
+This is coarser than the canonical localized identity. Consequently, it may merge `CA.fra` and `FR.fra`. Change it to read and use `src_xcode` and `tgt_xcode` if exact task coverage is required. Coordinate that change with any saved group interpretation.
+
+Group IDs (`G01`, `G02`, and so on) are assigned after sorting current partitions. They are labels for one invocation, not durable semantic identifiers.
+
+### `compare_scores.py`
+
+The comparator uses localized xcodes, filters by dataset, metric, and evaluation mode, and compares only the intersection of tasks available for every selected model.
+
+It supports hand-crafted experimental groups and dynamic coverage groups. Dynamic group IDs depend on the currently available TSV files, metric, mode, optional partition dataset, and model iteration order. Do not cite a `Gxx` identifier without recording those inputs.
+
+The Makefile parser intentionally supports only simple variable assignments and textual `$(NAME)` expansion. It is not a general GNU Make evaluator. Avoid functions, shell expansion, conditional assignments, or cyclic variable definitions in the model mapping file consumed by this script.
+
+For BLEU, chrF2, and COMET, higher is treated as better; only `TER` is treated as lower-is-better. Add an explicit metric-direction table if more metrics are introduced.
+
+## Status reporting
+
+`status.py` derives progress entirely from generated files and an optional live `squeue` lookup. It reports counts as `zero-shot+supervised` and parses the generated `inf.sbatch` line for planned time and GPU count.
+
+Important semantics:
+
+- `inference.done` is treated as `DONE`, although the job templates create done markers on any exit;
+- if a recorded job is no longer visible in `squeue`, `status.py` removes `inference.submitted` as a side effect; and
+- missing SLURM commands are treated as unavailable status rather than fatal errors.
+
+If status must distinguish success, failure, cancellation, and termination, record and consume an explicit exit-status artifact.
+
+## Testing checklist
+
+There is no supplied automated test suite, so changes should be checked with small fixtures before a cluster run.
+
+### Static checks
+
+```console
+python -m py_compile bin/*.py
+bash -n bin/slurm_distr.sh bin/slurm_wrapper.sh
+```
+
+
+### Pair selection
+
+- Use a minimal `train.yaml` containing supervised, reverse, denoising, and unreachable language pairs.
+- Confirm the supervised export excludes denoising tasks.
+- Confirm `--zs-out` is created and contains at most `--top-n` pairs.
+- Test behavior with and without lang2vec.
+
+### Planning
+
+- Run against a temporary model/data tree with at least one available and one missing dataset.
+- Confirm all output YAMLs parse.
+- Confirm every non-empty `calls.out` line starts with `python`.
+- Confirm rerunning after one completed hypothesis plans scoring rather than translation.
+- Confirm a mid-run exception does not leave output that Make mistakes for a successful plan.
+
+### SLURM logic
+
+- Test planning with call counts on every resource-table boundary.
+- Mock `SLURM_PROCID` and `SLURM_NTASKS` and verify that every call is assigned exactly once.
+- Test quoting with paths containing spaces before changing call generation.
+- Do not execute production call files during unit tests; replace them with harmless commands.
+
+### Results
+
+- Include both supervised and zero-shot score filenames.
+- Include two locale variants of the same language pair.
+- Confirm TSV stdout is clean and diagnostics remain on stderr.
+- Confirm comparisons use only common tasks and reject true duplicate identities.
+- Record the inputs that generated any dynamic coverage group.
+
+### Checkpoints
+
+- Test encoder, decoder, wrapper, frame, optimizer, and malformed files.
+- Test safe loading first and trusted unsafe loading separately.
+- Exercise default, one-line, config-summary, pattern, and model-summary modes.
+- Include a checkpoint where calculated and trained head dimensions differ.
+
+## Porting checklist
+
+Before using the helpers outside the current LUMI setup:
+
+1. replace scratch, model, virtual-environment, and lang2vec paths;
+2. revise module and container activation;
+3. update partitions, topology, allocation limits, and runtime estimates;
+4. make the distributor path consistent;
+5. externalize the language/locale/dataset tables if they differ;
+6. verify Mammoth task naming, vocabulary keys, checkpoint keys, and `translate.py` options;
+7. verify SacreBLEU output and score-filename formats;
+8. decide whether localized xcodes or coarse languages define coverage; and
+9. run the complete testing checklist with non-production fixtures.
+

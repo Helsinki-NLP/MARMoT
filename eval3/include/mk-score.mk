@@ -1,3 +1,7 @@
+# Metric planning and execution are separate from inference.
+# The scoring submission flags must not be interpreted as score-file validity.
+# Archived scores are visible to status.py but are not restored by this file.
+
 # -----------------------------------------------------------------------------
 # Metric command planning and submission
 # -----------------------------------------------------------------------------

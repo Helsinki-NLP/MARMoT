@@ -1,3 +1,6 @@
+# Views consume an existing TSV, not the model checkpoint or raw hypotheses.
+# For cross-model comparisons, verify the selected case coverage first.
+
 # =============================================================================
 # mk-views.mk — Read-only evaluation queries and visualizations
 # =============================================================================

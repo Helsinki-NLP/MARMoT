@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Planning emits sourceable score definitions, not computed scores.
+# Keep the case identity consistent with the inference plan and artifact RFC.
+
 """Plan eval3 score definitions from plan_eval3_inference.py's inf_plan.out TSV.
 
 Each score Bash file is a sourceable definition; no metric is executed yet.

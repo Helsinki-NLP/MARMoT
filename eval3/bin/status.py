@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
+# Read-only status inventory: the plan defines the expected artifact names.
+# Prefer live files; inspect tar archives only for missing planned artifacts.
+# Archive members are not extracted and duplicate names count only once.
+# Existence is not a content-validity or checkpoint-freshness check.
+
 from __future__ import annotations
 
 import argparse
 import re
 import subprocess
+import sys
+import tarfile
 from collections import Counter
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 def count_selected_tasks(path: Path) -> int:
@@ -199,22 +206,76 @@ def read_plan_outputs(plan_file: Path) -> list[str]:
     this plan are deliberately ignored by status reporting.
     """
     outputs = []
-
-    if not plan_file.is_file():
-        return outputs
-
     output_re = re.compile(r'--output\s+"([^"]+)"')
 
-    with plan_file.open("r", errors="replace") as f:
-        for line in f:
-            m = output_re.search(line)
+    if plan_file.is_file():
+        text = plan_file.read_text(errors="replace")
+    elif plan_file.parent.name == "tasks" and plan_file.parent.parent.name == "evaluation":
+        text = archived_plan(plan_file)
+    else:
+        text = ""
 
-            if m:
-                outputs.append(
-                    Path(m.group(1)).name
-                )
+    for line in text.splitlines():
+        m = output_re.search(line)
+        if m:
+            outputs.append(Path(m.group(1)).name)
 
     return outputs
+
+
+def archive_paths(directory: Path):
+    """Recognize the eval3 archive and common equivalent tar suffixes."""
+    for suffix in (".tar.gz", ".tgz", ".tar"):
+        archive = directory.parent / (directory.name + suffix)
+        if archive.is_file():
+            yield archive
+
+
+def archive_warning(archive: Path, exc: Exception) -> None:
+    print(f"status.py: WARNING: cannot read {archive}: {exc}", file=sys.stderr)
+
+
+def archived_plan(plan_file: Path) -> str:
+    """Read the archived plan in memory, without extracting any files."""
+    for archive in archive_paths(plan_file.parent):
+        try:
+            with tarfile.open(archive, "r:*") as tf:
+                expected = PurePosixPath(plan_file.parent.name, plan_file.name)
+                for member in tf:
+                    if member.isfile() and PurePosixPath(member.name) == expected:
+                        stream = tf.extractfile(member)
+                        if stream is not None:
+                            with stream:
+                                return stream.read().decode("utf-8", errors="replace")
+                raise ValueError(f"missing {expected}")
+        except (OSError, tarfile.TarError, EOFError, ValueError) as exc:
+            archive_warning(archive, exc)
+    return ""
+
+
+def include_archived_names(directory: Path, names: set[str], expected: set[str]) -> set[str]:
+    """Consult archives only if planned names are absent from the live directory."""
+    missing = expected - names
+    if not missing:
+        return names
+
+    for archive in archive_paths(directory):
+        found = set()
+        try:
+            with tarfile.open(archive, "r:*") as tf:
+                for member in tf:
+                    path = PurePosixPath(member.name)
+                    if (member.isfile() and path.parent == PurePosixPath(directory.name)
+                            and path.name in missing):
+                        found.add(path.name)
+        except (OSError, tarfile.TarError, EOFError, ValueError) as exc:
+            archive_warning(archive, exc)
+            continue
+        names.update(found)
+        missing -= found
+        if not missing:
+            break
+    return names
 
 
 def test_type_counts(outputs: list[str]) -> Counter[str]:
@@ -290,6 +351,16 @@ def row(
         paths["scores"],
         ".sacre",
     )
+
+    # Archives belong to the new layout; legacy directories are unchanged.
+    if paths["root"].name == "evaluation":
+        hyp_names = include_archived_names(
+            paths["hypotheses"], hyp_names, set(outputs)
+        )
+        sacre_names = include_archived_names(
+            paths["scores"], sacre_names,
+            {name[:-4] + ".sacre" for name in outputs},
+        )
 
     # Count only hypotheses belonging to the current plan.
     hyp_count = sum(

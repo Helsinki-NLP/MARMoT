@@ -1,3 +1,8 @@
+# Inference submission consumes generated calls and Slurm scripts.
+# Submission flags describe jobs, not the validity of hypothesis contents.
+# The force variants are distinct from ordinary continuation; inspect their
+# prerequisites before using them on an existing evaluation.
+
 # mk-calls (FORCE_PAIRS=1) (ensures the calls.out)
 #   |
 #   |   status-infer
@@ -125,13 +130,13 @@ infer-score: infer $(INF_FLAG)
 > rm -f "$(CNT_DONE)"; \
 > echo "mk-control.mk: ✅ Submitted continuation job $$cnt_job after inference $$infer_job"
 
-mk-infer-force: 
-> @$(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODELDIR)" \
->   MODEL="$(MODEL)" FORCE_PAIRS=1 $(FIRST_GOAL) infer
+mk-infer-force:
+> @$(MAKE) --no-print-directory -C "$(SELFDIR)" \
+>   MODELDIR="$(MODELDIR)" MODEL="$(MODEL)" FORCE_PAIRS=1 infer
 
-mk-infer-score-force: 
-> @$(MAKE) --no-print-directory -C "$(SELFDIR)" MODELDIR="$(MODELDIR)" \
->   MODEL="$(MODEL)" FORCE_PAIRS=1 $(FIRST_GOAL) infer-score
+mk-infer-score-force:
+> @$(MAKE) --no-print-directory -C "$(SELFDIR)" \
+>   MODELDIR="$(MODELDIR)" MODEL="$(MODEL)" FORCE_PAIRS=1 infer-score
 
 mk-infer: infer
 > @true

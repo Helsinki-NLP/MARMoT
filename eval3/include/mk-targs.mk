@@ -1,3 +1,6 @@
+# Model aliases are positional Make goals, not ordinary workflow targets.
+# The first goal selects the model for the remaining goals in this invocation.
+
 # Resolve alias used as the first goal, if any.
 FIRST_GOAL := $(firstword $(MAKECMDGOALS))
 ifneq ($(filter $(FIRST_GOAL),$(MODEL_ALIASES)),)

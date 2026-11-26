@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Report generation for existing HPO scores. Dataset and metric aliases
+# normalize labels for reporting; this script does not execute inference.
+
 
 from __future__ import annotations
 

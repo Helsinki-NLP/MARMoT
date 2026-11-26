@@ -1,3 +1,7 @@
+# These targets summarize existing live score files; they do not run metrics.
+# Archive-aware status reporting does not make TSV generation archive-aware.
+# Restore the relevant score directory before regenerating archived reports.
+
 ##################################
 # RETURNING THE SCORES
 ##################################
@@ -240,27 +244,39 @@ sacre-tsv-all:
 #
 # This target does not create or modify files.
 
-list-tsv-all:
->	@set -eu; \
->	for spec in $(MODEL_SPECS); do \
->	  a="$${spec%%|*}"; \
->	  model_dir="$${spec#*|}"; \
->	  if [ -d "$$model_dir/evaluation" ]; then \
->	    tsv_file="$$model_dir/evaluation/reports/sacre.tsv"; \
->	  else \
->	    tsv_file="$$model_dir/eval3/sacre.tsv"; \
->	  fi; \
->	  if [ -f "$$tsv_file" ]; then \
->	    row_count="$$(wc -l < "$$tsv_file")"; \
->	    if [ "$$row_count" -le 1 ]; then \
->	      rm -f "$$tsv_file"; \
->	      printf '%-40s %s\n' "$$a" "(no data)"; \
->	    else \
->	      printf '%-40s %s (%s data rows)\n' \
->	        "$$a" "$$tsv_file" "$$((row_count - 1))"; \
->	    fi; \
->	  else \
->	    printf '%-40s %s\n' "$$a" "(missing)"; \
->	  fi; \
->	done
 
+list-tsv-all:
+>       @set -eu; \
+>       for spec in $(MODEL_SPECS); do \
+>         a="$${spec%%|*}"; \
+>         model_dir="$${spec#*|}"; \
+>         if [ -d "$$model_dir/evaluation" ]; then \
+>           report_dir="$$model_dir/evaluation/reports"; \
+>         else \
+>           report_dir="$$model_dir/eval3"; \
+>         fi; \
+>         tsv_file="$$report_dir/sacre.tsv"; \
+>         if [ -f "$$tsv_file" ]; then \
+>           row_count="$$(wc -l < "$$tsv_file")"; \
+>           if [ "$$row_count" -gt 1 ]; then \
+>             printf '%-40s OK          %s (%s data rows)\n' \
+>               "$$a" "$$tsv_file" "$$((row_count - 1))"; \
+>             continue; \
+>           fi; \
+>         fi; \
+>         source_count=0; \
+>         if [ -d "$$report_dir" ]; then \
+>           while IFS= read -r file; do \
+>             source_count=$$((source_count + 1)); \
+>           done < <(find "$$report_dir" -type f \
+>             \( -name '*.json' -o -name '*.jsonl' \
+>                -o -name '*.txt' -o -name '*.hyp' \
+>                -o -name '*.ref' \)); \
+>         fi; \
+>         if [ "$$source_count" -gt 0 ]; then \
+>           printf '%-40s REBUILDABLE? %s (%s candidate files)\n' \
+>             "$$a" "$$report_dir" "$$source_count"; \
+>         else \
+>           printf '%-40s MISSING      %s\n' "$$a" "$$tsv_file"; \
+>         fi; \
+>       done
