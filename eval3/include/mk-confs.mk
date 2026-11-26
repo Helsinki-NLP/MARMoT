@@ -1,3 +1,6 @@
+# Environment preparation is shared infrastructure. The Python environment
+# used for planning and reports is distinct from the Mammoth runtime.
+
 # -----------------------------------------------------------------------------
 # mk-confs.mk — Common setup for the eval2 workflow
 # -----------------------------------------------------------------------------

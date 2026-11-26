@@ -1,3 +1,7 @@
+# Keep artifact paths consistent with the planner, status reader and RFC.
+# Training configuration and evaluation output paths have different roles;
+# changing a path here may also require changes in Python consumers.
+
 # Setting the layout of the output directories
 
 # Training configuration and checkpoints ==>  $(MODELDIR_CLEAN)
@@ -6,12 +10,12 @@
 TRAINCONFIG := $(MODELDIR_CLEAN)/train.yaml
 EVALDIR     := $(MODELDIR_CLEAN)/evaluation
 
-# Infer the rough Mammoth implementation type from the model collection.
+# Infer the Mammoth implementation type from the model collection.
 MAMMOTH_TYPE := unknown
 ifneq ($(filter $(XMODELS)/%,$(MODELDIR_CLEAN)),)
   MAMMOTH_TYPE := xtransformers
 endif
-ifneq ($(filter $(PMODELS)/%,$(MODELDIR_CLEAN)),)
+ifneq ($(filter $(PMODELS)/% $(NMODELS)/%,$(MODELDIR_CLEAN)),)
   MAMMOTH_TYPE := pytorch
 endif
 

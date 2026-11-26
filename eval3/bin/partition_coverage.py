@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Compare coverage of supplied model score tables. MODEL=PATH inputs
+# associate an explicit alias with each table; coverage is not a quality score.
+
 
 from __future__ import annotations
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Reshape selected scores by row and column keys using the shared aggregation.
+
 import argparse
 from viewlib import common,read,emit,macro
 p=common(argparse.ArgumentParser(description='SQL-style pivot table: rows x columns, values mean score'))

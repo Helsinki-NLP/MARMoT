@@ -34,9 +34,6 @@ continue-eval: clean-inf-lock clean-cnt-lock clean-met-lock
 > elif [ "$$comet_calls" -gt 0 ]; then \
 >   echo "mk-contr.mk: ✅ Next step: mk-comet"; \
 >   $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-comet; \
-> elif [ ! -e "$(MODELDIR)/viz.done" ]; then \
->   echo "mk-contr.mk: ✅ Next step: mk-viz"; \
->   $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-viz; \
 > else \
 >   echo "mk-contr.mk: ✅ Evaluation pipeline complete."; \
 > fi
@@ -64,9 +61,6 @@ continue-eval-force: clean-inf-lock clean-cnt-lock clean-met-lock
 > elif [ "$$comet_calls" -gt 0 ]; then \
 >   echo "mk-contr.mk: ✅ Next step: mk-comet"; \
 >   $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-comet; \
-> elif [ ! -e "$(MODELDIR)/viz.done" ]; then \
->   echo "mk-contr.mk: ✅ Next step: mk-viz"; \
->   $(MAKE) -C "$(SELFDIR)" --no-print-directory $(FIRST_GOAL) mk-viz; \
 > else \
 >   echo "mk-contr.mk: ✅ Evaluation pipeline complete."; \
 > fi

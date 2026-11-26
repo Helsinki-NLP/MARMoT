@@ -1,9 +1,14 @@
+# Registration and model resolution are separate from evaluation scheduling.
+# The ready inventory is read at Make startup; a subsequent invocation sees
+# changes to that inventory. Alias resolution prefers the architecture root.
+
 # -----------------------------------------------------------------------------
 # Model aliases
 # -----------------------------------------------------------------------------
 # Shared base directory for model aliases.
 XMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-xtransformers
 PMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo
+NMODELS := /scratch/project_462001509/members/tiedeman/MARMoT/models/hpo-architecture
 
 # PyTorch models accepted for evaluation.  This is only registration:
 # no model is submitted merely by appearing in this file.
@@ -11,17 +16,42 @@ READY_MODELS_FILE ?= $(SELFDIR)/models.ready
 READY_MODEL_ALIASES := $(strip $(shell \
   test -f "$(READY_MODELS_FILE)" && sed '/^[[:space:]]*$$/d' "$(READY_MODELS_FILE)"))
 
+#Resolve each ready model to its actual checkpoint directory.
+# Prefer hpo-architecture if the alias exists in both locations.
 $(foreach a,$(READY_MODEL_ALIASES),\
-  $(eval MODEL_$(a) := $(PMODELS)/$(a)/mammoth))
+  $(eval MODEL_$(a) := $(firstword \
+    $(foreach base,$(NMODELS) $(PMODELS),\
+      $(if $(wildcard $(base)/$(a)/mammoth/model_best*),\
+        $(base)/$(a)/mammoth)))))
+
+# Keep only ready aliases whose checkpoint directories were resolved.
+# This also protects against a stale models.ready file.
+READY_MODEL_ALIASES := $(strip \
+  $(foreach a,$(READY_MODEL_ALIASES),\
+    $(if $(strip $(MODEL_$(a))),$(a))))
 
 .PHONY: models-ready
 models-ready:
 > @set -euo pipefail; \
-> tmp="$(READY_MODELS_FILE).tmp"; \
-> find "$(PMODELS)" -type f -name 'model_best*' -printf '%h\n' | \
->   sed 's#/mammoth$$##' | sed 's#.*/##' | sort -u > "$$tmp"; \
-> mv "$$tmp" "$(READY_MODELS_FILE)"; \
+> tmp="$$(mktemp "$(READY_MODELS_FILE).tmp.XXXXXX")"; \
+> trap 'rm -f -- "$$tmp"' EXIT; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+>   | awk -F '\t' 'NR>1 && $$2=="YES" {print $$1}' \
+>   | sort -u > "$$tmp"; \
+> if [ ! -s "$$tmp" ]; then \
+>   echo "ERROR: No ready models found; refusing to replace $(READY_MODELS_FILE)" >&2; \
+>   exit 1; \
+> fi; \
+> mv -- "$$tmp" "$(READY_MODELS_FILE)"; \
 > echo "mk-model.mk: Updated $(READY_MODELS_FILE): $$(wc -l < "$(READY_MODELS_FILE)") models"
+
+.PHONY: models-ready-preview
+models-ready-preview:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+>   | awk -F '\t' 'NR>1 && $$2=="YES" {print $$1}' \
+>   | sort -u
+
 
 # Add model aliases here.
 MODEL_big-2p-GAenc-Ldec-320k := $(PMODELS)/big-2p-GAenc-Ldec-320k/mammoth
@@ -153,3 +183,54 @@ stale-hypotheses:
 >   printf '%-40s  %-12s  %-19s  %-19s\n' \
 >     "$$a" "$$status" "$$newest_s" "$$oldest_s"; \
 > done
+
+
+TRAINING_STATUS_MARGIN ?= 3600
+TRAINING_STATUS_ROOTS ?= $(PMODELS) $(NMODELS)
+
+.PHONY: inspect-training-status \
+        inspect-training-status-tsv \
+        inspect-not-ready \
+        inspect-evaluate-now \
+        inspect-training-review \
+        inspect-ready-mismatch
+
+inspect-training-status-tsv:
+> @module load cray-python && \
+> LC_ALL=C python3 bin/inspect_training_status.py \
+>   --roots $(TRAINING_STATUS_ROOTS) \
+>   --margin "$(TRAINING_STATUS_MARGIN)" \
+>   --ready-file "$(READY_MODELS_FILE)"
+
+inspect-training-status:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+> | column -t -s "$$(printf '\t')"
+
+inspect-not-ready:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+> | awk -F '\t' 'NR==1 || $$2=="NO"' \
+> | cut -f1-6,15 \
+> | column -t -s "$$(printf '\t')"
+
+inspect-evaluate-now:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+> | awk -F '\t' 'NR==1 || $$5=="EVALUATE_NOW" || $$5=="REEVALUATE_NOW"' \
+> | cut -f1-6,13-15 \
+> | column -t -s "$$(printf '\t')"
+
+inspect-training-review:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+> | awk -F '\t' 'NR==1 || $$2=="REVIEW" || $$5 ~ /^REVIEW_/' \
+> | cut -f1-6,15 \
+> | column -t -s "$$(printf '\t')"
+
+inspect-ready-mismatch:
+> @set -euo pipefail; \
+> $(MAKE) --no-print-directory -s inspect-training-status-tsv \
+> | awk -F '\t' 'NR==1 || $$4!="OK"' \
+> | cut -f1-6,15 \
+> | column -t -s "$$(printf '\t')"

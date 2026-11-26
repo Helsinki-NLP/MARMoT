@@ -133,9 +133,10 @@ choose_one_gpu_plan() {
            (( CHOSEN_RUNTIME_MIN > 30 )); then
             die "dev-g job would exceed 30 minutes: ${CHOSEN_RUNTIME_MIN} min"
         fi
-        printf -v CHOSEN_TIME '%02d:%02d:00' \
-            $(( CHOSEN_RUNTIME_MIN / 60 )) \
-            $(( CHOSEN_RUNTIME_MIN % 60 ))
+#        printf -v CHOSEN_TIME '%02d:%02d:00' \
+#            $(( CHOSEN_RUNTIME_MIN / 60 )) \
+#            $(( CHOSEN_RUNTIME_MIN % 60 ))
+	CHOSEN_TIME="00:45:00"
     fi
 }
 

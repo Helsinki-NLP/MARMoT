@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Shared filtering and aggregation for the view entry points.
+# Keep case identity and aggregation choices consistent across views.
+
 """Shared, read-only sacre.tsv loading and filtering. No inference side effects."""
 import argparse
 import fnmatch

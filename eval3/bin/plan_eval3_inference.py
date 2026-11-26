@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
+# Keep evaluation language identities separate from training vocabulary IDs.
+# Shared tokenizer groups may require resolving languages from mt_/zero_ task
+# names; original vocabulary IDs and sharing groups still select model parts.
+# Generated plans describe work; they do not submit Slurm jobs.
+
 # plan_eval3_inference.py
 #
 # Plan Mammoth evaluation: write inference YAMLs and command lists.
-# Normally invoked by the eval2 Makefile.
+# Normally invoked by the eval3 Makefile.
 #
 # Reads
 # -----
@@ -60,9 +65,11 @@
 #   keys are removed, tasks and source/target vocabularies are narrowed to the
 #   selected task, and inference settings such as beam and batch size are added.
 # - Inference YAMLs retain the original training task name as their task key.
-# - Training task names are opaque identifiers.  Evaluation languages are
-#   obtained from each selected task's structured src_tgt field, never by
-#   parsing prefixes such as mt_, zero_, or denoise_.
+# - Original task names are retained as Mammoth task IDs and artifact IDs.
+# - Evaluation languages normally come from src_tgt. For shared vocabulary
+#   identifiers (e.g. mul, roa, gmw), resolve the corresponding language
+#   from mt_SRC-TGT or zero_SRC-TGT. Keep the original vocabulary identifiers
+#   and sharing groups in the inference configuration.
 # - Run through the surrounding Makefile workflow, which supplies the required
 #   environment variables and creates the output directories.
 
@@ -234,6 +241,7 @@ class LanguageInventory:
     xcode_to_wmt_locale: Dict[str, str] = field(default_factory=dict)
     code_to_model_code: Dict[str, str] = field(default_factory=dict)
 
+
 def build_language_inventory() -> LanguageInventory:
     def variant_tag_for_locale(locale: str) -> str:
         if "_" in locale:
@@ -292,6 +300,174 @@ TESTSET_NAMES = {
     "bqtpar": "bouquetpar",
     "wmt": "wmt24pp",
 }
+
+# Temporary eval3 proxy: 30 supervised task/dataset pairs + all 126 zero-shot pairs.
+# Set EVAL3_PROXY_FILTER=0 to restore unrestricted planning.
+EVAL3_PROXY_PAIRS = frozenset(
+    tuple(line.split()) for line in """
+mt_slv-eng	flores200
+mt_eng-bul	flores200
+mt_por-eng	wmt24pp
+mt_eng-bul	wmt24pp
+mt_eng-ces	bouquetpar
+mt_hrv-eng	wmt24pp
+mt_por-eng	bouquet
+mt_spa-eng	bouquetpar
+mt_eng-sqi	bouquetpar
+mt_sqi-eng	bouquetpar
+mt_bul-eng	flores200
+mt_eng-kat	bouquetpar
+mt_eng-dan	bouquetpar
+mt_eng-mlt	bouquetpar
+mt_eng-ita	bouquet
+mt_ita-eng	bouquet
+mt_eng-nno	bouquet
+mt_ces-eng	bouquetpar
+mt_nno-eng	bouquetpar
+mt_eng-ron	bouquetpar
+mt_slk-eng	bouquetpar
+mt_eng-ita	flores200
+mt_eng-lit	wmt24pp
+mt_ell-eng	bouquetpar
+mt_kat-eng	bouquetpar
+mt_bos-eng	bouquetpar
+mt_ukr-eng	flores200
+mt_eng-por	bouquetpar
+mt_fra-eng	bouquetpar
+mt_eng-deu	bouquet
+zero_bos-hrv	bouquet
+zero_bos-hrv	bouquetpar
+zero_bos-hrv	flores200
+zero_bos-slv	bouquet
+zero_bos-slv	bouquetpar
+zero_bos-slv	flores200
+zero_bos-srp_Cyrl	bouquet
+zero_bos-srp_Cyrl	bouquetpar
+zero_bos-srp_Cyrl	flores200
+zero_bul-tur	bouquet
+zero_bul-tur	bouquetpar
+zero_bul-tur	flores200
+zero_bul-tur	wmt24pp
+zero_ces-slk	bouquet
+zero_ces-slk	bouquetpar
+zero_ces-slk	flores200
+zero_ces-slk	wmt24pp
+zero_dan-nob	flores200
+zero_dan-nob	wmt24pp
+zero_deu-ron	bouquet
+zero_deu-ron	bouquetpar
+zero_deu-ron	flores200
+zero_deu-ron	wmt24pp
+zero_deu-tur	bouquet
+zero_deu-tur	bouquetpar
+zero_deu-tur	flores200
+zero_deu-tur	wmt24pp
+zero_deu-ukr	bouquet
+zero_deu-ukr	bouquetpar
+zero_deu-ukr	flores200
+zero_deu-ukr	wmt24pp
+zero_est-fin	bouquet
+zero_est-fin	bouquetpar
+zero_est-fin	flores200
+zero_est-fin	wmt24pp
+zero_eus-fra	bouquet
+zero_eus-fra	bouquetpar
+zero_eus-fra	flores200
+zero_fin-est	bouquet
+zero_fin-est	bouquetpar
+zero_fin-est	flores200
+zero_fin-est	wmt24pp
+zero_fin-swe	bouquet
+zero_fin-swe	bouquetpar
+zero_fin-swe	flores200
+zero_fin-swe	wmt24pp
+zero_fin-ukr	bouquet
+zero_fin-ukr	bouquetpar
+zero_fin-ukr	flores200
+zero_fin-ukr	wmt24pp
+zero_fra-eus	bouquet
+zero_fra-eus	bouquetpar
+zero_fra-eus	flores200
+zero_fra-nld	bouquet
+zero_fra-nld	bouquetpar
+zero_fra-nld	flores200
+zero_fra-nld	wmt24pp
+zero_glg-por	bouquet
+zero_glg-por	bouquetpar
+zero_glg-por	flores200
+zero_hrv-bos	bouquet
+zero_hrv-bos	bouquetpar
+zero_hrv-bos	flores200
+zero_hrv-srp_Cyrl	bouquet
+zero_hrv-srp_Cyrl	bouquetpar
+zero_hrv-srp_Cyrl	flores200
+zero_hrv-srp_Cyrl	wmt24pp
+zero_nld-fra	bouquet
+zero_nld-fra	bouquetpar
+zero_nld-fra	flores200
+zero_nld-fra	wmt24pp
+zero_nob-dan	flores200
+zero_nob-dan	wmt24pp
+zero_pol-ukr	bouquet
+zero_pol-ukr	bouquetpar
+zero_pol-ukr	flores200
+zero_pol-ukr	wmt24pp
+zero_por-glg	bouquet
+zero_por-glg	bouquetpar
+zero_por-glg	flores200
+zero_ron-deu	bouquet
+zero_ron-deu	bouquetpar
+zero_ron-deu	flores200
+zero_ron-deu	wmt24pp
+zero_slk-ces	bouquet
+zero_slk-ces	bouquetpar
+zero_slk-ces	flores200
+zero_slk-ces	wmt24pp
+zero_slv-bos	bouquet
+zero_slv-bos	bouquetpar
+zero_slv-bos	flores200
+zero_srp_Cyrl-bos	bouquet
+zero_srp_Cyrl-bos	bouquetpar
+zero_srp_Cyrl-bos	flores200
+zero_srp_Cyrl-hrv	bouquet
+zero_srp_Cyrl-hrv	bouquetpar
+zero_srp_Cyrl-hrv	flores200
+zero_srp_Cyrl-hrv	wmt24pp
+zero_swe-fin	bouquet
+zero_swe-fin	bouquetpar
+zero_swe-fin	flores200
+zero_swe-fin	wmt24pp
+zero_tur-bul	bouquet
+zero_tur-bul	bouquetpar
+zero_tur-bul	flores200
+zero_tur-bul	wmt24pp
+zero_tur-deu	bouquet
+zero_tur-deu	bouquetpar
+zero_tur-deu	flores200
+zero_tur-deu	wmt24pp
+zero_tur-swe	bouquet
+zero_tur-swe	bouquetpar
+zero_tur-swe	flores200
+zero_tur-swe	wmt24pp
+zero_ukr-deu	bouquet
+zero_ukr-deu	bouquetpar
+zero_ukr-deu	flores200
+zero_ukr-deu	wmt24pp
+zero_ukr-fin	bouquet
+zero_ukr-fin	bouquetpar
+zero_ukr-fin	flores200
+zero_ukr-fin	wmt24pp
+zero_ukr-pol	bouquet
+zero_ukr-pol	bouquetpar
+zero_ukr-pol	flores200
+zero_ukr-pol	wmt24pp
+""".strip().splitlines()
+)
+
+def proxy_allows(orig_task: str, data_tag: str) -> bool:
+    return os.environ.get("EVAL3_PROXY_FILTER", "1") == "0" or (
+        (orig_task, TESTSET_NAMES[data_tag]) in EVAL3_PROXY_PAIRS
+    )
 
 # Explicit dataset-language registry refinements required by RFC-EVAL-ARTIFACTS.
 # Most datasets use the project's canonical language code directly.
@@ -385,7 +561,13 @@ def get_env_vars():
     if not os.path.exists(model):
         die(f"Error: MODEL must be an existing file or directory: {model}")
     if not os.path.isfile(trainconfig):
-        die(f"Error: TRAINCONFIG must be an existing file: {trainconfig}")
+        if os.path.basename(trainconfig) == "train.yaml":
+            fallback = os.path.join(os.path.dirname(trainconfig), "train-raw.yaml")
+            if os.path.isfile(fallback):
+                log(f"TRAINCONFIG not found: {trainconfig}; using {fallback}")
+                trainconfig = fallback
+        if not os.path.isfile(trainconfig):
+            die(f"Error: TRAINCONFIG must be an existing file: {trainconfig}")
     if not os.path.isdir(tskdir):
         die(f"Error: TSKDIR must be an existing directory: {tskdir}")
     if not os.path.isdir(cfgdir):
@@ -660,7 +842,7 @@ class TaskSupport:
     task_set:
         Internal localized evaluation identities.  These are not artifact names.
     task_to_type:
-        Internal selection label; no semantics are inferred from task-name prefixes.
+        Internal selection label; original task IDs are preserved.
     task_to_orig:
         Internal localized identity -> exact original YAML task name.
     """
@@ -677,11 +859,10 @@ class TaskSupport:
     task_to_tgt_xcode: Dict[str, str] = field(default_factory=dict)
 
 def collect_task_support(cfg, inventory):
-    """Expand training tasks using structured src_tgt metadata.
+    """Expand training tasks into localized evaluation identities.
 
-    Task names are opaque RFC artifact identifiers.  In particular, zero_*
-    tasks are not special-cased and mt_/zero_/denoise_ prefixes are never
-    parsed to discover languages or task type.
+    Resolve shared vocabulary identifiers from translation task names when
+    necessary, retaining the original src_tgt codes for vocabulary selection.
     """
     def expand_langspec(spec: str) -> list[str]:
         if spec in inventory.valid_xcodes:
@@ -701,17 +882,35 @@ def collect_task_support(cfg, inventory):
             log(f"❌ Missing or malformed src_tgt in TRAINCONFIG task: {orig_task}")
             continue
         src_spec, tgt_spec = src_tgt.split("-", 1)
-        if src_spec == tgt_spec:
-            # Same-language training tasks are denoising objectives, not
-            # translation directions.  Keep the YAML task name known so that
-            # selecting it is not reported as a missing task, but do not
-            # create any evaluation identities or inference artifacts for it.
-            log(f"   SKIP  - denoising task {orig_task}: src_tgt={src_tgt}")
+        eval_src_spec, eval_tgt_spec = src_spec, tgt_spec
+
+        # Shared tokenizer IDs are not necessarily evaluation languages.
+        src_shared = not expand_langspec(src_spec)
+        tgt_shared = not expand_langspec(tgt_spec)
+        if src_shared or tgt_shared:
+            match = re.fullmatch(r"(?:mt|zero)_(.+)-(.+)", orig_task)
+            if match:
+                task_src, task_tgt = match.groups()
+                # Do not silently accept disagreement on an unshared side.
+                if ((not src_shared and task_src != inventory.xcode_to_code.get(src_spec, src_spec))
+                        or (not tgt_shared and task_tgt != inventory.xcode_to_code.get(tgt_spec, tgt_spec))):
+                    log(f"ERROR: Task name disagrees with src_tgt: {orig_task}: {src_tgt}")
+                    continue
+                if src_shared:
+                    eval_src_spec = task_src
+                if tgt_shared:
+                    eval_tgt_spec = task_tgt
+                log(f"   SHARED VOCAB - {orig_task}: {src_tgt} -> {eval_src_spec}-{eval_tgt_spec}")
+
+        # Compare actual languages, not shared vocabulary identifiers.
+        if eval_src_spec == eval_tgt_spec:
+            log(f"   SKIP  - same-language task {orig_task}: {eval_src_spec}-{eval_tgt_spec}")
             continue
-        src_xcodes = expand_langspec(src_spec)
-        tgt_xcodes = expand_langspec(tgt_spec)
+        src_xcodes = expand_langspec(eval_src_spec)
+        tgt_xcodes = expand_langspec(eval_tgt_spec)
         if not src_xcodes or not tgt_xcodes:
-            log(f"❌ Could not expand src_tgt={src_tgt!r} for YAML task '{orig_task}'")
+            log(f"ERROR: Could not resolve evaluation languages for {orig_task}: "
+                f"src_tgt={src_tgt!r}, resolved={eval_src_spec}-{eval_tgt_spec}")
             continue
 
         train_src_vocab, train_tgt_vocab = src_spec, tgt_spec
@@ -736,7 +935,7 @@ def collect_task_support(cfg, inventory):
                 support.task_to_dec_group[xtask] = dec_group
                 support.task_to_transforms[xtask] = transforms
 
-    log("✅ Extracted training tasks and localized them from structured src_tgt metadata")
+    log("✅ Extracted training tasks and resolved localized evaluation languages")
     return support
 
 def produce_infyamls_and_calls(inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg, writers, task_writer,
@@ -787,6 +986,9 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
 
     src_wmt = inventory.xcode_to_wmt_locale.get(src_xcode, "")
     tgt_wmt = inventory.xcode_to_wmt_locale.get(tgt_xcode, "")
+    if not any(proxy_allows(orig_task, tag) for tag in TESTSET_NAMES):
+        return False
+
     inf_yaml_path_file = f"{cfgdir}/{orig_task}.yaml"
     inf_yaml_path = f"{cfgdir}/{orig_task}.yaml"
 
@@ -799,27 +1001,30 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
     flo_input = os.path.join(datadir, "flores_plus", "devtest", f"{flo_src_ref}.txt")
     flo_refer = os.path.join(datadir, "flores_plus", "devtest", f"{flo_tgt_ref}.txt")
 
-    plan_translation_and_scoring(
-        writers=writers, task_writer=task_writer, dataset="Flores+", data_tag="flo", input_path=flo_input, refer_path=flo_refer,
-        config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, eval_src=flo_src_id, eval_tgt=flo_tgt_id, pair_type=pair_type)
+    if proxy_allows(orig_task, "flo"):
+        plan_translation_and_scoring(
+            writers=writers, task_writer=task_writer, dataset="Flores+", data_tag="flo", input_path=flo_input, refer_path=flo_refer,
+            config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
+            logdir=logdir, scrdir=scrdir, hypdir=hypdir,
+            xtask=xtask, orig_task=orig_task, eval_src=flo_src_id, eval_tgt=flo_tgt_id, pair_type=pair_type)
 
     bqt_input = os.path.join(datadir, "bouquet", "test", f"{bqt_src_ref}.txt")
     bqt_refer = os.path.join(datadir, "bouquet", "test", f"{bqt_tgt_ref}.txt")
-    plan_translation_and_scoring(
-        writers=writers, task_writer=task_writer, dataset="BOUQuET", data_tag="bqt", input_path=bqt_input, refer_path=bqt_refer,
-        config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, eval_src=bqt_src_id, eval_tgt=bqt_tgt_id, pair_type=pair_type)
+    if proxy_allows(orig_task, "bqt"):
+        plan_translation_and_scoring(
+            writers=writers, task_writer=task_writer, dataset="BOUQuET", data_tag="bqt", input_path=bqt_input, refer_path=bqt_refer,
+            config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
+            logdir=logdir, scrdir=scrdir, hypdir=hypdir,
+            xtask=xtask, orig_task=orig_task, eval_src=bqt_src_id, eval_tgt=bqt_tgt_id, pair_type=pair_type)
 
     bqtpar_input = os.path.join(datadir, "bouquet_par", "test", f"{bqtpar_src_ref}.txt")
     bqtpar_refer = os.path.join(datadir, "bouquet_par", "test", f"{bqtpar_tgt_ref}.txt")
-    plan_translation_and_scoring(
-        writers=writers, task_writer=task_writer, dataset="BOUQuETpar", data_tag="bqtpar", input_path=bqtpar_input, refer_path=bqtpar_refer,
-        config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, eval_src=bqtpar_src_id, eval_tgt=bqtpar_tgt_id, pair_type=pair_type)
+    if proxy_allows(orig_task, "bqtpar"):
+        plan_translation_and_scoring(
+            writers=writers, task_writer=task_writer, dataset="BOUQuETpar", data_tag="bqtpar", input_path=bqtpar_input, refer_path=bqtpar_refer,
+            config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
+            logdir=logdir, scrdir=scrdir, hypdir=hypdir,
+            xtask=xtask, orig_task=orig_task, eval_src=bqtpar_src_id, eval_tgt=bqtpar_tgt_id, pair_type=pair_type)
 
     if src == "eng":
         wmt_input = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "source.en.txt")
@@ -831,11 +1036,12 @@ def emit_tasks(*, xtask: str, support: TaskSupport,
         wmt_input = os.path.join(datadir, "wmt24pp", "train", f"en-{src_wmt}", "reference.target.txt")
         wmt_refer = os.path.join(datadir, "wmt24pp", "train", f"en-{tgt_wmt}", "reference.target.txt")
 
-    plan_translation_and_scoring(
-        writers=writers, task_writer=task_writer, dataset="WMT24++", data_tag="wmt", input_path=wmt_input, refer_path=wmt_refer,
-        config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
-        logdir=logdir, scrdir=scrdir, hypdir=hypdir,
-        xtask=xtask, orig_task=orig_task, eval_src=wmt_src_id, eval_tgt=wmt_tgt_id, pair_type=pair_type)
+    if proxy_allows(orig_task, "wmt"):
+        plan_translation_and_scoring(
+            writers=writers, task_writer=task_writer, dataset="WMT24++", data_tag="wmt", input_path=wmt_input, refer_path=wmt_refer,
+            config_path=inf_yaml_path, model_path=model, mammoth_dir=mammoth,
+            logdir=logdir, scrdir=scrdir, hypdir=hypdir,
+            xtask=xtask, orig_task=orig_task, eval_src=wmt_src_id, eval_tgt=wmt_tgt_id, pair_type=pair_type)
 
     return True
 
@@ -913,6 +1119,15 @@ def filter_selected_tasks(support, selected_tasks):
         log(f"❌ Selected inference task is not in TRAINCONFIG: {task}")
     if missing:
         die(f"Selected inference tasks are missing from TRAINCONFIG")
+    expanded = {support.task_to_orig[xtask] for xtask in keep}
+    unresolved = {
+        task for task in selected_tasks - expanded
+        if task.startswith(("mt_", "zero_"))
+    }
+    if unresolved:
+        for task in sorted(unresolved):
+            log(f"ERROR: Selected translation task has no evaluation identity: {task}")
+        die(f"{len(unresolved)} selected translation tasks could not be expanded")
     support.task_set = keep
     log(f"   Kept {len(keep)} localized inference tasks")
     return support
@@ -921,13 +1136,13 @@ def filter_selected_tasks(support, selected_tasks):
 def main() -> int:
     (datadir, tskdir, cfgdir, hypdir, model, trainconfig, inftasks,
      mammoth, logdir, scrdir, cfg, lang_inventory, mammoth_type) = get_env_vars()
+    support = collect_task_support(cfg, lang_inventory)
+    selected_tasks = read_task_file(inftasks)
+    support = filter_selected_tasks(support, selected_tasks)
+    check_data_coverage(support, lang_inventory.valid_xcodes)
     writers = CallWriters(tskdir)
     task_writer = InferenceTaskWriter(tskdir)
     try:
-        support = collect_task_support(cfg, lang_inventory)
-        selected_tasks = read_task_file(inftasks)
-        support = filter_selected_tasks(support, selected_tasks)
-        check_data_coverage(support, lang_inventory.valid_xcodes)
         produce_infyamls_and_calls(lang_inventory, support, datadir, cfgdir, hypdir, trainconfig, cfg,
                                    writers, task_writer, model, mammoth, logdir, scrdir, mammoth_type=mammoth_type)
         writers.flush()
@@ -942,5 +1157,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-

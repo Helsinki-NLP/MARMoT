@@ -1,3 +1,9 @@
+# Derived planning state: accepted task selection is an input, not an output.
+# reset-plan removes generated plans, calls, YAMLs and submission scripts,
+# while preserving hypotheses, scores and the accepted selection. Lock checks
+# are prerequisites; resetting a plan is not a request to cancel Slurm jobs.
+# PLAN_LOG is the success marker; PLAN_ERR retains unsuccessful planner output.
+
 .PHONY: refresh-calls calls clean-calls mk-calls mk-calls-force clean-calls clean
 
 calls: $(INF_CALLS) $(PLAN_LOG)
@@ -42,7 +48,7 @@ reset-plan: clean-inf-lock clean-cnt-lock clean-met-lock
 >   "$(INF_CALLS)" \
 >   "$(SACRE_CALLS)" \
 >   "$(COMET_CALLS)" \
->   "$(INF_TASKS_DONE)"; \
+>   "$(INF_TASKS_DONE)" \
 >   "$(INF_SCRIPT)" \
 >   "$(CNT_SCRIPT)" \
 >   "$(MET_SCRIPT)" \
@@ -60,7 +66,6 @@ reset-plan: clean-inf-lock clean-cnt-lock clean-met-lock
 
 reset-replan: reset-plan
 > @$(MAKE) -C "$(SELFDIR)" --no-print-directory "$(FIRST_GOAL)" mk-calls
-> @touch "$(RESET_PLAN_DONE)"
 > @echo "mk-calls.mk: ✅ Reset and replan completed for $(FIRST_GOAL)"
 
 .PHONY: reset-plan-all

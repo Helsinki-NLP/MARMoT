@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Compute A minus B on matched evaluation keys; the sign depends on order.
+
 import argparse
 import pandas as pd
 from viewlib import common,read,emit

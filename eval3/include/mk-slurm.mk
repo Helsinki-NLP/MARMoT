@@ -1,3 +1,7 @@
+# This layer turns templates and planned commands into model-specific Slurm
+# scripts and submission commands. Resource settings and generated scripts
+# are distinct from the canonical evaluation artifacts.
+
 #  $(INF_TEMPLATE)
 #         | <--------------------- clean-infer 
 #         | (macro expansion)            ^

@@ -1,3 +1,6 @@
+# Setup markers are dependency bookkeeping, not proof that an evaluation
+# is complete. Model inspection and backend selection precede planning.
+
 # -----------------------------------------------------------------------------
 # mk-basic.mk — Common setup for the eval2 workflow
 # -----------------------------------------------------------------------------

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Report raw cases or aggregated scores from the selected input TSV.
+
 import argparse
 from viewlib import common,read,emit,macro
 p=common(argparse.ArgumentParser(description='Score table: selected raw cases or aggregated means'))

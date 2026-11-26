@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Extract sorted training task names into the proposed selection file.
+# This overwrites the specified output; acceptance is handled by Make.
+
 
 import sys
 import yaml

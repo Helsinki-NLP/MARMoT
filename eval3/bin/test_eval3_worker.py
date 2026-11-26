@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Worker regression tests; keep scheduler test state separate from production.
+
 from __future__ import annotations
 
 import importlib.util

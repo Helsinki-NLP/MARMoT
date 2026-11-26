@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Execute one inference case with line-count validation and exclusive
+# publication. Existing incomplete canonical outputs are refused, not replaced.
+# The temporary output is a sibling of the canonical file so hard-link
+# publication stays on the same filesystem. Logs are appended.
+
 
 import argparse
 import os

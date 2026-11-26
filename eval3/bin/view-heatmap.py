@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Plot source/target BLEU for one selected model; filter before plotting.
+
 import argparse
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt

@@ -1,3 +1,8 @@
+# Task selection is a two-stage contract: TASKSINPUT is generated from the
+# training configuration; TASKS is the accepted selection used by the planner.
+# FORCE_PAIRS=1 permits copying the proposal over the accepted selection.
+# The marker files track Make dependencies, not evaluation completion.
+
 .PHONY: mk-tasks mk-tasks-force tasks-clear
 
 $(SELFDIR)/bin/inf_tasks.py:

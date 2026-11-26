@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Planner regression tests load the adjacent implementation directly.
+
 import importlib.util
 import tempfile
 from pathlib import Path
