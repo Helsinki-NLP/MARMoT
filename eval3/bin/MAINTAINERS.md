@@ -330,4 +330,3 @@ Before using the helpers outside the current LUMI setup:
 7. verify SacreBLEU output and score-filename formats;
 8. decide whether localized xcodes or coarse languages define coverage; and
 9. run the complete testing checklist with non-production fixtures.
-

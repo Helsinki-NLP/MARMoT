@@ -594,7 +594,7 @@ def inspect(model, active, margin, ready_models):
     )
     if ready == "NO" and listed == "NO":
         action = "KEEP_EXCLUDED"
-        
+
     return [
         model.name, #str(model),
         ready,
